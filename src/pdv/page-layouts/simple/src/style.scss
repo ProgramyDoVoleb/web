@@ -1,0 +1,14 @@
+.p-layout {
+  max-width: 160rem;
+  margin: 0 auto;
+  padding: 2rem 2rem;
+  position: relative;
+
+  @media (min-width: 960px) {
+    padding: 2rem 2.5rem;
+  }
+
+  @media (min-width: 1440px) {
+    padding: 2rem 5rem;
+  }
+}

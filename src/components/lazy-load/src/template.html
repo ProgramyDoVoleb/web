@@ -1,0 +1,5 @@
+<div class="lazy-load" :style="{display: display || 'block', 'min-height': (reserve ? reserve + 'rem' : (loaded ? 'auto' : (height + 'px'))), width: (width || 4) + 'rem'}">
+	<loader-element :type="'symbol'" :rule="loaded" :height="loaded ? 'auto' : height" :width="width || 3" :reserve="reserve">
+		<slot />
+	</loader-element>
+</div>

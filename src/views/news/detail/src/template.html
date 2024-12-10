@@ -1,0 +1,58 @@
+<div class="layout-polls">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Novinka" :level="1" :hide="true">
+				<p-loader :rule="item">
+					<div v-if="item">
+						<p class="red">{{ date(item.datum) }} &middot; {{ domain(item.source) }}</p>
+						<p-headline :level="2">{{ item.title }}</p-headline>
+						<p-block headline="Podrobnosti" :hide="true">
+							<div v-html="item.content" class="wsw"></div>
+						</p-block>
+						<p-block headline="Zdroj" :hide="true">
+							<p-link :href="item.source" class="btn">{{ item.label || 'Více zde' }}</p-link>
+						</p-block>
+						<p-block headline="Týká se" v-if="(item.$relates && item.$relates.length > 0) || item.$volby.length > 0" :hide="true">
+							<div class="p-line"></div>
+							<p class="smallest dimm">
+								Týká se:
+								<p-list-linear>
+									<template v-if="item.$volby">
+										<template v-for="(item, index) in item.$volby">
+											<li><router-link :to="'/volby/' + election_types[item.typ].hash + '/' + item.id">{{ election_types[item.typ].name }}</router-link></li>
+											<li v-if="item.cirka">{{ item.cirka }}</li>
+											<li v-if="item.datum">{{ item.datum_label || date(item.datum) }}</li>
+										</template>
+									</template>
+									<template v-if="item.$relates">
+										<template v-for="(item2, index) in item.$relates">
+											<li v-if="item2.$id[0].split('_')[2] === 'rk'"><router-link :to="'/volby/' + election_types[item.$volby[0].typ].hash + '/' + item2.volby + '/kandidat/' + item2.id">{{ item2.JMENO }} {{ item2.PRIJMENI }}</router-link></li>
+											<li v-if="item2.$id[0].split('_')[2] === 'rkl'"><router-link :to="'/volby/' + election_types[item.$volby[0].typ].hash + '/' + item2.volby + '/strana/' + item2.id">{{ item2.NAZEV }}</router-link></li>
+											<li v-if="item2.$id[0].split('_')[2] === 'ros'"><router-link :to="'/volby/' + election_types[item.$volby[0].typ].hash + '/' + item2.volby + '/strana/' + item2.id">{{ item2.NAZEV }}</router-link></li>
+											<li v-if="item2.$id[0].split('_')[1] === 'cvs'"><router-link :to="'/rejstrik/' + item2.VSTRANA">{{ item2.ZKRATKA }}</router-link></li>
+										</template>
+									</template>
+								</p-list-linear>
+							</p>
+						</p-block>
+					</div>
+				</p-loader>
+			</p-block>			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<h3 class="serif">Novinky</h3>
+			<p-list v-if="news" class="smallest">
+				<template v-for="(item, index) in news.list">
+					<news-item :data="item"></news-item>
+				</template>
+			</p-list>	
+			<!-- <p-anchors></p-anchors> -->	
+						
+		</template>
+	</p-layout-divided>
+</div>

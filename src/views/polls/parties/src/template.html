@@ -1,0 +1,36 @@
+<div class="graph-polls-parties" :class="{'has-previous': !!previous}">
+	<p-loader :rule="parties">
+		<div v-if="parties">
+			<p-area>
+				<p-list padding="05rem">
+					<template v-for="(entry, indexE) in poll.entries">
+						<div class="polls-preview---split smaller">
+							<div v-if="parties.list.find(x => x.VSTRANA === entry.party)">
+								<router-link :to="'/rejstrik/' + entry.party" :class="{dimm: entry.value < 5}">{{ parties.list.find(x => x.VSTRANA === entry.party) ? parties.list.find(x => x.VSTRANA === entry.party).ZKRATKA || 'xxx' : entry.party }}</router-link>
+							</div>
+							<div v-if="!parties.list.find(x => x.VSTRANA === entry.party)">
+								{{entry.name}}
+							</div>
+							<div class="_pr">
+								<!-- <p-line-graph :label="number(entry.value, 1) + ' %'" :value="entry.value * 2.25" :color="entry.value < 5 ? '#aaaaaa88' : (parties.list.find(x => x.VSTRANA === entry.party) ? con(parties.list.find(x => x.VSTRANA === entry.party).$data, 'color', color(entry.party || entry.name)) : '#aaaaaa')"></p-line-graph> -->
+								<p-line-graph label="" :value="entry.value / poll.entries[0].value * 100" :color="entry.value < 5 ? '#aaaaaa88' : colorByItem(parties.list.find(x => x.VSTRANA === entry.party), {cis: {strany: parties.list}})"></p-line-graph>
+							</div>
+							<div class="smallest text-right">
+								{{ number(entry.value, 1) }} %
+							</div>
+							<div v-if="previous && previous.entries.find(x => x.party === entry.party)" class="text-right smallest" :class="indicator(entry.value, previous.entries.find(x => x.party === entry.party).value)">
+								{{ number(entry.value - previous.entries.find(x => x.party === entry.party).value, 1, true) }}
+							</div>
+							<div v-if="previous && !previous.entries.find(x => x.party === entry.party)" class="text-right smallest dimm">
+								
+							</div>
+							<div v-if="poll.entries.find(x => x.mandates)" class="text-right smallest blue">
+								{{ entry.mandates }}
+							</div>
+						</div>
+					</template>
+				</p-list>
+			</p-area>
+		</div>
+	</p-loader>
+</div>

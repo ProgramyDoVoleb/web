@@ -1,0 +1,120 @@
+<div class="map-pro">
+	<p-loader :rule="isReady">
+		<div v-if="isReady">
+			<div class="map-filter">
+				<div class="btns-group">
+					<button :class="{active: showValue === 'ucast'}" @click="changeValue('ucast')">Účast</button>
+					<button :class="{active: showValue === 'nej5'}" @click="changeValue('nej5')">Top 5</button>
+					<button :class="{active: showValue === 'strany/' + partiesSortedByPct[0][column]}" @click="changeValue('strany/' + partiesSortedByPct[0][column])">{{ current.$strany.find(x => x[column] === partiesSortedByPct[0][column]).ZKRATKA }}</button>
+					<button :class="{active: showValue === 'strany/' + partiesSortedByPct[1][column]}" @click="changeValue('strany/' + partiesSortedByPct[1][column])">{{ current.$strany.find(x => x[column] === partiesSortedByPct[1][column]).ZKRATKA }}</button>
+					<p-modal ref="modalElement2">
+						<template #init>
+							<button class="button">
+								<span class="hide-40rem">...</span>
+								<span class="show-40rem">Ostatní strany</span>
+							</button>
+						</template>
+						<template #content>
+							<div class="columns">
+								<div v-for="(party, index) in current.$strany">
+									<div class="p-offset reverse smaller">
+										<div>
+											<p-label :color="colorByItem(party, {cis}, null, true)">
+												<button class="inline" @click="changeValue('strany/' + party[column])">
+													{{ party.ZKRATKA }}
+												</button>
+											</p-label>
+										</div>
+										<div>
+											{{ current.$vysledky.find(x => x[column] === party[column]).PROCENT }} %
+											<!-- {{ party.pct || 0 }} % -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</template>
+					</p-modal>
+				</div>
+				<div class="btns-group">
+					<!-- <button :class="{active: showDetail === 'kraje'}" @click="changeShow('kraje')" v-if="!zoom">Kraje</button> -->
+					<button :class="{active: showDetail === 'okresy'}" @click="changeShow('okresy')">Okresy</button>
+					<button :class="{active: showDetail === 'obce'}" @click="changeShow('obce')">Obce</button>
+					<p-modal>
+						<template #init>
+							<button class="button">
+								Filtr
+							</button>
+						</template>
+						<template #content>
+							<p-grid>
+								<div v-for="(btn, index) in townShow">
+									<button class="button" :class="{active: townShow[index]}" @click="changeTown(index)">
+										{{ townShowLabel[index] }}
+									</button>
+								</div>
+							</p-grid>
+						</template>
+					</p-modal>
+					<!-- <template> -->
+					<!-- </template> -->
+				</div>
+				<div class="btns-group" v-if="showValue">
+					<button :class="{active: showField === 1}" @click="changeField(1)">Výsledky</button>
+					<button :class="{active: showField === 3}" @click="changeField(3)" v-if="hasTrend">Oproti minule</button>
+					<button :class="{active: showField === 4}" @click="changeField(4)" v-if="showValue.substring(0, 2) === 'st'">Rozdíl od výsledku</button>
+				</div>
+				<div class="btns-group red" v-if="recalculated">
+					<div class="alert-paragraph">
+						<b>Upozornění:</b> Mapa neodpovídá rozdělení krajů a okresů do úpravy v roce 2000. Uvedená čísla jsou získána přepočtem z obcí podle aktuálního zařazení do okresů/krajů. Berte je prosím jen orientačně, nejsou to převzatá čísla z ČSÚ. Proč tedy taková mapa je? Je to pro představu, jak by vypadaly výsledky podle dnešního rozdělení, a také aby bylo možné ukázat, jak se měnily preference. Přímo získaná a reálná data tak jsou pouze pro <b>OBCE</b>.
+					</div>
+				</div>
+			</div>
+			<div class="map-view" v-if="data && parties">
+				<map-element :width="'100%'" :areas="areas" :points="points" :zoom="zoomValue" v-on:select="info" />
+				<div class="map-info" ref="info" v-if="showValue" :class="{hide: !infoData.name}">
+					<span @click="infoData.name = undefined" class="close red">&times;</span>
+					<h4>{{ infoData.name }}</h4>
+					<ul v-if="infoData.top5 && showValue === 'nej5'">
+						<li v-for="(party, item) in infoData.top5">
+							<div class="p-offset reverse">
+								<div>
+									<p-label :color="colorByItem(current.$strany.find(x => x[column] === party.reg), {cis}, null, true)">
+										{{ current.$strany.find(x => x[column] === party.reg).ZKRATKA }}
+									</p-label>
+								</div>
+								<div>
+									<span>{{ party.pct }} %</span>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ul v-if="infoData.ucast && showValue === 'ucast'">
+						<li v-for="(line, item) in infoData.ucast">
+							<div class="result-flex">
+								<h5>{{ line.label }}</h5>
+								<span :class="line.class">{{ line.value }}</span>
+							</div>
+						</li>
+					</ul>
+					<ul v-if="infoData.strana && showValue.substring(0, 2) === 'st'">
+						<li v-for="(line, item) in infoData.strana">
+							<div class="result-flex">
+								<h5>{{ line.label }}</h5>
+								<span :class="line.class">{{ line.value }}</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!-- <p-modal  ref="modalElement">
+					<template v-slot:init>
+						<img src="/static/icon/detail.svg" alt="Zaostřeno" class="focus-icon">
+					</template>
+					<template v-slot:content>
+						<towns-filter :fn="changeZoom" style="text-align: left" :showCountry="zoom ? false : true" :hideTowns="true" :region="zoom" />
+					</template>
+				</p-modal> -->
+				<div v-if="alert" class="alert">Zpracovávám větší množství dat, může to pár sekund trvat.</div>
+			</div>
+		</div>
+	</p-loader>
+</div>

@@ -1,0 +1,14 @@
+<div class="p-line-graph">
+  <div class="p-line-graph---area" :class="{append: append}">
+    <div class="p-line-graph---value" :style="{width: shown + '%', background: color}"></div>
+    <div class="p-line-graph---note" v-if="typeof label === 'undefined'">
+      {{ value }} {{ addon || '%'}}
+    </div>
+    <div class="p-line-graph---note" v-if="typeof label != 'undefined'">
+      {{ label }}
+    </div>
+    <div class="p-line-graph---append">
+      {{ append }}
+    </div>
+  </div>
+</div>

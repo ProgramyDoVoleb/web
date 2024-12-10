@@ -1,0 +1,10 @@
+<a
+  class="p-link"
+  :href="link"
+	:title="title || 'otevřít v nové záložce' + (href ? ': ' + domain(href) : '')"
+	@click="handle_click"
+	target="_blank"
+	:style="look">
+	<slot>{{ href }}</slot>
+	<span class="p-link---addon" v-if="hasAddon">&nbsp;<img :src="cdn + 'icon/' + hasAddon + '.svg'" class="p-link---icon"></span>
+</a>

@@ -1,0 +1,62 @@
+<div class="results-parties-list">
+	<div v-for="obv in (hasObvody ? unique(list, 'obvod') : [1])">
+		<h3 class="serif" v-if="hasObvody">Obvod {{ obv }}</h3>
+		<div v-for="(item, index) in (hasObvody ? list.filter(x => x.obvod === obv) : list)">
+			<p-collapsible :seo="true" :logo="item.logo || cdn + 'empty.png'" :label="item.name" :status="item.list.length">
+				<p-area :borderColor="item.color">
+					<div class="smaller strong">
+						<router-link :to="item.link">{{ item.name }}</router-link> &rarr;
+					</div>				
+					<div class="p-line"></div>
+					<div class="columns-4 smaller">
+						<div v-for="(person, indexP) in sortByPorCislo(item.list)">
+							<component :is="person.color ? 'p-label' : 'div'" :color="person.color">
+								<router-link :to="person.link">
+									{{ person.name }} {{ person.family }}
+								</router-link>
+							</component>
+						</div>
+					</div>
+					<template v-if="item.coal">
+						<div class="p-line"></div>
+						<div class="smallest">
+							<div v-for="(member, i2) in item.coal">
+								<p-label :color="member.color">{{ member.short }}</p-label> – <p-lang :value="member.size" :end="['nikdo', '1 člověk', '%% lidé', '%% lidí']"></p-lang>
+							</div>
+						</div>
+					</template>
+					<template v-if="item.program">
+						<div class="p-line"></div>
+						<p-list class="smaller">
+							<div>
+								<strong>Program a priority:</strong>
+							</div>
+							<div v-for="(program, indexP) in item.program">
+								<p-area class="inline" icon="icon-party" background="transparent">
+									<router-link :to="item.link + '/volebni-program/' + program.id + '#plne-zneni'" class="strong">Plné znění volebního programu</router-link>
+									<div class="smallest dimm">{{ date(program.updated) }}</div>
+								</p-area>
+							</div>
+							<template v-if="item.$data">
+								<div v-for="(program, indexP) in item.$data.program">
+									<div class="p-offset reverse balanced">
+										<div>
+											<p-link :href="program.source">{{ program.value }}</p-link>
+											<div class="dimm tiny">vloženo {{ date(program.updated) }}</div>
+										</div>
+										<div v-if="program.label">
+											<p-link class="dimm smallest" :href="program.label">záloha</p-link>
+										</div>
+									</div>
+								</div>
+							</template>
+							<div v-if="item.$priorit">
+								<router-link :to="item.link + '#volebni-priority'" v-if="item.$priorit"><p-lang :value="item.$priorit" :end="['', '1 volební priorita', '%% volební priority', '%% volební priorit']"></p-lang></router-link>
+							</div>
+						</p-list>
+					</template>
+				</p-area>
+			</p-collapsible>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,30 @@
+.person-face {
+  display: inline-block;
+}
+
+.face {
+  display: inline-block;
+  position: relative;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, .1);
+  width: 2em;
+  height: 2em;
+  overflow: hidden;
+  transform: translateY(.2em);
+  background: #fff;
+
+  img {
+    display: block;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.person-face---missing {
+  transform: translateY(-.5em);
+}
+
+img {
+  width: 100%;
+}

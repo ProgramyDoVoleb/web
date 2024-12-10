@@ -1,0 +1,14 @@
+h4 {
+  margin-top: 2rem;
+  margin-bottom: 0
+}
+
+.stats {
+  margin-bottom: 1rem;
+}
+
+.box + .box {
+  margin-top: -1.5rem;
+  position: relative;
+  z-index: 2;
+}

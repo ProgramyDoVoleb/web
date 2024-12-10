@@ -1,0 +1,93 @@
+<div class="party-polls">
+		<p-loader :rule="data">
+			<div v-if="data && data.entries.length > 0">
+				<p-block headline="Volební průzkumy">
+					<div class="_layout">
+						<div>
+							<p-area>
+								<svg ref="svg" class="svg">
+									<g class="years">
+										<template v-for="(item, index) in years">
+											<line :x1="item.x" :x2="item.x" y1="0" :y2="item.y" stroke="var(--greyish)" stroke-width="1"></line>
+											<text :x="item.x - 8" :y="item.y + 13" class="smallest">`{{ item.d - 2000 }}</text>
+										</template>
+									</g>
+									<g class="splits">
+										<template v-for="(item, index) in splits">
+											<line x1="15" x2="1000" :y1="item.y" :y2="item.y" :stroke="item.d === 5 ? 'var(--red)' : 'var(--greyish)'" :stroke-width="item.d < 6 ? 2 : 1"></line>
+											<text x="0" :y="item.y + 3" class="smallest">{{ item.d }}</text>
+										</template>
+									</g>
+									<g class="agencies">
+										<template v-for="(item, index) in agencies">
+											<template v-if="item.path">
+												<path :d="item.path" :class="{'selected': item.agency === agencySelected}" :stroke="item.agency === agencySelected ? color : null"></path>
+											</template>
+										</template>
+									</g>
+									<g class="points">
+										<template v-for="(item, index) in circles">
+											<circle :cx="item.x" :cy="item.y" r="3" :title="item.v" :fill="color"></circle>
+										</template>
+									</g>
+								</svg>
+								<!-- <div class="p-line"></div> -->
+								<div class="text-center" v-if="agencies">
+									<p-list-linear class="or">
+										<li v-for="(item, index) in agencies.filter(x => x.path)">
+											<button class="inline" @click="agencySelected = item.agency" :class="{strong: agencySelected === item.agency}">{{ item.agency }}</button>
+										</li>
+										<li v-if="agencySelected">
+											<button class="inline" @click="agencySelected = null"><span class="red">zrušit</span></button>
+										</li>
+									</p-list-linear>
+								</div>
+							</p-area>
+						</div>
+						<div v-if="!isCoalition">
+							<h3>Poslední průzkumy</h3>
+							<p-list>
+								<div v-for="(agency, index) in ['Kantar', 'Median', 'STEM']">
+									<div class="p-offset reverse balanced">
+										<div>
+											{{ agency }}
+											<div class="smallest dimm">{{ date(data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).datum) }}</div>
+										</div>
+										<div class="text-right" v-if="data.entries.find(x => x.poll === data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).id)">
+											{{ number(data.entries.find(x => x.poll === data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).id).value, 1) }} %
+											<!-- <div class="smallest">+0,0</div> -->
+										</div>
+										<div class="text-right" v-if="!data.entries.find(x => x.poll === data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).id)">
+											<div class="red smaller">nezjištěno</div>
+										</div>
+									</div>
+								</div>
+							</p-list>
+						</div>
+					</div>
+					<div class="p-gap"></div>
+					<p-collapsible label="Přehled průzkumů">
+						<table class="smaller">
+							<thead>
+								<tr>
+									<th>datum</th>
+									<th>agentura, název</th>
+									<th class="text-right">výsledek</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(poll, index) in data.polls.filter(x => data.entries.find(y => y.poll === x.id))">
+										<td class="">{{ date(poll.datum, 4) }}</td>
+										<td>{{ poll.agency }} <span class="dimm smallest keep">{{ poll.title }}</span></td>
+										<td class="text-right">{{ number(data.entries.find(y => y.poll === poll.id).value, 1) }} %</td>
+								</tr>
+							</tbody>
+						</table>
+					</p-collapsible>
+				</p-block>
+			</div>
+			<div v-if="data && data.entries.length === 0">
+				<em class="smallest dimm">Nebyly nalezeny žádné záznamy z volebních průzkumů.</em>
+			</div>
+		</p-loader>
+</div>

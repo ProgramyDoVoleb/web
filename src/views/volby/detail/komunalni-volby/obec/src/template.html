@@ -1,0 +1,129 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block :headline="(about ? about.data.name : 'Volby') + ', ' + (current ? current.$dotcene[0].NAZEVZAST : '')" :level="1" :subheadline="current ? (current.datum ? date(current.datum, 3) : current.cirka) : 'načítám...'" :anchor="current ? current.$dotcene[0].NAZEVZAST : 'Volby'">
+				<p-loader :rule="current">
+					<div v-if="current">
+						<p-block headline="O volbách" :hide="true">
+							<div class="smaller">
+								<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][current.status]) + ')'">{{ current.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[current.status] }}</p-label></div>
+								<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][current.editace]) + ')'">administrace {{ enums.editace[current.editace] }}</p-label></div>
+							</div>
+							<template v-if="current.web">
+								<div class="p-gap"></div>
+								<p-box :href="current.web">
+									<p-box-button icon="link.svg" color="var(--blue)">Webové stránky k volbám</p-box-button>
+								</p-box>
+							</template>
+							<p class="lead" v-if="current.popis" v-html="current.popis"></p>
+						</p-block>
+						<komunalni-volby :data="data" :town="zast"></komunalni-volby>
+						<p-block-expandable headline="Vyhledat jinou obec">
+							<search-town :elections="current.id" :link="'/volby/komunalni-volby/' + current.id + '/obec/'"></search-town>
+						</p-block-expandable>
+						<div class="p-gap_4"></div>
+						<p-block headline="Data">
+							<p-area borderColor="var(--blue)">
+								<p-list class="smaller" height=".5">
+									<p-stats label="ID voleb">{{ id }}</p-stats>
+									<p-stats label="ID obce">{{ zast }}</p-stats>
+									<p-stats label="Permalink"><p-link :href="'https://programydovoleb.cz/volby/komunalni-volby/' + id + '/obec/' + zast"></p-link></p-stats>
+									<p-stats v-if="current.web" label="Web k volbám"><p-link :href="current.web"></p-link></p-stats>
+									<p-stats v-if="current.csu_vysledky" label="ČSÚ výsledky"><p-link :href="current.csu_vysledky"></p-link></p-stats>
+									<p-stats v-if="current.csu_opendata" label="ČSÚ opendata"><p-link :href="current.csu_opendata"></p-link></p-stats>
+									<p-stats label="API"><p-link :href="'https://api.programydovoleb.cz/elections/fetch/' + id + ':' + zast"></p-link></p-stats>
+								</p-list>
+							</p-area>
+						</p-block>
+					</div>
+				</p-loader>
+			</p-block>
+			<p-block :level="1" headline="Komunální volby">
+				<p-box-group>
+					<p-box :to="'/volby/komunalni-volby/' + id">
+						<p-box-button class="primary" icon="komunalni-volby.svg">Zpět na volební přehled</p-box-button>
+					</p-box>
+					<p-box-color color="transparent"></p-box-color>
+					<p-box :to="'/obec/' + zast">
+						<p-box-button class="primary">{{ current ? current.$dotcene[0].NAZEVZAST : '' }}</p-box-button>
+					</p-box>
+				</p-box-group>
+				<div class="p-gap_3"></div>
+				<p-block headline="Seznam voleb">
+					<div v-if="elections">
+						<div class="btns">
+							<template v-for="(el, i) in elections.list.filter(x => x.radne === 1 && x.cirka)">
+								<router-link :to="'/volby/' + hash + '/' + el.id" class="button button-primary">
+									{{ el.datum ? el.datum.split('-')[0] : el.cirka }}
+								</router-link>
+							</template>
+							<template v-for="(el, i) in elections.list.filter(x => x.radne === 1 && x.datum)">
+								<router-link :to="'/volby/' + hash + '/' + el.id" class="button">
+									{{ el.datum ? el.datum.split('-')[0] : el.cirka }}
+								</router-link>
+							</template>
+						</div>
+						<div v-if="elections.list.find(x => x.radne === 0)">
+							<div class="p-gap"></div>
+							<p-collapsible label="Mimořádné volby">
+								<div class="columns-4 smaller">
+									<div v-for="(el, i) in elections.list.filter(x => x.radne === 0 && x.cirka)">
+										<router-link :to="'/volby/' + hash + '/' + el.id" class="red strong">
+											{{ el.datum ? date(el.datum) : el.cirka }}
+										</router-link>
+									</div>
+									<div v-for="(el, i) in elections.list.filter(x => x.radne === 0 && x.datum)">
+										<router-link :to="'/volby/' + hash + '/' + el.id">
+											{{ el.datum ? date(el.datum) : el.cirka }}
+										</router-link>
+									</div>
+								</div>
+							</p-collapsible>
+						</div>
+					</div>
+				</p-block>
+			</p-block>
+			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/komunalni-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.25">
+				<div>
+					<strong>Novinky</strong>
+					<div class="p-gap"></div>
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
+							<p-list padding="1">
+								<template v-for="(news, index) in news.list">
+									<div>
+										<news-item :data="news" :noSource="true"></news-item>
+									</div>
+								</template>
+								<div v-if="news.list.length === 0" class="dimm"><i>Pro tyto volby nejsou uložené žádné zprávy.</i></div>
+							</p-list>
+						</div>
+					</p-loader>
+				</div>
+				<div>
+					<strong>Za oponou</strong>
+					<div class="p-gap"></div>
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
+							<p-list padding="1">
+								<template v-for="(news, index) in news.sys">
+									<div>
+										<news-item :data="news" :noSource="true"></news-item>
+									</div>
+								</template>
+							</p-list>
+						</div>
+					</p-loader>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

@@ -1,0 +1,69 @@
+<div class="map-pro">
+	<p-loader :rule="isReady">
+		<div v-if="isReady">
+			<p-area class="smaller">
+				<p-list class="_05">
+					<div>
+						<p-list-linear class="or">
+							<span v-if="!spec"><button :class="{'green strong': showDetail === 'kraje'}" class="inline" @click="() => map_switch('kraje', null, null, showParty)">kraje</button></span>
+							<span><button class="inline" :class="{'green strong': showDetail === 'okresy'}" @click="() => map_switch('okresy', null, null, showParty)">okresy</button></span>
+							<span v-if="spec"><button :class="{'green strong': showDetail === 'obce'}" class="inline" @click="() => map_switch('obce', null, null, showParty)">obce</button></span>
+							<span v-if="!spec">
+								<p-modal class="inline" ref="regionPicker">
+									<template #init><span :class="{'green strong': showDetail === 'obce'}">obce v kraji</span></template>
+									<template #content>
+										<strong>Kraje</strong>
+										<div class="p-gap"></div>
+										<p-columns>
+											<div v-for="(reg, index) in enums.regions">
+												<button class="inline" @click="() => map_switch('obce', null, null, showParty, index + 1)">{{ reg }}</button>
+											</div>
+										</p-columns>	
+									</template>
+								</p-modal>						
+							</span>
+						</p-list-linear>
+					</div>
+					<div>
+						<p-list-linear class="or">
+							<span><button :class="{'green strong': showType === 'ucast'}" class="inline" @click="() => map_switch(null, 'ucast', -1, null, showRegion)">účast</button></span>
+							<span><button :class="{'green strong': showType === 'top5'}" class="inline" @click="() => map_switch(null, 'top5', -1, null, showRegion)">vítěz</button></span>
+							<span>
+								<p-modal class="inline" ref="partyPicker">
+									<template #init><span :class="{'green strong': showType === 'strana'}">výsledky strany</span></template>
+									<template #content>
+										<strong>Seznam kandidujích subjektů</strong>
+										<div class="p-gap"></div>
+										<p-columns class="smaller">
+											<div v-for="party in current.$strany">
+												<button class="inline" @click="() => map_switch(null, 'strana', -1, party[column], showRegion)">{{ party.NAZEV }}</button>
+											</div>
+										</p-columns>
+									</template>
+								</p-modal>
+							</span>
+						</p-list-linear>
+					</div>
+					<div>
+						<p-list-linear class="or">
+							<template v-for="vys in top5">
+								<span>
+									<button class="inline" :class="{'green strong': showParty === vys[column]}" @click="() => map_switch(null, 'strana', -1, vys[column], showRegion)">{{ current.$strany.find(x => x[column] === vys[column]).ZKRATKA }}</button>
+								</span>
+							</template>
+						</p-list-linear>
+					</div>
+					<div>
+						<p-list-linear class="or">
+							<span><button :class="{'green strong': showDiff === -1}" class="inline" @click="() => map_switch(null, null, -1, showParty, showRegion)">hodnoty</button></span>
+							<span v-if="showType === 'ucast'"><button :class="{'green strong': showDiff === 1}" class="inline" @click="() => map_switch(null, null, 1, null, showRegion)">změnu oproti minule</button></span>
+							<span v-if="showType === 'strana'"><button :class="{'green strong': showDiff === 1}" class="inline" @click="() => map_switch(null, null, 1, showParty, showRegion)">rozdíl od výsledku</button></span>
+						</p-list-linear>
+					</div>
+				</p-list>
+			</p-area>
+			<div class="p-gap"></div>
+			<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
+		</div>
+	</p-loader>
+</div>

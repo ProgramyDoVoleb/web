@@ -1,0 +1,18 @@
+<div class="p-anchors">
+	<ol class="p-anchors---list">
+		<p-loader type="table" :rule="list.length > 0">
+			<template v-for="(item, index) in list">
+				<li :class="{'p-anchors---level---visible': item.visible}" v-if="item.level === 1" class="p-anchors---level p-anchors---level-1">
+					<a :href="item.hash" class="p-anchors---link" @click="scrollIntoView(item, $event)">
+						{{ item.label }}
+					</a>
+				</li>
+				<li :class="{'p-anchors---level---visible': item.visible}" v-if="item.level === 2" class="p-anchors---level p-anchors---level-2">
+					<a :href="item.hash" class="p-anchors---link" @click="scrollIntoView(item, $event)">
+						{{ item.label }}
+					</a>
+				</li>
+			</template>
+		</p-loader>
+	</ol>
+</div>

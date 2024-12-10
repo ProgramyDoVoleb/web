@@ -1,0 +1,47 @@
+.fake-border-inside {
+  background: #fff;
+  padding: .25em 1em;
+  margin-left: 2px;
+}
+
+h4 {
+  margin: 0 0 .8em 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.party {
+  display: flex;
+}
+
+.party-name {
+  flex: 1;
+}
+
+.party-logo {
+  width: 4rem;
+  position: relative;
+
+  .party-logo-holder {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.coalition {
+  margin-bottom: .5rem;
+}
+
+small {
+  display: block;
+  margin-bottom: .5em;
+
+  .party-name-with-dot {
+    margin-left: .25em;
+  }
+}

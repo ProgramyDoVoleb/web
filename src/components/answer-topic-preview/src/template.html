@@ -1,0 +1,16 @@
+<div class="answer-topic-preview">
+	<p-loader :rule="data">
+		<div v-if="data">
+			<strong>{{ data.list[0].$otazky[0].question }}</strong>
+			<div class="smaller">Téma ve volebním programu <em>{{ data.list[0].NAZEV || (data.list[0].JMENO + ' ' + data.list[0].PRIJMENI)}}</em></div>
+			<div class="smallest dimm" v-if="data.list[0].$otazky[0].comment" v-html="data.list[0].$otazky[0].comment"></div>
+			<div class="p-gap"></div>
+			<p-list class="_1 serif smaller">
+				<div v-for="item in data.list[0].$odpovedi" v-html="item.answer"></div>
+				<div>
+					<router-link :to="link + '/volebni-program/' + data.list[0].$program[0].id" class="strong sans">Celý volební program</router-link>
+				</div>
+			</p-list>
+		</div>
+	</p-loader>
+</div>

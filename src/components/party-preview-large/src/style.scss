@@ -1,0 +1,182 @@
+
+
+._pg {
+	text-decoration: none;
+	border-radius: 1.5em;
+	display: inline-block;
+	padding: .5em .85em;
+	color: #fff !important;
+
+	&.green {
+		color: var(--green) !important;
+	}
+}
+
+._pgb {
+	border: var(--border);
+	color: var(--grey) !important;
+}
+
+._gap {
+	margin-bottom: 2em;
+	column-gap: 2em !important;
+	column-rule: none;
+
+	> div {
+		margin-bottom: 2em;
+	}
+
+	@media (max-width: 799px) {
+		columns: 1;
+
+		> div {
+			margin-bottom: .25em;
+		}
+	}
+}
+
+._b {
+    padding-right: 4em;
+	position: relative;
+}
+
+._ba {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+._logo {
+	display: block !important;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: #fff;
+}
+
+._logos {
+	display: flex;
+	flex-direction: column;
+}
+
+._logos > ._logo {
+	display: block !important;
+
+	&:not(:first-child) {
+		margin-top: -.5em;
+	}
+}
+
+._note {
+	padding: .5em 1em;
+	font-size: 11px;
+	display: inline-block;
+	color: var(--red);
+	font-weight: 700;
+}
+
+._por {
+    display: flex;
+	align-items: baseline;
+	font-size: 1.6rem;
+
+    > :first-child {
+        margin-right: 1em;
+    }
+
+    > :last-child {
+        flex: 1;
+    }
+}
+
+._g:not(:last-child) {
+    height: 1em;
+}
+
+._g2:not(:last-child) {
+    height: .33em;
+}
+
+.p-list-linear {
+	display: inline !important;
+}
+
+._con {
+	container-type: inline-size;
+}
+
+@container (min-width: 360px) {
+	._con .p-list {
+		// columns: 2;
+		// column-gap: 2em;
+	}
+}
+
+._icon {
+	display: inline-block;
+	width: 1.5em;
+
+	img {
+		display: inline-block;
+		aspect-ratio: 1;
+		width: 100%;
+		position: relative;
+		top: .4em;
+	}
+}
+
+._br {
+	position: absolute;
+	right: -.5em;
+	bottom: -.5em;
+}
+
+.p-icon {
+	border: none;
+}
+
+._i {
+	position: relative;
+
+	.p-icon {
+		position: absolute;
+		left: -.25em;
+		top: -.5em;
+	}
+}
+
+.dark {
+	img[src*=tw],
+	img[src*=fb],
+	img[src*=ig],
+	img[src*=threads] {
+		filter: invert(0.7);
+	}
+}
+
+._no {
+	position: absolute;
+	right: -.5em;
+	bottom: -1em;
+}
+
+._logo + ._ba2 {
+	margin: .25em 0 0 0;
+	width: 4rem;
+	
+	._logos {
+		width: 4rem;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	img {
+		margin: .1rem !important;
+		width: 1.8rem;
+		height: 1.8rem;
+	}
+}
+
+._aig {
+	// background: var(--white) !important;
+}

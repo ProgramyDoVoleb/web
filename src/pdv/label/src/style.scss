@@ -1,0 +1,23 @@
+i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  transform: translateY(.5em);
+
+  &:last-child {
+    margin-left: 6px;
+  }
+}
+
+._block {
+  display: block;
+  padding-left: 1em;
+  position: relative;
+
+  i {
+    position: absolute;
+    left: -.1em;
+  }
+}

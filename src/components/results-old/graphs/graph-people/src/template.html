@@ -1,0 +1,42 @@
+<div class="results-graph-people">
+	<ul v-if="loaded">
+		<li v-for="(item, index) in data" :class="{'below': index > 1 || (index === 1 && data[0].pct >= 50)}" :style="{width: (100 / showCount) + '%'}" v-if="index < showCount">
+			<div class="graph-item">
+				<div class="graph-space" :class="{compare: local}">
+					<div class="graph-bar graph-bar-primary zero" :style="{height: coefHigher * item.pct + '%', background: bg[index], 'transition-delay': (index * .05 + .5) + 's'}">
+						<div class="graph-bar-value">{{ item.pct }}</div>
+					</div>
+					<div class="graph-bar graph-bar-secondary zero" :style="{height: coefHigher * (item.local ? item.local.pct : 0) + '%', background: bg[index], 'transition-delay': (index * .05 + .52) + 's'}" v-if="local">
+						<div class="graph-bar-value">{{ item.local ? item.local.pct : 0 }}</div>
+					</div>
+				</div>
+				<div class="graph-icons">
+					<div class="name-icon" :style="{'border-color': bg[index], color: bg[index]}">
+						{{ item.initials }}
+						<logo-item :data="item.party.use" :size="1.5" :color="true" v-if="item.party.use" />
+					</div>
+				</div>
+				<div class="graph-name" :style="{color: bg[index]}">
+					{{ item.name[2] }}
+				</div>
+			</div>
+		</li>
+		<li v-if="rest.count > 0" :style="{width: (100 / showCount) + '%'}">
+			<div class="graph-item">
+				<div class="graph-space" :class="{compare: local}">
+					<div class="graph-bar graph-bar-primary zero" :style="{height: coefHigher * rest.pct + '%', background: '#aaa', 'transition-delay': (showCount * .05 + .5) + 's'}">
+						<div class="graph-bar-value">{{ rest.pct }}</div>
+					</div>
+					<div class="graph-bar graph-bar-secondary zero" :style="{height: coefHigher * rest.local.pct + '%', background: '#aaa', 'transition-delay': (showCount * .05 + .52) + 's'}" v-if="local">
+						<div class="graph-bar-value">{{ rest.local.pct }}</div>
+					</div>
+				</div>
+				<div class="graph-icons">
+					<div class="name-icon">
+						&empty;
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>

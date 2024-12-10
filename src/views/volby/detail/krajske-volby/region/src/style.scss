@@ -1,0 +1,31 @@
+.btns > * {
+	display: inline-block;
+	margin: .25em .25em 0 0;
+}
+
+h2 {
+	margin-top: .25em;
+}
+
+._tdp {
+	padding: .75em 0;
+}
+
+._tdt {
+	padding-top: .25em;
+	padding-right: 1em;
+}
+
+._pimg {
+	background: #fff;
+	margin-right: .5em;
+	border-radius: .5em;
+}
+
+td:not(:last-child) {
+	vertical-align: top;
+}
+
+.p-block---up {
+    margin-top: -2em !important;
+}

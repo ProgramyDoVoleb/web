@@ -1,0 +1,13 @@
+<div class="report-modal">
+	<p-modal>
+		<template #init>
+			<slot></slot>
+		</template>
+		<template #content>
+			<div>
+				<h3>{{ headline }}</h3>
+				<report-form :part="part"></report-form>
+			</div>
+		</template>
+	</p-modal>
+</div>

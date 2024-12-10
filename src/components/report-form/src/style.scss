@@ -1,0 +1,89 @@
+.form-input-text {
+  // background: #eef;
+  // padding: 1em 1em;
+  // border: none;
+  display: block;
+  width: 100%;
+  font-size: 1.6rem;
+  font-family: sans-serif;
+
+  &.alt {
+    // background: #fafafa;
+  }
+}
+
+textarea {
+  min-height: 10rem;
+  min-width: 100%;
+  max-width: 60rem;
+  font-size: 1.6rem;
+  font-family: sans-serif;
+}
+
+p {
+  max-width: 40rem;
+  font-size: 13px;
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.state-form {
+  text-align: left;
+  color: #000;
+  font-size: 1rem;
+  max-width: 60rem;
+  text-transform: none;
+  font-weight: initial;
+}
+
+h3 {
+  padding-right: 5rem;
+  font-size: 1.8rem;
+}
+
+label {
+  width: 10rem;
+}
+
+button {
+  font-size: 1.2rem;
+}
+
+button:not([disabled]) {
+  background: var(--blue);
+}
+
+.compact .stats li {
+  display: block;
+}
+
+.compact .form-input-text {
+  font-size: 1.2rem;
+  padding: .75em;
+}
+
+.compact .note {
+  font-size: 11px;
+  padding: 1em 0 .2em;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  padding: 5px;
+}
+
+label {
+  margin: 0 0 5px 12px;
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.collapsible-element {
+	font-size: 1.4rem;
+}

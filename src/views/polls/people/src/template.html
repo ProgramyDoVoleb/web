@@ -1,0 +1,23 @@
+<div class="graph-polls-people" :class="{'has-previous': !!previous}">
+	<p-loader :rule="pointers">
+		<div v-if="pointers">			
+			<p-area>
+				<p-list padding="05rem">
+					<div v-for="(entry, indexE) in poll.entries">
+						<div class="polls-preview---split smaller">
+							<div class="x">{{ entry.name }}</div>
+							<div class="f">
+								<p-line-graph :label="number(entry.value, 1) + ' %'" :value="entry.value * 2.25" :color="entry.pointer && pointers.list.find(x => x.pointer === entry.pointer) ? con(pointers.list.find(x => x.pointer === entry.pointer).$data, 'color', '#aaaaaa') : color(entry.name)"></p-line-graph>
+							</div>
+							<div class="p text-right smallest" v-if="poll.previous">
+								<span :class="previous.entries.find(x => x.name === entry.name) ? indicator(entry.value, previous.entries.find(x => x.name === entry.name).value) : 'dimm'">
+									{{ previous.entries.find(x => x.name === entry.name) ? number(entry.value - previous.entries.find(x => x.name === entry.name).value, 1, true) : '-' }}
+								</span>	
+							</div>
+						</div>
+					</div>
+				</p-list>
+			</p-area>
+		</div>
+	</p-loader>
+</div>

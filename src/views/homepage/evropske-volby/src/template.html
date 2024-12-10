@@ -1,0 +1,40 @@
+<div class="homepage-ep">
+	<p-loader :rule="election">
+		<div v-if="election">
+			
+				<div class="p-gap_075"></div>
+				<strong></strong>
+				<div class="smaller">
+					<p-columns :class="{'_2': width < 1170}">
+						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
+							<component :is="width < 1170 ? 'party-preview-tiny' : 'party-preview'" :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.ESTRANA === party.ESTRANA))" :elections="election" :election="null" link="https://eu2024.programydovoleb.cz"></component>
+						</div>
+					</p-columns>
+					<div class="p-line"></div>
+					<div class="p-offset reverse smallest balanced">
+						<div>
+							{{ election.list[0].$strany.filter(x => x.ESTRANA).length }} stran, {{ election.list[0].$kandidati.filter(x => x.ESTRANA && x.PORCISLO).length }} kandidátů
+						</div>
+						<div class="text-right">
+							<router-link :to="'/volby/evropske-volby/' + elections.id">Archiv</router-link>
+							&middot;
+							<router-link :to="'/volby/evropske-volby/' + elections.predchozi">Předchozí</router-link>
+						</div>
+					</div>
+					<div class="p-gap"></div>
+					<template v-if="election.list[0].$otazky">
+						<p-area background="var(--blue11)">
+							<strong>Porovnejte si volební programy</strong> podle vybraných témat:
+							<div class="p-gap"></div>
+							<p-columns>
+								<div v-for="(topic, indexTopic) in election.list[0].$otazky.filter(x => x.type === 2)">
+									<p-link class="strong" :href="'http://eu2024.programydovoleb.cz/tema/' + topic.id">{{ topic.question }}</p-link>
+								</div>
+							</p-columns>
+						</p-area>
+						<div class="p-gap"></div>
+					</template>
+				</div>			
+		</div>
+	</p-loader>
+</div>

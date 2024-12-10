@@ -1,0 +1,33 @@
+.cta-support {
+    // background-color: var(--white);
+    // border: var(--border);
+    // padding: 1em !important;
+    // background-size: 500px 400px;
+    // border-radius: 1em;
+    container-type: inline-size;
+
+    .dark & {
+        background-color: var(--blue11);
+        border: none;
+    }
+
+    .p-layout---aside & {
+        background: none !important;
+    }
+}
+
+@container (max-width: 299px) {
+    .p-offset {
+        flex-flow: column;
+        font-size: 14px;
+    }
+
+    ._bo {
+        order: 2;
+        margin-top: 1em;
+    }
+
+    ._poff {
+        margin-left: 0 !important;
+    }
+}

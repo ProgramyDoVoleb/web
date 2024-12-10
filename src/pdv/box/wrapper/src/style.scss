@@ -1,0 +1,60 @@
+.p-box-wrapper---unstyled {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none;
+  color: #000;
+}
+
+.p-box-wrapper---hoverable {
+  @media (hover: hover) {
+
+    background: rgba(0, 0, 0, 0);
+
+    transition: background .2s;
+
+    a {
+      transition: color .2s;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, .02);
+      // cursor: pointer;
+
+      a {
+        color: #066ed2;
+      }
+    }
+  }
+
+  // position: relative;
+  //
+  // &:after {
+  //   content: "";
+  //   position: absolute;
+  //   top: 100%;
+  //   left: 0;
+  //   right: 0;
+  //   background: rgba(0,0,0,.1);
+  //   height: 1px;
+  // }
+  //
+  // @media (hover: hover) {
+  //   &:hover:after {
+  //     background: rgba(0,0,0,.33);
+  //   }
+  // }
+}
+
+@media (hover: hover) {
+  .clickable:hover {
+    cursor: pointer;
+  }
+}
+
+a {
+  text-decoration: none;
+}

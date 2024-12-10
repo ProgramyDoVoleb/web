@@ -1,0 +1,27 @@
+.columns > div {
+	margin-bottom: 1em;;
+}
+
+.relative {
+	position: relative;
+
+	.attendance {
+		position: absolute;
+		top: 0;
+		right: -.5em;
+		width: 50%;
+		max-width: 20rem;
+	}
+}
+
+._bl {
+	border-left: var(--border);
+}
+
+._w400 {
+	font-weight: 400;
+}
+
+._ng {
+	margin-bottom: 0 !important;
+}

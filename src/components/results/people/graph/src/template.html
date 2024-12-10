@@ -1,0 +1,42 @@
+<div class="results-parties-graph">
+	<div class="_space">
+		<div class="_item" v-for="(item, index) in display" :class="{passed: item.passed, rest: !item.link}">
+			<div class="_bar-holder" :class="{'_ref': item.ref}">
+				<div class="_bar">
+					<div class="_bar-pane" :style="{height: ((this.show ? item.graph : 0) * 2.5) + 'px', background: item.color, 'transition-delay': (index * .05 + .5) + 's'}"></div>
+					<div class="_bar-value smallest">
+						{{ round(item.pct, 2) }}
+					</div>
+					<template v-if="item.ref">
+						<div class="_bar-pane _ref-pane" :style="{height: (item.ref.round1.graph * 2.5) + 'px', background: item.color}"></div>
+						<div class="_bar-value _ref-value smallest" :style="{bottom: (item.ref.round1.graph * 2.5) + 'px'}">
+							{{ round(item.ref.round1.pct, 2) }}
+						</div>
+					</template>
+				</div>
+				<div class="_mandates" v-if="item.mandates">
+					{{ item.mandates }}
+				</div>
+			</div>
+			<div class="_data">
+				<div class="p-logo" v-if="display.find(x => x.photo)">
+					<div class="_image" v-if="item.photo" :style="{backgroundImage: 'url(' + item.photo + ')'}"></div>
+					<div class="_initials" v-if="!item.photo" :style="{color: item.color}">{{ item.initials }}</div>
+				</div>
+				<div class="_short smallest">
+					<component :is="item.link ? 'router-link' : 'span'" :to="item.link">{{ truncate(item.short, width < 600 ? 8 : 12, true) }}</component>
+				</div>
+				<div class="_coal">
+					<template v-if="item.logo && item.logo.split('empty.png').length === 1">
+						<p-logo :data="item"></p-logo>
+					</template>
+					<template v-if="item.coal">
+						<template v-for="(member, im) in item.coal">
+							<p-logo :data="member"></p-logo>
+						</template>	
+					</template>				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

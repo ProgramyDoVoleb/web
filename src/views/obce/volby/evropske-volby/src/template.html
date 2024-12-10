@@ -1,0 +1,25 @@
+<div class="evropske-volby">
+	<template v-if="current.status === 3">
+		<!-- <p-block headline="Výsledky"> -->
+			<div class="relative">
+				<election-graph :list="sortByVotes(current.$vysledky, current.$strany)"></election-graph>
+				<div class="p-gap"></div>
+				<div class="attendance">
+					<p-line-graph v-if="local" :value="local.$ucast[0].UCAST" color="var(--blue)"></p-line-graph>
+					<p-line-graph :value="current.$ucast[0].UCAST" :color="'var(--' + (local ? 'greyish' : 'blue') + ')'" append="ČR"></p-line-graph>
+				</div>
+			</div>
+			<p-collapsible label="Podrobné výsledky">
+				<election-table :list="sortByVotes(current.$vysledky, current.$strany)"></election-table>
+			</p-collapsible>
+		<!-- </p-block> -->
+		<p-collapsible label="Zvolení europoslanci">
+			<component :is="people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni).length > 100 ? 'election-list' : 'election-grid'" :list="people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni)"></component>
+		</p-collapsible>
+		<p-collapsible label="Statistiky" v-if="current.$ucast">
+			<!-- <p-area> -->
+				<election-stats :data="current.$ucast[0]" :local="local ? local.$ucast[0] : null" :results="current.$vysledky"></election-stats>
+			<!-- </p-area> -->
+		</p-collapsible>
+	</template>
+</div>

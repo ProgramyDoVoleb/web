@@ -1,0 +1,213 @@
+<div class="election-compare">
+	<p-loader :rule="current && previous">
+		<div v-if="current && previous">
+			<h3>Strany</h3>
+			<!-- <p-area> -->
+				<p-collapsible label="– zisky a ztráty oproti minule">
+					<p-area>
+						<table class="smaller">
+							<thead>
+								<tr>
+									<th>Strana</th>
+									<th class="text-right">Procent</th>
+									<th class="text-right">Hlasů</th>
+									<th class="text-right strong">Mandátů</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(party, index) in parties_byRegistration.filter(x => x.previous && x.current)">
+									<td>
+										<p-label :color="party.color">
+											<router-link :to="'/volby/evropske-volby/' + party.current.runs.volby + '/strana/' + party.current.runs.id">{{ party.current.party.ZKRATKA }}</router-link>											
+										</p-label>
+										<template v-if="party.current.party.ZKRATKA != party.previous.party.ZKRATKA">
+											<div class="smallest dimm">– dříve {{ party.previous.party.ZKRATKA }}</div>
+										</template>
+									</td>
+									<td class="text-right">
+										<div class="strong"><p-compare :a="party.current.result.PROCENT" :b="party.previous.result.PROCENT" :format="round"></p-compare> <span class="dimm smallest slim">pb</span></div>
+										<div class="smallest">{{ party.current.result.PROCENT }} %</div>
+										<div class="smallest dimm">vs {{ party.previous.result.PROCENT }} %</div>
+									</td>
+									<td class="text-right">
+										<div class="strong"><p-compare :a="party.current.result.HLASU" :b="party.previous.result.HLASU" :format="number"></p-compare></div>
+										<div class="smallest">{{ number(party.current.result.HLASU) }}</div>
+										<div class="smallest dimm">vs {{ number(party.previous.result.HLASU) }}</div>
+									</td>
+									<td class="text-right">
+										<div v-if="party.current.result.MANDATU || party.previous.result.MANDATU">
+
+											<div class="strong"><p-compare :a="party.current.result.MANDATU || 0" :b="party.previous.result.MANDATU || 0"></p-compare></div>	
+											<div class="smallest">{{ party.current.result.MANDATU || 0 }}</div>
+											<div class="smallest dimm">vs {{ party.previous.result.MANDATU || 0 }}</div>	
+										</div>								
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</p-area>
+				</p-collapsible>
+				<p-collapsible label="– mandáty podle navrhující strany">
+					<p-area>
+						<table class="smaller">
+							<thead>
+								<tr>
+									<th>Strana</th>
+									<th class="text-right">Minule</th>
+									<th class="text-right">Tentokrát</th>
+									<th class="text-right strong">Rozdíl</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(party, index) in parties_byNomination">
+									<td><p-label :color="party.color"><router-link :to="'/rejstrik/' + party.NSTRANA">{{ party.current ? party.current.party.ZKRATKA : party.previous.party.ZKRATKA }}</router-link></p-label></td>
+									<td class="text-right">{{ party.previous ? party.previous.list.length : '-' }}</td>
+									<td class="text-right">{{ party.current ? party.current.list.length : '-' }}</td>
+									<td class="text-right strong"><p-compare :a="party.current ? party.current.list.length : 0" :b="party.previous ? party.previous.list.length : 0"></p-compare></td>
+								</tr>
+							</tbody>
+						</table>
+					</p-area>
+				</p-collapsible>
+				<p-collapsible label="– nové strany či koalice">
+					<p-area>
+						<table class="smaller">
+							<thead>
+								<tr>
+									<th>Strana</th>
+									<th class="text-right">Procent</th>
+									<th class="text-right">Hlasů</th>
+									<th class="text-right strong">Mandátů</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(party, index) in parties_byRegistration.filter(x => !x.previous && x.current)">
+									<td>
+										<p-label :color="party.color"><router-link :to="'/volby/evropske-volby/' + party.current.runs.volby + '/strana/' + party.current.runs.id">{{ party.current.party.ZKRATKA }}</router-link></p-label>
+									</td>
+									<td class="text-right">{{ party.current.result.PROCENT }} %</td>
+									<td class="text-right">{{ number(party.current.result.HLASU) }}</td>
+									<td class="text-right strong">{{ party.current.result.MANDATU }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</p-area>
+				</p-collapsible>
+				<p-collapsible label="– které již nekandidovaly">
+					<p-area>
+						<div class="columns smaller">
+							<div v-for="(party, index) in reverse(parties_byRegistration.filter(x => x.previous && !x.current))">
+								<div class="p-offset reverse">
+									<div>
+										<p-label :color="party.color"><router-link :to="'/volby/evropske-volby/' + party.previous.runs.volby + '/strana/' + party.previous.runs.id">{{ party.previous.party.ZKRATKA }}</router-link></p-label>
+									</div>
+									<div>
+										{{ party.previous.result.PROCENT }} %
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</p-area>
+				</p-collapsible>
+			<!-- </p-area> -->
+			<h3>Europoslanci</h3>	
+			<!-- <p-area> -->
+				<p-collapsible label="– kteří obhájili mandát">
+					<p-area>
+						<p-list>
+							<div v-for="(party, index) in candidates_renewed.parties">
+								<p-label :color="colorByItem(party, current)">
+									<strong>{{ party.NAZEV }}</strong>
+								</p-label>								
+								<div class="p-gap_05"></div>
+								<div class="columns flag-empty">
+									<div v-for="(cand, index2) in candidates_renewed.list.filter(x => x.currentCandidate.ESTRANA === party.ESTRANA && x.previousParty)">
+										<p-label :color="colorByItem(current.cis.strany.find(x => x.VSTRANA === cand.currentCandidate.NSTRANA), current)">
+											<router-link :to="'/volby/evropske-volby/' + cand.currentCandidate.volby + '/kandidat/' + cand.currentCandidate.id">
+												{{ cand.display }}
+											</router-link>											
+										</p-label>	
+									</div>
+								</div>
+							</div>
+						</p-list>
+					</p-area>
+				</p-collapsible>
+				<p-collapsible label="– kteří byli minule nominováni jinou stranou">
+					<p-area>
+						<p-list>
+							<div v-for="(party, index) in candidates_renewed.parties">
+								<p-label :color="colorByItem(party, current)">
+									<strong>{{ party.NAZEV }}</strong>
+								</p-label>	
+								<div class="p-gap_05"></div>
+								<div class="columns flag-empty">
+									<div v-for="(cand, index2) in candidates_renewed.list.filter(x => x.currentCandidate.ESTRANA === party.ESTRANA && x.previousParty && x.previousCandidate.NSTRANA != x.currentCandidate.NSTRANA)">
+										<p-label :color="colorByItem(current.cis.strany.find(x => x.VSTRANA === cand.currentCandidate.NSTRANA), current)">
+											<router-link :to="'/volby/evropske-volby/' + cand.currentCandidate.volby + '/kandidat/' + cand.currentCandidate.id">
+												{{ cand.display }}
+											</router-link>	
+										</p-label>	
+										<div class="smallest">— minule nominance od <p-label :color="colorByItem(previous.cis.strany.find(x => x.VSTRANA === cand.previousCandidate.NSTRANA), previous)" :after="true">{{ cand.previousParty.ZKRATKA }}</p-label></div>
+									</div>
+								</div>
+							</div>
+						</p-list>
+					</p-area>
+				</p-collapsible>
+				<p-collapsible label="– kteří byli nově zvoleni">
+					<p-area>
+						<p-list>
+							<div v-for="(party, index) in candidates_renewed.parties">
+								<p-label :color="colorByItem(party, current)">
+									<strong>{{ party.NAZEV }}</strong>
+								</p-label>	
+								<div class="p-gap_05"></div>
+								<div class="columns flag-empty">
+									<div v-for="(cand, index2) in candidates_renewed.list.filter(x => x.currentCandidate.ESTRANA === party.ESTRANA && !x.previousParty)">
+										<p-label :color="colorByItem(current.cis.strany.find(x => x.VSTRANA === cand.currentCandidate.NSTRANA), current)">
+											<router-link :to="'/volby/evropske-volby/' + cand.currentCandidate.volby + '/kandidat/' + cand.currentCandidate.id">
+												{{ cand.display }}
+											</router-link>	
+										</p-label>	
+									</div>
+								</div>
+							</div>
+						</p-list>
+					</p-area>
+				</p-collapsible>
+				<p-collapsible label="– kteří neobhajovali či neobhájili mandát">
+					<p class="dimm">Zatím není rozlišeno, zda poslanci znovu usilovali o mandát a neuspěli, nebo zda již nekandidovali, případně zemřeli.</p>
+					<p-area>
+						<p-list>
+							<div v-for="(party, index) in candidates_lost.parties">
+								<p-label :color="colorByItem(party, current)">
+									<strong>{{ party.NAZEV }}</strong>
+								</p-label>	
+								<div class="p-gap_05"></div>
+								<div class="columns flag-empty">
+									<div v-for="(cand, index2) in candidates_lost.list.filter(x => x.previousCandidate.ESTRANA === party.ESTRANA && !x.currentParty)">
+										<p-label :color="colorByItem(previous.cis.strany.find(x => x.VSTRANA === cand.previousCandidate.NSTRANA), previous)">
+											<router-link :to="'/volby/evropske-volby/' + cand.previousCandidate.volby + '/kandidat/' + cand.previousCandidate.id">
+												{{ cand.display }}
+											</router-link>	
+										</p-label>	
+									</div>
+								</div>
+							</div>
+						</p-list>
+					</p-area>
+				</p-collapsible>
+				<!-- <p-collapsible label="– minule nekandidovali, ale rovnou uspěli"></p-collapsible> -->
+				<!-- <p-collapsible label="– minule neuspěli, ale tentokrát ano"></p-collapsible> -->
+				<!-- <p-collapsible label="– kteří neobhájili mandát"></p-collapsible> -->
+				<!-- <p-collapsible label="– kteří již nekandidovali"></p-collapsible> -->
+			<!-- </p-area>		 -->
+		</div>
+	</p-loader>
+	<div class="p-gap"></div>
+	<p-area class="dimm smallest">
+		Tato komponenta porovnává poslance podle jména, příjmení, věku a volební či nominující strany. Aktuálně není schopná zachytit změny jména.
+	</p-area>
+</div>

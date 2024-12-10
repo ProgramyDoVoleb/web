@@ -1,0 +1,40 @@
+.r {
+  position: relative;
+  padding-top: 8em;
+  text-align: center;
+  min-width: 1.5em;
+}
+
+.v {
+  transform-origin: left center;
+  transform: rotate(-60deg) translate(-5.5em, 3.25em);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  white-space: nowrap;
+}
+
+.c {
+  text-align: center;
+}
+
+.tr {
+  text-align: right;
+}
+
+.br:not(:last-child) {
+  border-right: var(--border);
+}
+
+h5 {
+  margin-top: 0;
+  margin-bottom: .5em;
+}
+
+ul {
+  margin: 0 0 1em;
+}
+
+th {
+  vertical-align: bottom;
+}

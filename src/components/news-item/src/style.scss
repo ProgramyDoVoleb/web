@@ -1,0 +1,36 @@
+._w3 {
+  width: 3em;
+  margin-right: 0em;
+}
+
+.news-item {
+	container-type: inline-size;
+}
+
+.desktop {
+  display: none;
+}
+
+@container (min-width: 480px) {
+._w3 {
+  width: 4em;
+  margin-right: -.5em;
+  margin-left: 0em;
+}
+
+  .mobile {
+    display: none;
+  }
+
+  .desktop {
+    display: block;
+  }
+
+  .desktop .big {
+    font-size: 2em;
+    line-height: 1;
+    letter-spacing: -.015em;
+    position: relative;
+    text-align: center;
+  }
+}

@@ -1,0 +1,50 @@
+blockquote {
+  font-size: 2rem;
+}
+
+p {
+  max-width: 70rem;
+  font-size: 1em;
+}
+
+h4, h5, h6 {
+  margin-top: 2em;
+}
+
+ul {
+  list-style: none;
+
+  > li {
+    position: relative;
+
+    &:after {
+      position: absolute;
+      left: -2em;
+      top: .5em;
+      width: .75em;
+      height: .75em;
+      border-radius: 2px;
+      background: var(--grey);
+      content: "";
+    }
+  }
+}
+
+ol {
+  list-style: decimal;
+}
+
+li {
+  margin-left: 2.5em;
+}
+
+li::marker {
+  font-weight: 700;
+  font-size: 1.5em;
+  font-family: sans-serif;
+  color: var(--grey);
+}
+
+.program-block---holder + .program-block---holder {
+  margin-top: 6rem;
+}

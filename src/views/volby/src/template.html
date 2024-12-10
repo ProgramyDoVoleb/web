@@ -1,0 +1,195 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Volby v České republice" :level="1">
+				<p class="lead">
+					Zde najdete kompletní přehled všech voleb, které se konaly v České republice od roku 1993 do současnosti, včetně přehledu voleb v nejbližší době.
+				</p>
+				<p-loader :rule="nearest">
+					<p v-if="elections && elections.list.find(x => x.status < 3 && x.datum <= today)">
+						<p-label color="var(--red)" class="strong">
+							Právě probíhají 
+							<p-list-linear>
+								<li v-for="(el, i) in elections.list.filter(x => x.status < 3 && x.datum <= today)">
+									<router-link :to="'/volby/' + election_types.find(x => x.key === el.typ).hash + '/' + el.id">{{ el.radne === 1 ? '' : 'mimořádné '}}{{ election_types.find(x => x.key === el.typ).name.toLowerCase() }}</router-link>
+								</li>
+							</p-list-linear>
+						</p-label>
+					</p>
+					<p v-if="elections && nearest.regular">
+						<p-label color="var(--blue)">Příští</p-label> řádné volby: 
+						<div v-for="regular in nearest.regular">
+							<router-link class="strong" :to="'/volby/' + election_types.find(x => x.key === regular.typ).hash + '/' + regular.id">{{ election_types.find(x => x.key === regular.typ).name }} {{ regular.datum ? (regular.datum_label || date(regular.datum)) : regular.cirka }}</router-link>
+						</div>						
+					</p>
+					<p v-if="elections && nearest.extra">
+						<p-label color="var(--blue)">Nejbližší</p-label>
+						mimořádné komunální volby budou 
+						<router-link :to="'/volby/komunalni-volby/' + nearest.extra.id">{{ date(nearest.extra.datum) }}</router-link> 
+						a týkají se 
+						<p-lang :value="nearest.extra.$dotcene.length" :end="['', 'jedné obce', '%% obcí', '%% obcí']"></p-lang>:
+						<p-list-linear>
+							<template v-for="(town, index) in nearest.extra.$dotcene">
+								<li>
+									<router-link :to="'/obec/' + town.NUM" class="is-span">{{ town.NAZEV }}</router-link>
+								</li>
+							</template>
+						</p-list-linear>
+					</p>
+				</p-loader>
+				<div class="p-gap_2"></div>
+				<p-block headline="Typy voleb">
+					<p-loader :rule="elections">
+						<template v-if="elections">
+							<p-grid class="tight">
+								<template v-for="(election, index) in election_types.filter(x => x.key != 'REFER')">
+									<div>
+										<p-area :icon="election.key === 'REFER' ? null : election.hash">
+											<router-link :to="'/volby/' + election.hash" class="b">{{ election.name }}</router-link>
+											<div class="smaller">
+												<p-list-linear class="or">
+													<template v-for="(el, inel) in elections.list.filter(x => x.radne === 1 && x.typ === election.key && x.cirka)">
+														<template v-if="inel < 3">
+															<li>
+																<router-link :to="'/volby/' + election.hash + '/' + el.id" class="red">{{ el.cirka.split(' ')[1] }}</router-link>		
+															</li>
+														</template>
+													</template>
+													<template v-for="(el, inel) in elections.list.filter(x => x.radne === 1 && x.typ === election.key && x.datum)">
+														<template v-if="inel < 3">
+															<li>
+																<router-link :to="'/volby/' + election.hash + '/' + el.id" class="dimm" :class="{'red strong': el.datum > today}">{{ el.datum.split('-')[0] }}</router-link>		
+															</li>
+														</template>
+													</template>
+													<li v-if="index != 'REFER'">
+														<router-link :to="'/volby/' + election.hash" class="dimm">starší</router-link>
+													</li>
+												</p-list-linear>
+											</div>
+										</p-area>
+									</div>
+								</template>
+							</p-grid>
+						</template>
+					</p-loader>
+				</p-block>
+			</p-block>
+			<p-block headline="Přehled voleb" :level="1" class="p-block---up">
+				<p-area>
+					<p-grid>
+						<div>
+							<select v-model="typ">
+								<option :value="null">Všechny volby</option>
+								<template v-for="(el, index) in election_types">
+									<option :value="el.key">{{ el.name }}</option>
+								</template>
+							</select>
+						</div>
+						<div v-if="typ === null || typ === 'KV' || typ === 'SENAT'">
+							<select v-model="radne">
+								<option :value="false">Řádné i mimořádné volby</option>
+								<option :value="true">Pouze řádné volby</option>
+							</select>
+						</div>
+					</p-grid>
+				</p-area>
+				<div class="p-gap_3"></div>
+				<p-block-expandable :open="true" headline="Příští volby" v-if="list && list.filter(x => x.datum === null || x.datum > today).length > 0">
+					<p-loader :rule="elections">
+						<div class="election-timeline">
+							<ol v-if="elections">
+								<template v-for="(election, index) in reverse(list.filter(x => x.datum && x.status < 3))">
+									<li>
+										<volby-item :election="election"></volby-item>
+									</li>
+								</template>
+								<template v-for="(election, index) in list.filter(x => x.datum === null)">
+									<li>
+										<volby-item :election="election"></volby-item>
+									</li>
+								</template>
+							</ol>
+						</div>
+					</p-loader>
+				</p-block-expandable>
+				<template v-if="list && list.length > 10">
+					<template v-for="(section, insect) in sections">
+						<p-block-expandable :headline="section[0]" :open="insect === 0">
+							<p-loader :rule="elections">
+								<div class="election-timeline">
+									<ol v-if="elections">
+										<template v-for="(election, index) in list.filter(x => (x.datum > section[1] && x.datum < section[2]))">
+											<li>
+												<volby-item :election="election"></volby-item>
+											</li>
+										</template>
+									</ol>
+								</div>
+							</p-loader>
+						</p-block-expandable>
+					</template>
+				</template>
+				<template v-if="list && list.length <= 10">
+					<p-block headline="Uplynulé volby">
+						<p-loader :rule="elections">
+							<div class="election-timeline">
+								<ol v-if="elections">
+									<template v-for="(election, index) in list.filter(x => (x.datum < today))">
+										<li>
+											<volby-item :election="election"></volby-item>
+										</li>
+									</template>
+								</ol>
+							</div>
+						</p-loader>
+					</p-block>
+				</template>
+			</p-block>
+			<div class="p-gap_4"></div>
+			<p-block headline="Krátce">
+				<p>Přehled voleb vychází ze seznamu poskytovaného Českým statistickým úřadem, ale rovnou zobrazuje i jednotlivé mimořádné volby (komunální či senátní), které proběhly nebo se chystají, a to včetně údaje o počtu dotčených obcí či obvodů. Pokud je seznam vybraných voleb delší, jsou rozdělené do jednotlivých dekád od založení České republiky až po dnešek.</p>
+			</p-block>
+			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.25">
+				<div>
+					<strong>Novinky</strong>
+					<div class="p-gap"></div>
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
+							<p-list padding="1">
+								<template v-for="(news, index) in news.list">
+									<div>
+										<news-item :data="news" :noSource="true"></news-item>
+									</div>
+								</template>
+							</p-list>
+						</div>
+					</p-loader>
+				</div>
+				<div>
+					<strong>Za oponou</strong>
+					<div class="p-gap"></div>
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
+							<p-list padding="1">
+								<template v-for="(news, index) in news.sys">
+									<div>
+										<news-item :data="news" :noSource="true"></news-item>
+									</div>
+								</template>
+							</p-list>
+						</div>
+					</p-loader>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

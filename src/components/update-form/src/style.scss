@@ -1,0 +1,47 @@
+.form-input-text {
+  background: #eef;
+  padding: 1em 1em;
+  // border: none;
+  display: block;
+  width: 100%;
+  font-size: 1.3rem;
+
+  &.alt {
+    background: #fafafa;
+  }
+}
+
+textarea {
+  min-height: 5rem;
+  min-width: 100%;
+  max-width: 60rem;
+}
+
+p {
+  max-width: 40rem;
+  font-size: 13px;
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.state-form {
+  text-align: left;
+  color: #000;
+  font-size: 1rem;
+  max-width: 60rem;
+  text-transform: none;
+  font-weight: initial;
+}
+
+h3 {
+  padding-right: 5rem;
+  font-size: 1.8rem;
+}
+
+label {
+  width: 10rem;
+}
+
+button {
+  font-size: 1.2rem;
+}

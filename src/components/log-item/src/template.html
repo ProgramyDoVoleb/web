@@ -1,0 +1,22 @@
+<div class="log-item">
+	<div class="p-offset balanced">
+		<div class="text-right _w3">
+			<div class="strong smallest" :class="{'green': data.action === 'add', 'red': data.action === 'hide', 'blue': data.action === 'replace'}">{{ date(data.date, 2) }}</div>
+		</div>
+		<div class="_f">
+			{{ (small ? actionSmall : action)[data.action] }} <em>{{ types[data.type].toLowerCase() }}</em>
+			<div class="smaller dimm" v-if="item">
+				<div class="p-offset reverse balanced">
+					<div>{{ item.value || item.label }}</div>
+					<div v-if="item.source"><p-link :href="item.source">Zdroj</p-link></div>
+				</div>				
+			</div>
+			<div class="smallest dimm" v-if="list && data.time">
+				<div class="p-gap_05"></div>
+				Provedeno v {{ data.time }}
+
+			</div>
+		</div>		
+	</div>
+	
+</div>

@@ -1,0 +1,363 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #main>
+			<p-block :headline="headline" :level="1" :hide="true">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<div v-if="data.list[0]">
+							<div class="_float">
+								<div v-if="current.NAZEV && logoByItem(current, data, null, true)" class="hide-40rem _float-right">
+									<p-logo :data="{logo: logoByItem(current, data)}" :size="'8rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
+								</div>
+								<div v-if="con(current.$data, 'photo')" class="hide-40rem _float-right">
+									<p-photo :data="con(current.$data, 'photo', null, null, true)" width="8rem" :rounded="true" :border="true"></p-photo>
+								</div>
+								<div>
+									<p-headline :level="1">
+										Priority
+										<div class="small"><router-link :to="'/volby/' + volbyType + '/' + volbyID + '/' + page + '/' + tableID">{{ headline }}</router-link></div>
+									</p-headline>
+									<div class="serif">
+										<div v-if="current.$strana && $strana">
+											{{ current.PORCISLO ? current.PORCISLO + '. na' : 'Na' }} kandidátní listině
+											<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/strana/' + $strana.id">
+												{{ $strana.NAZEV }}
+											</router-link>
+										</div>
+
+										<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id">
+											{{ $volby.$about.name }}
+										</router-link> 
+										<template v-if="$volby.radne === 1 && $volby.status < 3">
+											&middot; {{ $volby.cirka || $volby.datum.split('-')[0] }}
+										</template>
+										<template v-else>
+											&middot; {{ $volby.datum_label || date($volby.datum) }}
+										</template>
+										<template v-if="$volby.typ === 'KV' && current.$zastupitelstvo && current.$zastupitelstvo.length > 0">
+											&middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/obec/' + current.KODZASTUP">{{ current.NAZEVZAST }}</router-link>
+											<template v-if="current.$zastupitelstvo[0].DRUHZASTUP === 1 || current.$zastupitelstvo[0].DRUHZASTUP > 4"> &middot; okres {{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</template>
+										</template>
+										<template v-if="$volby.typ === 'KV' && !current.$zastupitelstvo">
+											&middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/obec/' + current.KODZASTUP">{{ $strana.$zastupitelstvo[0].NAZEVZAST }}</router-link>
+											<template v-if="$strana.$zastupitelstvo[0].DRUHZASTUP === 1 || $strana.$zastupitelstvo[0].DRUHZASTUP > 4"> &middot; okres {{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</template>
+										</template>
+										<template v-if="$volby.typ === 'KZ'">
+											&middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kraj/' + current.KRZAST">{{ data.cis.kraje.find(x => x.KRAJ === current.KRZAST).NAZEV }}</router-link>
+										</template>
+										<template v-if="$volby.typ === 'SENAT'">
+											&middot; obvod {{ current.OBVOD }} &middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/obvod/' + current.OBVOD">{{ data.cis.obvody.find(x => x.OBVOD === current.OBVOD).NAZEV }}</router-link>
+										</template>
+									</div>
+									<div class="p-gap"></div>
+									<p-box-group class="_empty">
+										<template v-if="current">
+											<template v-if="current.PRIJMENI && current.$data.logo">
+												<p-box>
+													<p-box-image :src="current.$data.logo[0].value" class="_bw"></p-box-image>
+												</p-box>
+											</template>
+											<template v-for="party in involvedParties.filter(x => !logoByItem(x, data).includes('empty.png'))">
+												<p-box :to="'/rejstrik/' + party.VSTRANA">
+													<p-box-image :src="logoByItem(party, data)" class="_bw"></p-box-image>
+												</p-box>
+											</template>
+										</template>
+										<template v-if="current.$program.length > 0">
+											<p-box :to="'/volby/' + $volby.$about.hash + '/' + current.$program[0].volby + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.$program[0].csu_id + '/volebni-program/' + current.$program[0].id + '#plne-zneni'">
+												<p-box-button class="primary">Program</p-box-button>
+											</p-box>
+										</template>
+										<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length === 1">
+											<p-box :href="current.$data.program[0].source">
+												<p-box-button class="primary">Program</p-box-button>
+											</p-box>
+										</template>
+										<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length > 1">
+											<p-box :click="() => slide('programove-dokumenty')">
+												<p-box-button class="primary"><p-lang :value="current.$data.program.length" :end="['', '', '%% programy', '%% programů']"></p-lang></p-box-button>
+											</p-box>
+										</template>
+										<template v-if="$volby.status < 3 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1 && !(current.$data.program || current.$program.length > 0)">
+											<p-modal>
+												<template #init>
+													<p-box>
+														<p-box-button color="var(--green)">{{ current.$program.length > 0 || (current.$data.program && current.$data.program.length > 0) ? '+' : 'Přidat program'}}</p-box-button>
+													</p-box>
+												</template>
+												<template #content>
+													<strong>Přidat volební program</strong>
+													<p>Stačí jen poslat odkaz, kde program je. Může to být web, status na sociální síti nebo odkaz na PDF nebo jiný dokument.</p>
+													<report-form></report-form>
+												</template>
+											</p-modal>
+										</template>
+										<template v-if="current.$data.web && current.$data.web.length > 0">
+											<p-box :href="current.$data.web[0].value">
+												<p-box-button class="primary">Web</p-box-button>
+											</p-box>
+										</template>
+										<template v-if="current.$otazky && current.$otazky.filter(x => x.type === 1).length > 0">
+											<p-box :to="'/volby/' + $volby.$about.hash + '/' + current.$odpovedi[0].volby + '/' + (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 'kandidat' : 'strana') + '/' + current.$odpovedi[0].csu_id + '/otazky-a-odpovedi'">
+												<p-box-button icon="answers-mini.svg">{{ current.$odpovedi.filter(x => x.$otazka[0].type != 2).length }}</p-box-button>
+											</p-box>
+										</template>
+										<template v-if="current.MANDAT === null">
+											<p-box>
+												<p-box-label v-if="!current.PORCISLO">Umístění neuvedeno</p-box-label>
+												<p-box-label background="var(--grey11)" v-if="current.PORCISLO">{{ current.PORCISLO }}</p-box-label>
+											</p-box>
+										</template>
+										<template v-if="typeof current.MANDAT === 'undefined'">
+											<template v-if="null === current.ESTRANA || current.ESTRANA < 0">
+												<p-box background="var(--grey11)">
+													<p-box-label v-if="!current.ESTRANA">Neúčastní se přímo</p-box-label>
+													<p-box-label v-if="current.ESTRANA < 0">Zatím bez volebního čísla</p-box-label>
+												</p-box>
+											</template>
+											<template v-if="typeof current.KSTRANA !== 'undefined'">
+												<p-box background="var(--grey11)">
+													<p-box-label v-if="!current.KSTRANA">Neúčastní se přímo</p-box-label>
+													<!-- <p-box-label v-if="current.KSTRANA < 0">Zatím bez volebního čísla</p-box-label> -->
+													<p-box-label v-if="current.KSTRANA > 0">{{ current.KSTRANA }}</p-box-label>
+												</p-box>
+											</template>
+											<template v-if="null === current.POR_STR_HL || current.POR_STR_HL < 0">
+												<p-box background="var(--grey11)">
+													<p-box-label v-if="!current.POR_STR_HL">Neúčastní se přímo</p-box-label>
+													<p-box-label v-if="current.POR_STR_HL < 0">Zatím bez volebního čísla</p-box-label>
+												</p-box>
+											</template>
+											<template v-if="current.CKAND && current.CKAND > 0">
+												<p-box>
+													<p-box-label>č. {{ current.CKAND }}</p-box-label>
+												</p-box>
+											</template>
+										</template>
+										<template v-if="current.MANDAT">
+											<p-box class="strong" :style="{color: current.MANDAT === 'A' ? 'var(--green)' : 'var(--red)'}">
+												<p-box-icon :type="current.MANDAT === 'A' ? 'icon-check' : 'icon-against'"></p-box-icon>
+												<p-box-label>
+													<template v-if="current.MANDAT === 'A'">Mandát získán</template>
+													<template v-if="current.MANDAT === 'N' && current.PORADINAHR && current.PORADINAHR > 0">Náhradník č. {{ current.PORADINAHR }}</template>	
+													<template v-if="current.MANDAT === 'N' && (!current.PORADINAHR || current.PORADINAHR === 0)">Mandát nezískán</template>	
+												</p-box-label>
+											</p-box>
+										</template>
+										<template v-if="current.MAND_STR">
+											<p-box class="strong" :style="{color: current.MAND_STR > 0 ? 'var(--green)' : 'var(--red)'}">
+												<p-box-icon :type="current.MAND_STR > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
+												<p-box-label>
+													<p-lang :value="current.MAND_STR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
+												</p-box-label>
+											</p-box>
+										</template>
+										<template v-if="current.POCMANDCR">
+											<p-box class="strong" :style="{color: current.POCMANDCR > 0 ? 'var(--green)' : 'var(--red)'}">
+												<p-box-icon :type="current.POCMANDCR > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
+												<p-box-label>
+													<p-lang :value="current.POCMANDCR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
+												</p-box-label>
+											</p-box>
+										</template>
+										<template v-if="current.KRZAST && current.$vysledky && current.$vysledky.length > 0">
+											<p-box class="strong" :style="{color: current.$vysledky[0].MANDATU > 0 ? 'var(--green)' : 'var(--red)'}">
+												<p-box-icon :type="current.$vysledky[0].MANDATU > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
+												<p-box-label>
+													<p-lang :value="current.$vysledky[0].MANDATU" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
+												</p-box-label>
+											</p-box>
+										</template>
+										<template v-if="typeof current.ZVOLEN_K1 != 'undefined' && current.ZVOLEN_K1 != null">
+											<p-box class="strong" :style="{color: current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'var(--green)' : 'var(--red)'}">
+												<p-box-icon v-if="current.ZVOLEN_K1 !== 2" :type="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'icon-check' : 'icon-against'"></p-box-icon>
+												<p-box-label>
+													<template v-if="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1">Mandát získán</template>
+													<template v-if="current.ZVOLEN_K1 === 2 && (!current.ZVOLEN_K2 || current.ZVOLEN_K2 === 0)">2. kolo</template>	
+													<template v-if="current.ZVOLEN_K1 === 0">Mandát nezískán</template>	
+												</p-box-label>
+											</p-box>
+										</template>
+										<template v-if="current.$data.social && current.$data.social.length > 0">
+												<p-box-gap></p-box-gap>
+												<template v-for="(item, index) in links">
+													<p-box :href="item.value" class="clean">
+														<p-box-icon :type="type(item.value)"></p-box-icon>
+													</p-box>
+												</template>
+										</template>
+									</p-box-group>
+								</div>
+							</div>
+							<div class="p-gap _3 _floar-clear"></div>
+
+							<template v-if="current.$priority.find(x => x.headline && x.content)">
+								<div v-for="(priority, indexP) in current.$priority">
+									<component :is="priority.content && priority.content.charAt(0) === '[' ? 'div' : 'p-block'" :headline="priority.headline">
+										<div class="_mw serif" v-if="priority.content && priority.content.charAt(0) != '['" v-html="priority.content.split('\n').join('<br>')">
+											
+										</div>
+										<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
+											<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
+										</div>
+									</component>
+								</div>
+							</template>
+							<template v-else>
+								<p-list class="_05">
+									<div v-for="(priority, indexP) in current.$priority">
+											<div v-if="priority.headline" v-html="priority.headline" class="smaller strong">
+
+											</div>
+											<div class="_mw serif" v-if="priority.content && priority.content.charAt(0) != '['" v-html="priority.content.split('\n').join('<br>')">
+												
+											</div>
+											<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
+												<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
+											</div>
+										
+									</div>
+								</p-list>
+								<div class="p-gap _2"></div>
+							</template>
+							<party-preview v-if="current.NAZEV" :link="'/volby/' + volbyType + '/' + volbyID" :party="current" :election="null" :elections="data"></party-preview>
+							<div class="p-gap _4"></div>
+						</div>
+					</div>
+				</p-loader>
+				<p-block headline="Data">
+					<p-grid>
+						<div>
+							<p-area icon="link">
+								<p-modal>
+									<template #init><button class="inline strong">API a Opendata</button></template>
+									<template #content>
+										<strong>Kde je archiv údajů a odkud se tahají data?</strong>
+										<div class="p-gap _05"></div>
+										<p-list>
+											<p-stats label="Permalink"><p-link :href="'https://programydovoleb.cz' + $route.path"></p-link></p-stats>
+											<p-stats label="API"><p-link :href="'https://api.programydovoleb.cz/pointers/full/' + table + ':' + tableID"></p-link></p-stats>
+										</p-list>
+									</template>
+								</p-modal>
+								<div class="smallest dimm">Jednoduché volání, JSON</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area icon="link">
+								<p-modal>
+									<template #init><button class="inline strong">Historie úprav</button></template>
+									<template #content>
+										<div v-if="news">
+											<strong>Historie úprav</strong>
+											<div class="p-gap _05"></div>
+											<p-list>
+												<div v-for="(log, index) in news.log">
+													<log-item :data="log" :list="current.$data[log.type]"></log-item>
+												</div>
+											</p-list>
+										</div>
+									</template>
+								</p-modal>
+								<div class="smallest dimm">Data v čase</div>
+							</p-area>
+						</div>
+						<div v-if="$volby && $volby.editace === 1">
+							<p-area icon="link">
+								<p-modal>
+									<template #init><button class="inline strong">Admin - správa údajů</button></template>
+									<template #content>
+										<strong>Administrace údajů</strong>
+										<div class="p-gap _05"></div>
+										<div class="smaller">Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají a která bude údaje pravdivě a svědomitě spravovat.</div>
+										<div class="p-gap"></div>
+										<div class="strong">
+											<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $route.fullPath" class="button">Vyplnit žádost</p-link>
+										</div>
+									</template>
+								</p-modal>
+								<div class="smallest dimm">Spravujte údaje na této stránce</div>
+							</p-area>
+						</div>
+					</p-grid>
+				</p-block>
+				<div class="p-gap"></div>
+				<!-- <p class="smaller">
+					<strong><p-label color="var(--red)">Nominujte <em>Programy do voleb</em></p-label> na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou lupu 2024</p-link>.</strong>
+					Stačí napsat název projektu <p-link href="https://kristalova.lupa.cz/nominace/" class="red strong">v tomto formuláři</p-link> v kategorii <strong>Nástroje a služby</strong> a potvrdit to e-mailem. Můžete zde doplnit i další oblíbené projekty. Předem díky.
+				</p>
+				<div class="p-gap"></div> -->
+			</p-block>
+			
+		</template>
+		<template #anchors>
+			<template v-if="data && current.NAZEV">
+				<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'" v-if="!data"></p-logo>
+				<p-logo v-if="data && logoByItem(current, data, null, true)" :data="{logo: logoByItem(current, data)}" :size="'12rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
+				<div class="logos" v-if="data && $coalition">
+					<template v-for="(coal, index) in $coalition">
+						<p-logo :data="logoByItem(coal, data)" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
+					</template>
+				</div>
+			</template>
+			<template v-if="data && current.JMENO">
+				<template v-if="con(current.$data, 'photo')">
+					<p-photo :data="con(current.$data, 'photo', null, null, true)" width="12rem" :rounded="true" :border="true"></p-photo>
+				</template>
+				<template v-if="!con(current.$data, 'photo')">
+					<p-logo v-if="logoByItem(current, data, 'NSTRANA', true)" :data="{logo: logoByItem(current, data, 'NSTRANA')}" :size="'12rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
+					<div class="logos" v-if="!logoByItem(current, data, 'NSTRANA', true) && $coalition">
+						<template v-for="(coal, index) in $coalition">
+							<p-logo :data="logoByItem(coal, data)" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
+						</template>
+					</div>
+					<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'" v-if="!logoByItem(current, data, 'NSTRANA', true) && !$coalition"></p-logo>
+				</template>
+			</template>
+			<!-- <p-image v-if="data && current.JMENO && con(current.$data, 'photo')" :src="con(current.$data, 'photo') || cdn + 'missing.png'" width="12rem" :rounded="true" :border="true"></p-image> -->
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+
+				<!-- <cta-get-admin :election="$volby" /> -->
+				<cta-support></cta-support>
+				
+				<div v-if="data && $volby && $volby.id === 161">
+					<div>
+							<p-image src="https://static.programydovoleb.cz/img/2024/plakat-161-a2-final.jpg" width="100%" :border="true" :rounded="true"></p-image>
+							<div class="p-gap"></div>
+							<strong class="blue">Objednejte si plakát s výsledky eurovoleb '24</strong>
+							<p class="small">Koupí plakátu pomůžete lepší informovanosti u příštích voleb. Výnos z prodeje jde hlavně na reklamu, aby se o projektu před volbami dozvědělo co nejvíc lidí.</p>
+							<p-box href="https://eshop.programydovoleb.cz/plakat-a2-evropske-volby-2024/">
+								<p-box-button class="primary">Objednat</p-box-button>
+							</p-box>
+					</div>
+				</div>
+				<div>
+					<div class="smallest strong" v-if="data && $volby">
+						<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][$volby.status]) + ')'">{{ $volby.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[$volby.status] }}</p-label></div>
+						<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][$volby.editace]) + ')'">administrace {{ enums.editace[$volby.editace] }}</p-label></div>
+					</div>
+				</div>
+				<div v-if="data && $volby && [162,163].indexOf($volby.id) > -1 && current">
+					<div class="p-list smaller strong">
+						<div v-if="current.KRZAST"><router-link :to="'/volby/krajske-volby/162/kraj/' + current.KRZAST">{{ data.cis.kraje.find(x => x.KRAJ === current.KRZAST).NAZEV }}</router-link></div>
+						<div v-if="current.OBVOD">{{ current.OBVOD }} &middot; <router-link :to="'/volby/senatni-volby/163/obvod/' + current.OBVOD">{{ data.cis.obvody.find(x => x.OBVOD === current.OBVOD).NAZEV }}</router-link></div>
+						<div v-if="$strana"><router-link :to="'/volby/krajske-volby/162/strana/' + $strana.id">{{ $strana.NAZEV }}</router-link></div>
+					</div>
+				</div>
+				<div>
+					<strong class="smaller">Novinky a zdroje</strong>
+					<div class="p-gap _05"></div>
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
+							<news-block :showAll="true" :news="news" :limit="2" :data="current.$data" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>
+						</div>
+					</p-loader>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

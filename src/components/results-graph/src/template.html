@@ -1,0 +1,43 @@
+<div class="results-graph">
+	<ul>
+		<li v-for="(item, index) in data.list" :class="{'below': item.pct < 5}" :style="{width: (100 / data.list.length) + '%'}">
+			<div class="graph-item">
+				<div class="graph-space" :class="{compare: !!item.pct2}">
+					<div class="graph-bar graph-bar-secondary" :style="{height: coef * item.pct2 + '%', background: item.color, 'transition-delay': (index * .05 + .1) + 's'}" v-if="item.pct2">
+						<!-- <div class="graph-bar-value">{{ Math.round(item.pct2 * 100) / 100 }} <em class="min-40rem">%</em></div> -->
+					</div>
+					<div class="graph-bar graph-bar-primary" :style="{height: coef * item.pct + '%', background: item.color, 'transition-delay': (index * .05) + 's'}">
+						<div class="graph-bar-value text-center">
+							<div>
+								{{ Math.round(item.pct * 100) / 100 }} <em class="min-40rem">%</em>
+							</div>
+							<div v-if="item.pct2" :class="{'red-bg': item.pct < item.pct2, 'green-bg': item.pct > item.pct2}" class="text-center badge">
+								<strong><span v-if="item.pct > item.pct2">+</span>{{ Math.round((item.pct - item.pct2) * 100) / 100 }}</strong>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="graph-icons" v-if="item.logo">
+					<p-image :src="item.logo" :width="'100%'" :round="true" :reserve="5"></p-image>
+					<!-- <logo-item :data="item" :size="5" class="min-40rem" v-if="!item.reg" />
+					<logo-item :data="item" :size="3" class="max-40rem" v-if="!item.reg" /> -->
+				</div>
+				<div class="graph-name">
+					<router-link :to="'/strana/' + item.hash">
+						{{ item.short }}
+					</router-link>
+				</div>
+				<div class="graph-mandates" v-if="mandate.length > 0 && (mandate.find(x => x.party.hash === item.hash) || {mandates: 0}).mandates > 0">
+					<div class="graph-mandates---circle" :style="{background: $(item.hash).color}">
+						<div class="graph-mandates---value">
+							{{ mandate.find(x => x.party.hash === item.hash).mandates }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	<div class="hide">
+		<!-- <election-simulation-imperiali :defined="imperiali" :hide="true" @update="update"></election-simulation-imperiali> -->
+	</div>
+</div>

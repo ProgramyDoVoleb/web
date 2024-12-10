@@ -1,0 +1,28 @@
+i {
+  display: inline-block;
+  width: .5em;
+  height: .5em;
+  margin-right: .5em;
+  border-radius: 50%;
+  transform: translateY(-.15em);
+  flex: 0 0 0.5em;
+}
+
+i + * {
+  flex: 1;
+}
+
+.label-with-dot {
+  position: relative;
+  display: inline-block;
+}
+
+.label-with-dot-flex {
+    display: flex;
+    align-items: baseline;
+}
+
+.label-with-dot-flex---after i {
+  order: 100;
+  margin-left: .5em;
+}

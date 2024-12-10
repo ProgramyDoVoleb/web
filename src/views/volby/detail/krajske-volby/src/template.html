@@ -1,0 +1,218 @@
+<div class="election-item">
+		<p-block headline="Rozcestník" :hide="true">
+			<p-area borderColor="var(--blue)">
+				<strong class="smaller">Rychlý rozcestník</strong>
+				<div class="p-gap _05"></div>
+				<div class="columns-4 smaller strong">
+					<template v-for="(kraj, index) in regions">
+						<div v-if="kraj.index != 0">
+							<router-link :to="'/volby/krajske-volby/' + id + '/kraj/' + (kraj.index + 1)">{{ kraj.name }}</router-link>
+						</div>
+					</template>
+				</div>
+			</p-area>
+			<!-- <template v-if="data.list[0].id === 999">
+				<div class="p-gap"></div>
+					<p-box-group>
+						<p-box to="/pruvodce/krajske-a-senatni-volby-2024">
+							<p-box-button icon="icon-party.svg" color="var(--blue)">Průvodce volbami</p-box-button>
+						</p-box>
+						<p-box to="/lide">
+							<p-box-button icon="detail.svg">Hledat kandidáta</p-box-button>
+						</p-box>
+						<p-box href="https://www.volebnikalkulacka.cz/volby/krajske-2024/vyber">
+							<p-box-button icon="link.svg">Kalkulačka</p-box-button>
+						</p-box>
+						<p-box to="/jak-volit/krajske-volby">
+							<p-box-button>Jak volit?</p-box-button>
+						</p-box>
+					</p-box-group>			
+			</template> -->
+		</p-block>
+		<p-block headline="Aktivita stran" :hide="true" v-if="parties">
+			<!-- <div class="p-line _2"></div> -->
+				<strong>Aktivita stran</strong>
+				<p class="smaller">Někde samostatně, jinde v koalici, někde jen podporují jinou kandidátku a jinde naopak vůbec. Podívejte se na aktivitu stran ve volbách.</p>
+				<!-- <div class="p-gap _05"></div> -->
+				<p-box-group>
+					<template v-for="party in sortBy(parties.list, 'ZKRATKA', null, true)">
+						<p-box :to="'/volby/krajske-volby/' + data.list[0].id + '/aktivita/' + party.VSTRANA">
+							<p-box-image :src="logoByItem(party, {cis: {strany: parties.list}})" class="_r"></p-box-image>
+						</p-box>
+					</template>
+					<p-modal>
+						<template #init>
+							<p-box>
+								<p-box-button icon="detail.svg">jiná strana</p-box-button>
+							</p-box>
+						</template>
+						<template #content>
+							<search-party :link="'/volby/krajske-volby/' + data.list[0].id + '/aktivita/'"></search-party>
+						</template>
+					</p-modal>
+				</p-box-group>
+			<!-- <div class="p-line _2"></div> -->
+		</p-block>
+		<!-- <p-block headline="Podpořit" :hide="true">
+			<p-grid class="_2">
+				<div>
+					<cta-support></cta-support>
+				</div>
+				<div>
+					<cta-get-admin :election="data.list[0]" v-if="data" :area="true" />
+				</div>
+			</p-grid>
+		</p-block> -->
+		<p-block headline="Přehledně" :level="1">
+			<div class="smallest" v-if="data.list[0].status < 3">
+				<p-label color="var(--blue)">Zveřejněný program</p-label>
+				<br>
+				<p-label color="var(--yellow)">Zaslané odpovědi</p-label>
+				<div class="p-gap _2"></div>
+			</div>
+			<div class="columns">
+				<template v-for="(kraj, index) in regions">
+					<template v-if="kraj.index != 0">
+						<div class="_pb">
+							<region-item :data="region(kraj.index + 1)" :region="kraj.index" :id="data.list[0].id"></region-item>
+						</div>
+					</template>
+				</template>
+			</div>
+		</p-block>
+		<p-block-expandable headline="Mandáty" v-if="data.list[0].status === 3">
+			<p-loader :rule="mandatesData">
+				<div v-if="mandatesData">
+					<p-collapsible label="Podle nominující strany">
+						<p-area>
+							<p-columns class="smaller">
+								<div v-for="item in mandatesData.parties.filter(x => x.nominees.length > 0)">
+									<div class="p-offset reverse">
+										<div>
+											<p-label :color="colorByItem(item.party, mandates)">
+												<p-modal class="inline">
+													<template #init>
+														{{ item.party.NAZEV }}
+													</template>
+													<template #content>
+														<strong>{{ item.party.NAZEV }}</strong>
+														<div class="p-gap"></div>
+														<p-columns class="_tight smaller">
+															<div v-for="cand in sortBy(item.nominees, 'PRIJMENI', null, true)">
+																<router-link :to="'/volby/krajske-volby/' + id + '/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+															</div>
+														</p-columns>
+													</template>
+												</p-modal>
+												
+											</p-label>									
+										</div>
+										<div>
+											{{ item.nominees.length }}
+										</div>
+									</div>
+								</div>
+							</p-columns>
+						</p-area>
+					</p-collapsible>
+					<p-collapsible label="Podle členství">
+						<p-area>
+							<p-columns class="smaller">
+								<div v-for="item in mandatesData.parties.filter(x => x.members.length > 0)">
+									<div class="p-offset reverse">
+										<div>
+											<p-label :color="colorByItem(item.party, mandates)">
+												<p-modal class="inline">
+													<template #init>
+														{{ item.party.NAZEV }}
+													</template>
+													<template #content>
+														<strong>{{ item.party.NAZEV }}</strong>
+														<div class="p-gap"></div>
+														<p-columns class="_tight smaller">
+															<div v-for="cand in sortBy(item.mandates, 'PRIJMENI', null, true)">
+																<router-link :to="'/volby/krajske-volby/' + id + '/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+															</div>
+														</p-columns>
+													</template>
+												</p-modal>
+											</p-label>									
+										</div>
+										<div>
+											{{ item.members.length }}
+										</div>
+									</div>
+								</div>
+							</p-columns>
+						</p-area>
+					</p-collapsible>
+					<h2 class="serif">Jednotlivé kraje</h2>
+					<template v-for="krajID in [3,11,5,8,7,14,12,9,4,2,6,10,13]">
+						<p-collapsible :label="enums.regions[krajID - 1]">
+							<p-area>
+								<h3 class="serif">Podle nominací</h3>
+								<p-columns class="smaller">
+									<div v-for="item in mandatesData.regions.find(x => x.kraj === krajID).parties.filter(x => x.nominees.length > 0)">
+										<div class="p-offset reverse">
+											<div>
+												<p-label :color="colorByItem(item.party, mandates)">
+													<p-modal class="inline">
+														<template #init>
+															{{ item.party.NAZEV }}
+														</template>
+														<template #content>
+															<strong>{{ item.party.NAZEV }}</strong>
+															<div class="p-gap"></div>
+															<p-columns class="_tight smaller">
+																<div v-for="cand in sortBy(item.nominees, 'PRIJMENI', null, true)">
+																	<router-link :to="'/volby/krajske-volby/' + id + '/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+																</div>
+															</p-columns>
+														</template>
+													</p-modal>		
+												</p-label>									
+											</div>
+											<div>
+												{{ item.nominees.length }}
+											</div>
+										</div>
+									</div>
+								</p-columns>
+								<div class="p-gap"></div>
+								<div class="p-line"></div>
+								<h3 class="serif">Podle členství</h3>
+								<p-columns class="smaller">
+									<div v-for="item in mandatesData.regions.find(x => x.kraj === krajID).parties.filter(x => x.members.length > 0)">
+										<div class="p-offset reverse">
+											<div>
+												<p-label :color="colorByItem(item.party, mandates)">
+													<p-modal class="inline">
+														<template #init>
+															{{ item.party.NAZEV }}
+														</template>
+														<template #content>
+															<strong>{{ item.party.NAZEV }}</strong>
+															<div class="p-gap"></div>
+															<p-columns class="_tight smaller">
+																<div v-for="cand in sortBy(item.mandates, 'PRIJMENI', null, true)">
+																	<router-link :to="'/volby/krajske-volby/' + id + '/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+																</div>
+															</p-columns>
+														</template>
+													</p-modal>		
+												</p-label>						
+											</div>
+											<div>
+												{{ item.members.length }}
+											</div>
+										</div>
+									</div>
+								</p-columns>
+							</p-area>
+						</p-collapsible>
+					</template>
+				</div>
+			</p-loader>
+		</p-block-expandable>
+	<!-- <div class="p-gap_4"></div> -->
+</div>

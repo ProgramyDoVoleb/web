@@ -1,0 +1,53 @@
+.p-logo {
+  display: inline-block;
+  position: relative;
+  aspect-ratio: 1;
+}
+
+.logo-outer {
+  display: block;
+  border: 1px solid #e4e4e4;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  aspect-ratio: 1;
+
+  .dark & {
+    border: 1px solid var(--black);
+    // background: #000;
+  }
+}
+
+.logo-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.logo-circle-text {
+  display: flex;
+  font-size: 9px;
+  color: var(--grey);
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-coalition {
+  display: flex;
+  transform: rotate(15deg);
+
+  > span {
+    flex: 1;
+    height: 1.5rem;
+  }
+}
+
+.p-logo.-rounded {
+  .logo-outer,
+  img {
+    border-radius: 4px;
+  }
+}

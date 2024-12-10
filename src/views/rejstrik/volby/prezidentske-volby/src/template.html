@@ -1,0 +1,47 @@
+<div class="prezidentske-volby">
+	<div v-if="data.cis.volby[0].popis" class="smallest dimm">
+		{{ data.cis.volby[0].popis }}	
+		<div class="p-gap"></div>
+	</div>
+	<div v-else class="smallest dimm">Řádné volby</div>
+
+	<div class="p-gap"></div>
+
+	<!-- <component :is="data.list.length === 1 ? 'div' : 'p-collapsible'" label="Přehled obvodů" :status="data.list.length"> -->
+		<template v-for="(item, indexO) in data.list">
+			<div class="_mk">
+				<!-- <p-collapsible :label="item.OBVOD + ' · ' + data.cis.obvody.find(x => x.OBVOD === item.OBVOD).NAZEV" :status="item.ZVOLEN_K1 === 1 || item.ZVOLEN_K2 === 1 ? 'Zvolen' : (item.ZVOLEN_K1 === 2 ? '2. kolo' : '')" :logo="logoByItem(item, data) || cdn + 'empty.png'" :color="(item.ZVOLEN_K1 === 1 || item.ZVOLEN_K2) ? 'var(--green)' : 'var(--red)' " :open="data.list.length === 1"> -->
+					<p-block :headline="item.JMENO + ' ' + item.PRIJMENI" :hide="true">
+						<p-area background="transparent" borderColor="var(--greyish)" class="_townArea">
+							<div class="p-offset">
+								<div>
+									<p-image :src="con(item.$data, 'photo')" width="6em" :rounded="true"></p-image>
+								</div>
+								<div>
+									<div class="strong">
+										<router-link :to="'/volby/prezidentske-volby/' + item.volby + '/kandidat/' + item.id">
+											{{ item.JMENO }} {{ item.PRIJMENI }}
+										</router-link>										
+									</div>
+									<div class="smaller">
+										<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === item.PSTRANA), data)">
+											<router-link :to="'/rejstrik/' + item.PSTRANA">
+												{{ data.cis.strany.find(x => x.VSTRANA === item.PSTRANA).NAZEV }}
+											</router-link>
+										</p-label>
+									</div>
+									<div class="smaller">
+										{{ item.POVOLANI }}<br>{{ item.BYDLISTEN }}<br>{{ item.VEK }} let
+									</div>
+								</div>
+							</div>
+							<div class="p-gap"></div>
+							<election-results :type="type" :id="item.volby" :obvod="item.OBVOD" :election="data.cis.volby[0]" :spec="item.OBVOD"></election-results>
+						</p-area>
+
+					</p-block>
+				<!-- </p-collapsible> -->
+			</div>
+		</template>
+	<!-- </component> -->
+</div>

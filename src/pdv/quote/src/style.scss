@@ -1,0 +1,42 @@
+.p-quote {
+	font-size: 2rem;
+	padding: 1rem 5rem 1rem 2rem;
+	background: #f7f7f7;
+	font-family: 'Inria Serif', 'Georgia', serif;
+	position: relative;
+	border-left: 4px solid transparent;
+
+	.dark & {
+		background: #000;
+		color: #fff !important;
+	}
+
+	&:after {
+		content: '"';
+		position: absolute;
+		font-size: 6rem;
+		top: -3rem;
+		right: 1rem;
+		pointer-events: none;
+	}
+
+	@media (min-width: 800px) {
+		padding-right: 20rem;
+	}
+}
+
+.p-quote + .p-quote {
+	margin-top: 1rem;
+}
+
+.p-quote---long {
+	font-size: 2rem;
+
+	@media (min-width: 1440px) {
+		font-size: 2rem;
+	}
+}
+
+.p-quote---source {
+	font-family: Roboto, sans-serif
+}

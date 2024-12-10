@@ -1,0 +1,179 @@
+.p-box-group {
+	margin: 0;
+}
+
+._ib {
+	display: inline-block;
+}
+
+._cand {
+	display: flex;
+	position: relative;
+}
+
+._cand-mandat {
+	position: absolute;
+	top: -1em;
+	bottom: -1em;
+	left: -.5em;
+	width: .25em;
+	background: var(--green);
+}
+
+._cand-no {
+	width: 1.5em;
+	text-align: right;
+	margin-right: .5em;
+	margin-top: .4em;
+}
+
+._cand-img {
+	margin-right: 1em;
+}
+
+._cand-flex {
+	flex: 1;
+}
+
+._soc {
+	max-width: 6em;
+	text-align: right;
+	margin-top: -.3em;
+
+	@media (min-width: 640px) {
+		max-width: 14em;
+	}
+}
+
+._float-right {
+	float: right;
+	margin: 0 0 1em 1em;
+	max-width: 7em;
+}
+
+._floar-clear {
+	clear: both;
+}
+
+._spaced > .p-box {
+	margin-right: .25em;
+}
+
+._video iframe {
+	border: var(--border);
+}
+
+._middle {
+	align-items: center;
+}
+
+._note {
+	padding: .5em 1em;
+	font-size: 11px;
+	display: inline-block;
+	color: var(--red);
+	font-weight: 700;
+}
+
+._ar {
+	aspect-ratio: 1;
+	display: block;
+	background-size: cover;
+	background-position: center center;
+	width: 100%;
+	border-radius: .5em;
+	// margin: -.5em .25em -.5em -1em;
+
+}
+
+._of {
+	object-fit: cover;
+}
+
+._c {
+    column-gap: 1em !important;
+	column-rule: none;
+
+    @media (max-width: 800px) {
+        columns: 1;
+    }
+
+	> div {
+		padding-bottom: 1em;
+	}
+}
+
+.dark .reset {
+	color: var(--grey);
+}
+
+._vab td {
+	vertical-align: baseline;
+}
+
+.logos {
+	display: flex;
+	flex-wrap: wrap;
+	margin: -.25em;
+	max-width: 12em;
+}
+
+._float-right .logos {
+	max-width: 8em;
+}
+
+.logos span {
+	display: block;
+	margin: .25em;
+}
+
+._of {
+	object-fit: cover;
+}
+
+._imp {
+	width: 100%;
+	max-width: 100%;
+}
+
+._bw {
+	background: #fff;
+	border-radius: 4px;
+}
+
+._mw {
+	max-width: 40em;
+}
+
+._vm {
+	align-items: center;
+}
+
+._agap:not(:first-child) {
+	margin-top: 2em;
+}
+
+._empty:empty {
+	display: none;
+}
+
+._ulli {
+	list-style: circle inside;
+}
+
+._sif {
+	padding-top: 2em !important;
+	padding-bottom: 1em !important;
+}
+
+._sif:first-child {
+	display: none;
+}
+
+._squeeze {
+	padding: 0 1em;
+}
+
+._pb {
+	padding-bottom: 2em;
+}

@@ -1,0 +1,17 @@
+.p-box-group {
+  display: flex;
+  margin-top: -.4em;
+}
+
+.p-box-group > * {
+  // margin-bottom: 1rem;
+  margin-right: 1rem;
+}
+
+.p-box-group > *:last-child {
+  margin-right: 0;
+}
+
+.p-box-group:not(.p-box-group---nowrap) {
+  flex-wrap: wrap;
+}

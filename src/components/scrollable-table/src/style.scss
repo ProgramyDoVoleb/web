@@ -1,0 +1,31 @@
+.scrollable {
+	overflow-x: scroll;
+}
+
+td, th {
+	white-space: nowrap;
+	min-width: 8rem;
+}
+
+.p-image {
+	display: inline;
+}
+
+tr {
+	position: relative;
+}
+
+tr > *:nth-child(1) {
+	position: absolute;
+	z-index: 2;
+	background: #fafafa;
+	width: 16rem;
+	pointer-events: none;
+}
+
+tr > *:nth-child(2) {
+	padding-left: 18rem;
+}
+
+tr > *:nth-child(3) {
+}

@@ -1,0 +1,10 @@
+<div class="person-icon" :style="{width: s, height: s}">
+	<div class="person-image" v-if="data.photo" :style="{width: s, height: s, 'background-image': 'url(' + $store.state.server + '/' + data.photo + ')'}"></div>
+	<div class="person-initials" v-if="!data.photo">
+		<div class="person-initials-border" :style="{'border-color': c, color: c, width: s, height: s}">
+			<div class="person-initials-content" :style="{'font-size': s2}">
+				<span>{{ data.name[1].charAt(0) }}</span><span>{{ data.name[2].charAt(0) }}</span>
+			</div>
+		</div>
+	</div>
+</div>

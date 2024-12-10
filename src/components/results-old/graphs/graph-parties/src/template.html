@@ -1,0 +1,74 @@
+<div class="results-graph-parties">
+	<ul v-if="loaded">
+		<li v-for="(item, index) in data" :class="{'below': item.elected === 0}" :style="{width: (100 / showCount) + '%'}" v-if="item.pct >= 3 || showCount === data.length">
+			<div class="graph-item">
+				<div class="graph-space" :class="{compare: local}">
+					<div class="graph-bar graph-bar-primary zero" :style="{height: coefHigher * item.pct + '%', background: color(item.party, item.name), 'transition-delay': (index * .05 + .5) + 's'}">
+						<div class="graph-bar-value">{{ item.pct }}</div>
+					</div>
+					<div class="graph-bar graph-bar-secondary zero" :style="{height: coefHigher * item.local.pct + '%', background: color(item.party, item.name), 'transition-delay': (index * .05 + .52) + 's'}" v-if="local">
+						<div class="graph-bar-value">{{ item.local.pct }}</div>
+					</div>
+				</div>
+				<div class="graph-icons" v-if="!item.party.coalition && !item.party.logo">
+					<router-link :to="'/rejstrik/' + item.party.reg + '-' + item.party.hash">
+						<div class="name-icon" v-if="item.reg != 80">
+							&empty;
+						</div>
+						<div class="name-icon" v-if="item.reg === 80" :style="{'border-color': color(item.party, item.name), color: color(item.party, item.name)}">
+							<span v-for="(c, i) in checkCandidateName(item.name).split(' ')">
+								{{ c.charAt(0) }}
+							</span>
+						</div>
+					</router-link>
+				</div>
+				<div class="graph-icons" v-if="!item.party.coalition && item.party.logo">
+					<router-link :to="'/rejstrik/' + item.party.reg + '-' + item.party.hash">
+						<logo-item :reg="item.reg" :size="3" class="min-40rem"  />
+						<logo-item :reg="item.reg" :size="1.4" class="max-40rem" />
+					</router-link>
+				</div>
+				<div class="graph-icons" v-if="item.party.coalition && item.party.logo">
+					<router-link :to="'/rejstrik/' + item.party.reg + '-' + item.party.hash">
+						<logo-item :reg="item.reg" :size="3" class="min-40rem"  />
+						<logo-item :reg="item.reg" :size="1.4" class="max-40rem" />
+					</router-link>
+				</div>
+				<div class="graph-icons" v-if="item.party.coalition && !item.party.logo">
+					<div class="graph-icons-item" v-for="(coal, ix) in item.party.coalition">
+						<router-link :to="'/rejstrik/' + coal + '-'">
+							<logo-item :reg="coal" :size="3" class="min-40rem"  />
+							<logo-item :reg="coal" :size="1.4" class="max-40rem" />
+						</router-link>
+					</div>
+				</div>
+				<div class="graph-name" v-if="item.reg != 80">
+					{{ item.name != item.party.name ? (item.short || item.name) : item.party.short.split('+').join(' + ') }}
+				</div>
+				<div class="graph-name" v-if="item.reg === 80">
+					{{ checkCandidateName(item.name).split(' ')[0] + ' ' + checkCandidateName(item.name).split(' ')[1].charAt(0) + '.' }}
+				</div>
+			</div>
+		</li>
+		<li v-if="rest.count > 0 && showCount != data.length" :style="{width: (100 / showCount) + '%'}" class="rest">
+			<div class="graph-item">
+				<div class="graph-space" :class="{compare: local}">
+					<div class="graph-bar graph-bar-primary zero" :style="{height: coefHigher * rest.pct + '%', background: '#aaa', 'transition-delay': (showCount * .05 + .5) + 's'}">
+						<div class="graph-bar-value">{{ rest.pct }}</div>
+					</div>
+					<div class="graph-bar graph-bar-secondary zero" :style="{height: coefHigher * rest.local.pct + '%', background: '#aaa', 'transition-delay': (showCount * .05 + .52) + 's'}" v-if="local">
+						<div class="graph-bar-value">{{ rest.local.pct }}</div>
+					</div>
+				</div>
+				<div class="graph-icons">
+					<div class="name-icon">
+						&empty;
+					</div>
+				</div>
+				<div class="graph-name">
+					Ostatní
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,7 @@
+<p-area class="p-quote" :style="{'font-size': size}">
+	<slot />
+	<div class="small p-quote---source" v-if="source">
+		<div class="p-line"></div>
+		Původně uveřejněno <p-link :href="source">zde</p-link>, poslední aktualizace {{ date }}
+	</div>
+</p-area>

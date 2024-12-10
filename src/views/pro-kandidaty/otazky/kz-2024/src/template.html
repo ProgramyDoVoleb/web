@@ -1,0 +1,126 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #main>
+			<p-block :level="1" headline="Volební otázky" subheadline="Krajské a senátní volby 2024" anchor="Volební otázky">
+				<p class="lead">Všechny strany, hnutí, koalice i jednotliví kandidáti mohou odpovědět na několik volebních otázek. Sada je vždy stejná pro všechny v rámci jednoho kraje či obvodu, aby bylo možné si je snadno porovnat.</p>
+				<div class="p-gap"></div>
+				<p-loader :rule="questions">
+					<div v-if="questions">
+						<p-block headline="Krajské volby">
+							<p-collapsible label="Pro strany, hnutí a koalice">
+								<p-area borderColor="var(--blue)">
+									<p-list>
+										<div v-for="item in questions.questions.filter(x => x.volby === 162 && x.designated === 1 && !x.focus)">
+											{{ item.question }}
+										</div>
+									</p-list>
+								</p-area>
+								<div class="p-gap"></div>
+								<h5>Doplňující otázky u několika krajů:</h5>
+								<p-list class="smaller">
+									<template v-for="kraj in [3,11,5,8,7,14,12,9,4,2,6,10,13]">
+										<div v-if="questions.questions.find(x => x.volby === 162 && x.designated === 1 && x.focus === kraj)">
+											<strong>{{ enums.regions[kraj - 1] }}: </strong>
+											{{ questions.questions.find(x => x.volby === 162 && x.designated === 1 && x.focus === kraj).question }}
+										</div>
+									</template>
+								</p-list>
+								<div class="p-gap _2"></div>
+							</p-collapsible>
+							<p-collapsible label="Pro kandidáty">
+								<p-area borderColor="var(--blue)">
+									<p-list>
+										<div v-for="item in questions.questions.filter(x => x.volby === 162 && x.designated === 2)">
+											{{ item.question }}
+										</div>
+									</p-list>
+								</p-area>
+							</p-collapsible>
+						</p-block>
+						<p-block headline="Senátní volby">
+							<p-collapsible label="Volební otázky">
+								<p-area borderColor="var(--blue)">
+									<p-list>
+										<div v-for="item in questions.questions.filter(x => x.volby === 163 && x.type === 1)">
+											{{ item.question }}
+										</div>
+									</p-list>
+								</p-area>
+							</p-collapsible>
+							<p-collapsible label="Postoje">
+								<strong class="smaller">Na následující otázky lze odpovídat <span class="green">ANO</span> / <span class="red">NE</span> / <span class="blue">Je to složitější</span> a případně doplnit komentář.</strong>
+								<div class="p-gap"></div>
+								<p-area borderColor="var(--blue)">
+									<p-list>
+										<div v-for="item in questions.questions.filter(x => x.volby === 163 && x.type === 3)">
+											{{ item.question }}
+										</div>
+									</p-list>
+								</p-area>
+							</p-collapsible>
+						</p-block>
+						<p-block headline="Odpovědi">
+							<p>Buď přímo na <a href="mailto:odpovedi@programydovoleb.cz">odpovedi@programydovoleb.cz</a> nebo ještě lépe přímo v <p-link href="https://admin.programydovoleb.cz" class="strong">Adminu</p-link>. Vaše odpovědi mohou obsahovat také základní formátování HTML.</p>
+							
+						</p-block>	
+					</div>
+				</p-loader>		
+			</p-block>
+		</template>
+		<template #aside>
+			<h3 class="serif w400">Programy do voleb, z. s.</h3>
+			<div class="p-gap_02"></div>
+			<p-list class="smaller">
+				<p-stats :vertical="true" label="Zapsaný spolek">
+					Nestranný neziskový projekt, díky kterému si můžete snadno, pohodlně a bez hledání přečíst a
+					porovnat volební programy všech stran či kandidátů.
+				</p-stats>
+				<p-stats :vertical="true" label="IČO">
+					10906380 (<p-link class="as-span"
+						href="https://or.justice.cz/ias/ui/rejstrik-firma.vysledky?subjektId=1126297&typ=PLATNY">rejstřík</p-link>)
+				</p-stats>
+				<p-stats :vertical="true" label="Datovka">
+					vhwmpce
+				</p-stats>
+				<p-stats :vertical="true" label="Sídlo">
+					Jana Palacha 1413, Turnov
+				</p-stats>
+				<p-stats :vertical="true" label="Kontakt" class="smallest">
+					<a href="mailto:info@programydovoleb.cz">info@programydovoleb.cz</a>
+					<br>
+					<a href="mailto:media@programydovoleb.cz">media@programydovoleb.cz</a>
+				</p-stats>
+				<p-stats :vertical="true" label="">
+					<p-box-group>
+						<p-box href="https://www.twitter.com/programydovoleb">
+							<p-box-icon type="tw"></p-box-icon>
+						</p-box>
+						<p-box href="https://www.instagram.com/programydovoleb">
+							<p-box-icon type="ig"></p-box-icon>
+						</p-box>
+						<p-box href="https://www.facebook.com/programydovoleb">
+							<p-box-icon type="fb"></p-box-icon>
+						</p-box>
+						<p-box href="https://www.threads.net/@programydovoleb">
+							<p-box-icon type="threads"></p-box-icon>
+						</p-box>
+						<p-box href="https://www.reddit.com/u/programydovoleb/">
+							<p-box-icon type="reddit"></p-box-icon>
+						</p-box>
+						<p-box href="https://bsky.app/profile/programydovoleb.cz">
+							<p-box-icon type="bsky"></p-box-icon>
+						</p-box>
+						<p-box href="https://www.linkedin.com/company/programydovoleb">
+							<p-box-icon type="linkedin"></p-box-icon>
+						</p-box>
+					</p-box-group>
+				</p-stats>
+			</p-list>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+	</p-layout-divided>
+</div>

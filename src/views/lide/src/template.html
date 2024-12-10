@@ -1,0 +1,56 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Vyhledávání kandidátů" :level="1">
+				<search-person></search-person>
+				<div class="p-gap_3"></div>
+				<p-block headline="Vybrané osobnosti">
+					<p-loader :rule="data">
+						<div v-if="data">
+							<p-grid class="smaller">
+								<template v-for="(item, index) in data.list.filter(x => x.$funkce.find(y => y.typ < 5 && !y.do))">
+									<profile-preview :id="item.id" :compact="true"></profile-preview>
+								</template>
+							</p-grid>
+						</div>
+					</p-loader>
+				</p-block>
+				<!-- <p-block headline="Abecední přehled">
+					<p-loader :rule="sorted">
+						<div v-if="sorted">
+							<div class="columns-4">
+								<template v-for="(item, index) in sorted">
+									<div>
+										<router-link :to="'/lide/profil/' + item.id" class="strong smaller">{{ item.display }}</router-link>
+										<div class="smallest dimm">{{ item.popis }}</div>
+										<div class="smallest dimm" v-if="item.$csu.length > 0 && item.$csu.find(x => x.$strana)">
+											<p-label :after="true" :color="colorByItem(item.$csu.find(x => x.$strana).$strana, {cis: {strany: []}})">
+												<router-link :to="'/rejstrik/' + item.$csu.find(x => x.$strana).$strana.VSTRANA" class="is-span dimm">
+													{{ item.$csu.find(x => x.$strana).$strana.ZKRATKA}}
+												</router-link>
+											</p-label>
+										</div>
+									</div>
+								</template>
+							</div>
+						</div>
+					</p-loader>
+				</p-block> -->
+			</p-block>
+			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<div class="smaller">
+				<div class="strong">Omezení</div>
+				<p>Prozatím je hledání omezeno na příjmení, přičemž nerozlišuje Velká/malá písmena a diakritiku, ale záleží na shodném počtu znaků.</p>
+				<p><p-label color="var(--green)">Zadání</p-label> "dedek", "Dedek" nebo "Dědek" vrátí stejný výsledek.</p>
+				<p><p-label color="var(--red)">Zadání</p-label> "vodník" ale nevrátí "podvodník" nebo "vodníková", nehledá, zda zadaný výraz není obsažen v nějakém příjmení.</p>
+			</div>
+		</template>
+	</p-layout-divided>
+</div>

@@ -1,0 +1,29 @@
+p {
+	font-size: 1.6rem;
+}
+
+ol {
+	list-style: decimal;
+  }
+  
+  li {
+	margin-left: 2.5em;
+
+	p {
+		margin: 0;
+	}
+  }
+  
+  li::marker {
+	font-weight: 700;
+	font-size: 1.5em;
+	font-family: sans-serif;
+	color: var(--blue);
+	position: relative;
+	display: block;
+	padding-right: 1em;
+  }
+
+  ._p0 {
+	padding-bottom: 1em !important;
+  }

@@ -1,0 +1,65 @@
+<div class="update-form">
+	<modal-element>
+		<template #init>
+			<span class="update-form-button">
+				<slot></slot>
+			</span>
+		</template>
+		<template #content>
+			<div class="state-form" v-if="!sent">
+				<h3 v-if="hint" v-html="hint"></h3>
+				<div class="form stats">
+					<ul>
+						<li>
+							<label>Odkaz</label>
+							<div>
+								<div class="form-item">
+									<div class="form-input">
+										<input type="url" required v-model="url" class="form-input-text" placeholder="např. https://facebook.com/zdroj-zpravy">
+									</div>
+								</div>
+								<div class="form-note"></div>
+							</div>
+						</li>
+						<li>
+							<label>Poznámka</label>
+							<div>
+								<div class="form-item">
+									<div class="form-input">
+										<textarea v-model="note" class="form-input-text" placeholder="pokud chcete něco doplnit"></textarea>
+									</div>
+								</div>
+								<div class="form-note"></div>
+							</div>
+						</li>
+						<li>
+							<label>Jméno nebo @twitter</label>
+							<div>
+								<div class="form-item">
+									<div class="form-input">
+										<input v-model="name" class="form-input-text alt" placeholder="např. Karel nebo @jack">
+									</div>
+									<p class="note dimm">Pokud chcete, vyplňte své křestní jméno, přezdívku nebo twitter nickname a při doplnění aktuality Vás zmíním v tweetu. Jméno/nick se veřejně nezobrazuje.</p>
+								</div>
+								<div class="form-note"></div>
+							</div>
+						</li>
+						<li>
+							<label></label>
+							<div>
+								<button class="button-primary" :disabled="!valid || sending" @click="send">Odeslat tip</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="state-sent" v-if="sent">
+				<h1>Díky za tip <span class="small">#</span>{{ response.data.id }}</h1>
+				<p>Přehled všech tipů a stav jejich zpracování najdete zde: <router-link to=/zpracovani-tipu>Zpracování tipů</router-link></p>
+				<div class="center">
+					<button @click="another">Poslat další tip</button>
+				</div>
+			</div>
+		</template>
+	</modal-element>
+</div>

@@ -1,0 +1,13 @@
+<span class="party-link">
+	<label-with-dot :color="color" :after="after" :noDot="noDot">
+		<outbound-link :href="url" v-if="url">
+			<responsive-label :long="name_long" :short="name_short" :breakpoint="breakpoint" />
+		</outbound-link>
+		<router-link :to="link" v-if="link && !url">
+			<responsive-label :long="name_long" :short="name_short" :breakpoint="breakpoint" />
+		</router-link>
+		<span v-if="!link && !url">
+			<responsive-label :long="name_long" :short="name_short" :breakpoint="breakpoint" />
+		</span>
+	</label-with-dot>
+</span>

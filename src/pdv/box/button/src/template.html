@@ -1,0 +1,5 @@
+<div class="p-box-button" :style="{color, background, 'border-color': color}" :class="{'p-box-button---full': full, 'p-box---icon': icon}">
+  <img :src="cdn + 'icon/' + icon" v-if="icon">
+  <img :src="cdn + 'logo/' + logo" v-if="logo">
+  <slot />
+</div>

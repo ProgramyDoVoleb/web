@@ -1,0 +1,112 @@
+<div class="krajske-volby">
+	<p-block :headline="enums.regions[region]" :hide="true">
+		<p-area>
+			<div class="p-offset reverse balanced">
+				<div>
+					<router-link :to="'/volby/krajske-volby/' + id + '/kraj/' + (region + 1)" class="strong">{{ enums.regions[region] }}</router-link>
+				</div>
+				<div v-if="current.$zvoleni">
+					<strong>{{ number(current.$zvoleni.length) }}</strong>
+				</div>
+				<div v-else class="smallest dimm">
+					{{ data.list[0].$strany.reduce((a, b) => a + (b.$data.program.length > 0 ? 1 : 0), 0) }} &middot; {{ data.list[0].$strany.reduce((a, b) => a + (b.$odpovedi > 0 ? 1 : 0), 0) }} &middot; {{ data.list[0].$strany.length }}
+				</div>
+			</div>			
+			<div class="p-line p-line__075"></div>
+			<div class="smaller">
+				<template v-if="current.status === 3">
+					<!-- <p-list class="smaller"> -->
+						<div class="p-split smaller">
+							<div>Účast {{ current.$ucast[0].UCAST }} %</div>
+							<!-- <div><button class="inline" :class="{strong: !show}" @click="show = false">zisk</button>, <button class="inline" :class="{strong: show}" @click="show = true">mandátů</button></div> -->
+						</div>
+						<div class="p-gap_075"></div>
+						<div class="smallest">
+							<div>
+								<template v-for="(party, index) in sortByVotes(current.$vysledky, current.$strany)">
+									<div v-if="party.passed" class="_space graph-line-space">
+										<div class="p-offset reverse">
+											<div>
+												<p-label :color="party.color" class="_block">
+													<router-link :to="party.link">{{ party.label }}</router-link>
+												</p-label>
+												<span class="graph-line-holder"><span class="graph-line" :style="{width: party.graph + '%', background: party.color}"></span></span>
+											</div>
+											<div class="_keep">
+												<span v-if="!show">{{ number(party.pct, 2) }}</span>
+												<strong v-if="!show">{{ party.mandates }}</strong>
+											</div>
+										</div>
+									</div>
+								</template>
+							</div>
+						</div>
+					<!-- </p-list> -->
+				</template>
+				<div v-if="current.status < 3 && data.list[0].$strany.length < 20">
+					<p-list class="invisible">
+						<div v-for="(item, index) in data.list[0].$strany">
+							<div class="p-offset reverse balanced">
+								<div>
+									<!-- <p-label :color="colorByItem(item, data)"> -->
+										<router-link :to="'/volby/krajske-volby/' + item.volby + '/strana/' + item.id" :title="item.NAZEV">{{ item.ZKRATKA }}</router-link> 
+									<!-- </p-label> -->
+									<span class="badge blue" v-if="item.$data.program.length > 0">●</span>
+									<span class="badge yellow" v-if="item.$odpovedi > 0">●</span>
+								</div>
+								<div class="smallest dimm" v-if="data.list[0].$kandidati">
+									{{ data.list[0].$kandidati.filter(x => x.KRZAST === item.KRZAST && x.KSTRANA === item.KSTRANA).length }}
+								</div>
+							</div>
+						</div>
+					</p-list>
+				</div>
+				<div v-if="current.status < 3 && data.list[0].$strany.length >= 20">
+					<p-modal>
+						<template #init>
+							<p-lang :value="data.list[0].$strany.length" :end="['zatím žádná strana', 'jedna strana', '%% strany', '%% stran']"></p-lang>,
+							<p-lang :value="data.list[0].$kandidati.length" :end="['zatím žádný známý kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>
+						</template>
+						<template #content>
+							<h3>{{ enums.regions[region] }} &middot; Rychlý přehled stran</h3>
+							<p-list height=".5">
+								<div v-for="(item, index) in data.list[0].$strany">
+									<div class="p-offset reverse balanced">
+										<div>
+											<p-label :color="colorByItem(item, data)">
+												<router-link :to="'/volby/krajske-volby/' + item.volby + '/strana/' + item.id">{{ item.NAZEV }}</router-link>
+											</p-label>
+										</div>
+										<div class="smallest dimm">
+											{{ data.list[0].$kandidati.filter(x => x.KRZAST === item.KRZAST && x.KSTRANA === item.KSTRANA).length }}
+										</div>
+									</div>
+								</div>
+							</p-list>
+						</template>
+					</p-modal>
+				</div>
+				<div v-if="current.status < 3 && data.list[0].$strany.length === 0">
+					<em class="dimm smallest">Zatím nejsou známé žádné údaje o stranách nebo kandidátech.</em>
+				</div>
+				<!-- <div v-if="current.status < 3" :class="{'dimm smallest': data.list[0].$strany.length === 0}">
+					<p-lang :value="data.list[0].$strany.length" :end="['zatím žádná strana', 'jedna strana', '%% strany', '%% stran']"></p-lang>
+				</div>
+				<div v-if="current.status === 1" :class="{'dimm smallest': data.list[0].$kandidati.length === 0}">
+					<p-lang :value="data.list[0].$kandidati.length" :end="['zatím žádný známý kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>
+				</div> -->
+				<div class="p-line"></div>
+				<div class="smallest strong">
+					<!-- <div class="p-gap_025"></div> -->
+					<template v-if="current.status < 2">
+						<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'KZ:' + id + ', kraj ' + (region + 1)">
+							<button class="inline green">Doplnit</button>
+						</report-modal>
+						&middot;
+					</template>
+					<router-link :to="'/volby/krajske-volby/' + id + '/kraj/' + (region + 1)">Podrobněji</router-link> &rarr;
+				</div>
+			</div>
+		</p-area>
+	</p-block>
+</div>

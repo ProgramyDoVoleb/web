@@ -1,0 +1,19 @@
+#app {
+  overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
+}
+
+.block {
+  padding-top: 6rem;
+}
+
+.share {
+  margin: 2rem auto 0;
+  width: 20em;
+  position: relative;
+
+  @media (min-width: 640px) {
+    display: none;
+  }
+}

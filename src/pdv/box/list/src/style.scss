@@ -1,0 +1,11 @@
+.p-box-list {
+}
+
+.p-box-list > * {
+  margin-bottom: .25rem;
+  display: block;
+}
+
+.p-box-list > *:last-child {
+  margin-right: 0;
+}

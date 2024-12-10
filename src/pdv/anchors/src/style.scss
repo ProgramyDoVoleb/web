@@ -1,0 +1,86 @@
+.p-anchors---list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.p-anchors---link {
+  text-decoration: none;
+  border: none;
+
+  &:hover {
+    color: var(--blue) !important;
+  }
+}
+
+.p-anchors---level-1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+
+  .p-anchors---link {
+    color: var(--black);
+
+    .dark & {
+      color: var(--grey);
+    }
+  }
+}
+
+.p-anchors---level-1 + .p-anchors---level-1 {
+  margin-top: 2rem;
+}
+
+.p-anchors---level-2 {
+  font-size: 1.3rem;
+  line-height: 2rem;
+  border-left: var(--border);
+  padding-left: 1.6rem;
+
+  .dark & {
+    border-left-color: #222;
+  }
+
+  .p-anchors---link {
+    color: #666;
+  }
+}
+
+.p-anchors---level-1 + .p-anchors---level-2 {
+  margin-top: 1rem;
+}
+
+.p-anchors---level-2 + .p-anchors---level-1 {
+  margin-top: 3rem;
+}
+
+.p-anchors---level {
+  position: relative;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -1.6rem;
+    top: .4em;
+    height: .6rem;
+    width: .6rem;
+    border-radius: 50%;
+    background: rgba(#066ed2, 0);
+
+    transition: background .3s;
+  }
+}
+
+.p-anchors---level-1.p-anchors---level:before {
+  top: .5em;
+}
+
+.p-anchors---level---visible {
+  &:before {
+    background: #066ed2;
+  }
+
+  .p-anchors---link {
+    color: #066ed2;
+  }
+}

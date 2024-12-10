@@ -1,0 +1,15 @@
+ol {
+	list-style: decimal inside;
+}
+
+ul {
+	list-style: circle inside;
+}
+
+.p-area p:first-child {
+	margin-top: 0;
+}
+
+.p-area p:last-child {
+	margin-bottom: 0;
+}

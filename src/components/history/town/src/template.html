@@ -1,0 +1,146 @@
+<div class="history-town">
+	<p-block headline="Historie kandidátů">
+		<p-loader :rule="data">
+			<div v-if="data">
+				<p-area v-if="delayClick === false && people && !limit">
+					<p class="smaller">Tento přehled se snaží přiblížit, jaká je historie jednotlivých kandidátů v komunálních volbách od roku 2002. I přes velké vynaložené úsilí je možně, že historii některého kandidáta (může jít zejména o ženy) program špatně vyhodnotí. Případné chyby prosím pište na <a href="mailto:opravte@programydovoleb.cz">opravte@programydovoleb.cz</a></p>
+					<div class="p-line"></div>
+					<strong>Vyberte si, co vás zajímá:</strong>
+					<div class="p-gap"></div>
+					<div class="triple">
+						<div>
+							<select v-model="selected.type">
+								<option :value="null">Celkový přehled</option>
+								<option :value="'candidate'">Kandidát</option>
+								<option :value="'party'">Strana</option>
+								<option :value="'lookup'">Hledat</option>
+								<!-- <option :value="3">Co dělají dnes?</option> -->
+							</select>
+						</div>
+						<div v-if="selected.type === 'party'">
+							<select v-model="selected.node">
+								<option disabled>-- vyberte stranu</option>
+								<template v-for="(el, indexEl) in data.cis.volby">
+									<option disabled>{{ date(el.datum) }}</option>
+									<template v-for="(party, index) in data.strany.filter(x => x.volby === el.id)">
+										<option :value="party.id">{{ party.NAZEV }}</option>
+									</template>
+								</template>
+							</select>
+						</div>
+						<div v-if="selected.type === 'candidate'">
+							<select v-model="selected.sub">
+								<option disabled>-- vyberte volby</option>
+								<template v-for="(el, indexEl) in data.cis.volby">
+									<option :value="el.id">{{ date(el.datum) }}</option>
+								</template>
+							</select>
+						</div>
+						<div v-if="selected.type === 'candidate' && selected.sub">
+							<select v-model="selected.node">
+								<option disabled>-- vyberte kandidáta</option>
+								<template v-for="(cand, index) in sort(data.kandidati.filter(x => x.volby === selected.sub))">
+									<option :value="cand.id">{{ cand.JMENO }} {{ cand.PRIJMENI }}</option>
+								</template>
+							</select>
+						</div>
+						<div v-if="selected.type === 'lookup'">
+							<input type="text" v-model="query" placeholder="začněte psát jméno">
+						</div>
+					</div>
+					<div v-if="selected.type === 'lookup' && query && query.length > 3">
+						<div class="p-gap"></div>
+						<div class="columns smaller">
+							<div v-for="(cand, index) in sort(data.kandidati.filter(x => x.index.split(queried).length > 1))">
+								<button class="inline" @click="select('candidate', cand.id, cand.volby)">{{ cand.JMENO }} {{ cand.PRIJMENI }}</button> &middot; {{ data.cis.volby.find(x => x.id === cand.volby).datum.split('-')[0] }}
+							</div>
+						</div>
+					</div>
+				</p-area>
+				<div class="p-gap"></div>
+				<div>
+					<svg class="history-town---diagram" :style="{width: width + 'px', height: height + 'px'}" :viewBox="viewBox" xmlns="http://www.w3.org/2000/svg">
+						<g title="Jednotlivé volby">
+							<template v-for="(year, index) in data.cis.volby">
+								<text :x="index === 0 ? width - 42 : columns[index]" y="10" class="smallest">{{ year.datum.split('-')[0] }}</text>
+							</template>
+						</g>
+						<g title="Lidé ve volbách">
+							<template v-for="(person, index) in linesLimited">
+								<path :d="person.path" :stroke="person.color" stroke-width="2" fill="none" @click="select('candidate', person.data[0].id, person.data[0].loc[0])"><title></title></path>
+							</template>
+						</g>
+						<g title="Strany v jednotlivých volbách">
+							<template v-for="(party, index2) in data.strany">
+								<g>
+									<rect :x="columns[data.cis.volby.findIndex(x => x.id === party.volby)]" :y="party.$offset + 20" width="6" :height="party.$kandidatu" :fill="party.$color" :title="party.NAZEV" stroke="#fff" stroke-width=".3" @click="select('party', party.id)" :class="{selectedParty: selected.type === 'party' && party.id === selected.node}"><title>{{ party.NAZEV }}</title></rect>
+								</g>
+							</template>
+						</g>
+						<g v-if="selected.type === 'candidate'">
+							<template v-for="(person, index) in linesLimited">
+								<g class="person-points">
+									<template v-for="(point, indexP) in person.points">
+										<circle :cx="point.x" :cy="point.y" :r="8" :fill="person.color" stroke="#fff" stroke-width=".3" class="person"></circle>
+									</template>
+								</g>
+							</template>
+						</g>
+					</svg>
+				</div>
+				<template v-if="selected.type && selected.node">
+					<p-block :headline="data.strany.find(x => x.id === selected.node).NAZEV" v-if="selected.type === 'party'" :subheadline="date(data.cis.volby.find(x => x.id === data.strany.find(x => x.id === selected.node).volby).datum)">
+						<p-area class="smaller">
+							<template v-if="data.kandidati.filter(x => data.strany.find(x => x.id === selected.node).$kandidati.find(y => y === x.id) && x.MANDAT === 'A').length > 0">
+								<strong>Úspěšní kandidáti</strong>
+								<div class="p-gap"></div>
+								<p-list>
+									<div v-for="(cand, index) in data.kandidati.filter(x => data.strany.find(x => x.id === selected.node).$kandidati.find(y => y === x.id) && x.MANDAT === 'A')">
+										<button class="inline" @click="select('candidate', cand.id, cand.volby)" :class="{strong: cand.MANDAT === 'A'}">{{ cand.JMENO }} {{ cand.PRIJMENI }}</button> 
+										<span class="dimm">&middot; {{ cand.PORCISLO }}</span>
+										<div class="smallest dimm">{{ cand.VEK }} let, {{ cand.POVOLANI }}, <router-link :to="'/bod/csu_kv_rk/' + cand.id">detail</router-link>  </div>
+									</div>
+								</p-list>
+								<div class="p-gap"></div>
+							</template>
+							<p-collapsible label="Přehled kandidátů" :open="data.kandidati.filter(x => data.strany.find(x => x.id === selected.node).$kandidati.find(y => y === x.id) && x.MANDAT === 'A').length === 0">
+								<div class="columns">
+									<!-- <template v-for="(party, index) in data.strany.filter(x => x.id === selected.node)"> -->
+
+										<!-- {{ party.$kandidati.length }} -->
+
+										<div v-for="(cand, index) in data.kandidati.filter(x => data.strany.find(x => x.id === selected.node).$kandidati.find(y => y === x.id))">
+											<button class="inline" @click="select('candidate', cand.id, cand.volby)" :class="{strong: cand.MANDAT === 'A'}">{{ cand.JMENO }} {{ cand.PRIJMENI }}</button> 
+											<span class="dimm">&middot; {{ cand.PORCISLO }}</span>
+											<div class="smallest dimm" v-if="cand.NSTRANA != 80">nominace {{ data.cis.volby.find(x => x.id === cand.volby).cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}</div>
+											<div class="smallest dimm">{{ cand.VEK }} let, {{ cand.POVOLANI }}, <router-link :to="'/bod/csu_kv_rk/' + cand.id">detail</router-link>  </div>
+										</div>
+									<!-- </template> -->
+								</div>
+							</p-collapsible>
+						</p-area>
+					</p-block>
+					<p-block :headline="selectedCandidate.JMENO + ' ' + selectedCandidate.PRIJMENI" v-if="selected.type === 'candidate'">
+						<template v-if="linesLimited.length > 0">
+							<p-list height="1.5">
+								<div v-for="(el, index) in linesLimited[0].data">
+									<strong>{{ date(data.cis.volby.find(x => x.id === el.loc[0]).datum) }}</strong>
+									<div class="p-gap_05"></div>
+									<p-area class="smaller" :borderColor="data.kandidati.find(x => x.id === el.id).MANDAT === 'A' ? 'var(--green)' : 'var(--red)'">
+										<p-list>
+											<p-stats label="bio">{{ data.kandidati.find(x => x.id === el.id).VEK }} let, {{ data.kandidati.find(x => x.id === el.id).POVOLANI }}</p-stats>
+											<p-stats label="kandidátka">{{ data.strany.find(x => x.id === el.pid).NAZEV }}</p-stats>
+											<p-stats label="nominace">{{ data.cis.volby.find(x => x.id === el.loc[0]).cis.strany.find(x => x.VSTRANA === data.kandidati.find(x => x.id === el.id).NSTRANA).NAZEV }}</p-stats>
+											<p-stats label="členství">{{ data.cis.volby.find(x => x.id === el.loc[0]).cis.strany.find(x => x.VSTRANA === data.kandidati.find(x => x.id === el.id).PSTRANA).NAZEV }}</p-stats>
+											<p-stats label="ve volbách">{{ data.kandidati.find(x => x.id === el.id).PORCISLO }}. na kandiidátce, mandát {{ data.kandidati.find(x => x.id === el.id).MANDAT === 'A' ? '' : 'ne' }}získán</p-stats>
+										</p-list>
+									</p-area>
+								</div>
+							</p-list>
+						</template>
+					</p-block>
+				</template>
+			</div>
+		</p-loader>
+	</p-block>
+</div>

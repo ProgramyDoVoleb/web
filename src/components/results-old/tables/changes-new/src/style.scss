@@ -1,0 +1,45 @@
+table {
+  width: 100%;
+}
+
+table + .btns {
+  margin-top: 3rem;
+}
+
+th {
+  padding: .2em .6rem;
+  text-align: left;
+
+  &:not(:first-child) {
+    white-space: nowrap;
+    text-align: right;
+  }
+}
+
+thead th {
+  font-size: 10px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+td {
+  padding: .4em .6rem;
+  border-top: var(--border);
+
+  &:not(:first-child) {
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  &.small {
+    font-size: 12px;
+  }
+}
+
+td, th {
+  &.show-40rem {
+    @media (min-width: 40rem) {
+      display: table-cell;
+    }
+  }
+}

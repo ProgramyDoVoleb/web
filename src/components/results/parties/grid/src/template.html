@@ -1,0 +1,76 @@
+<div class="results-parties-grid">
+	<p-columns class="_noRule">
+		<div v-for="(item, index) in list">
+			<p-area :borderColor="item.color" padding="0 1em 0 1.25em" background="Transparent">
+				<div class="strong">
+					<router-link :to="item.link">
+						{{ item.name }}
+					</router-link>
+				</div>
+				<p-logo :data="item" v-if="item.logo && item.logo.split('empty.png').length === 1"></p-logo>
+
+				<div class="p-logo _mpl" v-if="!item.logo && item.coal.length > 1">
+					<template v-for="(coal, indexC) in item.coal">
+						<template v-if="coal.logo">
+							<p-logo :data="coal"></p-logo>
+						</template>						
+					</template>
+				</div>
+
+					<div class="p-gap_05"></div>
+					<p-list class="smaller invisible" v-if="item.party != 80">
+						<div v-for="(person, indexP) in sortByPorCislo(item.list).filter((x, i) => i < (!!leaders ? 5 : 100))">
+							<component :is="item.coal ? 'p-label' : 'span'" :color="person.color || 'var(--greyish)'">
+								<span class="dimm strong smallest _pc" :style="{color: !person.PORCISLO ? 'var(--greyish)' : null}">{{ person.PORCISLO ? person.PORCISLO + '.' : '? ' }}</span>
+								<router-link :to="person.link">
+									{{ person.name }} {{ person.family }}
+								</router-link> 
+							</component><span class="dimm smallest" v-if="person.region"> &middot; {{ person.region }}</span>
+						</div>
+						<div v-if="leaders && item.list.length > 5" class="smallest dimm">
+							<p-modal>
+								<template #init>
+									<span class="dimm">
+										<span class="_pc"></span>+ <p-lang :value="item.list.length - 5" :end="['', 'jeden další', '%% další', '%% dalších']"></p-lang>
+									</span>
+								</template>
+								<template #content>
+									<h3>
+										<router-link :to="item.link">
+											{{ item.name }}
+										</router-link>
+									</h3>
+									<p-list>
+										<div v-for="(person, indexP) in sortByPorCislo(item.list)">
+											<component :is="item.coal ? 'p-label' : 'span'" :color="person.color || 'var(--greyish)'">
+												<span class="dimm strong smallest _pc" :style="{color: !person.PORCISLO ? 'var(--greyish)' : null}">{{ person.PORCISLO ? person.PORCISLO + '.' : '? ' }}</span>
+												<router-link :to="person.link">
+													{{ person.name }} {{ person.family }}
+												</router-link> 
+											</component><span class="dimm smallest" v-if="person.region"> &middot; {{ person.region }}</span>
+										</div>
+									</p-list>
+								</template>
+							</p-modal>
+							
+						</div>
+						<div class="dimm smallest" v-if="item.list.length === 0"><i>Žádní známí kandidáti</i></div>
+					</p-list>
+					<div class="smallest" v-if="item.party === 80">
+						<router-link :to="item.list[0].link">
+							Více o kandidátovi
+						</router-link>
+					</div>
+				
+				<template v-if="item.coal">
+					<div class="p-line p-line__05"></div>
+					<div class="smallest">
+						<div v-for="(member, i2) in item.coal">
+							<p-label :color="member.color">{{ member.short }}</p-label> – <p-lang :value="member.size" :end="['nikdo', '1 člověk', '%% lidé', '%% lidí']"></p-lang>
+						</div>
+					</div>
+				</template>
+			</p-area>
+		</div>
+	</p-columns>
+</div>

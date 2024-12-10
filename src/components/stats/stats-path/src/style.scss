@@ -1,0 +1,22 @@
+.line {
+  stroke: #ddd;
+  stroke-width: 1;
+}
+
+path {
+  stroke: #ddd;
+  stroke-width: 1;
+  fill: none;
+}
+
+text {
+  font-size: .7em;
+}
+
+circle {
+  r: 2;
+
+  &.circle-last {
+    r: 3;
+  }
+}

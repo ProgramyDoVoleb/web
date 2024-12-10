@@ -1,0 +1,15 @@
+.columns {
+    column-gap: 2em !important;
+
+    @media (max-width: 800px) {
+        columns: 1;
+    }
+}
+
+._pb {
+    padding-bottom: 1em;
+}
+
+._r {
+    border-radius: 4px;
+}

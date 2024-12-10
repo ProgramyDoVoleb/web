@@ -1,0 +1,8 @@
+<g>
+	<!--<line :x1="line.x1" :y1="line.y1" :x2="line.x2" :y2="line.y2" class="line" v-for="(line, index) in lines" :key="'line_' + index" :style="{stroke: color || '#ddd'}" v-if="!hideLines" />-->
+	<path :d="path(line)" v-for="(line, index) in lines" :key="'line_' + index" :style="{stroke: color || '#ddd'}" v-if="!hideLines" />
+	<circle :cx="line.x1" :cy="line.y1" v-for="(line, index) in lines" :key="'circle_' + index" :fill="color || '#08437f'" />
+	<circle :cx="lines[lines.length - 1].x2" :cy="lines[lines.length - 1].y2" :fill="color || '#d80c13'" :class="{'circle-last': !color}"></circle>
+	<text :x="last.point.x - textOffset - 6" :y="last.point.y" ref="text" v-if="!inline" class="text-last">{{ beautifyNumber(last.value) }}{{ data.addLabel || '' }}</text>
+	<text :x="first.point.x + 6" :y="first.point.y" v-if="!inline">{{ beautifyNumber(first.value) }}{{ data.addLabel || '' }}</text>
+</g>

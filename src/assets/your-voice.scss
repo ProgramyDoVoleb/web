@@ -1,0 +1,91 @@
+.your-voice {
+  border: 1px dotted rgba(#cc0, .7);
+  background: #fffffa !important;
+  border-radius: .8em !important;
+  padding: .7em 3em .7em 1em !important;
+  font-size: 14px;
+
+  .dark & {
+    border: 1px dotted rgba(#cc0, .5);
+    color: #aa6;
+  }
+
+  h4 {
+    color: #330;
+
+    .dark & {
+      color: #aa6;
+    }
+  }
+
+  textarea {
+    background: #fff;
+  }
+
+  strong {
+    color: #330;
+  }
+
+  position: relative;
+
+  & .xxx:after {
+    content: "?";
+    position: absolute;
+    font-size: 6rem;
+    top: -4rem;
+    right: 2rem;
+    font-weight: bold;
+    font-family: 'Inria Serif', serif;
+    color: #cc0;
+  }
+
+  .collapsible-element-header .is-link {
+    color: #aa6;
+  }
+
+  .vote-element .p-box-button {
+    border-radius: 2rem;
+    border: 1px solid #aaa !important;
+    box-shadow: 0 2px 6px #ddc !important;
+    color: #330;
+  }
+
+  .vote-element .p-box:not(.other) .p-box-label {
+    border-radius: 2rem;
+    background: #dd0 !important;
+  }
+
+  .p-box {
+    background: none !important;
+  }
+
+  .p-list > *[data-v-2626a6b4]:not(:first-child) {
+    border-top: 1px dotted rgba(#cc0, .5);
+  }
+
+  .dimm {
+    color: #aa6;
+  }
+
+  @media (hover: hover) {
+    .p-box-wrapper---hoverable[data-v-6eda64e3]:hover {
+      background: rgba(0, 0, 0, 0);
+    }
+
+    .vote-element .p-box-button {
+      transition: all .2s;
+      transform: translateY(0);
+    }
+
+    .vote-element .p-box-button:hover {
+      border: 1px solid #cc0 !important;
+      color: #000;
+      box-shadow: 0 1px 2px rgba(#cc9, 30%) !important;
+      transform: translateY(2px);
+    }
+  }
+}
+
+.vote-group > .vote-element + .vote-element {
+  margin-top: .5em;
+}

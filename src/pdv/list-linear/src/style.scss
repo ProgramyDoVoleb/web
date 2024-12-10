@@ -1,0 +1,30 @@
+.p-list-linear {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.p-list-linear {
+  > :not(:last-child):after {
+    content: ", ";
+  }
+  > :last-child:not(:last-child):after {
+    content: " a ";
+  }
+}
+.p-list-linear.nebo {
+  > :not(:last-child):after {
+    content: ", ";
+  }
+  > :last-child:not(:last-child):after {
+    content: " nebo ";
+  }
+}
+.p-list-linear.or {
+  > :not(:last-child):after {
+    content: " · ";
+  }
+  > :last-child:not(:last-child):after {
+    content: " · ";
+  }
+}

@@ -1,0 +1,6 @@
+<span class="label-with-dot">
+	<span class="label-with-dot-flex" :class="{'label-with-dot-flex---after': after}">
+		<i :style="{background: color}" v-if="!noDot" />
+		<slot />
+	</span>
+</span>

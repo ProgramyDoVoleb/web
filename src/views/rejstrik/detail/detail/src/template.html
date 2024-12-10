@@ -1,0 +1,7 @@
+<div class="party-election-detail">
+	<p-loader :rule="data">
+		<div v-if="data">
+			<component :is="election_types.find(x => x.key === data.cis.volby[0].typ).hash" :data="data" :type="election_types.find(x => x.key === data.cis.volby[0].typ)" :parties="party.map(x => Number(x))" :focus="focus"></component>
+		</div>
+	</p-loader>
+</div>

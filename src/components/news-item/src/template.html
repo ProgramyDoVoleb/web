@@ -1,0 +1,27 @@
+<!-- <div class="news-item">
+	<p-link v-if="data.source" :href="data.source">{{ data.title }}</p-link>
+	<p-link v-if="!data.source" :href="'https://programydovoleb.cz/novinky/' + data.id">{{ data.title }}</p-link>
+	<span class="dimm"> &middot; <p-link :href="'https://programydovoleb.cz/novinky/' + data.id" class="no-link dimm">{{date(data.datum) }}</p-link></span>	
+</div> -->
+
+<div class="news-item">
+	<div class="p-offset balanced">
+		<div class="text-right _w3">
+			<div class="strong smallest mobile">
+				{{date(data.datum, 2) }}
+			</div>	
+			<div class="strong smallest desktop text-center _w3">
+				<div class="big">
+					{{ Number(data.datum.split('-')[2]) }}.
+				</div>
+				{{date(data.datum, 0).split(' ')[1] }}
+			</div>	
+		</div>
+		<div>
+			<!-- <p-link v-if="data.source && !data.content" :href="data.source">{{ data.title }}</p-link> -->
+			<router-link :to="'/novinky/' + data.id">{{ data.title }}</router-link>	
+			<div class="smallest dimm desktop" v-if="data.content" v-html="data.content.includes('<') ? 'Zobrazit celou novinku' : truncate(data.content, 20)"></div>
+		</div>		
+	</div>
+	
+</div>

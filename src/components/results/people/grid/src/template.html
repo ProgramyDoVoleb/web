@@ -1,0 +1,33 @@
+<div class="results-parties-grid">
+	<p-area>
+		<div class="columns columns---no-gap">
+			<div v-for="(item, index) in list">
+				<div class="p-offset">
+					<div>
+						<p-image :src="item.photo" :rounded="true" :border="true"></p-image>
+					</div>
+					<div>
+						<div class="strong">
+							<p-label :color="item.color" :after="true">
+								<router-link :to="item.link">
+									{{ item.label }}
+								</router-link>
+							</p-label>
+						</div>
+						<div v-if="item.about" class="smallest">{{ item.about }}</div>
+						<div v-if="item.party" class="smallest">{{ item.party }}</div>
+						<div class="p-gap_025"></div>
+						<div class="smallest">
+							<router-link :to="item.link">
+								Více o kandidátovi
+							</router-link>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<i class="dimm smallest" v-if="list.length === 0">
+			Zatím zde není žádný kandidát.
+		</i>
+	</p-area>
+</div>

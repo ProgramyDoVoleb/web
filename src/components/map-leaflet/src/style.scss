@@ -1,0 +1,12 @@
+.map-leaflet {
+  height: min(70vh, 50em);
+}
+
+path {
+  fill: var(--blue);
+  stroke: var(--blue);
+}
+
+._tile {
+  opacity: 0.2;
+}

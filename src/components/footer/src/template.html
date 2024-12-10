@@ -1,0 +1,68 @@
+<footer>
+	<div class="footer---block text-center">
+		
+		<!-- <engagement-thanks></engagement-thanks> -->
+
+		<!-- <div class="p-line p-line__3"></div> -->
+
+		<!-- <div class="strong green">Podpořte tento projekt</div> -->
+		<!-- <div class="p-gap"></div> -->
+		<h4><router-link to="/podporit-projekt" class="strong is-span">Podpořte tento projekt</router-link></h4>
+		<p class="center smaller _mw">Podpořte neziskový projekt <em>Programy do voleb</em>, který poskytuje nestranné přehledy k českým volbám od roku 2018. Jednorázově nebo opakovaně.</p>
+
+		<div class="p-gap"></div>
+
+		<p-box-group class="_jac">
+			<template v-for="(kc, i) in [50, 100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
+			<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
+			<!-- <p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Koupit plakát</p-box-button></p-box> -->
+		</p-box-group>
+
+		<div class="p-line p-line__3"></div>
+
+		<div class="strong">
+			&copy;
+			<router-link to="/">Programy do voleb, z. s.</router-link>
+		</div>
+		
+		<div class="p-gap"></div>
+
+		<p-box-group class="_jac">
+			<template v-for="(item, index) in Object.keys(list)">
+				<p-box :href="list[item]">
+					<p-box-icon :type="item"></p-box-icon>
+				</p-box>
+			</template>
+		</p-box-group>
+
+		<div class="p-gap"></div>
+
+		<p class="small">
+			Web vytváří a provozuje spolek Programy do voleb, z. s., <p-link href="https://or.justice.cz/ias/ui/rejstrik-firma.vysledky?subjektId=1126297&typ=PLATNY" title="Spolkový resjtřík">IČO: 10906380</p-link>, L&nbsp;13767 vedený u Krajského soudu v Hradci Králové. Sídlo spolku je na adrese Jana Palacha 1413, Turnov. Transparentní účet je u Fio Banky: <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">2502004588/2010</p-link>. Web neslouží na podporu žádného kandidáta nebo strany. Ke všem stranám a&nbsp;kandidátům je přistupováno na principu rovnosti a&nbsp;férové politické&nbsp;soutěže. Fotografie kandidátů jsou použité s&nbsp;jejich svolením nebo jejich tiskových oddělení.  Volební číselníky, registry a výsledky vychází z <p-link href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu" content="otevřených dat ČSÚ">otevřených dat ČSÚ</p-link>.
+		</p>
+
+		<div class="p-gap"></div>
+
+		<p class="small">
+			Datová schránka <strong>vhwmpce</strong>.
+		</p>
+
+		<div class="p-gap"></div>
+
+		<p-box-group class="center">
+			<p-modal> 
+				<template #init>
+					<p-box>
+						<p-box-button color="var(--red)">Nahlásit chybu</p-box-button>
+					</p-box>
+				</template>
+				<template #content>
+					<h3>Našli jste chybu? Nebo chcete něco doplnit?</h3>
+					<report-form part="Hlášení chyby" :noLink="true"></report-form>
+					<div class="p-line"></div>
+					<p>Můžete také napsat na <p-link href="mailto:opravte@programydovoleb.cz">opravte@programydovoleb.cz</p-link></p>
+				</template>
+			</p-modal>
+		</p-box-group>
+	</div>
+</footer>

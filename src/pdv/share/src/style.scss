@@ -1,0 +1,27 @@
+.p-box {
+  margin: 0 !important;
+  // background: var(--greyish) !important;
+}
+
+.p-box-group {
+  border-radius: 4px !important;
+  overflow: hidden;
+}
+
+.-aside {
+  min-width: 10em;
+}
+
+.-aside ._blockAside {
+  width: 100%;
+}
+
+.compact {
+  display: flex !important;
+  flex-wrap: wrap;
+
+  > * {
+    padding-left: .15em;
+    padding-right: .15em;
+  }
+}

@@ -1,0 +1,71 @@
+<div class="komunalni-volby">
+	<p-block :headline="current.$obce[0].NAZEVZAST" :hide="true">
+		<p-area>
+			<div class="p-offset reverse">
+				<div>
+					<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town" class="strong">{{ current.$obce[0].NAZEVZAST }}</router-link>
+				</div>
+				<div v-if="current.$zvoleni">
+					<strong>{{ number(current.$zvoleni.length) }}</strong>
+				</div>
+			</div>			
+			<div class="p-gap_025"></div>
+			<div class="smaller">
+				<template v-if="current.status === 3 && current.$ucast.length > 0">
+					<template v-for="(obvod, index) in obvody">
+						<component :is="obvod.OBVODY === 2 ? 'p-collapsible' : 'div'" :label="'Obvod ' + (index + 1)">
+
+						<!-- <p-list class="smaller"> -->
+							<div class="p-split smaller">
+								<div>Účast {{ current.$ucast.find(x => obvod.OBVODY === 2 ? x.OBVOD === obvod.COBVODU : true).UCAST }} %</div>
+								<!-- <div><button class="inline" :class="{strong: !show}" @click="show = false">zisk</button>, <button class="inline" :class="{strong: show}" @click="show = true">mandátů</button></div> -->
+							</div>
+							<div class="p-gap_075"></div>
+							<div class="smallest">
+								<p-list>
+									<template v-for="(party, index) in sortByVotes(current.$vysledky, current.$strany, obvod.OBVODY === 2 ? index + 1 : null)">
+										<div v-if="party.passed" class="_space graph-line-space">
+											<div class="p-offset reverse">
+												<div>
+													<p-label :color="party.color" class="_block">
+														<router-link :to="party.link">{{ party.label }}</router-link>
+													</p-label>
+													<span class="graph-line-holder"><span class="graph-line" :style="{width: party.graph + '%', background: party.color}"></span></span>
+												</div>
+												<div class="_keep">
+													<span v-if="!show">{{ number(party.pct, 2) }}</span>
+													<strong v-if="!show">{{ party.mandates }}</strong>
+												</div>
+											</div>
+										</div>
+									</template>
+								</p-list>
+							</div>
+						<!-- </p-list> -->
+						</component>
+					</template>
+				</template>
+				<template v-if="current.status === 3 && current.$ucast.length === 0">
+					<i class="red smaller">Volby zde neproběhly!</i>
+				</template>
+				<div v-if="current.status < 3" :class="{'smallest dimm': data.list[0].$strany.length === 0}">
+					<p-lang :value="data.list[0].$strany.length" :end="['zatím žádná strana', 'jedna strana', '%% strany', '%% stran']"></p-lang>
+				</div>
+				<div v-if="current.status === 1" :class="{'smallest dimm': data.list[0].$kandidati.length === 0}">
+					<p-lang :value="data.list[0].$kandidati.length" :end="['zatím žádný známý kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>
+				</div>
+				<div class="p-gap_05"></div>
+				<div class="smallest strong">
+					<div class="p-gap_075"></div>
+					<template v-if="current.status < 3">
+						<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'KV:' + id + ', obec ' + town">
+							<button class="inline">Přidat nebo doplnit</button>
+						</report-modal>
+						&middot;
+					</template>
+					<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town">Podrobněji</router-link> &rarr;
+				</div>
+			</div>
+		</p-area>
+	</p-block>
+</div>

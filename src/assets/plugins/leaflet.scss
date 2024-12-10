@@ -1,0 +1,49 @@
+#app .leaflet-container {
+	background: var(--white);
+}
+
+#app.dark .leaflet-container {
+	background: var(--black);
+}
+
+.p-leaflet-path {
+	stroke: var(--blue88);
+	stroke-width: .15;
+
+	.dark & {
+		stroke: #00000088;
+	}
+
+	@media (hover: hover) {
+
+		transition: all .3s;
+
+		&:hover {
+			stroke: #fff;
+			stroke-width: 2;
+			position: relative;
+			z-index: 2;
+		}
+	}
+}
+
+.p-leaflet-path---empty {
+	stroke: var(--blue88);
+	stroke-width: .15;
+	fill-opacity: .25;
+    fill: var(--red);
+
+	.dark & {
+		fill-opacity: .33;
+		stroke: #00000088;
+	}
+}
+
+.p-leaflet-map-popup {
+	font-size: 1.4rem;
+	bottom: 1em !important;
+}
+
+.indicator.green:before {
+  content: '+';
+}

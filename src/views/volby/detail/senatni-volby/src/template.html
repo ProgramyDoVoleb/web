@@ -1,0 +1,180 @@
+<div class="election-item">
+
+	<p-area>
+		<strong>Přehled obvodů</strong>
+		<div class="p-gap _05"></div>
+		<div class="columns-4 smaller strong">
+			<template v-for="(obvod, index) in data.list[0].$dotcene">
+				<div class="">
+					<router-link :to="'/volby/senatni-volby/' + data.list[0].id + '/obvod/' + obvod.OBVOD">{{ obvod.OBVOD }} &middot; {{ obvod.NAZEV }}</router-link>
+						<!-- <region-item :data="region(obvod.OBVOD)" :obvod="obvod.OBVOD" :id="data.list[0].id"></region-item> -->
+				</div>
+			</template>
+		</div>
+	</p-area>
+	<!-- <template v-if="data.list[0].id === 163">
+		<div class="p-gap"></div>
+			<p-box-group>
+				<p-box to="/pruvodce/krajske-a-senatni-volby-2024">
+					<p-box-button icon="icon-party.svg">Průvodce volbami</p-box-button>
+				</p-box>
+				<p-box href="https://www.volebnikalkulacka.cz/volby/senatni-2024/vyber">
+					<p-box-button icon="link.svg">Kalkulačka</p-box-button>
+				</p-box>
+				<p-box to="/lide">
+					<p-box-button icon="detail.svg">Hledat kandidáta</p-box-button>
+				</p-box>
+			</p-box-group>			
+	</template> -->
+	<div class="p-gap _2"></div>
+	<p-block headline="Aktivita stran" :hide="true">
+		<p-loader :rule="parties">
+			<div v-if="parties">
+				<!-- <p-area background="var(--blue11)"> -->
+					<strong>Aktivita stran</strong>
+					<p class="smaller">Někde samostatně, jinde v koalici, někde jen podporují jinou kandidátku a jinde naopak vůbec. Podívejte se na aktivitu stran ve volbách.</p>
+					<!-- <div class="p-gap _05"></div> -->
+					<p-box-group>
+						<template v-for="party in sortBy(parties.list, 'ZKRATKA', null, true)">
+							<p-box :to="'/volby/senatni-volby/' + data.list[0].id + '/aktivita/' + party.VSTRANA">
+								<p-box-image :src="logoByItem(party, {cis: {strany: parties.list}})" class="_r"></p-box-image>
+							</p-box>
+						</template>
+						<p-modal>
+							<template #init>
+								<p-box>
+									<p-box-button icon="detail.svg">jiná strana</p-box-button>
+								</p-box>
+							</template>
+							<template #content>
+								<search-party :link="'/volby/senatni-volby/' + data.list[0].id + '/aktivita/'"></search-party>
+							</template>
+						</p-modal>
+					</p-box-group>
+				<!-- </p-area> -->
+			</div>
+		</p-loader>
+	</p-block>
+	<!-- <p-block headline="Podpořit" :hide="true">
+		<p-grid class="_2">
+			<div>
+				<cta-support></cta-support>
+			</div>
+			<div>
+				<cta-get-admin :election="data.list[0]" v-if="data" :area="true" />
+			</div>
+		</p-grid>
+	</p-block> -->
+	<!-- <p class="smaller">
+		<strong><p-label color="var(--blue)"><p-link href="https://docs.google.com/forms/d/e/1FAIpQLSfeR-LNLlpmOOfSFabK7II9vrO40t2trWlzx2d_K4Q-rmpBdQ/viewform?usp=sf_link">Navrhněte otázku</p-link></p-label> pro kandidáty do senátních voleb.</strong>
+	</p> -->
+	<!-- <p class="smaller">
+		<strong><p-label color="var(--red)">Nominujte <em>Programy do voleb</em></p-label> na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou lupu 2024</p-link>.</strong>
+	</p>
+	<div class="p-gap"></div> -->
+	<h2 class="serif">Obvody přehledně</h2>
+	<div class="smallest" v-if="data.list[0].status < 3">
+		<p-label color="var(--blue)">Zveřejněný program</p-label>
+		<br>
+		<p-label color="var(--yellow)">Zaslané odpovědi</p-label>
+		<div class="p-gap _2"></div>
+	</div>
+	<div class="columns">
+		<template v-for="(obvod, index) in data.list[0].$dotcene">
+			<div class="_pb">
+					<region-item :data="region(obvod.OBVOD)" :obvod="obvod.OBVOD" :id="data.list[0].id"></region-item>
+			</div>
+		</template>
+	</div>
+	<div class="p-gap_4"></div>
+	<p-block-expandable headline="Aktivita stran">
+		<p-area>
+			<table class="smaller">
+				<thead>
+					<tr>
+						<th>Strana či hnutí</th>
+						<th class="text-right _bl" :colspan="current.status === 3 ? 3 : 1">Nominace</th>
+						<th class="text-right _bl" :colspan="current.status === 3 ? 3 : 1" v-if="current.status > 1">Členové</th>
+					</tr>
+					<tr>
+						<th><div class="tiny dimm">podle abecedy</div></th>
+						<th class="text-right _bl">&sum;</th>
+						<th class="text-right" v-if="current.status === 3">D</th>
+						<th class="text-right" v-if="current.status === 3">M</th>
+						<th class="text-right _bl" v-if="current.status > 1">&sum;</th>
+						<th class="text-right" v-if="current.status === 3">D</th>
+						<th class="text-right" v-if="current.status === 3">M</th>
+					</tr>
+				</thead>
+				<tbody>
+					<template v-for="(party, index) in sortBy(data.cis.strany, 'NAZEV', '', true)">
+						<tr v-if="party.TYP === 'S'">
+							<td>
+								<p-modal>
+									<template #init>
+										<p-label :color="colorByItem(party, data)"><button class="inline">{{ party.NAZEV }}</button></p-label>
+									</template>
+									<template #content>
+										<p-label :color="colorByItem(party, data)" class="strong">{{ party.NAZEV }}</p-label>
+										<ul v-if="current.status > 1">
+											<li>Nominovaných členů: {{ data.list[0].$kandidati.filter(x => (x.NSTRANA === party.VSTRANA && x.PSTRANA === party.VSTRANA)).length }}</li>
+											<li>Úspěšných členů: {{ data.list[0].$kandidati.filter(x => (x.NSTRANA === party.VSTRANA && x.PSTRANA === party.VSTRANA) && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)).length }}</li>
+											<li>Členů v druhém kole: {{ data.list[0].$kandidati.filter(x => (x.NSTRANA === party.VSTRANA && x.PSTRANA === party.VSTRANA) && (x.ZVOLEN_K1 === 2 && x.ZVOLEN_K2 === 0)).length }}</li>
+										</ul>
+										<div class="p-gap"></div>
+										<div class="columns">
+											<div class="strong _ng" v-for="(cand, index) in sortBy(data.list[0].$kandidati.filter(x => (x.NSTRANA === party.VSTRANA || x.PSTRANA === party.VSTRANA) && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)), 'PRIJMENI', '', true)">
+												<p-label :color="cand.PSTRANA === party.VSTRANA ? colorByItem(party, data) : 'var(--greyish)'">
+													<router-link :to="'/bod/csu_senat_rk/' + cand.id" class="green">
+														{{ cand.JMENO }} {{ cand.PRIJMENI }}
+													</router-link>
+													<span class="dimm" v-if="cand.OBVOD"> &middot; {{ cand.OBVOD }}</span>
+												</p-label>
+											</div>											
+											<div class="_ng" v-for="(cand, index) in sortBy(data.list[0].$kandidati.filter(x => (x.NSTRANA === party.VSTRANA || x.PSTRANA === party.VSTRANA) && (x.ZVOLEN_K1 === 2 && x.ZVOLEN_K2 === 0)), 'PRIJMENI', '', true)">
+												<div class="smallest dimm _d" v-if="index === 0">Postoupili do druhého kola:</div>
+												<p-label :color="cand.PSTRANA === party.VSTRANA ? colorByItem(party, data) : 'var(--greyish)'">
+													<router-link :to="'/bod/csu_senat_rk/' + cand.id" class="strong red">
+														{{ cand.JMENO }} {{ cand.PRIJMENI }}
+													</router-link>
+													<span class="dimm" v-if="cand.OBVOD"> &middot; {{ cand.OBVOD }}</span>
+												</p-label>
+											</div>
+											<div class="_ng" v-for="(cand, index) in sortBy(data.list[0].$kandidati.filter(x => (x.NSTRANA === party.VSTRANA || x.PSTRANA === party.VSTRANA) && (x.ZVOLEN_K1 === 0 || x.ZVOLEN_K2 === 0)), 'PRIJMENI', '', true)">
+												<div class="smallest dimm _d" v-if="index === 0">Neúspěšní kandidáti:</div>
+												<p-label :color="cand.PSTRANA === party.VSTRANA ? colorByItem(party, data) : 'var(--greyish)'">
+													<router-link :to="'/bod/csu_senat_rk/' + cand.id" class="is-span">
+														{{ cand.JMENO }} {{ cand.PRIJMENI }}
+													</router-link>
+													<span class="dimm" v-if="cand.OBVOD"> &middot; {{ cand.OBVOD }}</span>
+												</p-label>
+											</div>
+											<div class="_ng" v-for="(cand, index) in sortBy(data.list[0].$kandidati.filter(x => (x.NSTRANA === party.VSTRANA || x.PSTRANA === party.VSTRANA) && (x.ZVOLEN_K1 === null)), 'PRIJMENI', '', true)">
+												<p-label :color="cand.PSTRANA === party.VSTRANA ? colorByItem(party, data) : 'var(--greyish)'">
+													<router-link :to="'/bod/csu_senat_rk/' + cand.id" class="is-span">
+														{{ cand.JMENO }} {{ cand.PRIJMENI }}
+													</router-link>
+													<span class="dimm" v-if="cand.OBVOD"> &middot; {{ cand.OBVOD }}</span>
+												</p-label>
+											</div>
+										</div>
+										<div class="p-line"></div>
+										Zobrazit detail strany či hnutí v <router-link :to="'/rejstrik/' + party.VSTRANA">rejstříku stran a hnutí</router-link>
+									</template>
+								</p-modal>
+								
+							</td>
+							<td class="text-right _bl" :class="{'dimm tiny': data.list[0].$kandidati.filter(x => x.NSTRANA === party.VSTRANA).length === 0}" >{{ number(data.list[0].$kandidati.filter(x => x.NSTRANA === party.VSTRANA).length) }}</td>
+							<td class="text-right" :class="{'dimm tiny _w400': data.list[0].$kandidati.filter(x => x.NSTRANA === party.VSTRANA && (x.ZVOLEN_K1 > 0 || x.ZVOLEN_K2 === 2)).length === 0}" v-if="current.status === 3">{{ number(data.list[0].$kandidati.filter(x => x.NSTRANA === party.VSTRANA && (x.ZVOLEN_K1 > 0 || x.ZVOLEN_K2 === 2)).length) }}</td>
+							<td class="text-right strong" :class="{'dimm tiny _w400': data.list[0].$kandidati.filter(x => x.NSTRANA === party.VSTRANA && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)).length === 0}" v-if="current.status === 3">{{ number(data.list[0].$kandidati.filter(x => x.NSTRANA === party.VSTRANA && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)).length) }}</td>
+							<td class="text-right _bl" :class="{'dimm tiny': data.list[0].$kandidati.filter(x => x.PSTRANA === party.VSTRANA).length === 0}" v-if="current.status > 1">{{ number(data.list[0].$kandidati.filter(x => x.PSTRANA === party.VSTRANA).length) }}</td>
+							<td class="text-right" :class="{'dimm tiny _w400': data.list[0].$kandidati.filter(x => x.PSTRANA === party.VSTRANA && (x.ZVOLEN_K1 > 0 || x.ZVOLEN_K2 === 2)).length === 0}" v-if="current.status === 3">{{ number(data.list[0].$kandidati.filter(x => x.PSTRANA === party.VSTRANA && (x.ZVOLEN_K1 > 0 || x.ZVOLEN_K2 === 2)).length) }}</td>
+							<td class="text-right strong" :class="{'dimm tiny _w400': data.list[0].$kandidati.filter(x => x.PSTRANA === party.VSTRANA && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)).length === 0}" v-if="current.status === 3">{{ number(data.list[0].$kandidati.filter(x => x.PSTRANA === party.VSTRANA && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)).length) }}</td>
+						</tr>
+					</template>
+				</tbody>
+			</table>
+		</p-area>
+	</p-block-expandable>
+	<!-- <div class="p-gap_4"></div> -->
+</div>

@@ -1,0 +1,28 @@
+.p-split {
+  &.-up960 {
+      flex-wrap: wrap;
+  
+      > * {
+          width: 100%;
+      
+          &:not(:first-child) {
+              margin-top: 1em;
+              padding-top: 1em;
+              border-top: var(--border);
+          }
+      }
+
+      @media (min-width: 960px) {
+          flex-wrap: nowrap;
+          > * {
+              width: calc(50% - 2em);
+          
+              &:not(:first-child) {
+                  margin-top: 0;
+                  padding-top: 0;
+                  border: none;
+              }
+          }
+      }
+  }
+}

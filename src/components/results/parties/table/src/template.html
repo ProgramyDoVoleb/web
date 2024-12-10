@@ -1,0 +1,59 @@
+<div class="results-parties-table">
+	<table>
+		<thead>
+			<tr v-if="partyWithMaxPct.ref">
+				<th></th>
+				<th v-if="!partyWithMaxPct.ref || !global || width > widthLimit" colspan="2" class="text-right">
+					Místní
+					<span v-if="width <= widthLimit">&middot; <button class="inline" @click="global =! global">CELKOVÉ</button></span>
+				</th>
+				<th v-if="partyWithMaxPct.ref && (global || width > widthLimit)" colspan="3" class="text-right" :class="{'_ref': width > widthLimit}">
+					<span v-if="width <= widthLimit"><button class="inline" @click="global =! global">MÍSTNÍ</button> &middot; </span>Celkové
+				</th>
+			</tr>
+			<tr>
+				<th>Strana</th>
+				<template v-if="!partyWithMaxPct.ref || !global || width > widthLimit">
+					<th class="text-right">%</th>
+					<th class="text-right">&sum;</th>
+				</template>
+				<template v-if="partyWithMaxPct.ref && (global || width > widthLimit)">
+					<th class="text-right" :class="{'_ref': width > widthLimit}">%</th>
+					<th class="text-right">&sum;</th>
+					<th class="text-right">M</th>
+				</template>
+			</tr>
+		</thead>
+		<tbody>
+			<template v-for="(item, index) in display">
+				<tr :class="{'smaller no-mandat': !item.passed, 'rest dimm': !item.link}">
+					<td class="_pr">
+						<p-label :color="item.color"><component :is="item.link ? 'router-link' : 'span'" :to="item.link">{{ item.label }}</component></p-label>
+						<span class="graph-line-holder"><span class="graph-line" :style="{width: (item.graph / partyWithMaxPct.graph * 100) + '%', background: item.color}"></span></span>
+					</td>
+					<template v-if="!partyWithMaxPct.ref || !global || width > widthLimit">
+						<td class="text-right">{{ number(item.pct, 2) }}</td>
+						<td class="text-right">{{ number(item.votes) }}</td>
+					</template>
+					<template v-if="item.ref && (global || width > widthLimit)">
+						<td></td>
+						<template v-if="partyWithMaxPct.ref">
+							<td class="text-right" :class="{'_ref': width > widthLimit}">{{ number(item.ref.pct, 2) }}</td>
+							<td class="text-right">{{ number(item.ref.votes) }}</td>
+						</template>
+					</template>
+					<template v-if="!partyWithMaxPct.ref || global || width > widthLimit">
+						<td class="text-right narrow strong">{{ item.mandates }}</td>
+					</template>
+				</tr>
+			</template>
+			<tr v-if="!show && display.length > 7">
+				<td colspan="4">
+					<button class="inline strong" @click="show = true">
+						<span class="smallest">Zobrazit všech {{ list.length }} stran</span>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

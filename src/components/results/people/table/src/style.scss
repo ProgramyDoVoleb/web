@@ -1,0 +1,93 @@
+tr:not(.no-mandat) + tr.no-mandat td {
+	border-top: 1px dotted var(--red);
+	padding-top: .5em;
+
+	&:after {
+	  content: "";
+	  background: var(--red);
+	  width: 7px;
+	  height: 7px;
+	  border-radius: 4px;
+	  position: absolute;
+	  top: -4px;
+	  right: -1px;
+	}
+}
+
+.rest td {
+	border-top: 1px dotted var(--grey);
+	padding-top: .5em;
+
+	&:after {
+	  content: "";
+	  background: var(--grey);
+	  width: 4px;
+	  height: 4px;
+	  border-radius: 4px;
+	  position: absolute;
+	  top: -2px;
+	  right: -1px;
+	}
+}
+
+tr td {
+	vertical-align: baseline;
+}
+
+tr {
+	position: relative;
+}
+
+table a {
+	text-decoration: none;
+}
+
+.text-right {
+	width: 5em;
+
+	@media (min-width: 960px) {
+		// width: 7em;
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+}
+
+._ref {
+	border-left: 1px solid var(--red);
+
+	&, & ~ * {
+		font-size: 11px;
+		opacity: .5;
+	}
+}
+
+._pr {
+	position: relative;
+}
+
+.p-label {
+	position: relative;
+	z-index: 2;
+}
+
+.graph-line-holder {
+	// background: #eee;
+	// height: 1px;
+	position: absolute;
+	top: 1px;
+	bottom: 1px;
+	left: -.5em;
+	right: -.5em;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.graph-line {
+	// position: absolute;
+	// top: 0;
+	// bottom: 0;
+	display: block;
+	height: 100%;
+	opacity: .17;
+	border-radius: .5em;
+}

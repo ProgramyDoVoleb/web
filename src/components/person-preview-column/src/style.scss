@@ -1,0 +1,197 @@
+.person-preview-column {
+	position: relative;
+	container-type: inline-size;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+._photo {
+	margin-right: 1em;
+	position: relative;
+
+	._person, 
+	._partyAlone {
+		width: 8em;
+		display: block;
+		border-radius: .5em;
+		// background: #fff;
+	}
+
+	._party {
+		position: absolute;
+		width: 2em;
+		border-radius: 50%;
+		aspect-ratio: 1;
+		top: -.5em;
+		left: -.5em;
+		// background: #fff;
+
+		+ ._party {
+			top: .5em;
+		}
+	}
+
+	._party,
+	._partyAlone {
+		background: #fff;
+		border: var(--border);
+	}
+	
+	@container (min-width: 320px) {
+		._person {
+			width: 8em;
+		}		
+	}
+}
+
+._content {
+	flex: 1;
+}
+
+._no {
+	position: absolute;
+	bottom: -.5em;
+	right: -1em;
+}
+
+._mw {
+	max-width: 40em;
+}
+
+// ._soc {
+// 	float: right;
+// 	max-width: 6em;
+// 	text-align: right;
+
+// 	@media (min-width: 640px) {
+// 		max-width: 12em;
+// 	}
+// }
+
+._cand {
+	display: flex;
+	position: relative;
+	align-items: center;
+}
+
+._cand-mandat {
+	position: absolute;
+	top: -1em;
+	bottom: -1em;
+	left: -.5em;
+	width: .25em;
+	background: var(--green);
+}
+
+._cand-2rnd {
+	position: absolute;
+	top: -1em;
+	bottom: -1em;
+	left: -.5em;
+	width: .25em;
+	background: var(--yellow);
+}
+
+._cand-no {
+	width: 1.25em;
+	text-align: right;
+	margin-right: .5em;
+	margin-top: .4em;
+	transform: translateX(-2px);
+}
+
+._cand-img {
+	margin-right: 1em;
+	position: relative;
+
+	._person, 
+	._partyAlone {
+		display: block;
+		border-radius: .5em;
+	}
+
+	._party {
+		position: absolute;
+		width: 1.5em;
+		border-radius: 50%;
+		aspect-ratio: 1;
+		top: -.5em;
+		left: -.5em;
+
+		+ ._party {
+			top: .5em;
+		}
+	}
+
+	._person {
+		width: 4em;
+	}
+	
+	@container (min-width: 450px) {
+		._person {
+			width: 8em;
+		}		
+	}
+
+	._partyAlone {
+		width: 2.75em;
+	}
+
+	._party,
+	._partyAlone {
+		background: #fff;
+		border: var(--border);
+	}
+}
+
+._cand-flex {
+	flex: 1;
+}
+
+._soc {
+
+}
+
+._mw {
+	max-width: 40em;
+}
+
+._cand-parties {
+	margin: .25em -.1em;
+}
+
+._cand-party {
+	display: inline-block;
+	width: 1.25em;
+	height: 1.25em;
+	border-radius: 4px;
+	margin: calc(0.25em / 4);
+}
+
+._cand-img-short {
+	max-width: 2.75em;
+}
+
+._cand-img:not(._cand-img-short) {
+	// max-width: 2.75em;
+	
+	@container (min-width: 320px) {
+		// max-width: 4em;
+	}
+	
+	@container (min-width: 450px) {
+		// max-width: 8em;
+	}
+}
+
+// ._cand-bg-mandat {
+// 	background: var(--green11);
+// }
+
+// ._cand-bg-2rnd {
+// 	background: var(--yellow44);
+// }
+
+._cand-bg-mandat ._cm {
+	color: var(--green);
+}

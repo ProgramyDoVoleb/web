@@ -1,0 +1,49 @@
+<div class="results-compare-table">
+	<div class="box">
+		<div class="box-content">
+			<div class="btns center">
+				<modal-element ref="modalElement">
+					<template v-slot:init>
+						<button :disabled="compare.length === 7">Vybrat k porovnání</button>
+					</template>
+					<template v-slot:content>
+						<towns-filter :fn="select" style="text-align: left" :region="limit" />
+					</template>
+				</modal-element>
+			</div>
+			<table>
+				<thead>
+					<tr>
+						<th>Strana</th>
+						<th class="values">Celkem</th>
+						<th v-for="(sel, index) in compare" v-if="index > 0 && sel && tick" class="values keep-on-mobile">
+							<span @click="remove(index)">
+								{{ sel.label }}
+								<br>
+								<span class="red">&times; zrušit</span>
+							</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(party, index) in parties" v-if="showAll || party.current.pct > 3" :class="{above: party.current.seats > 0, below: party.current.seats === 0}">
+						<td>
+							<party-name-with-dot :reg="party.reg" :alwaysShort="true" />
+						</td>
+						<td title="Celkové výsledky" class="values">
+							{{ party.current.pct }}
+						</td>
+						<td v-for="(sel, index) in compare" v-if="index > 0 && sel && tick" :class="{red: getValue(party, sel.data) < party.current.pct, green: getValue(party, sel.data) > party.current.pct}" class="values" :title="sel.label">
+							{{ getValue(party, sel.data) }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="btns center">
+				<button @click="toggle">
+					{{ showAll === true ? 'Skrýt' : 'Zobrazit' }} ostatní strany
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

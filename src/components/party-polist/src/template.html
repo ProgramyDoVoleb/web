@@ -1,0 +1,12 @@
+<span class="party-polist">
+	<label-with-dot :color="color" :after="true">
+		<outbound-link v-if="party.reg && party.reg != 99" :href="'https://www.programydovoleb.cz/rejstrik/' + party.reg" :title="party.name" :addon="false">
+			<!-- <responsive-label :long="party.name" :short="party.short || party.name" :breakpoint="breakpoint" /> -->
+			{{ party.short }}
+		</outbound-link>
+		<span v-if="!party.reg || party.reg === 99">
+			<!-- <responsive-label :long="party.name" :short="party.short || party.name" :breakpoint="breakpoint" /> -->
+			{{ party.name }}
+		</span>
+	</label-with-dot>
+</span>

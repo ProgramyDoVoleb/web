@@ -1,0 +1,150 @@
+.p-list {
+    margin: -1em;
+  
+    & > div {
+      padding: 1em;
+      position: relative;
+    }
+  
+    & > div:not(:first-child) {
+      border-top: var(--border);
+  
+      .dark & {
+        // border-color: #000;
+      }
+    }
+  
+    // @media (hover:hover) {
+    //   & > * {
+    //     transition: background 1s;
+    //   }
+    //
+    //   & > *:hover {
+    //     background: #fcfcfc;
+    //     transition: background 1s 3s;
+    //   }
+    // }
+
+    aside & {
+      margin: -1em -.25em !important;
+  
+      & > div {
+        padding: 1em .25em;
+      }
+    }
+  }
+  
+  .p-list.padding---4rem > div,
+  .p-list._4 > div {
+    &:not(:first-child) {
+      padding-top: 4em;
+    }
+    &:not(:last-child) {
+      padding-bottom: 4em;
+    }
+  }
+  
+  .p-list.padding---3rem > div,
+  .p-list._3 > div {
+    &:not(:first-child) {
+      padding-top: 3em;
+    }
+    &:not(:last-child) {
+      padding-bottom: 3em;
+    }
+  }
+  
+  .p-list.padding---2rem > div,
+  .p-list._2 > div {
+    &:not(:first-child) {
+      padding-top: 2em;
+    }
+    &:not(:last-child) {
+      padding-bottom: 2em;
+    }
+  }
+  
+  .p-list.padding---05rem > div,
+  .p-list._05 > div {
+    &:not(:first-child) {
+      padding-top: .5em;
+    }
+    &:not(:last-child) {
+      padding-bottom: .5em;
+    }
+  }
+  
+  .p-list.padding---025rem > div,
+  .p-list._025 > div {
+    &:not(:first-child) {
+      padding-top: .25em;
+    }
+    &:not(:last-child) {
+      padding-bottom: .25em;
+    }
+  }
+  
+  .p-list.padding---15rem > div,
+  .p-list._15 > div {
+    &:not(:first-child) {
+      padding-top: 1.5em;
+    }
+    &:not(:last-child) {
+      padding-bottom: 1.5em;
+    }
+  }
+  
+  .p-list.padding---0 > div,
+  .p-list._0 > div {
+    &:not(:first-child) {
+      padding-top: 0;
+    }
+    &:not(:last-child) {
+      padding-bottom: 0;
+    }
+  }
+  
+  .p-list.p-list---invisible,
+  .p-list._invisible {
+    & > div {
+      border-top: none !important;
+    }
+  }
+
+  .p-list.tight > div {
+    &:not(:first-child) {
+      padding-top: .25em;
+    }
+    &:not(:last-child) {
+      padding-bottom: .25em;
+    }
+  }
+
+  .p-list.spacey > div {
+    &:not(:first-child) {
+      padding-top: 1.5em;
+    }
+    &:not(:last-child) {
+      padding-bottom: 1.5em;
+    }
+  }
+
+  .p-list.p-list---invisible, 
+  .p-list.invisible {
+    & > div {
+      border-top: none !important;
+
+      &:not(:first-child) {
+        padding-top: .1em;
+      }
+      &:not(:last-child) {
+        padding-bottom: .1em;
+      }
+    }
+  }
+
+  .p-list-linear > li,
+  .p-list-linear > span,
+  .p-list-linear > div {
+    display: inline;
+  }

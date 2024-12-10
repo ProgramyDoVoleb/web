@@ -1,0 +1,31 @@
+<div class="komunalni-volby">
+	<template v-if="current.status === 3 && current.$ucast.length > 0">
+		<template v-for="(obvod, index) in obvody">
+			<component :is="obvod.OBVODY === 2 ? 'p-collapsible' : 'div'" :label="'Obvod ' + (index + 1)">
+				<!-- <p-block headline="Výsledky"> -->
+					<div class="relative">
+						<election-graph :list="sortByVotes(current.$vysledky, current.$strany, obvod.OBVODY === 2 ? index + 1 : null)"></election-graph>
+						<div class="p-gap"></div>
+						<p-collapsible label="Podrobné výsledky">
+							<election-table :list="sortByVotes(current.$vysledky, current.$strany, obvod.OBVODY === 2 ? index + 1 : null)"></election-table>
+						</p-collapsible>
+						<div class="attendance">
+							<p-line-graph :value="current.$ucast.find(x => obvod.OBVODY === 2 ? x.OBVOD === obvod.COBVODU : true).UCAST" color="var(--blue)"></p-line-graph>
+							<div class="text-right smallest dimm">účast</div>
+						</div>
+					</div>
+				<!-- </p-block> -->
+				<p-collapsible label="Statistiky" v-if="current.$ucast">
+					<election-stats :data="current.$ucast.find(x => obvod.OBVODY === 2 ? x.OBVOD === obvod.COBVODU : true)" :results="current.$vysledky"></election-stats>
+				</p-collapsible>
+			</component>
+		</template>
+		<p-collapsible label="Zvolení zastupitelé">
+			<component :is="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni)).length > 100 ? 'election-list' : 'election-grid'" :list="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni))"></component>
+		</p-collapsible>
+	</template>
+	<template v-if="current.status === 3 && current.$ucast.length === 0">
+		<p-area borderColor="var(--red)" class="strong">Volby neproběhly, nebyla registrovaná ani jedna kandidátní listina.</p-area>
+		<div class="p-gap_3"></div>
+	</template>
+</div>

@@ -1,0 +1,19 @@
+<div class="election-stats">
+	<p-list>
+		<p-stats label="Účast">
+			<p-line-graph :value="data.UCAST" color="var(--blue)"></p-line-graph>
+		</p-stats>
+		<p-stats label="Voličů" class="smaller">
+			{{ number(data.VOLILO) }} voličů z {{ number(data.VOLICU) }} možných
+		</p-stats>
+		<p-stats label="Chybovost" class="smaller" v-if="data.PLATNYCH">
+			{{ number(data.ERR) }} %, celkem {{ number(data.VOLILO - data.PLATNYCH) }} neplatných hlasů
+		</p-stats>
+		<p-stats label="Propadlé hlasy" v-if="data.PLATNYCH">
+			<p-line-graph :value="pct(results.reduce((a, b) => a + (b.MANDATU ? 0 : b.HLASU), 0), data.PLATNYCH)" color="var(--red)"></p-line-graph>
+		</p-stats>
+		<p-stats label="Propadlé hlasy" class="smaller" v-if="data.PLATNYCH">
+			{{ number(results.reduce((a, b) => a + (b.MANDATU ? 0 : b.HLASU), 0)) }} hlasů z celkem {{ number(data.PLATNYCH) }} platných
+		</p-stats>
+	</p-list>
+</div>

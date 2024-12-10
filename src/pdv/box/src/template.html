@@ -1,0 +1,7 @@
+<div class="p-box" :style="{background: bg || background}" :class="{'p-box---block': block}">
+  <p-box-wrapper :href="href" :to="to" :click="click" :title="title" :target="target || (href ? '_blank' : null)">
+    <div class="p-box-content">
+      <slot />
+    </div>
+  </p-box-wrapper>
+</div>

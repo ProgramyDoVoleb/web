@@ -1,0 +1,42 @@
+.p-photo {
+  display: inline-block;
+  position: relative;
+}
+
+._img {
+  display: block;
+  border: 1px solid rgba(0, 0, 0, .05);
+  border-radius: 6px;
+  overflow: hidden;
+  width: 100%;
+}
+
+._full {
+  max-width: 12em;
+}
+
+.dark img[src*="missing.png"],
+.dark img[src*="empty.png"] {
+  // opacity: .5;
+	filter: invert(1);
+}
+
+._licence {
+  margin: -1.7em 0 .5em -0.1em;
+}
+
+._btn {
+  color: #fff;
+  display: inline-block;
+  padding: 0em .3em;
+  border-radius: 2em;
+  // background: #00000044;
+  font-size: 14px;
+  letter-spacing: .05em;
+}
+
+._ar1 ._preview {
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center center;
+}

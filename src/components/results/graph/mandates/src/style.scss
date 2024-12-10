@@ -1,0 +1,14 @@
+
+
+.graph-mandates {
+		position: relative;
+
+		&:after {
+			content: "";
+			position: absolute;
+			left: 49.75%;
+			top: 0;
+			height: 100%;
+			border: 1px dotted #f00;
+		}
+}

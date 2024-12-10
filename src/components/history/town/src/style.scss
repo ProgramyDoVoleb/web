@@ -1,0 +1,161 @@
+path {
+  opacity: .25;
+  // transition: stroke .2s, opacity .2s;
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+h4, p {
+  margin: 0;
+}
+
+h4 {
+  padding: 1em 0;
+}
+
+div.smallest p {
+  line-height: 1.5;
+}
+
+.pen,
+.highlighted path:not(.highlighted-person):not(:hover) {
+  pointer-events: none;
+}
+
+.highlighted-person {
+  z-index: 1000;
+  opacity: .6;
+}
+
+.triple {
+  @media (min-width: 900px) {
+    display: flex;
+
+    > div:not(:last-child) {
+      margin-right: 2rem;
+      max-width: 40%;
+    }
+
+    > div:last-child {
+      flex: 1;
+    }
+  }
+}
+
+@keyframes sw {
+  0% {
+    stroke-width: .3;
+    r: 1.5;
+  }
+  20% {
+    stroke-width: .6;
+    r: 3;
+    fill: #fff;
+    stroke: #000000CC;
+  }
+  40% {
+    stroke-width: .3;
+    r: 1.5;
+      transform: translateX(0);
+  }
+  50% {
+  }
+  60% {
+    r: 1.5;
+    transform: translateX(-6px);
+    // stroke-width: 1;
+  }
+  70% {
+    r: 1.5;
+    transform: translateX(6px);
+    // stroke-width: 1;
+  }
+  80% {
+    r: 1.5;
+    transform: translateX(-3px);
+    // stroke-width: 1;
+  }
+  90% {
+    r: 1.5;
+    transform: translateX(1px);
+    // stroke-width: 1;
+  }
+  100% {
+    r: 1.5;
+    transform: translateX(0);
+    // stroke-width: 1;
+  }
+}
+
+@keyframes cx {
+  0% {
+    r: 8;
+    // stroke-width: 1;
+  }
+  20% {
+    r: 6;
+    // stroke-width: 3;
+  }
+  40% {
+    r: 8;
+    transform: translateX(0);
+    // stroke-width: 1;
+  }
+}
+
+@keyframes cs {
+  0% {
+    stroke: var(--blue11);
+  }
+  30% {
+    stroke: var(--blue88);
+  }
+  60% {
+    stroke: var(--blue11);
+  }
+  100% {
+    stroke: var(--blue11);
+  }
+}
+
+circle {
+  animation: sw 4s infinite;
+}
+
+circle.person {
+  stroke-width: 1;
+  animation: cx 4s infinite;
+}
+
+.newbies {
+  width: 3rem;
+}
+
+.baseline {
+  align-items: baseline;
+}
+
+.selectedParty {
+  stroke: var(--blue11);
+  stroke-width: 10;
+  paint-order: stroke;
+
+  animation: cs 2s infinite;
+}
+
+rect,
+circle {
+  stroke: #fff;
+
+  .dark & {
+    stroke: #000;
+  }
+}
+
+circle {
+  pointer-events: none;
+}

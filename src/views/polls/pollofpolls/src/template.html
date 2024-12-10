@@ -1,0 +1,9 @@
+<div class="poll-of-polls">
+	<p-loader :rule="polls">
+		<div v-if="polls">
+			<polls-preview :poll="latest.graph" :both="true"></polls-preview>
+			<div class="p-line"></div>
+			<div class="smallest dimm">Poll of Polls jsou vážený průměr volebních modelů stran (bez koalic) podle středního data sběru.</div>
+		</div>
+	</p-loader>
+</div>

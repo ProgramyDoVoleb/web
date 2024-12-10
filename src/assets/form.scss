@@ -1,0 +1,100 @@
+form {
+	border: 1px dotted var(--blue);
+  border-left: 3px solid var(--blue);
+	padding: 1em;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background: #fff;
+
+  .dark & {
+    background: #222;
+  } 
+}
+
+fieldset {
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+input:not([type=submit]):not([type=radio]):not([type=checkbox]), textarea, select {
+  background-color: #eef;
+  border-radius: 4px;
+  padding: .3em .5em;
+  border: 1px solid transparent;
+  width: 100%;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  border-bottom: 1px solid var(--blue);
+  min-height: 2.6em;
+
+  .p-box-label & {
+    min-height: 38px;
+    max-height: 38px;
+    height: 38px;
+    min-width: 72px;
+  }
+
+  transition: all .2s;
+
+  &::placeholder {
+    color: var(--blue);
+    font-size: .92em;
+    line-height: 1.33;
+    opacity: .8;
+
+    .dark & {
+      color: var(--grey);
+    }
+  }
+
+  .dark & {
+    background: rgba(0,0,0,.5);
+    color: #ccc;
+  }
+
+  &.secondary {
+    background-color: #fafaff;
+
+    .dark & {
+      background: rgba(0,0,0,.25);
+    }
+  }
+
+  @media (hover: hover) {
+    &:not([disabled]):hover {
+      background-color: #f4f4ff;
+      border: 1px solid var(--blue);
+    }
+
+    .dark &:not([disabled]):hover {
+      background: #000;
+      border-color: transparent;
+      border-bottom-color: var(--blue88);
+    }
+  }
+
+  &:not([disabled]):focus {
+    background-color: #fff;
+    border-color: var(--blue);
+    // border: ;
+    outline: none;
+  }
+
+  .dark &:not([disabled]):focus {
+    background: #000;
+    outline: none;
+    border-color: var(--blue);
+  }
+
+  &[disabled] {
+    background: rgba(0,0,0,.025);
+    border-color: transparent !important;
+    opacity: .25;
+  }
+}
+
+input[type=radio],
+input[type=checkbox] {
+    margin-right: .25em;
+}

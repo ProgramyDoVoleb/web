@@ -1,0 +1,7 @@
+<div class="results-elected-list">
+	<div :class="{columns: sorted.length > 1}" v-if="sorted">
+		<div class="item" v-for="(item, index) in sorted">
+			<results-elected-item :party="party[index]" :elected="item.list || item.elected" :color="bg[index]" :only="sorted.length === 1" />
+		</div>
+	</div>
+</div>

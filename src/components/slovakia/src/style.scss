@@ -1,0 +1,15 @@
+p {margin: 0;}
+.p-grid {
+  grid-column-gap: 4em !important;
+  grid-row-gap: 2em !important;
+
+  @media (min-width: 1440px) {
+    grid-row-gap: 0 !important;
+  }
+}
+._p {padding-bottom: .25em;}
+._rn {
+  border-radius: .5em;
+  width: 4em !important;
+  height: 4em !important;
+}

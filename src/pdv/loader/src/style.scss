@@ -1,0 +1,33 @@
+@keyframes pulse {
+  0% {
+    opacity: .1;
+  }
+  33% {
+    opacity: .1;
+  }
+  66% {
+    opacity: .02;
+  }
+  100% {
+    opacity: .1;
+  }
+}
+
+._anim {
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+
+._progress {
+  background: var(--grey);
+  opacity: .1;
+  will-change: opacity;
+}
+
+.p-loader {
+  // animation: fadein .25s forwards 1;
+  // animation-fill-mode: initial;
+  position: relative;
+}

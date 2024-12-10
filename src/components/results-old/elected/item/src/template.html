@@ -1,0 +1,45 @@
+<div class="results-elected-item">
+	<div class="fake-border-outside" :style="{'background': color}" v-if="party">
+		<div class="fake-border-inside">
+			<div class="party" v-if="party.type != 0">
+				<div class="party-name">
+					<h4>
+						<router-link :to="'/rejstrik/' + party.about.reg + '-' + party.about.hash" v-if="party.type === 2">
+							{{ party.name || party.about.name }}
+						</router-link>
+						<span v-if="party.type === 1">
+							{{ party.name }}
+						</span>
+					</h4>
+					<div class="coalition" v-if="party.about && party.about.coalition">
+						<div class="coalition-member" v-for="(coal, ix) in party.about.coalition">
+							<party-name-with-dot :reg="coal" :alwaysShort="true" />
+						</div>
+					</div>
+				</div>
+				<div class="party-logo" v-if="party.type === 2 && party.about">
+					<div class="party-logo-holder">
+						<div class="party-logo-item" v-for="(reg, ix) in party.about.coalition || [party.about.reg]">
+							<router-link :to="'/rejstrik/' + reg" tag="span">
+								<logo-item :reg="reg" :size="3" />
+							</router-link>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="list">
+				<ul :class="{columns: only, 'columns-2-1': !only}">
+					<li v-for="(item, index) in sorted">
+						<person-name :data="item.name" />
+						<small v-if="item.previous" class="dimm">
+							&mdash; dříve
+							<party-name-with-dot :reg="item.previous.reg" v-if="item.previous.reg != 80 && item.previous.reg != 90" />
+							<party-name-with-dot :useName="checkCandidateName(item.previous.name)" :alwaysName="true" v-if="item.previous.reg === 80" :useColor="createColorByName(checkCandidateName(item.previous.name))" />
+							<party-name-with-dot :useName="item.previous.name" :alwaysName="true" v-if="item.previous.reg === 90" :useColor="createColorByName(item.previous.name)" />
+						</small>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

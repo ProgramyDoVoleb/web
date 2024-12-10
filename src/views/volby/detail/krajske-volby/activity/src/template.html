@@ -1,0 +1,127 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block :headline="(data ? data.strana.NAZEV + ' v krajských volbách ' + data.cis.volby.datum.split('-')[0] : 'Načítám...')" :level="1">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<!-- <p-block headline="Jednotlivé kraje" :hide="true"> -->
+							<p-list class="_2">
+								<div v-for="(kraj, index) in [3,11,5,8,7,14,12,9,4,2,6,10,13]">
+									<p-block :hide="true" :headline="enums.regions[kraj - 1]" class="_p0">
+										<div class="p-offset balanced">
+											<div>
+												<strong>{{ enums.regions[kraj - 1] }}</strong>
+											</div>
+											<div class="smallest">
+												<template v-if="!data.list.find(x => x.KRZAST === kraj)">
+													<span class="red">neúčastní se</span>
+												</template>
+												<template v-else>
+													<template v-if="data.list.find(x => x.KRZAST === kraj).VSTRANA === data.strana.VSTRANA">
+														<span>samostatně</span>
+													</template>
+													<template v-else>
+														<template v-if="data.cis.strany.find(y => y.VSTRANA === data.list.find(x => x.KRZAST === kraj).VSTRANA).$coalition && data.cis.strany.find(y => y.VSTRANA === data.list.find(x => x.KRZAST === kraj).VSTRANA).$coalition.find(x => x.VSTRANA === data.strana.VSTRANA)">
+															<span>v koalici</span>
+														</template>
+														<template v-else>
+															<span>podpora</span>
+														</template>
+													</template>
+												</template>
+											</div>
+										</div>
+										<template v-if="data.list.find(x => x.KRZAST === kraj)">
+											<div class="p-gap"></div>
+											<template v-for="party in data.list.filter(x => x.KRZAST === kraj && (x.VSTRANA == party || data.cis.strany.find(y => x.VSTRANA == y.VSTRANA && y.$coalition && y.$coalition.find(z => z.VSTRANA == party)) || data.podpora.find(y => y.value == party && y.csu_id === x.id)))">
+												<p-area :borderColor="data.kandidati.filter(x => x.KRZAST === kraj && x.KSTRANA === party.KSTRANA && x.MANDAT && x.MANDAT === 'A').length > 0 ? 'var(--green)' : 'var(--red)'">
+													<strong>
+														<router-link :to="'/volby/krajske-volby/' + id + '/strana/' + party.id">{{ party.NAZEV }}</router-link>
+													</strong>
+													<div class="smaller _t" v-if="data.kandidati.filter(x => x.KRZAST === kraj && x.KSTRANA === party.KSTRANA).length > 0">
+														<p-list-linear>
+															<span v-for="cand in sortBy(data.kandidati.filter(x => x.KRZAST === kraj && x.KSTRANA === party.KSTRANA), 'PORCISLO', 99).filter((x, i) => (x.MANDAT && x.MANDAT === 'A') || i < 5)">
+																<router-link :to="'/volby/krajske-volby/' + id + '/kandidat/' + cand.id" :class="{'strong green': cand.MANDAT && cand.MANDAT === 'A'}">
+																	{{ cand.JMENO + ' ' + cand.PRIJMENI }}
+																</router-link>		
+																<span v-if="cand.PORCISLO" class="tiny blue"> ({{ cand.PORCISLO }})</span>													
+															</span>
+														</p-list-linear>
+														<div class="p-line" height=".25"></div>
+														<div class="smaller">
+															<p-list-linear class="or">
+																<p-lang v-if="data.kandidati.filter(x => x.KRZAST === kraj && x.KSTRANA === party.KSTRANA && x.MANDAT && x.MANDAT === 'A').length > 0" :value="data.kandidati.filter(x => x.KRZAST === kraj && x.KSTRANA === party.KSTRANA && x.MANDAT === 'A').length" :end="['', 'Jeden mandát', '%% mandáty', '%% mandátů']" class="strong green"></p-lang>
+																<strong v-else class="red">Žádný mandát</strong>
+																<p-lang :value="data.kandidati.filter(x => x.KRZAST === kraj && x.KSTRANA === party.KSTRANA).length" :end="['', 'Jedna nominace', 'Celkem %% nominace', 'Celkem %% nominací']"></p-lang>
+																<strong v-for="program in party.$data.program">
+																	<p-link :href="program.source">{{ program.value || 'Program' }}</p-link>
+																</strong>
+															</p-list-linear>
+														</div>													
+													</div>
+													<div class="p-line"></div>
+													<p-box-group>
+														<template v-if="!data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+															<p-box :to="'/volby/krajske-volby/' + id + '/aktivita/' + party.VSTRANA">
+																<p-box-image :src="logoByItem(party, data)" class="_r"></p-box-image>
+															</p-box>
+														</template>
+														<template v-if="data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+															<template v-for="member in data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+																<p-box :to="'/volby/krajske-volby/' + id + '/aktivita/' + member.VSTRANA">
+																	<p-box-image :src="logoByItem(member, data)" class="_r"></p-box-image>
+																</p-box>
+															</template>
+														</template>
+													</p-box-group>
+												</p-area>
+											</template>
+										</template>
+									</p-block>
+								</div>
+							</p-list>
+						<!-- </p-block> -->
+					</div>
+				</p-loader>
+			</p-block>		
+			<p-loader :rule="data">
+				<div v-if="data">	
+					<p-block headline="Členové na jiné kandidátce" :level="1" v-if="others.length > 0">
+						<p>V některých případech se mohou členové strany objevit na jiné kandidátce, než je jejich, koaliční nebo které strana vyslovila podporu.</p>
+						<p-list>
+							<template v-for="item in others">
+								<div>
+									<router-link :to="'/volby/krajske-volby/' + id + '/kandidat/' + item.cand.id">
+										{{ item.cand.JMENO + ' ' + item.cand.PRIJMENI }}
+									</router-link>
+									je {{ item.cand.PORCISLO }}. na kandidátce 
+									<router-link :to="'/volby/krajske-volby/' + id + '/strana/' + item.party.id">
+										<em>{{ item.party.NAZEV }}</em>
+									</router-link>
+									({{ item.region }})
+								</div>
+							</template>
+						</p-list>
+					</p-block>
+				</div>
+			</p-loader>
+		</template>
+		<template #anchors>
+			<p-logo v-if="data && logoByItem(data.strana, data, null, true)" :data="{logo: logoByItem(data.strana, data)}" :size="'12rem'" :alt="'Logo ' + data.strana.NAZEV"></p-logo>
+			<p-logo v-else :data="{logo: cdn + 'icon/krajske-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+				<div>
+
+							<div class="smallest strong" v-if="data && data.cis.volby">
+								<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][data.cis.volby.status]) + ')'">{{ data.cis.volby.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[data.cis.volby.status] }}</p-label></div>
+								<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][data.cis.volby.editace]) + ')'">administrace {{ enums.editace[data.cis.volby.editace] }}</p-label></div>
+							</div>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

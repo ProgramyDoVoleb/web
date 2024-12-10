@@ -1,0 +1,37 @@
+<div class="table-results">
+	<div class="box">
+		<div class="box-content">
+			<table cellspacing="0" cellpadding="0" border="0" width="100%">
+				<thead class="dimm">
+					<tr>
+						<th>Strana, hnutí, koalice</th>
+						<th class="show-40rem">% hlasů</th>
+						<th class="">Hlasů</th>
+						<th>Mandátů</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(party, index) in [].concat(data).reverse()" v-if="party.activity === -1 && (showAll || party.previous.seats > 0)">
+						<td>
+							<party-name-with-dot :reg="party.reg" v-if="party.reg != 80 && party.reg != 90" />
+							<party-name-with-dot :useName="checkCandidateName(party.name)" :alwaysName="true" v-if="party.reg === 80" :useColor="createColorByName(checkCandidateName(party.name))" />
+							<party-name-with-dot :useName="party.name" :alwaysName="true" v-if="party.reg === 90" :useColor="createColorByName(party.name)" />
+						</td>
+						<td class="show-40rem">{{ party.previous.pct }} %</td>
+						<td>
+							{{ beautifyNumber(party.previous.votes) }}
+						</td>
+						<td :class="{dimm: party.previous.seats < 1, red: party.previous.seats > 0}">
+							{{ (party.previous.seats > 0 ? '-' : '') + party.previous.seats }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="btns center">
+		<button @click="toggle">
+			{{ showAll === true ? 'Skrýt' : 'Zobrazit' }} menší strany
+		</button>
+	</div>
+</div>

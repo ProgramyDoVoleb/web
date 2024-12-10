@@ -1,0 +1,73 @@
+.columns > div {
+	margin-bottom: 1em;
+}
+
+._br4 {
+	border-radius: 4px;
+}
+
+.relative {
+	position: relative;
+
+	.attendance {
+		position: absolute;
+		top: 0;
+		right: -.5em;
+		width: 50%;
+		max-width: 20rem;
+	}
+}
+
+._bl {
+	border-left: var(--border);
+}
+
+._w400 {
+	font-weight: 400;
+}
+
+._ng {
+	margin-bottom: 0 !important;
+}
+
+h2 {
+	margin: .25em 0;
+}
+
+._pr {
+	position: relative;
+}
+
+._pal {
+	position: absolute;
+	z-index: 2;
+	left: -.5em;
+	top: -.5em;
+	width: 2em;
+}
+
+._pa {
+	display: block;
+	width: 2em;
+	height: 2em;
+	border-radius: 1em;
+	background: #fff;
+	border: var(--border);
+	position: relative;
+	z-index: 2;
+
+	& + ._pa {
+		margin-top: -.5em;
+		z-index: 1;
+	}
+
+	.dark & {
+		// background: #000;
+		border: none;
+		box-shadow: 0 4px 8px #00000044;
+	}
+}
+
+._n {
+	font-weight: normal;
+}

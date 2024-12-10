@@ -1,0 +1,37 @@
+<div class="election-stats">
+	<template v-if="data[1]">
+		<strong>2. kolo</strong>
+		<div class="p-gap"></div>
+		<p-list>
+			<p-stats label="Účast">
+				<p-line-graph :value="data[1].UCAST" color="var(--blue)"></p-line-graph>
+			</p-stats>
+			<p-stats label="Voličů" class="smaller">
+				{{ number(data[1].VOLILO) }} voličů z {{ number(data[1].VOLICU) }} možných
+			</p-stats>
+			<p-stats label="Chybovost" class="smaller" v-if="data[1].PLATNYCH">
+				{{ number(data[1].ERR) }} %, celkem {{ number(data[1].VOLILO - data[1].PLATNYCH) }} neplatných hlasů
+			</p-stats>
+		</p-list>
+		<div class="p-line"></div>
+	</template>
+	<strong>1. kolo</strong>
+	<div class="p-gap"></div>
+	<p-list>
+		<p-stats label="Účast">
+			<p-line-graph :value="data[0].UCAST" color="var(--blue)"></p-line-graph>
+		</p-stats>
+		<p-stats label="Voličů" class="smaller">
+			{{ number(data[0].VOLILO) }} voličů z {{ number(data[0].VOLICU) }} možných
+		</p-stats>
+		<p-stats label="Chybovost" class="smaller" v-if="data[0].PLATNYCH">
+			{{ number(data[0].ERR) }} %, celkem {{ number(data[0].VOLILO - data[0].PLATNYCH) }} neplatných hlasů
+		</p-stats>
+		<p-stats label="Propadlé hlasy" v-if="data[0].PLATNYCH">
+			<p-line-graph :value="pct(results.filter(x => x.KOLO === 1).reduce((a, b) => a + (b.VYSLEDEK < 3 ? 0 : b.HLASU), 0), data[0].PLATNYCH)" color="var(--red)"></p-line-graph>
+		</p-stats>
+		<p-stats label="Propadlé hlasy" class="smaller" v-if="data[0].PLATNYCH">
+			{{ number(results.filter(x => x.KOLO === 1).reduce((a, b) => a + (b.VYSLEDEK < 3 ? 0 : b.HLASU), 0)) }} hlasů z celkem {{ number(data[0].PLATNYCH) }} platných
+		</p-stats>
+	</p-list>
+</div>

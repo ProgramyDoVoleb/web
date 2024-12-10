@@ -1,0 +1,147 @@
+// @import url('https://fonts.googleapis.com/css2?family=Quando&display=swap');
+
+html, body, .sans {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+p {
+  font-size: .85em;;
+  line-height: 1.7;
+  max-width: 70em;
+
+  &.lead {
+    font-size: 1em;
+  }
+}
+
+h1, h2, .serif {
+  font-family: 'Palatino Linotype', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+
+.w400 {
+  font-weight: normal !important;
+}
+
+.smaller {
+  font-size: .85em;
+}
+
+.small {
+  font-size: .7em;
+}
+
+.smallest {
+  font-size: 11px;
+}
+
+.tiny {
+  font-size: 9px;
+}
+
+.normal {
+  font-size: 1.4rem;
+}
+
+.dimm {
+  color: #a7a7a7;
+
+  .dark & {
+    color: #999;
+  }
+}
+
+.red {
+  color: var(--red);
+}
+
+.green {
+  color: var(--green);
+}
+
+.blue {
+  color: var(--blue);
+}
+
+.black {
+  color: #000;
+}
+
+.red-bg {
+  background: var(--red) !important;
+  color: #fff !important;
+}
+
+.green-bg {
+  background: var(--green) !important;
+  color: #fff !important;
+}
+
+.grey-bg {
+  background: #f7f7f7 !important;
+  color: #aaaaaa !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.keep {
+  white-space: nowrap;
+}
+
+.uc {
+  text-transform: uppercase;
+}
+
+blockquote {
+  font-family: Georgia, serif;
+  // font-size: 1.6rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+label > input {
+  width: auto;
+}
+
+h1, h2, h3, h4 {
+  color: #000034;
+
+  .dark & {
+    color: #ccc;
+  }
+}
+
+h3.nom {
+  margin: 0;
+}
+
+h3.nom2 {
+  margin: .3em .15em;
+}
+
+.br {
+	height: .5em;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.reset {
+  font-size: initial;
+  line-height: initial;
+  color: initial;
+  font-weight: initial;
+}

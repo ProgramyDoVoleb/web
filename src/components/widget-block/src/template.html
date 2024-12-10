@@ -1,0 +1,24 @@
+<div class="widget-block">
+
+	<h3 v-if="!open">Přehled stran jako widget pro vaši stránku</h3>
+	<p-collapsible label="Chci widget" :open="open" :borderless="open" :skip="open" ref="ce">
+		<div class="split">
+			<div>
+				<h4>Zkopírujte do vaší stránky:</h4>
+				<p-area class="code-sample" ref="code-sample" v-html="sampleDemo"></p-area>
+				<div class="p-gap"></div>
+				<p-box-group>
+					<p-box :click="() => copyLink()">
+						<p-box-button v-if="!copied" icon="link.svg" color="#066ed2">Zkopírovat kód</p-box-button>
+						<p-box-icon type="icon-check" v-if="copied"></p-box-icon>
+						<p-box-label v-if="copied">Zkopírováno</p-box-label>
+					</p-box>
+				</p-box-group>
+			</div>
+			<div>
+				<h4>Náhled:</h4>
+				<iframe :src="'https://embed.programydovoleb.cz/?dnt=1&' + vars" frameborder="0" id="iframe-demo" onload="iFrameResize({}, '#iframe-demo')"></iframe>
+			</div>
+		</div>
+	</p-collapsible>
+</div>

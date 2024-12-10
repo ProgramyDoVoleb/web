@@ -1,0 +1,12 @@
+<div class="activity-logo-set">
+  <template v-if="!logoByItem(party, data).includes('empty.png')">
+    <p-box-image :src="logoByItem(party, data)"></p-box-image>
+  </template>
+  <template v-else>
+    <div class="_g" v-if="data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+      <template v-for="member in data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+        <p-box-image :src="logoByItem(member, data)" class="_gs"></p-box-image>
+      </template>
+    </div>
+  </template>
+</div>

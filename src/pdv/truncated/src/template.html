@@ -1,0 +1,8 @@
+<div class="truncated-text">
+	<span v-html="txt"></span>
+	<span v-if="compact && content != txt">&nbsp;<router-link :to="compact">více</router-link>
+	</span>
+	<span v-if="!compact && hideable">
+		&nbsp;<button class="inline" @click="changeText()"><span v-if="!full">více &rarr;</span><span v-if="full">&larr; skrýt</span></button>
+	</span>
+</div>

@@ -1,0 +1,48 @@
+.p-block {
+	padding: 0 !important;
+}
+
+.report-modal {
+	display: inline-block;
+}
+
+._space {
+	padding: .5em 0 .5em .25em;
+
+	a {
+		text-decoration: none;
+	}
+}
+
+._keep {
+	width: 3em;
+	text-align: right;
+}
+
+._pt {
+	// padding-top: .5em;
+}
+
+.graph-line-holder {
+	background: #eee;
+	height: 1px;
+	left: 3em;
+	bottom: -.5em;
+
+	.dark & {
+		background: #000;;
+	}
+}
+
+._nl {
+	padding-left: 3em;
+	position: relative;
+}
+
+._nli {
+	position: absolute;
+	top: 0;
+	left: -.25em;
+	background: #fff;
+	border-radius: .5em;
+}

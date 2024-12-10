@@ -1,0 +1,18 @@
+.strong {
+  font-size: 1.15em;
+}
+
+@media (max-width: 800px) {
+  ._do {
+    flex-wrap: wrap;
+  
+    & > :last-child:not(:first-child) {
+      width: 100%;
+      margin: 1.5em 0 1em 1em;
+    }
+  }
+  
+  ._mf {
+    order: -1;
+  }
+}

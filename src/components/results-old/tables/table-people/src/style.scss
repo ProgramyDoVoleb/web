@@ -1,0 +1,172 @@
+.results-people-table {
+  margin: 0 -1rem;
+
+  @media (min-width: 40rem) {
+    margin: 0;
+  }
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  padding: .4rem 1rem;
+
+  @media (min-width: 40rem) {
+    padding: .4rem 1rem .4rem 0;
+  }
+}
+
+button {
+  border: none;
+  padding-left: 0;
+}
+
+.inline {
+  margin-left: 1rem;
+}
+
+li:not(.headline) {
+  padding-top: .2rem;
+  padding-bottom: .2rem;
+  border-top: 1px solid #f4f4f4;
+  position: relative;
+}
+
+.headline {
+  font-size: 10px !important;
+  text-transform: uppercase;
+}
+
+.headline + .headline {
+  margin-top: -.8rem;
+}
+
+.progress + :not(.progress) {
+  border-top: 1px dotted #f00;
+  position: relative;
+
+  &:after {
+    content: "";
+    background: #f00;
+    width: 7px;
+    height: 7px;
+    border-radius: 4px;
+    position: absolute;
+    top: -4px;
+    right: -1px;
+  }
+}
+
+li:not(.progress),
+li.result .border-right ~ div {
+  font-size: .8em;
+  color: #888;
+}
+
+.person {
+  display: flex;
+}
+
+.person-graph {
+  position: absolute;
+  height: 1px;
+  left: 0;
+  bottom: -1px;
+  right: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: #f7ecec;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+
+    .progress & {
+      background: #ecf7ed
+    }
+
+    .below & {
+      background: #f4f4f4
+    }
+  }
+
+  &.local {
+    .person-graph-local {
+
+    }
+    .person-graph-global {
+      display: none
+    }
+  }
+}
+
+.progress {
+  // background: #fafafa;
+}
+
+.person-about {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+
+  .dimm {
+    display: none;
+
+    @media (min-width: 40rem) {
+      display: inline;
+    }
+  }
+}
+
+.person-result {
+  // width: 10rem;
+  display: flex;
+  text-align: right;
+  position: relative;
+  align-items: baseline;
+  z-index: 1;
+
+  > .person-result-short {
+    width: 3rem;
+  }
+
+  > .person-result-mid, .person-result-large {
+    width: 5rem;
+
+    span {
+      display: block;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    // width: 12rem;
+
+    > .person-result-short {
+      width: 3.75rem;
+    }
+
+    > .person-result-large {
+      width: 5.25rem;
+    }
+  }
+}
+
+.person-result-large {
+  display: none;
+
+  @media (min-width: 40rem) {
+    display: block;
+  }
+}
+
+.footer button:hover {
+  background: none;
+}

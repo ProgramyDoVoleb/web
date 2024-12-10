@@ -1,0 +1,43 @@
+<div class="results-people">
+	<div class="loaded box" v-if="global.data && hasSecondRound">
+		<div class="box-content box-content-large">
+			<div class="p-split">
+				<div><strong>Druhé kolo</strong></div>
+				<div class="smaller">
+					Účast {{ stats.local ? stats.local.round2.pct : stats.global.round2.pct || 0 }} %, 
+					{{ beautifyNumber(stats.local ? stats.local.round2.attended : stats.global.round2.attended) }} voličů
+				</div>
+			</div>
+			<div class="p-gap"></div>
+			<graph-duel :data="round2" :local="!!stats.local" v-if="hasSecondRound && globalResults.round2.attended > 0" />
+			<span v-if="hasSecondRound && globalResults.round2.attended ===  0">čekáme na první výsledky</span>
+		</div>
+		<div class="p-gap"></div>
+		<div class="box-content" v-if="hasSecondRound">
+			<collapsible-element label="Kompletní výsledky">
+				<table-people :data="round2" />
+			</collapsible-element>
+		</div>
+	</div>
+	<div class="p-gap"></div>
+	<div class="loaded box" v-if="global.data">
+		<div class="box-content box-content-large">
+			<div class="p-split">
+				<div>
+					<strong>První kolo</strong>
+				</div>
+				<div class="smaller">
+					Účast {{ stats.local ? stats.local.round1.pct : stats.global.round1.pct || 0 }} %, 
+					{{ beautifyNumber(stats.local ? stats.local.round1.attended : stats.global.round1.attended) }} voličů
+				</div>
+			</div>
+			<div class="p-gap"></div>
+			<graph-people :data="round1" :local="!!stats.local" />
+		</div>
+		<div class="box-content">
+			<collapsible-element label="Kompletní výsledky">
+				<table-people :data="round1" />
+			</collapsible-element>
+		</div>
+	</div>
+</div>

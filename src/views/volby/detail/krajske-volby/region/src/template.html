@@ -1,0 +1,266 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block :headline="(about ? about.data.name : 'Volby') + ', ' + enums.regions[region - 1]" :level="1" :subheadline="current ? (current.datum_label || (current.datum ? date(current.datum, 3) : current.cirka)) : 'načítám...'">
+				<p-loader :rule="current">
+					<div v-if="current">
+						<p-block headline="O volbách" :hide="true" v-if="current.web || current.popis">
+							<template>
+								<p-box :href="current.web">
+									<p-box-button icon="link.svg" color="var(--blue)">Webové stránky k volbám</p-box-button>
+								</p-box>
+							</template>
+							<p class="lead" v-if="current.popis" v-html="current.popis"></p>
+						</p-block>
+						<!-- <template v-if="current.id === 162">
+							<p-box-group>
+								<p-box :to="'/pruvodce/krajske-a-senatni-volby-2024?kraj=' + region">
+									<p-box-button icon="icon-party.svg" color="var(--blue)">Průvodce volbami</p-box-button>
+								</p-box>
+								<p-box :href="'https://www.volebnikalkulacka.cz/volby/krajske-2024/' + (region - 1) + '-' + url(enums.regions[region - 1].split(' ')[0])  + '/navod'">
+									<p-box-button icon="link.svg">Kalkulačka</p-box-button>
+								</p-box>
+								<p-box to="/jak-volit/krajske-volby">
+									<p-box-button>Jak volit?</p-box-button>
+								</p-box>
+							</p-box-group>	
+							<div class="p-gap _2"></div>
+						</template> -->
+						<krajske-volby :data="data" :region="region"></krajske-volby>
+						<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Media a tiskové zprávy" :open="current.status < 3" anchor="Media" :hide="current.status === 3 && newsmedia.length === 0" :class="{'p-block---up': current.status === 3 && newsmedia.length === 0}">
+							<p-loader :rule="news" reserve="450px">
+								<div v-if="news" class="smaller">
+									<div class="columns columns---no-gap">
+										<template v-for="(item, index) in newsmedia">
+											<div v-if="index < 8">
+												<p-area :borderColor="item.type === 'pr' ? 'var(--blue44)' : null">
+													<div>
+														<p-link class="strong" :href="item.source">{{ item.value }}</p-link>
+													</div>
+													<div class="p-gap _05"></div>
+													<div class="smallest dimm" v-if="item.$node">
+														<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id" class="is-span dimm">{{ item.$node[0].NAZEV || item.$node[0].JMENO + ' ' + item.$node[0].PRIJMENI }}</router-link>
+														<span class="dimm" v-if="item.type === 'pr'"> &middot; Tisková zpráva</span>
+													</div>
+													<div class="smallest dimm">
+														{{ date(item.updated) }} &middot; {{ domain(item.source_label || item.source) }}
+													</div>										
+												</p-area>
+											</div>
+										</template>
+										<div v-if="current.status < 3">
+											<p-area icon="plus-green" background="var(--green11)">
+												<p-modal>
+													<template #init> <button class="inline green strong">Poslat tip na novinku</button> </template>
+													<template #content>
+														<div class="strong">Odkaz na článek</div>
+														<report-form part="Přidat novinku"></report-form>
+													</template>
+												</p-modal>
+												<div class="smallest dimm">Stačí poslat odkaz</div>
+											</p-area>
+										</div>
+									</div>
+								</div>
+							</p-loader>
+						</component>
+						<p-block-expandable headline="Zdroje a aktuality">
+							<p-loader :rule="news">
+								<div v-if="news">
+									<news-block class="smaller" :omitSys="true" :limit="6" :expandable="true" :news="news" :data="current" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>
+										
+								</div>
+							</p-loader>
+						</p-block-expandable>	
+						<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Minulé volby" v-if="previous">
+							<p-area>
+								<p-loader :rule="previousData">
+									<div v-if="previousData">
+										<krajske-volby-results :data="previousData" type="KZ" :focus="region"></krajske-volby-results>
+									</div>
+								</p-loader>		
+								<p-collapsible label="Obhajoba mandátů">
+									<p-loader :rule="previousGains">
+										<div v-if="previousGains">
+											<p>V předchozích volbách <router-link :to="'/volby/krajske-volby/' + previous + '/kraj/' + region">{{ previousGains.cis.volby.datum_label || date(previousGains.cis.volby.datum) }}</router-link> uspělo {{ previousGains.list.length }} nominantů z <p-lang :value="previousGains.cis.strany.length" :end="['', 'jedné strany či', '%% různých stran a', '%% různých stran a']"></p-lang> hnutí.</p>
+											<p-area>
+												<div class="strong smaller _tdp">Přehled stran a kandidátů</div>
+												<table class="">
+													<tr>
+														<td colspan="10" class="smallest _tdp">
+															<p-label color="var(--blue)" class="blue strong">Modře</p-label> jsou uvedeni kandidáti, kteří letos obhajují mandát. Nemusí to ale být vždy za stejnou kandidátku jako minule.
+														</td>
+													</tr>
+													<tr v-for="party in sortBy(previousGains.cis.strany, 'NAZEV', false, true)">
+														<td>
+															<p-image :src="logoByItem(party, previousGains)" width="4em" :rounded="true" class="_pimg"></p-image>
+														</td>
+														<td class="_tdp">
+															<!-- <p-label :color="colorByItem(party, previousGains)" :after="true"> -->
+																<router-link :to="'/rejstrik/' + party['VSTRANA']" class="strong">{{ party['NAZEV'] }}</router-link>														
+															<!-- </p-label>		 -->
+															<div class="smaller _tdt">
+																<p-list-linear>
+																	<span v-for="cand in sortBy(previousGains.list.filter(x => x.NSTRANA === party.VSTRANA), 'PRIJMENI', false, true)">
+																		<router-link :class="{'is-span': !current.$kandidati.find(x => x.JMENO === cand.JMENO && x.PRIJMENI === cand.PRIJMENI && (x.VEK - cand.VEK < 6 && x.VEK - cand.VEK > 2))}" :to="'/volby/krajske-volby/' + previous + '/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
+																	</span>
+																</p-list-linear>
+															</div>											
+														</td>
+														<td class="text-right strong">{{ previousGains.list.filter(x => x.NSTRANA === party.VSTRANA).length }}</td>
+													</tr>
+												</table>
+											</p-area>
+										</div>
+									</p-loader>
+								</p-collapsible>
+							</p-area>				
+						</component>
+						<p-block headline="Data" :hide="true">
+							<p-grid>
+								<div v-if="current.status < 3">
+									<p-area background="var(--green11)" icon="plus-green">
+										<p-modal>
+											<template #init> <button class="inline green strong">Poslat tip na doplnění</button> </template>
+											<template #content>
+												<div class="strong">Stačí vložit odkaz, odkud čerpat. Komentář pomůže.</div>
+												<report-form part="Tip na doplnění"></report-form>
+											</template>
+										</p-modal>
+										<div class="smallest dimm">Stačí poslat odkaz</div>
+									</p-area>
+								</div>
+								<div>
+									<p-area icon="link">
+										<p-modal>
+											<template #init><button class="inline strong">API a Opendata</button></template>
+											<template #content>
+												<strong>Kde je archiv údajů a odkud se tahají data?</strong>
+												<div class="p-gap _05"></div>
+												<p-list>
+													<p-stats label="ID voleb">{{ id }}</p-stats>
+													<p-stats label="ID kraje">{{ region }}</p-stats>
+													<p-stats label="Permalink"><p-link :href="'https://programydovoleb.cz/volby/krajske-volby/' + id + '/kraj/' + region"></p-link></p-stats>
+													<p-stats v-if="current.web" label="Web k volbám"><p-link :href="current.web"></p-link></p-stats>
+													<p-stats v-if="current.csu_vysledky" label="ČSÚ výsledky"><p-link :href="current.csu_vysledky"></p-link></p-stats>
+													<p-stats v-if="current.csu_opendata" label="ČSÚ opendata"><p-link :href="current.csu_opendata"></p-link></p-stats>
+													<p-stats label="API"><p-link :href="'https://api.programydovoleb.cz/elections/fetch/' + id + ':' + region"></p-link></p-stats>
+												</p-list>
+											</template>
+										</p-modal>
+										<div class="smallest dimm">Jednoduché volání, JSON</div>
+									</p-area>
+								</div>
+								<div v-if="current && current.editace === 1">
+									<p-area icon="link">
+										<p-modal>
+											<template #init><button class="inline strong">Admin - správa údajů</button></template>
+											<template #content>
+												<strong>Administrace údajů</strong>
+												<div class="p-gap _05"></div>
+												<div class="smaller">Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají a která bude údaje pravdivě a svědomitě spravovat.</div>
+												<div class="p-gap"></div>
+												<div class="strong">
+													<p-link :href="'https://admin.programydovoleb.cz/?source=https://programydovoleb.cz' + $route.fullPath" class="button">Vyplnit žádost</p-link>
+												</div>
+											</template>
+										</p-modal>
+										<div class="smallest dimm">Spravujte údaje na této stránce</div>
+									</p-area>
+								</div>
+							</p-grid>
+						</p-block>
+						<!-- <div class="p-gap"></div>
+						<p class="smaller">
+							<strong><p-label color="var(--red)">Nominujte <em>Programy do voleb</em></p-label> na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou lupu 2024</p-link>.</strong>
+							Stačí napsat název projektu <p-link href="https://kristalova.lupa.cz/nominace/" class="red strong">v tomto formuláři</p-link> v kategorii <strong>Nástroje a služby</strong> a potvrdit to e-mailem. Můžete zde doplnit i další oblíbené projekty. Předem díky.
+						</p> -->
+						<div class="p-gap"></div>
+
+				
+					</div>
+				</p-loader>
+			</p-block>
+			<p-block :level="1" headline="Krajské volby" :hide="true">
+				<p-area :borderColor="current ? 'var(--' + (['red', 'blue', 'green', 'red'][current.status]) + ')' : 'var(--grey)'">
+					<h2 class="serif">
+						Krajské volby
+						<div class="small sans">{{ current ? (current.datum_label || (current.datum ? date(current.datum, 3) : current.cirka)) : 'načítám...' }}</div>
+					</h2>
+					<div class="smaller" v-if="current">
+						<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][current.status]) + ')'">{{ current.radne === 0 ? 'mimo' : ''}}volby {{ enums.status[current.status] }}</p-label></div>
+						<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][current.editace]) + ')'">administrace {{ enums.editace[current.editace] }}</p-label></div>
+					</div>
+					<template v-if="current && current.web">
+						<div class="p-gap"></div>
+						<p-box :href="current.web">
+							<p-box-button icon="link.svg" color="var(--blue)">Webové stránky k volbám</p-box-button>
+						</p-box>
+					</template>
+					<div class="p-line"></div>
+					<div class="columns-4 smaller">
+						<div class="strong">
+							<router-link :to="'/volby/krajske-volby/' + id">Přehled krajů</router-link>
+						</div>
+						<template v-for="(reg, inr) in [3,11,5,8,7,14,12,9,4,2,6,10,13]">
+							<div>
+								<router-link :to="'/volby/krajske-volby/' + id + '/kraj/' + (reg)">{{ enums.regions[reg-1] }}</router-link>
+							</div>
+						</template>
+					</div>
+					<div class="p-line"></div>
+					<div v-if="elections" class="smaller strong">
+						<p-list-linear class="or">
+							<strong>Historie voleb</strong>
+							<span v-for="(el, i) in elections.list.filter(x => x.radne === 1 && x.cirka)">
+								<router-link :to="'/volby/krajske-volby/' + el.id">
+									{{ el.datum ? el.datum.split('-')[0] : el.cirka }}
+								</router-link>
+							</span>
+							<span v-for="(el, i) in elections.list.filter(x => x.radne === 1 && x.datum)">
+								<router-link :to="'/volby/krajske-volby/' + el.id">
+									{{ el.datum ? el.datum.split('-')[0] : el.cirka }}
+								</router-link>
+							</span>
+						</p-list-linear>
+					</div>
+				</p-area>
+			</p-block>
+			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/krajske-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+				<cta-get-admin :election="current" v-if="current" />
+				<cta-support></cta-support>
+				<div>
+
+							<div class="smallest strong" v-if="current">
+								<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][current.status]) + ')'">{{ current.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[current.status] }}</p-label></div>
+								<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][current.editace]) + ')'">administrace {{ enums.editace[current.editace] }}</p-label></div>
+							</div>
+				</div>
+				<!-- <div>
+					<p-area>
+						<strong>Výzva pro strany a kandidáty</strong>
+						<div class="p-gap _05"></div>
+						<div class="small">Jdete do voleb? Už máte svůj přístup do <p-link href="https://eu2024.programydovoleb.cz/pro-kandidaty" class="strong">Adminu</p-link>? Už dnes můžete vyplnit své údaje a také odpovědi na <p-link href="https://eu2024.programydovoleb.cz/otazky" class="strong">volební otázky</p-link> a kalkulačku.</div>
+					</p-area>
+				</div> -->
+				<div>
+					<strong>Poslední novinky</strong>
+					<div class="p-gap"></div>
+					<p-loader :rule="news && current">
+						<div v-if="news && current" class="smallest">
+							<news-block :omitSys="true" :limit="2" :news="news" :data="current" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>
+						</div>
+					</p-loader>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

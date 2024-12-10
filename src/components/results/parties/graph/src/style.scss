@@ -1,0 +1,165 @@
+._space {
+	display: flex;
+}
+
+._item {
+	flex: 1;
+	text-align: center;
+	padding-bottom: .5em;
+
+	// @media (hover: hover) {
+
+	// 	background: #00000000;
+	// 	border-radius: 1em;
+
+	// 	transition: all .3s .3s;
+
+	// 	&:hover {
+	// 		background: rgba(0,0,0,.02);
+	// 	}
+
+	// 	.dark & {
+	// 		background: #00000000;
+	// 		box-shadow: 0 .3em .6em #00000000;
+	// 	}
+
+	// 	.dark &:hover {
+	// 		background: rgba(255,255,255,.02);
+	// 		box-shadow: 0 .7em 1.4em #00000022;
+	// 	}
+	// }
+}
+
+._bar-holder {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	height: 15em;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: .5em;
+
+	.dark & {
+		border-bottom: 1px solid #666;
+	}
+}
+
+._bar {
+	position: relative;
+	width: 100%;
+}
+
+._bar-pane {
+	border-top-left-radius: .75em;
+	border-top-right-radius: .75em;
+	width: 80%;
+	margin: 0 10%;
+	height: 0px;
+
+	transition: height 1s ease-in-out;
+
+	._ref & {
+		width: 60%;
+		margin: 0 20% 0 15%;
+	}
+}
+
+._ref ._ref-pane {
+	position: absolute;
+	bottom: 0;
+	left: 40%;
+	width: 40%;
+	opacity: .1;
+	z-index: 1;
+}
+
+._bar-value {
+	position: absolute;
+	top: -1.75em;
+	left: 50%;
+	white-space: nowrap;
+	transform: translateX(-50%);
+
+	._ref & {
+		left: 45%;
+	}
+}
+
+._ref ._ref-value {
+	left: 75%;
+	opacity: .2;
+	top: auto;
+}
+
+._item:not(.passed):not(.rest) ._bar {
+	opacity: .33;
+	filter: grayscale(.5);
+}
+
+._item.passed + ._item:not(.passed) {
+  border-left: 1px dotted #f00;
+}
+
+._logo {
+	padding: 0 .2em;
+}
+
+._short {
+	overflow: hidden;
+	position: relative;
+	height: 2em;
+
+	> span,
+	> a {
+		position: absolute;
+		display: block;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		white-space: nowrap;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 9px;
+	}
+}
+
+.p-logo {
+	width: 100%;
+	max-width: 3em;
+	margin: 0 auto;
+}
+
+._coal {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-top: .25em;
+	margin-bottom: -.1em;
+
+	.p-logo {
+		max-width: 1.5em;
+		margin: .1em;
+	}
+}
+
+@keyframes show {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+._mandates {
+	position: absolute;
+	bottom: 0;
+	font-size: 11px;
+	font-weight: bold;
+	color: #fff;
+
+	opacity: 0;
+
+	animation: show .4s 1.2s linear 1 forwards;
+
+	._ref & {
+		left: 40%;
+	}
+}

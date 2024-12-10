@@ -1,0 +1,34 @@
+.p-box-graph {
+  min-width: 4rem;
+  padding: 0 .5em;
+  height: 4rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  transition: all .4s;
+
+  position: relative;
+}
+
+.p-box-graph---bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 4rem;
+  width: 100%;
+  background: #000;
+  opacity: .1;
+  z-index: 1;
+  border-bottom: 1px solid #066ed2;
+  border-top: 1px solid #eaeaea !important;
+
+  transition: all .4s;
+}
+
+.p-box-graph---value {
+  position: relative;
+  z-index: 2;
+}

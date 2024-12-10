@@ -1,0 +1,23 @@
+<div class="layout-volby">
+	<p-area>
+		<p-loader :rule="data">
+			<div v-if="data">
+				<component :is="type.hash" :data="data" :local="local" :label="label || 'Výsledky'"></component>		
+			</div>
+		</p-loader>	
+		<div class="p-line"></div>
+		<div class="smaller dimm">
+			<span class="strong">
+				<router-link :to="'/volby/' + type.hash + '/' + id">{{ type.name }}</router-link>
+				<template v-if="label && local || spec">
+					&middot;
+					<router-link v-if="type.key === 'KZ'" :to="'/volby/' + type.hash + '/' + id + '/kraj/' + (spec || local.KRZAST)">{{ label }}</router-link>
+					<router-link v-if="type.key === 'SENAT'" :to="'/volby/' + type.hash + '/' + id + '/obvod/' + (spec || local.obvod)">{{ label }}</router-link>
+					<router-link v-if="type.key === 'KV'" :to="'/volby/' + type.hash + '/' + id + '/obec/' + (spec || local.obec)">{{ label }}</router-link>
+				</template>
+			</span>
+			&middot;
+			{{ date(election.datum) }}
+		</div>
+	</p-area>	
+</div>

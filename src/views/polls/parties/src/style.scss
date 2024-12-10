@@ -1,0 +1,43 @@
+.polls-preview---split {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+  & > :first-child {
+    width: 7rem;
+    // text-align: right;
+    margin-right: 1rem;
+  }
+
+  & > :nth-child(2) {
+    width: auto;
+    flex: 1 0 auto;
+  }
+}
+
+.has-previous .polls-preview---split {
+  & > :last-child {
+    width: 3rem;
+  }
+}
+
+.text-right {
+  width: 3.5em;
+  white-space: nowrap;
+}
+
+.both {
+  & > :last-child:not(:first-child) {
+    margin-top: 1em;
+    border-top: 1px solid #eee;
+    padding-top: 1em;
+  }
+}
+
+._pr {
+  margin-right: 1em;
+}
+
+._nw {
+  white-space: nowrap;
+}

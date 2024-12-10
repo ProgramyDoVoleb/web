@@ -1,0 +1,38 @@
+<div class="slovakia" lang="sk">
+	<p-area borderColor="var(--red)">
+				<p-list>
+					<div>
+						<div class="p-offset">
+							<div>
+								<p-image src="https://static.programydovoleb.cz/icon/europske-volby.png" :round="true" :border="true"></p-image>
+							</div>
+							<div>
+								<p-link href="https://programydovolieb.sk/volby/europske-volby/2" class="strong">Európske voľby</p-link>
+								<div class="p-gap_05"></div>
+								<div class="smaller">8. júna, 7-22</div>
+								<div>
+									<p-list-linear class="smaller">
+										<template v-if="list2">
+											<template v-for="(item, index) in sortBy(list2.$strany, 'ZKRATKA', '', true)">
+												<span class="_p"><p-link :href="'https://programydovolieb.sk/volby/europske-volby/2/strana/' + item.id">{{ item.ZKRATKA }}</p-link></span>
+											</template>
+										</template>
+									</p-list-linear>
+								</div>
+							</div>
+						</div>
+					</div>
+				</p-list>
+				<div class="p-line"></div>
+				<div class="p-offset reverse balanced">
+					<div v-if="news" class="smaller">
+						<strong>Posledná aktualita:</strong> 
+						<p-link :href="news.source">{{ news.title}}</p-link> 
+						<span class="dimm">&middot; {{ date(news.datum, 2) }}</span>
+					</div>
+					<div class="smallest">
+						<p-link class="strong red" href="https://programydovolieb.sk/">programydovolieb.sk</p-link>
+					</div>
+				</div>
+	</p-area>
+</div>

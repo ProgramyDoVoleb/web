@@ -1,0 +1,83 @@
+.modal-element {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 2rem 4rem;
+  z-index: 10000;
+  background: rgba(255, 255, 255, .8);
+  backdrop-filter: blur(6px);
+
+  .dark & {
+    background: #091623aa;
+  }
+}
+
+.p-modal.inline {
+  display: inline-block;
+}
+
+.box {
+  background: #fff;
+  position: relative;
+  box-shadow: 1.6rem 1.6rem 4.8rem rgba(0,0,0,.25);
+
+  .dark & {
+    background: #00000066;
+    border: 1px solid var(--blue88);
+    box-shadow: 1.6rem 1.6rem 4.8rem var(--darker);
+  }
+}
+
+.modal-content {
+  position: relative;
+  min-width: 25rem;
+  max-width: 90vw;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  @media (min-width: 480px) {
+    width: 80vw;
+  }
+
+  @media (min-width: 640px) {
+    width: 500px;
+  }
+
+  @media (min-width: 1440px) {
+    width: 800px;
+  }
+}
+
+.p-layout---aside .modal-element {
+  @media (min-width: 1600px) {
+    transform: translateX(-63rem);
+  }
+}
+
+.icon {
+  position: absolute;
+  right: .5rem;
+  font-size: 4rem;
+  line-height: 1;
+  top: 0;
+  font-family: sans-serif;
+  font-weight: 100;
+  text-decoration: none;
+
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+}
+
+.modal-span {
+  display: inline-block;
+}

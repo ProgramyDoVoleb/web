@@ -1,0 +1,75 @@
+<div class="results-parties-grid">
+	<p-columns>
+		<div v-for="(item, index) in list">
+			<p-area padding="1em" :borderColor="item.color">
+				<div class="p-offset">
+					<div>
+						<p-image background="#fff" :src="item.photo" :rounded="true" :border="true" :width="10"></p-image>
+						<div class="_coal" v-if="item.photo != item.logo || item.coal">
+							<p-image background="#fff" :src="item.logo" width="2.5em" :round="true" v-if="item.logo && item.logo.split('missing.png').length === 1"></p-image>
+							<template v-if="item.coal">
+								<template v-for="(coal, indexC) in item.coal">
+									<p-image background="#fff" :src="coal.logo" width="2.5em" :round="true" v-if="coal.logo && coal.logo.split('missing.png').length === 1"></p-image>
+								</template>
+							</template>
+						</div>
+					</div>
+					<div>
+						<div class="p-offset balanced reverse">
+							<div class="strong">
+								<router-link :to="item.link">
+									{{ item.label }}
+								</router-link>
+							</div>
+							<div v-if="item.no && item.no > 0" class="dimm smallest">
+								č. {{ item.no }}
+							</div>
+						</div>
+						<div v-if="item.data.web.length > 0 || item.data.social.length > 0 || item.data.wiki.length > 0" class="_icons">
+							<div class="p-gap_05"></div>
+							<p-link v-if="item.data.web.length > 0" :href="item.data.web[0].value">
+								<p-icon icon="link" size="2em"></p-icon>
+							</p-link>
+							<template v-for="(soc, index) in item.data.social">
+								<p-link :href="soc.value">
+									<p-icon :icon="type(soc.value)" size="2em"></p-icon>
+								</p-link>
+							</template>
+							<p-link v-if="item.data.wiki.length > 0" :href="item.data.wiki[0].value">
+								<p-icon icon="wiki" size="2em"></p-icon>
+							</p-link>
+						</div>
+						<div v-if="item.about" class="smaller">{{ item.about }}</div>
+						<div v-if="item.party" class="smallest">{{ item.party }}</div>
+						<div v-if="item.data.motto.length > 0">
+							<div class="p-gap_05"></div>
+							<p-list class="serif smaller invisible" height="0">
+								<div v-for="(motto, indexM) in sortBy(item.data.motto, 'id')">
+								{{ motto.value }}	
+								</div>
+							</p-list>
+						</div>
+						<div v-if="item.data.program.length > 0" class="smallest strong">
+							<div class="p-gap"></div>
+							<div v-for="(prog, index) in item.data.program">
+								<p-label :color="item.color">
+									<p-link :href="prog.source">{{ prog.value }}</p-link>
+								</p-label>
+							</div>
+						</div>
+						<div v-if="item.data.about.length > 0" class="smaller serif">
+							<div class="p-gap"></div>
+							<p-truncated :content="item.data.about[0].value" :compact="item.link" :size="20"></p-truncated>
+						</div>
+						<div class="p-gap"></div>
+						<div>
+							<p-box :to="item.link">
+								<p-box-button class="primary">Více o kandidátovi</p-box-button>
+							</p-box>
+						</div>
+					</div>
+				</div>
+			</p-area>
+		</div>
+	</p-columns>
+</div>

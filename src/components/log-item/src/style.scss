@@ -1,0 +1,39 @@
+.outbound-icon {
+  margin: -.5em .5em 0 0;
+  transform: translateY(.8em);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+
+  .icon-element {
+    transform: translateY(.2em);
+    display: inline-block;
+    position: relative;
+  }
+
+  a + a {
+    margin-left: .25em;
+  }
+}
+
+.answers-icon {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  height: 2rem;
+
+  .icon-element {
+    position: absolute;
+  }
+}
+
+._w3 {
+  width: 3em;
+  margin-right: 0em;
+}
+
+._f {
+  flex: 1 !important;
+}

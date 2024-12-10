@@ -1,0 +1,30 @@
+.in-short {
+  display: none;
+
+  .short & {
+    display: inline;
+  }
+}
+
+.short .in-normal {
+  display: none;
+}
+
+.in-full {
+  display: none;
+
+  .full & {
+    display: inline;
+  }
+}
+
+@media (min-width: 640px) {
+  .short {
+    .in-normal {
+      display: inline;
+    }
+    .in-short {
+      display: none;
+    }
+  }
+}

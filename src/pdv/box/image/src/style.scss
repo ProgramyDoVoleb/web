@@ -1,0 +1,31 @@
+.p-box-image {
+  width: 4rem;
+  height: 4rem;
+  flex: 0 0 4rem;
+  display: block;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+
+  position: relative;
+
+  &:not(.no-border):after {
+    position: absolute;
+    z-index: 1;
+    border: 1px inset rgba(0, 0, 0, .05);
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .dark & {
+    background-color: transparent;
+  }
+}
+
+.rounded {
+  border-radius: 2rem;
+}

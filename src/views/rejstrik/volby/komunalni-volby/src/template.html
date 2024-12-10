@@ -1,0 +1,295 @@
+<div class="komunalni-volby">
+	<div v-if="data.cis.volby[0].popis" class="smallest dimm">
+		{{ data.cis.volby[0].popis }}	
+		<div class="p-gap"></div>
+	</div>
+	<div v-else class="smallest dimm">Řádné volby</div>
+
+	<div v-if="data.list.length > 1 && !data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+
+		<div class="p-gap"></div>
+		<p-area background="transparent" :borderColor="colorByItem(data.cis.strany.find(x => x.VSTRANA === focus), data)" padding="0 1em">
+			<table class="smaller _mncz">
+				<thead>
+					<tr>
+						<th>Forma</th>
+						<th class="text-right">Obcí / měst</th>
+						<th class="text-right">Nominací</th>
+						<th class="text-right">Mandátů</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Samostatně
+							<div class="dimm smallest">z toho členů</div>
+						</td>
+						<td class="text-right">
+							{{ number(data.list.filter(x => typeof x.SLOZENI === 'number').length) }}
+							<div class="dimm smaller">{{ number(data.list.filter(x => typeof x.SLOZENI === 'number').reduce((a, b) => a + ([2, 3, 4, 5].indexOf(b.$zastupitelstvo[0].DRUHZASTUP) > -1 ? 1 : 0), 0)) }}</div>
+						</td>
+						<td class="text-right">
+							{{ number(data.list.filter(x => typeof x.SLOZENI === 'number').reduce((a, b) => a + b.$kandidati.filter(x => x.NSTRANA === focus).length, 0)) }}
+							<div class="dimm smaller">{{ number(data.list.filter(x => typeof x.SLOZENI === 'number').reduce((a, b) => a + b.$kandidati.filter(x => x.PSTRANA === focus).length, 0)) }}</div>
+						</td>
+						<td class="text-right">
+							{{ number(data.list.filter(x => typeof x.SLOZENI === 'number').reduce((a, b) => a + b.$kandidati.filter(x => x.NSTRANA === focus && x.MANDAT === 'A').length, 0)) }} 
+							<div class="dimm smaller">{{ number(data.list.filter(x => typeof x.SLOZENI === 'number').reduce((a, b) => a + b.$kandidati.filter(x => x.PSTRANA === focus && x.MANDAT === 'A').length, 0)) }}</div>
+						</td>
+					</tr>
+					<tr>
+						<td>V koalici
+							<div class="dimm smallest">z toho členů</div>
+						</td>
+						<td class="text-right">
+							{{ number(data.list.filter(x => typeof x.SLOZENI === 'string').length) }}
+							<div class="dimm smaller">{{ number(data.list.filter(x => typeof x.SLOZENI === 'string').reduce((a, b) => a + ([2, 3, 4, 5].indexOf(b.$zastupitelstvo[0].DRUHZASTUP) > -1 ? 1 : 0), 0))}}</div>
+						</td>
+						<td class="text-right">
+							{{ number(data.list.filter(x => typeof x.SLOZENI === 'string').reduce((a, b) => a + b.$kandidati.filter(x => x.NSTRANA === focus).length, 0)) }}
+							<div class="dimm smaller">{{ number(data.list.filter(x => typeof x.SLOZENI === 'string').reduce((a, b) => a + b.$kandidati.filter(x => x.PSTRANA === focus).length, 0)) }}</div>
+						</td>
+						<td class="text-right">
+							{{ number(data.list.filter(x => typeof x.SLOZENI === 'string').reduce((a, b) => a + b.$kandidati.filter(x => x.NSTRANA === focus && x.MANDAT === 'A').length, 0)) }}
+							<div class="dimm smaller">{{ number(data.list.filter(x => typeof x.SLOZENI === 'string').reduce((a, b) => a + b.$kandidati.filter(x => x.PSTRANA === focus && x.MANDAT === 'A').length, 0)) }}</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="strong">
+							Celkem
+							<div class="dimm smallest">z toho členů</div>
+						</td>
+						<td class="text-right">
+							{{ data.list.length }}
+							<div class="dimm smaller">{{ number(data.list.reduce((a, b) => a + ([2, 3, 4, 5].indexOf(b.$zastupitelstvo[0].DRUHZASTUP) > -1 ? 1 : 0), 0)) }}</div>
+						</td>
+						<td class="text-right">
+							{{ number(data.list.reduce((a, b) => a + b.$kandidati.filter(x => x.NSTRANA === focus).length, 0)) }}
+							<div class="dimm smaller">{{ number(data.list.reduce((a, b) => a + b.$kandidati.filter(x => x.PSTRANA === focus).length, 0)) }}</div>
+	
+						</td>
+						<td class="text-right strong">
+							{{ number(data.list.reduce((a, b) => a + b.$kandidati.filter(x => x.NSTRANA === focus && x.MANDAT === 'A').length, 0)) }}
+							<div class="dimm smaller">{{ number(data.list.reduce((a, b) => a + b.$kandidati.filter(x => x.PSTRANA === focus && x.MANDAT === 'A').length, 0)) }}</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</p-area>
+		<template v-if="parties.length > 1">
+			<div class="p-gap"></div>
+			<p-collapsible label="Přehled koalic a sdružení" :status="parties.length - 1">
+				<p-list class="smaller" height="1.5">
+					<template v-for="(coal, index) in parties">
+						<template v-if="coal != focus">
+							<div v-for="(party, indexP) in [data.cis.strany.find(x => x.VSTRANA === coal)]">
+								<div class="p-offset">
+									<div v-if="logoByItem(party, data)">
+										<p-image :src="logoByItem(party, data)" width="2.65em" :rounded="true"></p-image>
+									</div>
+									<div>
+										<router-link :to="'/rejstrik/' + party.VSTRANA" class="strong">{{ party.NAZEV }}</router-link> &middot; {{ data.list.filter(x => x.VSTRANA === party.VSTRANA).length }}&times;
+										<div class="smallest">
+											<!-- <p-list-linear class="or"> -->
+												<span v-for="(member, indexM) in party.$coalition" class="_coalMember">
+													<p-label :color="colorByItem(member, data)">
+														<router-link :to="'/rejstrik/' + member.VSTRANA">{{ member.ZKRATKA }}</router-link>
+													</p-label>
+												</span>
+											<!-- </p-list-linear> -->
+										</div>
+									</div>
+								</div>
+								<div class="p-gap_05"></div>
+								<div class="smallest">
+									<p-list-linear>
+										<li v-for="(obec, indexO) in data.list.filter(x => x.VSTRANA === party.VSTRANA)">
+											<router-link :to="'/volby/komunalni-volby/' + obec.volby + '/obec/' + obec.KODZASTUP">{{ obec.NAZEVZAST }}</router-link>
+										</li>
+									</p-list-linear>
+								</div>
+							</div>
+						</template>
+					</template>
+				</p-list>
+			</p-collapsible>
+		</template>
+	</div>
+
+	<div v-if="data.list.length > 0 && data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+		<div class="p-gap"></div>
+		<p-area background="transparent" :borderColor="colorByItem(data.cis.strany.find(x => x.VSTRANA === focus), data)" padding="0 1em">
+			<table class="smaller _mncz">
+				<thead>
+					<tr>
+						<th>Strana</th>
+						<th class="text-right">Obcí / měst</th>
+						<th class="text-right">Nominací</th>
+						<th class="text-right">Mandátů</th>
+					</tr>
+				</thead>
+				<tbody>
+					<template v-for="(member, indexM) in data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+						<tr>
+							<td>
+								<p-label :color="colorByItem(member, data)">
+									<router-link :to="'/rejstrik/' + member.VSTRANA">
+										{{ member.ZKRATKA}}
+									</router-link>
+								</p-label>
+								<div class="smallest dimm">— z toho členů</div>
+							</td>
+							<td class="text-right">
+								{{ number(data.list.reduce((a, b) => a + (b.$kandidati.filter(x => x.NSTRANA === member.VSTRANA).length > 0 ? 1 : 0), 0)) }}
+								<div class="smallest dimm">{{ number(data.list.reduce((a, b) => a + (b.$kandidati.filter(x => x.PSTRANA === member.VSTRANA).length > 0 ? 1 : 0), 0)) }}</div>
+							</td>
+							<td class="text-right">
+								{{ number(data.list.reduce((a, b) => a + b.$kandidati.filter(x => x.NSTRANA === member.VSTRANA).length, 0)) }}
+								<div class="smallest dimm">{{ number(data.list.reduce((a, b) => a + b.$kandidati.filter(x => x.PSTRANA === member.VSTRANA).length, 0)) }}</div>
+							</td>
+							<td class="text-right">
+								{{ number(data.list.reduce((a, b) => a + b.$kandidati.filter(x => x.NSTRANA === member.VSTRANA && x.MANDAT === 'A').length, 0)) }}
+								<div class="smallest dimm">{{ number(data.list.reduce((a, b) => a + b.$kandidati.filter(x => x.PSTRANA === member.VSTRANA && x.MANDAT === 'A').length, 0)) }}</div>
+							</td>
+						</tr>
+					</template>
+					<tr>
+						<td class="strong">
+							Celkem
+						</td>
+						<td class="text-right">
+							{{ data.list.length }}
+						</td>
+						<td class="text-right">
+							{{ number(data.list.reduce((a, b) => a + b.$kandidati.length, 0)) }}
+						</td>
+						<td class="text-right strong">
+							{{ number(data.list.reduce((a, b) => a + b.$kandidati.filter(x => x.MANDAT === 'A').length, 0)) }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</p-area>
+		<div class="p-gap"></div>
+	</div>
+
+	<component :is="data.list.length < limitOfTowns ? 'div' : 'p-collapsible'" label="Přehled obcí a okresů" :status="data.list.length">
+		<template v-for="(okres, indexO) in (data.list.length < limitOfTowns ? [{NAZEV: 'Souhrn'}] : data.cis.okresy)">
+			<component :is="data.list.length < limitOfTowns ? 'p-list' : 'p-collapsible'" :label="'okr. ' + okres.NAZEV" height="1.5" class="_okresy">
+				<component :is="filteredList(okres.NUMNUTS).length < limitOfTowns ? 'p-list' : 'div'" class="lilili">
+					<template v-for="(item, index) in filteredList(okres.NUMNUTS)">
+						<p-collapsible :label="item.NAZEVZAST" :status="item.PROCHLSTR + ' % → ' + item.MAND_STR" :logo="logoByItem(item, data) || cdn + 'empty.png'" :color="item.MAND_STR > 0 ? 'var(--green)' : 'var(--red)' " :open="data.list.length === 1 || filteredList(okres.NUMNUTS).length === 1">
+							<p-block :headline="item.NAZEVZAST" :hide="true">
+								<p-area background="transparent" borderColor="var(--greyish)" class="_townArea">
+									<!-- <strong>{{ item.NAZEVZAST }}</strong> <span class="dimm smallest">&middot; okres {{ data.cis.okresy.find(x => x.NUMNUTS === item.OKRES).NAZEV }}</span> -->
+									<!-- <div class="p-gap"></div> -->
+									<p-list class="smaller" height=".5">
+										<p-stats label="Kandidátka">
+											<p-label :color="colorByItem(item, data)" :after="true">
+												<router-link :to="'/volby/komunalni-volby/' + item.volby + '/strana/' + item.id" class="strong">{{ item.NAZEV }}</router-link>
+											</p-label>						
+										</p-stats>
+										<template v-if="typeof item.SLOZENI === 'string'">
+											<p-stats label="Koalice">
+												<p-list-linear>
+													<li v-for="(member, index2) in data.cis.strany.find(x => x.VSTRANA === item.VSTRANA).$coalition">
+														<router-link :to="'/rejstrik/' + member.VSTRANA">{{ member.ZKRATKA }}</router-link>
+													</li>
+												</p-list-linear>
+											</p-stats>
+										</template>
+										<template v-if="typeof item.SLOZENI === 'number'">
+											<p-stats label="Forma">samostatně</p-stats>
+										</template>
+										<p-stats label="Výsledek">
+											<div class="p-offset">
+												<div>
+													<p-lang :value="item.HLASY_STR" :end="['žádný hlas', 'jeden hlas', '%% hlasy', '%% hlasů']"></p-lang>
+												</div>
+												<div>
+													<p-line-graph :value="item.PROCHLSTR" :color="item.MAND_STR === 0 ? 'var(--greyish)' : colorByItem(item, data)"></p-line-graph>
+												</div>
+											</div>
+										</p-stats>
+										<p-stats label="Mandátů">
+											<p-lang :value="item.MAND_STR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>
+											<span v-if="item.MAND_STR > 0 && item.$vysledky.length > 0" class="dimm">
+												&middot; dominance v zastupitelstvu {{ number(item.$vysledky[0].DOMINANCE) }} %
+											</span>
+											<span v-if="item.MAND_STR > 0 && item.$vysledky.length === 0" class="dimm">
+												&middot; dominance v zastupitelstvu {{ number(pct(item.MAND_STR, item.$zastupitelstvo[0].MANDATY ,2)) }} %
+											</span>
+										</p-stats>
+										<p-stats label="Nominovaní">
+											<template v-if="!data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+												<p-lang :value="item.$kandidati.length" :end="['nikdo', '1 kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>
+												<template v-if="typeof item.SLOZENI === 'string'">
+													&middot; z toho <p-lang :value="item.$kandidati.filter(x => x.NSTRANA === focus).length" :end="['nikdo', '1 kandidát', '%% kandidáti', '%% kandidátů']"></p-lang> za <em>{{ data.cis.strany.find(x => x.VSTRANA === focus).ZKRATKA }}</em>
+												</template>							
+											</template>
+											<template v-if="data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+												<div v-for="(member, index2) in data.cis.strany.find(x => x.VSTRANA === item.VSTRANA).$coalition">
+													<p-label :color="colorByItem(member, data)">
+														<p-lang :value="item.$kandidati.filter(x => x.NSTRANA === member.VSTRANA).length" :end="['nikdo', '1 kandidát', '%% kandidáti', '%% kandidátů']"></p-lang> 
+													</p-label> za {{ member.ZKRATKA }}
+												</div>
+											</template>
+										</p-stats>
+										<p-stats label="Zvolení">
+											<template v-if="!data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+												<p-lang :value="item.$kandidati.filter(x => x.MANDAT === 'A').length" :end="['nikdo', '1 kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>
+												<template v-if="typeof item.SLOZENI === 'string'">
+													&middot; z toho <p-lang :value="item.$kandidati.filter(x => x.MANDAT === 'A').filter(x => x.NSTRANA === focus).length" :end="['nikdo', '1 kandidát', '%% kandidáti', '%% kandidátů']"></p-lang> za <em>{{ data.cis.strany.find(x => x.VSTRANA === focus).ZKRATKA }}</em>
+												</template>							
+											</template>
+											<template v-if="data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+												<div v-for="(member, index2) in data.cis.strany.find(x => x.VSTRANA === item.VSTRANA).$coalition">
+													<p-label :color="colorByItem(member, data)">
+														<p-lang :value="item.$kandidati.filter(x => x.MANDAT === 'A').filter(x => x.NSTRANA === member.VSTRANA).length" :end="['nikdo', '1 kandidát', '%% kandidáti', '%% kandidátů']"></p-lang> 
+													</p-label> za {{ member.ZKRATKA }}
+												</div>
+											</template>
+										</p-stats>
+										<p-stats label="Členové" v-if="!data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+											<p-lang :value="item.$kandidati.filter(x => x.PSTRANA === focus).length" :end="['žádný člen nebyl nominován', '1 člen nominován', '%% členové nominováni', '%% členů nominováno']"></p-lang>
+											<template v-if="item.$kandidati.filter(x => x.PSTRANA === focus).length > 0"> &middot; <p-lang :value="item.$kandidati.filter(x => x.PSTRANA === focus && x.MANDAT === 'A').length" :end="['nikdo nebyl zvolen', '1 člen zvolen', '%% členové zvoleni', '%% členů zvoleno']"></p-lang>
+											</template>
+										</p-stats>
+										<p-stats label="Zvolení" v-if="item.MAND_STR > 0 && !data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+											<p-list-linear>
+												<li v-for="(cand, indexCand) in item.$kandidati.filter(x => x.MANDAT === 'A')">
+													<router-link :to="'/volby/komunalni-volby/' + item.volby + '/kandidat/' + cand.id" :class="{strong: cand.PSTRANA === focus, 'is-span': cand.PSTRANA != focus}">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+												</li>
+											</p-list-linear>
+										</p-stats>
+										<p-stats label="Zvolení" v-if="item.MAND_STR > 0 && data.cis.strany.find(x => x.VSTRANA === focus).$coalition">
+											
+												<template v-for="(member, index2) in data.cis.strany.find(x => x.VSTRANA === item.VSTRANA).$coalition">
+													<div v-if="item.$kandidati.filter(x => x.MANDAT === 'A' && x.NSTRANA === member.VSTRANA).length > 0">
+														<p-label :color="colorByItem(member, data)">
+															<p-list-linear>
+																<li v-for="(cand, indexCand) in item.$kandidati.filter(x => x.MANDAT === 'A' && x.NSTRANA === member.VSTRANA)">
+																	<router-link :to="'/volby/komunalni-volby/' + item.volby + '/kandidat/' + cand.id" :class="{strong: cand.PSTRANA === member.VSTRANA, 'is-span': cand.PSTRANA != member.VSTRANA}">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+																</li>
+															</p-list-linear>
+														</p-label>
+													</div>
+												</template>
+											
+										</p-stats>
+									</p-list>
+									<div class="p-gap"></div>
+									<p-collapsible label="Výsledky">
+										<election-results :type="type" :id="item.volby" :town="item.KODZASTUP" :election="data.cis.volby[0]" :spec="item.KODZASTUP"></election-results>
+									</p-collapsible>
+								</p-area>
+
+							</p-block>
+						</p-collapsible>
+					</template>
+				</component>
+			</component>
+		</template>
+	</component>
+</div>

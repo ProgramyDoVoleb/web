@@ -1,0 +1,38 @@
+<div class="party-quicklook">
+		<p-loader :rule="data">
+			<div v-if="data">
+				<p-area :borderColor="colorByItem(data, {cis: {strany: []}})">
+					<div class="p-offset reverse">
+						<div>
+							<strong><router-link :to="'/rejstrik/' + data.VSTRANA">{{ data.NAZEV }}</router-link></strong>
+							<div class="smaller" v-if="meta.web && meta.web.find(x => !x.kraj)">
+								<p-link :href="meta.web.find(x => !x.kraj).value" class="is-span dimm smaller">{{ domain(meta.web.find(x => !x.kraj).value, true) }}</p-link>
+							</div>
+							<div v-if="meta.social && meta.social.length > 0" class="_soc">
+								<div class="p-gap_05"></div>
+								<template v-for="(soc, indexS) in meta.social.filter(x => !x.kraj)">
+									<p-link :href="soc.value">
+										<p-icon :src="cdn + 'icon/' + type(soc.value) + '.svg'" size="2em" border="transparent 1px solid"></p-icon>
+									</p-link>
+								</template>
+							</div>
+						</div>
+						<div v-if="meta.logo && meta.logo.length > 0">
+							<p-image :src="meta.logo[0].value" :rounded="true"></p-image>
+						</div>
+					</div>
+					<template v-if="region">
+						<div class="p-line p-line__0"></div>
+						<div class="p-gap_05"></div>
+						<p-list class="smallest" height=".5">
+							<template v-for="(typ, ityp) in ['web', 'social']">
+								<div v-for="(item, index) in meta[typ].filter(x => x.kraj)">
+									<p-link :href="item.value" class="_ws">{{ domain(item.value, true) }}</p-link>
+								</div>
+							</template>
+						</p-list>
+					</template>
+				</p-area>
+			</div>
+		</p-loader>
+</div>

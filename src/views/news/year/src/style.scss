@@ -1,0 +1,22 @@
+.polls-preview---split {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+  & > :first-child {
+    width: 7rem;
+    // text-align: right;
+    margin-right: 1rem;
+  }
+
+  & > :nth-child(2) {
+    width: auto;
+    flex: 1 0 auto;
+  }
+}
+
+.has-previous .polls-preview---split {
+  & > :last-child {
+    width: 3rem;
+  }
+}

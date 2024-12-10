@@ -1,0 +1,9 @@
+._grid {
+	display: flex;
+	flex-wrap: wrap;
+	margin: -.5em;
+
+	> div {
+		padding: .5em;
+	}
+}

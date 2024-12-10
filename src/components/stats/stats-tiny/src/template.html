@@ -1,0 +1,7 @@
+<div class="stats-tiny" :class="{inline}">
+	<div class="stats-tiny-content" :style="{width: width || 'initial'}">
+		<svg :viewBox="viewBox" :width="width || '100%'" :height="height" ref="svg">
+			<stats-line :data="data" :inline="inline" :size="height" :color="color"></stats-line>
+		</svg>
+	</div>
+</div>

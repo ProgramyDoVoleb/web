@@ -1,0 +1,35 @@
+<div class="stats-timeline-holder">
+	<div class="stats-timeline-container" :style="{height: h + 'px'}">
+		<div class="stats-timeline-content">
+			<svg :viewBox="viewBox" :width="width || '100%'" :height="h" ref="svg">
+				<defs>
+					<linearGradient :id="grad.name" x1="0%" y1="0%" x2="20%" y2="100%" v-for="(grad, index) in grads" :key="'lg_' + index">
+						<stop :offset="stop.pct" :stop-color="stop.color" v-for="(stop, index2) in grad.stops" :key="'stop_' + index2" />
+					</linearGradient>
+				</defs>
+				<g>
+					<text x="10" :y="i * partHeight + offsetTop + 4" v-for="(item, i) in data.dates">{{date(item, 4) }}</text>
+					<g v-for="(item, i) in values">
+						<title>{{ item.party.name }}</title>
+						<path :d="item.path" :style="{fill: item.grad ? 'url(#' + item.grad + ')' : item.party.color}"  />
+						<rect v-for="(r, i2) in item.coord" :x="r[0].x" :y="r[0].y - (partHeight / 20)" :width="r[1].x - r[0].x" :height="partHeight / 10" :style="{fill: item.grad ? 'url(#' + item.grad + ')' : item.party.color}" />
+					</g>
+					<g v-for="(item, i) in data.dates">
+						<line :x1="offsetLeft - 10" :x2="w" :y1="i * partHeight + offsetTop + (partHeight / 20)" :y2="i * partHeight + offsetTop + (partHeight / 20)" />
+						<line :x1="offsetLeft - 10" :x2="w" :y1="i * partHeight + offsetTop - (partHeight / 20)" :y2="i * partHeight + offsetTop - (partHeight / 20)" />
+						<rect x="0" :y="i * partHeight + offsetTop - (partHeight / 10)" width="100%" :height="partHeight / 5" :rx="partHeight / 10" :ry="partHeight / 10" class="hover" @mouseover="select(i)" @mouseleave="select(-1)" />
+					</g>
+				</g>
+			</svg>
+			<!-- <h4 class="center">{{ data.name }}</h4> -->
+			<div class="info-box" v-if="selected > -1" :style="{top: (values[0].coord[selected][1].y + partHeight / 5 * 2.5 - 30) + 'px'}">
+				<div class="columns-2 small">
+					<div class="item" v-for="(party, index) in getSelected()">
+						<p-label :color="party.color">{{ party.name }}</p-label> &middot;&nbsp;{{ party.pct }} %
+					</div>
+				</div>
+				<!-- <span @click="select(-1)" class="info-box-close red">&times;</span> -->
+			</div>
+		</div>
+	</div>
+</div>

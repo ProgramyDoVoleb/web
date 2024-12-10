@@ -1,0 +1,124 @@
+<header class="header header-v-201110">
+	<div class="fixed-content">
+		<div class="row">
+			<div class="row-logo-flex">
+				<div class="row-logo row-logo-pdv">
+					<router-link to="/" class="no-link serif">
+						Programy do voleb
+					</router-link>
+					<router-link class="_btn2" to="/volby/snemovni-volby/166">2025</router-link> 
+					<!-- <router-link class="_btn2" to="/volby/senatni-volby/163">Senát</router-link> -->
+					<div class="row-logo---loader"></div>
+				</div>
+			</div>
+			<div class="row-menu">
+				<div class="row-menu-button">
+					<button @click="showMenu = !showMenu" class="button-plain">
+						<span v-if="!showMenu">=</span>
+						<span v-if="showMenu" class="red">&times;</span>
+					</button>
+				</div>
+				<div class="row-menu-list" :class="{showMenu}">
+					<div class="hide-60rem">
+						<!-- <h4>Volby prezidenta 2023</h4> -->
+						<div class="p-gap"></div>
+						<div class="columns" @click="showMenu = false">
+									<div><router-link to="/">Úvodní stránka</router-link></div>
+									<!-- <div><router-link to="/pruvodce/krajske-a-senatni-volby-2024" class="strong">Průvodce</router-link></div> -->
+									<div><router-link to="/o-projektu">O projektu</router-link></div>
+									<div><router-link to="/volby">Volby</router-link></div>
+									<div><router-link to="/rejstrik">Strany</router-link></div>
+									<div><router-link to="/lide">Lidé</router-link></div>
+									<div><router-link to="/obce">Obce</router-link></div>
+									<div><router-link to="/volebni-pruzkumy">Průzkumy</router-link></div>
+									<div><router-link to="/vypocet-mandatu">Mandáty</router-link></div>
+									<!-- <div><router-link to="/widgety">Widgety</router-link></div> -->
+									<div><router-link to="/novinky">Novinky</router-link></div>
+									<!-- <div><router-link to="/podporit-projekt" class="strong green">Podpořit</router-link></div> -->
+						</div>
+						
+						<div v-if="$route.fullPath.split('/volby/krajske-volby/162').length > 1 || $route.fullPath.split('/bod/csu_kz').length > 1">
+							<div class="p-line"></div>
+							<div class="smaller">
+								<div class="columns">
+									<div v-for="(kraj, index) in [3,11,5,8,7,14,12,9,4,2,6,10,13]"><router-link :to="'/volby/krajske-volby/162/kraj/' + kraj" @click="showMenu3 = false">{{ enums.regions[kraj - 1] }}</router-link></div>
+								</div>
+							</div>
+						</div>
+						<div v-if="$route.fullPath.split('/volby/senatni-volby/163').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1">
+							<div class="p-line"></div>
+							<div class="smaller">
+								<strong>Obvod</strong> <p-list-linear class="or" >
+									<span class="strong" v-for="(obvod, index) in [2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59,62,65,68,71,74,77,80]"><router-link :to="'/volby/senatni-volby/163/obvod/' + obvod" @click="showMenu3 = false">{{ obvod }}</router-link></span>
+								</p-list-linear>
+							</div>
+						</div>
+
+						<!-- <div class="p-gap"></div> -->
+						<div class="p-line"></div>
+						<div class="smaller">
+							<p-label :color="core.dark ? '#fff' : '#000'"><button class="inline strong smaller" @click="core.change(!core.dark)">Noční režim</button></p-label>
+						</div>
+
+						<div class="p-gap"></div>
+					</div>
+					<div class="show-60rem">
+						<ul>
+							<!-- <li><router-link to="/pruvodce/krajske-a-senatni-volby-2024" class="strong">Průvodce</router-link></li> -->
+							<li><router-link to="/volby">Volby</router-link></li>
+							<li><router-link to="/rejstrik">Strany</router-link></li>
+							<li><router-link to="/lide">Lidé</router-link></li>
+							<li><router-link to="/obce">Obce</router-link></li>
+							<li><router-link to="/volebni-pruzkumy">Průzkumy</router-link></li>
+							<li><router-link to="/vypocet-mandatu">Mandáty</router-link></li>
+							<!-- <li class="_w"><router-link to="/widgety">Widgety</router-link></li> -->
+							<li><router-link to="/novinky">Novinky</router-link></li>
+							<li><router-link to="/o-projektu">O projektu</router-link></li>
+							<li>&middot;</li>
+
+							<!-- <li class="_w"><router-link to="/podporit-projekt" class="strong green"><span class="green">Podpořit</span></router-link></li> -->
+							<!-- <li class="_w"><p-link href="https://darujme.cz/programydovoleb" class="strong green"><span class="green">Podpořit</span></p-link></li> -->
+							<li>
+								<button class="micro" @click="core.change(!core.dark)">&#x25D0;</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/krajske-volby/162/').length > 1 || $route.fullPath.split('/bod/csu_kz').length > 1">
+			<div class="smaller">
+				<strong><router-link to="/volby/krajske-volby/162" class="red">Krajské volby</router-link> </strong> — <p-list-linear class="or" >
+					<span class="strong" v-for="(kraj, index) in [3,11,5,8,7,14,12,9,4,2,6,10,13]"><router-link class="is-span" :to="'/volby/krajske-volby/162/kraj/' + kraj" @click="showMenu3 = false">{{ enums.regionsShort[kraj - 1] }}</router-link></span>
+				</p-list-linear>
+			</div>
+		</div>
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/senatni-volby/163/').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1">
+			<div class="smaller">
+				<strong><router-link to="/volby/senatni-volby/163" class="blue">Senátní volby</router-link> </strong><strong> &middot; obvod </strong><p-list-linear class="or" >
+					<span class="strong" v-for="(obvod, index) in [2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59,62,65,68,71,74,77,80]"><router-link class="is-span" :to="'/volby/senatni-volby/163/obvod/' + obvod" @click="showMenu3 = false">{{ obvod }}</router-link></span>
+				</p-list-linear>
+			</div>
+		</div>
+		<!-- <div class="row _r">
+			<div class="smaller strong red">
+				Výsledky budou <strong class="red">v neděli po 23:00</strong>
+			</div>
+		</div> -->
+		<div class="notifications">
+			<div v-for="(item, index) in notifications.list.filter(x => x.active)" :data-tick="notifications.tick">
+				<p-area>
+					<div class="p-offset reverse balanced">
+						<div>
+							<p-label :color="item.color">{{ item.msg }}</p-label>
+						</div>
+						<div>
+							<a @click="remove(item)" class="red strong">&times;</a>
+						</div>
+					</div>
+					
+				</p-area>
+			</div>
+		</div>
+	</div>
+</header>

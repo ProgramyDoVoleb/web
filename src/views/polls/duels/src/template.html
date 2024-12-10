@@ -1,0 +1,27 @@
+<div class="graph-polls-duels" :class="{'has-previous': !!previous}">
+	<p-loader :rule="pointers">
+		<div v-if="pointers">
+			<template v-for="(sub, indexSub) in [null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]">
+				<template v-if="poll.entries.filter(x => x.sub === sub).length > 0">
+					<p-area>
+						<p-list padding="05rem">
+							<div v-for="(entry, indexE) in poll.entries.filter(x => x.sub === sub)">
+								<div class="polls-preview---split smaller">
+									<div>{{ entry.name }}</div>
+									<div>
+										<p-line-graph :label="number(entry.value, 1) + ' %'" :value="entry.value * 1.25" :color="entry.pointer && pointers.list.find(x => x.pointer === entry.pointer) ? con(pointers.list.find(x => x.pointer === entry.pointer).$data, 'color', color(entry.name)) : null"></p-line-graph>
+									</div>
+									<div class="text-right smallest" v-if="poll.previous">
+										<span :class="previous.entries.find(x => x.name === entry.name && x.sub === entry.sub) ? indicator(entry.value, previous.entries.find(x => x.name === entry.name && x.sub === entry.sub).value) : 'dimm'">
+											{{ previous.entries.find(x => x.name === entry.name && x.sub === entry.sub) ? number(entry.value - previous.entries.find(x => x.name === entry.name && x.sub === entry.sub).value, 1, true) : '-' }}
+										</span>																	
+									</div>
+								</div>
+							</div>
+						</p-list>
+					</p-area>
+				</template>
+			</template>
+		</div>
+	</p-loader>
+</div>

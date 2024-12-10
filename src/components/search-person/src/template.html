@@ -1,0 +1,148 @@
+<div class="search-person">
+	<div class="smaller _lh">
+		<p-list-linear class="or">
+			<span v-for="(item, index) in filterOptions">
+				<button class="inline" @click="(filter.find(x => x === item) ? filter.splice(filter.indexOf(item), 1) : filter.push(item))" :class="{'green strong': filter.find(x => x === item)}">
+					{{ enums.elections.find(x => x.key === item).name }}
+				</button>
+			</span>
+		</p-list-linear>
+		&mdash;
+		<span>
+			<button class="inline" @click="toggleUpcoming" :class="{'green strong': filter.find(x => x === 'UPCOMING')}">
+				Pouze nadcházející volby
+			</button>
+		</span>
+	</div>
+	<div class="p-line"></div>
+	<p-grid class="p-grid">
+		<div><input type="text" v-model="query" placeholder="Napište příjmení"></div>
+		<div><input type="text" v-model="specify" placeholder="Nepovinně, napište jméno" class="secondary"></div>
+		<div>
+			<button @click="search" :disabled="progress || !query || query.length < 2" class="button-primary">Vyhledat</button>
+		</div>
+	</p-grid>
+	<div class="p-gap"></div>
+	<p-loader :rule="!progress || results">
+		<div v-if="results">
+			<component :is="!!area ? 'p-area' : 'div'" height="2">
+				<template v-for="(election, index) in results">
+					<p-block class="_np" :hide="true" :headline="(election.datum ? election.datum.split('-')[0] : 'Budoucí') + ' - ' + enums.elections.find(x => x.key === election.typ).name.split(' ')[0] + ' ' + (election.radne === 0 ? '*' : '')" v-if="election.$kandidati.length > 0">
+						<p-collapsible :label="enums.elections.find(x => x.key === election.typ).name + ' ' + (election.radne === 0 ? '· mimořádné' : (election.datum ? election.datum.split('-')[0] : ''))" :status="election.datum && election.radne === 0 ? date(election.datum, 3) : election.cirka" :open="index < 3">
+							<div class="columns smaller">
+								<div v-for="(person, index2) in election.$kandidati">
+									<div class="p-offset" :class="{'_profil': person.$profil.length > 0}">
+										<div v-if="profile.show">
+											<button class="inline green big" @click="profile.list.push(person)" :disabled="profile.list.find(x => x === person)"><span v-if="!profile.list.find(x => x === person)">&#9744;</span><span v-if="profile.list.find(x => x === person)">&#9745;</span></button>
+										</div>
+										<div>
+											<router-link :to="'/volby/' + enums.elections.find(x => x.key === election.typ).hash + '/' + election.id + '/kandidat/' + person.id">
+												{{ person.JMENO }} {{ person.PRIJMENI }}
+											</router-link>
+											<span class="dimm" v-if="person.KRZAST"> &middot; {{ list.cis.kraje.find(x => x.KRAJ === person.KRZAST).NAZEV }}</span>
+											<span class="dimm" v-if="person.KODZASTUP"> &middot; {{ list.cis.obce.find(x => x.NUM === person.KODZASTUP).NAZEV }}</span>
+											<span class="dimm" v-if="person.OBVOD"> &middot; obvod {{ person.OBVOD }}</span>											
+											<div class="smallest" v-if="person.$strana">
+												<router-link :to="'/volby/' + enums.elections.find(x => x.key === election.typ).hash + '/' + election.id + '/strana/' + person.$strana.id" class="is-span">
+													{{ person.$strana.NAZEV }}
+												</router-link>
+											</div>
+											<div class="smallest" v-if="person.VEK || person.BYDLISTEN">{{ person.VEK }} let, {{ person.BYDLISTEN }}</div>
+											<div class="smallest" v-if="person.POVOLANI">{{ person.POVOLANI }}</div>
+											<div class="smallest">
+												<p-list-linear>
+													<li v-if="person.PSTRANA && person.PSTRANA != 99">
+													   <p-label :color="colorByItem(list.cis.volby.find(x => x.id === person.volby).$strany.find(x => x.VSTRANA === person.PSTRANA), list)">
+														   <router-link :to="'/rejstrik/' + person.PSTRANA">{{ list.cis.volby.find(x => x.id === person.volby).$strany.find(x => x.VSTRANA === person.PSTRANA).ZKRATKA }}</router-link>	
+													   </p-label>
+												   </li>
+												   <li v-if="person.NSTRANA && person.NSTRANA != 80 && person.NSTRANA != 90 && person.NSTRANA != person.PSTRANA">
+													  nominace <p-label :color="colorByItem(list.cis.volby.find(x => x.id === person.volby).$strany.find(x => x.VSTRANA === person.NSTRANA), list)">
+														  <router-link :to="'/rejstrik/' + person.NSTRANA">{{ list.cis.volby.find(x => x.id === person.volby).$strany.find(x => x.VSTRANA === person.NSTRANA).ZKRATKA }}</router-link>	
+													  </p-label>
+												  </li>
+												</p-list-linear>
+											</div>
+											<div class="strong smallest" v-if="person.$profil.length > 0">
+												<div class="p-gap_05"></div>
+												<router-link :to="'/lide/profil/' + person.$profil[0].profil" class="green">Historie</router-link>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</p-collapsible>
+					</p-block>
+				</template>
+			</component>
+			<template v-if="!area">
+				<div class="p-line"></div>
+				<div class="smallest">
+					<button class="inline" @click="profile.show = !profile.show">Tvorba profilu</button>
+					&middot;
+					<p-modal :inline="true">
+						<template #init>Seznam ({{ profile.list.length }})</template>
+						<template #content>
+							<div class="normal">
+								<strong>Vybrané profily</strong>
+								<div class="p-gap"></div>
+								<p-list>
+									<div v-for="(person, index) in profile.list">
+										<div class="p-offset">
+											<div v-if="profile.show">
+												<button class="inline red" @click="profile.list.splice(index, 1)">&times;</button>
+											</div>
+											<div>
+												<!-- <router-link :to="'/volby/' + enums.elections.find(x => x.key === election.typ).hash + '/' + election.id + '/kandidat/' + person.id"> -->
+												<div><strong>{{ enums.elections.find(x => x.key === results.find(y => y.id === person.volby).typ).name }}</strong> &middot; {{ results.find(y => y.id === person.volby).datum ? date(results.find(y => y.id === person.volby).datum) : results.find(y => y.id === person.volby).cirka }}</div>
+												<div class="p-gap_05"></div>
+												<div>
+													<button class="inline" @click="profile.JMENO = person.JMENO; profile.PRIJMENI = person.PRIJMENI">{{ person.JMENO }} {{ person.PRIJMENI }}</button>
+													
+													<!-- </router-link> -->
+													<span class="dimm" v-if="person.KRZAST"> &middot; {{ list.cis.kraje.find(x => x.KRAJ === person.KRZAST).NAZEV }}</span>
+													<span class="dimm" v-if="person.KODZASTUP"> &middot; {{ list.cis.obce.find(x => x.NUM === person.KODZASTUP).NAZEV }}</span>
+													<span class="dimm" v-if="person.OBVOD"> &middot; obvod {{ person.OBVOD }}</span>
+												</div>	
+												<div class="p-gap_075"></div>
+												<div class="smallest">{{ person.VEK }} let, {{ person.BYDLISTEN }}, {{ person.POVOLANI }}</div>
+												<div class="smallest">
+													<p-list-linear>
+														<li v-if="person.PSTRANA && person.PSTRANA != 99">
+														   <p-label :color="colorByItem(list.cis.strany.find(x => x.VSTRANA === person.PSTRANA), list)">
+															   <router-link :to="'/rejstrik/' + person.PSTRANA">{{ list.cis.strany.find(x => x.VSTRANA === person.PSTRANA).ZKRATKA }}</router-link>	
+														   </p-label>
+													   </li>
+													   <li v-if="person.NSTRANA && person.NSTRANA != 80 && person.NSTRANA != 90 && person.NSTRANA != person.PSTRANA">
+														  nominace <p-label :color="colorByItem(list.cis.strany.find(x => x.VSTRANA === person.NSTRANA), list)">
+															  <router-link :to="'/rejstrik/' + person.NSTRANA">{{ list.cis.strany.find(x => x.VSTRANA === person.NSTRANA).ZKRATKA }}</router-link>	
+														  </p-label>
+													  </li>
+													</p-list-linear>
+												</div>
+		
+											</div>
+										</div>
+									</div>
+									<div>
+										<input type="text" v-model="profile.JMENO" placeholder="Jméno">
+									</div>
+									<div>
+										<input type="text" v-model="profile.PRIJMENI" placeholder="Příjmení">
+									</div>
+									<div>
+										<input type="text" v-model="profile.description" placeholder="Popis profilu">
+									</div>
+									<div>
+										<button @click="send_profile_suggestion" :disabled="!(profile.JMENO && profile.PRIJMENI) || profile.list.length === 0 || profile.sending || profile.sent">Odeslat</button>
+										<div v-if="profile.sent">Odesláno</div>
+									</div>
+								</p-list>
+							</div>
+						</template>
+					</p-modal>
+				</div>
+			</template>
+		</div>
+	</p-loader>
+</div>

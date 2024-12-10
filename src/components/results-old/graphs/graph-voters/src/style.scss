@@ -1,0 +1,120 @@
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+li {
+}
+
+.graph-space {
+  position: relative;
+  height: 10rem;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+
+.graph-icons {
+  width: 1.5rem;
+  display: block;
+  margin: auto;
+
+  @media (min-width: 30rem) {
+    width: 3rem;
+  }
+}
+
+.graph-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+  margin: auto;
+  text-align: center;
+
+  @media (min-width: 40rem) {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.graph-icon img {
+  border-radius: 50%;
+  border: var(--border);
+}
+
+.graph-icons.multiple {
+
+  .graph-icon img {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+
+  @media (min-width: 40rem) {
+    display: flex;
+    flex-wrap: wrap;
+
+    .graph-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+.graph-name {
+  font-size: 7px;
+  text-align: center;
+  word-break: break-all;
+  margin-top: .5em;
+
+  @media (min-width: 30rem) {
+    font-size: 11px;
+  }
+}
+
+.graph-bar {
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  background: #ddd;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  transition: 1s height;
+  will-change: height;
+}
+
+.graph-bar.zero {
+  transition: 0s height;
+  transition-delay: 0s !important;
+  height: 0% !important;
+}
+
+.graph-space.compare .graph-bar-primary {
+  right: 40%;
+  opacity: .1;
+}
+
+.graph-space.compare .graph-bar-secondary {
+  left: 30%;
+  opacity: 1;
+}
+
+.graph-bar-value {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+}
+
+li:not(.below) + .below,
+li:not(.below) + li:last-child {
+  border-left: 1px dotted #f00;
+}
+
+.below .graph-bar {
+  opacity: .2;
+  filter: grayscale(.5);
+}

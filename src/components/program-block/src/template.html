@@ -1,0 +1,70 @@
+<div class="program-block serif">
+	<template v-for="(item, index) in data">
+		<template v-if="item.type === 'link'">
+			<div class="smaller strong sans" v-if="item.source">
+				<p-link :href="data.source">Více informací</p-link>
+			</div>
+		</template>
+		<template v-if="item.type === 'copy'">
+			<p v-html="item.content"></p>
+		</template>
+		<template v-if="item.type === 'headline'">
+			<h3 v-if="item.level < 4" v-html="item.content"></h3>
+			<h4 v-if="item.level === 4" v-html="item.content"></h4>
+			<h5 v-if="item.level === 5" v-html="item.content"></h5>
+			<h6 v-if="item.level === 6" v-html="item.content"></h6>
+		</template>
+		<div class="program-block---quote" v-if="item.type === 'quote'">
+			<p-quote v-html="item.content" :color="color"></p-quote>
+			<!-- <blockquote :cite="item.source"></blockquote> -->
+			<p class="dimm small" v-if="item.author || item.source">
+				<span v-if="item.author"> &mdash; Autor: {{ item.author }}</span>
+				<span v-if="item.source"> &middot; <p-link :href="item.source">Zdroj</p-link></span>
+			</p>
+		</div>
+		<template v-if="item.type === 'note'">
+			<p v-html="item.content" class="dimm small"></p>
+		</template>
+		<template v-if="item.type === 'list'">
+			<ul>
+				<li v-for="(part, index2) in item.parts">
+					<program-block :parts="part"></program-block>
+				</li>
+				<li v-for="(part, index2) in item.content">
+					<program-block :parts="part"></program-block>
+				</li>
+			</ul>
+		</template>
+		<template v-if="item.type === 'ol'">
+			<ol>
+				<li v-for="(part, index2) in item.parts">
+					<program-block :parts="part"></program-block>
+				</li>
+				<li v-for="(part, index2) in item.content">
+					<program-block :parts="part"></program-block>
+				</li>
+			</ol>
+		</template>
+		<template v-if="item.type === 'block'">
+				<div v-for="(part, index2) in item.parts" class="program-block---holder">
+					<program-block :parts="part" :depth="depth + 1"></program-block>
+				</div>
+		</template>
+		<template v-if="item.type === 'parts'">
+				<div v-for="(part, index2) in item.parts">
+					<program-block :parts="part" :depth="depth + 1"></program-block>
+				</div>
+		</template>
+		<template v-if="item.type === 'section'">
+			<div class="strong" v-if="item.headline"><program-block :parts="item.headline"></program-block></div>
+			<p class="lead" v-if="item.perex">
+				<program-block :parts="item.perex"></program-block>
+			</p>			
+			<ul v-if="item.list">
+				<li v-for="(it, ind) in item.list">
+					<program-block :parts="it"></program-block>	
+				</li>
+			</ul>
+		</template>
+	</template>
+</div>

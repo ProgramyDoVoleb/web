@@ -1,0 +1,171 @@
+.icons {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	> li {
+		display: inline-block;
+	}
+}
+
+.icon {
+	display: inline-block;
+	margin-right: .5em;
+	position: relative;
+	top: .4em;
+}
+
+.election-item {
+  padding: 1rem 0;
+  border-top: var(--border);
+
+	.dark & {
+		border-top: 1px solid #000;
+	}
+
+	.logo-holder {
+	  display: inline-block;
+	  width: 3.25rem;
+	  position: relative;
+	}
+
+	.logo {
+	  position: absolute;
+	  width: 2.5rem;
+	  height: 2.5rem;
+	  top: -1.8rem;
+	  border-radius: 50%;
+	  border: var(--border);
+		background: #fff;
+	}
+}
+
+.logo-item {
+	margin-top: .25em;
+	margin-bottom: .1em;
+}
+
+.election-item-header {
+  position: relative;
+
+  .icon {
+    position: absolute;
+    right: 1rem;
+		top: .6rem;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+}
+
+.p-list---invisible-spacing:not(:first-child),
+.p-list---invisible-spacing-skip {
+	padding-top: .2em !important;
+}
+
+.p-list---invisible-spacing:not(:last-child) {
+	padding-bottom: .2em !important;
+}
+
+.grid---n {
+	display: flex;
+	flex-wrap: wrap;
+	margin: -.5em;
+
+	& > div {
+		width: 7.5rem;
+		padding: .5em;
+	}
+}
+
+._up {
+	margin-top: -6em;
+}
+
+._b {
+	display: block;
+}
+
+._c800 {
+	@media (max-width: 800px) {
+		columns: 1;
+	}
+}
+
+._center {
+	margin: 0 auto;
+	width: 4em;
+}
+
+.p-area---inline {
+	padding: .5em 1.5em !important;
+	display: inline-block;
+}
+
+._aig {
+	padding: 0 0 1.5em;
+	// border-top: var(--border);
+}
+
+._pg {
+	text-decoration: none;
+	border-radius: 10px;
+	display: inline-block;
+	padding: 2px 6px;
+	color: #fff !important;
+}
+
+._nmb {
+	padding-bottom: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+// ._ep {
+// 	background: url(https://eu2024.programydovoleb.cz/images/bg2.svg) no-repeat bottom right, url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA4MCIgaGVpZ2h0PSIxOTIwIiB2aWV3Qm94PSIwIDAgMTA4MCAxOTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTA4MCIgaGVpZ2h0PSIxOTIwIiBmaWxsPSJ1cmwoI3BhaW50MF9yYWRpYWxfNzNfNjU5KSIvPgo8ZGVmcz4KPHJhZGlhbEdyYWRpZW50IGlkPSJwYWludDBfcmFkaWFsXzczXzY1OSIgY3g9IjAiIGN5PSIwIiByPSIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSg1NDAgOTYwKSByb3RhdGUoOTApIHNjYWxlKDk2MCA1NDApIj4KPHN0b3Agc3RvcC1jb2xvcj0iI0ZGRjlFRCIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNFREYyRkYiLz4KPC9yYWRpYWxHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K) no-repeat center center !important;
+//     background-size: cover, cover !important;
+
+// 	.dark & {
+// 		background: url(https://eu2024.programydovoleb.cz/images/bg2.svg) no-repeat bottom right, url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA4MCIgaGVpZ2h0PSIxOTIwIiB2aWV3Qm94PSIwIDAgMTA4MCAxOTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTA4MCIgaGVpZ2h0PSIxOTIwIiBmaWxsPSJ1cmwoI3BhaW50MF9yYWRpYWxfNzNfNzczKSIvPgo8ZGVmcz4KPHJhZGlhbEdyYWRpZW50IGlkPSJwYWludDBfcmFkaWFsXzczXzc3MyIgY3g9IjAiIGN5PSIwIiByPSIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSg1NDAgOTYwKSByb3RhdGUoOTApIHNjYWxlKDk2MCA1NDApIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzA3MjEzNyIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMzA5MTciLz4KPC9yYWRpYWxHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K) no-repeat center center !important;
+//     	background-size: cover, cover !important;
+// 	}
+// }
+
+._responsive {
+	@media (max-width: 1170px) {
+		background: transparent !important;
+	}
+}
+
+.p-offset {
+	// justify-content: space-between;
+}
+
+._h3 {
+	margin: .5em 0 0 0;
+	padding: 0;
+
+	+ p {
+		margin-top: .5em;
+	}
+}
+
+._pofn {
+	width: 5em;
+	flex: none !important;
+
+	@media (max-width: 640px) {
+		display: none;
+	}
+}
+
+._poff {
+	flex: 1;
+	margin: 0 1em;
+}
+
+._mw {
+	max-width: 30em;
+}
+
+._pll {
+	display: inline !important;
+}

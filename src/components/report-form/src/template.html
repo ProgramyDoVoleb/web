@@ -1,0 +1,69 @@
+<div class="report-form" :class="{compact}">
+	<div class="state-form" v-if="!sent">
+		<p v-if="hint" v-html="hint"></p>
+		<div class="form stats">
+			<ul>
+				<li v-if="!noLink">
+					<!-- <label>Kontakt</label> -->
+					<div>
+						<div class="form-item">
+							<div class="form-input">
+								<input v-model="url" class="form-input-text" placeholder="odkaz" type="url">
+							</div>
+						</div>
+						<div class="form-note"></div>
+					</div>
+				</li>
+				<li>
+					<!-- <label>Zpráva</label> -->
+					<div>
+						<div class="form-item">
+							<div class="form-input">
+								<textarea v-model="note" class="form-input-text" placeholder="vaše zpráva"></textarea>
+							</div>
+						</div>
+						<div class="form-note"></div>
+					</div>
+				</li>
+				<p-collapsible label="Doplnit kontakt">
+					<li>
+						<!-- <label>Kontakt</label> -->
+						<div>
+							<div class="form-item">
+								<div class="form-input">
+									<input v-model="contact" class="form-input-text" placeholder="vaše jméno">
+								</div>
+							</div>
+							<div class="form-note"></div>
+						</div>
+					</li>
+					<li>
+						<!-- <label>Kontakt</label> -->
+						<div>
+							<div class="form-item">
+								<div class="form-input">
+									<input v-model="name" class="form-input-text" placeholder="e-mail nebo odkaz na profil">
+								</div>
+								<p class="note dimm">Zanechte e-mail nebo jiný odkaz, aby bylo v případě potřeby možné se vám ozvat zpět. E-maily nejsou použité pro nic jiné.</p>
+							</div>
+							<div class="form-note"></div>
+						</div>
+					</li>
+				</p-collapsible>
+				<li>
+					<label></label>
+					<div>
+						<button class="button-primary" :disabled="!valid || sending" @click="send">Odeslat</button>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="state-sent" v-if="sent">
+		<p>Vaše zpráva byla odeslána</p>
+		<div class="p-gap"></div>
+		<div class="center">
+			<button @click="another" class="button-primary">Poslat další</button>
+		</div>
+	</div>
+</div>

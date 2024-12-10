@@ -1,0 +1,21 @@
+.p-box-label {
+  width: auto;
+  height: 4rem;
+  display: flex;
+  padding: 0 1.2rem;
+  // justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.invert .p-box-label {
+  color: #fff;
+}
+
+.p-box-label---full {
+  width: 100%;
+}

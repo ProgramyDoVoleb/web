@@ -1,0 +1,30 @@
+.p-area {
+    background-color: var(--white);
+    border: var(--border);
+    padding: 1em !important;
+    background-size: 500px 400px;
+    border-radius: 1em;
+    position: relative;
+
+    .dark & {
+        background-color: var(--blue11);
+        border: none;
+    }
+
+    .p-layout---aside & {
+        background: none !important;
+    }
+}
+
+img {
+    position: absolute;
+    width: 2em;
+    height: 2em;
+    top: -1em;
+    right: 1em;
+
+    &.big {
+        top: -1.5em;
+        right: 0;
+    }
+}

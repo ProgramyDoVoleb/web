@@ -1,0 +1,75 @@
+.p-block {
+	padding: 0;
+}
+
+.report-modal {
+	display: inline-block;
+}
+
+._space {
+	padding: 0 0 .5em .25em;
+
+	a {
+		text-decoration: none;
+	}
+}
+
+._keep {
+	text-align: right;
+
+	strong {
+		width: 1.5em;
+		margin-left: .5em;
+		display: inline-block;
+	}
+
+	span {
+		width: 3em;
+		margin-left: .5em;
+	}
+}
+
+.p-offset {
+	padding-top: .5em;
+}
+
+// .graph-line-holder {
+// 	background: #eee;
+// 	height: 1px;
+// }
+
+.p-list {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.p-label {
+	z-index: 2;
+	position: relative;
+}
+
+.graph-line-holder {
+	// background: #eee;
+	// height: 1px;
+	position: absolute;
+	top: 1px;
+	bottom: 1px;
+	left: -.5em;
+	right: -.5em;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.graph-line {
+	// position: absolute;
+	// top: 0;
+	// bottom: 0;
+	display: block;
+	height: 100%;
+	opacity: .17;
+	border-radius: .5em;
+
+	.dark & {
+		opacity: .33;
+	}
+}

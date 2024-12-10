@@ -1,0 +1,31 @@
+.p-block---1:not(:last-child) {
+  padding-bottom: 8rem;
+}
+
+.p-block---2 {
+  padding-bottom: 4rem;
+}
+
+.p-block---3 {
+  padding-bottom: 2rem;
+}
+
+.p-headline {
+  padding-bottom: 0.1rem;
+}
+
+.hide-headline {
+  display: none;
+}
+
+.p-block---expandable:not(.opened) + .p-block:not(.p-block---expandable) {
+  margin-top: 3em;
+}
+
+.p-block---up {
+	margin-top: -3em;
+}
+
+.p-headline---sublabel {
+  font-size: .66em;
+}

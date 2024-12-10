@@ -1,0 +1,81 @@
+<div class="person-preview-linear"  :class="{'_cand-bg-mandat': (cand.MANDAT === 'A' || (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 1) || (cand.ZVOLEN_K2 && cand.ZVOLEN_K2 === 1)), '_cand-bg-2rnd': (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 2 && (!cand.ZVOLEN_K2 || cand.ZVOLEN_K2 === 3))}">
+	<div class="_cand">
+		<!-- <div class="_cand-mandat" v-if="cand.MANDAT === 'A' || (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 1) || (cand.ZVOLEN_K2 && cand.ZVOLEN_K2 === 1)"></div> -->
+		<!-- <div class="_cand-2rnd" v-if="(cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 2 && (!cand.ZVOLEN_K2 || cand.ZVOLEN_K2 === 3))"></div> -->
+		<div class="dimm smallest _cand-no"> {{ (cand.PORCISLO && cand.PORCISLO > 0 ? cand.PORCISLO + '.' : null) || (cand.CKAND && cand.CKAND > 0 ? cand.CKAND + '.' : null ) || '?' }}</div>
+		<div class="_cand-img" v-if="current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo')">
+			<p-photo class="_person _ar1" :data="con(cand.$data, 'photo', null, null, true)" :alt="cand.JMENO + ' ' + cand.PRIJMENI"></p-photo>
+			<img class="_party" loading="lazy" :src="logoByItem(nominee, data)" v-if="nominee.VSTRANA != current.VSTRANA" :alt="'Logo ' + nominee.ZKRATKA">
+			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 99">
+				<img class="_party" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
+			</template>
+		</div>
+		<div class="_cand-img" v-if="!(current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
+			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 99">
+				<img class="_partyAlone" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
+			</template>	
+			<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 99 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	
+		</div>
+		<div class="_cand-flex">
+			<div>
+				<div class="_soc">
+					<template v-if="cand.$odpovedi && cand.$odpovedi > 0">
+						<router-link :to="link + '/kandidat/' + cand.id + '/otazky-a-odpovedi'"><p-icon :src="cdn + 'icon/answers-mini.svg'" size="2em" border="transparent 1px solid"></p-icon></router-link>
+					</template>
+					<template v-if="cand.$data.social && cand.$data.social.length > 0" class="_soc">
+						<template v-for="(soc, indexS) in checkDuplicates(cand.$data.social)">
+							<p-link :href="soc.value">
+								<p-icon :src="cdn + 'icon/' + type(soc.value) + '.svg'" size="2em" border="transparent 1px solid"></p-icon>
+							</p-link>
+						</template>
+					</template>
+				</div>
+				<div>
+					<!-- <p-label :after="true" :color="cand.MANDAT === 'A' ? 'var(--green)' : null"> -->
+						<router-link class="strong" :to="link + '/kandidat/' + cand.id">
+							{{ cand.JMENO }} {{ cand.PRIJMENI }}
+						</router-link>
+						<span class="dimm tiny" v-if="cand.TITULPRED"> &middot; {{ cand.TITULPRED }}</span>
+						<span class="dimm tiny" v-if="cand.TITULZA"> &middot; {{ cand.TITULZA }}</span>
+					<!-- </p-label> -->
+					<!-- <template v-if="cand.VEK || cand.POVOLANI || cand.BYDLISTEN"> -->
+						<div class="p-gap _01"></div>
+						<div class="smallest _mw2">
+							<div>
+								<p-list-linear class="or">
+									<li v-if="cand.VEK">{{ cand.VEK }} let</li>
+									<li v-if="cand.POVOLANI">{{ cand.POVOLANI }}</li>
+									<li v-if="cand.BYDLISTEN">{{ cand.BYDLISTEN }}</li>
+									<li v-if="cand.PSTRANA && cand.PSTRANA === 99">nestraník</li>
+									<li v-if="cand.NSTRANA && !current.PSTRANA && cand.NSTRANA != current.VSTRANA">
+										nominace <template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
+										<router-link :to="'/rejstrik/' + cand.NSTRANA" class="keep">
+											{{ data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}
+										</router-link>
+									</li>
+									<li v-if="cand.PSTRANA && cand.PSTRANA != 99 && cand.PSTRANA != cand.NSTRANA">
+										člen
+										<!-- <p-label :after="true" :color="colorByItem(cand, data, 'PSTRANA')"> -->
+											<router-link :to="'/rejstrik/' + cand.PSTRANA" class="is-span keep">
+												{{ data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA).ZKRATKA }}
+											</router-link>
+										<!-- </p-label> -->
+									</li>
+									<li v-if="cand.$profil && cand.$profil.length > 0">
+										<router-link class="green strong" :to="'/lide/profil/' + cand.$profil[0].profil">historie</router-link>
+									</li>
+								</p-list-linear>
+							</div>
+						</div>
+					<!-- </template> -->
+				</div>
+			</div>
+			<div class="smaller" v-if="cand.$data.about.length > 0">
+				<div class="p-gap _075" v-if="cand.PSTRANA || cand.NSTRANA != current.VSTRANA"></div>
+				<div class="serif _mw">
+					<p-truncated :size="24" :content="cand.$data.about[0].value" :compact="link + '/kandidat/' + cand.id" :unbreak="true"></p-truncated>
+				</div>																	
+			</div>
+		</div>
+	</div>
+</div>

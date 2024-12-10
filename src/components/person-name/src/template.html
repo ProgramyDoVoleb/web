@@ -1,0 +1,3 @@
+<span class="person-name" :class="{full, short}">
+	<span v-if="dataParsed[2] != ''" class="dimm small in-full">{{ dataParsed[2] }} </span><span class="in-normal">{{ dataParsed[0] }}</span> <span class="in-short">{{ dataParsed[0].charAt(0) }}.</span> <span>{{ dataParsed[1] }}</span><span class="dimm small in-full" v-if="dataParsed[3] && dataParsed[3] != ''">, {{ dataParsed[3] }}</span>
+</span>

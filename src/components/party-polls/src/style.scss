@@ -1,0 +1,51 @@
+.keep {
+    @media (max-width: 800px) {
+        display: block;
+    }
+}
+
+svg {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2/1;
+}
+
+circle {
+    stroke: var(--greyish);
+    stroke-width: 1;
+}
+
+path {
+    fill: none;
+    stroke-width: 1;
+    
+    &.selected {
+        stroke-width: 2;
+    }
+
+    &:not(.selected) {
+        stroke: var(--greyish);
+    }
+}
+
+.dark text {
+    fill: #ccc;
+}
+
+._layout {
+    @media (min-width: 1280px) {
+        display: flex;
+
+        & > :first-child {
+            width: 66%;
+        }
+
+        & > :last-child {
+            flex: 1 0 auto;
+        }
+
+        & > :last-child:not(:first-child) {
+            margin-left: 2em;
+        }
+    }
+}

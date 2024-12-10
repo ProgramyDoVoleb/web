@@ -1,0 +1,25 @@
+.person-image {
+  border-radius: 4px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  border: 1px solid rgba(0, 0, 0, .1);
+}
+
+.person-initials-border {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid #aaa;
+  position: relative;
+}
+
+.person-initials-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1rem;
+}

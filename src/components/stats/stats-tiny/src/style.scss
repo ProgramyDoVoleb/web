@@ -1,0 +1,20 @@
+svg {
+  display: block;
+}
+
+.inline {
+  display: inline-block;
+
+  .stats-tiny-content {
+    position: relative;
+    display: inline-block;
+    height: 1.5;
+  }
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+}

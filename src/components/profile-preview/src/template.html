@@ -1,0 +1,89 @@
+<div class="profile-preview">
+	<component :is="compact ? 'p-area' : 'div'" padding="1em">
+		<p-loader :rule="data">
+			<div v-if="data">
+				<div class="p-offset" v-if="compact">
+					<div>
+						<p-image :src="photo" :rounded="true" :border="true" width="7rem"></p-image>
+					</div>
+					<div>
+						<div class="strong">
+							<router-link :to="'/lide/profil/' + id">{{ data.profile.display }}</router-link>
+						</div>
+						<div class="">
+							{{ data.profile.popis }}
+								<div class="p-gap_025"></div>
+								<p-box-group>
+									<template v-for="(link, index) in links">
+										<p-box :href="link" background="transparent">
+											<p-box-icon :type="type(link)"></p-box-icon>
+										</p-box>
+									</template>
+								</p-box-group>
+						</div>
+					</div>
+				</div>
+				<template v-if="!compact">
+					<p-list class="smaller" height=".5">
+						<div v-for="(election, index) in sortBy(data.cis.volby, 'datum', '2099-12-31', true, true).filter((x, i) => limit ? i < limitLength : true)">
+							<div v-for="(cand, index2) in data.list.filter(x => x.volby === election.id)">
+								<div class="reverse _do" :class="{'p-offset': [].concat(cand.$data.web, cand.$data.social, cand.$data.photo).length > 0}">
+									<div class="p-offset">
+										<div>
+											<p-box-color :color="color(cand, election)"></p-box-color>
+										</div>
+										<div>
+											<strong>
+												<router-link :to="'/volby/' + electionList.find(x => x.key === election.typ).hash + '/' + election.id + '/kandidat/' + cand.id" :class="{'is-span': color(cand, election) != 'var(--blue)'}">{{ electionList.find(x => x.key === election.typ).name }} &middot; {{ election.cirka || election.datum.split('-')[0] }}</router-link>
+											</strong>
+											<br>
+											<p-list-linear class="or">
+												<span class="dimm" v-if="election.typ === 'SENAT'">
+													obvod {{ cand.OBVOD }} &middot; {{ cand.$obvod ? cand.$obvod[0].NAZEV : '' }}
+												</span>
+												<span class="dimm" v-if="election.typ === 'KV'">
+													zast. {{ cand.$obec ? cand.$obec[0].NAZEVZAST : '' }}
+												</span>
+												<span class="dimm" v-if="election.typ === 'KZ'">
+													{{ cand.$kraj[0] ? cand.$kraj[0].NAZEV : enums.regions[cand.KRZAST - 1] }}
+												</span>
+												<span class="dimm" v-if="election.typ === 'EP' || election.typ === 'PS' || election.typ === 'KZ' || election.typ === 'KV'">
+													{{ cand.$strana[0].NAZEV }}
+												</span>
+												<span class="dimm" v-if="election.typ === 'PS'">
+													{{ cand.VOLKRAJ === -1 ? 'volební kraj zatím nebyl uveden' : enums.regionsShort[cand.VOLKRAJ - 1] }}
+												</span>
+												<span class="dimm" v-if="election.typ === 'PREZ'">
+													kandidát
+												</span>
+												<span class="dimm" v-if="cand.PORCISLO">
+													{{ cand.PORCISLO }}
+												</span>
+											</p-list-linear>
+										</div>
+									</div>
+									<div v-if="([].concat(cand.$data.web, cand.$data.social, cand.$data.photo)).filter(x => x.status === 1).length > 0">
+										<p-box-group>
+											<template v-for="item in [].concat(cand.$data.web, cand.$data.social).filter(x => x.status === 1)">
+												<p-box :href="item.value">
+													<p-box-icon :type="type(item.value)"></p-box-icon>
+												</p-box>
+											</template>
+											<p-box v-if="cand.$data.photo && cand.$data.photo.length > 0" class="_mf">
+												<p-box-image :src="cand.$data.photo[0].value" class="_ar" :rounded="true"></p-box-image>
+											</p-box>
+										</p-box-group>										
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<strong v-if="data.cis.volby.length > limitLength"><button class="inline" @click="limit = !limit">{{ limit ? 'Zobrazit celou historii' : 'Zkrátit seznam' }}</button> &middot; </strong>
+							<router-link :to="'/lide/profil/' + id">Podrobná historie</router-link>
+						</div>
+					</p-list>
+				</template>
+			</div>
+		</p-loader>
+	</component>
+</div>

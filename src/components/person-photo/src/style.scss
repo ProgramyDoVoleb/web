@@ -1,0 +1,26 @@
+img {
+  display: block;
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid rgba(0,0,0,.1);
+}
+
+p, .request-access {
+  max-width: 60rem;
+}
+
+.person-photo {
+  position: relative;
+}
+
+.licence {
+  position: absolute;
+  bottom: .5em;
+  right: 1em;
+  z-index: 50;
+  font-size: 9px;
+}
+
+.licence-block {
+  text-align: left;
+}

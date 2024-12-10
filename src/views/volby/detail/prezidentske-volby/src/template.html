@@ -1,0 +1,79 @@
+<div class="snemovni-volby">
+	<template v-if="current.status === 3">
+		<p-block headline="2. kolo" v-if="hasSecondRound">
+			<p-area class="relative _r2">
+				<div class="p-gap_2"></div>
+				<election-duel :list="sortByVotes(current.$kandidati)" :kolo="2"></election-duel>
+				<div class="p-gap"></div>
+				<p-collapsible label="Podrobné výsledky">
+					<election-table :list="sortByVotes(current.$kandidati)" :kolo="2"></election-table>
+				</p-collapsible>
+				<div class="attendance">
+					<p-line-graph :value="current.$ucast[1].UCAST" color="var(--blue)"></p-line-graph>
+					<!-- <div class="text-right smallest dimm">účast</div> -->
+				</div>
+			</p-area>
+		</p-block>
+		<p-block headline="1. kolo">
+			<p-area class="relative">
+				<election-graph :list="sortByVotes(current.$kandidati)" :kolo="1"></election-graph>
+				<div class="p-gap"></div>
+				<p-collapsible label="Podrobné výsledky">
+					<election-table :list="sortByVotes(current.$kandidati)" :kolo="1"></election-table>
+				</p-collapsible>
+				<div class="attendance">
+					<p-line-graph :value="current.$ucast[0].UCAST" color="var(--blue)"></p-line-graph>
+					<!-- <div class="text-right smallest dimm">účast</div> -->
+				</div>
+			</p-area>
+		</p-block>
+		<div class="p-gap_2"></div>
+		<p-block headline="Statistiky" v-if="current.$ucast">
+			<p-area>
+				<election-stats :data="current.$ucast" :results="current.$vysledky"></election-stats>
+			</p-area>
+		</p-block>
+	</template>
+	<template v-if="current.status > 1">
+		<p-block headline="Kandidáti">
+			<p>Zde najdete přehled registrovaných kandidátů.</p>
+			<election-profiles :list="sortByVotes(current.$kandidati)"></election-profiles>
+		</p-block>
+	</template>
+	<template v-if="current.status === 1">
+		<p-block headline="Předběžný přehled">
+			<p>Zde najdete přehled kandidátů, kteří už nějakou formou oznámili záměr nebo odhodlání kandidovat.</p>
+			<election-profiles :list="sortByVotes(current.$kandidati)"></election-profiles>
+		</p-block>
+	</template>
+	<template v-if="current.status < 3">
+		<div class="p-line"></div>
+			<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'PREZ:' + current.id">
+				<button>Přidat či upravit</button>
+			</report-modal>
+	</template>
+	<p-block v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0" headline="Otázky a odpovědi">
+		<template v-for="(qitem, qindex) in qenum">
+			<p-collapsible :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0">
+				<p-area>
+					<div :class="qitem.type < 3 ? 'columns' : 'p-list'">
+						<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 1)">
+							<router-link class="strong" :to="'/volby/prezidentske-volby/' + data.list[0].id + '/' + qitem.hash + '/' + qquestion.id">{{ qquestion.question }}</router-link>
+							<div class="smaller" v-if="qquestion.comment">{{ truncate(qquestion.comment, 12) }}</div>
+						</div>
+					</div>
+					<template v-if="data.list[0].$otazky.find(x => x.type === qitem.type && x.priority === 2)">
+						<div class="p-gap"></div>
+						<p-collapsible label="Doplňkové otázky">
+							<div :class="qitem.type < 3 ? 'columns' : 'p-list'">
+								<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 2)">
+									<router-link :to="'/volby/prezidentske-volby/' + data.list[0].id + '/' + qitem.hash + '/' + qquestion.id">{{ qquestion.question }}</router-link>
+								</div>
+							</div>
+						</p-collapsible>
+					</template>
+				</p-area>
+			</p-collapsible>
+		</template>
+	</p-block>
+</div>

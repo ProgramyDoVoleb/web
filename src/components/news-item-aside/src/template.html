@@ -1,0 +1,8 @@
+<div class="news-item-aside">
+	<div class="_meta smallest">
+		<span class="strong">{{ date(data.datum) }}</span><span class="dimm" v-if="!noSource"> &middot; {{ domain(data.source) }}</span>
+	</div>
+	<div class="_content">
+		<router-link :to="'/novinky/' + data.id">{{ data.title }}</router-link>	
+	</div>
+</div>

@@ -1,0 +1,43 @@
+<div class="results-parties">
+	<div class="loaded box" v-if="global.data">
+		<div class="box-content box-content-large">
+			<graph-parties :data="results" :local="!!local" />
+		</div>
+		<div class="box-content" v-if="stats && stats.global.pct">
+			<div class="stats">
+				<ul>
+					<li>
+						<label>Účast</label>
+						<div>
+							{{ stats.local ? stats.local.pct : stats.global.pct }} %
+							<span v-if="stats.local" class="dimm">
+								&middot;
+								{{ stats.global.pct }} % celkem
+							</span>
+						</div>
+					</li>
+					<li>
+						<label>Voličů</label>
+						<div>
+							{{ beautifyNumber(stats.local ? stats.local.attended : stats.global.attended) }}
+							<span v-if="stats.local" class="dimm">
+								&middot;
+								{{ beautifyNumber(stats.global.attended) }} celkem
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="box-content">
+			<collapsible-element label="Kompletní výsledky">
+				<table-parties :data="results" :local="!!local" />
+			</collapsible-element>
+		</div>
+		<div class="box-content" v-if="!stats.local">
+			<collapsible-element label="Zvolení zastupitelé">
+				<results-elected-list :data="globalResults.parties" />
+			</collapsible-element>
+		</div>
+	</div>
+</div>

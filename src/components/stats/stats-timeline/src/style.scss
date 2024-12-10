@@ -1,0 +1,68 @@
+.stats-timeline-holder {
+  position: relative;
+}
+
+.stats-timeline-content {
+  position: absolute;
+}
+
+h4 {
+  margin: .5em 0 0;
+  padding: 0;
+  font-size: .9rem;
+}
+
+text {
+  font-size: .7em;
+
+  .dark & {
+    fill: #fff;
+  }
+}
+
+line {
+  stroke: #fff;
+  stroke-width: .5;
+
+  .dark & {
+    stroke: #000;
+  }
+}
+
+path {
+  opacity: .85;
+
+  @media (hover: hover) {
+
+    transition: opacity .5s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.hover {
+  opacity: 0;
+  fill: var(--blue);
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: .25;
+      cursor: pointer;
+    }
+  }
+}
+
+.info-box {
+  position: absolute;
+  background: #fff;
+  padding: 1em;
+  border-radius: 1em;
+  box-shadow: 0 1em 4em var(--greyish);
+
+  .dark & {
+    background: #000;
+    box-shadow: 0 1em 4em #000;
+  }
+}

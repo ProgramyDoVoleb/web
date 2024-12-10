@@ -1,0 +1,29 @@
+<div class="homepage-ep">
+	<p-loader :rule="election">
+		<div v-if="election">
+			
+			<div class="smallest dimm">Upozornění: až do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.</div>
+				<div class="p-gap_075"></div>
+				<strong></strong>
+				<component :is="width < 1170 ? 'p-area' : 'div'" class="smaller white">
+					<p-columns>
+						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
+							<component :is="width < 1170 ? 'party-preview-tiny' : 'party-preview'" :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></component>
+						</div>
+					</p-columns>
+					<!-- <div class="p-line"></div>
+					<div class="p-offset reverse smallest balanced">
+						<div>
+							{{ election.list[0].$strany.filter(x => x.KSTRANA).length }} stran, {{ election.list[0].$kandidati.filter(x => x.KSTRANA && x.PORCISLO).length }} kandidátů
+						</div>
+						<div class="text-right">
+							<router-link :to="'/volby/snemovni-volby/' + elections.id">Archiv</router-link>
+							&middot;
+							<router-link :to="'/volby/snemovni-volby/' + elections.predchozi">Předchozí</router-link>
+						</div>
+					</div> -->
+				</component>
+			
+		</div>
+	</p-loader>
+</div>

@@ -1,0 +1,120 @@
+.p-area:not(.cancel) {
+  background: rgba(0,0,0,.03);
+  padding: .75em 1.25em;
+  position: relative;
+  margin-bottom: 0;
+  border-radius: 1.6rem;
+
+  &.p-area---has-border {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 1em 1.5em;
+  }
+
+  & > :first-child {
+    margin-top: 0;
+  }
+
+  & > :not(:last-child):not(.border-color) {
+    margin-bottom: inherit;
+  }
+
+  .dark &,
+  .dark &[style] {
+    &:not([style*="background-image"]),
+    &[style*="missing"] {
+      &:not(.p-area---has-background) {
+        background: rgba(255,255,255,.07) !important;
+        box-shadow: 0 1em 2em #00000022;
+      }      
+    }
+  }
+
+  &.p-area---has-icon:not(.p-area---icon-top) {
+    padding: .75em 1em .75em 4em;
+  
+    .p-box-icon,
+    .p-box-image {
+      position: absolute;
+      top: 0;
+      left: -5rem;
+      border-radius: 50%;
+      border: none;
+
+      &:after {
+        content: none;
+      }
+    }
+  }
+}
+
+// .p-layout---aside .p-area {
+//    background: #fff;
+//    box-shadow: 1.6rem 1.6rem 4.8rem rgba(0,0,0,.1);
+// }
+
+.p-layout---nav .p-area {
+  padding: 0;
+  background: none;
+}
+
+.p-area .border-color {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+}
+
+.p-area---content {
+  position: relative;
+}
+
+.p-area + .p-area {
+  margin-top: 1rem;
+}
+
+.p-area---icon-top {
+
+  .p-box-icon {
+    position: absolute;
+    top: -2.5em;
+    right: -1.75em;
+    left: auto;
+    background: transparent;
+    border-radius: 50%;
+    padding: .25em;
+    width: 5em;
+    height: 5em;
+  }
+
+}
+
+.p-area---inline,
+.inline {
+  display: inline-block
+}
+
+._responsive {
+  @media (max-width: 1170px) {
+    padding: 1em !important;
+    font-size: .9em;
+    text-align: center;
+  }
+}
+
+._responsive.p-area---has-icon {
+  @media (max-width: 1170px) {
+    padding: 2.5em 1em 1em !important;
+  
+    .p-box-icon,
+    .p-box-image {
+      top: -3em !important;
+      left: calc(50% - 1.5em) !important;
+    }
+  }
+}
+
+.white {
+  background: #fff !important;
+}

@@ -1,0 +1,26 @@
+<div class="person-photo">
+	<img src="/static/missing.png" alt="fotka chybí" v-if="!data.photo">
+	<lazy-load :src="src" :ratio="ratio || (57/46)" :width="width || 8" v-if="data.photo">
+		<img :src="src" :alt="data.name">
+	</lazy-load>
+	<modal-element v-if="data.photo && data.photo.licence">
+		<template #init>
+			<span class="smallest dimm licence">&copy; <span class="is-link"><span class="dimm">licence</span></span></span>
+		</template>
+		<template #content>
+			<div class="licence-block">
+				<p>{{ data.photo.licence }}, {{ data.photo.comment }}</p>
+				<p v-if="data.photo.original"><outbound-link :href="data.photo.original">Originál na {{ stripURLintoDomain(data.photo.original) }}</outbound-link></p>
+			</div>
+		</template>
+	</modal-element>
+	<modal-element v-if="src.split('missing').length === 2">
+		<template #init>
+			<span class="tiny dimm">Jak doplnit fotku?</span>
+		</template>
+		<template #content>
+			<h4>Jak doplnit fotku?</h4>
+			<p class="smaller">Fotku lze doplnit pomocí <router-link to="/admin">Adminu</router-link> nebo zasláním na <a href="mailto:fotky@programydovoleb.cz">fotky@programydovoleb.cz</a></p>
+		</template>
+	</modal-element>
+</div>

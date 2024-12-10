@@ -1,0 +1,36 @@
+.p-box {
+  // background: #fafafa;
+  display: inline-block;
+  border-radius: 4px;
+
+  &.clean {
+    background: transparent;
+  }
+
+  .dark & {
+    // background: #000;
+  }
+
+  .dark .p-layout---nav & {
+    // background: #000 !important;
+  }
+}
+
+.p-box-group .p-box {
+  margin-right: .4em;
+  margin-top: .4em;
+}
+
+.p-box---block {
+  display: block;
+  width: 100%;
+}
+
+.p-box-content {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: 4rem;
+  width: auto;
+}

@@ -1,0 +1,17 @@
+<div class="program-block-dynamic">
+	<!-- <div class="small dimm">{{ src }}</div> -->
+	<p-loader type="table" :rule="data">
+		<div v-if="data">
+			<p-block :headline="headline" :anchor="truncate(headline, 16, true)">
+				<program-block :parts="data.parts" :color="color" :depth="2"></program-block>
+				<template v-if="data.source">
+					<div class="p-line"></div>
+					<div class="smaller strong sans">
+						<p-link :href="data.source">Zdroj k sekci {{ headline }}</p-link>
+					</div>
+					<div class="p-gap_3"></div>
+				</template>
+			</p-block>
+		</div>
+	</p-loader>
+</div>

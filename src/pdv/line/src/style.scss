@@ -1,0 +1,8 @@
+.p-line---horizontal {
+  height: 1px;
+  background: #eee;
+
+  .dark & {
+    background: #000; // rgba(255,255,255, .2);
+  }
+}

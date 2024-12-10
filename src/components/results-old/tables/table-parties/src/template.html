@@ -1,0 +1,108 @@
+<div class="results-parties-table">
+	<ul>
+		<li class="headline dimm">
+			<div class="party">
+				<div class="party-about"></div>
+				<div class="party-result">
+					<div class="party-result-mid" v-if="local">procent</div>
+					<div class="party-result-large border-right" v-if="local">hlasů</div>
+					<div class="party-result-mid">procent</div>
+					<div class="party-result-large">hlasů</div>
+					<div class="party-result-short">křesel</div>
+				</div>
+			</div>
+		</li>
+		<li class="headline dimm">
+			<div class="party">
+				<div class="party-about"></div>
+				<div class="party-result">
+					<div class="party-result-mid" v-if="local">obec</div>
+					<div class="party-result-large border-right" v-if="local">obec</div>
+					<div class="party-result-mid">celkem</div>
+					<div class="party-result-large">celkem</div>
+					<div class="party-result-short">zisk</div>
+				</div>
+			</div>
+		</li>
+		<li v-for="(result, index) in data" :class="{progress: result.elected > 0}" v-if="showAll || result.pct >= 1 && result.party" class="result">
+			<div class="party">
+				<div class="party-about">
+					<div class="party-name">
+						<party-name-with-dot :partyData="result.party" :useName="result.name" :useShort="result.short || result.name" v-if="result.reg != 80 && result.reg != 90" />
+						<party-name-with-dot :useName="checkCandidateName(result.name)" :alwaysName="true" v-if="result.reg === 80" :useColor="createColorByName(checkCandidateName(result.name))" />
+						<party-name-with-dot :useName="result.name" :alwaysName="true" v-if="result.reg === 90" :useColor="createColorByName(result.name)" />
+					</div>
+				</div>
+				<div class="party-result">
+					<div class="party-result-mid" v-if="local">
+						{{ result.local.pct }} %
+					</div>
+					<div class="party-result-large border-right" v-if="local">
+						{{ beautifyNumber(result.local.votes) }}
+					</div>
+					<div class="party-result-mid">
+						{{ result.pct }} %
+					</div>
+					<div class="party-result-large">
+						{{ beautifyNumber(result.votes) }}
+					</div>
+					<div class="party-result-short">
+						{{ beautifyNumber(result.elected || 0) }}
+					</div>
+				</div>
+				<div class="party-graph" :class="{local: local}" v-if="result.reg != 90 && result.reg != 80">
+					<div class="party-graph-global" :style="{width: (result.pct * coef1) + '%', background: result.party.color }"></div>
+					<div class="party-graph-local" v-if="local" :style="{width: (result.local.pct * coef2) + '%', background: result.party.color }"></div>
+				</div>
+				<div class="party-graph" :class="{local: local}" v-if="result.reg === 90">
+					<div class="party-graph-global" :style="{width: (result.pct * coef1) + '%', background: createColorByName(result.name) }"></div>
+					<div class="party-graph-local" v-if="local" :style="{width: (result.local.pct * coef2) + '%', background: createColorByName(result.name) }"></div>
+				</div>
+				<div class="party-graph" :class="{local: local}" v-if="result.reg === 80">
+					<div class="party-graph-global" :style="{width: (result.pct * coef1) + '%', background: createColorByName(checkCandidateName(result.name)) }"></div>
+					<div class="party-graph-local" v-if="local" :style="{width: (result.local.pct * coef2) + '%', background: createColorByName(checkCandidateName(result.name)) }"></div>
+				</div>
+			</div>
+		</li>
+		<li class="rest below" v-if="showCount != rest.count && rest.count > 0 && !showAll">
+			<div class="party">
+				<div class="party-about">
+					<div class="party-name">
+						<i>Ostatní</i>
+					</div>
+				</div>
+				<div class="party-result">
+					<div class="party-result-mid" v-if="local">
+						{{ rest.local.pct }} %
+					</div>
+					<div class="party-result-large border-right" v-if="local">
+						{{ beautifyNumber(rest.local.votes) }}
+					</div>
+					<div class="party-result-mid">
+						{{ rest.pct }} %
+					</div>
+					<div class="party-result-large">
+						{{ beautifyNumber(rest.votes) }}
+					</div>
+					<div class="party-result-short">
+						{{ 0 }}
+					</div>
+				</div>
+				<div class="party-graph" :class="{local: local}">
+					<div class="party-graph-global" :style="{width: (rest.pct * coef1) + '%'}"></div>
+					<div class="party-graph-local" v-if="local" :style="{width: (rest.local.pct * coef2) + '%' }"></div>
+				</div>
+			</div>
+		</li>
+		<li class="footer" v-if="showCount != rest.count && rest.count > 0">
+			<button @click="showAllToggle">
+				<span v-if="showAll">
+					<span class="red">&times;</span>
+					Skrýt některé
+				</span>
+				<span v-if="!showAll">&darr; Zobrazit ostatní</span>
+				strany ({{ rest.count }})
+			</button>
+		</li>
+	</ul>
+</div>

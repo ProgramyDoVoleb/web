@@ -1,0 +1,30 @@
+.p-offset:not(.reverse) {
+  display: flex;
+
+  > :last-child {
+    flex: 1;
+
+    &:not(:first-child) {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.p-offset.reverse {
+  display: flex;
+
+  > :first-child {
+    flex: 1;
+    margin-right: 1rem;
+  }
+}
+
+.p-offset.even {
+  > div {
+    flex: 1;
+  }
+}
+
+.p-offset.balanced {
+  align-items: baseline;
+}

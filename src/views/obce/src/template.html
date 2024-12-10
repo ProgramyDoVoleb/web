@@ -1,0 +1,55 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Vyhledávání obcí" :level="1">
+				<search-town link="/obec/"></search-town>
+				<div class="p-gap_3"></div>
+				<p-block headline="Největší města">
+					<div v-for="(town, index) in enums.towns.capital" class="p-list---invisible-spacing p-list---invisible-spacing-skip">
+						<router-link :to="'/obec/' + town.num" :class="{'strong red': index === 0}">
+							{{ town.name }}
+						</router-link>	
+					</div>
+					<h5>Krajská města</h5>
+					<div class="columns-4">
+						
+						<div v-for="(town, index) in enums.towns.regional" class="p-list---invisible-spacing">
+							<router-link :to="'/obec/' + town.num">
+								{{ town.name }}
+							</router-link>	
+						</div>
+					</div>
+					<h5>Další města</h5>
+					<div class="columns-4">
+						
+						<div v-for="(town, index) in enums.towns.other" class="p-list---invisible-spacing">
+							<router-link :to="'/obec/' + town.num">
+								{{ town.name }}
+							</router-link>	
+						</div>
+					</div>
+				</p-block>
+			</p-block>
+			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<strong>Rychle</strong>
+			<div class="p-gap"></div>
+			<div v-for="(town, index) in enums.towns.capital" class="p-list---invisible-spacing p-list---invisible-spacing-skip smaller">
+				<router-link :to="'/obec/' + town.num" :class="{'strong red': index === 0}">
+					{{ town.name }}
+				</router-link>	
+			</div>
+			<div v-for="(town, index) in enums.towns.regional" class="p-list---invisible-spacing smaller">
+				<router-link :to="'/obec/' + town.num">
+					{{ town.name }}
+				</router-link>	
+			</div>
+		</template>
+	</p-layout-divided>
+</div>

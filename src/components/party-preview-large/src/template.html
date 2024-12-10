@@ -1,0 +1,146 @@
+<div class="party-preview">
+	<p-area class="_aig">
+		<!-- <div class="_aig"> -->
+			<div class="_b">
+				<div>
+					<div class="_por">
+						<div>
+							<router-link :to="link + '/strana/' + party.id" class="strong">{{ truncate(party.NAZEV, 10) }}</router-link>
+							<div class="dimm smallest" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET > 1">
+								<div class="_g2"></div>
+								koalice 
+								<p-list-linear>
+									<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+										<li>{{ coal.ZKRATKA }}</li>
+									</template>
+								</p-list-linear>
+							</div>
+							<div v-if="candidates.length === 0" class="dimm smallest">				
+								<div class="_g2"></div>
+								<em>zatím bez dalších informací</em>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="_ba">
+					<template v-if="!logoByItem(party, elections).includes('empty')" class="_ba">
+						<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV" class="_logo">
+					</template>
+					<div v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET > 1" class="_ba2">
+						<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET > 1">
+							<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+								<img loading="lazy" :src="logoByItem(coal, elections)" :alt="'logo ' + coal.NAZEV" class="_logo" :style="{'z-index': 10 - indexC}">
+							</template>
+						</div>
+						<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET === 1">
+							<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV + ' chybí'" class="_logo">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-if="candidates.length > 0" class="_con">
+				<div class="_g2"></div>
+				<p-list class="invisible smaller">
+					<template v-for="(cand, index2) in snemovni ? sortBy(candidates.filter(x => x.PORCISLO === 1), 'PRIJMENI', null, true) : sortByPorCislo(candidates)">
+						<div v-if="index2 < (snemovni ? 15 : 5)">
+							<component :is="cand.NSTRANA === party.VSTRANA ? 'span' : 'p-label'" :color="colorByItem(cand, elections, 'NSTRANA')" :asfter="true">
+								<template v-if="!snemovni">{{ cand.PORCISLO ? cand.PORCISLO + '. ' : '?'}}</template>
+								<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/kandidat/' + cand.id" :to="link + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</component>
+								<span v-if="snemovni" class="smallest dimm"> &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }}</span>
+							</component>
+							<!-- <router-link :to="link + '/kandidat/' + cand.id" :class="{'is-span': !cand.PORCISLO}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link> -->
+							<span v-if="cand.$odpovedi > 0"> 
+								<router-link :to="link + '/kandidat/' + cand.id + '/otazky-a-odpovedi'" class="_i">
+									<p-icon icon="answers-mini"></p-icon>
+								</router-link>
+							</span>	
+						</div>
+					</template>
+					<div v-if="snemovni ? candidates.find(x => !x.PORCISLO || x.PORCISLO > 1) : candidates.length > 5">
+						+  <router-link :to="link + '/strana/' + party.id" class="dimm">
+							<p-lang :value="candidates.length - (snemovni ? candidates.filter(x => x.PORCISLO === 1).length : 5)" :end="['', 'jeden další', 'další %%', 'dalších %%']"></p-lang>
+						</router-link>
+					</div>
+				</p-list>
+			</div>
+			<div v-if="(party.$data.program && party.$data.program.length > 0) || (party.$priorit || party.$priorit > 0) || (party.$program)">
+				<div class="_g"></div>
+				<template v-if="(party.$data.program && party.$data.program.length > 0) || party.$program.length > 0">
+					<div class="p-gap_05"></div>
+					<p-modal class="inline">
+						<template #init>
+							<span class="strong smallest _pg" :style="{background: colorByItem(party, elections)}">program</span>
+						</template>
+						<template #content>
+							<div class="_b">
+								<div>
+									<p-label :color="colorByItem(party, elections)" :after="true"><router-link :to="link + '/strana/' + party.id" class="strong">{{ party.NAZEV }}</router-link></p-label>
+									<div class="strong smaller">Programové dokumenty</div>
+								</div>
+							</div>
+							<div class="_g"></div>
+							<p-list>
+								<div v-for="(program, indexP) in party.$program">
+									<p-area class="inline" icon="icon-party" background="var(--blue11)">
+										<router-link :to="link + '/strana/' + party.id + '/volebni-program/' + program.id + '#plne-zneni'" class="strong">Plné znění volebního programu</router-link>
+										<div class="smallest dimm">{{ date(program.updated) }}</div>
+									</p-area>
+								</div>
+								<div v-for="(program, indexP) in party.$data.program">
+									<div class="p-offset reverse balanced">
+										<div>
+											<p-link :href="program.source">{{ program.value }}</p-link>
+											<div class="dimm tiny">vloženo {{ date(program.updated) }}</div>
+										</div>
+										<div v-if="program.label">
+											<p-link class="dimm smallest" :href="program.label">záloha</p-link>
+										</div>
+									</div>
+								</div>
+								<div v-if="party.$priorit">
+									<router-link :to="link + '/strana/' + party.id + '#volebni-priority'" v-if="party.$priorit"><p-lang :value="party.$priorit" :end="['', '1 volební priorita', '%% volební priority', '%% volební priorit']"></p-lang></router-link>
+								</div>
+							</p-list>
+						</template>
+					</p-modal> 
+					<p-modal class="inline">
+						<template #init>
+							<span class="strong smallest _pg _pg11 green" :style="{background: 'var(--green11)'}">+</span>
+						</template>
+						<template #content>
+							<strong>Vložit odkaz na další informace</strong>
+							<div class="p-gap"></div>
+							<report-form></report-form>
+						</template>
+					</p-modal>
+				</template>		
+				<template v-else>
+					<p-modal class="inline">
+						<template #init>
+							<span class="strong smallest _pg _pg11 green" :style="{background: 'var(--green11)'}">přidat program</span>
+						</template>
+						<template #content>
+							<strong>Vložit odkaz na volební program nebo priority</strong>
+							<div class="p-gap"></div>
+							<report-form></report-form>
+						</template>
+					</p-modal>
+				</template>		
+				 <router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="_icon" v-if="party.$odpovedi && party.$odpovedi > 0"> <img src="https://static.programydovoleb.cz/icon/answers.svg" alt="Odpovědi" class="_icon"> </router-link>	
+				<template v-if="party.$data && party.$data.social">
+					<template v-for="(soc, index) in party.$data.social.filter(x => ['tw', 'fb', 'threads', 'ig'].indexOf(type(x.value)) > -1)"> <p-link :href="soc.value" class="_icon"> <img :src="'https://static.programydovoleb.cz/icon/' + type(soc.value) + '.svg'" :alt="type(soc.value).toUpperCase() + ' ' + party.ZKRATKA"></p-link></template>
+					
+				</template>
+				<template v-if="party.$data && party.$data.web">
+					<template v-if="party.$data.web && party.$data.web.length > 0"> <p-link :href="party.$data.web[0].value" class="_icon"><img src="https://static.programydovoleb.cz/icon/link.svg" alt="Webové stránky" class="_icon"></p-link></template>										
+				</template>
+			</div>
+			<div class="smallest dimm _br" v-if="party.ESTRANA > 0">
+				<span class="tiny">#</span>{{ party.ESTRANA }}
+			</div>
+			<div class="smallest dimm _br" v-if="party.KSTRANA > 0">
+				<span class="tiny">č. </span>{{ party.KSTRANA }}
+			</div>
+		<!-- </div> -->
+	</p-area>
+</div>

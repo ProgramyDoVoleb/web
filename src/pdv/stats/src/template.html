@@ -1,0 +1,9 @@
+<div class="p-stats">
+  <div class="p-stats---flex p-stats---responsive" :class="{'p-stats---vertical': vertical, 'p-stats---responsive': responsive, 'p-stats---after': after}">
+    <label class="small dimm" v-if="!link">{{ label }}</label>
+    <label class="small" v-if="link"><router-link :to="link" class="green">{{ label }}</router-link></label>
+    <div>
+      <slot></slot>
+    </div>
+  </div>
+</div>

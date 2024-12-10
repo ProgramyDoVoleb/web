@@ -1,0 +1,79 @@
+.p-columns {
+	container-type: inline-size;
+
+	@container (min-width: 640px) {
+		.p-columns---container {
+			columns: 2;
+			column-gap: 2em;
+		}
+	
+		.p-columns---container > div {
+			margin-bottom: 2em;
+		}
+	}
+	
+	@container (min-width: 940px) {
+		.p-columns---container {
+			columns: 3;
+		}
+	}
+}
+
+.p-columns---tight,
+._tight {
+	container-type: inline-size;
+
+	@container (min-width: 360px) {
+		.p-columns---container {
+			columns: 2;
+			column-gap: 2em;
+		}
+	
+		.p-columns---container > div {
+			margin-bottom: 2em;
+		}
+	}
+	
+	@container (min-width: 540px) {
+		.p-columns---container {
+			columns: 3;
+		}
+	}
+	
+	@container (min-width: 720px) {
+		.p-columns---container {
+			columns: 4;
+		}
+	}
+	
+	@container (min-width: 960px) {
+		.p-columns---container {
+			columns: 5;
+		}
+	}
+}
+
+._small {
+	columns: 2;
+	column-gap: 2em;
+}
+
+._2 {
+	columns: 2 !important;
+	column-gap: 2em;
+	column-rule: var(--border);
+}
+
+.p-columns:not(._noRule) .p-columns---container {
+	column-rule: var(--border);
+}
+
+.p-columns---container > div {
+	break-inside: avoid;
+	margin-bottom: .5em;
+}
+
+._noGap .p-columns---container {
+	column-rule: none;
+	column-gap: 2em;
+}

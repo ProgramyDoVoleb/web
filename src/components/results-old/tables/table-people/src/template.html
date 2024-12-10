@@ -1,0 +1,55 @@
+<div class="results-people-table">
+	<ul>
+		<li class="headline dimm">
+			<div class="person">
+				<div class="person-about">Kandidát</div>
+				<div class="person-result">
+					<div class="person-result-mid" v-if="anyLocal">procent</div>
+					<div class="person-result-large border-right" v-if="anyLocal">hlasů</div>
+					<div class="person-result-mid">procent</div>
+					<div class="person-result-large">hlasů</div>
+				</div>
+			</div>
+		</li>
+		<li class="headline dimm">
+			<div class="person">
+				<div class="person-about"></div>
+				<div class="person-result">
+					<div class="person-result-mid" v-if="anyLocal">obec</div>
+					<div class="person-result-large border-right" v-if="anyLocal">obec</div>
+					<div class="person-result-mid">celkem</div>
+					<div class="person-result-large">celkem</div>
+				</div>
+			</div>
+		</li>
+		<li v-for="(result, index) in data" :class="{progress: result.progress}" class="result">
+			<div class="person">
+				<div class="person-about">
+					<div class="person-name">
+						<person-name :data="result.name" :short="true" />
+						<!-- <label-with-dot :partyData="result.party.member" :alwaysShort="true" class="show-40rem small inline" /> -->
+						<!-- <label-with-dot :partyData="result.party.nominee" v-if="!result.party.bezppNZ && !result.party.same && !result.party.independent" :alwaysShort="true" class="show-40rem small inline" /> -->
+					</div>
+				</div>
+				<div class="person-result">
+					<div class="person-result-mid" v-if="anyLocal">
+						{{ result.local ? result.local.pct : 0 }} %
+					</div>
+					<div class="person-result-large border-right" v-if="anyLocal">
+						{{ beautifyNumber(result.local ? result.local.votes : 0) }}
+					</div>
+					<div class="person-result-mid">
+						{{ result.pct }} %
+					</div>
+					<div class="person-result-large">
+						{{ beautifyNumber(result.votes) }}
+					</div>
+				</div>
+				<div class="person-graph" :class="{local: anyLocal}">
+					<div class="person-graph-global" :style="{width: (result.pct * coef1) + '%', background: bg[index] }"></div>
+					<div class="person-graph-local" v-if="anyLocal" :style="{width: ((result.local ? result.local.pct : 0) * coef2) + '%', background: bg[index] }"></div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>

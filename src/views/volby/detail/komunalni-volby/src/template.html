@@ -1,0 +1,18 @@
+<div class="election-item">
+		<p-grid>
+			<template v-for="(item, index) in data.list[0].$dotcene.filter(x => !x.OBVODY || x.OBVODY < 2)">
+				<!-- <template v-if="index != 0"> -->
+					<div>
+						<town-item :data="town(item.obec)" :town="item.obec" :id="data.list[0].id"></town-item>
+					</div>
+				<!-- </template> -->
+			</template>
+		</p-grid>
+	<div class="p-gap_4"></div>
+	<template v-if="data.list[0].radne === 1">
+		<p-block-expandable headline="Vyhledat konkrétní obec">
+			<search-town :elections="data.list[0].id" :link="'/volby/komunalni-volby/' + data.list[0].id + '/obec/'"></search-town>
+		</p-block-expandable>
+		<div class="p-gap_4"></div>
+	</template>
+</div>

@@ -1,0 +1,13 @@
+<span class="p-logo" :style="{'width': size}">
+	<span class="logo-outer">
+		<img v-if="data && data.logo && data.logo[1] === 't'" :alt="alt" :src="data.logo" class="logo-circle">
+		<img v-if="data && data.logo && data.logo[1] === 'b'" :alt="alt" :src="'https://data.programydovoleb.cz/' + data.logo" class="logo-circle">
+		<img v-if="data && data.logo && data.logo[1] === 'o'" :alt="alt" :src="'https://data.programydovoleb.cz' + data.logo" class="logo-circle">
+		<img v-if="data && data.logo && data.logo[1] === 's'" :alt="alt" :src="data.logo" class="logo-circle">
+		<img v-if="data && !data.logo && typeof data === 'string'" :alt="alt" :src="data" class="logo-circle">
+		<span v-if="data && !data.logo && typeof data === 'object'" :alt="alt" :src="data" class="logo-circle logo-circle-text">
+			{{ (data.label || '×').split(',').join('').split(' ').map(x => x.charAt(0)).join('') }}
+		</span>
+		<img :alt="alt" :src="party" v-if="!data && party" class="logo-circle">
+	</span>
+</span>

@@ -1,0 +1,15 @@
+.columns > div {
+	margin-bottom: 1em;;
+}
+
+.relative {
+	position: relative;
+
+	.attendance {
+		position: absolute;
+		top: 0;
+		right: -.5em;
+		width: 50%;
+		max-width: 20rem;
+	}
+}

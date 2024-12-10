@@ -1,0 +1,199 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #main>
+			<p-block :level="1" headline="Widgety pro váš web">
+				<p>Chtěli byste mít data z Programů do voleb na svém webu? Využijte nové widgety, které se automaticky přizpůsobí aktuálním volbám. A v mezidobí budou ukazovat obecné informace, výsledky z minula nebo historii voleb ve vybrané obci:</p>
+				<ul>
+					<!-- <li><strong>Widgety:</strong> snadné přidání do webu, responsivní, s aktuálními daty</li> -->
+					<!-- <li><strong>Bannery:</strong> jednoduché bannery, stačí vložit jen kód na webu, nic víc netřeba</li> -->
+					<!-- <li><strong>Opendata:</strong> základní opendata k senátním i komunálním volbám</li> -->
+				</ul>
+				<div class="p-gap"></div>
+				<!-- <h3>Vyberte si:</h3> -->
+				<p-block-expandable headline="Widgety" :open="true">
+					<h4>Obecný nebo na míru pro konkrétní obec/zastupitelstvo:</h4>
+					<p-area>
+						<label>
+							<input type="radio" v-model="type" :value="1">
+							Obecný
+						</label>
+						&middot;
+						<label>
+							<input type="radio" v-model="type" :value="2">
+							Pro konkrétní obec
+						</label>
+					</p-area>
+					<template v-if="type === 2">
+						<!-- <h4>Výběr obce</h4> -->
+						<p-area>
+							<search-town :cb="true" @update="select"></search-town>
+							<p class="smaller b" v-if="town">
+								Vybraná obec: {{ town.NAZEVZAST }}
+								&middot;
+								<span class="red" @click="town = null">zrušit</span>
+							</p>
+						</p-area>
+					</template>
+					<template>
+						<p-area>
+							<p-list>
+								<!-- <div>
+									<label>Na jakém webu bude widget umístěn?</label>
+								</div> -->
+								<div>
+									<input type="text" placeholder="umístění, např mu-turnov.cz (volitelně)" v-model="placement">
+								</div>
+							</p-list>
+						</p-area>
+					</template>
+					<template v-if="type === 1 || (type === 2 && town)">
+						<div class="p-line"></div>
+						<h3>A zde je widget</h3>
+						<widget-block :link="link" :open="true"></widget-block>
+						<div class="p-gap"></div>
+						<p-area icon="icon-check">
+							<strong>Hotovo.</strong>
+							<div class="smaller">Teď už jen vložit do vašeho webu.</div>
+						</p-area>
+					</template>
+					<template v-if="!(type === 1 || (type === 2 && town))">
+						<div class="p-gap"></div>
+						<p-area class="dimm smallest">
+							Zde se zobrazí kód a widget, až bude vše potřebné vybráno.
+						</p-area>
+					</template>
+				</p-block-expandable>
+				<!-- <p-block-expandable headline="Bannery">
+					<h4>Vyberte si motiv a velikost</h4>
+					<p-area>
+						<div class="p-split">
+							<div>
+								<select v-model="banner.version">
+									<option value="1">Do voleb s přehledem</option>
+									<option value="2">Volby ve vaší obci</option>
+								</select>
+							</div>
+							<div>
+								<select v-model="banner.size">
+									<template v-for="(opt, index) in banner.options">
+										<option :value="opt">{{ opt }}</option>
+									</template>
+								</select>
+							</div>
+						</div>
+					</p-area>
+					<h4>A tady je:</h4>
+					<div v-html="bannerCode"></div>
+					<h4>Pro vložení na stránku použijte tento kód</h4>
+					<p-area>
+						<div class="smaller" v-html="bannerCodeDemo"></div>
+					</p-area>
+				</p-block-expandable> -->
+				<!-- <p-block-expandable headline="Opendata">
+					<h4>1. krok: obec nebo stranu</h4>
+					<p-area>
+						<label>
+							<input type="radio" v-model="type" :value="1">
+							Obec
+						</label>
+						&middot;
+						<label>
+							<input type="radio" v-model="type" :value="2">
+							Konkrétní stranu
+						</label>
+						&middot;
+						<label>
+							<input type="radio" v-model="type" :value="3">
+							Senátní volby
+						</label>
+					</p-area>
+					<template v-if="type != 3">
+						<h4>2. krok: výběr obce</h4>
+						<p-area>
+							<search-town :cb="true" @update="select"></search-town>
+							<p class="dimm smaller" v-if="town">
+								Vybraná obec: {{ town.display }}
+								&middot;
+								<span class="red" @click="town = null">zrušit</span>
+							</p>
+						</p-area>
+					</template>
+					<template v-if="type === 2 && list">
+						<h4>3. krok: výběr strany</h4>
+						<p-area>
+							<p-list class="smaller">
+								<div v-for="(p, index) in list">
+									<p-offset :reverse="true">
+										<div>
+											<span class="b is-link" @click="party = p.hash; api = 'embed/party/' + p.hash">{{ p.party_name }}</span>
+										</div>
+										<div v-if="party === p.hash">
+											<span class="red" @click="party = null; api = null">zrušit</span>
+										</div>
+									</div>
+								</div>
+							</p-list>
+						</p-area>
+					</template>
+					<template v-if="api">
+						<div class="p-gap"></div>
+						<h4>A tady je adresa API a odezva serveru</h4>
+						<p-area>
+							<div class="smaller">
+								https://api.programydovoleb.cz/2022/?action={{ api }}
+							</div>
+							<div class="p-gap"></div>
+							<collapsible-element label="Odpověď serveru" v-if="response">
+								<div class="small">
+									{{ response }}
+								</div>
+							</collapsible-element>
+						</p-area>
+					</template>
+				</p-block-expandable> -->
+			</p-block>
+			<p-block :level="1" headline="Programy do voleb">
+				<p>Cílem Programů do voleb je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Zejména v době informační přehlcenosti a sociálních sítí, kdy včerejší obsah je mimo dosah, je dobré mít místo, které je stálé a univerzální, ale zároveň je přímo zaměřené na jednu jedinou věc.</p>
+				<p>Tento projekt je nestranný, neziskový a vytvářen z dobré vůle na podporu demokracie a informovanosti. Použítí informací je vždy na vlastní zodpovědnost.</p>
+				<p>Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni.</p>
+				<p-block-expandable headline="Bez cookies">
+					<p>Programy do voleb nevyužívají žádné soubory cookies, ani nástroje třetích stran, které by cookies používaly. Součástí poskytných widgetů apod nejsou Google Analytics ani jiné nástroje třetích stran pro sledování návštěvnosti či identifikaci uživatele.</p>
+				</p-block-expandable>
+				<p-block-expandable headline="Odpovědnost a použití">
+						<p>Programy do voleb můžete používat naprosto anonymněn. Není vyžadované žádné přihlášení, členství ani ideologická sounáležitost. Veškerý obsah webu je poskytován bez záruky a Programy do voleb nenesou žádnou zodpovědnost za škody způsobené užíváním webu, chybami, výpadky nebo některou z odkazovaných stránek.</p>
+				</p-block-expandable>
+				<p-block-expandable headline="Licence: CC BY">
+					<p>Obsah webu je v celém rozsahu chráněn autorským právem. Není-li výslovně uvedeno jinak, převzetí údajů a použití dat možné pod licencí <p-link href="https://creativecommons.org/licenses/by/3.0/deed.cs">CC BY 3.0</p-link>.</p>
+				</p-block-expandable>
+				<p-block-expandable headline="Citování, odkazování">
+					<p>Při odkazování prosím používejte název <strong>Programy do voleb</strong> a nejlépe odkaz přímo na konkrétní stránku. Pokud to z nějakých důvodů nelze, pak odkazujte na <em>https://programydovoleb.cz</em> a připojte také datum, kdy jste informace z webu získali.</p>
+				</p-block-expandable>
+				<p-block-expandable headline="Pro média">
+					<p>Pokud vás Programy zaujaly a chtěli byste se na něco zeptat nebo o nich napsat, dejte vědět:</p>
+					<div class="p-gap_02"></div>
+					<p-box-group>
+						<p-box href="mailto:media@programydovoleb.cz">
+							<p-box-ticker>@</p-box-ticker>
+							<p-box-label>media@programydovoleb.cz</p-box-label>
+						</p-box>
+					</p-box-group>
+					<div class="p-gap_02"></div>
+					<p-box-group>
+						<p-box href="https://twitter.com/programydovoleb">
+							<p-box-icon type="tw"></p-box-icon>
+							<p-box-label>@programydovoleb</p-box-label>
+						</p-box>
+					</p-box-group>
+				</p-block-expandable>
+				<p-block-expandable headline="Logo ke stažení">
+					<p-image src="https://programydovoleb.cz/static/bannery/logo-programydovoleb.svg" :width="30" :height="6.5" :border="true" :reserve="10"></p-image>
+				</p-block-expandable>
+			</p-block>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+	</p-layout-divided>
+</div>

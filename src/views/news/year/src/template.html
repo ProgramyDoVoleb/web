@@ -1,0 +1,13 @@
+<div class="news-year">
+	<p-loader :rule="news">
+		<div v-if="news">
+			<p-area>
+				<p-list>
+					<template v-for="(item, index) in news.list.filter(x => x.priority === 1 || x.priority === 9)">
+						<news-item :data="item"></news-item>
+					</template>
+				</p-list>
+			</p-area>
+		</div>
+	</p-loader>
+</div>

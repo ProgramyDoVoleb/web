@@ -1,0 +1,20 @@
+label {
+	display: inline-block;
+}
+
+input {
+	display: inline;
+	width: auto;
+}
+
+input[type="text"] {
+	width: 100%;
+}
+
+.p-split {
+	justify-content: flex-start !important;
+
+	div {
+		margin-right: 1rem;
+	}
+}

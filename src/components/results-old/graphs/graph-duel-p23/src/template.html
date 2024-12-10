@@ -1,0 +1,57 @@
+<div class="results-graph-duel">
+	<div class="duel" v-if="loaded">
+		<div class="person">
+			<div class="graph-icons">
+				<outbound-link tag="div" :href="data.list[0].link" v-if="!data.list[0].photo" class="name-icon" :style="{'border-color': bg[0], color: bg[0]}">
+					{{data.list[0].initials }}
+					<!-- <logo-item :data="data.list[0].party.use" :size="2.4" :color="true" v-if="data.list[0].party.use" /> -->
+				</outbound-link>
+				<outbound-link tag="div" :href="data.list[0].link" v-if="data.list[0].photo" class="name-face" :style="{'border-color': bg[0], 'background-image': 'url(' + data.list[0].photo + ')'}"></outbound-link>
+				<div class="name-tiny center"><outbound-link class="is-span" :href="data.list[0].link">{{data.list[0].short }}</outbound-link></div>
+			</div>
+		</div>
+		<div class="graph-space" :class="{compare: data.list[0].previous}">
+			<div class="graph-bar-rest">
+				<div class="graph-bar"></div>
+			</div>
+			<div class="graph-bar-secondary" v-if="data.list[0].previous">
+				<div class="graph-bar zero" :style="{background: bg[0], width: (data.list[0].previous - .25) + '%'}">
+				</div>
+				<div class="graph-bar-against zero" :style="{background: bg[1], width: (data.list[1].previous - .25) + '%', 'transition-delay': .2 + 's'}"></div>
+			</div>
+			<div class="graph-bar-primary">
+				<div class="graph-bar zero" :style="{background: bg[0], width: (data.list[0].pct - .25) + '%'}">
+				</div>
+				<div class="graph-bar-against zero" :style="{background: bg[1], width: (data.list[1].pct - .25) + '%'}"></div>
+				<span class="graph-data">
+					{{ data.list[0].pct }} %
+					<span class="graph-bar-change tiny b" v-if="data.list[0].previous" :class="{green: data.list[0].pct > data.list[0].previous, red: data.list[0].pct < data.list[0].previous}">
+						&middot; {{ data.list[0].pct > data.list[0].previous ? '+' : '' }}{{ rnd(data.list[0].pct - data.list[0].previous) }}
+					</span>
+					<!-- <div class="tiny dimm" v-if="rest > 0">
+						{{ pct(data.list[0].pct, data.list[0].pct + data.list[1].pct) }} % bez nerozhodnutých
+					</div> -->
+				</span>
+				<span class="graph-data graph-data-right text-right">
+					<span class="graph-bar-change tiny b" v-if="data.list[1].previous" :class="{green: data.list[1].pct > data.list[1].previous, red: data.list[1].pct < data.list[1].previous}">
+						{{ data.list[1].pct > data.list[1].previous ? '+' : '' }}{{ rnd(data.list[1].pct - data.list[1].previous) }} &middot; 
+					</span>
+					{{ data.list[1].pct }} %
+					<!-- <div class="tiny dimm" v-if="rest > 0">
+						{{ pct(data.list[1].pct, data.list[0].pct + data.list[1].pct) }} %
+					</div> -->
+				</span>
+			</div>
+		</div>
+		<div class="person">
+			<div class="graph-icons">
+				<outbound-link tag="div" :href="data.list[1].link" v-if="!data.list[1].photo" class="name-icon" :style="{'border-color': bg[1], color: bg[1]}">
+					{{data.list[1].initials }}
+					<!-- <logo-item :data="data.list[1].party.use" :size="2.4" :color="true" v-if="data.list[1].party.use" /> -->
+				</outbound-link>
+				<outbound-link tag="div" :href="data.list[1].link" v-if="data.list[1].photo" class="name-face" :style="{'border-color': bg[1], 'background-image': 'url(' + data.list[1].photo + ')'}"></outbound-link>
+				<div class="name-tiny center"><outbound-link class="is-span" :href="data.list[1].link">{{data.list[1].short }}</outbound-link></div>
+			</div>
+		</div>
+	</div>
+</div>

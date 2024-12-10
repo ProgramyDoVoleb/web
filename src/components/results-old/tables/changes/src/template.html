@@ -1,0 +1,57 @@
+<div class="table-changes">
+	<div class="box">
+		<div class="box-content">
+			<table cellspacing="0" cellpadding="0" border="0" width="100%">
+				<thead class="dimm">
+					<tr>
+						<th>Strana, hnutí, koalice</th>
+						<th class="show-40rem">Změna %</th>
+						<th>Změna hlasů</th>
+						<th class="show-40rem">Hlasů</th>
+						<th>Křesel</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(party, index) in data" v-if="party.activity === 0 && (showAll || (party.current.seats > 0 || party.previous.seats > 0))">
+						<td>
+							<party-name-with-dot :reg="party.reg" v-if="party.reg != 80 && party.reg != 90" />
+							<party-name-with-dot :useName="checkCandidateName(party.name)" :alwaysName="true" v-if="party.reg === 80" :useColor="createColorByName(checkCandidateName(party.name))" />
+							<party-name-with-dot :useName="party.name" :alwaysName="true" v-if="party.reg === 90" :useColor="createColorByName(party.name)" />
+						</td>
+						<td class="show-40rem" v-if="party.current.votes === 0 || party.previous.votes === 0">&mdash;</td>
+						<td :class="getClass(party.current.votes, party.previous.votes)" class="show-40rem" v-if="party.current.votes > 0 && party.previous.votes > 0"><span v-if="party.current.votes / party.previous.votes > 1">+</span>{{ Math.round(party.current.votes / party.previous.votes * 100) - 100 }} %</td>
+						<td class="dimm">
+							<span :class="getClass(party.current.votes, party.previous.votes)">
+								<span v-if="party.current.votes > party.previous.votes">+</span>{{ beautifyNumber(party.current.votes - party.previous.votes) }}
+							</span>
+							<!-- <span class="show-40rem">
+								|
+								{{ beautifyNumber(party.current.votes) }}
+							</span> -->
+
+						</td>
+						<td class="dimm show-40rem">
+							{{ beautifyNumber(party.current.votes) }}
+						</td>
+						<td class="dimm">
+							<span v-if="party.current.seats != party.previous.seats">
+								<span :class="getClass(party.current.seats, party.previous.seats)" >
+									<span v-if="party.current.seats > party.previous.seats">+</span>{{ party.current.seats - party.previous.seats }}
+								</span>
+								<span class="show-40rem dimm2">|</span>
+							</span>
+							<span v-if="party.current.seats === party.previous.seats" class="hide-40rem">0</span>
+							<span class="show-40rem" style="width: 1.1rem; display: inline-block">{{ party.current.seats }}</span>
+
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="btns center">
+		<button @click="toggle">
+			{{ showAll === true ? 'Skrýt' : 'Zobrazit' }} ostatní strany
+		</button>
+	</div>
+</div>

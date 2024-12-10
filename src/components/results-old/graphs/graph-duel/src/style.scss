@@ -1,0 +1,175 @@
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+li {
+}
+
+.duel {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.person {
+  padding: 0 1rem;
+}
+
+.graph-space {
+  position: relative;
+  height: 3rem;
+  flex: 1;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -1rem;
+    bottom: -1rem;
+    left: 50%;
+    border-left: 2px dotted #F00;
+    z-index: 3;
+  }
+}
+
+.name-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  @media (min-width: 30rem) {
+    width: 4rem;
+    height: 4rem;
+    border: var(--border);
+    border-radius: 50%;
+  }
+}
+
+.name-icon .logo-item {
+  position: absolute;
+  right: -.3em;
+  bottom: -.5em;
+
+  display: none;
+
+  @media (min-width: 40rem) {
+    display: inline-block;
+  }
+}
+
+.graph-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+  margin: auto;
+  text-align: center;
+
+  @media (min-width: 40rem) {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.graph-icon img {
+  border-radius: 50%;
+  border: var(--border);
+}
+
+.graph-icons.multiple {
+
+  .graph-icon img {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+
+  @media (min-width: 40rem) {
+    display: flex;
+    flex-wrap: wrap;
+
+    .graph-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+.graph-name {
+  font-size: 7px;
+  text-align: center;
+  margin-top: .5em;
+
+  @media (min-width: 30rem) {
+    font-size: 11px;
+  }
+}
+
+.graph-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 90%;
+  top: 0;
+  background: #ddd;
+  border-top-left-radius: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+  transition: 1s width;
+  will-change: width;
+}
+
+.graph-bar-against {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  width: 10%;
+  background: #ddd;
+  border-bottom-right-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  transition: 1s width;
+  will-change: width;
+  z-index: 2;
+}
+
+.zero {
+  transition: 0s width;
+  transition-delay: 0s !important;
+  width: 50% !important;
+}
+
+.graph-space.compare .graph-bar-primary {
+  opacity: .1;
+
+  > div {
+    bottom: 40%;
+  }
+}
+
+.graph-space.compare .graph-bar-secondary > div {
+  top: 30%;
+}
+
+.graph-bar-value {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+}
+
+.graph-data {
+  position: absolute;
+  top: 100%;
+  left: 1.5em;
+  font-size: 12px;
+}
+
+.graph-data-right {
+  left: auto;
+  right: 1.5em;
+}

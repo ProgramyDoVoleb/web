@@ -1,0 +1,52 @@
+.columns > div {
+	margin-bottom: 1.5em;
+}
+
+.p-area {
+	position: relative;
+}
+
+.p-logo {
+	width: 1.6em;
+	position: absolute !important;
+	top: -1px;
+	left: -1.95em;
+	z-index: 2;
+}
+
+.p-line {
+	width: 33%;
+}
+
+._pc {
+	display: inline-block;
+	margin-right: .5em;
+	width: 1.5em;
+	text-align: right;
+}
+
+._pg {
+	text-decoration: none;
+	border-radius: 10px;
+	display: inline-block;
+	padding: 2px 6px;
+	color: #fff;
+}
+
+._mpl .p-logo {
+	position: static !important;
+
+	& + .p-logo {
+		margin-top: -1em;
+	}	
+}
+
+
+
+.green {
+	color: var(--green) !important;
+}
+
+._g:not(:last-child) {
+    height: 1em;
+}

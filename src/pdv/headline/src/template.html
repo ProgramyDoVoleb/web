@@ -1,0 +1,14 @@
+<div class="p-headline" :class="{'p-headline---alert': alert, 'p-headline-collapsed': collapsed}">
+	<component :is="'h' + level" class="p-headline---component">
+		<component :is="editable ? 'p-offset' : 'div'" class="reverse">
+			<div class="_content">
+				<slot></slot>{{ headline }}
+			</div>
+			<div v-if="editable" class="modal-holder">
+				<report-modal :headline="typeof editable === 'string' ? editable : 'Pošlete odkaz a případně přidejte poznámku.'" :part="part">
+					<div class="inline smallest green strong">&#9998; Edit</div>
+				</report-modal>
+			</div>
+		</component>		
+	</component>
+</div>

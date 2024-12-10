@@ -1,0 +1,14 @@
+._cday {
+	text-align: center;
+	font-size: 2rem;
+	line-height: 1.2;
+	margin-bottom: -.1em;
+
+	.p-area {
+		border-radius: 4px !important;
+	}
+
+  .dark & {
+    color: #ccc;
+  }
+}

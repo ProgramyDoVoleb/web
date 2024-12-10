@@ -1,0 +1,70 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block :headline="(data ? data.strana.NAZEV + ' v senátních volbách ' + data.cis.volby.datum.split('-')[0] : 'Načítám...')" :level="1">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<p-area class=" smallest strong">
+							<p-list-linear class="or">
+								<span>Aktivní <p-lang :value="list.filter(x => x.cand).length" :end="['není v ani jednom obvodě', 'v jednom obvodě', 've %% obvodech', 'v %% obvodech']"></p-lang>.</span>
+								<template v-if="list.filter(x => x.cand).length > 0">
+									<span><p-lang :value="list.filter(x => x.type.member).length" :end="['Žádný člen se neúčastní', 'Jeden člen se účastní voleb', '%% členové se účastní', '%% členů se účastní']"></p-lang>.</span>
+									<span><p-lang :value="list.filter(x => x.type.coal).length" :end="['Bez koaličního kandidáta', 'Jeden koaliční kandidát', '%% koaliční kandidáti', '%% koaličních kandidátů']"></p-lang>.</span>
+									<span><p-lang :value="list.filter(x => x.type.support).length" :end="['Bez podpory nějakého jiného kandidáta', 'Podpora jednoho dalšícho kandidáta', 'Podpora %% dalších kandidáti', 'Podpora %% dalších kandidátů']"></p-lang>.</span>
+								</template>
+							</p-list-linear>
+						</p-area>
+						<div class="p-gap _3"></div>
+						<!-- <p-block headline="Jednotlivé kraje" :hide="true"> -->
+							<p-list class="_2">
+								<div v-for="(item, index) in list">
+									<p-block :hide="true" :headline="item.obvod.OBVOD + ' - ' + item.obvod.NAZEV" class="_p0">
+										<div class="p-offset balanced">
+											<div>
+												<strong>{{ item.obvod.OBVOD + ' - ' + item.obvod.NAZEV }}</strong>
+											</div>
+											<div class="smallest">
+												<template v-if="!item.cand">
+													<span class="red">neúčastní se</span>
+												</template>
+												<template v-else>
+													<p-list-linear class="or">
+														<span v-if="item.type.member">člen</span>
+														<span v-if="item.type.nominee">nominace</span>
+														<span v-if="item.type.solemn">samostatně</span>
+														<span v-if="item.type.coal">koaliční kandidát</span>
+														<span v-if="!(item.type.member || item.type.nominee || item.type.solemn || item.type.coal) && item.type.support">podpora</span>
+													</p-list-linear>
+												</template>
+											</div>
+										</div>
+										<template v-if="item.cand">
+											<div class="p-gap"></div>
+											<person-preview-block :cand="item.cand" :data="data" :current="current(item.obvod.OBVOD)" :link="'/volby/senatni-volby/' + id"></person-preview-block>
+										</template>
+									</p-block>
+								</div>
+							</p-list>
+						<!-- </p-block> -->
+					</div>
+				</p-loader>
+			</p-block>			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/senatni-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+				<div>
+
+							<div class="smallest strong" v-if="data && data.cis.volby">
+								<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][data.cis.volby.status]) + ')'">{{ data.cis.volby.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[data.cis.volby.status] }}</p-label></div>
+								<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][data.cis.volby.editace]) + ')'">administrace {{ enums.editace[data.cis.volby.editace] }}</p-label></div>
+							</div>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

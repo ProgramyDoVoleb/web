@@ -1,0 +1,88 @@
+<div class="senatni-volby">
+	<p-block :headline="obvod + ' · ' + data.cis.obvody.find(x => x.obvod === obvod).nazev" :hide="true">
+		<p-area>
+			<div class="p-offset reverse">
+				<div>
+					<span class="dimm">{{ obvod }} &middot; </span><router-link :to="'/volby/senatni-volby/' + id + '/obvod/' + obvod" class="strong">{{ data.cis.obvody.find(x => x.obvod === obvod).nazev }}</router-link> 
+				</div>
+			</div>			
+			<div class="p-line"></div>
+			<div class="smaller">
+				<div>
+						<div>
+							<div v-if="hasSecondRound">
+								<strong>2. kolo</strong><span v-if="current.status === 3">, účast {{ current.$ucast[1].UCAST }} %</span>
+								<div v-for="(party, index) in sortByVotes(current.$kandidati).filter(x => x.passed)">
+									<div :class="{passed: party.passed}" class="_space graph-line-space" :style="{background: (current.$zvoleni && current.$zvoleni.find(x => x.id === party.id) ? 'var(--green11)' : null)}">
+										<div class="p-offset reverse _nl" :class="{'_pt': index > 0 || current.status === 3}">
+											<div>
+												<!-- <p-label :color="party.color"> -->
+													<span>
+														<router-link :to="party.link" :class="{'strong': party.mandate}">{{ party.label }}</router-link>
+													</span>
+													<div v-if="party.party" class="dimm smallest">
+														{{ party.party }}
+													</div>
+												<!-- </p-label> -->
+												<span class="graph-line-holder" v-if="current.status === 3"><span class="graph-line" :style="{width: party.round2.graph + '%', background: party.color}"></span></span>
+											</div>
+											<div class="_keep" v-if="current.status === 3">
+												{{ party.round2.pct }}
+											</div>
+											<p-image class="_nli" :src="party.logo" width="2.75em" :rounded="true"></p-image>
+										</div>
+									</div>
+								</div>
+								<div class="p-gap"></div>
+							</div>
+							<component :is="hasSecondRound ? 'p-collapsible' : 'div'" :label="'1. kolo, kandidátů: ' + current.$kandidati.length">
+								<strong v-if="current.status === 3">1. kolo</strong><span v-if="current.status === 3">, účast {{ current.$ucast[0].UCAST }} %</span>
+								<template v-for="(party, index) in sortByVotes(current.$kandidati).filter((x,i) => i < (current.status === 3 ? 3 : 99))">
+									<div :class="{passed: party.passed}" class="_space graph-line-space" :style="{background: (current.$zvoleni && current.$zvoleni.find(x => x.id === party.id) ? 'var(--green11)' : (party.passed ? 'var(--blue11)' : null))}">
+										<div class="p-offset reverse _nl" :class="{'_pt': index > 0 || current.status === 3}">
+											<div>
+												<!-- <p-label :color="party.color"> -->
+													<span>
+														<router-link :to="party.link" :class="{'strong': party.round1.pct > 50}">{{ party.label }}</router-link>
+														<span class="badge blue" v-if="party.hasProgram">●</span>
+														<span class="badge yellow" v-if="party.hasAnswers">●</span>
+													</span>
+													<div v-if="party.party" class="dimm smallest">
+														{{ party.party }}
+													</div>
+												<!-- </p-label> -->
+												<span class="graph-line-holder" v-if="current.status === 3"><span class="graph-line" :style="{width: party.round1.graph + '%', background: party.color}"></span></span>
+											</div>
+											<div class="_keep" v-if="current.status === 3">
+												{{ party.round1.pct }}
+											</div>
+											<p-image class="_nli" :src="party.logo" width="2.75em" :rounded="true"></p-image>
+										</div>
+									</div>
+								</template>
+							</component>
+						</div>
+					<!-- </p-list> -->
+				</div>
+				<div v-if="current.status === 1 && data.list[0].$kandidati.length === 0">
+					<div class="_space">
+						<p-label color="var(--greyish)">
+							<i class="dimm strom smallest">Zatím zde nejsou známí žádná kandidáti</i>
+						</p-label>
+					</div>
+				</div>
+				<div class="p-line"></div>
+				<div class="smallest strong">
+					<!-- <div class="p-gap_075"></div> -->
+					<template v-if="current.status < 2">
+						<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'SENAT:' + id + ', obvod ' + obvod">
+							<button class="inline green">Přidat nebo doplnit</button>
+						</report-modal>
+						&middot;
+					</template>
+					<router-link :to="'/volby/senatni-volby/' + id + '/obvod/' + obvod">Podrobněji</router-link> &rarr;
+				</div>
+			</div>
+		</p-area>
+	</p-block>
+</div>

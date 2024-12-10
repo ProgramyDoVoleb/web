@@ -1,0 +1,256 @@
+<p-block headline="Podrobné výsledky">
+	<p-area class="inline" icon="warning" background="var(--yellow44)">
+		<strong>Beta verze</strong>
+		<div class="smaller">Následující komponenta je ve stavu testování.</div>
+	</p-area>	
+	<div class="p-gap"></div>
+	<p-area>
+		<p-grid class="smaller">
+			<div>
+				<ul>
+					<li>
+						<p-label :color="showMap ? 'var(--green)' : 'var(--red)'"><button class="inline" @click="showMap = !showMap">Mapa</button></p-label>
+						<span class="smallest">
+							&middot; 
+							<button class="inline" :class="{'strong green': showRelative === false}" @click="() => map_display_type(false)">ABS</button>
+							/
+							<button class="inline" :class="{'strong green': showRelative === true}" @click="() => map_display_type(true)">REL</button>
+						</span>
+					
+					</li>
+					<li><p-label :color="showTable ? 'var(--green)' : 'var(--red)'"><button class="inline" @click="showTable = !showTable">Výpis obcí</button></p-label></li>
+				</ul>
+			</div>
+			<div v-if="!cand">
+				<ul>
+					<li class="strong">Kandidáti</li>
+					<li>
+						<button class="inline" :class="{'strong green': subset.candidates.length === 0}" @click="cand_all">všichni</button> 
+						<template v-if="data && data.candidates.find(x => x.MANDAT === 'A')"> &middot; 
+							<button class="inline" :class="{'strong green': false}" @click="cand_success">zvolení</button>
+						</template>	&middot; 
+						<button class="inline" :class="{'strong green': subset.candidates[0] === 0}" @click="subset.candidates = [0]">nikdo</button>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<ul>
+					<li class="strong">Obce</li>
+					<li>
+						<button class="inline" :class="{'strong green': subset.towns.length === 0}" @click="() => towns_all()">všechny</button> &middot; 
+						<button class="inline" :class="{'strong green': false}" @click="() => towns_top10_total()">hlavní</button> &middot; 
+						<button class="inline" :class="{'strong green': subset.towns[0] === 0}" @click="subset.towns = [0]">žádná</button>
+					</li>
+				</ul>
+			</div>
+		</p-grid>
+		<div class="p-line _0"></div>
+		<p-collapsible label="Další filtry">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<h5>Obce:</h5>
+						<p-box-group>
+							<p-box @click="() => towns_top10_total()">
+								<p-box-button>Největší obce</p-box-button>
+							</p-box>
+							<p-box @click="() => towns_top10()">
+								<p-box-button>TOP 10 podle hlasů</p-box-button>
+							</p-box>
+							<p-box @click="() => towns_top10_pct()">
+								<p-box-button>TOP 10 podle %</p-box-button>
+							</p-box>
+							<p-box @click="towns_min100">
+								<p-box-button>Min 100 hlasů</p-box-button>
+							</p-box>
+							<p-box @click="towns_all">
+								<p-box-button>Všechny obce</p-box-button>
+							</p-box>
+						</p-box-group>
+						<div class="p-gap _2"></div>
+						<h5>Okresy:</h5>
+						<p-box-group>
+							<template v-for="okres in data.cis.okresy">
+								<p-box @click="() => towns_byDistrict(okres.NUMNUTS)">
+									<p-box-button>okr. {{ okres.NAZEV }}</p-box-button>
+								</p-box>
+							</template>
+						</p-box-group>
+						<template v-if="!cand">
+							<div class="p-gap _2"></div>
+							<h5>Kandidáti:</h5>
+							<p-box-group>
+								<template v-if="data.candidates.find(x => x.MANDAT === 'A')">
+									<p-box @click="cand_success">
+										<p-box-button>Všichni zvolení</p-box-button>
+									</p-box>
+									<p-box @click="cand_subs_top">
+										<p-box-button>TOP náhradníci podle hlasů</p-box-button>
+									</p-box>
+									<p-box @click="cand_subs">
+										<p-box-button>Prvních 5 náhradníků</p-box-button>
+									</p-box>
+								</template>
+								<p-box @click="cand_top10">
+									<p-box-button>Prvních 10 na kandidátce</p-box-button>
+								</p-box>
+								<p-box @click="cand_nej10">
+									<p-box-button>NEJ 10 podle hlasů</p-box-button>
+								</p-box>
+								<p-box @click="cand_nej10_areaLimit">
+									<p-box-button>NEJ 10 podle vybraných obcí</p-box-button>
+								</p-box>
+								<p-box @click="cand_min1000" v-if="data.candidates.find(x => x.POCHLASU > 999)">
+									<p-box-button>Min 1 000 hlasů</p-box-button>
+								</p-box>
+								<p-box @click="cand_min200" v-if="data.candidates.find(x => x.POCHLASU > 199)">
+									<p-box-button>Min 200 hlasů</p-box-button>
+								</p-box>
+								<p-box @click="subset.candidates = []">
+									<p-box-button>Všichni kandidáti</p-box-button>
+								</p-box>
+							</p-box-group>
+						</template>
+					</div>
+				</p-loader>
+		</p-collapsible>
+		<p-collapsible label="Seznam obcí" :status="data ? (subset.towns.length === 0 ? '' : subset.towns.filter(x => x > 0).length + ' z ') + data.cis.obce.length : null">
+			<p-loader :rule="data">
+				<div v-if="data" class="columns-4 smaller">
+					<div v-for="town in data.cis.obce">
+						<button class="inline" :class="{'green strong': subset.towns.indexOf(town.obec) > -1}" @click="toggle_towns(town.obec)">{{ town.NAZEVOBCE }}</button>
+					</div>
+				</div>
+			</p-loader>
+		</p-collapsible>
+		<p-collapsible label="Seznam kandidátů" :status="data ? (subset.candidates.length === 0 ? '' : subset.candidates.filter(x => x > 0).length + ' z ') + data.candidates.length : null" v-if="!cand">
+			<p-loader :rule="data">
+				<div v-if="data" class="columns-4 smaller">
+					<div v-for="cand in data.candidates" class="p-offset reverse balanced">
+						<div>
+							{{ cand.PORCISLO }}. <button class="inline" :class="{'green strong': subset.candidates.indexOf(cand.PORCISLO) > -1}" @click="toggle_candidate(cand.PORCISLO)">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</button>
+						</div>
+						<div>
+							<button class="inline" @click="cand_highlight(cand.PORCISLO)">&#128269;</button>
+						</div>						
+					</div>
+				</div>
+			</p-loader>
+		</p-collapsible>
+	</p-area>
+	<div class="p-gap"></div>
+			<p-loader :rule="data">
+				<div v-if="data">
+					<template v-if="showMap">
+						<map-leaflet ref="map" :options="{focus: party.KRZAST, detail: 'obce', center: townsOrderCenter, zoom: 9}" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
+					</template>
+					<p-area>
+						<p-grid class="smaller">
+							<div>
+								Zobrazit 
+								<button class="inline" :class="{'strong green': showTable}" @click="showTable = !showTable">obce</button> &middot; 
+								<button class="inline" :class="{'strong green': subset.showResults}" @click="subset.showResults = !subset.showResults">výsledky</button> &middot; 
+								<button class="inline" :class="{'strong green': subset.showCandidates}" @click="subset.showCandidates = !subset.showCandidates">kandidáty</button>
+							</div>
+							<div v-if="!cand">
+								Kandidáti podle 
+								<button class="inline" :class="{'strong green': showCandidatesOrder === false}" @click="showCandidatesOrder = false">čísla</button> &middot; 
+								<button class="inline" :class="{'strong green': showCandidatesOrder === true}" @click="showCandidatesOrder = true">výsledku</button>
+							</div>
+							<div>
+								Obce podle 
+								<button class="inline" :class="{'strong green': showTownsOrder === false}" @click="showTownsOrder = false">abecedy</button> &middot; 
+								<button class="inline" :class="{'strong green': showTownsOrder === true}" @click="showTownsOrder = true">výsledku</button>
+							</div>
+						</p-grid>	
+						<div class="p-line"></div>
+						<div class="scrollable">
+							<table>
+								<thead>
+									<tr>
+										<th>Obec</th>
+										<template v-if="subset.showResults && showTable">
+											<th class="tr">Účast</th>
+											<th class="tr">Výsledek</th>
+											<th class="tr br">Hlasů</th>
+										</template>
+										<template v-if="subset.showCandidates">
+											<template v-for="candX in candadatesOrder">
+												<th>
+													<div :class="subset.candidates.length != 1 ? 'r' : 'c'">
+														<strong>{{ !cand ? candX.PORCISLO + '.' : candX.PRIJMENI }}</strong>
+														<div class="v" v-if="!cand">
+															<button class="inline" :class="{'green strong': candX.MANDAT === 'A'}" @click="cand_highlight(candX.PORCISLO)">{{ candX.PRIJMENI }}</button>
+														</div>
+													</div>
+												</th>
+											</template>
+										</template>
+									</tr>
+								</thead>
+								<tbody class="smallest">
+									<template v-if="showTable" v-for="obec in townsOrder">
+										<tr>
+											<td>
+												<span :class="{strong: (obec.$data.results.find(x => x.KSTRANA === party.KSTRANA) || {HLASU: 0}).HLASU > 0}">{{ obec.NAZEVOBCE }}</span>											
+												<span class="dimm smallest" v-if="obec.POZNAMKA">
+													&middot; {{ obec.POZNAMKA}}
+												</span>
+											</td>
+											<template v-if="subset.showResults && showTable">
+												<td class="strong tr">
+													{{ obec.$data.attendance.UCAST || '' }}
+												</td>
+												<td class="strong tr">
+													{{ obec.$data.results.find(x => x.KSTRANA === party.KSTRANA) ? obec.$data.results.find(x => x.KSTRANA === party.KSTRANA).PROCENT : '0.00' }}
+												</td>
+												<td class="strong tr br">
+													{{ obec.$data.results.find(x => x.KSTRANA === party.KSTRANA) ? obec.$data.results.find(x => x.KSTRANA === party.KSTRANA).HLASU : '0' }}
+												</td>
+											</template>
+											<template v-if="subset.showCandidates">
+												<template v-for="cand in candadatesOrder">
+													<td class="c">
+														{{ fetch(obec.obec, cand.PORCISLO) }}
+													</td>
+												</template>
+											</template>
+										</tr>
+									</template>
+									<template v-if="subset.showCandidates">
+										<tr class="blue" v-if="subset.towns.length > 0">
+											<td class="" :colspan="subset.showResults && showTable ? 4 : 1">&sum; hlasů výběru</td>
+											<template v-for="(cand, index) in candadatesOrder">
+												<td class="c">
+													{{ sums.find(x => x.id === cand.PORCISLO).sum }}
+												</td>
+											</template>
+										</tr>
+										<tr class="blue strong">
+											<td class="strong " :colspan="subset.showResults && showTable ? 4 : 1">&sum; hlasů celkem</td>
+											<template v-for="(cand, index) in candadatesOrder">
+												<td class="c">
+													{{ cand.POCHLASU }}
+												</td>
+											</template>
+										</tr>
+										<tr v-if="data.candidates.find(x => x.MANDAT === 'A')">
+											<td class="strong " :colspan="subset.showResults && showTable ? 4 : 1">Pořadí <span class="green">zvolených</span> / <span class="red">náhradníků</span> </td>
+											<template v-for="(cand, index) in candadatesOrder">
+												<td class="c" :class="{red: cand.PORADINAHR > 0, 'green strong': cand.PORADIMAND > 0}">
+													{{ cand.PORADIMAND > 0 ? cand.PORADIMAND : (cand.PORADINAHR < 6 ? cand.PORADINAHR + 'n' : '·' ) }}
+												</td>
+											</template>
+										</tr>
+										<tr>
+											<td colspan="100" class="tiny dimm">U zvolených kandidátů záleží nejen na počtu hlasů, ale i zda v celkovém objemu preferenčních hlasů dosáhli na hranici 5 %</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>
+						</div>	
+
+					</p-area>
+				</div>
+			</p-loader>
+	<!-- </p-collapsible> -->
+</p-block>

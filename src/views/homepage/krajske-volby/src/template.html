@@ -1,0 +1,62 @@
+<div class="homepage-kraje">
+	<p-area class="smaller">
+		<div class="columns">
+			<div v-for="(kraj, index) in [3,11,5,8,7,14,12,9,4,2,6,10,13]">
+				<div class="p-offset balanced reverse">
+					<div class="strong">
+						<router-link :to="'/volby/krajske-volby/162/kraj/' + kraj">{{ enums.regions[kraj - 1] }}</router-link> 
+					</div>
+					<div class="smallest dimm">
+						{{ list[kraj - 1] }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="p-gap"></div>
+		<p-collapsible label="Rychlý přehled">
+			<p-loader :rule="election">
+				<div v-if="election">
+					
+						<div class="columns">
+							<div v-for="(kraj, index) in [3,11,5,8,7,14,12,9,4,2,6,10,13]">
+								<div class="_aig">
+									<div class="strong">
+										<router-link :to="'/volby/krajske-volby/162/kraj/' + kraj">{{ enums.regions[kraj - 1] }}</router-link> 
+									</div>
+									<div class="p-gap_05"></div>
+									<p-list class="invisible _s">
+										<div v-for="(party, indexP) in sortBy(election.list[0].$strany.filter(x => x.KRZAST == kraj), 'ZKRATKA', '', true)">
+											<div class="p-offset reverse balanced">
+												<div>
+													<p-label :color="colorByItem(party, election)">
+														<router-link :to="'/volby/krajske-volby/162/strana/' + party.id" class="is-span">{{ party.ZKRATKA }}</router-link>
+													</p-label>																			
+												</div>
+												
+											</div>
+										</div>
+										<div v-if="election.list[0].$strany.filter(x => x.KRZAST == kraj).length === 0">
+											<em class="smallest dimm">Prozatím žádná strana</em>
+										</div>
+									</p-list>
+								</div>
+							</div>
+						</div>
+					
+					<div class="p-gap"></div>
+					<div class="p-offset reverse smallest balanced">
+						<div>
+							{{ election.list[0].$strany.filter(x => x.KSTRANA).length }} stran
+							
+						</div>
+							<div class="text-right">
+								<router-link :to="'/volby/krajske-volby/' + elections.id">Archiv</router-link>
+								&middot;
+								<router-link :to="'/volby/krajske-volby/' + elections.predchozi">Předchozí</router-link>
+							</div>
+					</div>
+				</div>
+			</p-loader>
+		</p-collapsible> -->
+	</p-area>
+</div>

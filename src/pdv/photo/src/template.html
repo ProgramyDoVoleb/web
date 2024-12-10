@@ -1,0 +1,44 @@
+<div class="p-photo">
+    <img loading="lazy" :src="_src" :alt="alt" class="_img _preview">
+    <p-modal class="_licence smallest" v-if="data">
+        <template #init> <span class="dimm _btn">&copy;</span> </template>
+        <template #content>
+            <strong>{{ alt }}</strong>
+            <div class="p-gap"></div>
+            <p-grid>
+                <div>
+                    <img loading="lazy" :src="_src" :alt="alt" class="_img _full">
+                </div>
+                <div>
+                    <p-list>
+                        <div>
+                            <p-stats label="Popis">{{ _licence && _licence[0] || 'fotografie' }}</p-stats>
+                        </div>
+                        <div v-if="_licence && _licence[1]">
+                            <p-stats label="Autor">{{ _licence[1] }}</p-stats>
+                        </div>
+                        <div v-if="_licence && _licence[2]">
+                            <p-stats label="Licence">{{ _licence[2] }}</p-stats>
+                        </div>
+                        <div v-if="_createdDate && (date(_createdDate) != date(data.updated))">
+                            <p-stats label="Vytvořeno">{{ date(_createdDate) }}</p-stats>
+                        </div>
+                        <div>
+                            <p-stats label="Vloženo">{{ date(data.updated) }}</p-stats>
+                        </div>
+                        <div>
+                            <p-stats label="Vložil">{{ data.author === 1 ? 'admin' : 'strana nebo kandidát pomocí Adminu' }}</p-stats>
+                        </div>
+                        <div v-if="data.source">
+                            <p-stats label="Zdroj">
+                                <component :is="isValidURL(data.source) ? 'p-link' : 'span'" :href="data.source">{{ domain(data.source) }}</component>
+                            </p-stats>
+                        </div>
+                    </p-list>
+                </div>
+            </p-grid>
+        </template>
+    </p-modal>
+</div>
+
+

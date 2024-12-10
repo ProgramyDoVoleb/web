@@ -1,0 +1,734 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #main>
+			<p-block :headline="data ? $main.$core[0].ZKRATKA : 'Načítám'" :level="1" :subheadline="data ? $main.$core[0].NAZEV : null" :hide="true">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<div class="p-offset reverse">
+							<div>
+								<p-headline :level="1" :headline="$main.ZKRATKA"></p-headline>
+								<div class="subheadline serif">{{ $main.NAZEV }}</div>
+							</div>
+							<div class="hide-40rem" v-if="logoByItem($main, data)">
+								<p-image :src="logoByItem($main, data)" width="4em" :rounded="true"></p-image>
+							</div>
+						</div>
+						<div class="p-gap"></div>
+						<p-box class="group" background="transparent" v-if="$meta.social.length > 0">
+							<!-- <template v-for="(typ, index1) in ['social', 'link', 'wiki']"> -->
+								<div v-for="(item, index) in links">
+									<p-box :block="true" :href="item.value" background="transparent">
+										<p-box-icon :type="type(item.value)" background="transparent"></p-box-icon>
+									</p-box>
+								</div>
+							<!-- </template> -->
+						</p-box>
+						<template v-if="$main.$core[0].TYP === 'S' && (!$main.$data.active || $main.$data.active.length === 0 || $main.$data.active[0].value === 0)">
+							<div class="p-gap"></div>
+							<p-area class="inline smallest strong red">
+								<p-label color="var(--red)">Není již aktivní</p-label>
+							</p-area>
+						</template>
+						<div class="p-gap_2"></div>
+						<p-block headline="Koalice" v-if="$main.$members">
+							<p-grid class="tight">
+								<div v-for="(member, index) in $main.$members">
+									<p-area>
+										<div class="p-offset">
+											<div>
+												<p-image :src="logoByItem(member, data)" width="4rem" :rounded="true" :missing="true"></p-image>
+											</div>
+											<div>
+												<router-link class="strong" :to="'/rejstrik/' + member.VSTRANA">{{ member.ZKRATKA }}</router-link>
+												<div class="smallest dimm">{{ member.NAZEV }}</div>
+											</div>
+										</div>
+									</p-area>
+								</div>
+							</p-grid>
+						</p-block>
+						<party-in-upcoming-elections :id="Number(String(id).split('-')[0])"></party-in-upcoming-elections>
+						<template v-if="showHistory">
+							<p-block headline="Ve zkratce" :hide="true" v-if="history">
+								<p-area background="transparent" padding="0 0 0 1em" :borderColor="colorByItem($main, data)">
+									<p class="lead">
+										<template v-if="history">{{ $full.$members ? 'Koaliční k' : 'K' }}andidátní listinu <em>{{$full.NAZEV }}</em> mohli lidé najít u <p-lang :value="$elections.length" :end="['žádných voleb', 'jedněch voleb', '%% voleb', '%% voleb']"></p-lang>. Od založení České republiky byly první volby s účastí jejích kandidátů dne {{ date($elections[$elections.length - 1].$volby.datum, 3)}} a naposledy se ocházeli o hlasy voličů dne {{date($elections[0].$volby.datum, 3)}}.</template>
+										V průběhu času používali <p-lang :value="$main.$core.length" :end="['', 'jeden a ten samý název či zkratku', '%% názvy či zkratky', '%% názvů či zkratek']"></p-lang>.
+										<span v-if="$full.$members">
+											Koalici tvoří <p-lang :value="$full.$members.length" :end="['', 'jedna strana', '%% strany', '%% stran']"></p-lang>: 
+											<p-list-linear>
+												<li v-for="(member, index) in $full.$members">
+													{{ member.ZKRATKA }}
+												</li>
+											</p-list-linear>.
+										</span>
+										<span v-if="$full.$coalitions && $full.$coalitions.length > 0">
+											Nominanty <em>{{$full.ZKRATKA }}</em> mohli lidé najít také v rámci <p-lang :value="$full.$coalitions.length" :end="['', 'jedné koalice', '%% koalic', '%% různých koalic']"></p-lang>.
+										</span>
+									</p>
+								</p-area>
+								<!-- <div class="p-gap"></div> -->
+							</p-block>
+						</template>
+						<template v-if="!showHistory">
+							<p-area :borderColor="colorByItem($main, data)">
+								<strong>Zajímá vás volební historie?</strong>
+								<ul class="smaller">
+									<li>- Výsledky v minulosti</li>
+									<li>- Statistiky úspěšnosti</li>
+									<li>- Přehled spolupráce s jinými stranami</li>
+								</ul>
+								<!-- <div class="smaller">Pokud vás zajímají výsledky {{ $main.$core[0].ZKRATK }} v minulosti, statistiky úspěšnosti a přehledy spolupráce s dalšími stranami, načtěte si i historická data. Může to chvilku trvat.</div> -->
+								<!-- <div class="p-gap"></div> -->
+								<button @click="click_showHistory">Načíst historická data</button>
+							</p-area>
+							<div class="p-gap_2"></div>
+						</template>
+						<template v-if="showHistory">
+							<p-loader :rule="history">
+								<div v-if="history">
+									<p-block headline="Účast ve volbách">
+										<!-- <p>V této části se dozvíte, v kterých volbách lidé volili, s jakou účastí a jak, v porovnání s celkovým výsledkem voleb. U senátních a prezidentských voleb je uvedena účast v prvním a druhém kole.</p> -->
+										<template v-for="(election, index) in $elections">
+											<template v-if="index < 6 || showAll">
+												<p-collapsible :color="election.$volby.radne === 1 ? 'var(--blue)' : 'var(--greyish)'" :logo="cdn + 'icon/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '.svg'" :label="enums.elections.find(x => x.key === election.$volby.typ).name + ' ' + (election.$volby.radne === 1 ? election.$volby.datum.split('-')[0] : ' · ' + date(election.$volby.datum))">
+													<!-- <template v-if="election.$stats">
+														<div class="columns smaller">
+															<div v-if="election.$stats.candidatesNominated">
+																
+																	<strong>Nominovaní</strong>
+																		<p-stats label="Nominací">{{ number(election.$stats.candidatesNominated) }} kandidátů</p-stats>
+																		<p-stats label="Křesel">{{ number(election.$stats.candidatesElected) }} mandátů</p-stats>
+																
+				
+															</div>
+															<div v-if="election.$stats.membersNominated">
+																
+																	<strong>Členové</strong>
+																		<p-stats label="Nominací">{{ number(election.$stats.membersNominated) }} kandidátů</p-stats>
+																		<p-stats label="Křesel">{{ number(election.$stats.membersElected) }} mandátů</p-stats>
+																
+				
+															</div>
+															<div v-if="election.$stats.coalitionCandidatedNominated">
+																
+																	<strong>V koalici</strong>
+																		<p-stats label="Nominací">{{ number(election.$stats.coalitionCandidatedNominated) }} kandidátů</p-stats>
+																		<p-stats label="Křesel">{{ number(election.$stats.coalitionCandidatesElected) }} mandátů</p-stats>
+																
+				
+															</div>
+														</div>
+														<div class="p-gap"></div>
+													</template> -->
+													<p-area>
+														<party-in-elections :elections="election.$volby.id" :party="[id].concat(history.list[0].$coalitions.filter(x => x.$elections[election.$volby.typ].find(y => y.volby === election.$volby.id)).map(x => x.VSTRANA))" :hash="enums.elections.find(x => x.key === election.$volby.typ).hash" :focus="Number(id)"></party-in-elections>
+													</p-area>
+													<div class="p-gap"></div>
+													<div class="smallest strong">
+														<router-link :to="'/volby/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '/' + election.$volby.id">{{ enums.elections.find(x => x.key === election.$volby.typ).name }} přehledně</router-link>
+													</div>
+													<div class="p-gap"></div>
+													
+													<!-- <election-detail :type="enums.elections.find(x => x.key === election.$volby.typ)" :id="election.$volby.id" :local="election.$data" :label="electionLabel(election)" :election="election.$volby"></election-detail> -->
+												</p-collapsible>
+											</template>
+										</template>
+										<template v-if="$elections.length > 6">
+											<div class="p-line"></div>
+											<button @click="showAll = !showAll">Zobrazit {{ showAll ? 'zkrácený' : 'celý' }} seznam</button>
+										</template>
+									</p-block>
+									<p-block headline="Volební statistiky">
+										<p-grid>
+											<template v-for="(eltype, indexET) in election_types.filter(x => ['PS', 'KZ', 'EP', 'KV', 'SENAT'].indexOf(x.key) > -1)">
+												<template v-if="$elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1).length > 0">
+			
+													<div>
+														<p-area>
+															<div class="p-offset">
+																<div>
+																	<p-image :src="cdn + 'icon/' + eltype.hash + '.svg'" :width="4"></p-image>
+																</div>
+																<div>
+																	<div class="p-offset reverse">
+																		<div>
+																			<div class="smaller strong">{{ {EP: "Europoslanců", KZ: "Krajských zast.", PS: "Poslanců", KV: "Zastupitelů", SENAT: "Senátorů"}[eltype.key] }}</div>
+																			<div class="smallest">
+																				<p-label color="var(--green)">max {{ number(Math.max(...($elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1).map(x => x.$stats.candidatesElected)))) }}</p-label>
+																				<br>
+																				<p-label color="var(--red)">min {{ number(Math.min(...($elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1).map(x => x.$stats.candidatesElected)))) }}</p-label>
+																			</div>
+																		</div>
+																		<div v-if="$elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1).length > 1 && Math.max(...($elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1).map(x => x.$stats.candidatesElected))) > 0">
+																			<stats-tiny color="var(--blue)" width="4em" :inline="true" :data="statsGraph($elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1), 'candidatesElected')"></stats-tiny>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="p-gap_05"></div>
+															<table class="smallest" >
+																<thead>
+																	<tr>
+																		<th>datum</th>
+																		<th class="text-right">nominací</th>
+																		<th class="text-right">mandátů</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<template v-for="(el, index) in $elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1)">
+																		<tr v-if="index < 2">
+																			<td>{{ date(el.$volby.datum, 3) }}</td>
+																			<td class="text-right" v-if="typeof el.$stats.coalitionCandidatesNominated === 'number'">{{ number(el.$stats.candidatesNominated - el.$stats.coalitionCandidatesNominated) }} <span class="dimm tiny">+ {{ el.$stats.coalitionCandidatesNominated }}</span></td>
+																			<td class="text-right" v-if="typeof el.$stats.coalitionCandidatesNominated === 'undefined'">{{ number(el.$stats.candidatesNominated) }}</td>
+																			<td class="text-right" v-if="typeof el.$stats.coalitionCandidatesElected === 'number'">{{ number(el.$stats.candidatesElected - el.$stats.coalitionCandidatesElected) }} <span class="dimm tiny">+ {{ el.$stats.coalitionCandidatesElected }}</span></td>
+																			<td class="text-right" v-if="typeof el.$stats.coalitionCandidatesElected === 'undefined'">{{ number(el.$stats.candidatesElected) }}</td>
+																		</tr>
+																	</template>
+																</tbody>
+															</table>
+															<template v-if="$elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1).length > 2">
+																<div class="p-line p-line__0"></div>
+																<p-modal>
+																	<template #init>
+																		<span class="smallest strong">Všechny volby &middot; {{ $elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1).length }}</span>
+																	</template>
+																	<template #content>
+																		<div>
+																			<strong>{{ eltype.name }}</strong>
+																			<div class="p-gap"></div>
+																			<table >
+																				<thead>
+																					<tr>
+																						<th>datum</th>
+																						<th class="text-right">nominací</th>
+																						<th class="text-right">mandátů</th>
+																					</tr>
+																				</thead>
+																				<tbody>
+																					<tr v-for="(el, index) in $elections.filter(x => x.$volby.typ === eltype.key && x.$volby.radne === 1)">
+																						<td>{{ date(el.$volby.datum, 3) }}</td>
+																						<td class="text-right" v-if="typeof el.$stats.coalitionCandidatesNominated === 'number'">{{ number(el.$stats.candidatesNominated - el.$stats.coalitionCandidatesNominated) }} <span class="dimm tiny">+ {{ el.$stats.coalitionCandidatesNominated }}</span></td>
+																						<td class="text-right" v-if="typeof el.$stats.coalitionCandidatesNominated === 'undefined'">{{ number(el.$stats.candidatesNominated) }}</td>
+																						<td class="text-right" v-if="typeof el.$stats.coalitionCandidatesElected === 'number'">{{ number(el.$stats.candidatesElected - el.$stats.coalitionCandidatesElected) }} <span class="dimm tiny">+ {{ el.$stats.coalitionCandidatesElected }}</span></td>
+																						<td class="text-right" v-if="typeof el.$stats.coalitionCandidatesElected === 'undefined'">{{ number(el.$stats.candidatesElected) }}</td>
+																					</tr>
+																				</tbody>
+																			</table>
+																			<div class="dimm smallest" v-if="eltype.key === 'SENAT'">
+																				<div class="p-gap"></div>
+																				Doplňkové číslo udává počet nominovaných v rámci koalic, kdy strana nebyla tou, která kandidátku podávala
+																			</div>
+																		</div>
+																	</template>
+																</p-modal>
+															</template>
+														</p-area>
+													</div>
+												</template>
+											</template>
+										</p-grid>
+									</p-block>
+									<p-block headline="Spolupráce" v-if="$full.$coalitions.length > 0">
+										<template v-for="(eltype, index) in election_types">
+											<template v-if="$full.$coalitions.find(x => x.$elections[eltype.key] && x.$elections[eltype.key].length > 0)">
+												<p-collapsible :label="eltype.name" :status="$full.$coalitions.filter(x => x.$elections[eltype.key] && x.$elections[eltype.key].length > 0).length">
+													<p-area>
+														<table>
+															<thead>
+																<tr>
+																	<th class="td-color"></th>
+																	<th class="td-logo"></th>
+																	<th>Název</th>
+																	<th class="text-right dimm tiny">Ve volbách <span class="mw">&sum;</span></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr v-for="(coal, index2) in $full.$coalitions.filter(x => x.$elections[eltype.key] && x.$elections[eltype.key].length > 0)">
+																	<td class="td-color" :style="{background: colorByItem(coal, data)}"></td>
+																	<td class="td-logo">
+																		<template v-if="$full.$coalitions.filter(x => x.$elections[eltype.key] && x.$elections[eltype.key].length > 0).find(y => y.$data.logo.length > 0)">
+																			<p-image :src="logoByItem(coal, data)" width="4em"></p-image>
+																		</template>															
+																	</td>
+																	<td>
+																		<router-link :to="'/rejstrik/' + coal.VSTRANA" class="strong">{{ coal.NAZEV}}</router-link>
+																		<div class="p-gap_025"></div>
+																		<p-list class="invisible smallest">
+																			<template v-for="(member, index) in coal.$members">
+																				<div>
+																					<p-label :color="colorByItem(member, data)">
+																						<router-link :to="'/rejstrik/' + member.VSTRANA">{{ member.NAZEV }}</router-link>
+																					</p-label>
+																				</div>
+																			</template>
+																		</p-list>
+																	</td>
+																	<td class="text-right dimm smallest">
+																		<div class="p-gap_05"></div>
+																		<p-list class="invisible">
+																			<template v-for="(el, index3) in coal.$elections[eltype.key]">
+																				<div v-if="index3 === 0 || (el.volby != coal.$elections[eltype.key][index3 - 1].volby)" class="keep">
+																					<router-link :to="'/volby/' + eltype.hash + '/' + el.volby">{{ date(history.cis.volby.find(x => x.id === el.volby).datum) }}</router-link>
+			
+																					<span class="mw">
+																						{{ coal.$elections[eltype.key].filter(x => x.volby === el.volby).length }}&times;
+																					</span>																		
+																				</div>
+																			</template>
+																		</p-list>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</p-area>
+												</p-collapsible>
+											</template>
+										</template>
+									</p-block>
+								</div>
+							</p-loader>
+						</template>
+						<div class="p-gap"></div>
+						<p-area class="p-area---inline smallest">
+							<!-- <p> -->
+								<p-label :color="colorByItem($main, data)"><strong>Upozornění: </strong>Všechny texty psané&nbsp;<span class="serif">patkovým písmem</span>&nbsp;jsou převzaté.</p-label>
+							<!-- </p> -->
+						</p-area>
+						<div class="p-gap_2"></div>
+						<p-block headline="Programové dokumenty" v-if="$meta.program && $meta.program.length > 0">
+							<p-grid>
+								<div v-for="(item, index) in $meta.program">
+									<p-area icon="link">
+										<p-link :href="item.source" class="strong">{{ item.value }}</p-link>
+										<div class="smallest dimm">
+											Přidáno {{ date(item.updated) }}
+											<span v-if="item.label">
+												&middot; <p-link :href="item.label" class="dimm">Záloha</p-link>
+											</span>
+										</div>
+									</p-area>
+								</div>
+							</p-grid>
+						</p-block>
+						<p-block headline="Představení" v-if="($meta.about.length > 0 || $meta.motto.length > 0 || $meta.values.length > 0)" :hide="true">
+							<p-list height="1" class="invisible">
+								<div v-if="$meta.about.length > 0">
+									<h2 class="serif">Představení</h2>
+									<div class="serif">
+										<p-truncated :size="40" :content="$meta.about[0].value.split('\n').join('<br>')"></p-truncated>
+									</div>	
+									<div class="smallest dimm">
+										<div class="p-line"></div>
+										Vloženo {{ date($meta.about[0].updated) }}
+										<span v-if="$meta.about[0].source"> &middot; zdroj <p-link :href="$meta.about[0].source" class="dimm">{{ domain($meta.about[0].source) }}</p-link></span>
+									</div>									
+								</div>
+								<template v-if="$meta.motto.length > 0">
+									<h2 class="serif">Slogany</h2>
+									<div>
+										<template v-for="(item, index) in $meta.motto">
+											<p-quote :color="colorByItem($main, data, $main.NSTRANA ? 'PSTRANA' : 'VSTRANA')">{{ item.value }}</p-quote>
+										</template>
+									</div>
+								</template>
+								<template v-if="$meta.values.length > 0">
+									<h2 class="serif">Programové cíle, pilíře, hodnoty</h2>
+									<div class="serif">
+										<div class="columns">
+											<div v-for="(val, indexV) in sortByDate($meta.values)">
+												<p-area :borderColor="colorByItem($main, data)">
+													<div class="strong">{{ val.value }}</div>
+													<p v-if="val.label"><p-truncated :size="24" :content="val.label"></p-truncated></p>
+													<p class="smallest sans dimm">
+														Platné {{ date(val.updated) }} 
+														<template v-if="val.source">
+															&middot;
+															zdroj <p-link :href="val.source" class="is-span dimm">{{ domain(val.source) }}</p-link>
+														</template>
+													</p>
+												</p-area>
+											</div>
+										</div>
+									</div>
+								</template>
+							</p-list>							
+						</p-block>
+						<p-block headline="Odkazy" :editable="true">
+							<p-list class="invisible">
+								<template v-for="(typ, index1) in ['web', 'social', 'link', 'wiki']">
+									<div v-for="(item, index) in $meta[typ].filter(x => !x.kraj)">
+										<p-box :block="true" :href="item.value">
+											<p-box-icon :type="type(item.value)"></p-box-icon>
+											<p-box-label>{{ domain(item.value, true) }}</p-box-label>
+											<p-box-gap></p-box-gap>
+											<p-box-label><span class="dimm tiny">{{ date(item.updated, 4) }}</span></p-box-label>
+										</p-box>
+									</div>
+								</template>
+							</p-list>
+						</p-block>
+						<p-block headline="Kontakty" :editable="true">
+							<p-list class="invisible">
+								<template v-for="(typ, index1) in ['address', 'phone', 'email']">
+									<div v-for="(item, index) in $meta[typ].filter(x => !x.kraj)">
+										<p-box :block="true">
+											<p-box-icon :type="item.type"></p-box-icon>
+											<p-box-label>
+												<a v-if="item.type === 'phone'" :href="'tel:' + item.value">{{ item.value }}</a>
+												<a v-if="item.type === 'email'" :href="'mailto:' + item.value">{{ item.value }}</a>
+												<span v-if="item.type === 'address'">{{ item.value }}</span>
+												<div class="tiny dimm" v-if="item.label">{{ item.label }}</div>
+											</p-box-label>
+											<p-box-gap></p-box-gap>
+											<p-box-label><span class="dimm tiny">{{ date(item.updated, 4) }}</span></p-box-label>
+										</p-box>
+									</div>
+								</template>
+							</p-list>
+						</p-block>
+						<p-block headline="V krajích" :editable="true">
+							<p-area :borderColor="colorByItem($main, data)">
+								<div class="columns">
+									<div v-for="(kraj, index) in enums.regions">
+										<div class="p-offset reverse balanced">
+											<div>
+												<p-modal>
+													<template #init>	
+														<button class="inline">{{ kraj }}</button>											
+													</template>
+													<template #content>
+														<h2 class="serif">
+															{{ $main.$core[0].NAZEV }}
+															<div class="smaller">{{ kraj }}</div>
+														</h2>
+														<p-list>
+															<template v-for="(typ, index1) in ['web', 'social', 'link', 'wiki']">
+																<div v-for="(item, index) in $meta[typ].filter(x => x.kraj === index + 1)">
+																	<div class="p-offset reverse">
+																		<div>
+																			<p-link :href="item.value">
+																				{{ truncate(domain(item.value, true), 40, true) }}
+																			</p-link>
+																		</div>
+																		<div>
+																			<span class="dimm tiny">{{ date(item.updated, 4) }}</span>
+																		</div>
+																	</div>
+																</div>
+															</template>
+															<template v-for="(typ, index1) in ['address', 'phone', 'email']">
+																<div v-for="(item, index) in $meta[typ].filter(x => x.kraj === index + 1)">
+																	<div class="p-offset reverse">
+																		<div>
+																			<a v-if="item.type === 'phone'" :href="'tel:' + item.value">{{ item.value }}</a>
+																			<a v-if="item.type === 'email'" :href="'mailto:' + item.value">{{ item.value }}</a>
+																			<span v-if="item.type === 'address'">{{ item.value }}</span>
+																		</div>
+																		<div>
+																			<span class="dimm tiny">{{ date(item.updated, 4) }}</span>
+																		</div>
+																	</div>
+																</div>
+															</template>
+														</p-list>
+													</template>
+												</p-modal>
+											</div>
+											<div>
+												<div class="smallest dimm">
+													{{ ['social', 'link', 'web', 'wiki', 'address', 'phone', 'email'].reduce((a, b) => a + $meta[b].filter(x => x.kraj === index + 1).length, 0) }}
+												</div>
+											</div>
+										</div>	
+									</div>
+								</div>
+							</p-area>
+						</p-block>
+						<party-polls :VSTRANA="cid" :color="colorByItem($main, data)" :isCoalition="$main.$core[0].TYP != 'S'"></party-polls>
+						<p-block headline="Poznámky" v-if="$meta.note && $meta.note.length > 0" :editable="true">
+							<p-list height=".25">
+								<div v-for="(item, index) in $meta.note">
+									<div class="serif">
+										{{ item.value }}
+										<div class="smaller" v-if="item.label" v-html="item.label"></div>
+									</div>
+									<div class="p-gap_05"></div>
+									<div class="smallest dimm">Vloženo {{ date(item.updated)}}</div>
+								</div>
+							</p-list>
+						</p-block>
+						<p-block headline="V médiích" v-if="$meta.media && $meta.media.length > 0" :editable="true">
+							<p-grid>
+								<div v-for="(item, index) in $meta.media">
+									<p-area :borderColor="colorByItem($main, data, $main.VSTRANA ? 'VSTRANA' : 'NSTRANA')">
+										<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
+										<div class="p-gap_075"></div>
+										<div class="smallest dimm">{{ item.label || 'Článek' }} &middot; {{ domain(item.source) }}</div>
+										<div class="smallest dimm"> Přidáno {{ date(item.updated) }}</div>
+									</p-area>
+								</div>
+							</p-grid>
+						</p-block>
+						<p-block headline="Významné stranické akce" v-if="$meta.event && $meta.event.length > 0" :editable="true">
+							<p-list>
+								<div v-for="(item, index) in $meta.event">
+									<div class="p-offset balanced">
+										<div class="smaller">
+											{{ date(JSON.parse(item.label)[0], 2) }}
+										</div>
+										<div>
+											<component :is="item.source ? 'p-link' : 'span'" :href="item.source"><strong>{{ JSON.parse(item.value)[0] }}</strong></component>
+											<p v-if="JSON.parse(item.value)[1]" v-html="JSON.parse(item.value)[1]" class="serif"></p>
+											<div class="p-gap"></div>
+											<div class="dimm smallest" v-if="JSON.parse(item.label).reduce((a, b) => a + (b != null), 0) > 1">
+												Začátek dne {{ date(JSON.parse(item.label)[0], 2) }}<template v-if="JSON.parse(item.label)[1] != null"> od {{ JSON.parse(item.label)[1] }}</template>
+												<template v-if="JSON.parse(item.label)[2] != null"><br>Konec {{ date(JSON.parse(item.label)[2]) }}</template>
+												<template v-if="JSON.parse(item.label)[3] != null"> do {{ JSON.parse(item.label)[3] }}</template>
+												<div v-if="JSON.parse(item.label)[4] != null" v-html="JSON.parse(item.label)[4]"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</p-list>
+						</p-block>
+						<p-block headline="Tiskové zprávy" v-if="$meta.pr && $meta.pr.length > 0" :editable="true">
+							<p-grid>
+								<div v-for="(item, index) in $meta.pr">
+									<p-area :borderColor="colorByItem($main, data, $main.VSTRANA ? 'VSTRANA' : 'NSTRANA')">
+										<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
+										<div class="p-gap_075"></div>
+										<div class="smallest dimm">{{ item.label || 'Zpráva' }} &middot; Přidáno {{ date(item.updated) }}</div>
+									</p-area>
+								</div>
+							</p-grid>
+						</p-block>
+						<p-block headline="Volební materiály" v-if="$meta.graphics && $meta.graphics.length > 0">
+							<p-grid>
+								<div v-for="(item, index) in $meta.graphics">
+									<p-area>
+										<div class="p-offset">
+											<div>
+												<div class="_ar" :style="{'background-image': 'url(' + item.value + ')'}"></div>
+											</div>
+											<div>
+												<p-modal>
+													<template #init>
+														<div class="smaller">{{ item.label }}</div>
+													</template>
+													<template #content>
+														<p-image width="100%" :src="item.value"></p-image>
+														<div class="p-line"></div>
+														<div class="smallest dimm">{{ item.label }} &middot; Přidáno {{ date(item.updated) }} &middot; <p-link :href="item.source">Zdroj</p-link></div>
+													</template>
+												</p-modal>
+												<div class="smallest dimm">{{ date(item.updated) }}</div>
+											</div>
+										</div>
+									</p-area>
+								</div>
+							</p-grid>
+						</p-block>
+						<p-block headline="Dokumenty" v-if="$meta.document && $meta.document.length > 0">
+							<p-grid>
+								<div v-for="(item, index) in $meta.document">
+									<p-area icon="link">
+										<p-link :href="item.source" class="strong">{{ item.value }}</p-link>
+										<div class="smallest dimm">
+											Přidáno {{ date(item.updated) }}
+											<span v-if="item.label">
+												&middot; <p-link :href="item.label" class="dimm">Záloha</p-link>
+											</span>
+										</div>
+									</p-area>
+								</div>
+							</p-grid>
+						</p-block>
+						<p-block headline="Historie a identita">
+							<template v-if="$main.$data.mvcr && $main.$data.mvcr.length > 0">
+								<p-headline :level="4">Záznamy na Ministerstvu vnitra</p-headline>
+								<div v-for="(entry, index) in $main.$data.mvcr">
+									<component :is="index === 0 ? 'div' : 'p-collapsible'" :label="date(entry.updated)">
+										<p-area class="smaller">
+											<p-list height=".5">
+												<p-stats label="Název">{{ entry.valueParsed.name }}</p-stats>
+												<p-stats label="Zkratka">{{ entry.valueParsed.code }}</p-stats>
+												<p-stats label="Typ">{{ entry.valueParsed.type === 'party' ? 'strana' : 'hnutí' }}</p-stats>
+												<p-stats label="ID">{{ entry.valueParsed.id }}</p-stats>
+												<p-stats label="Registrace">{{ entry.valueParsed.reg_number }}</p-stats>
+												<p-stats label="Založeno">{{ date(entry.valueParsed.reg_date) }}</p-stats>
+												<p-stats label="Adresa">{{ entry.valueParsed.address }}</p-stats>
+												<p-stats label="Lidé">
+													<p-list class="invisible">
+														<div v-for="(person, indexP) in entry.valueParsed.people">
+															<span>{{ person.name }} <span class="dimm smallest">&middot; {{ person.role }}</span></span>
+														</div>
+													</p-list>
+												</p-stats>
+												<p-stats label="Aktivní"><strong :class="entry.valueParsed.is_active ? 'green' : 'red'">{{ entry.valueParsed.is_active ? 'ano' : 'již není aktivní' }}</strong></p-stats>
+											</p-list>
+										</p-area>
+									</component>
+								</div>
+							</template>
+							<p-headline :editable="true" :level="4" headline="Názvy a zkratky ČSÚ"></p-headline>
+							<p>Některé strany, hnutí či koalice mění v průběhu času své názvy nebo zkratky. Hlavním zdrojem je pak Ministerstvo vnitra, které je registruje. A následně pak Český statistický úřad, který jejich změny promítá do svých číselníků. Zde je přehled názvů a zkratek, které byly spojené s touto stranou.</p>
+							<!-- <p-area> -->
+								<table class="smaller">
+									<thead>
+										<tr>
+											<th>Zkratka</th>
+											<th>Název</th>
+											<th class="text-right">Datum</th>
+										</tr>
+									</thead>
+									<tbody>
+										<template v-for="(item, index) in reverseHistory">
+											<tr v-if="index === 0 || (item.ZKRATKA != reverseHistory[index - 1].ZKRATKA || item.NAZEV != reverseHistory[index - 1].NAZEV)">
+												<td>{{ item.ZKRATKA }}</td>
+												<td>{{ item.NAZEV }}</td>
+												<td class="text-right">{{ date(item.datum, 4) }}</td>
+											</tr>
+										</template>
+									</tbody>
+								</table>
+							<!-- </p-area> -->
+							<p-headline :editable="true" :level="4" headline="Loga"></p-headline>
+							<p>Přehled log používaných v rámci Programů do voleb včetně data jejich přidání. Tento přehled nemusí obsahovat všechny historické verze loga, ale může být zpětně doplněn.</p>
+							<p-grid class="p-grid---tiny" v-if="$meta.evolution && $meta.evolution.logo.length > 0">
+								<template v-for="(item, index) in $meta.evolution.logo">
+									<div v-if="index === 0 || item.value != $meta.evolution.logo[index - 1].value">
+										<div>
+											<p-image :src="item.value" width="100%" :rounded="true"></p-image>
+										</div>
+										<div class="text-center dimm smallest">{{ date(item.updated, 3) }}</div>
+									</div>
+								</template>
+							</p-grid>
+							<p v-if="$meta.logo.length === 0">
+								<p-label color="var(--red)">Žádné logo není v databázi</p-label>
+							</p>
+							<p-headline :editable="true" :level="4" headline="Barvy"></p-headline>
+							<p>Přehled barev používaných v rámci Programů do voleb včetně data jejich přidání. Nejčastěji vychází z primárních barev používaných stranami. V případě, že není barva přímo přiřazena, je straně či koalici vygenerována vlastní.</p>
+							<p v-if="!$meta.evolution || $meta.evolution.color.length === 0">
+								<p-label color="var(--red)">Žádná barva není v databázi</p-label>
+							</p>
+							<p-list class="invisible">
+								<template v-if="$meta.evolution && $meta.evolution.color.length > 0">
+									<div v-for="(item, index) in $meta.evolution.color">
+										<p-box-group v-if="index === 0 || item.value != $meta.evolution.color[index - 1].value">
+											<p-box :block="true">
+												<p-box-color :color="item.value"></p-box-color>
+												<p-box-label>{{ item.value }}</p-box-label>
+												<p-box-gap></p-box-gap>
+												<p-box-label><span class="tiny dimm">{{ date(item.updated, 3) }}</span></p-box-label>
+											</p-box>
+										</p-box-group>
+									</div>
+								</template>
+								<div v-if="$meta.color.length === 0">
+									<p-box-group>
+										<p-box :block="true">
+											<p-box-color :color="colorByItem($main, data)"></p-box-color>
+											<p-box-label><p-truncated :content="colorByItem($main, data)" :size="4"></p-truncated></p-box-label>
+											<p-box-gap></p-box-gap>
+											<p-box-label><span class="tiny dimm">vygenerováno</span></p-box-label>
+										</p-box>
+									</p-box-group>
+								</div>
+							</p-list>
+						</p-block>
+						<p-block headline="Novinky" v-if="news">
+							<p-loader :rule="news">
+								<div v-if="news" class="smaller">
+									<p-list padding="1">
+										<template v-for="(news, index) in news.list">
+											<div>
+												<news-item :data="news" :noSource="true"></news-item>
+											</div>
+										</template>
+										<div class="">
+											<div class="p-offset reverse">
+												<div>
+													<p-link href="https://programydovoleb.cz/novinky">Všechny novinky</p-link> &rarr;
+												</div>
+												<div>
+													<p-label :after="true" color="var(--red)">
+														<p-link href="https://programydovoleb.cz/rss">RSS</p-link>
+													</p-label>						
+												</div>
+											</div>
+										</div>
+									</p-list>
+								</div>
+							</p-loader>
+						</p-block>
+					</div>
+				</p-loader>
+			</p-block>
+			<p-block headline="Data">
+				<p-area borderColor="var(--blue)">
+					<p-list class="smaller" height=".5">
+						<p-stats label="ID strany">{{ id }}</p-stats>
+						<p-stats label="Permalink"><p-link :href="'https://programydovoleb.cz/rejstrik/' + id"></p-link></p-stats>
+						<p-stats label="API"><p-link :href="'https://api.programydovoleb.cz/party/fetch/' + id"></p-link></p-stats>
+						<p-stats label="API budoucí"><p-link :href="'https://api.programydovoleb.cz/party/upcoming/' + id"></p-link></p-stats>
+						<p-stats label="API statistiky"><p-link :href="'https://api.programydovoleb.cz/party/history/' + id"></p-link></p-stats>
+					</p-list>
+				</p-area>
+				<p-area borderColor="var(--red)">
+					<strong>Administrace údajů <span class="red">&middot; BETA</span></strong>
+					<div class="smaller">Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají a která bude údaje pravdivě a svědomitě spravovat.</div>
+					<div class="p-gap"></div>
+					<div class="strong">
+						<p-link :href="'https://admin.programydovoleb.cz/zadost/csu_cvs:' + id + '?source=https://programydovoleb.cz' + $route.fullPath" class="button">Vyplnit žádost</p-link>
+					</div>
+				</p-area>
+			</p-block>
+			<p-block-expandable headline="Vyhledat jinou stranu nebo koalici" :level="1">
+				<search-party link="/rejstrik/"></search-party>
+			</p-block-expandable>
+			<div class="p-gap_4"></div>
+			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: data ? con($main.$data, 'logo') : cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.25">
+				<div>
+					<strong>Novinky</strong>
+					<div class="p-gap"></div>
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
+							<p-list padding="1">
+								<template v-for="(news, index) in news.list">
+									<div>
+										<news-item :data="news" :noSource="true"></news-item>
+									</div>
+								</template>
+							</p-list>
+						</div>
+					</p-loader>
+				</div>
+				<div>
+					<strong>Za oponou</strong>
+					<div class="p-gap"></div>
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
+							<p-list padding="1">
+								<template v-for="(news, index) in news.sys">
+									<div>
+										<news-item :data="news" :noSource="true"></news-item>
+									</div>
+								</template>
+							</p-list>
+						</div>
+					</p-loader>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

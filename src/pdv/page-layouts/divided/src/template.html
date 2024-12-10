@@ -1,0 +1,58 @@
+<div class="p-layout" :class="{'p-layout---no-aside': !$slots.aside}">
+	<main class="p-layout---main" ref="main">
+		<article class="p-layout---main-limit">
+			<slot name="main" />
+		</article>
+	</main>
+	<aside class="p-layout---aside" ref="aside" :class="{down: offset.aside != 0, keep: keep && keep.indexOf('aside') > -1}">
+		<div class="p-layout---aside-holder" :style="{transform2: 'translateY(' + offset.aside + 'px)'}">
+			<slot name="aside" />
+		</div>
+	</aside>
+	<nav class="p-layout---nav" ref="nav" :class="{down: offset.nav != 0}">
+		<div class="p-layout---aside-holder"  :style="{transform2: 'translateY(' + offset.nav + 'px)'}">
+			<div class="p-layout---nav-icon" v-if="$slots.icon">
+				<slot name="icon" />
+				<div class="p-gap"></div>
+			</div>
+			<div class="p-layout---nav-local">
+				<slot name="anchors" />
+				<div class="p-gap"></div>
+			</div>
+			<div class="p-layout---nav-main">
+				<slot name="nav" />
+			</div>
+			<div class="">
+				<div class="p-line"></div>
+				<p-modal>
+					<template #init>
+						<span class="strong smaller">Sdílet tuto stránku</span>
+					</template>
+					<template #content>
+						<h3>Sdílejte tuto stránku</h3>
+						<p-share></p-share>
+					</template>
+				</p-modal>
+			</div>
+			<div class="_report">
+				<p-modal> 
+					<template #init>
+						<span class="red strong smaller">Nahlásit chybu</span>
+					</template>
+					<template #content>
+						<h3>Našli jste chybu? Nebo chcete něco doplnit?</h3>
+						<report-form part="Hlášení chyby" :noLink="true"></report-form>
+						<div class="p-line"></div>
+						<p>Můžete také napsat na <p-link href="mailto:opravte@programydovoleb.cz">opravte@programydovoleb.cz</p-link></p>
+					</template>
+				</p-modal>
+			</div>
+			<!-- <div class="p-line"></div>
+			<p-box-group>
+				<p-box to="/podporit-projekt">
+					<p-box-button logo="darujme.png" class="_w" color="var(--green)">Podpořit</p-box-button>
+				</p-box>
+			</p-box-group> -->
+		</div>
+	</nav>
+</div>

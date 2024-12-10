@@ -1,0 +1,86 @@
+<div class="party-election-detail">
+	<p-loader :rule="data">
+		<div v-if="data">
+			<p-block headline="V nadcházejících volbách" v-if="data.list" anchor="Výhledově">
+				<template v-for="(election, index) in data.list">
+						<p-collapsible :logo="cdn + 'icon/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '.svg'" :label="enums.elections.find(x => x.key === election.$volby.typ).name" :status="election.$volby.cirka || date(election.$volby.datum)">
+							<p-area>
+								<template v-if="election.$volby.typ === 'EP' || election.$volby.typ === 'PS'">
+									<strong><router-link :to="'/volby/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '/' + election.$volby.id + '/strana/' + election.$strany[0].id">{{ election.$strany[0].NAZEV }}</router-link></strong>
+									<div class="p-gap"></div>
+									<div class="columns smaller">
+										<div v-for="(cand, index2) in sortByPorCislo(election.$strany[0].$kandidati)">
+											<div class="p-offset balanced">
+												<div class="_no smallest dimm">
+													{{ cand.PORCISLO || '-' }}
+												</div>
+												<div>
+													<router-link :to="'/volby/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '/' + election.$volby.id + '/kandidat/' + cand.id" :class="{strong: cand.PORCISLO, 'is-span dimm': data.cis.$slozeni.length === 1 && cand.NSTRANA && cand.NSTRANA != id}">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+												</div>
+											</div>											
+										</div>
+									</div>
+								</template>
+								<template v-if="election.$volby.typ === 'KZ'">
+									<!-- <p-list> -->
+										<template v-for="(region, index2) in enums.regions">
+											<div v-if="index2 > 0 && election.$strany.find(x => x.KRZAST === index2 + 1)">
+												<div v-for="(party, index3) in election.$strany.filter(x => x.KRZAST === index2 + 1)">
+													<p-collapsible :label="region" :status="party.NAZEV">
+														<div class="columns smaller">
+															<div v-for="(cand, index2) in sortByPorCislo(party.$kandidati)">
+																<div class="p-offset balanced">
+																	<div class="_no smallest dimm">
+																		{{ cand.PORCISLO || '-' }}
+																	</div>
+																	<div>
+																		<router-link :to="'/volby/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '/' + election.$volby.id + '/kandidat/' + cand.id" :class="{strong: cand.PORCISLO, 'is-span dimm': data.cis.$slozeni.length === 1 && cand.NSTRANA && cand.NSTRANA != id}">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+																	</div>
+																</div>											
+															</div>
+														</div>
+														<div class="p-line"></div>
+														<div class="smallest">
+															<strong><router-link :to="'/volby/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '/' + election.$volby.id + '/strana/' + party.id">Podrobně o této kandidátce</router-link></strong>
+														</div>	
+													</p-collapsible>											
+												</div>
+											</div>
+										</template>
+									<!-- </p-list> -->
+									<!-- <div class="columns smaller">
+										<div v-for="(cand, index2) in election.$kandidati">
+											<router-link :to="'/volby/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '/' + election.$volby.id + '/kandidat/' + cand.id" class="strong">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+											<div class="balanced smallest dimm">
+												{{ cand.OBVOD }} &middot; {{ data.cis.obvody.find(x => x.id === cand.OBVOD).NAZEV }}			
+											</div>
+										</div>
+									</div> -->
+								</template>
+								<template v-if="election.$volby.typ === 'SENAT'">
+									<div class="columns smaller">
+										<div v-for="(cand, index2) in election.$kandidati">
+											<router-link :to="'/volby/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '/' + election.$volby.id + '/kandidat/' + cand.id" class="strong">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+											<div class="balanced smallest dimm">
+												{{ cand.OBVOD }} &middot; {{ data.cis.obvody.find(x => x.id === cand.OBVOD).NAZEV }}			
+											</div>
+										</div>
+									</div>
+								</template>
+								<!-- <party-in-elections :elections="election.$volby.id" :party="[id].concat($main.$coalitions.filter(x => x.$elections[election.$volby.typ].find(y => y.volby === election.$volby.id)).map(x => x.VSTRANA))" :hash="enums.elections.find(x => x.key === election.$volby.typ).hash" :focus="Number(id)"></party-in-elections> -->
+							</p-area>
+							<div class="p-gap"></div>
+							<div class="smallest strong">
+								<router-link :to="'/volby/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '/' + election.$volby.id">{{ enums.elections.find(x => x.key === election.$volby.typ).name }} přehledně</router-link>
+								&middot;
+								<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="election.$volby.typ + ':' + election.$volby.id" class="_inline">
+									<button class="inline green">Přidat či upravit</button>
+								</report-modal>
+							</div>
+							<div class="p-gap"></div>
+						</p-collapsible>
+				</template>
+			</p-block>
+		</div>
+	</p-loader>
+</div>

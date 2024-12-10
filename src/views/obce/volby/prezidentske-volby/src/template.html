@@ -1,0 +1,36 @@
+<div class="snemovni-volby">
+	<template v-if="current.status === 3">
+		<template v-if="hasSecondRound">
+			<div class="relative _r2">
+				<strong>Výsledky</strong>
+				<div class="p-gap_3"></div>
+				<election-duel :list="sortByVotes(current.$kandidati)" :kolo="2"></election-duel>
+				<div class="attendance">
+					<p-line-graph v-if="local" :value="local.$ucast[1].UCAST" color="var(--blue)"></p-line-graph>
+					<p-line-graph :value="current.$ucast[1].UCAST" :color="'var(--' + (local ? 'greyish' : 'blue') + ')'" append="ČR"></p-line-graph>
+					<!-- <div class="text-right smallest dimm">účast</div> -->
+				</div>
+			</div>
+			<div class="p-line"></div>
+		</template>
+		<div class="relative">
+			<election-graph :list="sortByVotes(current.$kandidati)" :kolo="1"></election-graph>
+			<div class="attendance">
+				<p-line-graph v-if="local" :value="local.$ucast[0].UCAST" color="var(--blue)"></p-line-graph>
+				<p-line-graph :value="current.$ucast[0].UCAST" :color="'var(--' + (local ? 'greyish' : 'blue') + ')'" append="ČR"></p-line-graph>
+				<!-- <div class="text-right smallest dimm">účast</div> -->
+			</div>
+		</div>
+		<p-collapsible label="2. kolo" v-if="hasSecondRound">
+			<election-table :list="sortByVotes(current.$kandidati)" :kolo="2"></election-table>
+		</p-collapsible>
+		<p-collapsible label="1. kolo">
+			<election-table :list="sortByVotes(current.$kandidati)" :kolo="1"></election-table>
+		</p-collapsible>
+		<p-collapsible label="Statistiky" v-if="current.$ucast">
+			<!-- <p-area> -->
+				<election-stats :data="current.$ucast" :local="local ? local.$ucast : null" :results="current.$vysledky"></election-stats>
+			<!-- </p-area> -->
+		</p-collapsible>
+	</template>
+</div>

@@ -1,0 +1,126 @@
+<div class="news-block">
+	<p-list height="1.5">
+		<div v-for="(item, index) in consolidatedNews.filter((x, i) => i < _limit)" class="_fancy">
+			<strong class="_date">{{ date(item.datum) }}</strong>
+			<div v-if="item.list.length > 0 || item.sys.length > 0" class="_cni">
+				<p-list height=".33" class="invisible">
+					<div v-for="(news, index) in item.list">
+						<p-link :href="news.source" class="strong">{{ news.title }}</p-link>
+					</div>
+					<div v-for="(news, index) in item.sys">
+						<router-link :to="'/novinky/' + news.id" class="strong black">{{ news.title }}</router-link>
+					</div>
+				</p-list>
+			</div>
+			<div class="_i"></div>
+			<div v-if="item.auto.length > 0" class="_cni">
+				<!-- <div> -->
+				Nově:
+					<!-- <p-lang :value="item.auto.length" :end="['', 'Nový kandidát', '%% noví kandidáti', '%% nových kandidátů']"></p-lang>: -->
+				<!-- </div> -->
+				<p-list-linear>
+					<template v-for="(news, index) in item.auto">
+						<li>
+							<router-link v-if="news.relates.split(',')[1] != 'null'" :to="'/bod/' + news.relates.split(',')[1].split(':').join('/')">{{ truncate(news.title, 8) }}</router-link>
+							<router-link v-if="news.relates.split(',')[1] === 'null'" :to="'/bod/' + news.relates.split(',')[0].split(':').join('/')">{{ truncate(news.title, 8) }}</router-link>
+						</li>
+					</template>
+				</p-list-linear>
+				<div class="dimm smallest _md">
+					Zdroj: 
+					<p-list-linear>
+						<template v-for="(src, index) in unique(item.auto, 'source').filter(x => x.split('admin.programydovoleb.cz').length === 1)">
+							<li>
+								<p-link :href="src" class="dimm">{{ domain(src) }}</p-link>
+							</li>
+						</template>
+							<li v-if="item.auto.find(x => x.source.split('admin.programydovoleb.cz').length > 1)">
+								<span class="dimm">přímé zadání</span>
+							</li>
+					</p-list-linear>
+				</div>
+			</div>
+			<div class="_i"></div>
+			<div v-if="item.log.length > 0 && data" class="_cni">
+				<div v-if="item.log.find(x => x.type === 'program')">
+					<p-label color="var(--white)" class="strong _a _ap">						
+						Zveřejněn program
+					</p-label>
+				</div>
+				<div v-if="item.log.find(x => x.type === 'answer')">
+					<p-label color="var(--black)" class="strong _a _aa">
+						Nová odpověď
+					</p-label>
+				</div>
+				<p-modal>
+					<template #init>
+						<span><p-lang :value="item.log.length" :end="['', 'Upravena 1 položka', 'Upraveny %% položky', 'Upraveno %% položek']"></p-lang></span>
+					</template>
+					<template #content>
+						<p-list>
+							<div v-for="(x, index) in item.log">
+								<log-item :data="x" :list="data[x.type]"></log-item>
+							</div>
+						</p-list>
+					</template>
+				</p-modal>
+			</div>
+			<div class="_i"></div>
+			<div class="p-gap _05"></div>
+			<div v-if="item.log2.length > 0" class="_cni">
+				<div v-if="item.log2.find(y => y.data.find(x => x.type === 'program'))" class="strong _a _ap">
+					<p-label color="var(--white)">				
+						Zveřejněn program
+					</p-label>
+				</div>
+				<div v-if="item.log2.find(y => y.data.find(x => x.type === 'answer'))" class="strong _a _aa">
+					<p-label color="var(--black)">
+						Nová odpověď
+					</p-label>
+				</div>
+				<div class="p-gap _075"></div>
+				<div>
+					<p-modal class="inline">
+						<template #init>
+							<span><p-lang :value="item.log2.reduce((a, b) => a + b.data.length, 0)" :end="['', 'Upravena 1 položka', 'Upraveny %% položky', 'Upraveno %% položek']"></p-lang></span>
+						</template>
+						<template #content>
+							<strong>Položky upravené dne {{ date(item.datum) }}</strong>
+							<div class="p-gap"></div>
+							<p-list>
+								<div v-for="(x, index) in item.log2">
+									<strong v-if="x.node.JMENO"><router-link :to="prefix + '/kandidat/' + x.node.id">{{ x.node.JMENO + ' ' + x.node.PRIJMENI }}</router-link></strong>
+									<strong v-if="x.node.NAZEV"><router-link :to="prefix + '/strana/' + x.node.id">{{ truncate(x.node.NAZEV, 6) }}</router-link></strong>
+									<div class="smallest">
+										<p-list-linear>
+											<li v-for="(y, indexy) in unique(x.data, 'type')" :class="{'strong red': y === 'program' || y === 'answer' || y === 'priority'}">
+												{{ enums.logtypes[y] }}
+											</li>
+										</p-list-linear>
+									</div>
+								</div>
+							</p-list>
+						</template>
+					</p-modal>:
+					<!-- <p-list-linear>
+						<template v-for="(x, index) in item.log2">
+							<li v-if="x.node.JMENO">
+								<router-link :to="prefix + '/kandidat/' + x.node.id" class="is-span">{{ x.node.PRIJMENI }}</router-link>
+								<span class="badge blue" v-if="x.data.find(x => x.type === 'program')">●</span>
+								<span class="badge yellow" v-if="x.data.find(x => x.type === 'answer')">●</span>
+							</li>
+							<li v-if="x.node.NAZEV">
+								<router-link :to="prefix + '/strana/' + x.node.id" class="is-span">{{ truncate(x.node.NAZEV, 6) }}</router-link>
+								<span class="badge blue" v-if="x.data.find(x => x.type === 'program')">●</span>
+								<span class="badge yellow" v-if="x.data.find(x => x.type === 'answer')">●</span>
+							</li>
+						</template>
+					</p-list-linear> -->
+				</div>
+			</div>
+		</div>
+		<div v-if="expandable">
+			<button @click="_limit = _limit === (limit || 4) ? 100000 : (limit || 4)">Zobrazit {{ _limit === 100000 ? 'méně' : 'více' }}</button>
+		</div>
+	</p-list>
+</div>

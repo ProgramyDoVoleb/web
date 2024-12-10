@@ -1,0 +1,435 @@
+<div class="layout-party">
+	<p-layout-divided>
+		<template #main>
+			<div class="hide-60rem fr">
+				<logo-item :reg="party.reg" size="6rem"></logo-item>
+			</div>
+			<p-block :headline="party.short" :subheadline="party.name != party.short ? party.name : null" :level="1">
+				<p class="smaller">Zde najdete informace o kandidátech v komunálních volbách a také přehled kandidátů, které strana nominuje nebo podporuje v jednotlivých obvodech.</p>
+				<loader-element :rule="data">
+					<div v-if="data">
+						<div class="hide-60rem">
+							<p-area>
+								<div class="town-stats-flex">
+									<div>
+										<p-area>
+											<strong>Statutární města</strong>
+											<p-line-graph :value="pct(data.custom.activity.count._3[0], data.custom.activity.count._3[1])" :color=data.csu.color></p-line-graph>
+											<p>{{ data.custom.activity.count._3[0] }} z {{ data.custom.activity.count._3[1] }}</p>
+										</p-area>
+									</div>
+									<div>
+										<p-area>
+											<strong>Města</strong>
+											<p-line-graph :value="pct(data.custom.activity.count._2[0], data.custom.activity.count._2[1])" :color=data.csu.color></p-line-graph>
+											<p>{{ data.custom.activity.count._2[0] }} z {{ data.custom.activity.count._2[1] }}</p>
+										</p-area>
+									</div>
+									<div>
+										<p-area>
+											<strong>Senátní obvody</strong>
+											<p-line-graph :value="Math.round(data.csu.nom_senate/27*10000)/100" :color=data.csu.color></p-line-graph>
+											<p>{{ data.csu.nom_senate }} z 27</p>
+										</p-area>
+									</div>
+									<div>
+										<p-area>
+											<strong>Městské části</strong>
+											<p-line-graph :value="pct(data.custom.activity.count._5[0], data.custom.activity.count._5[1])" :color=data.csu.color></p-line-graph>
+											<p>{{ data.custom.activity.count._5[0] }} z {{ data.custom.activity.count._5[1] }}</p>
+										</p-area>
+									</div>
+									<div>
+										<p-area>
+											<strong>Městysy</strong>
+											<p-line-graph :value="pct(data.custom.activity.count._6[0], data.custom.activity.count._6[1])" :color=data.csu.color></p-line-graph>
+											<p>{{ data.custom.activity.count._6[0] }} z {{ data.custom.activity.count._6[1] }}</p>
+										</p-area>
+									</div>
+									<div>
+										<p-area>
+											<strong>Zastupitelstva</strong>
+											<p-line-graph :value="Math.round(data.csu.nom_towns/6354*10000)/100" :color=data.csu.color></p-line-graph>
+											<p>{{ data.csu.nom_towns }} z 6 354</p>
+										</p-area>
+									</div>
+								</div>
+							</p-area>
+						</div>
+						<p-area v-if="party.coalition">
+							<h4>{{ party.type === 1 ? 'Sdružení' : 'Koalice' }}</h4>
+							<div v-for="(member, index) in party.coalition">
+								<p-gap v-if="index > 0" height=".25"></p-gap>
+								<party-link :reg="member"></party-link>
+							</div>
+						</p-area>
+					</div>
+				</loader-element>
+				<p class="smaller"><label><input type="checkbox" v-model="compact"> Zobrazit zkrácený výpis</label></p>
+				<p-block headline="Komunální volby">
+					<loader-element :rule="data">
+						<div v-if="data && data.towns.length > 0">
+							<!-- <p class="smaller" v-if="data.towns_limited"><i>{{ party.short }}</i> kandiduje či má své členy na kandidátce pouze <p-lang :value="data.towns_limited" :end="['', 'v jedné obci', 've %% obcích', 'v %% obcích']"></p-lang>.</p> -->
+							<div class="columns" :class="{compact: compact && data.towns.length > 5}">
+								<template v-for="(town, index) in (data.towns_limited ? sortedTowns(data.custom.activity.towns) : $store.state.static.commons.selected)" :class="{'hide-on-mobile': !data.towns.find(x => x.num === town.num)}">
+									<div v-if="!compact || data.towns.length < 5">
+										<p-stats :after="true" :label="level(data.towns.find(x => x.num === town.num))" class="smaller">
+											<router-link :to="'/obec/' + town.num + '-' + betterURL(town.display)" :class="{b: data.towns.find(x => x.num === town.num), dimm: !data.towns.find(x => x.num === town.num)}">{{ town.display }}</router-link>
+										</p-stats>
+										<template v-if="data.towns.find(x => x.num === town.num)">
+											<template v-for="(item, index2) in data.towns.filter(x => x.num === town.num)">
+												<div class="p-gap_05"></div>
+												<leader-grid-item :data="item.data"></leader-grid-item>
+												<div class="p-gap_4 line"></div>
+											</template>
+										</template>
+										<div class="line">
+											<div class="p-gap_05"></div>
+											<div class="p-line p-line__0"></div>
+										</div>
+									</div>
+									<div v-if="compact && data.towns.length > 5">
+										<div class="split smaller">
+											<div>
+												<router-link :to="'/obec/' + town.num + '-' + betterURL(town.display)" :class="{b: data.towns.find(x => x.num === town.num), dimm: !data.towns.find(x => x.num === town.num)}">{{ town.display }}</router-link>
+											</div>
+											<div v-if="!data.towns.find(x => x.num === town.num)" class="smallest dimm">
+												<icon-element src="/static/icon/icon-against.svg" border="0px solid"></icon-element>
+											</div>
+											<div class="b" v-for="(item, index2) in data.towns.filter(x => x.num === town.num)">
+												<router-link :to="'/obec/' + town.num + '-' + betterURL(town.display) + '/' + item.data.csu.main.hash">{{ item.level.alone === 1 ? 'samostatně' : item.data.csu.main.party_short }}</router-link>&nbsp;<icon-element src="/static/icon/icon-check.svg" border="0px solid" class="smallest"></icon-element>
+											</div>
+										</div>
+									</div>
+								</template>
+							</div>
+							<div v-if="!data.towns_limited">
+								<div class="p-gap_2"></div>
+								<div class="query-input">
+									<input type="text" v-model="querySearchTown" :placeholder="'Kandiduje v obci ... ?'">
+								</div>
+								<template v-if="querySearchTownResults">
+									<!-- <loader-element type="table" :rule="querySearchTownSearching"> -->
+										<div class="columns">
+											<div v-for="(result, index) in querySearchTownResults" class="result">
+												<div class="result-holder">
+													<div class="p-offset">
+														<div>
+															<p-box-icon :type="result.active ? 'icon-check' : 'icon-against'"></p-box-icon>
+														</div>
+														<div>
+															<div :after="true" :label="result.active ? 'ano' : 'ne'">
+																<router-link :to="'/obec/' + result.hash" :class="{'is-span': !result.active, 'b': result.active}">{{ result.data[6] }}</router-link>
+															</div>
+															<div class="smallest dimm">
+																<span v-if="!result.part">okres {{ result.district.name }}</span>
+																<span v-if="result.part">část obce {{ result.part.data[6] }}</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="p-gap_4"></div>
+									<!-- </loader-element> -->
+								</template>
+							</div>
+						</div>
+						<div v-if="data && data.towns.length === 0">
+							<p class="smaller"><i>{{ party.name }}</i> nekandiduje v žádné obci a na žádné kandidátce nelze najíst jejího člena.</p>
+						</div>
+						<div class="p-gap"></div>
+						<p-area>
+							<strong>Nejčastější spolupráce</strong>
+							<div class="p-gap"></div>
+							<p-list class="smaller">
+								<template v-for="(member, index) in cooperation.towns" v-if="index < 5">
+									<div class="p-split half">
+										<div>
+											<party-link :reg="member.party.reg"></party-link>
+										</div>
+										<div>
+											<p-line-graph :color="member.party.color" :value="pct(member.value, cooperation.towns[0].value)" :label="member.value"></p-line-graph>
+										</div>
+									</div>
+								</template>
+								<div class="b smaller" v-if="data && data.cooperation">Spolupráce se sdružením nezávislých kandidátů: {{ data.cooperation.towns._80 }}&times;</div>
+							</p-list>
+						</p-area>
+						<template v-if="party.type < 3">
+							<div>
+								<div class="p-gap"></div>
+								<!-- <h3>Účast ve sdruženích a koalicích</h3> -->
+								<div class="split-2 smaller">
+									<div>
+										<p-area>
+											<h4>Koalice politických stran či hnutí</h4>
+											<p-list>
+												<div v-for="(member, index) in cooperation.koalice" v-if="(index < 5 && cooperationLimits.koalice === true) || cooperationLimits.koalice === false">
+													<div class="p-split half">
+														<div>
+															<party-link :reg="member.reg" :avoid="true"></party-link>
+														</div>
+														<div>
+															<p-line-graph :color="gradient(member)" :value="pct(member.nom_towns, cooperation.koalice[0].nom_towns)" :label="member.nom_towns"></p-line-graph>
+														</div>
+													</div>
+												</div>
+											</p-list>
+										</p-area>
+									</div>
+									<div>
+										<p-area>
+											<h4>Sdružení s dalšími stranami a nezávislými kandidáty</h4>
+											<p-list>
+												<div v-for="(member, index) in cooperation.sdruzeni" v-if="(index < 5 && cooperationLimits.sdruzeni === true) || cooperationLimits.sdruzeni === false">
+													<div class="p-split half">
+														<div>
+															<party-link :reg="member.reg" :avoid="true"></party-link>
+														</div>
+														<div>
+															<p-line-graph :color="gradient(member)" :value="pct(member.nom_towns, cooperation.sdruzeni[0].nom_towns)" :label="member.nom_towns"></p-line-graph>
+														</div>
+													</div>
+												</div>
+											</p-list>
+										</p-area>
+									</div>
+								</div>
+							</div>
+						</template>
+						<div class="p-gap"></div>
+						<vote-element :hash="id" qid="up-or-down" question="Jaký bude zisk mandátů oproti roku 2018?" :answers="['Výrazně více', 'Více', 'Bez výrazné změny', 'Méně', 'Výrazně méně']"></vote-element>
+					</loader-element>
+				</p-block>
+				<p-block headline="Senátní volby">
+					<loader-element :rule="data">
+						<div v-if="data && data.senate.length > 0">
+							<div class="columns" :class="{compact}">
+								<template v-for="(obv, index) in senateList" :class="{'hide-on-mobile': !data.senate.find(x => x.obvod === obv.id)}" v-if="data.senate.length > 5 || data.senate.find(x => x.obvod === obv.id)">
+									<div v-if="!compact || data.senate.length < 5">
+										<p-stats :after="true" class="smaller" :label="level(data.senate.find(x => x.obvod === obv.id), true)">
+											<router-link :to="'/obvod/' + obv.id + '-' + betterURL(obv.display)" :class="{b: data.senate.find(x => x.obvod === obv.id), dimm: !data.senate.find(x => x.obvod === obv.id)}">{{ obv.display }}</router-link>
+											<span class="small dimm"> &mdash; {{ obv.id }}</span>
+										</p-stats>
+										<template v-if="data.senate.find(x => x.obvod === obv.id)">
+											<template v-for="(item, index2) in data.senate.filter(x => x.obvod === obv.id)">
+												<div class="p-gap_05"></div>
+												<senate-grid-item :data="item.data"></senate-grid-item>
+												<div class="p-gap_4 line"></div>
+											</template>
+										</template>
+										<div class="line">
+											<div class="p-gap_05"></div>
+											<div class="p-line p-line__0"></div>
+										</div>
+									</div>
+									<div v-if="compact && data.senate.length >= 5">
+										<div class="split smaller">
+											<div>
+												<router-link :to="'/obvod/' + obv.id + '-' + betterURL(obv.display)" :class="{b: data.senate.find(x => x.obvod === obv.id), dimm: !data.senate.find(x => x.obvod === obv.id)}">{{ obv.display }}</router-link>
+												<span class="small dimm"> &mdash; {{ obv.id }}</span>
+											</div>
+											<div v-if="!data.senate.find(x => x.obvod === obv.id)" class="dimm smallest">
+												<icon-element src="/static/icon/icon-against.svg" border="0px solid"></icon-element>
+											</div>
+											<div v-for="(item, ii) in data.senate.filter(x => x.obvod === obv.id)" class="b">
+												<router-link :to="'/obvod/' + obv.id + '-' + betterURL(obv.display) + '/' + item.data.csu.main.hash">{{ item.data.csu.main.cand_name.charAt(0) }}. {{ item.data.csu.main.cand_family }}</router-link>&nbsp;<icon-element src="/static/icon/icon-check.svg" border="0px solid" class="smallest"></icon-element>
+											</div>
+										</div>
+									</div>
+								</template>
+							</div>
+						</div>
+						<div v-if="data && data.senate.length === 0" class="smaller">
+							<i>{{ party.name }}</i> nemá žádného vlastního či koaličního kandidáta do Senátu ani žádného jiného nepodporuje nebo nedoporučuje.
+						</div>
+						<div class="p-gap"></div>
+						<p-area>
+							<strong>Nejčastější spolupráce</strong>
+							<div class="p-gap"></div>
+							<p-list class="smaller">
+								<template v-for="(member, index) in cooperation.senate" v-if="index < 5">
+									<div class="p-split half">
+										<div>
+											<party-link :reg="member.party.reg"></party-link>
+										</div>
+										<div>
+											<p-line-graph :color="member.party.color" :value="pct(member.value, cooperation.senate[0].value)" :label="member.value"></p-line-graph>
+										</div>
+									</div>
+								</template>
+							</p-list>
+						</p-area>
+					</loader-element>
+				</p-block>
+
+
+				<div class="p-gap"></div>
+
+
+
+				<p-block headline="Novinky">
+					<p-area v-if="news.length > 0">
+						<p-list padding="2rem">
+							<template v-for="(news, index) in news" v-if="index < 5">
+								<news-item :data="news" :direct="true"></news-item>
+							</template>
+						</p-list>
+						<collapsible-element label="Starší zprávy" v-if="news.length > 5">
+							<p-list padding="2rem">
+								<template v-for="(news, index) in news" v-if="index > 4">
+									<news-item :data="news" :direct="true"></news-item>
+								</template>
+							</p-list>
+						</collapsible-element>
+					</p-area>
+
+					<p class="smaller">Zaznamenali jste novinku ohledně něčí kandidatury? Prosím napište:</p>
+					<p-box-group>
+						<p-box>
+							<tip-form type="primator">
+								<p-box-button color="#07ae1c">Upozornit na novinku</p-box-button>
+							</tip-form>
+						</p-box>
+						<p-box to="/archiv-novinek">
+							<p-box-button>Starší zprávy</p-box-button>
+						</p-box>
+					</p-box-group>
+				</p-block>
+
+				<p-block headline="Odkazy" v-if="links && links.length > 0">
+					<!-- <h3>Odkazy</h3> -->
+					<p-grid>
+						<template v-for="(link, index) in links">
+							<p-box-group v-if="link.color">
+								<p-box :block="true" :href="link.url">
+									<p-box-icon :type="link.type"></p-box-icon>
+									<p-box-label>{{ link.label }}</p-box-label>
+								</p-box>
+							</p-box-group>
+						</template>
+						<template v-for="(link, index) in links">
+							<p-box-group v-if="!link.color && link.type != 'link'">
+								<p-box :block="true" :href="link.url">
+									<p-box-icon :type="link.type"></p-box-icon>
+									<p-box-label>{{ link.label }}</p-box-label>
+								</p-box>
+							</p-box-group>
+						</template>
+						<template v-for="(link, index) in links">
+							<p-box-group v-if="!link.color && link.type === 'link'">
+								<p-box :block="true" :href="link.url">
+									<p-box-icon :type="link.type"></p-box-icon>
+									<p-box-label>{{ link.label }}</p-box-label>
+								</p-box>
+							</p-box-group>
+						</template>
+						<p-box-group>
+							<modal-element>
+								<template #init>
+									<p-box :block="true">
+										<p-box-button color="#07ae1c" icon="plus-green.svg">odkaz</p-box-button>
+									</p-box>
+								</template>
+								<template #content>
+									<link-add :hash="hash" :name="name"></link-add>
+								</template>
+							</modal-element>
+						</p-box-group>
+					</p-grid>
+				</p-block>
+			<!-- <p-block headline="Přístupy" :hide="true" v-if="data"> -->
+					<request-access :hash="id" :type="4" :display="data.csu.short" v-if="data"></request-access>
+			<!-- </p-block> -->
+			</p-block>
+			<p-block :level="1" headline="Ostatní strany" :hide="true">
+				<p-area>
+					<h3>Vybrané české strany a hnutí</h3>
+					<div class="p-line"></div>
+					<p-flex :flex="8" class="smallest">
+						<div v-for="(party, index) in $store.getters.parties().filter(x => x.level === 5)" class="text-center">
+							<router-link :to="'/strana/' + party.hash">
+								<logo-item :reg="party.reg" :size="6"></logo-item>
+								<br>
+								{{ party.short }}
+							</router-link>
+						</div>
+							<div v-for="(party, index) in $store.getters.parties().filter(x => x.level === 4)" class="text-center">
+								<router-link :to="'/strana/' + party.hash">
+									<logo-item :reg="party.reg" :size="6"></logo-item>
+									<br>
+									{{ party.short }}
+								</router-link>
+							</div>
+					</p-flex>
+					<div class="p-line"></div>
+					<p-box to="/strany">
+						<p-box-button>Kompletní přehled stran &rarr;</p-box-button>
+					</p-box>
+					<div class="p-gap"></div>
+				</p-area>
+			</p-block>
+		</template>
+		<template #anchors>
+			<logo-item :reg="party.reg" :size="'12rem'"></logo-item>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<strong>Stručně</strong>
+			<div class="p-gap"></div>
+			<p-area class="smaller" v-if="data">
+				<p-list>
+					<div>
+						<h4>Komunální volby</h4>
+						<template v-if="data.csu.nom_towns > 0">
+							<div class="town-stats" v-if="data.custom.activity.count">
+								<p-line-graph :value="pct(data.custom.activity.count._3[0], data.custom.activity.count._3[1])" :color=data.csu.color></p-line-graph>
+								<p><p-lang :value="data.custom.activity.count._3[0]" :end="['', 'V jednom statutárním městě', 'Ve %% statutárních městech', 'V %% statutárních městech']"></p-lang> z {{ data.custom.activity.count._3[1] }}.</p>
+								<p-line-graph :value="pct(data.custom.activity.count._2[0], data.custom.activity.count._2[1])" :color=data.csu.color></p-line-graph>
+								<p><p-lang :value="data.custom.activity.count._2[0]" :end="['', 'V jednom městě', 'Ve %% městech', 'V %% městech']"></p-lang> z {{ data.custom.activity.count._2[1] }}.</p>
+								<p-line-graph :value="pct(data.custom.activity.count._6[0], data.custom.activity.count._6[1])" :color=data.csu.color></p-line-graph>
+								<p><p-lang :value="data.custom.activity.count._6[0]" :end="['', 'V jednom městysu', 'Ve %% městysech', 'V %% městysech']"></p-lang> z {{ data.custom.activity.count._6[1] }}.</p>
+								<p-line-graph :value="pct(data.custom.activity.count._5[0], data.custom.activity.count._5[1])" :color=data.csu.color></p-line-graph>
+								<p><p-lang :value="data.custom.activity.count._5[0]" :end="['', 'V jedné městské části', 'Ve %% městských částech', 'V %% měststých částech']"></p-lang> z {{ data.custom.activity.count._5[1] }}.</p>
+								<p-line-graph :value="Math.round(data.csu.nom_towns/6354*10000)/100" :color=data.csu.color></p-line-graph>
+								<p><p-lang :value="data.csu.nom_towns" :end="['', 'Do jednoho zastupitelstva', 'Do %% zastupitelstev', 'Do %% zastupitelstev']"></p-lang> z 6 354 celkem.</p>
+							</div>
+							<div class="p-line"></div>
+							<p><p-lang :value="data.csu.nom_nominees" :end="['', 'Nominován jeden kandidát.', 'Nominováni %% kandidáti.', 'Nominováno %% kandidátů.']"></p-lang></p>
+							<p>Do voleb <p-lang :value="data.csu.nom_members" :end="['nejde ani jeden člen', 'jde jeden člen.', 'jdou %% členové.', 'jde %% členů.']"></p-lang></p>
+						</template>
+						<template v-if="data.csu.nom_towns === 0">
+							<p><i>{{ party.name }}</i> se komunálních voleb neúčastní ani nemá na nějaké kandidátní listině svého člena.</p>
+						</template>
+					</div>
+					<div>
+						<h4>Senátní volby</h4>
+						<p-line-graph :value="Math.round(data.csu.nom_senate/27*10000)/100" :color=data.csu.color></p-line-graph>
+						<p v-if="data.senate.length > 0">
+							{{ party.name }} <p-lang :value="data.senate.length" :end="['se voleb do Senátu neúčastní', 'podporuje jednoho kandidáta', 'podporuje %% kandidáty', 'podporuje %% kandidátů']"></p-lang>
+						</p>
+						<p v-if="data.senate.length === 0">
+							<i>{{ party.name }}</i> nemá žádného kandidáta do Senátu.
+						</p>
+					</div>
+				</p-list>
+
+			</p-area>
+			<div class="p-gap"></div>
+			<template v-if="data">
+				<!-- <template v-for="(dp, index) in data.party.list" v-if="dp.links"> -->
+					<p-box-group>
+						<template v-for="(link, index2) in data.custom.links" v-if="['wiki', 'link'].indexOf(link.type) === -1">
+							<p-box :href="link.link">
+								<p-box-icon :type="link.type"></p-box-icon>
+							</p-box>
+						</template>
+					</p-box-group>
+					<div class="p-gap"></div>
+				<!-- </template> -->
+			</template>
+		</template>
+	</p-layout-divided>
+</div>

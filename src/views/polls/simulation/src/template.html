@@ -1,0 +1,295 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #anchors>
+			<p-anchors></p-anchors>
+		</template>
+		<template #main>
+			<p-block headline="Výpočet mandátů" :level="1">
+				<p class="lead">Přepočet hlasů na mandáty jednotlivým stranám a do jednotlivých krajů má několik kroků. Zde si můžete vyzkoušet, co by libovolný průzkum znamenal a jak by pak vypadalo složení Sněmovny.</p>
+				<select v-model="type" v-if="polls">
+					<template v-for="(poll, index) in polls.list.filter(x => x.pollofpolls && x.pollofpolls === 1)">
+						<option v-if="index < 8" :value="index">{{ poll.agency }}, {{ poll.title }}, {{ date(poll.datum) }} </option>
+					</template>
+					<option disabled>---</option>
+					<option :value="-1">Vlastní data</option>
+					<option :value="-2">Vlastní krajská účast a podrobná data</option>
+				</select>
+				<template v-if="type === -1 && parties">
+					<div class="p-gap"></div>
+					<p-area>
+							<p-list>
+								<div v-for="(data, index) in defined.data.parties">
+									<p-box-group>
+										<p-box :click="() => defined.data.parties.splice(index, 1)">
+											<p-box-button class="red">&times;</p-box-button>
+										</p-box>
+										<p-box>
+											<p-box-image v-if="data.hash && $getParty(data.hash).$data.logo[0]" :src="$getParty(data.hash).$data.logo[0].value"></p-box-image>
+											<p-box-color v-if="!data.hash && data.color" :color="data.color"></p-box-color>
+											<p-box-color v-if="!data.hash && !data.color" color="#888888"></p-box-color>
+											<p-box-label>{{ data.short }}</p-box-label>
+											<p-box-gap></p-box-gap>
+											<p-box-ticker>{{ data.rs }} %</p-box-ticker>	
+										</p-box>
+									</p-box-group>
+								</div>
+								<div>
+									<div class="smallest">Součet hodnot je {{ defined.data.parties.reduce((a, b) => a + b.rs, 0) }} %</div>
+								</div>
+							</p-list>
+							<div class="p-line"></div>
+							<p-area background="#f4f4f4">
+								<strong>Přidat stranu</strong>
+								<div class="p-gap"></div>
+								<p-box-group>
+									<p-box>
+										<p-box-label>
+											<input class="input-short" type="number" v-model.number="form.hash" placeholder="csu-id">
+										</p-box-label>
+										<p-box-label>
+
+											<p-modal ref="partylist">
+												<template #init> <span class="smallest dimm">vybrat</span>		</template>
+												<template #content>
+													<h4>Strany</h4>
+													<div class="columns" v-if="parties">
+														<div v-for="(party, index) in parties.list">
+															<span class="dimm">{{ party.VSTRANA }} </span>: <a class="is-link" @click="() => {form.hash = party.VSTRANA; form.short = party.ZKRATKA; form.logo = con(party.$data, 'logo'); form.color = con(party.$data, 'color', '#aaaaaa'); $refs.partylist.opened = false;}">{{ party.ZKRATKA }}</a>
+														</div>
+													</div>
+												</template>
+											</p-modal>
+										</p-box-label>
+										<p-box-label>
+											<input class="input-short" type="text" v-model="form.short" placeholder="jméno">
+										</p-box-label>
+										<p-box-label>
+											<input class="input-short" type="color" v-model="form.color" placeholder="barva">
+										</p-box-label>
+										<p-box-label>
+											<input class="input-short" type="number" v-model.number="form.rs" placeholder="hodnota">
+										</p-box-label>
+										<p-box-label>
+											<select v-model="form.coal">
+												<option :value="1">samostatně</option>
+												<option :value="2">koalice 2 stran</option>
+												<option :value="3">koalice 3 stran</option>
+												<option :value="4">koalice více stran</option>
+											</select>
+										</p-box-label>
+									</p-box>
+									<p-box :click="formAdd">
+										<p-box-button>Přidat</p-box-button>
+									</p-box>
+								</p-box-group>
+							</p-area>
+							<div class="p-line"></div>
+							<p-box-group>
+								<p-box :click="() => formUse()">
+									<p-box-button>Použít</p-box-button>
+								</p-box>
+								<p-box :click="() => useDefined = false">
+									<p-box-button>Zrušit</p-box-button>
+								</p-box>
+							</p-box-group>
+							
+					</p-area>
+				</template>
+				<template v-if="type === -2 && parties">
+					<div class="p-gap"></div>
+					<p-area>
+
+						<h4>
+							Účast / <span class="smallest dimm">Nastavit podle <span class="is-link" @click="complexSet(2021)">voleb 2021</span> / Platné hlasy <span class="is-link" @click="setValid(100)">100 %</span> &middot; podle <span class="is-link" @click="setValid(2021)">voleb 2021</span> &middot; <input type="checkbox" v-model="showValid" class="inline"> <span class="is-link" @click="showValid = !showValid">vlastní</span></span>
+						</h4>
+							<div class="columns">
+								<div v-for="(region, index) in enums.regions" :data-tick="complex.tick">
+									<p-box-group>
+										<p-box :block="true">
+											<p-box-label>
+												<div>
+													{{ region }}
+													<div class="smallest dimm">
+														{{ votes.regions[index] }}
+													</div>
+												</div>
+											</p-box-label>
+											<p-box-gap></p-box-gap>
+											<p-box-label>
+												<input class="input-short" type="number" min="0" max="100" v-model.number="complex.attendance[index]">
+												<input v-if="showValid" class="input-short" type="number" min="0" max="100" v-model.number="complex.valid[index]">
+											</p-box-label>
+										</p-box>
+									</p-box-group>
+								</div>
+								<div>
+									<p-box-group>
+										<p-box :block="true">
+											<p-box-label>
+												<div>
+													Zahraničí
+													<div class="smallest dimm">
+														{{ votes.regions[14] }}
+													</div>
+												</div>
+											</p-box-label>
+											<p-box-gap></p-box-gap>
+											<p-box-label>
+												<input class="input-short" type="number" min="0" max="100" v-model.number="complex.attendance[14]">
+												<input v-if="showValid" class="input-short" type="number" min="0" max="100" v-model.number="complex.valid[14]">
+											</p-box-label>
+										</p-box>
+									</p-box-group>
+								</div>
+							</div>
+							<div class="p-gap"></div>
+							<h4>Strany / <span class="smallest dimm">Nastavit podle
+								<p-list-linear v-if="polls" class="or">
+									<template v-for="(poll, index) in polls.list">
+										<li v-if="index < 4">
+											<button class="inline" @click="pollSet(poll, true)">{{ poll.agency }} {{ date(poll.datum )}}</button> 
+										</li>
+									</template>
+									<li>
+										<button class="inline" @click="partiesSet(1, true)">voleb 2021</button>
+									</li>
+								</p-list-linear>
+							</span></h4>
+							
+							<p-list>
+								<div v-for="(data, index) in defined.data.parties">
+									<p-box-group>
+										<p-box :click="() => defined.data.parties.splice(index, 1)">
+											<p-box-button class="red">&times;</p-box-button>
+										</p-box>
+										<p-box>
+											<p-box-image v-if="data.hash && $getParty(data.hash).$data.logo[0]" :src="$getParty(data.hash).$data.logo[0].value"></p-box-image>
+											<p-box-color v-if="!data.hash && data.color" :color="$getParty(data.hash).color"></p-box-color>
+											<p-box-color v-if="!data.hash && !data.color" color="#888888"></p-box-color>
+											<p-box-label>{{ data.short }}</p-box-label>
+											<p-box-gap></p-box-gap>
+											<p-box-ticker>{{ data.rs }} %</p-box-ticker>	
+										</p-box>
+									</p-box-group>
+								</div>
+								<div>
+									<div class="smallest">Součet hodnot je {{ defined.data.parties.reduce((a, b) => a + b.rs, 0) }} %</div>
+								</div>
+							</p-list>
+							
+							<div v-if="defined.data.parties.length < 10">
+								<strong>Přidat stranu</strong>
+								<div class="p-gap"></div>
+								<p-box-group>
+									<p-box>
+										<p-box-label>
+											<input class="input-short" type="number" v-model.number="form.hash" placeholder="csu-id">
+										</p-box-label>
+										<p-box-label>
+
+											<p-modal ref="partylist">
+												<template #init> <span class="smallest dimm">vybrat</span>		</template>
+												<template #content>
+													<h4>Strany</h4>
+													<div class="columns" v-if="parties">
+														<div v-for="(party, index) in parties.list">
+															<span class="dimm">{{ party.VSTRANA }} </span>: <a class="is-link" @click="() => {form.hash = party.VSTRANA; form.short = party.ZKRATKA; form.logo = con(party.$data, 'logo'); form.color = con(party.$data, 'color', '#aaaaaa'); $refs.partylist.opened = false;}">{{ party.ZKRATKA }}</a>
+														</div>
+													</div>
+												</template>
+											</p-modal>
+										</p-box-label>
+										<p-box-label>
+											<input class="input-short" type="text" v-model="form.short" placeholder="jméno">
+										</p-box-label>
+										<p-box-label>
+											<input class="input-short" type="color" v-model="form.color" placeholder="barva">
+										</p-box-label>
+										<p-box-label>
+											<input class="input-short" type="number" v-model.number="form.rs" placeholder="hodnota">
+										</p-box-label>
+										<p-box-label>
+											<select v-model="form.coal">
+												<option :value="1">samostatně</option>
+												<option :value="2">koalice 2 stran</option>
+												<option :value="3">koalice 3 stran</option>
+												<option :value="4">koalice více stran</option>
+											</select>
+										</p-box-label>
+									</p-box>
+									<p-box :click="formAdd">
+										<p-box-button>Přidat</p-box-button>
+									</p-box>
+								</p-box-group>
+							</div>
+							<div class="p-gap"></div>
+							<h4>Hlasy v krajích</h4>
+							<button @click="balanceComplex">Balancovat</button>
+							<button @click="balanceBasic">Všude stejně</button>
+							<div class="p-gap"></div>
+							<div class="scrollable">
+								<table class="smaller" :data-tick="complex.tick">
+									<thead>
+										<tr>
+											<th>Kraj</th>
+											<th class="text-center">&sum;</th>
+											<th v-for="(party, index) in defined.data.parties"><p-label :color="party.color" :after="true">{{ party.short }}</p-label></th>
+										</tr>
+									</thead>
+									<tbody v-if="defined.data.parties.length > 0">
+										<tr v-for="(region, index) in enums.regionsShort">
+											<td class="b">{{ region }}</td>
+											<td class="text-center dimm tiny" :class="{red: (complex.parties.reduce((a, b) => a + b[index], 0)) > 100}">{{ Math.floor(complex.parties.reduce((a, b) => a + b[index], 0)) }}</td>
+											<td v-for="(party, index2) in defined.data.parties" class="table-input-td">
+												<input type="number" class="table-input-field" v-model.number="complex.parties[index2][index]">
+												<div class="tiny dimm">~ {{ number(Math.floor(votes.regions[index] * complex.parties[index2][index] / 100)) }}</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="b">Zahraničí</td>
+											<td class="text-center dimm tiny">{{ Math.floor(complex.parties.reduce((a, b) => a + b[14], 0)) }}</td>
+											<td v-for="(party, index2) in defined.data.parties" class="table-input-td">
+												<input type="number" class="table-input-field" v-model.number="complex.parties[index2][14]">
+												<div class="tiny dimm">~ {{ number(Math.ceil(votes.regions[14] * complex.parties[index2][14] / 100)) }}</div>
+											</td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td> <strong>Celkem %</strong>	</td>
+											<td></td>
+											<td v-for="(party, index2) in results">
+												<div class="smallest" v-if="index2 < defined.data.parties.length">
+													{{ party.pct }} %
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td> <strong>Celkem hlasů</strong>	</td>
+											<td></td>
+											<td v-for="(party, index2) in results">
+												<div class="smallest" v-if="index2 < defined.data.parties.length">
+													{{ number(party.votes) }} ~
+												</div>
+											</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+							<div class="p-line"></div>
+							<p-box-group>
+								<p-box :click="() => complexUse()">
+									<p-box-button color="#134d8c">Použít</p-box-button>
+								</p-box>
+								<p-box :click="() => useDefined = false">
+									<p-box-button>Zrušit</p-box-button>
+								</p-box>
+							</p-box-group>
+						</p-area>
+				</template>
+				<div id="scrollHereAfterCustomSetting"></div>
+			</p-block>
+			<election-simulation-imperiali-2021 v-if="type > -3 && tick > 0" :defined="defined" :definedAttendance="useComplex ? complex.attendance : null" :tickDefined="tick"></election-simulation-imperiali-2021>
+		</template>
+	</p-layout-divided>
+</div>

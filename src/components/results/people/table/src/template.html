@@ -1,0 +1,50 @@
+<div class="results-parties-table">
+	<table>
+		<thead>
+			<tr v-if="display[0].ref">
+				<th></th>
+				<th v-if="!display[0].ref || !global || width > widthLimit" colspan="2" class="text-right">
+					Místní
+					<span v-if="width <= widthLimit">&middot; <button class="inline" @click="global =! global">CELKOVÉ</button></span>
+				</th>
+				<th v-if="display[0].ref && global || width > widthLimit" colspan="2" class="text-right" :class="{'_ref': width > widthLimit}">
+					<span v-if="width <= widthLimit"><button class="inline" @click="global =! global">MÍSTNÍ</button> &middot; </span>Celkové
+				</th>
+			</tr>
+			<tr>
+				<th>Kandidát</th>
+				<template v-if="!display[0].ref || !global || width > widthLimit">
+					<th class="text-right">%</th>
+					<th class="text-right">&sum;</th>
+				</template>
+				<template v-if="display[0].ref">
+					<template v-if="display[0].ref && global || width > widthLimit">
+						<th class="text-right" :class="{'_ref': width > widthLimit}">%</th>
+						<th class="text-right">&sum;</th>
+					</template>
+				</template>
+			</tr>
+		</thead>
+		<tbody>
+			<template v-for="(item, index) in display">
+				<tr :class="{'smaller no-mandat': kolo === 1 ? !item.passed : !item.mandate, 'rest dimm': !item.link}">
+					<td class="_pr">
+						<p-label :color="item.color"><component :is="item.link ? 'router-link' : 'span'" :to="item.link">{{ item.label }}</component></p-label>
+						<div class="smallest dimm">{{ item.party }}</div>
+						<span class="graph-line-holder"><span class="graph-line" :style="{width: item.graph + '%', background: item.color}"></span></span>
+					</td>
+					<template v-if="!display[0].ref || !global || width > widthLimit">
+						<td class="text-right">{{ number(item.pct, 2) }}</td>
+						<td class="text-right">{{ number(item.votes) }}</td>
+					</template>
+					<template v-if="item.ref">
+						<template v-if="item.ref && global || width > widthLimit">
+							<td class="text-right" :class="{'_ref': width > widthLimit}">{{ number(item.ref['round' +kolo].pct, 2) }}</td>
+							<td class="text-right">{{ number(item.ref['round' +kolo].votes) }}</td>
+						</template>
+					</template>
+				</tr>
+			</template>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,22 @@
+<div class="stats-multi box">
+	<div class="stats-tiny-content" :style="{width: width || 'initial'}">
+		<svg :viewBox="viewBox" :width="width || '100%'" :height="height" ref="svg">
+			<stats-line :data="line" v-for="(line, index) in data" :key="'line_' + index" :inline="true" :size="height" :minL="minLabel" :maxL="maxLabel" :minV="minValue" :maxV="maxValue" :color="line.color" />
+			<g v-for="(axis, index) in labelX.lines" :class="{highlight: axisX.highlight ? axisX.highlight.indexOf(axis.label) > -1 : false}">
+				<line :x1="axis.x" :x2="axis.x" y1="0" y2="95%"  />
+				<text :x="axis.x" y="99%">{{ axis.label }}</text>
+			</g>
+		</svg>
+		<p class="center">
+			min {{ minValue }}{{ data[0].addLabel || '' }}, max {{ maxValue }}{{ data[0].addLabel || '' }}
+		</p>
+		<div class="legend">
+			<div class="columns-2-3">
+				<div class="item" v-for="(item, index) in data">
+					<i :style="{background: item.color}" />
+					{{ item.title }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

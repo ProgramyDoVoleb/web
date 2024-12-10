@@ -1,0 +1,24 @@
+<div class="election-poll">
+	<div class="smaller">
+		<strong><p-link :href="data.link">{{ data.agency }}</p-link></strong> &middot; {{ date(data.datum) }}
+	</div>
+	<div class="p-gap_05"></div>	
+	<table class="smaller" v-if="data">
+		<thead>
+			<tr>
+				<th>Strana</th>
+				<th></th>
+				<th>%</th>
+				<th>&sum;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="(entry, index) in data.entries">
+				<td>{{ data.cis.strany.find(x => x.VSTRANA === entry.party).ZKRATKA }}</td>
+				<td><p-line-graph :value="(entry.value / data.entries[0].value) * 100" label="" :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === entry.party), data)"></p-line-graph></td>
+				<td>{{ entry.value }}</td>
+				<td>{{ dhondt[index].mandates > 0 ? dhondt[index].mandates : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

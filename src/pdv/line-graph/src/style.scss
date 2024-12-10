@@ -1,0 +1,53 @@
+.p-line-graph---area {
+  background: rgba(0,0,0,.05);
+  position: relative;
+  width: 100%;
+  border-radius: .4rem;
+  overflow: hidden;
+
+  .dark & {
+    background: var(--darker);
+  }
+}
+
+.p-line-graph---value {
+  height: 1.6rem;
+  border-radius: .4rem;
+  width: 0;
+  transition: width 1s ease-out;
+  transition: width 1s cubic-bezier(0.435, 0.000, 0.145, 1.000);
+
+  .dark & {
+    border-right: 1px inset var(--whiteish);
+    border-bottom: 1px inset var(--whiteish);
+  }
+}
+
+.p-line-graph---note {
+  position: absolute;
+  right: .66em;
+  top: .3rem;
+  font-size: .8rem;
+  text-shadow: -.08em -.08em rgba(#fff, .9);
+
+  .dark & {
+    text-shadow: none;
+  }
+}
+
+.p-line-graph---append {
+  color: rgba(0,0,0,.5);
+  font-size: .8rem;
+  position: absolute;
+  top: .3rem;
+  left: .2em;
+  margin-left: .5em;
+
+  .dark & {
+    color: #ccc;
+  }
+}
+
+.p-line-graph + .p-line-graph {
+  margin-top: 2px;
+}

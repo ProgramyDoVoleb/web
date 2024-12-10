@@ -1,0 +1,184 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #main>
+			<p-block :headline="about.data.name + ' v České republice'" :level="1">
+				<p-loader :rule="nearest" v-if="about.key != 'REFER'">
+					<p v-if="elections && nearest.regular">
+						<p-label color="var(--blue)">Příští</p-label>
+						řádné volby budou 
+						<router-link :to="'/volby/' + hash + '/' + nearest.regular.id">{{ date(nearest.regular.datum) }}</router-link>.
+					</p>
+					<p v-if="elections && !nearest.regular && nearest.outlook">
+						<p-label color="var(--blue)">Příští</p-label>
+						řádné volby budou zřejmě
+						<router-link :to="'/volby/' + hash + '/' + nearest.outlook.id">{{ nearest.outlook.cirka }}</router-link>.
+					</p>
+					<p v-if="elections && !nearest.regular && !nearest.outlook">
+						<p-label color="var(--blue)">Příští</p-label>
+						řádné volby budou zřejmě v roce 
+						<template v-if="about.key === 'PS'">2025</template>
+						<template v-if="about.key === 'KV'">2026</template>
+						<template v-if="about.key === 'PREZ'">2028</template>
+					</p>
+					<p v-if="elections && nearest.extra && about.key === 'KV'">
+						<p-label color="var(--blue)">Nejbližší</p-label>
+						mimořádné komunální volby budou 
+						<router-link :to="'/volby/' + hash + '/' + nearest.extra.id">{{ date(nearest.extra.datum) }}</router-link> 
+						a týkají se 
+						<p-lang :value="nearest.extra.$dotcene.length" :end="['', 'jedné obce', '%% obcí', '%% obcí']"></p-lang>:
+						<p-list-linear>
+							<template v-for="(town, index) in nearest.extra.$dotcene">
+								<li>
+									<router-link :to="'/obec/' + town.NUM" class="is-span">{{ town.NAZEV }}</router-link>
+								</li>
+							</template>
+						</p-list-linear>
+					</p>
+				</p-loader>
+				<div class="p-gap_2"></div>
+				<p-block headline="Řádné volby">
+					<p-loader :rule="elections">
+						<template v-if="elections">
+							<p-grid>
+								<template v-for="(election, index) in list.filter(x => x.radne === 1 && x.datum)">
+									<div>
+										<p-area :icon2="hash === 'referendum' ? null : hash" borderColor="var(--blue)">
+											<router-link :to="'/volby/' + hash + '/' + election.id" class="b" :class="{red: election.datum > today}">{{ election.datum ? election.datum.split('-')[0] : election.cirka }}</router-link>
+											<div class="p-gap_05"></div>
+											<div>
+												<p-list class="smaller tight">
+													<template v-if="election.$ucast && election.$ucast.length > 0">
+														<div v-for="(uc, inuc) in election.$ucast">
+															<div class="split">
+																<div v-if="election.$ucast.length === 1">
+																	Účast
+																</div>
+																<div v-if="election.$ucast.length === 2">
+																	{{ inuc + 1 }}. kolo
+																</div>
+																<div>
+																	<p-line-graph :value="uc.UCAST" color="var(--blue)"></p-line-graph>
+																</div>
+															</div>															
+														</div>
+													</template>
+													<template v-if="election.datum > today">
+														<div>
+															Datum voleb: {{ date(election.datum) }}
+														</div>
+													</template>
+													<template v-if="election.$obci">
+														<div>
+															<p-lang :value="election.$obci" :end="['', 'jedno zastupitelstvo', '%% zastupitelstva', '%% zastupitelstev']"></p-lang>
+														</div>
+													</template>
+													<template v-if="election.$stran">
+														<div>
+															<p-lang :value="election.$stran" :end="['', 'jedna kandidátní listina', '%% kandidátní listiny', '%% kandidátních listin']"></p-lang>
+														</div>
+													</template>
+													<template v-if="election.$kandidatu">
+														<div>
+															<p-lang :value="election.$kandidatu" :end="['', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>
+														</div>
+													</template>
+												</p-list>
+											</div>
+										</p-area>
+									</div>
+								</template>
+							</p-grid>
+						</template>
+					</p-loader>
+				</p-block>
+			</p-block>
+			<p-block headline="Přehled voleb" :level="1" class="p-block---up" :hide="true" v-if="list && list.find(x => x.radne === 0)">
+				<p-block :open="true" headline="Příští volby" v-if="list && list.filter(x => x.datum === null || x.datum > today).length > 0">
+					<p-loader :rule="elections">
+						<div class="election-timeline">
+							<ol v-if="elections">
+								<template v-for="(election, index) in list.filter(x => x.radne === 1 && (x.datum === null))">
+									<li>
+										<volby-item :election="election"></volby-item>
+									</li>
+								</template>
+								<template v-for="(election, index) in list.filter(x => x.radne < 2 && (x.datum > today))">
+									<li>
+										<volby-item :election="election"></volby-item>
+									</li>
+								</template>
+							</ol>
+						</div>
+					</p-loader>
+				</p-block>
+				<template v-if="list">
+					<p-block headline="Uplynulé volby" :hide="list.filter(x => x.datum === null || x.datum > today).length === 0">
+						<p-loader :rule="elections">
+							<div class="election-timeline">
+								<ol v-if="elections">
+									<template v-for="(election, index) in list.filter(x => (x.datum < today))">
+										<li>
+											<volby-item :election="election"></volby-item>
+										</li>
+									</template>
+								</ol>
+							</div>
+						</p-loader>
+					</p-block>
+				</template>
+			</p-block>
+			<div class="p-gap_4"></div>
+			<p-block headline="Krátce o volbách">
+				<p>{{ about.data.about }}</p>
+			</p-block>
+			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: about.key === 'REFER' ? cdn + 'el/generic-2023.png' : cdn + 'icon/' + hash +'.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+			<div class="p-gap_2"></div>
+			<strong>Typy voleb</strong>
+			<div class="p-gap"></div>
+			<p-list class="smaller tight">
+				<div v-for="(el, i) in election_types">
+					<router-link :to="'/volby/' + el.hash">{{ el.name }}</router-link>
+				</div>
+			</p-list>
+		</template>
+		<template #aside>
+			<p-list class="spacey">
+				<div>
+					<strong>Novinky</strong>
+					<div class="p-gap"></div>
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
+							<p-list>
+								<template v-for="(news, index) in news.list">
+									<div>
+										<news-item :data="news" :noSource="true"></news-item>
+									</div>
+								</template>
+							</p-list>
+						</div>
+					</p-loader>
+				</div>
+				<div>
+					<strong>Za oponou</strong>
+					<div class="p-gap"></div>
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
+							<p-list>
+								<template v-for="(news, index) in news.sys">
+									<div>
+										<news-item :data="news" :noSource="true"></news-item>
+									</div>
+								</template>
+							</p-list>
+						</div>
+					</p-loader>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

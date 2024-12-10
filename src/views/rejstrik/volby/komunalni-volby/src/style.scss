@@ -1,0 +1,25 @@
+._mncz .text-right {
+    width: 4em;
+    white-space: nowrap;
+}
+
+._townArea {
+    padding: .5em 0 .5em 1em !important;
+    margin-left: -.66em; //.66em;
+}
+
+.p-collapsible._okresy .lilili {
+    margin-left: .75em;
+
+    &.p-list {
+        margin-left: .1em;
+    }
+}
+
+._okresy:not(.p-collapsible) .lilili {
+    margin-left: 0;
+}
+
+._coalMember {
+    margin-right: 1em;
+}

@@ -1,0 +1,25 @@
+<div class="results-graph">
+	<ul>
+		<li v-for="(item, index) in data.list" :class="{'below': item.ptc < 5}" :style="{width: (100 / data.list.length) + '%'}">
+			<div class="graph-item">
+				<div class="graph-space" :class="{compare: item.ptc2 != undefined}">
+					<div class="graph-bar graph-bar-primary" :style="{height: data.coef * item.ptc + '%', background: item.color, 'transition-delay': (index * .05) + 's'}">
+						<div class="graph-bar-value">{{ item.ptc }}</div>
+					</div>
+					<div class="graph-bar graph-bar-secondary" :style="{height: data.coef * item.ptc2 + '%', background: item.color, 'transition-delay': (index * .05 + .02) + 's'}" v-if="item.ptc2 != undefined">
+						<div class="graph-bar-value">{{ item.ptc2 }}</div>
+					</div>
+				</div>
+				<div class="graph-icons" :class="{multiple: item.logo.length > 1}" v-if="item.logo">
+					<div class="graph-icon" v-for="(logo, indexLogo) in item.logo">
+						<logo-item :reg="logo" :size="item.logo.length > 1 ? 1.4 : 3" class="min-40rem"  />
+						<logo-item :reg="logo" :size="1.4" class="max-40rem" />
+					</div>
+				</div>
+				<div class="graph-name">
+					{{ item.short }}
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>

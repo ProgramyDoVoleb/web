@@ -1,0 +1,8 @@
+.p-split {
+  display: flex;
+  justify-content: space-between;
+
+  &.balance {
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,52 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Vyhledat stranu, hnutí či koalici" :level="1">
+				<search-party link="/rejstrik/"></search-party>
+				<div class="p-gap_3"></div>
+				<p-block headline="Vybrané strany">
+					<p-loader :rule="parties">
+						<div v-if="parties">
+							<div class="_grid">									
+									<div v-for="(item, index) in parties.list">
+										<div class="text-center smallest">
+											<router-link :to="'/rejstrik/' + item.VSTRANA" tag="div">
+												<div>
+													<p-logo :data="{'logo': item.$data.logo[0].value}" size="6rem"></p-logo>
+												</div>
+											</router-link>
+											<div><router-link :to="'/rejstrik/' + item.VSTRANA">{{ item.ZKRATKA }}</router-link></div>
+										</div>
+									</div>
+								</div>
+						</div>
+					</p-loader>
+				</p-block>
+			</p-block>
+			
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<strong>Vybrané strany</strong>
+			<div class="p-gap"></div>
+			<p-loader :rule="parties">
+				<div v-if="parties">
+					<div class="smaller">			
+						<p-list height=".25">
+					
+							<div v-for="(item, index) in parties.list">
+								<div class="">
+									<div><router-link :to="'/rejstrik/' + item.VSTRANA">{{ item.ZKRATKA }}</router-link></div>
+								</div>
+							</div>
+						</p-list>	
+					</div>
+				</div>
+			</p-loader>
+		</template>
+	</p-layout-divided>
+</div>

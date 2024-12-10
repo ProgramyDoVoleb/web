@@ -1,0 +1,45 @@
+table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table + .btns {
+  margin-top: 3rem;
+}
+
+th {
+  padding: .2em .6rem;
+  text-align: left;
+}
+
+thead th {
+  font-size: 10px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+td {
+  padding: .4em .6rem;
+  border-top: var(--border);
+
+  .dark & {
+    border-color: #000;
+  }
+
+  &.small {
+    font-size: 12px;
+  }
+}
+
+td, th {
+  &.show-40rem {
+    @media (min-width: 640px) {
+      display: table-cell;
+    }
+  }
+
+  &.right {
+    text-align: right;
+  }
+}

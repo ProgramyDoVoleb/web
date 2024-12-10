@@ -1,0 +1,97 @@
+.p-stats---flex {
+
+}
+
+label {
+  text-transform: uppercase;
+  font-size: 9px;
+}
+
+.p-stats---flex:not(.p-stats---vertical):not(.p-stats---responsive) {
+  display: flex;
+  align-items: baseline;
+
+  label {
+    width: 8rem;
+    margin-right: 1rem;
+
+    @media (min-width: 640px) {
+      width: 9rem;
+    }
+  }
+
+  div {
+    flex: 1;
+  }
+}
+
+.p-stats---flex.p-stats---after:not(.p-stats---vertical):not(.p-stats---responsive) {
+  label {
+    order: 2;
+    // max-width: 6rem;
+    white-space: nowrap;
+    text-align: right;
+    margin-right: 0;
+  }
+}
+
+.p-stats---responsive, ._horizontal {
+  @media (min-width: 1024px) {
+    display: flex;
+    align-items: baseline;
+
+    label {
+      width: 8rem;
+      margin-right: 1rem;
+
+      @media (min-width: 640px) {
+        width: 9rem;
+      }
+    }
+
+    div {
+      flex: 1;
+    }
+  }
+}
+
+.p-list .p-stats---flex {
+  padding: 0;
+  border-top: none;
+}
+
+.p-stats---after label {
+  text-align: right;
+  width: auto !important;
+}
+
+.p-layout---aside .p-stats {
+  .p-stats---flex {
+    display: block;
+  } 
+  label {
+    width: 100%;
+  }
+
+  + .p-stats {
+    margin-top: .5em;
+  }
+}
+
+._horizontal > div {
+  display: flex !important;
+  align-items: baseline !important;
+
+  > label {
+    width: 8em;
+    margin-right: 1rem;
+
+    @media (min-width: 640px) {
+      width: 9rem;
+    }
+  }
+
+  > div {
+    flex: 1;
+  }
+}

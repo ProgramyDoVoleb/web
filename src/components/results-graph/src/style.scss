@@ -1,0 +1,176 @@
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+li {
+}
+
+.graph-space {
+  position: relative;
+  height: 20rem;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1rem;
+  margin-top: 4rem;
+}
+
+.graph-icons {
+  max-width: 3rem;
+  display: block;
+  margin: auto;
+
+  @media (min-width: 640px) {
+    max-width: 5rem;
+  }
+}
+
+.graph-icon {
+  max-width: 3rem;
+  // height: 3rem;
+  display: block;
+  margin: auto;
+  text-align: center;
+
+  @media (min-width: 640px) {
+    max-width: 5rem;
+    // height: 5rem;
+  }
+}
+
+.graph-icon img {
+  border-radius: 50%;
+  border: var(--border);
+}
+
+.graph-icons.multiple {
+
+  .graph-icon img {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+
+  @media (min-width: 640px) {
+    display: flex;
+    flex-wrap: wrap;
+
+    .graph-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+.graph-name {
+  font-size: 7px;
+  text-align: center;
+  white-space: nowrap;
+  margin-top: .5em;
+
+  @media (min-width: 480px) {
+    font-size: 11px;
+  }
+}
+
+.graph-bar {
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  background: #ddd;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  transition: 1s height;
+  will-change: height;
+}
+
+.graph-bar.zero {
+  transition: 0s height;
+  transition-delay: 0s !important;
+  height: 0% !important;
+}
+
+.graph-space.compare .graph-bar-primary {
+  right: 25%;
+  opacity: 1;
+}
+
+.below .graph-space.compare {
+  opacity: .44;
+}
+
+.graph-space.compare .graph-bar-secondary {
+  left: 35%;
+  opacity: .2;
+}
+
+.graph-bar-value {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  white-space: nowrap;
+  margin-bottom: .5rem;
+  // width: 3rem;
+}
+
+li:not(.below) + .below {
+  border-left: 1px dotted #f00;
+}
+
+.below .graph-bar {
+  opacity: .2;
+  filter: grayscale(.5);
+}
+
+em {
+  @media (min-width: 640px) {
+    display: inline !important;
+  }
+}
+
+.graph-icons {
+  transition: 1s transform, .5s opacity;
+  will-change: transform;
+}
+
+.graph-icons.zero {
+  transition: 0s transform, 0s opacity;
+  transition-delay: 0s !important;
+  transform: scale(.5, .8) !important;
+  opacity: 0;
+}
+
+.badge {
+  border-radius: 4px;
+  padding: .1em .25em;
+}
+
+.graph-mandates {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.graph-mandates---circle {
+  display: inline-block;
+  background: #eee;
+  padding: .2em .5em .1em;
+  border-radius: 4px;
+}
+
+.graph-mandates---value {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.hide {
+  display: none;
+  height: 0;
+  max-height: 0;
+  overflow: hidden;
+  position: absolute;
+  top: -10000px;
+}

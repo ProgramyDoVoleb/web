@@ -1,0 +1,18 @@
+.p-box-image {
+  width: 4em !important;
+  height: 4em !important;
+  border-radius: 8px;
+
+  &._gs {
+    width: 1.8em !important;
+    height: 1.8em !important;
+    border-radius: 4px;
+    background-color: #fff;
+    margin: .1em;
+  }
+}
+
+._g {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}

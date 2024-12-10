@@ -1,0 +1,289 @@
+<div class="candidate-stats">
+
+	<p-block headline="Statistiky">
+		<!-- <template v-if="data.csu.candidates && data.csu.candidates.length > 5"> -->
+			<!-- <p-area> -->
+				<!-- <template>
+					<h3>Celkem {{ number(count) }} <p-lang :value="count" :end="['', '', 'i', 'ů']">kandidát</p-lang></h3>
+					<p class="small">Porovnejte si statistiky proti celorepublikovým číslům<span v-if="local"> i obecním</span>.</p>
+				</template> -->
+				<!-- <p-block-expandable headline="Demografické údaje" anchor="- demografie"> -->
+					<div class="columns">
+						<div>
+							<p-area>
+								<strong class="smaller">ø věk kandidátů {{ results.age }} let <template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"><br>ø věk zvolených {{ electedResults.age }} let</template></strong>
+								<div class="p-gap_05"></div>
+								<p-line-graph addon=" " :value="results.age" :color="color"></p-line-graph>
+								<p-line-graph v-if="status === 3 && electedResults.count > 0" append="Zvolení" addon=" " :value="electedResults.age" :color="color"></p-line-graph>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+									<strong class="smaller">{{ results.woman }} <p-lang :value="results.woman" :end="['žen', 'žena', 'ženy', 'žen']"></p-lang><template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"> &middot; <p-lang :value="electedResults.woman" :end="['žádná nezvolena', 'jedna zvolena', '%% zvoleny', '%% zvoleno']"></p-lang></template></strong>
+									<div class="p-gap_05"></div>
+									<p-line-graph :value="pct(results.woman, count)" color="var(--red)"></p-line-graph>
+									<p-line-graph v-if="status === 3 && electedResults.count > 0" append="Zvoleno" :value="pct(electedResults.woman, electedResults.count)" color="var(--red)"></p-line-graph>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<strong class="smaller">{{ number(results.uni) }} <p-lang :value="results.uni" :end="['ků', 'k', 'ci', 'ků']">vysokoškolá</p-lang><template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"> &middot; <p-lang :value="electedResults.uni" :end="['žádný nezvolen', 'jeden zvolen', '%% zvoleni', '%% zvoleno']"></p-lang></template></strong>
+								<div class="p-gap_05"></div>
+								<p-line-graph :value="pct(results.uni, count)" :color="color"></p-line-graph>
+								<p-line-graph v-if="status === 3 && electedResults.count > 0" append="Zvolení" :value="pct(electedResults.uni, electedResults.count)" :color="color"></p-line-graph>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<strong class="smaller">{{ results.young }} <p-lang :value="results.young" :end="['', '', '', 'ch']">mladší</p-lang> 30 let<template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"> &middot; <p-lang :value="electedResults.young" :end="['žádný nezvolen', 'jeden zvolen', '%% zvoleni', '%% zvoleno']"></p-lang></template></strong>
+								<div class="p-gap_05"></div>
+								<p-line-graph :value="pct(results.young, count)" :color="color"></p-line-graph>
+								<p-line-graph v-if="status === 3 && electedResults.count > 0" append="Zvolení" :value="pct(electedResults.young, electedResults.count)" :color="color"></p-line-graph>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+									<strong class="smaller">{{ results.old }} <p-lang :value="results.old" :end="['', '', '', 'ch']">starší</p-lang> 65 let<template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"> &middot; <p-lang :value="electedResults.old" :end="['žádný nezvolen', 'jeden zvolen', '%% zvoleni', '%% zvoleno']"></p-lang></template></strong>
+									<div class="p-gap_05"></div>
+									<p-line-graph :value="pct(results.old, count)" :color="color"></p-line-graph>
+									<p-line-graph v-if="status === 3 && electedResults.count > 0" append="Zvolení" :value="pct(electedResults.old, electedResults.count)" :color="color"></p-line-graph>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<div>
+									<h4>Skupiny podle věku a pohlaví</h4>
+									<div class="demo-graph-space">
+										<div class="demo-graph demo-graph-1" :class="{selected}">
+											<template v-for="(value, index) in demo.data[0]">
+												<div :title="'Mužů: ' + value" @mouseover="selected = [0, index]" @click="selected = [0, index]" class="demo-graph-bar demo-graph-bar---male" :class="{selected: selected && selected[1] === index}" :style="{height: Math.round(100 * value / demo.max) + 'px', left: (index * 6 + 2) + '%'}"></div>
+											</template>
+											<template v-for="(value, index) in demo.data[1]">
+												<div :title="'Žen: ' + value" @mouseover="selected = [1, index]" @click="selected = [1, index]" class="demo-graph-bar demo-graph-bar---female" :class="{selected: selected && selected[1] === index}" :style="{height: Math.round(100 * value / demo.max) + 'px', left: (index * 6 + 2) + '%'}"></div>
+											</template>
+											<div class="demo-graph-line"></div>
+											<p class="demo-copy small dimm" v-if="!selected">
+												Klikněte na sloupec...
+											</p>
+											<p class="demo-copy small" v-if="selected">
+												V kategorii {{ selected[1] * 5 + 15 }} až {{ selected[1] * 5 + 4 + 15 }} let
+												<p-lang :value="demo.data[0][selected[1]] + demo.data[1][selected[1]]" :end="['', 'e', 'í', 'e']">kandiduj</p-lang>:<br>
+												<strong>
+													<p-lang :value="demo.data[0][selected[1]]" :end="['žádný muž', 'jeden muž', '%% muži', '%% mužů']"></p-lang>
+													a
+													<p-lang :value="demo.data[1][selected[1]]" :end="['žádná žena', 'jedna žena', '%% ženy', '%% žen']"></p-lang>.
+												</strong>
+											</p>
+										</div>
+									</div>
+								</div>
+							</p-area>
+	
+						</div>
+					</div>
+					<div class="p-gap"></div>
+				<!-- </p-block-expandable> -->
+			<!-- </p-area> -->
+		<!-- </template> -->
+		<p-block-expandable headline="Nominace a členství" anchor="- nominace, členství" v-if="[...new Set(data.map(item => item.PSTRANA))].length > 1 || [...new Set(data.map(item => item.NSTRANA))].length > 1">
+			<p-grid>
+				<div>
+					<h4>Nominující strany</h4>
+					<p-area>
+						<p-list class="smaller">
+							<template v-if="slozeni.split(',') != '80'">
+								<div>
+									<p-box-group class="rnd" :full="true">
+										<template v-for="(member, im) in [...new Set(data.map(item => item.NSTRANA))]">
+											<p-box :style="{flex: data.filter(x => x.NSTRANA === Number(member)).length}" v-if="data.filter(x => x.NSTRANA === Number(member)).length > 0">
+												<p-box-gap :style="{background: colorByItem(cis.strany.find(x => x.VSTRANA === Number(member)), {cis})}"></p-box-gap>
+											</p-box>
+										</template>
+									</p-box-group>
+									<template v-if="status === 3 && data.find(x => x.MANDAT === 'A')">
+										<p-box-group class="rnd" :full="true">
+											<template v-for="(member, im) in [...new Set(data.map(item => item.NSTRANA))]">
+												<p-box :style="{flex: data.filter(x => x.NSTRANA === Number(member) && x.MANDAT === 'A').length}" v-if="data.filter(x => x.NSTRANA === Number(member) && x.MANDAT === 'A').length > 0">
+													<p-box-gap :style="{background: colorByItem(cis.strany.find(x => x.VSTRANA === Number(member)), {cis})}"></p-box-gap>
+												</p-box>
+											</template>
+										</p-box-group>
+										<!-- <div class="p-gap_025"></div> -->
+										<span class="smallest">+ nominující strany úspěšných kandidátů</span>
+									</template>
+									<!-- <div class="p-gap"></div> -->
+								</div>
+								<div>
+									<p-list>
+										<template v-for="(member, im) in slozeni.split(',')">
+											<div v-if="Number(member) !== 80">
+												<div class="p-offset reverse balanced">
+													<div v-if="Number(member) !== 80">
+														<p-label :color="colorByItem(cis.strany.find(x => x.VSTRANA === Number(member)), {cis})">
+															<router-link :to="'/rejstrik/' + member">{{ cis.strany.find(x => x.VSTRANA === Number(member)).NAZEV  }}</router-link>
+														</p-label>
+													</div>
+													<div>
+														{{ data.filter(x => x.NSTRANA === Number(member)).length }}&times;
+														<template v-if="status === 3 && data.find(x => x.MANDAT === 'A')">
+															&rarr;
+															{{ data.filter(x => x.NSTRANA === Number(member) && x.MANDAT === 'A').length }}&times;
+														</template>
+													</div>
+												</div>
+											</div>
+										</template>
+									</p-list>
+								</div>
+							</template>
+							<template v-if="slozeni.split(',') === '80'">
+								<div>
+									<p-box-group class="rnd" :full="true">
+										
+											<p-box :block="true">
+												<p-box-gap :style="{background: color}"></p-box-gap>
+											</p-box>
+										
+									</p-box-group>
+									<div class="p-gap"></div>
+								</div>
+								<div>
+									<p-label :color="color">Nezávislí kandidáti či jejich sdružení</p-label>
+								</div>
+							</template>
+						</p-list>
+					</p-area>
+				</div>
+				<div>
+					<h4>Členství kandidátů</h4>
+					<p-area class="smaller">
+						<p-list>
+							<div>
+								<p-box-group class="rnd" :full="true">
+									<template v-for="(member, im) in [...new Set(data.map(item => item.PSTRANA))]">
+										<p-box :style="{flex: data.filter(x => x.PSTRANA === Number(member)).length}">
+											<p-box-gap :style="{background: colorByItem(cis.strany.find(x => x.VSTRANA === Number(member)), {cis})}"></p-box-gap>
+										</p-box>
+									</template>
+								</p-box-group>
+								<template v-if="status === 3 && data.find(x => x.MANDAT === 'A')">
+									
+									<p-box-group class="rnd" :full="true">
+										<template v-for="(member, im) in [...new Set(data.map(item => item.PSTRANA))]">
+											<p-box :style="{flex: data.filter(x => x.PSTRANA === Number(member) && x.MANDAT === 'A').length}" v-if="data.filter(x => x.PSTRANA === Number(member) && x.MANDAT === 'A').length > 0">
+												<p-box-gap :style="{background: colorByItem(cis.strany.find(x => x.VSTRANA === Number(member)), {cis})}"></p-box-gap>
+											</p-box>
+										</template>
+									</p-box-group>
+									<span class="smallest">+ členství úspěšných kandidátů</span>
+								</template>
+								<!-- <div class="p-gap"></div> -->
+							</div>
+							<template v-for="(member, im) in [...new Set(data.map(item => item.PSTRANA))]">
+								<div>
+									<div class="p-offset reverse balanced">
+										<div v-if="Number(member) !== 99">
+											<p-label :color="colorByItem(cis.strany.find(x => x.VSTRANA === Number(member)), {cis})">
+												<router-link :to="'/rejstrik/' + member">{{ cis.strany.find(x => x.VSTRANA === Number(member)).NAZEV  }}</router-link>
+											</p-label>
+										</div>
+										<div v-if="Number(member) === 99">
+											<p-label :color="colorByItem(cis.strany.find(x => x.VSTRANA === Number(member)), {cis})">
+												bez politické příslušnosti
+											</p-label>
+										</div>
+										<div>
+											{{ data.filter(x => x.PSTRANA === Number(member)).length }}&times;
+											<template v-if="status === 3 && data.find(x => x.MANDAT === 'A')">
+												&rarr;
+												{{ data.filter(x => x.PSTRANA === Number(member) && x.MANDAT === 'A').length }}&times;
+											</template>
+										</div>
+									</div>
+								</div>
+							</template>
+						</p-list>
+					</p-area>
+				</div>
+			</p-grid>
+		</p-block-expandable>
+		<p-block-expandable headline="Rozložení na kandidátce" anchor="- rozložení">
+			<p-area>
+				<strong v-if="data[0].VOLKRAJ" class="smaller">Podle volebního kraje</strong>
+				<template v-for="(kraj, index) in (data[0].VOLKRAJ && !focus ? [1,2,3,4,5,6,7,8,9,10,11,12,13,14] : (focus ? [Number(focus)] : [-1]))">
+					
+					<component :is="data[0].VOLKRAJ && !focus ? 'p-collapsible' : 'div'" :label="enums.regions[kraj-1]" :status="data.filter(x => x.VOLKRAJ ? x.VOLKRAJ === kraj : true).length">
+						
+							<table :class="{_nm: [...new Set(data.map(item => item.PSTRANA))].length === 1, _nn: [...new Set(data.map(item => item.NSTRANA))].length === 1, _ns: status === 2 || !data.find(x => x.MANDAT === 'A')}">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>M</th>
+										<th class="_n">Kandidát</th>
+										<th>N</th>
+										<th>S</th>
+										<th>Ž</th>
+										<th>T</th>
+										<th>V</th>
+									</tr>
+								</thead>
+								<tbody class="smaller">
+									<template v-for="(member, im) in sortBy(data.filter(x => x.VOLKRAJ ? x.VOLKRAJ === kraj : true), 'PORCISLO')">
+										<tr :class="{_m: member.MANDAT === 'A'}">
+											<td>{{ member.PORCISLO }}</td>
+											<td><div class="dot" :style="{background: member.MANDAT === 'A' ? 'var(--green)' : 'transparent'}"></div></td>
+											<td :class="{'strong': member.MANDAT === 'A'}" class="_n">
+												{{ member.JMENO + ' ' + member.PRIJMENI }}
+												<span class="dimm smallest keep"> {{ member.VEK }} let</span>
+											</td>
+											<td><div class="dot" :style="{background: colorByItem(cis.strany.find(x => x.VSTRANA === member.NSTRANA), {cis})}"></div></td>
+											<td><div class="dot" :style="{background: member.PSTRANA === 99 ? '' : colorByItem(cis.strany.find(x => x.VSTRANA === member.PSTRANA), {cis})}"></div></td>
+											<td><div class="dot" :style="{background: isWoman(member) ? 'var(--red)' : 'transparent' }"></div></td>
+											<td><div class="dot" :style="{background: member.TITULPRED || member.TITULZA ? 'var(--blue)' : 'transparent' }"></div></td>
+											<td>
+												<div class="dot" v-if="member.VEK < 30" :style="{background: '#07ae1c', opacity: (Math.floor(member.VEK - 11) / 3) / 8}"></div>
+												<div class="dot" v-if="member.VEK >= 30 && member.VEK <= 65" :style="{background: '#134d8c', opacity: Math.round((member.VEK - 15) / 5) / 8}"></div>
+												<div class="dot" v-if="member.VEK > 65" :style="{background: '#d72027', opacity: Math.floor((member.VEK - 55) / 5) / 8}"></div>
+											</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>
+							<div class="p-line"></div>
+							<div class="columns smaller">
+								<div class="p-offset"><div class="strong">M</div><div>mandát <span class="dimm smallest">u výsledků</span></div></div>
+								<div class="p-offset"><div class="strong">N</div><div>nominující strana</div></div>
+								<div class="p-offset"><div class="strong">S</div><div>členství ve straně</div></div>
+								<div class="p-offset"><div class="strong">Ž</div><div>žena</div></div>
+								<div class="p-offset"><div class="strong">T</div><div>uvedený titul</div></div>
+								<div class="p-offset"><div class="strong">V</div><div><span class="green">do 30 let</span> &middot; <span class="blue">30 - 65</span> &middot; <span class="red">nad 65</span></div></div>
+							</div>
+							<div class="p-line"></div>
+							<div class="smallest dimm">
+									Kandidátní listina
+									<template v-if="slozeni.split(',') === [80]">
+										<span v-if="data.length === 1">nezávislého kandidáta.</span>
+										<span v-if="data.length > 1">sdružení nezávislých kandidátů.</span>
+									</template>
+									<template v-if="slozeni.split(',') != [80]">
+										<span v-if="slozeni.split(',').length === 1">politické strany nebo hnutí.</span>
+										<template v-if="slozeni.split(',').length > 1">
+											<template v-if="slozeni.split(',').length === 2 && slozeni.split(',').find(x => Number(x) === 80)">
+												koalice politické strany či hnutí s nezávislými kandidáty či jejich sdružením.
+											</template>
+											<template v-if="slozeni.split(',').length > 1 && !slozeni.split(',').find(x => Number(x) === 80)">
+												koalice více politických strana a hnutí.
+											</template>
+											<template v-if="slozeni.split(',').length > 2 && slozeni.split(',').find(x => Number(x) === 80)">
+												koalice více politických stran či hnutí a nezávislých kandidátů či jejich sdružením.
+											</template>
+										</template>
+									</template>
+								</div>
+					</component>
+				</template>
+			</p-area>
+		</p-block-expandable>
+	</p-block>
+	<div class="p-gap_3"></div>
+</div>

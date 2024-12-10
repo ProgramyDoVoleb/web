@@ -1,0 +1,15 @@
+._pb {
+    padding-bottom: 1em;
+}
+
+.columns {
+    column-gap: 2em !important;
+
+    @media (max-width: 800px) {
+        columns: 1;
+    }
+}
+
+._d {
+    padding: 1em 0 .5em;
+}

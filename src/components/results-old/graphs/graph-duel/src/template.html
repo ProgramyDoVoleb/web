@@ -1,0 +1,40 @@
+<div class="results-graph-duel">
+	<div class="duel" v-if="loaded && data[0]">
+		<div class="person">
+			<div class="graph-icons">
+				<div class="name-icon" :style="{'border-color': bg[0], color: bg[0]}">
+					{{data[0].initials }}
+				</div>
+				<div class="graph-name">
+					{{ data[0].name[2] }}
+				</div>
+			</div>
+		</div>
+		<div class="graph-space" :class="{compare: local}">
+			<div class="graph-bar-primary">
+				<div class="graph-bar" :style="{background: bg[0]}">
+				</div>
+				<div class="graph-bar-against zero" :style="{background: bg[1], width: data[1].pct + '%'}"></div>
+				<span class="graph-data">{{ data[0].pct }} %</span>
+				<span class="graph-data graph-data-right">{{ data[1].pct }} %</span>
+			</div>
+			<div class="graph-bar-secondary" v-if="local">
+				<div class="graph-bar" :style="{background: bg[0]}">
+				</div>
+				<div class="graph-bar-against zero" :style="{background: bg[1], width: data[1].local.pct + '%', 'transition-delay': .2 + 's'}"></div>
+				<span class="graph-data">{{ data[0].local.pct }} %</span>
+				<span class="graph-data graph-data-right">{{ data[1].local.pct }} %</span>
+			</div>
+		</div>
+		<div class="person">
+			<div class="graph-icons">
+				<div class="name-icon" :style="{'border-color': bg[1], color: bg[1]}">
+					{{data[1].initials }}
+				</div>
+				<div class="graph-name">
+					{{ data[1].name[2] }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
