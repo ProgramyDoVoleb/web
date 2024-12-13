@@ -1,5 +1,5 @@
 <div class="map-leaflet">
-	<l-map ref="map" v-model:zoom="zoom" :center="center">
+	<l-map ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
 		<l-tile-layer
 		  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 		  layer-type="base"

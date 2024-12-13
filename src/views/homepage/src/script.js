@@ -156,7 +156,7 @@ export default {
 		elections: function () {
 			var d = this.$store.getters.pdv('elections/quicklist');
 
-			console.log(d);
+			// console.log(d);
 			
 			return d;
 		},
