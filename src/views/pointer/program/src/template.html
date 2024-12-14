@@ -339,7 +339,7 @@
 				</div>
 				<div>
 					<div class="smallest strong" v-if="data && $volby">
-						<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][$volby.status]) + ')'">{{ $volby.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[$volby.status] }}</p-label></div>
+						<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][$volby.status]) + ')'">volby {{ enums.status[$volby.status] }}</p-label></div>
 						<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][$volby.editace]) + ')'">administrace {{ enums.editace[$volby.editace] }}</p-label></div>
 					</div>
 				</div>
