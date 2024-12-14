@@ -116,10 +116,10 @@
 						<div class="_pal">
 							<template v-for="party in current.$strany.filter(x => x.KSTRANA === person.KSTRANA)">
 								<template v-if="!lbi(party, data).includes('empty.png') && person.NSTRANA != party.VSTRANA">
-									<img :src="lbi(party, data)" class="_pa">
+									<img :src="lbi(party, data)" class="_pa" loading="lazy" >
 								</template>
 							</template>
-							<img :src="lbi(person, data, 'NSTRANA')" class="_pa">
+							<img :src="lbi(person, data, 'NSTRANA')" class="_pa" loading="lazy" >
 						</div>
 					</div>
 					<div class="smaller">

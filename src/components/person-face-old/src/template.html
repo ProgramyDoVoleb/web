@@ -1,6 +1,6 @@
 <span class="person-face">
 	<span class="face" :style="{width: size, height: size}">
-		<img src="/static/missing.png" alt="fotka chybí" v-if="!data.photo">
-		<img :src="data.photo" :alt="data.name" v-if="data.photo">
+		<img  loading="lazy" src="/static/missing.png" alt="fotka chybí" v-if="!data.photo">
+		<img  loading="lazy" :src="data.photo" :alt="data.name" v-if="data.photo">
 	</span>
 </span>

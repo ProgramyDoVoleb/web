@@ -23,7 +23,7 @@
 			<template v-if="cand.pointer && cand.pointer.includes('csu_senat_rk')">
 				<div class="_cand-parties">
 					<template v-for="party in parties.filter(x => !logoByItem(x, data).includes('empty.png'))">
-						<img :src="logoByItem(party, data)" alt="" class="_cand-party">
+						<img :src="logoByItem(party, data)" alt="" class="_cand-party" loading="lazy" >
 					</template>
 				</div>
 			</template>

@@ -1,7 +1,7 @@
 <div class="person-photo">
-	<img src="/static/missing.png" alt="fotka chybí" v-if="!data.photo">
+	<img  loading="lazy" src="/static/missing.png" alt="fotka chybí" v-if="!data.photo">
 	<lazy-load :src="src" :ratio="ratio || (57/46)" :width="width || 8" v-if="data.photo">
-		<img :src="src" :alt="data.name">
+		<img  loading="lazy" :src="src" :alt="data.name">
 	</lazy-load>
 	<modal-element v-if="data.photo && data.photo.licence">
 		<template #init>

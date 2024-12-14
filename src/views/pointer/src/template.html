@@ -473,7 +473,7 @@
 											</div>
 											<div v-if="current.$odpovedi.find(x => x.question === question.id).$odpoved && current.$odpovedi.find(x => x.question === question.id).$odpoved[0].quick">
 												<span class="dimm" v-if="current.$odpovedi.find(x => x.question === question.id).$odpoved[0].answer">
-													<img src="https://static.programydovoleb.cz/icon/answers.svg" :style="{width: '1em', height: '1em', display: 'inline-block'}">
+													<img loading="lazy"  src="https://static.programydovoleb.cz/icon/answers.svg" :style="{width: '1em', height: '1em', display: 'inline-block'}">
 												</span>
 												<p-label v-if="current.$odpovedi.find(x => x.question === question.id).$odpoved[0].quick === 1" class="green strong" color="var(--green)" :after="true">
 													ANO
@@ -983,7 +983,7 @@
 								<p-grid>
 									<div v-for="(item, index) in current.$data.gallery">
 										<p-area>
-											<img class="_ar _of" :src="item.value">
+											<img loading="lazy"  class="_ar _of" :src="item.value">
 
 											<div class="p-gap"></div>
 

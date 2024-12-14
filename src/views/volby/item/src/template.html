@@ -1,6 +1,6 @@
 <div class="election-item">
 	<div class="election-item-header" :class="{dimm: election.radne === 0}"><span class="logo-holder">
-		<img :src="cdn + 'icon/' + (data.icon || data.hash) + '.svg'" :alt="data.name" class="logo"></span> 
+		<img loading="lazy"  :src="cdn + 'icon/' + (data.icon || data.hash) + '.svg'" :alt="data.name" class="logo"></span> 
 		<span :class="{strong: election.radne === 1, 'smaller': election.radne === 0}"><router-link :to="'/volby/' + data.hash + '/' + election.id" :class="{dimm: election.radne === 0}">{{ data.name }}{{ election.radne === 1 && election.datum ? ' ' + election.datum.substr(0, 4) : '' }}</router-link><span v-if="election.radne === 0 && election.dotcene">
 			&middot;
 			<template v-if="election.typ === 'KV'">

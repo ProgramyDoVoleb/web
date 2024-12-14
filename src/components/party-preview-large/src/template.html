@@ -126,13 +126,13 @@
 						</template>
 					</p-modal>
 				</template>		
-				 <router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="_icon" v-if="party.$odpovedi && party.$odpovedi > 0"> <img src="https://static.programydovoleb.cz/icon/answers.svg" alt="Odpovědi" class="_icon"> </router-link>	
+				 <router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="_icon" v-if="party.$odpovedi && party.$odpovedi > 0"> <img src="https://static.programydovoleb.cz/icon/answers.svg" alt="Odpovědi" class="_icon" loading="lazy" > </router-link>	
 				<template v-if="party.$data && party.$data.social">
-					<template v-for="(soc, index) in party.$data.social.filter(x => ['tw', 'fb', 'threads', 'ig'].indexOf(type(x.value)) > -1)"> <p-link :href="soc.value" class="_icon"> <img :src="'https://static.programydovoleb.cz/icon/' + type(soc.value) + '.svg'" :alt="type(soc.value).toUpperCase() + ' ' + party.ZKRATKA"></p-link></template>
+					<template v-for="(soc, index) in party.$data.social.filter(x => ['tw', 'fb', 'threads', 'ig'].indexOf(type(x.value)) > -1)"> <p-link :href="soc.value" class="_icon"> <img :src="'https://static.programydovoleb.cz/icon/' + type(soc.value) + '.svg'"  loading="lazy" :alt="type(soc.value).toUpperCase() + ' ' + party.ZKRATKA"></p-link></template>
 					
 				</template>
 				<template v-if="party.$data && party.$data.web">
-					<template v-if="party.$data.web && party.$data.web.length > 0"> <p-link :href="party.$data.web[0].value" class="_icon"><img src="https://static.programydovoleb.cz/icon/link.svg" alt="Webové stránky" class="_icon"></p-link></template>										
+					<template v-if="party.$data.web && party.$data.web.length > 0"> <p-link :href="party.$data.web[0].value" class="_icon"><img src="https://static.programydovoleb.cz/icon/link.svg" alt="Webové stránky" class="_icon" loading="lazy" ></p-link></template>										
 				</template>
 			</div>
 			<div class="smallest dimm _br" v-if="party.ESTRANA > 0">

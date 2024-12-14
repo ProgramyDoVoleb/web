@@ -6,5 +6,5 @@
 	target="_blank"
 	:style="look">
 	<slot>{{ href }}</slot>
-	<span class="p-link---addon" v-if="hasAddon">&nbsp;<img :src="cdn + 'icon/' + hasAddon + '.svg'" class="p-link---icon"></span>
+	<span class="p-link---addon" v-if="hasAddon">&nbsp;<img :src="cdn + 'icon/' + hasAddon + '.svg'" class="p-link---icon" loading="lazy" ></span>
 </a>
