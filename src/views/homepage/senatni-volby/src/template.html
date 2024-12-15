@@ -1,38 +1,40 @@
 <div class="homepage-senat">
 	<p-area :borderColor="elections.status < 3 ? 'var(--blue)' : null">
-		<template v-if="election">
-			<div :class="{'columns-4': election.list[0].$dotcene.length > 1}">
-				<div v-for="(obvod, index) in obvody">
-					<div class="p-offset balanced reverse smaller">
-						<div>
-							<router-link :to="'/volby/senatni-volby/' + elections.id + '/obvod/' + obvod" class="strong">{{ list.find(x => x.id === obvod).label }}</router-link>
-							<div class="smaller" v-if="election && election.list[0].status === 3">
-								<p-list-linear class="nebo">
-									<span v-for="cand in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD === obvod && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)), 'PRIJMENI', null, true)">
-										<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
-									</span>
-								</p-list-linear>
-							</div>
-							<div v-if="election && election.list[0].status === 1">
-								<!-- <template v-for="obvod in obvody"> -->
-									<div class="p-gap"></div>
-									<component :is="election.list[0].dotcene ? 'div' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length > 0" :class="{'columns-4': election.list[0].$dotcene.length === 1}">
-										<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod), 'PRIJMENI', '', true)">
-											<p-label :color="colorByItem(cand, election, 'NSTRANA')">
-												<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
-											</p-label>
+		<p-loader :rule="election" reserve="100px">
+			<template v-if="election">
+				<div :class="{'columns-4': election.list[0].$dotcene.length > 1}">
+					<div v-for="(obvod, index) in obvody">
+						<div class="p-offset balanced reverse smaller">
+							<div>
+								<router-link :to="'/volby/senatni-volby/' + elections.id + '/obvod/' + obvod" class="strong">{{ list.find(x => x.id === obvod).label }}</router-link>
+								<div class="smaller" v-if="election && election.list[0].status === 3">
+									<p-list-linear class="nebo">
+										<span v-for="cand in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD === obvod && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)), 'PRIJMENI', null, true)">
+											<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+										</span>
+									</p-list-linear>
+								</div>
+								<div v-if="election && election.list[0].status === 1">
+									<!-- <template v-for="obvod in obvody"> -->
+										<div class="p-gap"></div>
+										<component :is="election.list[0].dotcene ? 'div' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length > 0" :class="{'columns-4': election.list[0].$dotcene.length === 1}">
+											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod), 'PRIJMENI', '', true)">
+												<p-label :color="colorByItem(cand, election, 'NSTRANA')">
+													<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+												</p-label>
+											</div>
+										</component>
+										<div v-if="!election.list[0].$kandidati || election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length === 0">
+											<em class="smallest dimm">žádný kandidát</em>
 										</div>
-									</component>
-									<div v-if="!election.list[0].$kandidati || election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length === 0">
-										<em class="smallest dimm">žádný kandidát</em>
-									</div>
-								<!-- </template> -->
-							</div>			
+									<!-- </template> -->
+								</div>			
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</template>
+			</template>
+		</p-loader>
 		<div class="p-line"></div>
 		<div class="smaller"><strong>19. prosince</strong> úřad rozhodne o registraci kandidátů. Více na <p-link href="https://www.brno.cz/w/volby"></p-link></div>
 	</p-area>

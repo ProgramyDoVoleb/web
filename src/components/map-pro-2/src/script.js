@@ -120,12 +120,14 @@ export default {
 			this.showParty = party || null;
 			this.showRegion = region || null;
 
-			this.$refs.partyPicker.opened = false;
-			this.$refs.regionPicker.opened = false;
+			if (this.$refs.partyPicker) this.$refs.partyPicker.opened = false;
+			if (this.$refs.regionPicker) this.$refs.regionPicker.opened = false;
 
-			nextTick();
-
-			setTimeout(() => notify.update(note, 'Mapa je připravena', 'green'), 500);
+			nextTick(() => {
+				setTimeout(() => {
+					notify.update(note, 'Mapa je připravena', 'green');
+				},500);
+			});
 		},
 		autoscale: function (key, obj, list) {
 			var min = Math.min(...list.map(x => x[key]));
@@ -210,9 +212,9 @@ export default {
 						var prev = this.$ucast.list[1].$kraje.find(x => x.KRAJ == feature.properties.NUTS3_KOD);
 
 						if (curr && prev) {
-							if (curr.UCAST > prev.UCAST + 1) {
+							if (curr.UCAST > prev.UCAST + .25) {
 								color = 'var(--green)';
-							} else if (curr.UCAST < prev.UCAST - 1) {
+							} else if (curr.UCAST < prev.UCAST - .25) {
 								color = 'var(--red)';
 							} else {
 								color = 'var(--blue)';
@@ -252,9 +254,9 @@ export default {
 						var prev = this.current.$vysledky.find(x => x[this.column] === this.showParty);
 
 						if (curr && prev) {
-							if (curr.PROCENT > prev.PROCENT + 1) {
+							if (curr.PROCENT > prev.PROCENT + .25) {
 								color = 'var(--green)';
-							} else if (curr.PROCENT < prev.PROCENT - 1) {
+							} else if (curr.PROCENT < prev.PROCENT - .25) {
 								color = 'var(--red)';
 							} else {
 								color = 'var(--blue)';
@@ -284,9 +286,9 @@ export default {
 						var prev = this.$ucast.list[1].$okresy.find(x => x.OKRES === feature.properties.NUTS4);
 
 						if (curr && prev) {
-							if (curr.UCAST > prev.UCAST + 1) {
+							if (curr.UCAST > prev.UCAST + .25) {
 								color = 'var(--green)';
-							} else if (curr.UCAST < prev.UCAST - 1) {
+							} else if (curr.UCAST < prev.UCAST - .25) {
 								color = 'var(--red)';
 							} else {
 								color = 'var(--blue)';
@@ -326,9 +328,9 @@ export default {
 						var prev = this.current.$vysledky.find(x => x[this.column] === this.showParty);
 
 						if (curr && prev) {
-							if (curr.PROCENT > prev.PROCENT + 1) {
+							if (curr.PROCENT > prev.PROCENT + .25) {
 								color = 'var(--green)';
-							} else if (curr.PROCENT < prev.PROCENT - 1) {
+							} else if (curr.PROCENT < prev.PROCENT - .25) {
 								color = 'var(--red)';
 							} else {
 								color = 'var(--blue)';
@@ -364,9 +366,9 @@ export default {
 						var prev = this.$ucast.list[1].$ucast.find(x => x[0] == feature.properties.KOD);
 
 						if (curr && prev) {
-							if (curr[3] > prev[3] + 1) {
+							if (curr[3] > prev[3] + .25) {
 								color = 'var(--green)';
-							} else if (curr[3] < prev[3] - 1) {
+							} else if (curr[3] < prev[3] - .25) {
 								color = 'var(--red)';
 							} else {
 								color = 'var(--blue)';
@@ -406,9 +408,9 @@ export default {
 						var prev = this.current.$vysledky.find(x => x[this.column] === this.showParty);
 
 						if (curr && prev) {
-							if (curr[3] > prev.PROCENT + 1) {
+							if (curr[3] > prev.PROCENT + .25) {
 								color = 'var(--green)';
-							} else if (curr[3] < prev.PROCENT - 1) {
+							} else if (curr[3] < prev.PROCENT - .25) {
 								color = 'var(--red)';
 							} else {
 								color = 'var(--blue)';
