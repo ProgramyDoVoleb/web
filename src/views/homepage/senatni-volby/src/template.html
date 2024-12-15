@@ -16,7 +16,7 @@
 							<div v-if="election && election.list[0].status === 1">
 								<!-- <template v-for="obvod in obvody"> -->
 									<div class="p-gap"></div>
-									<component :is="election.list[0].dotcene ? 'p-columns' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length > 0">
+									<component :is="election.list[0].dotcene ? 'div' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length > 0" :class="{'columns-4': election.list[0].$dotcene.length === 1}">
 										<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod), 'PRIJMENI', '', true)">
 											<p-label :color="colorByItem(cand, election, 'NSTRANA')">
 												<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>

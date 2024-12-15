@@ -68,38 +68,41 @@ export const useData = defineStore('store', () => {
         } else {
             activity.value++; 
 
-            new Promise((resolve, reject) => {
-                var o = {
-                    request,
-                    response: ref(null),
-                    activity
-                }
+            nextTick(() => {
+
+                new Promise((resolve, reject) => {
+                    var o = {
+                        request,
+                        response: ref(null),
+                        activity
+                    }
+            
+                    pdv.value.push(o);
+    
+                    // console.log(request, 2, o)
+    
+                    // setTimeout(() => {
+                        axios.get(request).then((response) => {
+                            o.response.value = response.data;
+                            activity.value++; 
         
-                pdv.value.push(o);
-
-                // console.log(request, 2, o)
-
-                // setTimeout(() => {
-                    axios.get(request).then((response) => {
-                        o.response.value = response.data;
-                        activity.value++; 
+                            // console.log(request, 3, o)
+        
+                            resolve();
+                        });
+                    // }, 100);
+                }).then((resolver, rejected) => {
+                    if (rejected) {
+                        return undefined;
+                    } else {
     
-                        // console.log(request, 3, o)
+                        lookup = pdv.value.find(s => s.request === request);
     
-                        resolve();
-                    });
-                // }, 100);
-            }).then((resolver, rejected) => {
-                if (rejected) {
-                    return undefined;
-                } else {
-
-                    lookup = pdv.value.find(s => s.request === request);
-
-                    // console.log(request, 4, lookup)
-
-                    return lookup.response.value;
-                }
+                        // console.log(request, 4, lookup)
+    
+                        return lookup.response.value;
+                    }
+                });
             });
         }
     }

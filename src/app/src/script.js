@@ -6,9 +6,7 @@ export default {
 	name: 'app',
     data: function () {
       return {
-        core: useCore(),
-        pt: 20,
-        elHeader: null
+        core: useCore()
       }
     },
     components: {
@@ -16,20 +14,21 @@ export default {
       MainFooter
     },
     computed: {
+      extendedHeader: function () {
+        var arr = [
+          'krajske-volby/162',
+          'senatni-volby/163',
+          // 'snemovni-volby/166'
+        ];
 
+        return arr.find(x => this.$route.path.split(x).length > 1);
+      }
     },
     methods: {
-      checkHeaderHeight: function () {
-        this.pt = this.elHeader.getBoundingClientRect().height;
-        if (this.pt > 100) this.pt = 100;
-      }
     },
     mounted: function () {
 			if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 				this.core.change(true);
 			}
-      this.elHeader = document.querySelector('header');
-
-      setInterval(() => this.checkHeaderHeight(), 100);
     }
 };

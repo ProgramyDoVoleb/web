@@ -1,11 +1,8 @@
-<div id="app" :class="{dark: core.dark}">
-	<main class="block" :style="{'padding-top': pt + 'px'}">
+<div id="app" :class="{dark: core.dark, 'extended-header': extendedHeader}">
+	<main class="block">
 		<router-view></router-view>
-		<!-- <div class="share">
-			<p-share></p-share>
-		</div> -->
 	</main>
 	<main-header />
-	<main-footer></main-footer>
+	<main-footer />
 	<div id="modal"></div>
 </div>

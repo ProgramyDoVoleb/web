@@ -27,7 +27,7 @@
 							<div class="p-gap _2"></div>
 						</template> -->
 						<krajske-volby :data="data" :region="region"></krajske-volby>
-						<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Media a tiskové zprávy" :open="current.status < 3" anchor="Media" :hide="current.status === 3 && newsmedia.length === 0" :class="{'p-block---up': current.status === 3 && newsmedia.length === 0}">
+						<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Media a tiskové zprávy" :open="current.status < 3" anchor="Media" :hide="current.status === 3 && news && newsmedia.length === 0" :class="{'p-block---up': current.status === 3 && news && newsmedia.length === 0}">
 							<p-loader :rule="news" reserve="450px">
 								<div v-if="news" class="smaller">
 									<div class="columns columns---no-gap">

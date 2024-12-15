@@ -20,13 +20,16 @@ export default {
 			copy(this.path);
 			this.copied = true;
 
-			ge({
-				action: "copy",
-				category: "share",
-				label: this.$route.fullPath
-			});
+			this.report('copy');
 
 			setTimeout(() => this.copied = false, 1000);
+		},
+		report: function (action) {
+			ge({
+				value: action,
+				event: "share",
+				label: this.$route.fullPath
+			});
 		}
 	}
 };

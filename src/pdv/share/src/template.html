@@ -10,22 +10,22 @@
 		</div>
 		<div>
 			<p-box :href="'https://www.facebook.com/sharer/sharer.php?u=' + path" title="Kliknutím se otevře okno pro sdílení na Facebooku">
-				<p-box-button icon="fb.svg">Sdílet<template v-if="!compact"> na Facebooku</template></p-box-button>
+				<p-box-button @click="() => report('fb')" icon="fb.svg">Sdílet<template v-if="!compact"> na Facebooku</template></p-box-button>
 			</p-box>
 		</div>
 		<div>
 			<p-box :href="'http://twitter.com/share?text=' + encodeURIComponent(copy || _backupCopy) + '&url=' + encodeURIComponent(path) + '&via=programydovoleb'" title="Kliknutím se otevře okno pro sdílení na Twitteru">
-				<p-box-button icon="tw.svg">Sdílet<template v-if="!compact"> na Twitteru</template></p-box-button>
+				<p-box-button @click="() => report('tw')" icon="tw.svg">Sdílet<template v-if="!compact"> na Twitteru</template></p-box-button>
 			</p-box>
 		</div>
 		<div>
 			<p-box :href="'https://bsky.app/intent/compose?text=' + encodeURIComponent(copy || _backupCopy) + ' · ' + encodeURIComponent(path)" title="Kliknutím se otevře okno pro sdílení na Bluesky">
-				<p-box-button icon="bsky.svg">Sdílet<template v-if="!compact"> na BlueSky</template></p-box-button>
+				<p-box-button @click="() => report('bsky')" icon="bsky.svg">Sdílet<template v-if="!compact"> na BlueSky</template></p-box-button>
 			</p-box>
 		</div>
 		<div>
 			<p-box :href="'https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(path) + '&title=' + encodeURIComponent(copy || _backupCopy)" title="Kliknutím se otevře okno pro sdílení na síti LinkedIn.">
-				<p-box-button icon="linkedin.svg">Sdílet<template v-if="!compact"> na LinkedIn</template></p-box-button>
+				<p-box-button @click="() => report('linkedin')" icon="linkedin.svg">Sdílet<template v-if="!compact"> na LinkedIn</template></p-box-button>
 				<!-- <p-box-button type="linkedin">LinkedIn</p-box-button> -->
 			</p-box>
 		</div>

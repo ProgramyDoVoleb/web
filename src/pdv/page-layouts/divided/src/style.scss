@@ -16,13 +16,14 @@
 .p-layout---main {
   position: relative;
 
-  @media (min-width: 640px) {
-    padding: 0 0 0 20rem;
-    min-height: 50rem;
-  }
+  // @media (min-width: 640px) {
+  //   padding: 0 0 0 20rem;
+  //   min-height: 50rem;
+  // }
 
   @media (min-width: 960px) {
     padding: 0 0 0 20rem;
+    min-height: 50rem;
   }
 
   @media (min-width: 1140px) {
@@ -69,7 +70,7 @@
   @media (min-width: 1440px) {
     display: block;
     position: fixed;
-    top: 12rem;
+    top: 10rem;
     right: 2.5rem;
     width: 17rem;
     padding: 0 0 0 0;
@@ -84,7 +85,7 @@
   }
 
   @media (min-width: 1600px) {
-    width: 15rem;
+    width: 16.5rem;
     right: 50%;
     transform: translateX(75rem);
   }
@@ -94,15 +95,15 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 
-  @media (max-width: 639px) {
+  @media (max-width: 959px) {
     display: none;
   }
 
   @media (min-width: 640px) {
     position: fixed;
-    top: 12rem;
-    left: 2.5rem;
-    width: 15rem;
+    top: 8rem;
+    left: 3.5rem;
+    width: 16rem;
   }
 
   @media (min-width: 1140px) {
@@ -111,11 +112,12 @@
 
   @media (min-width: 1440px) {
     left: 5rem;
+    width: 14.5rem;
   }
 
   @media (min-width: 1600px) {
     left: 50%;
-    width: 15rem;
+    width: 16.5rem;
     transform: translateX(-75rem);
   }
 }
@@ -123,23 +125,26 @@
 .p-layout---main-limit {
   max-width: 1440px;
 
-  @media (min-width: 640px) {
-    padding: 2rem 0 3rem 2em;
-    border-left: var(--border);
-  }
+  // @media (min-width: 640px) {
+  //   padding: 2rem 0 3rem 2em;
+  //   border-left: var(--border);
+  // }
 
-  @media (min-width: 1140px) {
-    padding: 3rem 0 4rem 2em;
+  @media (min-width: 960px) {
+    // padding: 3rem 0 4rem 2em;
     // border-radius: 3.2rem;
+    // padding-left: 2em;
+    border-left: var(--border);
+    padding-left: 2em;
   }
 
   @media (min-width: 1440px) {
-    padding: 3rem 2em 4rem 2em;
+    padding-right: 2em;
     border-right: var(--border);
   }
 
   @media (min-width: 1600px) {
-    padding: 4rem 3em 6rem;
+    // padding: 4rem 3em 6rem;
   }
   // margin: auto;
 
@@ -200,4 +205,16 @@
 
 ._w {
   background: #fff !important;
+}
+
+.extended-header {
+  .p-layout---main {
+    padding-top: 4rem;
+  }
+  .p-layout---aside {
+    top: 13rem;
+  }
+  .p-layout---nav {
+    top: 12rem;
+  }
 }

@@ -53,6 +53,12 @@
 								</p-list-linear>
 							</div>
 						</div>
+						<!-- <div v-if="$route.fullPath.split('/volby/snemovni-volby/166').length > 1">
+							<div class="p-line"></div>
+							<div class="smaller">
+								<strong>Sněmovní volby</strong>
+							</div>
+						</div> -->
 
 						<!-- <div class="p-gap"></div> -->
 						<div class="p-line"></div>
@@ -100,6 +106,11 @@
 				</p-list-linear>
 			</div>
 		</div>
+		<!-- <div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/snemovni-volby/166/').length > 1">
+			<div class="smaller">
+				<strong><router-link to="/volby/senatni-volby/163" class="blue">Volby'25</router-link> </strong>
+			</div>
+		</div> -->
 		<!-- <div class="row _r">
 			<div class="smaller strong red">
 				Výsledky budou <strong class="red">v neděli po 23:00</strong>
