@@ -29,6 +29,10 @@
 								<td>Sběr</td>
 								<td>od {{ date(data.poll.from) }} do {{ date(data.poll.to) }}</td>
 							</tr>
+							<tr v-if="data.poll.amount && data.poll.amount > 0">
+								<td>Respondentů</td>
+								<td>{{ number(data.poll.amount) }}</td>
+							</tr>
 							<tr v-if="data.poll.attendance">
 								<td>Účast</td>
 								<td>
