@@ -1,0 +1,115 @@
+<div class="graph-polls-detail">
+	<p-layout-simple>
+		<div>
+			<p-loader :rule="data">
+				<div v-if="data">
+					<div class="text-center">
+						<h1>{{ data.poll.agency }} &middot; {{ date(data.poll.datum) }}</h1>
+						<div>{{ data.poll.title }}</div>
+					</div>
+					<div class="p-gap _2"></div>
+					<p-area>
+						<results-parties-graph :list="list" v-if="list.length > 0" :diff="true"></results-parties-graph>
+						<div class="smallest dimm hide-80rem">Kompletní výpis najdete níže.</div>
+					</p-area>
+					<div class="p-gap _2"></div>
+					<div class="_w40">
+						<h2 class="text-center">Základní údaje o průzkumu</h2>
+						<table>
+							<tr>
+								<td>Agentura</td>
+								<td>
+									<div class="p-offset reverse balanced">
+										<div>{{ data.poll.agency }}</div>
+										<div><p-link :href="data.poll.link">zdroj</p-link></div>
+									</div>
+								</td>
+							</tr>
+							<tr v-if="data.poll.from">
+								<td>Sběr</td>
+								<td>od {{ date(data.poll.from) }} do {{ date(data.poll.to) }}</td>
+							</tr>
+							<tr v-if="data.poll.attendance">
+								<td>Účast</td>
+								<td>
+									{{ number(data.poll.attendance, 1) }} %
+									<span v-if="data.previous && data.previous.attendance" class="dimm">&middot; minule {{ data.previous.attendance }} %</span>
+								</td>
+							</tr>
+							<tr v-if="data.poll.error">
+								<td>Chyba</td>
+								<td>{{ data.poll.error }}</td>
+							</tr>
+							<tr v-if="data.poll.previous">
+								<td>Předchozí</td>
+								<td><router-link :to="'/volebni-pruzkumy/' + data.poll.previous">{{ date(data.previous.datum) }}</router-link></td>
+							</tr>
+						</table>
+					</div>
+					<div class="p-gap _2"></div>
+					<div class="_w60">
+						<h2 class="text-center">Kompletní přehled stran</h2>
+						<p-area>
+							<table class="_align smaller">
+								<thead>
+									<tr>
+										<th>Strana</th>
+										<th>Výsledek</th>
+										<th v-if="data.previous">Minule</th>
+										<th v-if="data.previous">Rozdíl</th>
+										<th v-if="data.poll.$data.find(x => x.mandates)">Mandáty</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="item in sortBy(data.poll.$data, 'value', null, false, true)"> 
+										<td>
+											<div class="_r">
+												<div class="_a" :style="{background: colorByItem(data.cis.strany.find(x => x.VSTRANA === item.party ), data), width: (item.value * 3) + '%'}"></div>
+												<div class="_z show-60rem">{{ data.cis.strany.find(x => x.VSTRANA === item.party ).NAZEV }}</div>
+												<div class="_z hide-60rem">{{ data.cis.strany.find(x => x.VSTRANA === item.party ).ZKRATKA }}</div>
+											</div>
+										</td>
+										<td>{{ number(item.value, 1) }} %</td>
+										<td v-if="data.previous">
+											{{ data.previous.$data.find(x => x.party === item.party && x.name === item.name) ? number(data.previous.$data.find(x => x.party === item.party && x.name === item.name).value, 1) + ' %' : '' }}
+										</td>
+										<td v-if="data.previous">
+											<template v-if="data.previous.$data.find(x => x.party === item.party && x.name === item.name)">
+												<span class="indicator" :class="indicator(item.value, data.previous.$data.find(x => x.party === item.party && x.name === item.name).value)">
+													{{ number(item.value - data.previous.$data.find(x => x.party === item.party && x.name === item.name).value, 1) }}
+												</span>
+											</template>
+										</td>
+										<td v-if="data.poll.$data.find(x => x.mandates)">{{ item.mandates || '' }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</p-area>
+					</div>
+					<div class="p-gap _2"></div>
+					<div class="_w40">
+						<h2 class="text-center">Přepočet na mandáty</h2>
+						<div class="smallest dimm text-center">Vlastní přepočet Programů do voleb</div>
+						<div class="p-gap _2"></div>
+						<election-simulation-imperiali-2021 :defined="defined" :hide="true" :tickDefined="1" @update="setMandates"></election-simulation-imperiali-2021>
+						<graph-mandates :circles="circles"></graph-mandates>
+						<div class="p-line"></div>
+						<p-box-group v-if="mandates.length > 0">
+							<template v-for="(item, index) in mandates">
+								<p-box :click="() => toggle(item)">
+									<p-box-button :color="selected.indexOf(item.hash) > -1 ? item.color : null">{{ item.short }} &middot; {{ item.value }}</p-box-button>
+								</p-box>
+							</template>
+						</p-box-group>
+						<template v-if="selected.length > 0">
+							<div class="p-line"></div>
+							<h3 class="serif text-center">
+								<p-lang :value="mandates.reduce((a, b) => a + (selected.indexOf(b.hash) > -1 ? b.value : 0), 0)" :end="['', 'jeden mandát', '%% mandáty', '%% mandátů']" :class="indicator(mandates.reduce((a, b) => a + (selected.indexOf(b.hash) > -1 ? b.value : 0), 0), 100.5)"></p-lang>
+							</h3>
+						</template>
+					</div>
+				</div>
+			</p-loader>
+		</div>
+	</p-layout-simple>
+</div>

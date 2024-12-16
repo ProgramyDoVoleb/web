@@ -239,6 +239,12 @@ const router = createRouter({
       component: () => import('../views/polls/do.vue'),
     },
     {
+      path: '/volebni-pruzkumy/:id',
+      name: 'LayoutPollsDetail',
+      component: () => import('../views/polls/detail/do.vue'),
+      props: true
+    },
+    {
       path: '/vypocet-mandatu',
       name: 'LayoutPollsSimulation',
       component: () => import('../views/polls/simulation/do.vue'),

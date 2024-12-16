@@ -3,7 +3,8 @@
 		<div v-if="parties">
 			<!-- <p-area :class="{cancel: both}"> -->
 				<div class="text-center">
-					<strong>{{ poll.agency }}</strong>, {{ date(poll.datum) }}
+					<component :is="poll.type === 1 && poll.id > 227 && poll.id != 999999 ? 'router-link' : 'span'" :to="'/volebni-pruzkumy/' + poll.id" class="strong">{{ poll.agency }}</component>
+					&middot; {{ date(poll.datum) }}
 					<div v-if="poll.type === 1 && poll.id > 227 && !both" class="smallest">
 						<button class="inline" @click="showMandates = false" :class="{active: !showMandates}">Průzkum</button> <template v-if="(poll.type === 1 && (poll.pollofpolls || poll.coalition))">&rarr; <button class="inline" @click="showMandates = true" :class="{active: showMandates}">Mandáty</button></template>
 					</div>

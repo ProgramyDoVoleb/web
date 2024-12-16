@@ -83,6 +83,10 @@
 	._ref & {
 		left: 45%;
 	}
+
+	.diff & {
+		top: -3em;
+	}
 }
 
 ._ref ._ref-value {
@@ -163,3 +167,9 @@
 		left: 40%;
 	}
 }
+
+
+
+.diff .tiny.green:before {
+	content: '+';
+  }

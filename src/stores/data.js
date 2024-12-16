@@ -68,7 +68,7 @@ export const useData = defineStore('store', () => {
         } else {
             activity.value++; 
 
-            nextTick(() => {
+            // nextTick(() => {
 
                 new Promise((resolve, reject) => {
                     var o = {
@@ -103,7 +103,7 @@ export const useData = defineStore('store', () => {
                         return lookup.response.value;
                     }
                 });
-            });
+            // });
         }
     }
   })

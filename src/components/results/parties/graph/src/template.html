@@ -1,16 +1,21 @@
-<div class="results-parties-graph">
+<div class="results-parties-graph" :class="{diff}">
 	<div class="_space">
 		<div class="_item" v-for="(item, index) in display" :class="{passed: item.passed, rest: !item.link}">
 			<div class="_bar-holder" :class="{'_ref': item.ref}">
 				<div class="_bar">
 					<div class="_bar-pane" :style="{height: ((this.show ? item.graph : 0) * 2.5) + 'px', background: item.color, 'transition-delay': (index * .05 + .5) + 's'}"></div>
 					<div class="_bar-value smallest">
-						{{ round(item.pct, 2) }}
+						{{ number(item.pct, 1) }}
+						<template v-if="diff">
+							<div class="tiny" :class="{red: item.pct < item.ref.pct, green: item.pct > item.ref.pct, dimm: item.pct === item.ref.pct}">
+								{{ number(item.pct - item.ref.pct, 1) }}
+							</div>
+						</template>
 					</div>
 					<template v-if="item.ref">
 						<div class="_bar-pane _ref-pane" :style="{height: (item.ref.graph * 2.5) + 'px', background: item.color}"></div>
-						<div class="_bar-value _ref-value smallest" :style="{bottom: (item.ref.graph * 2.5) + 'px'}">
-							{{ round(item.ref.pct, 2) }}
+						<div class="_bar-value _ref-value smallest" :style="{bottom: (item.ref.graph * 2.5) + 'px'}" v-if="!diff">
+							{{ number(item.ref.pct, 1) }}
 						</div>
 					</template>
 				</div>

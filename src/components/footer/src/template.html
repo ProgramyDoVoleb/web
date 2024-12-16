@@ -1,13 +1,6 @@
 <footer>
 	<div class="footer---block text-center">
-		
-		<!-- <engagement-thanks></engagement-thanks> -->
-
-		<!-- <div class="p-line p-line__3"></div> -->
-
-		<!-- <div class="strong green">Podpořte tento projekt</div> -->
-		<!-- <div class="p-gap"></div> -->
-		<h4><router-link to="/podporit-projekt" class="strong is-span">Podpořte tento projekt</router-link></h4>
+		<!-- <h4><router-link to="/podporit-projekt" class="strong is-span">Podpořte tento projekt</router-link></h4>
 		<p class="center smaller _mw">Podpořte neziskový projekt <em>Programy do voleb</em>, který poskytuje nestranné přehledy k českým volbám od roku 2018. Jednorázově nebo opakovaně.</p>
 
 		<div class="p-gap"></div>
@@ -15,8 +8,8 @@
 		<p-box-group class="_jac">
 			<template v-for="(kc, i) in [50, 100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
 			<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
-			<!-- <p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Koupit plakát</p-box-button></p-box> -->
-		</p-box-group>
+			<p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Koupit plakát</p-box-button></p-box>
+		</p-box-group> -->
 
 		<div class="p-line p-line__3"></div>
 
@@ -50,6 +43,9 @@
 		<div class="p-gap"></div>
 
 		<p-box-group class="center">
+			<p-box to="/podporit-projekt">
+				<p-box-button color="var(--green)">Podpořit</p-box-button>
+			</p-box>
 			<p-modal> 
 				<template #init>
 					<p-box>

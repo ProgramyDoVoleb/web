@@ -1,0 +1,51 @@
+h1 {
+  margin-bottom: 0;
+}
+
+._w40 {
+  max-width: 40em;
+  margin: auto;
+}
+
+._w60 {
+  max-width: 60em;
+  margin: auto;
+}
+
+._align td:not(:first-child),
+._align th:not(:first-child) {
+  text-align: right;
+}
+
+._align td:nth-child(2) {font-weight: 700;}
+
+.show-60rem {
+  @media  (min-width: 60rem) {
+    display: table-cell;
+  }
+}
+
+._r {
+  position: relative;
+}
+
+._a {
+  position: absolute;
+  top: -.3em;
+  left: -.5em;
+  bottom: -.3em;
+  border-radius: 4px;
+  opacity: .2;
+  z-index: 1;
+}
+
+._z {
+  position: relative;
+  z-index: 2;
+}
+
+.hide-80rem {
+  @media (min-width: 80rem) {
+    display: none;
+  }
+}

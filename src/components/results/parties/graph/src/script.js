@@ -3,7 +3,7 @@ import { cdn } from '@/stores/core';
 
 export default {
 	name: 'results-parties-graph',
-	props: ['list'],
+	props: ['list', 'diff'],
 	data: function () {
 		return {
 			show: false,
@@ -27,7 +27,13 @@ export default {
 			// console.log(this.$el);
 
 			this.list.filter(x => !x.passed).forEach(item => {
-				if (arr.length < (this.width < 800 ? 7 : 10)) {
+
+				var limit = 7;
+
+				if (this.width > 800) limit = 10;
+				if (this.width > 1200) limit = 15;
+
+				if (arr.length < limit) {
 					arr.push(item);
 				} else {
 					rest.push(item);
@@ -77,6 +83,7 @@ export default {
 	methods: {
 		round,
 		truncate,
+		number,
 		onResize: function () {
 			this.width = this.$el.getBoundingClientRect().width;
 		}

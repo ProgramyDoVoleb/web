@@ -50,6 +50,7 @@
 												<li v-if="poll.previous">porovnání vs {{ polls.list.find(x => x.id === poll.previous).agency }}, {{ date(polls.list.find(x => x.id === poll.previous).datum )}}</li>
 												<li v-if="poll.entries.find(x => x.mandates)">poslední sloupeec ukazuje zisk mandátů uvedený v průzkumy</li>
 												<li v-if="poll.link"><p-link :href="poll.link">zdroj {{ poll.agency }}</p-link></li>
+												<li v-if="poll.id > 227 && poll.type === 1 && poll.volby != 161"><router-link :to="'/volebni-pruzkumy/' + poll.id" class="strong">Podrobně</router-link></li>
 											</p-list-linear>
 										</div>
 									</p-collapsible>
