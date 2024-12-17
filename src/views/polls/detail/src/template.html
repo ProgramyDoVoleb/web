@@ -69,8 +69,12 @@
 										<td>
 											<div class="_r">
 												<div class="_a" :style="{background: colorByItem(data.cis.strany.find(x => x.VSTRANA === item.party ), data), width: (item.value * 3) + '%'}"></div>
-												<div class="_z show-60rem">{{ data.cis.strany.find(x => x.VSTRANA === item.party ).NAZEV }}</div>
-												<div class="_z hide-60rem">{{ data.cis.strany.find(x => x.VSTRANA === item.party ).ZKRATKA }}</div>
+												<div class="_z show-60rem">
+													<router-link :to="'/rejstrik/' + item.party" class="">{{ data.cis.strany.find(x => x.VSTRANA === item.party ).NAZEV }}</router-link>
+												</div>
+												<div class="_z hide-60rem">
+													<router-link :to="'/rejstrik/' + item.party" class="">{{ data.cis.strany.find(x => x.VSTRANA === item.party ).ZKRATKA }}</router-link>
+												</div>
 											</div>
 										</td>
 										<td>{{ number(item.value, 1) }} %</td>
@@ -111,6 +115,15 @@
 								<p-lang :value="mandates.reduce((a, b) => a + (selected.indexOf(b.hash) > -1 ? b.value : 0), 0)" :end="['', 'jeden mandát', '%% mandáty', '%% mandátů']" :class="indicator(mandates.reduce((a, b) => a + (selected.indexOf(b.hash) > -1 ? b.value : 0), 0), 100.5)"></p-lang>
 							</h3>
 						</template>
+					</div>
+					<div class="p-gap _2"></div>
+					<div class="_w60">
+						<h2 class="text-center">Vývoj v čase</h2>
+						<p-area>
+							<div id="chart">
+								<apexchart type="line" :height="chartOptions.chart.height" :options="chartOptions" :series="series"></apexchart>
+							</div>
+						</p-area>
 					</div>
 				</div>
 			</p-loader>

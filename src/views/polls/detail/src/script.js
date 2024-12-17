@@ -8,13 +8,66 @@ import ElectionSimulationImperiali2021 from '@/components/election-simulation-im
 import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2021";
 import {ga} from '@/pdv/analytics';
 
+import ApexCharts from 'apexcharts'
+import { nextTick } from "vue";
+
 export default {
 	name: 'GraphPollDetail',
 	props: ['id'],
 	data: function () {
 		return {
 			mandates: [],
-			selected: []
+			selected: [],
+			chartOptions: {
+				chart: {
+					height: 500,
+					type: 'line',
+					zoom: {
+					  type: 'x',
+					  enabled: true,
+					  autoScaleYaxis: true
+					},
+					animations: {
+					  enabled: true
+					},
+					locales: [{
+					  "name": "cs",
+					  "options": {
+						"months": ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosines"],
+						"shortMonths": ["Led", "Úno", "Bře", "Dub", "Kvě", "Čer", "Čvn", "Srp", "Zář", "Říj", "Lis", "Pro"],
+						"days": ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"],
+						"shortDays": ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"],
+						"toolbar": {
+							"exportToSVG": "Stáhnout SVG",
+							"exportToPNG": "Stáhnout PNG",
+							"exportToCSV": "Stáhnout CSV",
+							"menu": "Menu",
+							"selection": "Výběr",
+							"selectionZoom": "Přiblížení",
+							"zoomIn": "Přiblížit",
+							"zoomOut": "Oddálit",
+							"pan": "Posun",
+							"reset": "Obnovit"
+						}
+					  }
+					}],
+					defaultLocale: "cs"
+				},
+				xaxis: {
+				  type: 'datetime'
+				},
+				stroke: {
+				  width: [5,5,4],
+				  curve: 'smooth'
+				},
+				title: {
+				  text: 'Od 6. října 2021'
+				},
+				markers: {
+					size: 4
+				},
+			},
+			series: []
 		}
 	},
 	components: {
@@ -51,6 +104,37 @@ export default {
 			if (d) {
 				ga(d.poll.agency + ' - ' + date(d.poll.datum, 3));
 				window.scrollTo(0, 0);
+
+				if (d.history) {
+					this.series = []
+
+					d.history.parties.forEach(party => {
+						var o = {
+							data: [],
+							name: d.cis.strany.find(x => x.VSTRANA === party.party).ZKRATKA,
+							color: colorByItem(d.cis.strany.find(x => x.VSTRANA === party.party), d),
+							hidden: party.entries[0].value < 3
+						}
+
+						party.entries.forEach(entry => {
+							o.data.push({
+								x: entry.datum,
+								y: entry.value
+							})
+						});
+
+						d.history.polls.forEach(poll => {
+							if (!o.data.find(x => x.x === poll.datum)) {
+								o.data.push({
+									x: poll.datum,
+									y: null
+								})
+							}
+						});
+
+						this.series.push(o);
+					});
+				}
 			}
 
 			return d;
@@ -166,7 +250,7 @@ export default {
 			list.sort((a, b) => b.selected - a.selected);
 
 			return list;
-		},
+		}
 	},
 	mounted: function () {
 	}
