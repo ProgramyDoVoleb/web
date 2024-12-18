@@ -5,6 +5,7 @@ import {url, date, number, truncate, con, type, domain} from '@/pdv/helpers';
 import {colorByItem, logoByItem} from '@/components/results/helpers';
 import {ga, ge} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
+import NewsBlock from '@/components/news-block/do.vue'
 import StatsTiny from '@/components/stats/stats-tiny/do.vue';
 import ReportModal from '@/components/report-modal/do.vue';
 import SearchParty from '@/components/search-party/do.vue'
@@ -24,6 +25,7 @@ export default {
 	},
   components: {
 	NewsItem,
+	NewsBlock,
 	StatsTiny,
 	ReportModal,
 	SearchParty,
@@ -63,6 +65,31 @@ export default {
 		},
 		news: function () {
 			return this.$store.getters.pdv('news/party/' + this.id);
+		},
+		newsmedia: function () {
+			var list = [];
+
+			if (this.news) {
+				sortBy([].concat(this.news.list), 'datum', null, true, true).forEach(item => {
+					list.push({
+						source_label: item.source,
+						source: 'https://programydovoleb.cz/novinky/' + item.id,
+						value: item.title,
+						updated: item.datum,
+						label: item.priority === 9 ? 'pdv' : 'news'
+					})
+				});
+
+				this.news.media.forEach(item => {
+					if (!list.find(x => x.csu_id && x.csu_id === item.csu_id)) {
+						list.push(item);
+					}
+				});
+
+				list = sortBy(list, 'updated', null, true, true);
+			}
+
+			return list.filter((x,i) => i < 12);
 		},
 		upcoming: function () {
 			return this.$store.getters.pdv('party/upcoming/' + this.id);

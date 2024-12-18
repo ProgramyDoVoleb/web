@@ -110,7 +110,7 @@ table td {
 	margin-top: -1em;
 }
 
-.p-block + .p-block,
+.p-block + .p-block:not(.p-block---expandable),
 .p-block-expandable.open + .p-block {
 	padding-top: 3rem;
 }
