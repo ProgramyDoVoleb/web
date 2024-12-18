@@ -44,7 +44,11 @@
 							<tbody>
 								<tr v-for="(poll, index) in data.polls.filter(x => data.entries.find(y => y.poll === x.id))">
 										<td class="">{{ date(poll.datum, 4) }}</td>
-										<td>{{ poll.agency }} <span class="dimm smallest keep">{{ poll.title }}</span></td>
+										<td>
+											<router-link :to="'/volebni-pruzkumy/' + poll.id">{{ poll.agency }}</router-link>  
+											 
+											<span class="dimm smallest keep">{{ poll.title }}</span>
+										</td>
 										<td class="text-right">{{ number(data.entries.find(y => y.poll === poll.id).value, 1) }} %</td>
 								</tr>
 							</tbody>

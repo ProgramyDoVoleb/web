@@ -64,7 +64,7 @@ export default {
 				},
 				markers: {
 					size: 4
-				},
+				}
 			},
 			series: []
 		}
