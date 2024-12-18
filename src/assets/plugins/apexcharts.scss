@@ -1,0 +1,21 @@
+.dark {
+    text {
+        fill: var(--grey);
+    }
+    .apexcharts-legend-text {
+        color: var(--white) !important;
+    }
+    .apexcharts-legend-marker {
+        stroke: var(--black);
+    }
+    .apexcharts-xaxistooltip,
+    .apexcharts-tooltip {
+        color: var(--black);
+    }
+    .apexcharts-marker {
+        stroke-width: .33;
+    }
+    .apexcharts-menu-item {
+        color: var(--blue);
+    }
+}

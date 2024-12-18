@@ -4,11 +4,16 @@
 			<div class="_bar-holder" :class="{'_ref': item.ref}">
 				<div class="_bar">
 					<div class="_bar-pane" :style="{height: ((this.show ? item.graph : 0) * 2.5) + 'px', background: item.color, 'transition-delay': (index * .05 + .5) + 's'}"></div>
-					<div class="_bar-value smallest">
-						{{ number(item.pct, 1) }}
-						<template v-if="diff">
+					<div class="_bar-value smaller">
+						<strong>{{ number(item.pct, 1) }}</strong>
+						<template v-if="diff && item.ref.pct > 0">
 							<div class="tiny" :class="{red: item.pct < item.ref.pct, green: item.pct > item.ref.pct, dimm: item.pct === item.ref.pct}">
 								{{ number(item.pct - item.ref.pct, 1) }}
+							</div>
+						</template>
+						<template v-if="diff && item.ref.pct === 0">
+							<div class="tiny blue">
+								nově
 							</div>
 						</template>
 					</div>

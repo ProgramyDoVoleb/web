@@ -129,8 +129,8 @@ import 'leaflet/dist/leaflet.css';
 // app.component('l-geo-json', LGeoJson);
 // app.component('l-popup', LPopup);
 
-import VueApexCharts from "vue3-apexcharts";
+// import VueApexCharts from "vue3-apexcharts";
 
-app.use(VueApexCharts);
+// app.use(VueApexCharts);
 
 app.mount('#app')

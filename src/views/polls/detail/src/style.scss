@@ -37,6 +37,10 @@ h1 {
   border-radius: 4px;
   opacity: .2;
   z-index: 1;
+
+  .dark & {
+    opacity: .4;
+  }
 }
 
 ._z {
@@ -48,4 +52,8 @@ h1 {
   @media (min-width: 80rem) {
     display: none;
   }
+}
+
+._jc {
+  justify-content: center;
 }

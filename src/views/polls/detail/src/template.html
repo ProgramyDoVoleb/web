@@ -18,12 +18,7 @@
 						<table>
 							<tr>
 								<td>Agentura</td>
-								<td>
-									<div class="p-offset reverse balanced">
-										<div>{{ data.poll.agency }}</div>
-										<div><p-link :href="data.poll.link">zdroj</p-link></div>
-									</div>
-								</td>
+								<td>{{ data.poll.agency }}</td>
 							</tr>
 							<tr v-if="data.poll.from">
 								<td>Sběr</td>
@@ -50,6 +45,12 @@
 							</tr>
 						</table>
 					</div>
+					<div class="p-gap _2"></div>
+					<p-box-group class="_jc">
+						<p-box :href="data.poll.link">
+							<p-box-button color="var(--blue)" icon="link.svg">Celá zpráva na {{ domain(data.poll.link) }}</p-box-button>
+						</p-box>
+					</p-box-group>
 					<div class="p-gap _2"></div>
 					<div class="_w60">
 						<h2 class="text-center">Kompletní přehled stran</h2>
@@ -121,7 +122,7 @@
 						<h2 class="text-center">Vývoj v čase</h2>
 						<p-area>
 							<div id="chart">
-								<apexchart type="line" :height="chartOptions.chart.height" :options="chartOptions" :series="series"></apexchart>
+								<vue-apex-charts type="line" :height="chartOptions.chart.height" :options="chartOptions" :series="series"></vue-apex-charts>
 							</div>
 						</p-area>
 					</div>

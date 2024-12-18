@@ -8,8 +8,7 @@ import ElectionSimulationImperiali2021 from '@/components/election-simulation-im
 import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2021";
 import {ga} from '@/pdv/analytics';
 
-import ApexCharts from 'apexcharts'
-import { nextTick } from "vue";
+import { defineAsyncComponent } from 'vue';
 
 export default {
 	name: 'GraphPollDetail',
@@ -73,7 +72,8 @@ export default {
 	components: {
 		ResultsPartiesGraph,
 		ElectionSimulationImperiali2021,
-		GraphMandates
+		GraphMandates,
+		VueApexCharts: defineAsyncComponent(() => import('vue3-apexcharts')),
 	},
 	methods: {
 		date, number, truncate, color, indicator, con, domain, sortBy,
@@ -82,7 +82,15 @@ export default {
 
 			while (this.mandates.length > 0) this.mandates.pop();
 
-			payload.forEach(item => this.mandates.push(item));
+			payload.forEach(item => {
+				var o = item;
+				var p = this.data.cis.strany.find(x => x.VSTRANA === item.hash);
+
+				o.color = colorByItem(p, this.data);
+				o.short = p.ZKRATKA;
+
+				this.mandates.push(o);
+			});
 		},
 		toggle: function (party) {
 			var index = this.selected.indexOf(party.hash);

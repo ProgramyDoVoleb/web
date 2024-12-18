@@ -5,49 +5,15 @@
 					<div class="_layout">
 						<div>
 							<p-area>
-								<svg ref="svg" class="svg">
-									<g class="years">
-										<template v-for="(item, index) in years">
-											<line :x1="item.x" :x2="item.x" y1="0" :y2="item.y" stroke="var(--greyish)" stroke-width="1"></line>
-											<text :x="item.x - 8" :y="item.y + 13" class="smallest">`{{ item.d - 2000 }}</text>
-										</template>
-									</g>
-									<g class="splits">
-										<template v-for="(item, index) in splits">
-											<line x1="15" x2="1000" :y1="item.y" :y2="item.y" :stroke="item.d === 5 ? 'var(--red)' : 'var(--greyish)'" :stroke-width="item.d < 6 ? 2 : 1"></line>
-											<text x="0" :y="item.y + 3" class="smallest">{{ item.d }}</text>
-										</template>
-									</g>
-									<g class="agencies">
-										<template v-for="(item, index) in agencies">
-											<template v-if="item.path">
-												<path :d="item.path" :class="{'selected': item.agency === agencySelected}" :stroke="item.agency === agencySelected ? color : null"></path>
-											</template>
-										</template>
-									</g>
-									<g class="points">
-										<template v-for="(item, index) in circles">
-											<circle :cx="item.x" :cy="item.y" r="3" :title="item.v" :fill="color"></circle>
-										</template>
-									</g>
-								</svg>
-								<!-- <div class="p-line"></div> -->
-								<div class="text-center" v-if="agencies">
-									<p-list-linear class="or">
-										<li v-for="(item, index) in agencies.filter(x => x.path)">
-											<button class="inline" @click="agencySelected = item.agency" :class="{strong: agencySelected === item.agency}">{{ item.agency }}</button>
-										</li>
-										<li v-if="agencySelected">
-											<button class="inline" @click="agencySelected = null"><span class="red">zrušit</span></button>
-										</li>
-									</p-list-linear>
+								<div id="chart">
+									<vue-apex-charts type="line" :height="chartOptions.chart.height" :options="chartOptions" :series="series"></vue-apex-charts>
 								</div>
 							</p-area>
 						</div>
 						<div v-if="!isCoalition">
 							<h3>Poslední průzkumy</h3>
 							<p-list>
-								<div v-for="(agency, index) in ['Kantar', 'Median', 'STEM']">
+								<div v-for="(agency, index) in ['Kantar', 'Median', 'STEM', 'NMS Market Research']">
 									<div class="p-offset reverse balanced">
 										<div>
 											{{ agency }}
