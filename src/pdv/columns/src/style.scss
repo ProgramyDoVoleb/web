@@ -15,6 +15,14 @@
 	@container (min-width: 940px) {
 		.p-columns---container {
 			columns: 3;
+			column-gap: 3em;
+		}
+	}
+	
+	@container (min-width: 1280px) {
+		.p-columns---container {
+			columns: 4;
+			column-gap: 4em;
 		}
 	}
 }

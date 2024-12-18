@@ -4,12 +4,12 @@
 		<p-loader type="table" :rule="list.length > 0">
 			<template v-for="(item, index) in list">
 				<li :class="{'p-anchors---level---visible': item.visible}" v-if="item.level === 1" class="p-anchors---level p-anchors---level-1 strong">
-					<a :href="item.hash" class="p-anchors---link dimm" @click="scrollIntoView(item, $event)">
+					<a :href="item.hash" class="p-anchors---link" :class="{'is-span': item.visible}" @click="scrollIntoView(item, $event)">
 						{{ item.label }}
 					</a>
 				</li>
 				<li :class="{'p-anchors---level---visible': item.visible}" v-if="item.level === 2" class="p-anchors---level p-anchors---level-2 smaller">
-					<a :href="item.hash" class="p-anchors---link dimm" @click="scrollIntoView(item, $event)">
+					<a :href="item.hash" class="p-anchors---link" :class="{'is-span': item.visible}" @click="scrollIntoView(item, $event)">
 						{{ item.label }}
 					</a>
 				</li>

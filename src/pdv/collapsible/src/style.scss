@@ -1,4 +1,4 @@
-.collapsible-element {
+.collapsible-element.opened {
   border-bottom: var(--border);
 
   .dark & {
@@ -16,13 +16,24 @@
 }
 
 .collapsible-element-header {
-  padding: .5em .75em;
+  padding: .5em 1em;
   position: relative;
   margin-left: -1rem;
   margin-right: -1rem;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  // max-width: 40em;
+  // margin: auto;
+
+  .collapsible-element:not(.opened) & {
+    border-bottom: var(--border);
+  }
+
+  .collapsible-element.opened & {
+    // background: var(--blue11);
+    // border-radius: 2em;
+  }
 
   @media (hover: hover) {
     transition: background .3s;
@@ -131,7 +142,11 @@
 }
 
 .red {
-  color: #f00;
+  color: var(--red);
+
+  .dark &:not(.icon) {
+    color: var(--white);
+  }
 }
 
 .collapsible-element.skip {

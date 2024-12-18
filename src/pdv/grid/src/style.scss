@@ -25,6 +25,12 @@
       grid-template-columns: repeat(3, 1fr);
     }
   }
+  
+  @container (min-width: 1200px) {
+    &:not(.p-grid---1-2):not(._2) ._container {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
 }
 
 ._3 {

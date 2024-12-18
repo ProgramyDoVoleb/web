@@ -51,7 +51,7 @@ export default {
 			this.list.forEach(item => {
 				item.rect = item.el.getBoundingClientRect();
 
-				item.above = item.rect.top < 100;
+				item.above = false;
 				item.below = item.rect.top > window.innerHeight - 100;
 				item.visible = item.above === false && item.below === false;
 			})
