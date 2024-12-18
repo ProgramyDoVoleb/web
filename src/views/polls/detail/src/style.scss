@@ -12,6 +12,11 @@ h1 {
   margin: auto;
 }
 
+._w80 {
+  max-width: 80em;
+  margin: auto;
+}
+
 ._align td:not(:first-child),
 ._align th:not(:first-child) {
   text-align: right;
@@ -56,4 +61,10 @@ h1 {
 
 ._jc {
   justify-content: center;
+}
+
+.dark {
+  ._mandates .p-box-button[style*='color'] {
+    color: var(--white) !important;
+  }
 }

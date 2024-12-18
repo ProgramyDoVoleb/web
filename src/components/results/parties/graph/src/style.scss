@@ -105,8 +105,21 @@
 }
 
 ._item:not(.passed):not(.rest) ._bar {
-	opacity: .33;
+	opacity: .25;
 	filter: grayscale(.5);
+
+	.dark & .tiny {
+		color: var(--white);
+	}
+}
+
+@media (hover: hover) {
+	._item:hover ._bar {
+		transition: opacity .3s;
+	}
+	._item:hover ._bar {
+		opacity: 1 !important;
+	}
 }
 
 ._item.passed + ._item:not(.passed) {
@@ -182,3 +195,10 @@
 .diff .tiny.green:before {
 	content: '+';
   }
+
+.diff .tiny {
+	@media (min-width: 800px) {
+		font-size: 12px;
+		margin-top: -.1em;
+	}
+}

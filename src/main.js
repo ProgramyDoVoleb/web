@@ -22,6 +22,7 @@ import LayoutDivided from './pdv/page-layouts/divided/do.vue';
 import LayoutSimple from './pdv/page-layouts/simple/do.vue';
 
 import Anchors from './pdv/anchors/do.vue';
+import Anchors2 from './pdv/anchors-2/do.vue';
 import Block from './pdv/block/do.vue';
 import BlockExpandable from './pdv/block-expandable/do.vue';
 import Headline from './pdv/headline/do.vue';
@@ -64,6 +65,7 @@ app.component('p-layout-simple', LayoutSimple);
 
 app.component('p-compare', CompareValues);
 app.component('p-anchors', Anchors);
+app.component('p-anchors-2', Anchors2);
 app.component('p-block', Block);
 app.component('p-block-expandable', BlockExpandable);
 app.component('p-headline', Headline);

@@ -1,0 +1,33 @@
+<div class="p-anchors smaller">
+	<ol class="p-anchors---list">
+		<li class="smallest strong">Na této stránce:</li>
+		<p-loader type="table" :rule="list.length > 0">
+			<template v-for="(item, index) in list">
+				<li :class="{'p-anchors---level---visible': item.visible}" v-if="item.level === 1" class="p-anchors---level p-anchors---level-1 strong">
+					<a :href="item.hash" class="p-anchors---link dimm" @click="scrollIntoView(item, $event)">
+						{{ item.label }}
+					</a>
+				</li>
+				<li :class="{'p-anchors---level---visible': item.visible}" v-if="item.level === 2" class="p-anchors---level p-anchors---level-2 smaller">
+					<a :href="item.hash" class="p-anchors---link dimm" @click="scrollIntoView(item, $event)">
+						{{ item.label }}
+					</a>
+				</li>
+			</template>
+		</p-loader>
+		<!-- <li>
+			&nbsp;
+		</li>
+		<li>
+			<p-modal>
+				<template #init><span class="red smallest">Chyba</span></template>
+				<template #content>
+					<h3>Našli jste chybu? Nebo chcete něco doplnit?</h3>
+					<report-form part="Hlášení chyby" :noLink="true"></report-form>
+					<div class="p-line"></div>
+					<p>Můžete také napsat na <p-link href="mailto:opravte@programydovoleb.cz">opravte@programydovoleb.cz</p-link></p>
+				</template>
+			</p-modal>
+		</li> -->
+	</ol>
+</div>

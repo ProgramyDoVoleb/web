@@ -1,0 +1,39 @@
+.p-anchors {
+  position: fixed;
+  // left: 1em;
+  top: 50%;
+  width: 15em;
+  transform: translateY(-50%);
+  border-left: 4px solid var(--blue);
+  padding: 1em;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  padding: .15em 0;
+}
+
+.p-anchors---level---visible a, a:hover {
+  color: var(--blue) !important;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: -.75em;
+    top: .3em;
+    border-radius: 2px;
+    width: 4px;
+    height: 4px;
+    background: var(--blue);
+  }
+}
+
+@media (max-width: 1899px) {
+  .p-anchors {
+    display: none;
+  }  
+}

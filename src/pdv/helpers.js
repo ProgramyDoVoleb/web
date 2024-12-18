@@ -182,6 +182,7 @@ export function url (url) {
   newURL = newURL.replaceAll('ý', 'y');
   newURL = newURL.replaceAll('ž', 'z');
   newURL = newURL.replaceAll(' ', '-');
+  newURL = newURL.replaceAll('·', '-');
   newURL = newURL.replaceAll("'", '-');
   newURL = newURL.replaceAll('"', '-');
   newURL = newURL.replaceAll('“', '');
