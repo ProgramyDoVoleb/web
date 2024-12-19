@@ -1,5 +1,5 @@
 <div class="homepage-senat">
-	<p-area :borderColor="elections.status < 3 ? 'var(--blue)' : null">
+	<p-area :class="{primary: elections.status < 3}">
 		<p-loader :rule="election" reserve="100px">
 			<template v-if="election">
 				<div :class="{'columns-4': election.list[0].$dotcene.length > 1}">

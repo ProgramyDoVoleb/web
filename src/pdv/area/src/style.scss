@@ -1,14 +1,14 @@
 .p-area:not(.cancel) {
   background: rgba(0,0,0,.03);
-  padding: .75em 1.25em;
+  padding: .85em 1.25em;
   position: relative;
   margin-bottom: 0;
   border-radius: 1.6rem;
 
-  &.p-area---has-border {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    padding: 1em 1.5em;
+  &.p-area---has-border, &.primary {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding: .85em 1.25em .85em 1.5em;
   }
 
   & > :first-child {
@@ -60,10 +60,11 @@
 
 .p-area .border-color {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
+  top: 6px;
+  bottom: 6px;
+  left: 4px;
   width: 4px;
+  border-radius: 2px;
 }
 
 .p-area---content {
@@ -117,4 +118,19 @@
 
 .white {
   background: #fff !important;
+}
+
+.p-area.primary {
+  background: var(--white);
+  padding: 1.75em 2em !important;
+  box-shadow: 0 10px 25px #eee;
+
+  .dark & {
+    background: var(--black);
+  }
+
+  .border-color {
+    display: block !important;
+    background: var(--blue);
+  }
 }

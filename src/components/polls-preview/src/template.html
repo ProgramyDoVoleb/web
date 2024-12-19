@@ -4,10 +4,7 @@
 			<!-- <p-area :class="{cancel: both}"> -->
 				<div class="text-center">
 					<component :is="poll.type === 1 && poll.id > 227 && poll.id != 999999 ? 'router-link' : 'span'" :to="'/volebni-pruzkumy/' + poll.id" class="strong">{{ poll.agency }}</component>
-					&middot; {{ date(poll.datum) }}
-					<div v-if="poll.type === 1 && poll.id > 227 && !both" class="smallest">
-						<button class="inline" @click="showMandates = false" :class="{active: !showMandates}">Průzkum</button> <template v-if="(poll.type === 1 && (poll.pollofpolls || poll.coalition))">&rarr; <button class="inline" @click="showMandates = true" :class="{active: showMandates}">Mandáty</button></template>
-					</div>
+					<div class="smaller">{{ date(poll.datum) }}</div>
 				</div>								
 				<div class="p-gap"></div>
 				<component :is="both ? 'p-grid' : 'div'" class="p-grid---1-2 p-grid---gap-2">
@@ -68,10 +65,21 @@
 							<li v-if="poll.attendance">účast {{ poll.attendance }} %</li>
 							<li v-if="previous">porovnání vs {{ previous.agency }}, {{ date(previous.datum )}}</li>
 							<li v-if="poll.entries.find(x => x.mandates)">poslední sloupeec ukazuje zisk mandátů uvedený v průzkumu</li>
-							<li v-if="poll.link"><p-link :href="poll.link">zdroj {{ poll.agency }}</p-link></li>
+							<li v-if="poll.link"><p-link :href="poll.link" class="dimm">zdroj {{ poll.agency }}</p-link></li>
 						</p-list-linear>
 					</div>
 		
+				</template>
+				<template v-if="poll.type === 1 && poll.id > 227 && !both">
+					<div class="p-line _05"></div>
+					<div class="p-offset reverse balanced smallest">
+						<div>
+							<router-link :to="'/volebni-pruzkumy/' + poll.id" class="strong">Podrobnosti</router-link>
+						</div>
+						<div>
+							<button class="inline" @click="showMandates = false" :class="{'green strong': !showMandates}">Průzkum</button> <template v-if="(poll.type === 1 && (poll.pollofpolls || poll.coalition))">&middot; <button class="inline" @click="showMandates = true" :class="{'green strong': showMandates}">Mandáty</button></template>
+						</div>
+					</div>
 				</template>
 			<!-- </p-area> -->
 		</div>

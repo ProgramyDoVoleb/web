@@ -1,5 +1,7 @@
 .collapsible-element.opened {
-  border-bottom: var(--border);
+  .p-collapsible:not(.borderless) {
+    border-bottom: var(--border);
+  }  
 
   .dark & {
     // border-color: #000;
@@ -23,10 +25,11 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  border-radius: .5em;
   // max-width: 40em;
   // margin: auto;
 
-  .collapsible-element:not(.opened) & {
+  .collapsible-element:not(.borderless):not(.opened) & {
     border-bottom: var(--border);
   }
 

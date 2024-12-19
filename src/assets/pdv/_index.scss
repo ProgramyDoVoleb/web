@@ -9,3 +9,8 @@
 	break-inside: avoid;
 	margin-bottom: .75em;
 }
+
+.p-columns._narrow .p-columns---container > div {
+	break-inside: avoid;
+	margin-bottom: .25em;
+}

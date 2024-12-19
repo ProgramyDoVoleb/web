@@ -4,5 +4,5 @@
 		<p-box-image :src="icon" v-if="icon && icon.includes('http')"></p-box-image>
 		<slot />
 	</div>
-	<div class="border-color" v-if="borderColor" :style="{background: borderColor}"></div>
+	<div class="border-color" v-show="borderColor" :style="{background: borderColor}"></div>
 </div>
