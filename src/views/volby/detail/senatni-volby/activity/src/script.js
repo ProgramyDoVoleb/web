@@ -48,7 +48,7 @@ export default {
 			var list = [];
 
 			if (this.data) {
-				this.data.cis.volby.dotcene.split(',').forEach(obv => {
+				String(this.data.cis.volby.dotcene).split(',').forEach(obv => {
 					var o = {
 						obvod: this.data.cis.obvody.find(x => x.OBVOD == obv),
 						cand: null,
