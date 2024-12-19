@@ -4,7 +4,7 @@
 			<template v-if="election">
 				<div :class="{'columns-4': election.list[0].$dotcene.length > 1}">
 					<div v-for="(obvod, index) in obvody">
-						<div class="p-offset balanced reverse smaller">
+						<div class="p-offset balanced reverse">
 							<div>
 								<router-link :to="'/volby/senatni-volby/' + elections.id + '/obvod/' + obvod" class="strong">{{ list.find(x => x.id === obvod).label }}</router-link>
 								<div class="smaller" v-if="election && election.list[0].status === 3">
@@ -14,10 +14,23 @@
 										</span>
 									</p-list-linear>
 								</div>
-								<div v-if="election && election.list[0].status === 1">
+								<div v-if="election && election.list[0].status < 3">
 									<!-- <template v-for="obvod in obvody"> -->
-										<div class="p-gap"></div>
-										<component :is="election.list[0].dotcene ? 'div' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length > 0" :class="{'columns-4': election.list[0].$dotcene.length === 1}">
+										<!-- <div class="p-gap"></div> -->
+										<p>Mimořádné doplňovací volby z důvodu úmrtí senátora Romana Krause. Volby se týkají brněnských městských částí Žabovřesky, Jundrov, Komín, Královo Pole, Řečkovice a Mokrá Hora, Medlánky, Ivanovice, Jehnice, Ořešín, Útěchov a Brno-sever. Zvolený senátor bude mít mandát do října 2026.</p>
+
+										<p-grid class="_tiny smaller">
+											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod), 'PRIJMENI', '', true)">
+												<p-photo :data="cand.$data.photo[0]" width="100%" class="_ar1"></p-photo>
+												<div class="p-gap"></div>
+												<p-label :color="colorByItem(cand, election, 'NSTRANA')" :after="true">
+													<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id" class="strong">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+												</p-label>
+													<div class="smaller dimm">{{ cand.NAZEV_VS}}</div>
+											</div>
+										</p-grid>
+
+										<!-- <component :is="election.list[0].dotcene ? 'div' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length > 0" :class="{'columns-4': election.list[0].$dotcene.length === 1}">
 											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod), 'PRIJMENI', '', true)">
 												<p-label :color="colorByItem(cand, election, 'NSTRANA')">
 													<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
@@ -26,7 +39,7 @@
 										</component>
 										<div v-if="!election.list[0].$kandidati || election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length === 0">
 											<em class="smallest dimm">žádný kandidát</em>
-										</div>
+										</div> -->
 									<!-- </template> -->
 								</div>			
 							</div>
@@ -35,7 +48,5 @@
 				</div>
 			</template>
 		</p-loader>
-		<div class="p-line"></div>
-		<div class="smaller"><strong>19. prosince</strong> úřad rozhodne o registraci kandidátů. Více na <p-link href="https://www.brno.cz/w/volby"></p-link></div>
 	</p-area>
 </div>
