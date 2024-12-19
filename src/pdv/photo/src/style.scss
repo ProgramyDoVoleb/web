@@ -17,8 +17,9 @@
 
 .dark img[src*="missing.png"],
 .dark img[src*="empty.png"] {
-  // opacity: .5;
+  // opacity: .33;
 	filter: invert(1);
+  mix-blend-mode: screen;
 }
 
 ._licence {

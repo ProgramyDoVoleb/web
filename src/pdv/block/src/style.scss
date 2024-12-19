@@ -1,13 +1,13 @@
 .p-block---1:not(:last-child) {
-  padding-bottom: 8rem;
+  padding-bottom: 4em;
 }
 
-.p-block---2 {
-  padding-bottom: 4rem;
+.p-block---2:not(:last-child) {
+  padding-bottom: 4em;
 }
 
-.p-block---3 {
-  padding-bottom: 2rem;
+.p-block---3:not(:last-child) {
+  padding-bottom: 2em;
 }
 
 .p-headline {

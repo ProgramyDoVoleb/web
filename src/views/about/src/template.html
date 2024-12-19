@@ -9,7 +9,7 @@
 				<p class="lead">Tento projekt je nestranný, neziskový a vytvářen z dobré vůle na podporu demokracie a informovanosti.
 					Použítí informací je vždy na vlastní zodpovědnost.</p>
 				<p class="lead">Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni.</p>
-				<p-area icon="icon-party">
+				<p-area icon="icon-party" background="var(--blue11)">
 					<strong>Transparentní webové stránky</strong>
 					<div class="smaller">Chcete se podívat na zdrojový kód tohoto webu? Mrkněte na <p-link href="https://github.com/programydovoleb/web"></p-link></div>
 					<div class="p-line _05"></div>
@@ -17,18 +17,20 @@
 				</p-area>
 			</p-block>
 			<p-block headline="Desatero">
-				<ol>
-					<li>Ke všem je přistupováno na principu rovnosti a nestrannosti.</li>
-					<li>Všechny funkcionality jsou dostupné všem.</li>
-					<li>Do zaslaných materiálů se nezasahuje.</li>
-					<li>Fotografie jsou použité pouze se svolením.</li>
-					<li>Veškerý obsah je dostupný zdarma všem.</li>
-					<li>Všechna data lze dále šířit a používat, nejlépe jako #opendata.</li>
-					<li>Bez reklam a sponzorovaných článků.</li>
-					<li>Nesbírat data o uživatelích.</li>
-					<li>Transparentní financování.</li>
-					<li>Vždy uvádět zdroj.</li>
-				</ol>
+				<p-area class="primary">
+					<ol>
+						<li>Ke všem je přistupováno na principu rovnosti a nestrannosti.</li>
+						<li>Všechny funkcionality jsou dostupné všem.</li>
+						<li>Do zaslaných materiálů se nezasahuje.</li>
+						<li>Fotografie jsou použité pouze se svolením.</li>
+						<li>Veškerý obsah je dostupný zdarma všem.</li>
+						<li>Všechna data lze dále šířit a používat, nejlépe jako #opendata.</li>
+						<li>Bez reklam a sponzorovaných článků.</li>
+						<li>Nesbírat data o uživatelích.</li>
+						<li>Transparentní financování.</li>
+						<li>Vždy uvádět zdroj.</li>
+					</ol>
+				</p-area>
 			</p-block>
 			<p-block headline="Povinně zveřejňované informace">
 				<p>Zapsaný spolek musí uveřejňovat přehled majetku a závazku, a také přehled příjmů a výdajů. V případě
@@ -98,10 +100,93 @@
 					programování, komunikace apod zajišťuje spolek bez nároku na honorář.</p>
 				<!-- <p>Projekt lze podpořit i <router-link to="/podporit">jinými formami</router-link>, například umístěním banneru, sdílením online apod, odkazováním nebo doporučením.</p> -->
 				<p>Přispěvatelům nevznikají žádné výhody, nejsou jim dostupné nějaké funkce navíc nebo dříve. Mohou si však svůj dar odepsat z daní.</p>
+
+
+			<!-- <p-collapsible label="Poděkování"> -->
+				<!-- <div> -->
+					<div class="p-gap"></div>
+					<p-area class="primary">
+						<div class="strong">Poděkování</div>
+						<p>Velké díky patří všem, kteří pomohli tipem, odhalenou chybou, radou k lepší funkčnosti, pomocí při dohledávání údajů, povzbudivým komentářem, finančně nebo pro projekt hlasovali.</p>
+						<p-list class="smaller">
+							<div>
+								<p-modal>
+									<template #init><button class="inline">Darujme</button></template>
+									<template #content>
+										<p>Díky přispěvatelům na portálu Darujme.cz se podařilo vybrat již 31 675 Kč (k 20. červnu 2023). I s jejich pomocí tak přišlo na weby <em>Programů do voleb</em> už více než 750 000 návštěvníků. Všechny dary si mohou dáci také odečíst z daní.</p>
+										<p>
+											<p-box href="https://www.darujme.cz/projekt/1205354">
+												<p-box-button color="var(--green)">Přispějte také</p-box-button>
+											</p-box>
+										</p>
+									</template>
+								</p-modal>
+							</div>
+							<div>
+								<p-modal>
+									<template #init><button class="inline">Donio</button></template>
+									<template #content><div class="donio">
+										<p class="smaller">Pro krajské a&nbsp;senátní volby 2020 vznikla kampaň na serveru Donio, která měla za cíl
+											vybrat peníze pro lepší kampaň, aby se tento přehled dostal k&nbsp;více lidem. Kampaň se
+											podařila, vybralo se 114&nbsp;% částky, celkem 22&nbsp;451&nbsp;Kč. Díky tomu bylo možné
+											zobrazit 486&nbsp;039 reklam a&nbsp;na web si našlo cestu 109&nbsp;880 unikátních
+											návštěvníků. Poděkování patří serveru <p-link
+												href="https://www.donio.cz/programydovoleb">Donio</p-link>, který kampaň uvedl
+											v&nbsp;život, a&nbsp;pak hlavně 32&nbsp;dárcům, jmenovitě:</p>
+										<p-area>
+											<div class="columns-4">
+												<div>David Antoš</div>
+												<div>Pavol Boško</div>
+												<div>Jindřich Čermák</div>
+												<div>Jiří Čečrle</div>
+												<div>Eva Havlová</div>
+												<div>Jiří Kadeřávek</div>
+												<div>Adam Jareš</div>
+												<div>Jan Jebavý</div>
+												<div>Jeník</div>
+												<div>Lukáš Lipovský</div>
+												<div>Tomáš Martínek</div>
+												<div>Olga Maximová</div>
+												<div>Filip Oliva</div>
+												<div>Jiří Palice</div>
+												<div>Vojtěch Pikal</div>
+												<div>Michal Sirový</div>
+												<div>Pavel Šaradín</div>
+												<div>V. Umlauf</div>
+												<div>Mario Vejlupek</div>
+												<div>Libor Vondráček</div>
+												<div>Eva Zachová</div>
+												<div>Filip Zelenka</div>
+											</div>
+										</p-area>
+										<p class="smaller">Vybraní dárci dostali dopis nebo památeční plakát k volbám. Díky jejich důvěře a přispění bylo možné
+											tento rok oslovit více lidí, pomohl jim poznat blíže skoro tisícovku kandidátů a najít cestu
+											k více jak 400 volebním programům.</p>
+									</div>
+									</template>
+								</p-modal>
+							</div>
+							<div>
+								<p-modal>
+									<template #init><button class="inline">Patroni plakátů</button></template>
+									<template #content>
+										V roce 2020 a 2021 vznikla série plakátů ke krajským, senátním a evropským volbám, s výrazným přispěním od těchto patronů:
+										<p-grid class="p-grid---3 p-grid---tight">
+											<div v-for="(item, index) in ['kvk','vys','jck','eu1','lbk','msk','plk','jmk','spd','eu2','ulk','zlk','stan','senatori']">
+												<p-image :src="'https://programydovoleb.cz/static/plakety/plaketa-' + item + '.jpg'" width="100%"></p-image>
+											</div>
+										</p-grid>
+									</template>
+								</p-modal>
+							</div>
+						</p-list>
+					</p-area>
+				<!-- </div> -->
+			<!-- </p-collapsible> -->				
 				<div class="p-gap"></div>
 				<p-box-group>
 					<p-box to="/podporit-projekt">
-						<p-box-button class="primary">Více o fundraisingu</p-box-button>
+						<p-box-button color="var(--green)">Více o fundraisingu</p-box-button>
 					</p-box>
 				</p-box-group>
 			</p-block>
@@ -169,7 +254,7 @@
 					<li>adresa (nejčastěji asistenta či kanceláře)</li>
 				</ul>
 				<div class="p-gap"></div>
-				<p-area borderColor="var(--red)">
+				<p-area borderColor="var(--red)" class="primary">
 					<p>V případě zájmu o odstranění údajů z webu prosím berte v potaz, že to je možné pouze u těch, které jsou nad rámec otevřených dat poskytovaných Českým statistickým úřadem. Základní údaje jako jméno, věk, pořadí, výsledek, bydliště nebo povolání jsou veřejně dostupné údaje (poskytované jako opendata přímo úřady) a na webu Programů uvedené v souladu s podmínkami.</p>
 				</p-area>
 				<h3>Návštěvníci webu</h3>
@@ -188,7 +273,7 @@
 					<li>Programy do voleb, z. s., IČ: 10906380, <p-link
 							href="mailto:info@programydovoleb.cz">info@programydovoleb.cz</p-link></li>
 					<li>zodpovědná osoba: Štěpán Ryšavý, <p-link
-							href="mailto:info@programydovoleb.cz">info@programydovoleb.cz</p-link></li>
+							href="mailto:stepan.rysavy@programydovoleb.cz">stepan.rysavy@programydovoleb.cz</p-link></li>
 				</ul>
 			</p-block>
 			<p-block headline="Podmínky použití">
@@ -199,10 +284,12 @@
 				<p>Obsah webu je v celém rozsahu chráněn autorským právem. Není-li výslovně uvedeno jinak, převzetí
 					údajů a použití dat možné pod licencí <p-link
 						href="https://creativecommons.org/licenses/by/3.0/deed.cs">CC BY 3.0</p-link>.</p>
-				<h3>Citování a odkazování</h3>
-				<p>Při odkazování prosím používejte název <strong>Programy do voleb</strong> a nejlépe odkaz přímo na
-					konkrétní stránku. Pokud to z nějakých důvodů nelze, pak odkazujte na
-					<em>https://programydovoleb.cz</em> a připojte také datum, kdy jste informace z webu získali.</p>
+				<p-area class="primary">
+					<strong>Citování a odkazování</strong>
+					<p>Při odkazování prosím používejte název <strong>Programy do voleb</strong> a nejlépe odkaz přímo na
+						konkrétní stránku. Pokud to z nějakých důvodů nelze, pak odkazujte na
+						<em class="is-link">https://programydovoleb.cz</em> a připojte také datum, kdy jste informace z webu získali.</p>
+				</p-area>
 			</p-block>
 			<p-block headline="Autor projektu">
 				<div class="float">
