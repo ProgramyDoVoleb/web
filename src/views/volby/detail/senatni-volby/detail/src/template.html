@@ -172,6 +172,26 @@
 				</template>
 			</p-area>
 	</p-block>
+	<p-block anchor="Hranice obvodu" headline="Obvod 60 · Brno-město" v-if="current.id === 171">
+		<p>Volby se týkají voličů ve vybraných městských částech města Brno:</p>
+		<p-area class="primary mb2">
+			<p-columns class="_narrow _tight">
+				<div>Ivanovice</div>
+				<div>Jehnice</div>
+				<div>Jundrov</div>
+				<div>Komín</div>
+				<div>Královo Pole</div>
+				<div>Medlánky</div>
+				<div>Ořešín</div>
+				<div>Řečkovice a Mokrá Hora</div>
+				<div>Brno-sever</div>
+				<div>Útěchov</div>
+				<div>Žabovřesky</div>
+			</p-columns>
+		</p-area>
+		<div class="p-gap _2"></div>
+		<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
+	</p-block>
 	<!-- <div headline="Podpořit" :hide="true">
 		<p-grid class="_2">
 			<div>
