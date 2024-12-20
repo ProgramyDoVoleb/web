@@ -34,7 +34,8 @@
 									<div><router-link to="/vypocet-mandatu">Mandáty</router-link></div>
 									<!-- <div><router-link to="/widgety">Widgety</router-link></div> -->
 									<div><router-link to="/novinky">Novinky</router-link></div>
-									<!-- <div><router-link to="/podporit-projekt" class="strong green">Podpořit</router-link></div> -->
+									<div><p-link href="https://admin.programydovoleb.cz" class="strong">Pro kandidáty</p-link></div>
+									<div><router-link to="/podporit-projekt" class="strong green">Podpořit</router-link></div>
 						</div>
 						
 						<div v-if="$route.fullPath.split('/volby/krajske-volby/162').length > 1 || $route.fullPath.split('/bod/csu_kz').length > 1">
@@ -80,9 +81,10 @@
 							<!-- <li class="_w"><router-link to="/widgety">Widgety</router-link></li> -->
 							<li><router-link to="/novinky">Novinky</router-link></li>
 							<li><router-link to="/o-projektu">O projektu</router-link></li>
+							<li><p-link href="https://admin.programydovoleb.cz" class="strong">Pro kandidáty</p-link></li>
+							<li class="_w"><router-link to="/podporit-projekt" class="strong green"><span class="green">Podpořit</span></router-link></li>
 							<li>&middot;</li>
 
-							<!-- <li class="_w"><router-link to="/podporit-projekt" class="strong green"><span class="green">Podpořit</span></router-link></li> -->
 							<!-- <li class="_w"><p-link href="https://darujme.cz/programydovoleb" class="strong green"><span class="green">Podpořit</span></p-link></li> -->
 							<li>
 								<button class="micro" @click="core.change(!core.dark)">&#x25D0;</button>

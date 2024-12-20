@@ -102,7 +102,7 @@ button:not(.inline) {
   background: transparent;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1024px) {
   .row-menu-button {
     display: none;
   }
@@ -125,7 +125,7 @@ button:not(.inline) {
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1024px) {
   .row-menu-list {
     // right: 2.5rem;
   }
@@ -142,7 +142,7 @@ button:not(.inline) {
   left: .2rem; // 9.5rem;
   top: 1.3rem;
 
-  @media (min-width: 960px) {
+  @media (min-width: 1024px) {
     left: .7rem;
   }
 
@@ -190,7 +190,7 @@ button:not(.inline) {
 }
 
 .support-button {
-  @media (min-width: 960px) {
+  @media (min-width: 1024px) {
     position: relative;
   }
 }
@@ -364,12 +364,12 @@ button:not(.inline) {
     bottom: 100%;
     left: 70%;
 
-    @media (min-width: 960px) {
+    @media (min-width: 1024px) {
       left: 50%;
     }
   }
 
-  @media (min-width: 960px) {
+  @media (min-width: 1024px) {
     left: 25%;
     right: 25%;
   }
@@ -378,7 +378,7 @@ button:not(.inline) {
 .row-menu-right {
   display: none;
 
-  @media (min-width: 960px) {
+  @media (min-width: 1024px) {
     display: block;
     position: absolute;
     right: 2rem;
@@ -518,7 +518,7 @@ button:not(.inline) {
 .cmenu {
   display: none ;
 
-  @media (min-width: 960px) {
+  @media (min-width: 1024px) {
     display: block;
   }
 }

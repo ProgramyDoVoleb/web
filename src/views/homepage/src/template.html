@@ -1,7 +1,7 @@
 <div class="layout-homepage">
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Programy do voleb" :level="1" :hide="true" anchor="Úvodní stránka">
+			<p-block headline="Volby" :level="1" :hide="true">
 				<p class="lead">
 					Přehledně o českých volbách: <strong>volební programy</strong>, kandidáti, <router-link to="/rejstrik">politické strany</router-link>, <router-link to="/volebni-pruzkumy">průzkumy</router-link>, <router-link to="/vypocet-mandatu">výpočet mandátů</router-link>, <router-link to="/volby">archiv voleb</router-link> a další statistiky a přehledy. <router-link to="/o-projektu" class="strong smaller">Více o projektu</router-link> &rarr;
 				</p>
@@ -30,7 +30,7 @@
 					<p-label color="var(--red)" class="smaller strong">Důležité informace Ministerstva vnitra <p-link class="red" href="https://www.mvcr.cz/clanek/ustredni-krizovy-stab-resil-pomoc-oblastem-zasazenym-povodnemi-i-podporu-postizenym-krajum-s-organizaci-voleb.aspx">pro voliče zasažené povodněmi</p-link></p-label>
 				</p-area>				
 				<div class="p-gap _2"></div> -->
-				<p-block headline="Hlavní přehled" :hide="true">
+				<!-- <p-block headline="Hlavní přehled" :hide="true"> -->
 					<p-loader :rule="elections">
 						<div v-if="elections">
 							<div v-for="(election, index) in elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum > '2024-07-01'))">
@@ -101,7 +101,7 @@
 							</div>
 						</div>
 					</p-loader>
-				</p-block>
+				<!-- </p-block> -->
 				<!-- <div class="gap-2"></div> -->
 				<!-- <div class="p-gap _3"></div> -->
 				<!-- <p-grid class="_2">
@@ -113,7 +113,7 @@
 					</div>
 				</p-grid> -->
 				<!-- <div class="p-gap _2"></div> -->
-				<p-area padding="0 0 0 1.5em" borderColor="var(--red)" background="transparent">
+				<p-area padding="0 0 0 1.5em" borderColor="var(--red)" background="transparent" class="mt3">
 					<p-loader :rule="elections">
 						<div class="election-timeline">
 							<p-list v-if="elections">
@@ -386,7 +386,7 @@
 							</div>
 						</p-loader>
 					</p-area>
-					<p-collapsible label="Poslední úpravy" :borderless="true" :status="news ? news.log.length : ''">
+					<p-collapsible label="Poslední úpravy" :borderless="true" :status="news ? news.log.length : ''" class="pt05">
 						<p-loader :rule="news">
 							<div v-if="news" class="smaller">
 								<p-list>
@@ -424,7 +424,7 @@
 				</p-block>
 			</p-block>
 			<p-block headline="Může vás zajímat" :hide="true" :level="1">
-				<component :is="width > 960 ? 'p-block' : 'p-block-expandable'" headline="Rejstřík stran">
+				<p-block-expandable headline="Rejstřík stran">
 					<p>Pokud byste se chtěli podívat na zapojení strany v následujících volbách, minulé výsledky, přehled koalic, zjistit důležité odkazy nebo přehled krajských organizací.</p>
 					<p-loader :rule="parties">
 						<div v-if="parties">
@@ -460,8 +460,8 @@
 							</p-grid>
 						</div>
 					</p-loader>
-				</component>
-				<component :is="width > 960 ? 'p-block' : 'p-block-expandable'" headline="Výsledky v obcích">
+				</p-block-expandable>
+				<p-block-expandable headline="Výsledky v obcích">
 					<p>Přehled všech voleb, které se konaly v&nbsp;libovolném městě či obci. Najdete zde také zvolené zastupitele, aktuálního starostu a další zajímavosti.</p>
 					<p-area>
 						<div>
@@ -472,7 +472,7 @@
 							</div>
 						</div>
 						<div class="p-line"></div>
-						<p-columns class="_small smaller">
+						<p-columns class="_small _2 smaller">
 							<div v-for="(town, index) in sortBy([].concat(enums.towns.regional, enums.towns.other), 'name', null, true)">
 								<router-link :to="'/obec/' + town.num">
 									{{ town.name }}
@@ -484,129 +484,169 @@
 							<router-link to="/obce">Hledat jinou obec nebo městskou část</router-link>
 						</div>
 					</p-area>
-				</component>
+				</p-block-expandable>
 			</p-block>
-			<p-block headline="Programy do voleb" :level="1" :hide="true">
-				<p-block headline="Krátce o projektu">
-					<p class="smaller">
-						<strong>Programy do voleb</strong> jsou nestranný neziskový nezávislý dobrovolnický projekt. Nejsou součástí žádného zpravodajského serveru, ani projektem politické strany nebo jejího příznivce. Nezřizuje je žádná státní organizace a nežádá o dotace z veřejných rozpočtů.
-					</p>
-					<p>
-						Cílem je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. Nenajdete zde ani komentáře či názory, do textů se nezasahuje.					
-					</p>
-					<p>
-						Projekt vznikl v roce 2018 a od té doby pokrývá všechny české volby s&nbsp;výjimkou některých mimořádných komunálních voleb. Od roku 2021 mají <em>Programy do voleb</em> formu zapsaného spolku a byly 3x nominovány na Cenu českého internetu. 
-					</p>
-					<div class="p-gap"></div>
-					<p-area class="smaller strong p-area---inline"><p-label color="var(--blue)"><p-link href="https://kristalova.lupa.cz/2023/vysledky/">Křišťálová lupa 2023</p-link>&nbsp;&middot; jedna nominace</p-label></p-area>
-					<div class="p-gap_05"></div>
-					<p-area class="smaller strong p-area---inline"><p-label color="var(--blue)"><p-link href="https://kristalova.lupa.cz/2022/vysledky/">Křišťálová lupa 2022</p-link>&nbsp;&middot; dvě nominace</p-label></p-area>
-					<div class="p-gap _2"></div>
-					<p-box-group>
-						<p-box to="/o-projektu">
-							<p-box-button class="primary">Více o projektu</p-box-button>
-						</p-box>
-					</p-box-group>
-				</p-block>
-				<component :is="width > 960 ? 'p-grid' : 'div'">
-					<div>
-						<component :is="width > 960 ? 'p-block' : 'p-block-expandable'" headline="Zapojte se" :hide="true">
-							<p-area class="primary">
-								<h2 class="serif">Zapojte se</h2>
-								<p-list height=".5" class="smaller _05">
-									<div>Posílejte odkazy na důležité zprávy</div>
-									<div>Dejte vědět, když někdo oznámí záměr kandidovat.</div>
-									<div>Sledujte, sdílejte a lajkujte</div>
-									<div>Doporučujte Programy mezi přáteli</div>
-									<div>Odhalte a <p-modal :inline="true">
-										<template #init>
-											<button class="inline red">nahlašte</button>
-										</template>
-										<template #content>
-											<div class="text-left">
-												<h3>Našli jste chybu? Nebo chcete něco doplnit?</h3>
-												<report-form part="Hlášení chyby"></report-form>
-												<div class="p-line"></div>
-												<p>Můžete také napsat na <p-link href="mailto:opravte@programydovoleb.cz">opravte@programydovoleb.cz</p-link></p>
+			<p-block headline="O projektu" subheadline="Programy do voleb">
+				<p>Cílem je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. Nenajdete zde ani komentáře či názory, do textů se nezasahuje.</p>
+				<p-box-group>
+					<p-box to="/o-projektu">
+						<p-box-button class="primary">Více o Programech</p-box-button>
+					</p-box>
+					<p-box to="/podporit-projekt">
+						<p-box-label class="green">Chci přispět</p-box-label>
+					</p-box>
+				</p-box-group>
+			</p-block>
+				<p-block headline="Časté otázky" :hide="true">
+					<p-collapsible label="Jak vzniká obsah webu?">
+						<p>Obří porce toho, co na webu najdete, je díky práci dobrovolníků, běžných lidí. Často stačilo 
+							<p-modal class="inline">
+								<template #init><strong>poslat odkaz</strong></template>
+								<template #content>
+									<report-form></report-form>
+								</template>
+							</p-modal>, 
+							například na článek. Všechny potřebné a možné informace jsem už z něj vytahal a doplnil. Není nutné registrace ani práce se složitými programy.</p>
+						<p>Strany a kandidáti mohou také využívat <p-link href="https://admin.programydovoleb.cz" class="strong">Admin</p-link>, ve kterém lze doplňovat a upravovat informace svépomocí.</p>
+					</p-collapsible>
+					<p-collapsible label="Jak dlouho projektu existuje?">
+						<p>Projekt vznikl v roce 2018 a od té doby pokrývá všechny české volby s&nbsp;výjimkou některých mimořádných komunálních voleb. Od roku 2021 mají <em>Programy do voleb</em> formu zapsaného spolku a byly 3x nominovány na Cenu českého internetu.</p>
+						<p class="strong"><p-link href="https://kristalova.lupa.cz/2023/vysledky/">Křišťálová lupa 2023</p-link> &middot; <p-link href="https://kristalova.lupa.cz/2022/vysledky/">2022</p-link></p>
+					</p-collapsible>
+					<p-collapsible label="Jak moc je projekt nestranný?">
+						<p><em>Programy do voleb</em> jsou nestranný neziskový nezávislý dobrovolnický projekt. Mají formu zapsaného spolku. Autor projektu ani další členové spolku nejsou členy ani registrovaní příznivci jakékoli politické strany, hnutí nebo lobbistické skupiny. Nejsou součástí žádného zpravodajského serveru, ani projektem politické strany nebo jejího příznivce. Nezřizuje je žádná státní organizace a nežádá o dotace z veřejných rozpočtů.</p>
+						<p>Ke všem stranám i kandidátům je přistupováno na principu rovnosti. Všichni mají proto k dispozici stejné funkce a prostor, všichni mohou odpovědět na stejné volební otázky nebo podklady pro kalkulačku.</p>
+						<p>Programy se od svého vzniku řídí <router-link class="strong" to="/o-projektu#desatero">desaterem</router-link>, informace jsou vždy podložené zdrojem. O činnosti si můžete přečíst také v každoroční <router-link class="strong" to="/o-projektu#povinne-zverejnovane-informace">výroční zprávě</router-link>.</p>
+					</p-collapsible>
+					<p-collapsible label="Jak projekt funguje? Kdo to platí?">
+						<p>Projekt je celou dobu extrémně nízkonákladový, o čemž se lze přesvědčit i z výročních zpráv nebo na <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588" class="strong">transparentním účtu</p-link>. Krom plateb za servery a domény nemá spolek takřka žádné další výdaje, neplatí žádné zaměstnance.</p>
+						<p>Všechna práce je čistě dobrovolnická. Kompletní web designuje a programuje <router-link class="strong" to="/o-projektu#autor-projektu">autor projektu</router-link>, ve svém volném čase. Zajišťuje také komunikaci a provoz všech sociálních sítí. S obsahem pomáhají dobrovolníci, anonymní podporovatelé, ale i zástupci stran či samotní kandidáti. Vše bezplatně.</p>
+						<p>Hlavní výdaj tak představují předvolební reklamy, aby se projekt dostal i mimo běžné bubliny sociálních sítí.</p>
+					</p-collapsible>
+					<p-collapsible label="Jak mohu Programy podpořit?">
+						<p>Je několik možností, jak lze Programy finančně podpořit.</p>
+						<p-list>
+							<div>
+								<p-area class="primary">
+									<p-link href="https://darujme.cz/programydovoleb" class="strong">Darujme.cz</p-link>
+									<div class="p-offset">
+										<div>
+											<div class="p-gap"></div>
+											<p-image :src="cdn + '/qr-darujme.png'" width="6em" :border="true" :rounded="true"></p-image>
+										</div>
+										<div>
+											<div class="smaller">
+												<ul>
+													<li>- převodem nebo kartou</li>
+													<li>- jednorázově i opakovaně</li>
+													<li>- vhodné i pro firmy</li>
+													<li class="strong">- dary si můžete odečíst z daní</li>
+													<li>- 97 % částky jde Programům</li>
+												</ul>
 											</div>
-										</template>
-									</p-modal> chyby.</div>
-								</p-list>							
-							</p-area>
-							<p-area>
-								<h3 class="serif">Odkud je vlastně obsah?</h3>
-								<p>Obří porce toho, co na webu najdete, je díky práci dobrovolníků, běžných lidí. Často stačilo 
-									<p-modal class="inline">
-										<template #init><strong>poslat odkaz</strong></template>
-										<template #content>
-											<report-form></report-form>
-										</template>
-									</p-modal>, 
-									například na článek. Všechny potřebné a možné informace jsem už z něj vytahal a doplnil. Není nutné registrace ani práce se složitými programy.</p>
-								<p>Strany a kandidáti mohou také využívat <p-link href="https://admin.programydovoleb.cz" class="strong">Admin</p-link>, ve kterém lze doplňovat a upravovat informace svépomocí.</p>
-							</p-area>
-						</component>
-					</div>
-					<div>
-						<component :is="width > 960 ? 'p-block' : 'p-block-expandable'" headline="Podpora" :hide="true">
-							<p-area>
-								<h2 class="serif show-60rem">Podpořte Programy</h2>
-								<p-grid class="_2 _small _balance">
-									<div class="show-60rem">
-										<p-image :src="cdn + 'img/fund/qr-darujme-transparent.png'" width="100%"></p-image>
-									</div>
-									<div>
-										<div class="strong">Sbírka na <p-link href="https://darujme.cz/programydovoleb">Darujme.cz</p-link></div>
-										<div class="smaller">
-											<ul>
-												<li>- 97 % částky jde Programům</li>
-												<li>- převodem nebo kartou</li>
-												<li class="strong">- možnost odečtu daní</li>
-												<li>- jednorázově i opakovaně</li>
-												<li>- vhodné i pro firmy</li>
-											</ul>
 										</div>
 									</div>
-								</p-grid>
-								<div class="show-60rem">
-									<div class="p-line"></div>
-									<div class="smallest dimm">Spusťte foťák ne svém mobilu a nasměrujte telefon na QR kód. Není nutná žádná speciální aplikace. Odkaz vás přesměruje na <p-link href="https://darujme.cz/programydovoleb"></p-link></div>
-								</div>
-							</p-area>
-						</component>
-					</div>
-					<div>
-						<component :is="width > 960 ? 'p-block' : 'p-block-expandable'" headline="Transparentní účet" :hide="true">
-							<p-area>
-								<h2 class="serif show-60rem">Transparentní účet</h2>
-								<p-grid class="_2 _small _balance">
-									<div class="show-60rem">
-										<p-image :src="cdn + 'img/fund/qr-fio-transparent.png'" width="100%"></p-image>
-									</div>
-									<div>
-										<div class="strong"><p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">2502004588/2010</p-link></div>
-										<div class="smaller">účet veden u FIO Banky</div>
-										<div class="smaller">
-											<ul>
-												<li class="strong">- 100 % částky jde Programům</li>
-												<li>- transparentní účet</li>
-												<li>- žádné poplatky</li>
-											</ul>
+									<div class="p-gap"></div>
+									<p-box-group class="_jac">
+										<template v-for="(kc, i) in [50, 100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
+										<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
+									</p-box-group>
+								</p-area>
+							</div>
+							<div>
+								<p-area>
+									<strong>Platba na transparentní účet</strong>
+									<div class="p-offset">
+										<div>
+											<div class="p-gap"></div>
+											<p-image :src="cdn + '/qr.png'" width="6em" :border="true" :rounded="true"></p-image>
+											<div class="tiny blue">QR platba</div>
+										</div>
+										<div>
+											<div class="smaller">
+												<ul>
+													<li class="strong">- <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">2502004588/2010</p-link></li>
+													<li>- účet veden u FIO Banky</li>
+													<li>- lze nastavit trvalý příkaz</li>
+													<li>- žádné poplatky zprostředkovateli</li>
+													<li class="strong">- 100 % částky jde Programům</li>
+												</ul>
+											</div>
 										</div>
 									</div>
-								</p-grid>
-								<div class="show-60rem">
-									<div class="p-line"></div>
-									<div class="smallest dimm">Otevřete svou bankovní aplikaci a vyberte platbu pomocí QR kódu. Poté nasměrujte telefon na QR kód. Všechny potřebné údaje pro platbu se vyplní.</div>
-								</div>
-							</p-area>
-						</component>
-					</div>
-				</component>
-			</p-block>
+								</p-area>
+							</div>
+							<div>
+								<p-area>
+									<p-link href="https://eshop.programydovoleb.cz" class="strong">Koupě plakátu</p-link> 
+									<div class="dimm smaller">Nyní není k dispozici.</div>
+								</p-area>
+							</div>
+						</p-list>
+					</p-collapsible>
+					<p-collapsible label="Jak mohu pomoct i jinak?">
+						<p-grid class="smaller">
+							<div><p-area class="primary">
+								<p-modal :inline="true">
+								<template #init>
+									<button class="inline strong">Posílejte odkazy</button>
+								</template>
+								<template #content>
+									<div class="text-left">
+										<h3>Našli jste chybu? Nebo chcete něco doplnit?</h3>
+										<report-form part="Hlášení chyby"></report-form>
+										<div class="p-line"></div>
+										<p>Můžete také napsat na <p-link href="mailto:opravte@programydovoleb.cz">opravte@programydovoleb.cz</p-link></p>
+									</div>
+								</template>
+							</p-modal>
+								na důležité zprávy o volbách. Dobré jsou také rozhovory s lídry či debaty. Může jít také o podcasty.</p-area></div>
+							<div><p-area class="primary">Dejte vědět, když někdo oznámí záměr kandidovat, když se domluví nová koalice nebo podpora.</p-area></div>
+							<div><p-area class="primary"><strong>Sledujte, sdílejte a lajkujte</strong>, pomožte porazit algoritmy. <em>Programy</em> najdete na mnoha sociálních sítích.</p-area></div>
+							<div><p-area class="primary">Doporučujte Programy mezi přáteli. Zmiňte je v komentáři, článku, podcastu.</p-area></div>
+							<div><p-area class="primary" borderColor="red">Odhalte a <p-modal :inline="true">
+								<template #init>
+									<button class="inline red strong">nahlašte chyby</button>
+								</template>
+								<template #content>
+									<div class="text-left">
+										<h3>Našli jste chybu? Nebo chcete něco doplnit?</h3>
+										<report-form part="Hlášení chyby"></report-form>
+										<div class="p-line"></div>
+										<p>Můžete také napsat na <p-link href="mailto:opravte@programydovoleb.cz">opravte@programydovoleb.cz</p-link></p>
+									</div>
+								</template>
+							</p-modal>, i kdyby mělo jít jen překlep nebo hrubku. Hlavně ale aby informace byly správně.</p-area></div>
+						</p-grid>
+					</p-collapsible>
+					<p-collapsible label="Jsem kandidát nebo zástupce strany">
+						<p>Pokud kandidujete, můžete zažádat o přístup do Adminu Programů do voleb. Jedná se o jednoduchý online nástroj, ve kterém můžete snadno spravovat údaje, které se zobrazují k vaší kandidátní listině nebo vám osobně.</p>
+						
+						<p-area class="primary">
+							<h3 class="serif">Jak získáte přístup do Adminu?</h3>
+							<ol>
+								<li>1 &middot; Přejděte na <p-link href="admin.programydovoleb.cz/seznam"></p-link></li>
+								<li>2 &middot; Vyberte si profil, který chcete upravovat.</li>
+								<li>3 &middot; Zobrazí se krátký formulář, kde vyplníte vaše jméno, kontakt (e-mail nebo odkaz na sociální sítě)</li>
+								<li>4 &middot; Doplňte také vztah k profilu - zda to jste vy osobně, zda jste tiskový mluvčí, správce sítí, apod</li>
+								<li>5 &middot; Během 24 dojde k posouzení žádosti a přijde vám unikátní přístup do Adminu</li>
+							</ol>
+						</p-area>
+						<p>Můžete také požádat o přístup k vybrané skupině kandidátů, což se hodí například u koalic nebo v případě mládežnických organizací stran.</p>
+						<p><strong>Doporučení:</strong> E-mail by měl být ze stranického účtu nebo by měl být uveden na vašem webu nebo sociálních sítích. Jen tak lze zarušit autenticitu.</p>
+						<h3 class="serif mt2">Co když nejsem v seznamu?</h3>
+						<p>Napiště prosím na <a href="mailto:doplnit@programydovoleb.cz" class="strong">doplnit@programydovoleb.cz</a> s odkazem na status na sociální síti nebo na článek. Strany a hnutí s přístupem do Adminu mohou nové kandidáty přidávat přímo. Zároveň vám ihned mohou dát přístup.</p>
+						<p-box-group>
+							<p-box href="https://admin.programydovoleb.cz">
+								<p-box-button class="primary">Více na webu Adminu</p-box-button>
+							</p-box>
+						</p-box-group>
+					</p-collapsible>
+
+				</p-block>
 		</template>
 		<template #anchors>
-			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<!-- <p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo> -->
 			<div class="p-gap"></div>
 			<p-anchors></p-anchors>
 		</template>
