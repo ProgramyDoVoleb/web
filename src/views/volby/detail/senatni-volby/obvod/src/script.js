@@ -12,17 +12,28 @@ import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import SenatniVolbyResults from '@/views/obce/volby/senatni-volby/do.vue';
 // import CtaSupport from '@/components/cta/support/do.vue';
+import MapLeaflet from '@/components/map-leaflet/do.vue'
 
 export default {
 	name: 'layout-volby-detail-senatni-obvod',
 	props: ['id', 'obvod'],
 	data: function () {
 		return {
-			cdn, today
+			cdn, today,
+			options: {
+				focus: 171, 
+				detail: 'senat', 
+				type: this.showType, 
+				diff: this.showDiff,
+				party: this.showParty,
+				region: this.showRegion,
+				zoom: 7,
+				center: [49.249, 16.632]
+			}
 		}
 	},
   components: {
-	NewsItem, NewsBlock,
+	NewsItem, NewsBlock, MapLeaflet,
 	SenatniVolby, ReportForm, CtaGetAdmin, SenatniVolbyResults, CtaSupport
   },
 	computed: {
@@ -111,7 +122,39 @@ export default {
 		number,
 		truncate,
 		domain,
-		colorByItem, logoByItem
+		colorByItem, logoByItem,
+		map_filter: function (feature, layer) {
+			return Number(feature.properties.OBVOD) === Number(this.obvod);
+		},
+		map_style: function (feature) {
+			return {};
+		},
+		map_popup: function (feature, layer, ev) {
+
+			var content = [];
+				content.push('<strong>Obvod ' + this.obvod + '</strong>');
+				content.push('<br>' + feature.properties.SIDLO);
+				content.push('<br>' + this.data.cis.obce.length + ' obcí či městských částí');
+				// content.push('<div class="smaller">městské části města Brno</div>');
+				// content.push('<ul class="smaller"><li>Ivanovice</li><li>Jehnice</li><li>Jundrov</li><li>Komín</li><li>Královo Pole</li><li>Medlánky</li><li>Ořešín</li><li>Řečkovice a Mokrá Hora</li><li>Brno-sever</li><li>Útěchov</li><li>Žabovřesky</li></ul>');
+
+			this.$refs.map.popup(
+				layer.getCenter(), 
+				content.join(''),
+				{
+					autoPan: false
+				}
+			);
+		},
+		map_onEachFeature: function (feature, layer) {
+
+			setTimeout(() => {
+				this.$refs.map.fitBounds(layer._bounds);
+			}, 1000);
+
+			layer.addEventListener('click', (ev) => this.map_popup(feature, layer, ev));
+			layer.addEventListener('mouseover', (ev) => this.map_popup(feature, layer, ev));
+		},
   },
   mounted: function () {
     window.scrollTo(0, 1);

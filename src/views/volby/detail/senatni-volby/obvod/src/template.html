@@ -30,16 +30,19 @@
 							<strong><p-label color="var(--red)"><p-link class="red" href="https://docs.google.com/forms/d/e/1FAIpQLSfeR-LNLlpmOOfSFabK7II9vrO40t2trWlzx2d_K4Q-rmpBdQ/viewform?usp=sf_link">Navrhněte otázku</p-link></p-label> pro kandidáty do senátních voleb.</strong>
 						</p> -->
 						<senatni-volby :data="data" :obvod="Number(obvod)"></senatni-volby>
-						<component :is="data.cis.obce.length < 32 ? 'p-block' : 'p-block-expandable'" :headline="'Obce spadající do obvodu ' + about.obvod.obvod + ' · ' + about.obvod.nazev" anchor="Obce v obvodu" :open="data.cis.obce.length < 32" v-if="data.cis.obce && data.cis.obce.length > 0">
+						<p-block :headline="'Obvod ' + about.obvod.obvod + ' · ' + about.obvod.nazev" anchor="Obce v obvodu" :open="data.cis.obce.length < 32" v-if="data.cis.obce && data.cis.obce.length > 0">
+							<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
 							<p-area>
-								<div class="columns-4 smaller">
-									<div v-for="town in data.cis.obce">
-										<router-link :to="'/obec/' + town.obec" class="is-span">{{ town.nazevobce }}</router-link>
-										
+								<p-collapsible label="Seznam obcí v obvodu" :status="data.cis.obce.length" :borderless="true" :open="data.cis.obce.length < 32">
+									<div class="columns-4 smaller">
+										<div v-for="town in data.cis.obce">
+											<router-link :to="'/obec/' + town.obec" class="is-span">{{ town.nazevobce }}</router-link>
+											
+										</div>
 									</div>
-								</div>
+								</p-collapsible>
 							</p-area>
-						</component>
+						</p-block>
 						<div class="p-gap _3" v-if="current.status < 3"></div>
 						<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Minulé volby" :open="current.status < 3">
 							<p-area>

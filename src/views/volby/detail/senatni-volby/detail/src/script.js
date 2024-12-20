@@ -14,7 +14,6 @@ import PersonPreviewBlock from '@/components/person-preview-block/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import ReportForm from '@/components/report-form/do.vue'
-import MapLeaflet from '@/components/map-leaflet/do.vue'
 
 export default {
 	name: 'layout-volby-detail-senatni-obvod-detail',
@@ -26,17 +25,7 @@ export default {
 				{type: 2, label: 'Volební témata', hash: 'tema'},
 				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka'},
 				{type: 3, label: 'Volební kalkulačka', hash: 'kalkulacka'}
-			],
-			options: {
-				focus: 171, 
-				detail: 'senat', 
-				type: this.showType, 
-				diff: this.showDiff,
-				party: this.showParty,
-				region: this.showRegion,
-				zoom: 12,
-				center: [49.249, 16.632]
-			}
+			]
 		}
 	},
   components: {
@@ -50,8 +39,7 @@ export default {
 	PersonPreviewLinear,
 	PersonPreviewBlock,
 	CtaGetAdmin, CtaSupport,
-	ReportForm,
-	MapLeaflet
+	ReportForm
   },
 	computed: {
 		$store: function () {
@@ -223,31 +211,6 @@ export default {
 			});
 
 			return res;
-		},
-		map_filter: function (feature, layer) {
-			return Number(feature.properties.OBVOD) === this.obvod;
-		},
-		map_style: function (feature) {
-			return {};
-		},
-		map_popup: function (feature, layer, ev) {
-
-			var content = [];
-				content.push('<strong>Obvod 60</strong>');
-				content.push('<div class="smaller">městské části města Brno</div>');
-				content.push('<ul class="smaller"><li>Ivanovice</li><li>Jehnice</li><li>Jundrov</li><li>Komín</li><li>Královo Pole</li><li>Medlánky</li><li>Ořešín</li><li>Řečkovice a Mokrá Hora</li><li>Brno-sever</li><li>Útěchov</li><li>Žabovřesky</li></ul>');
-
-			this.$refs.map.popup(
-				layer.getCenter(), 
-				content.join(''),
-				{
-					autoPan: false
-				}
-			);
-		},
-		map_onEachFeature: function (feature, layer) {
-			layer.addEventListener('click', (ev) => this.map_popup(feature, layer, ev));
-			layer.addEventListener('mouseover', (ev) => this.map_popup(feature, layer, ev));
 		},
   },
   mounted: function () {

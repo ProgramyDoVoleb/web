@@ -144,11 +144,12 @@
 			<div>P — podpora</div>
 		</p-list-linear>
 	</p-block-expandable>
-	<p-block v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0" headline="Otázky a odpovědi">
-		
-			<p-area>
+	<p-block v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0" headline="Otázky a odpovědi" :hide="true" class="mb3">
+			
+			<p-area class="primary">
+				<h2>Otázky a odpovědi</h2>
 				<template v-for="(qitem, qindex) in qenum">
-				<p-collapsible :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0">
+				<p-collapsible :logo="['answers', 'program', 'icon-check'].find((x, i) => i + 1 === qitem.type)" :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0">
 					<!-- <p-area> -->
 						<div class="p-list">
 							<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 1)">
@@ -170,27 +171,10 @@
 				</p-collapsible>
 
 				</template>
+				<div class="pt2 smaller" v-if="current.status < 3 && data.list[0].$otazky.find(x => x.type != 2)">
+					Odpovědi lze zaslat e-mailem na <a href="mailto:odpovedi@programydovoleb.cz">odpovedi@programydovoleb.cz</a> nebo přímo vyplnit v <p-link href="https://admin.programydovoleb.cz">Adminu</p-link>.
+				</div>
 			</p-area>
-	</p-block>
-	<p-block anchor="Hranice obvodu" headline="Obvod 60 · Brno-město" v-if="current.id === 171">
-		<p>Volby se týkají voličů ve vybraných městských částech města Brno:</p>
-		<p-area class="primary mb2">
-			<p-columns class="_narrow _tight">
-				<div>Ivanovice</div>
-				<div>Jehnice</div>
-				<div>Jundrov</div>
-				<div>Komín</div>
-				<div>Královo Pole</div>
-				<div>Medlánky</div>
-				<div>Ořešín</div>
-				<div>Řečkovice a Mokrá Hora</div>
-				<div>Brno-sever</div>
-				<div>Útěchov</div>
-				<div>Žabovřesky</div>
-			</p-columns>
-		</p-area>
-		<div class="p-gap _2"></div>
-		<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
 	</p-block>
 	<!-- <div headline="Podpořit" :hide="true">
 		<p-grid class="_2">

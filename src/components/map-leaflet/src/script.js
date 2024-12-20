@@ -32,13 +32,22 @@ export default {
 		}
 	},
 	methods: {
+		centerAfterLoad: function () {
+			if (this.$refs.map && this.$refs.map.leafletObject) {
+				this.$refs.map.leafletObject.setView(this.options.center || this.center, this.options.zoom || this.zoom);
+			} else {
+				setTimeout(() => {
+					this.centerAfterLoad();
+				}, 1000);
+			}
+		},
 		load: async function (id) {
 			this.listOfGeoJSON.selected = id || this.listOfGeoJSON.selected;
 
 			const response = await fetch(this.listOfGeoJSON.list[this.listOfGeoJSON.selected]);
 			this.geojson = await response.json();
-
-			this.$refs.map.leafletObject.setView(this.options.center || this.center, this.options.zoom || this.zoom);
+			
+			this.centerAfterLoad();
 		},
 		processOptions: function () {
 			this.load(this.options.detail);
@@ -53,6 +62,12 @@ export default {
 				markerLatLng,
 				_options
 			)
+		},
+		fitBounds: function (list) {
+			this.$refs.map.leafletObject.fitBounds(list);
+		},
+		setView: function (center, zoom) {
+			this.$refs.map.leafletObject.setView(center, zoom);
 		}
 	},
 	mounted: function () {
