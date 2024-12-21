@@ -2,75 +2,106 @@
 	<p-layout-divided>
 		<template #main>
 			<p-block headline="Přehled průzkumů" :level="1">
-				<p-loader :rule="polls">
-					<div v-if="polls">
-						<p-block headline="Poslední průzkumy" :hide="true" v-if="polls">
-							<h2 class="serif"><button class="inline" @click="pollCoalitions = false" :class="{'active': !pollCoalitions}">Strany</button> / <button class="inline" @click="pollCoalitions = true" :class="{'active': pollCoalitions}">koalice</button></h2>
-							<p-grid class="p-grid---1-2">
-								<template v-for="(poll, index) in polls.list.filter(x => pollCoalitions ? x.coalition && !x.volby && x.priority === 1 : !x.coalition && x.priority === 1 && !x.volby)">
-									<div v-if="index < 4">
+				<p-block headline="Poslední průzkumy" :hide="true">
+					<p-loader :rule="pollsQuick">
+						<div v-if="pollsQuick">
+							<p-grid class="_2">
+								<template v-for="(poll, index) in pollsQuick.list">
+									<div>
 										<p-area>
-											<polls-preview :poll="poll" :previous="poll.previous ? polls.list.find(x => x.id === poll.previous) : null" :name="'poll_' + poll.id"></polls-preview>
+											<polls-preview :poll="poll" :previous="poll.previous" :name="'poll_' + poll.id"></polls-preview>
 										</p-area>
-
 									</div>
 								</template>
 							</p-grid>
-						</p-block>
-						<p-block headline="Poll of Polls">
+						</div>
+					</p-loader>
+				</p-block>
+				<p-block-expandable headline="Od roku 2017">
+					<p-loader :rule="polls">
+						<div v-if="polls">
 							<p-area>
-								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls)"></poll-of-polls>
+								<div class="serif"><button class="inline" @click="type = 1" :class="{'active': type === 1}">Průzkumy</button> / <button class="inline" @click="type = 2" :class="{'active': type === 2}">další výstupy</button> / <button class="inline" @click="type = 5" :class="{'active': type === 5}">ostatní</button></div>
 							</p-area>	
-						</p-block>
-						<h2 class="serif">Průzkumy od roku 2017</h2>
-						<p-area>
-							<div class="serif"><button class="inline" @click="type = 1" :class="{'active': type === 1}">Průzkumy</button> / <button class="inline" @click="type = 2" :class="{'active': type === 2}">další výstupy</button> / <button class="inline" @click="type = 5" :class="{'active': type === 5}">ostatní</button></div>
-						</p-area>	
-						<div class="p-gap"></div>					
-						<template v-for="(year, index) in [2025, 2024, 2023, 2022, 2021, 2020, 2018, 2017]">
-							<p-block-expandable :headline="'Rok ' + year" v-if="polls.list.filter(x => x.datum > year + '-01-00' && x.datum < year + '-13-01').filter(x => x.priority === type).length > 0">
-								<template v-for="(poll, index) in polls.list.filter(x => x.datum > year + '-01-00' && x.datum < year + '-13-01').filter(x => x.priority === type)">
-									<p-collapsible :label="poll.agency + ', ' + poll.title" :status="date(poll.datum)">
-										<template v-if="poll.type === 1">
-											<graph-parties :poll="poll" :previous="polls.list.find(x => x.id === poll.previous)"></graph-parties>
-										</template>
-										<template v-if="poll.type === 2">
-											<graph-people :poll="poll" :previous="polls.list.find(x => x.id === poll.previous)"></graph-people>
-										</template>
-										<template v-if="poll.type === 3">
-											<graph-duel :poll="poll" :previous="polls.list.find(x => x.id === poll.previous)"></graph-duel>
-										</template>
-										<div class="p-gap"></div>
-										<div class="smallest dimm">
-											<p-list-linear class="or">
-												<li v-if="poll.amount > -1">{{ poll.amount }} resp.</li>
-												<li v-if="poll.from && poll.to">{{ date(poll.from, 2) }}–{{ date(poll.to, 2) }}</li>
-												<li v-if="poll.error">{{ poll.error }}</li>
-												<li v-if="poll.attendance">účast {{ poll.attendance }} %</li>
-												<li v-if="poll.previous">porovnání vs {{ polls.list.find(x => x.id === poll.previous).agency }}, {{ date(polls.list.find(x => x.id === poll.previous).datum )}}</li>
-												<li v-if="poll.entries.find(x => x.mandates)">poslední sloupeec ukazuje zisk mandátů uvedený v průzkumy</li>
-												<li v-if="poll.link"><p-link :href="poll.link">zdroj {{ poll.agency }}</p-link></li>
-												<li v-if="poll.id > 227 && poll.type === 1 && poll.volby != 161"><router-link :to="'/volebni-pruzkumy/' + poll.id" class="strong">Podrobně</router-link></li>
-											</p-list-linear>
-										</div>
-									</p-collapsible>
-								</template>
-							</p-block-expandable>
-						</template>
-
-					</div>
-				</p-loader>
+							<div class="p-gap"></div>					
+							<template v-for="(year, index) in [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017]">
+								<p-collapsible :label="'Rok ' + year" v-if="polls.list.filter(x => x.datum > year + '-01-00' && x.datum < year + '-13-01').filter(x => x.priority === type).length > 0">
+									<template v-for="(poll, index) in polls.list.filter(x => x.datum > year + '-01-00' && x.datum < year + '-13-01').filter(x => x.priority === type)">
+										<p-collapsible :label="poll.agency + ', ' + poll.title" :status="date(poll.datum)">
+											<template v-if="poll.type === 1">
+												<graph-parties :poll="poll" :previous="polls.list.find(x => x.id === poll.previous)"></graph-parties>
+											</template>
+											<template v-if="poll.type === 2">
+												<graph-people :poll="poll" :previous="polls.list.find(x => x.id === poll.previous)"></graph-people>
+											</template>
+											<template v-if="poll.type === 3">
+												<graph-duel :poll="poll" :previous="polls.list.find(x => x.id === poll.previous)"></graph-duel>
+											</template>
+											<div class="p-gap"></div>
+											<div class="smallest dimm">
+												<p-list-linear class="or">
+													<li v-if="poll.amount > -1">{{ poll.amount }} resp.</li>
+													<li v-if="poll.from && poll.to">{{ date(poll.from, 2) }}–{{ date(poll.to, 2) }}</li>
+													<li v-if="poll.error">{{ poll.error }}</li>
+													<li v-if="poll.attendance">účast {{ poll.attendance }} %</li>
+													<li v-if="poll.previous">porovnání vs {{ polls.list.find(x => x.id === poll.previous).agency }}, {{ date(polls.list.find(x => x.id === poll.previous).datum )}}</li>
+													<li v-if="poll.entries.find(x => x.mandates)">poslední sloupeec ukazuje zisk mandátů uvedený v průzkumy</li>
+													<li v-if="poll.link"><p-link :href="poll.link">zdroj {{ poll.agency }}</p-link></li>
+													<li v-if="poll.id > 227 && poll.type === 1 && poll.volby != 161"><router-link :to="'/volebni-pruzkumy/' + poll.id" class="strong">Podrobně</router-link></li>
+												</p-list-linear>
+											</div>
+										</p-collapsible>
+									</template>
+								</p-collapsible>
+							</template>
+						</div>
+					</p-loader>
+				</p-block-expandable>
+				<p-block-expandable headline="Poll of Polls">
+					<p-loader :rule="polls">
+						<div v-if="polls">
+							<h3 class="serif">Vážený průměr stran a hnutí</h3>
+							<p-area>
+								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 1)"></poll-of-polls>
+							</p-area>
+							<h3 class="serif">Vážený průměr pro sněmovní volby 2025</h3>
+							<p-area>
+								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 166)" :remap="[[47,1298]]"></poll-of-polls>
+							</p-area>
+						</div>
+					</p-loader>
+				</p-block-expandable>
 			</p-block>
-			
 		</template>
 		<template #anchors>
 			<p-anchors></p-anchors>
 		</template>
 		<template #aside>
-			<!-- <p-anchors></p-anchors> -->
-			<template v-if="polls">
-				<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls)"></poll-of-polls>
-			</template>			
+			<div class="smaller">
+				<h4>Agentury:</h4>
+				<p-list class="mt2">
+					<div>
+						<p-link href="https://cz.kantar.com/trendyceska/">Kantar</p-link>
+						<div class="smallest dimm">pro Českou televizi</div>
+					</div>
+					<div>
+						<p-link href="https://www.median.eu/">Median</p-link>
+					</div>
+					<div>
+						<p-link href="https://www.stem.cz/">STEM</p-link>
+						<div class="smallest dimm">pro CNN Prima News</div>
+					</div>
+					<div>
+						<p-link href="https://nms.global/cz/">NMS Market Research</p-link>
+					</div>
+					<div>
+						<p-link href="https://www.ipsos.com/cs-cz">Ipsos</p-link>
+					</div>
+					<div>
+						<p-link href="https://www.datacollect.cz/">Data Collect</p-link>
+					</div>
+				</p-list>
+			</div>
 		</template>
 	</p-layout-divided>
 </div>

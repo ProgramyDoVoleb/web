@@ -24,7 +24,7 @@ export default {
 			return useData()
 		},
 		polls: function () {
-			var p = this.$store.getters.pdv('polls/all');
+			return this.$store.getters.pdv('polls/all');
 
 			if (!p) return null;
 
@@ -38,6 +38,9 @@ export default {
 			list.sort((a, b) => b.mid - a.mid);
 
 			return {list};
+		},
+		pollsQuick: function () {
+			return this.$store.getters.pdv('polls/last-6');
 		}
 	},
   methods: {

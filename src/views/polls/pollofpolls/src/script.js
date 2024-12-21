@@ -3,7 +3,7 @@ import PollsPreview from '@/components/polls-preview/do.vue';
 
 export default {
 	name: 'PollOfPolls',
-	props: ['polls'],
+	props: ['polls', 'remap'],
 	data: function () {
 		return {
 			
@@ -19,14 +19,28 @@ export default {
 	},
 	methods: {
 		// date, beautifyNumber, truncate, createColorByName, indicator,
+		checkForRemap: function (party) {
+			var x;
+
+			if (this.remap) {
+				x = this.remap.find(x => x[0] === party);
+
+				console.log(x, party);
+			}
+
+			return x ? x[1] : party;
+		},
 		calculate: function (polls) {
-			var list = [];			
+			var list = [];		
+			var prelist = [];	
 			var parties = [];
 
-			polls.forEach((poll, index) => {
+
+
+			polls.filter(x => x.id > 227).forEach((poll, index) => {
 				var o = {
 					poll,
-					mid: poll.mid,
+					mid: new Date((new Date(poll.to || poll.datum).getTime() + new Date(poll.from || poll.datum).getTime()) / 2),
 					diff: 1,
 					coef: 1,
 					entries: poll.entries,
@@ -34,9 +48,15 @@ export default {
 					final: 0
 				}
 
-				o.diff = Math.floor((o.mid.getTime() - polls[0].mid.getTime()) / 1000 / 3600 / 24 / 7);
+				prelist.push(o);
+			});
 
-				if (o.diff > -20) {
+			prelist.sort((a, b) => b.mid - a.mid);
+
+			prelist.forEach((o, index) => {
+				o.diff = Math.floor((o.mid.getTime() - prelist[0].mid.getTime()) / 1000 / 3600 / 24 / 7);
+
+				if (o.diff > -10) {
 					o.coef = - (1 / (o.diff - .5));
 
 					if (index === 0) o.coef = 1;
@@ -44,7 +64,7 @@ export default {
 					o.coef = Math.floor(o.coef * 100);
 
 					o.entries.forEach(entry => {
-						o.values.push({party: entry.party, entry: entry.value, value: entry.value * o.coef});
+						o.values.push({party: this.checkForRemap(entry.party), entry: entry.value, value: entry.value * o.coef});
 					});
 
 					list.push(o);
@@ -81,7 +101,7 @@ export default {
 
 			var graph = {
 				agency: 'Poll of Polls',
-				datum: polls[0].mid.toISOString().split('T')[0],
+				datum: list[0].mid.toISOString().split('T')[0],
 				entries: parties,
 				type: 1,
 				id: 999999
