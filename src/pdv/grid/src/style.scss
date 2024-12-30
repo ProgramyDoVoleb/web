@@ -33,6 +33,12 @@
   }
 }
 
+._2 {
+  ._container {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
 ._3 {
   ._container {
     grid-template-columns: repeat(3, 1fr) !important;

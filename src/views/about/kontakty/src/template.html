@@ -1,7 +1,7 @@
 <div class="layout-about">
 	<p-layout-divided>
 		<template #main>
-			<p-block :level="1" headline="Programy do voleb" subheadline="Kontakty">
+			<p-block :level="1" headline="Kontakty" anchor="Programy do voleb">
 				<p class="lead">Zde je přehled všech možných forem, jak se lze spojit s Programy. Nejčastěji tak bude přímo na <button class="inline" @click="slide('socialni-site')">sociálních sítích</button>, pomocí reakcí nebo zpráv. Může se ale stát, že budete chtít využít e-mail nebo jinou formu.</p>
 				<p-block headline="Rychlé kontakty" :hide="true">
 					<p-box-group>
@@ -9,10 +9,16 @@
 							<p-box-button class="primary" icon="email.svg">info@programydovoleb.cz</p-box-button>
 						</p-box>
 						<p-box href="https://m.me/1033702273421005">
-							<p-box-label icon="messenger.svg">Messenger</p-box-label>
+							<p-box-icon type="messenger" class="small"></p-box-icon>
+							<!-- <p-box-label icon="messenger.svg">Messenger</p-box-label> -->
 						</p-box>
-						<p-box href="https://discord.gg/fVUmJ7wXzc">
-							<p-box-label icon="discord.svg">Discord</p-box-label>
+						<p-box href="https://signal.me/#eu/xlLftS8PndqPElvvhbXV6qGoXhyUw4DfPTg7A0U62_yrnWDQpJ5K0pzz6gAw-ue7">
+							<p-box-icon type="signal" class="small"></p-box-icon>
+							<!-- <p-box-label>Signal</p-box-label> -->
+						</p-box>
+						<p-box href="https://t.me/programydovoleb">
+							<p-box-icon type="telegram" class="small"></p-box-icon>
+							<!-- <p-box-label icon="telegram.svg">Telegram</p-box-label> -->
 						</p-box>
 					</p-box-group>
 					<div class="p-line"></div>
@@ -46,6 +52,40 @@
 					</div>
 				</p-grid>
 				<p class="dimm smallest">Údaje o sledovanosti k 30. prosinci 2024</p>
+			</p-block>
+			<p-block headline="Přímé zprávy">
+				<p-grid>
+					<div>
+						<p-area background="var(--blue11)" padding="0 .4em .4em">
+							<p-box-group>
+								<p-box href="https://m.me/1033702273421005">
+									<p-box-icon type="messenger"></p-box-icon>
+									<p-box-label>Messenger</p-box-label>
+								</p-box>
+							</p-box-group>
+						</p-area>
+					</div>
+					<div>
+						<p-area background="var(--blue11)" padding="0 .4em .4em">
+							<p-box-group>
+								<p-box href="https://signal.me/#eu/xlLftS8PndqPElvvhbXV6qGoXhyUw4DfPTg7A0U62_yrnWDQpJ5K0pzz6gAw-ue7">
+									<p-box-icon type="signal"></p-box-icon>
+									<p-box-label>Signal</p-box-label>
+								</p-box>
+							</p-box-group>
+						</p-area>
+					</div>
+					<div>
+						<p-area background="var(--blue11)" padding="0 .4em .4em">
+							<p-box-group>
+								<p-box href="https://t.me/programydovoleb">
+									<p-box-icon type="telegram"></p-box-icon>
+									<p-box-label>Telegram</p-box-label>
+								</p-box>
+							</p-box-group>
+						</p-area>
+					</div>
+				</p-grid>
 			</p-block>
 			<p-block headline="Pro strany a kandidáty" anchor="Pro kandidáty">
 				<p-area class="primary">
@@ -138,12 +178,7 @@
 				</p-collapsible>
 			</p-block>
 			<p-block headline="Pro dobrovolníky">
-				<p>Pokud se chcete připojit nebo chcete jen nahlédnout, co se děje, chystá, upravuje, plánuje kolem Programů nebo voleb obecně, připojte se na nový Discord server nebo se zeptejte na cokoli na <button class="inline" @click="slide('socialni-site')">sociálních sítích</button>.</p>
-				<p-box-group>
-					<p-box href="mailto:media@programydovoleb.cz">
-						<p-box-button class="primary" icon="discord.svg">Připojte se</p-box-button>
-					</p-box>
-				</p-box-group>
+				<p>Pokud byste chtěli pomoct nějak více, prosím napište na <a href="mailto:stepan.rysavy@programydovoleb.cz">stepan.rysavy@programydovoleb.cz</a> nebo prostřednictvím libovolné <button class="inline" @click="slide('socialni-site')">sociální sítě</button> a domluvíme se na vhodné formě pomoci i komunikace.</p>
 			</p-block>
 			<p-block headline="Sídlo a fakturace">
 				<p-area class="primary">
@@ -159,7 +194,7 @@
 			<p-block headline="Správa údajů, GDPR">
 				<p>V souladu s legislativou kolem <em class="strong">GDPR</em> lze kdykoli požádat o odstranění informací, zejména pokud je za vás doplnil někdo jiný, například asistent, manažer kampaně, apod.</p>
 				<p>Berte na vědomí, že lze odstranit pouze informace, které jsou nad rámec otevřených dat poskytnutých Českým statistickým úřadem. Jméno, příjmení, věk, povolání, bydliště, tituly, nominující strana a členství odebrat či změnit nelze.</p>
-				<p-area class="inline smaller" borderColor="var(--blue)">
+				<p-area class="inline smaller">
 					<a href="mailto:gdpr@programydovoleb.cz" class="strong">gdpr@programydovoleb.cz</a>
 				</p-area>
 			</p-block>
@@ -173,14 +208,21 @@
 						<a href="mailto:eshop@programydovoleb.cz" class="strong">eshop@programydovoleb.cz</a>
 						<div class="smaller">– pokud máte problém s dodávkou z e-shopu, potřebujete něco upravit nebo reklamovat</div>
 					</div>
+					<div>
+						<p-link href="http://eepurl.com/gg5zg5" class="strong">Přihlašte se k newsletteru</p-link>
+						<div class="smaller">– před volbami chodí max jednou týdně, jinak jen jako občasník</div>
+					</div>
+					<div>
+						<p-link href="https://programydovoleb.cz/rss" class="strong">RSS kanál</p-link>
+					</div>
 				</p-list>
 			</p-block>
 			<p-block headline="Otázky a odpovědi">
 				<p-collapsible label="Proč nikde neuvádíte telefonní číslo?">
 					<p><em>Programy do voleb</em> jsou online projekt, který je spravován hlavně v době mimo běžnou pracovní dobu. Nemá žádného zaměstnance, který by mohl být na přijmu 24/7. Proto je vhodné, aby byla veškerá komunikace písemná (online).</p>
 				</p-collapsible>
-				<p-collapsible label="Proč mezi kontakty není WhatsApp, Telegram nebo Signal?">
-					<p>WhatsApp i Telegram vyžadují k založení telefonní číslo, které <em>Programy do voleb</em> nemají.</p>
+				<p-collapsible label="Proč mezi kontakty není WhatsApp?">
+					<p>WhatsApp neumožňuje fungování, aniž by bylo viditelné telefonní číslo. Telegram i Signal naopak umožňují fungování i pod uživatelskými jmény.</p>
 				</p-collapsible>
 				<p-collapsible label="Je možné se někde potkat osobně?">
 					<p>Ano, po domluvě, v Praze, výjimečně v Turnově.</p>

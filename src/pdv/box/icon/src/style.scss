@@ -20,5 +20,9 @@
     filter: invert(1) brightness(2) opacity(1);
     }
   }
+
+  &.small {
+    padding: .25em;
+  }
   
 }

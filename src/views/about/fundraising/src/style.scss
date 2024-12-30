@@ -42,7 +42,7 @@ section + section {
   }
   
   ._pbg {
-	max-width: 40rem;
+	max-width: 60rem;
 	margin: auto;
 	justify-content: center;
   
@@ -73,6 +73,6 @@ section + section {
   aspect-ratio: 1;
 
   .dark & {
-    filter: invert(0.7);
+    filter: invert(0.7) brightness(2) opacity(.75);
   }
 }

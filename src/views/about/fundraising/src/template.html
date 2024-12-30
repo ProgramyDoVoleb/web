@@ -2,8 +2,17 @@
 	<p-layout-simple>
 		<section>
 			<h1>Podpořte Programy do voleb</h1>
-			<p class="lead">Už od roku 2018 vzniká nestranný a nezávislý předvolební přehled. Po celou dobu funguje jako dobrovolnický neziskový projekt, s hlavním cílem informovat o nadcházejících volbách, o kandidujících stranách, kandidátech a jejich volebních programech. Nejedná se o názorový ani zpravodajský portál, nevnucuje názor, nefandí. Není nijak spojen s žádnou politickou stranou, hnutím, think-tankem, PR agenturou ani mediálním domem.</p>
-			<p class="lead">Velká část činnosti je zabezpečena svépomocí, programování, grafika, komunikace je ryze dobrovolnickou nehrazenou prací, ve volném čase. Jediným nezbytným nákladem je webhosting a doména. Veškeré další prostředky tak jdou na propagaci projektu.</p>
+			<p-box-group class="_pbg">
+				<template v-for="(kc, i) in [50, 100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
+				<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
+				<!-- <p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Koupit plakát</p-box-button></p-box> -->
+			</p-box-group>
+			<p class="smallest dimm">Kliknutí přesměruje na portál Darujme.cz</p>
+		</section>
+		<section>
+			<h2>Nestranně, nezávisle, dobrovolnicky</h2>
+			<p>Už od roku 2018 vzniká nestranný a nezávislý předvolební přehled. Po celou dobu funguje jako dobrovolnický neziskový projekt, s hlavním cílem informovat o nadcházejících volbách, o kandidujících stranách, kandidátech a jejich volebních programech. Nejedná se o názorový ani zpravodajský portál, nevnucuje názor, nefandí. Není nijak spojen s žádnou politickou stranou, hnutím, think-tankem, PR agenturou ani mediálním domem.</p>
+			<p>Velká část činnosti je zabezpečena svépomocí, programování, grafika, komunikace je ryze dobrovolnickou nehrazenou prací, ve volném čase. Jediným nezbytným nákladem je webhosting a doména. Veškeré další prostředky tak jdou na propagaci projektu.</p>
 		</section>
 		<section>
 			<h2>Jak můžete přispět?</h2>
@@ -58,21 +67,14 @@
 		</section>
 		<section>
 			<h2>Na co lze nyní přispět?</h2>
-			<p-area class="_mw text-left">
+			<p-area class="_mw text-left primary" borderColor="var(--green)">
 				<p-list>
 					<div>Na provoz a rozvoj webu.</div>
 					<div>Kampaň před senátními volbami.</div>
-					<div>Výhledově na kampaň před sněmovními volbami.</div>
+					<div>Kampaň před sněmovními volbami.</div>
 				</p-list>
 			</p-area>
-			<div class="smaller mt1">Všechny výdaje lze sledovat na <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">transparentním účtu</p-link>.</div>
-			<div class="p-gap _2"></div>
-			<h4>Na co peníze nejdou?</h4>
-			<p-list class="_mw text-left">
-				<div>Na platy. Veškerá činnost je dobrovolná a neplacená.</div>
-				<div>Na vybavení kanceláře, na benzín. Nic z toho spolek nepotřebuje.</div>
-				<div>Na jídlo, pití, oblečení, papíry, elektroniku, výlety.</div>
-			</p-list>
+			<p>Všechny výdaje lze sledovat na <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">transparentním účtu</p-link>. Peníze nikdy nejdou na platy, vybavení, benzín, jídlo, oblečení, papíry ani elektroniku. Veškerá činnost je dobrovolná.</p>
 		</section>
 		<section>
 			<h2>Kdo stojí za tímto projektem? Kdo řeší peníze?</h2>
@@ -110,19 +112,7 @@
 		<section>
 			<h2>Lze pomoct i nefinančně?</h2>
 			<p>Samozřejmě. Velká část <em>Programů</em> vzniká díky dobrovolnické práci. Nemusí jít nutně o hodiny práce, ale i drobné tipy, zaslání odkazu, upozornění na chybu ve funkčnosti nebo překlep.</p>
-			<p>Jednou z výrazných pomocí je sdílení na sociálních sítích. Doporučování v uzavřených skupinách, chat skupinách apod, kam není jinak možnost proniknout.</p>
-			<p-grid class="_tiny _mw _pbg _3">
-				<div>
-					<p-link href="https://www.twitter.com/programydovoleb" class="_db"><img loading="lazy"  src="https://static.programydovoleb.cz/icon/tw.svg" alt="" class="_ar1"></p-link>
-				</div>
-				<div>
-					<p-link href="https://www.threads.net/programydovoleb" class="_db"><img loading="lazy"  src="https://static.programydovoleb.cz/icon/threads.svg" alt="" class="_ar1"></p-link>
-				</div>
-				<div>
-					<p-link href="https://www.instagram.com/programydovoleb" class="_db"><img loading="lazy"  src="https://static.programydovoleb.cz/icon/ig.svg" alt="" class="_ar1"></p-link>
-				</div>
-			</p-grid>
-			<p><em>Programy</em> jsou nejvíc aktivní na <p-link href="https://www.twitter.com/programydovoleb">Twitteru (nyní X)</p-link>, <p-link href="https://www.threads.net/programydovoleb">Threads</p-link>, <p-link href="https://bsky.app/profile/programydovoleb.cz">BlueSky</p-link> a <p-link href="https://www.instagram.com/programydovoleb">Instagramu</p-link>.</p>
+			<p>Jednou z výrazných pomocí je sdílení na sociálních sítích. Doporučování v uzavřených skupinách, chat skupinách apod, kam není jinak možnost proniknout. <em>Programy</em> jsou nejvíc aktivní na <p-link href="https://www.twitter.com/programydovoleb">Twitteru (nyní X)</p-link>, <p-link href="https://www.threads.net/programydovoleb">Threads</p-link>, <p-link href="https://bsky.app/profile/programydovoleb.cz">BlueSky</p-link> a <p-link href="https://www.instagram.com/programydovoleb">Instagramu</p-link>. Najdete je ale i na dalších <router-link to="/o-projektu/kontakty#socialni-site">sociálních sítích</router-link>.</p>
 			<div class="p-gap _2"></div>
 			<div class="p-line _mw"></div>
 			<h2>Díky za každou formu podpory a pomoci</h2>
