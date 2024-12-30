@@ -231,6 +231,11 @@ const router = createRouter({
       component: () => import('../views/about/fundraising/do.vue'),
     },
     {
+      path: '/o-projektu/pro-media',
+      name: 'LayoutAboutMedia',
+      component: () => import('../views/about/media/do.vue'),
+    },
+    {
       path: '/podporit-projekt',
       name: 'LayoutAboutFundraisingRedirect',
       redirect: '/o-projektu/jak-podporit',

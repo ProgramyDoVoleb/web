@@ -1,5 +1,6 @@
 import {ga} from '@/pdv/analytics';
 import { useCore, cdn, today } from '@/stores/core';
+import ReportForm from '@/components/report-form/do.vue';
 
 export default {
 	name: 'layout-homepage',
@@ -8,7 +9,9 @@ export default {
 			cdn
 		}
 	},
-  components: {},
+  components: {
+	ReportForm
+  },
 	computed: {
 	},
   methods: {

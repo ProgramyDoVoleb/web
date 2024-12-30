@@ -1,0 +1,145 @@
+<div class="layout-about">
+	<p-layout-divided>
+		<template #main>
+			<p-block :level="1" headline="Pro média" anchor="Programy do voleb">
+				<p class="lead">Pokud jste zástupcem médií, prosím využívejte tento e-mail. Optimálně využívejte své pracovní e-maily z domény vašeho média. Aktuální fotky, loga apod. najdete na GDrive.</p>
+				<p-block headline="Rychlé kontakty" :hide="true">
+					<p-box-group>
+						<p-box href="mailto:media@programydovoleb.cz">
+							<p-box-button class="primary" icon="email.svg">media@programydovoleb.cz</p-box-button>
+						</p-box>
+						<p-box to="/o-projektu/kontakty">
+							<p-box-label>Další kontakty</p-box-label>
+						</p-box>
+					</p-box-group>
+				</p-block>
+			</p-block>
+			<p-block headline="Tiskové zprávy">
+				<p-grid>
+					<div>
+						<p-area class="primary">
+							<h3>167 volebních programů na jednom místě, průvodce, volební historie nebo aktivita stran</h3>
+							<div class="smallest blue">17. září 2024</div>
+							<p v-html="truncate('Nejen volební programy, ale i tři unikátní funkce najdou zájemci o krajské nebo senátní volby na webu Programy do voleb. Průvodce na míru, který vytáhne vše podstatné o jakékoli straně nebo kandidátovi z desítek tisíc záznamů a doplňkových informací. Volební historie, aneb, kdy a za koho šel dotyčný kandidát do voleb. A přehled zapojení libovolné strany či hnutí do voleb, takže je vidět, zda šla do voleb samostatně, v koalici nebo jen někoho podporuje.')"></p>
+							<p-box href="https://drive.google.com/drive/folders/1za7fCMgCXiBm0Zae7mlwHveVhXDXmHAE?usp=drive_link">
+								<p-box-button icon="krajske-volby.svg" class="primary">Otevřít zprávu</p-box-button>
+							</p-box>
+						</p-area>
+					</div>
+					<div>
+						<p-area class="primary">
+							<h3>Programy do voleb připravily bohatý a nestranný přehled k eurovolbám</h3>
+							<div class="smallest blue">28. května 2024</div>
+							<p v-html="truncate('Volební programy, medailonky stran a kandidátů, srovnání podle témat nebo volební kalkulačka s komentářem od stran k jednotlivým otázkám. To vše najdou lidé na webových stránkách nestranného projektu Programy do voleb k eurovolbám na adrese eu2024.programydovoleb.cz')"></p>
+							<p-box href="https://drive.google.com/drive/folders/1HR9MjqU24TIHb-6878e9lN6gXaZs3Lhi?usp=drive_link">
+								<p-box-button icon="evropske-volby.svg" class="primary">Otevřít zprávu</p-box-button>
+							</p-box>
+						</p-area>
+					</div>
+				</p-grid>
+			</p-block>
+			<p-block headline="Poslední novinky">
+				<p-loader :rule="news">
+					<p-list v-if="news">
+						<template v-for="(item, index) in news.sys.filter((x, i) => i < 5)">
+							<news-item :data="item"></news-item>
+						</template>
+					</p-list>
+				</p-loader>
+				<div class="p-line"></div>
+				<p-box-group>
+					<p-box to="/novinky">
+						<p-box-button class="primary">Všechny novinky</p-box-button>
+					</p-box>
+				</p-box-group>
+			</p-block>
+			<p-block headline="Ke stažení">
+				<p>Vše potřebné najdete na Google Drive, ty tři hlavní prvky pak zde:</p>
+				<p-grid class="_3">
+					<div>
+						<p-image class="_ar _contain" src="https://programydovoleb.cz/static/bannery/logo-programydovoleb.svg" width="100%" :border="true"></p-image>
+						<p>
+							<a href="https://programydovoleb.cz/static/bannery/logo-programydovoleb.svg" download="programydovoleb-logo.jpg">Stáhnout logo</a>
+						</p>
+					</div>
+					<div>
+						<p-image class="_ar" src="https://static.programydovoleb.cz/el/generic-2023.png" width="100%" :border="true"></p-image>
+						<p>
+							<a href="https://static.programydovoleb.cz/el/generic-2023.png" download="programydovoleb-ikona.jpg">Stáhnout ikonu</a>
+						</p>
+					</div>
+					<div>
+						<p-image class="_ar" src="https://programydovoleb.cz/static/profilovka.jpg" width="100%" :border="true"></p-image>
+						<p>
+							<a href="https://programydovoleb.cz/static/profilovka.jpg" download="programydovoleb-stepanrysavy.jpg">Stáhnout fotku</a>
+						</p>
+					</div>
+				</p-grid>
+				<div class="p-line"></div>
+				<p-box-group>
+					<p-box href="https://drive.google.com/drive/folders/1TL3ezGmULenjH4rJp9JRV_9WtHeLvwPh">
+						<p-box-button class="primary">Google Drive</p-box-button>
+					</p-box>
+				</p-box-group>
+			</p-block>
+			<p-block headline="Zdrojování">
+				<p>Při odkazování prosím používejte název <strong>Programy do voleb</strong> a nejlépe odkaz přímo na
+					konkrétní stránku. Pokud to z nějakých důvodů nelze, pak odkazujte na
+					<em class="is-link">https://programydovoleb.cz</em> a připojte také datum, kdy jste informace z webu získali.</p>
+			</p-block>
+			<p-block headline="O projektu">
+				<p><em>Programy do voleb</em> vznikly v roce 2018 s úmyslem usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Zejména v době informační přehlcenosti a sociálních sítí, kdy včerejší obsah je mimo dosah, je dobré mít místo, které je stálé a univerzální, ale zároveň je přímo zaměřené na jednu jedinou věc.
+
+					Tento projekt je nestranný, neziskový a vytvářen z dobré vůle na podporu demokracie a informovanosti. Použítí informací je vždy na vlastní zodpovědnost.
+					
+					Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni.</p>
+					<div class="p-gap"></div>
+					<p-box-group>
+						<p-box to="/o-projektu">
+							<p-box-button class="primary">Více o projektu</p-box-button>
+						</p-box>
+					</p-box-group>
+			</p-block>
+			<p-block headline="O autorovi">
+				<div class="float">
+					<p-image :width="18" src="https://programydovoleb.cz/static/profilovka.jpg" :rounded="true"
+						:border="true"></p-image>
+				</div>
+				<p>Jmenuji se Štěpán Ryšavý, pocházím z Turnova, toho času v Praze.
+					Profesně jsem reklamkář, designer a programátor, kdo by potřeboval vědět přesněji, zde je můj
+					<p-link href="https://www.linkedin.com/in/stepanrysavy/">LinkedIn</p-link>. Webům a
+					reklamě se profesně věnuji přes deset let a u monitoru s klávesnicí sedím už přes 20 let. I díky
+					tomu mnoho peněz ušetřím, nemusím nikoho dalšího platit, abych tento projekt <strong>ve svém volném
+						čase</strong> mohl realizovat.</p>
+				<p>Vždy jsem se zajímal o politiku, ale nejsem z politického těsta. Své volební preference a názory
+					nechávám u tohoto projektu stranou a dávám stejný prostor každému. Nechť je v demokratické soutěži a
+					u voleb hodnotí voliči, ne já. A protože mě vždy bavilo dělat weby, tak jsem to propojil.</p>
+				<p>Do roku 2021 jsem projekt provozoval na své riziko a živnost, od června 2021 už existuje s novou
+					právní subjektivitou, jako zapsaný spolek.</p>
+			</p-block>
+		</template>
+		<template #aside>
+			<h3 class="serif w400">Programy do voleb</h3>
+			<p>Nestranný neziskový projekt, díky kterému si můžete snadno, pohodlně a bez hledání přečíst a
+				porovnat volební programy všech stran či kandidátů.</p>
+			<div class="smaller">
+				<p-stats :vertical="true" label="Adresa">
+					Jana Palacha 1413<br>
+					511 01 Turnov
+				</p-stats>
+				<p-stats :vertical="true" label="IČO">
+					10906380 &middot; <p-link class="as-span"
+						href="https://or.justice.cz/ias/ui/rejstrik-firma.vysledky?subjektId=1126297&typ=PLATNY">rejstřík</p-link>
+				</p-stats>
+				<p-stats :vertical="true" label="Datovka">
+					vhwmpce
+				</p-stats>
+			</div>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+	</p-layout-divided>
+</div>

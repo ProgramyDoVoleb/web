@@ -1,87 +1,98 @@
 <div class="layout-about-fundraising">
-	<p-layout-simple>
-		<section>
-			<h1>Podpořte Programy do voleb</h1>
-			<p-box-group class="_pbg">
-				<template v-for="(kc, i) in [50, 100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
-				<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
-				<!-- <p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Koupit plakát</p-box-button></p-box> -->
-			</p-box-group>
-			<p class="smallest dimm">Kliknutí přesměruje na portál Darujme.cz</p>
-		</section>
-		<section>
-			<h2>Nestranně, nezávisle, dobrovolnicky</h2>
-			<p>Už od roku 2018 vzniká nestranný a nezávislý předvolební přehled. Po celou dobu funguje jako dobrovolnický neziskový projekt, s hlavním cílem informovat o nadcházejících volbách, o kandidujících stranách, kandidátech a jejich volebních programech. Nejedná se o názorový ani zpravodajský portál, nevnucuje názor, nefandí. Není nijak spojen s žádnou politickou stranou, hnutím, think-tankem, PR agenturou ani mediálním domem.</p>
-			<p>Velká část činnosti je zabezpečena svépomocí, programování, grafika, komunikace je ryze dobrovolnickou nehrazenou prací, ve volném čase. Jediným nezbytným nákladem je webhosting a doména. Veškeré další prostředky tak jdou na propagaci projektu.</p>
-		</section>
-		<section>
-			<h2>Jak můžete přispět?</h2>
-			<p-grid class="_2 _mw2 text-left">
-				<div>
-					<p-area class="cancel">
-						<p-grid class="_2 _small _balance">
-							<div>
-								<p-image :src="cdn + 'img/fund/qr-fio-transparent.png'" width="100%"></p-image>
-							</div>
-							<div>
-								<div class="strong">Přímá platba na účet</div>
-								<div class="strong"><p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">2502004588/2010</p-link></div>
-								<div class="smaller">účet veden u FIO Banky</div>
-								<div class="smaller">
-									<ul>
-										<li>- 100 % hodnoty jde Programům</li>
-										<li>- transparentní účet</li>
-										<li>- žádné poplatky</li>
-									</ul>
+	<p-layout-divided>
+		<template #main>
+			<p-block :level="1" headline="Podpořte Programy do voleb" anchor="Podpora projektu">
+				<p-box-group>
+					<template v-for="(kc, i) in [50, 100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
+					<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
+					<!-- <p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Koupit plakát</p-box-button></p-box> -->
+				</p-box-group>
+				<p class="smallest dimm">Kliknutí přesměruje na portál Darujme.cz</p>
+			</p-block>
+			<p-block headline="Nestranně, nezávisle, dobrovolnicky" anchor="Důvody podpory">
+				<p>Už od roku 2018 vzniká nestranný a nezávislý předvolební přehled. Po celou dobu funguje jako dobrovolnický neziskový projekt, s hlavním cílem informovat o nadcházejících volbách, o kandidujících stranách, kandidátech a jejich volebních programech. Nejedná se o názorový ani zpravodajský portál, nevnucuje názor, nefandí. Není nijak spojen s žádnou politickou stranou, hnutím, think-tankem, PR agenturou ani mediálním domem.</p>
+				<p>Velká část činnosti je zabezpečena svépomocí, programování, grafika, komunikace je ryze dobrovolnickou nehrazenou prací, ve volném čase. Jediným nezbytným nákladem je webhosting a doména. Veškeré další prostředky tak jdou na propagaci projektu.</p>
+			</p-block>
+			<p-block headline="Jak můžete přispět?" anchor="Dostupné formy">
+				<p-grid class="_2 _mw2 text-left">
+					<div>
+						<p-area>
+							<p-grid class="_2 _small _balance">
+								<div>
+									<p-image :src="cdn + 'img/fund/qr-fio-transparent.png'" width="100%"></p-image>
 								</div>
-							</div>
-						</p-grid>
-						<div class="p-line"></div>
-						<div class="smallest dimm">Otevřete svou bankovní aplikaci a vyberte platbu pomocí QR kódu. Poté nasměrujte telefon na QR kód. Všechny potřebné údaje pro platbu se vyplní.</div>
-					</p-area>
-				</div>
-				<div>
-					<p-area class="cancel">
-						<p-grid class="_2 _small _balance">
-							<div>
-								<p-image :src="cdn + 'img/fund/qr-darujme-transparent.png'" width="100%"></p-image>
-							</div>
-							<div>
-								<div class="strong">Přes <p-link href="https://darujme.cz/programydovoleb">Darujme.cz</p-link></div>
-								<div class="smaller">
-									<ul>
-										<li>- 97 % hodnoty jde Programům</li>
-										<li>- převodem nebo kartou</li>
-										<li>- možnost odečtu daní</li>
-										<li>- jednorázově i opakovaně</li>
-										<li>- vhodné i pro firmy</li>
-									</ul>
+								<div>
+									<div class="strong">Přímá platba na účet</div>
+									<div class="strong"><p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">2502004588/2010</p-link></div>
+									<div class="smaller">účet veden u FIO Banky</div>
+									<div class="smaller">
+										<ul>
+											<li>- 100 % hodnoty jde Programům</li>
+											<li>- transparentní účet</li>
+											<li>- žádné poplatky</li>
+										</ul>
+									</div>
 								</div>
-							</div>
-						</p-grid>
-						<div class="p-line"></div>
-						<div class="smallest dimm">Spusťte foťák ne svém mobilu a nasměrujte telefon na QR kód. Není nutná žádná speciální aplikace. Odkaz vás přesměruje na <p-link href="https://darujme.cz/programydovoleb"></p-link></div>
-					</p-area>
-				</div>
-			</p-grid>
-		</section>
-		<section>
-			<h2>Na co lze nyní přispět?</h2>
-			<p-area class="_mw text-left primary" borderColor="var(--green)">
-				<p-list>
-					<div>Na provoz a rozvoj webu.</div>
-					<div>Kampaň před senátními volbami.</div>
-					<div>Kampaň před sněmovními volbami.</div>
-				</p-list>
-			</p-area>
-			<p>Všechny výdaje lze sledovat na <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">transparentním účtu</p-link>. Peníze nikdy nejdou na platy, vybavení, benzín, jídlo, oblečení, papíry ani elektroniku. Veškerá činnost je dobrovolná.</p>
-		</section>
-		<section>
-			<h2>Kdo stojí za tímto projektem? Kdo řeší peníze?</h2>
-					<p-area class="cancel _mw text-left">
-						<p-grid class="_2 _small _balance">
+							</p-grid>
+							<div class="p-line"></div>
+							<div class="smallest dimm">Otevřete svou bankovní aplikaci a vyberte platbu pomocí QR kódu. Poté nasměrujte telefon na QR kód. Všechny potřebné údaje pro platbu se vyplní.</div>
+						</p-area>
+					</div>
+					<div>
+						<p-area>
+							<p-grid class="_2 _small _balance">
+								<div>
+									<p-image :src="cdn + 'img/fund/qr-darujme-transparent.png'" width="100%"></p-image>
+								</div>
+								<div>
+									<div class="strong">Přes <p-link href="https://darujme.cz/programydovoleb">Darujme.cz</p-link></div>
+									<div class="smaller">
+										<ul>
+											<li>- 97 % hodnoty jde Programům</li>
+											<li>- převodem nebo kartou</li>
+											<li>- možnost odečtu daní</li>
+											<li>- jednorázově i opakovaně</li>
+											<li>- vhodné i pro firmy</li>
+										</ul>
+									</div>
+								</div>
+							</p-grid>
+							<div class="p-line"></div>
+							<div class="smallest dimm">Spusťte foťák ne svém mobilu a nasměrujte telefon na QR kód. Není nutná žádná speciální aplikace. Odkaz vás přesměruje na <p-link href="https://darujme.cz/programydovoleb"></p-link></div>
+						</p-area>
+					</div>
+				</p-grid>
+			</p-block>
+			<p-block headline="Na co lze nyní přispět?" anchor="Účel podpory">
+				<p-area class="inline">
+					<p-list class="_025">
+						<div>
+							<p-box>
+								<p-box-icon type="senatni-volby"></p-box-icon>
+								<p-box-label>Kampaň před senátními volbami.</p-box-label>
+							</p-box>
+						</div>
+						<div>
+							<p-box>
+								<p-box-icon type="snemovni-volby"></p-box-icon>
+								<p-box-label>Kampaň před sněmovními volbami.</p-box-label>
+							</p-box>
+						</div>
+						<div>
+							<p-box>
+								<p-box-icon type="program"></p-box-icon>
+								<p-box-label>Na provoz a rozvoj webu.</p-box-label>
+							</p-box>
+						</div>
+					</p-list>
+				</p-area>
+				<p>Všechny výdaje lze sledovat na <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">transparentním účtu</p-link>. Peníze nikdy nejdou na platy, vybavení, benzín, jídlo, oblečení, papíry ani elektroniku. Veškerá činnost je dobrovolná.</p>
+			</p-block>
+			<p-block headline="Kdo řeší peníze?" anchor="Správa darů">
+				<p-area class="inline">
+						<div class="p-offset">
 							<div>
-								<p-image src="https://programydovoleb.cz/static/profilovka.jpg" width="100%" :rounded="true" :border="true"></p-image>
+								<p-image src="https://programydovoleb.cz/static/profilovka.jpg" width="10em" :rounded="true" :border="true"></p-image>
 							</div>
 							<div>
 								<div class="strong">Štěpán Ryšavý</div>
@@ -92,30 +103,35 @@
 									<ul>
 										<li>- zapsaný spolek</li>
 										<li>- IČO: <p-link href="https://or.justice.cz/ias/ui/rejstrik-firma.vysledky?subjektId=1126297&typ=PLATNY">10906380</p-link></li>
-										<li>- L 13767 vedený u KS v Hradci Králové</li>
+										<!-- <li>- L 13767 vedený u KS v Hradci Králové</li> -->
 										<li>- sídlo: Jana Palacha 1413, Turnov</li>
 									</ul>
 								</div>
 							</div>
-						</p-grid>
-						<div class="p-line"></div>
-						<div class="smaller">Chcete se na něco zeptat? Napište <a href="mailto:stepan.rysavy@programydovoleb.cz">stepan.rysavy@programydovoleb.cz</a></div>
-						<div class="p-line"></div>
-						<div class="smaller">
-							Výroční zprávy včetně přehledu nákladů od založení: 
-							<p-link href="https://programydovoleb.cz/static/docs/2023-vyrocni-zprava.pdf">2023</p-link>,
-							<p-link href="https://programydovoleb.cz/static/docs/2022-vyrocni-zprava.pdf">2022</p-link>,
-							<p-link href="https://programydovoleb.cz/static/docs/2021-vyrocni-zprava.pdf">2021</p-link>
-						</div>						
-					</p-area>
-		</section>
-		<section>
-			<h2>Lze pomoct i nefinančně?</h2>
-			<p>Samozřejmě. Velká část <em>Programů</em> vzniká díky dobrovolnické práci. Nemusí jít nutně o hodiny práce, ale i drobné tipy, zaslání odkazu, upozornění na chybu ve funkčnosti nebo překlep.</p>
-			<p>Jednou z výrazných pomocí je sdílení na sociálních sítích. Doporučování v uzavřených skupinách, chat skupinách apod, kam není jinak možnost proniknout. <em>Programy</em> jsou nejvíc aktivní na <p-link href="https://www.twitter.com/programydovoleb">Twitteru (nyní X)</p-link>, <p-link href="https://www.threads.net/programydovoleb">Threads</p-link>, <p-link href="https://bsky.app/profile/programydovoleb.cz">BlueSky</p-link> a <p-link href="https://www.instagram.com/programydovoleb">Instagramu</p-link>. Najdete je ale i na dalších <router-link to="/o-projektu/kontakty#socialni-site">sociálních sítích</router-link>.</p>
-			<div class="p-gap _2"></div>
-			<div class="p-line _mw"></div>
-			<h2>Díky za každou formu podpory a pomoci</h2>
-		</section>
-	</p-layout-simple>
+						</div>
+					<div class="p-line"></div>
+					<div class="smaller">Chcete se na něco zeptat? Napište <a href="mailto:dary@programydovoleb.cz">dary@programydovoleb.cz</a></div>
+					<div class="p-line"></div>
+					<div class="smaller">
+						Výroční zprávy včetně přehledu nákladů od založení: 
+						<p-link href="https://programydovoleb.cz/static/docs/2023-vyrocni-zprava.pdf">2023</p-link>,
+						<p-link href="https://programydovoleb.cz/static/docs/2022-vyrocni-zprava.pdf">2022</p-link>,
+						<p-link href="https://programydovoleb.cz/static/docs/2021-vyrocni-zprava.pdf">2021</p-link>
+					</div>						
+				</p-area>
+			</p-block>
+			<p-block headline="Lze pomoct i nefinančně?" anchor="Jiné možnosti">
+				<p>Samozřejmě. Velká část <em>Programů</em> vzniká díky dobrovolnické práci. Nemusí jít nutně o hodiny práce, ale i drobné tipy, zaslání odkazu, upozornění na chybu ve funkčnosti nebo překlep.</p>
+				<p>Jednou z výrazných pomocí je sdílení na sociálních sítích. Doporučování v uzavřených skupinách, chat skupinách apod, kam není jinak možnost proniknout. <em>Programy</em> jsou nejvíc aktivní na <p-link href="https://www.twitter.com/programydovoleb">Twitteru (nyní X)</p-link>, <p-link href="https://www.threads.net/programydovoleb">Threads</p-link>, <p-link href="https://bsky.app/profile/programydovoleb.cz">BlueSky</p-link> a <p-link href="https://www.instagram.com/programydovoleb">Instagramu</p-link>. Najdete je ale i na dalších <router-link to="/o-projektu/kontakty#socialni-site">sociálních sítích</router-link>.</p>
+			</p-block>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<cta-support></cta-support>
+		</template>
+	</p-layout-divided>
 </div>

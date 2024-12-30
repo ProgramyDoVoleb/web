@@ -13,3 +13,11 @@ ul {
 .p-area p:last-child {
 	margin-bottom: 0;
 }
+
+._marker {
+	font-weight: bold;
+	color: var(--blue);
+	display: inline-block;
+	width: 1.2em;
+	text-align: right;
+}

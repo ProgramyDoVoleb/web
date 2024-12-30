@@ -22,6 +22,11 @@ export default {
 	},
 	methods: {
 		scroll: function () {
+
+			if (this.$refs['main']) this.height.main = this.$refs['main'].getBoundingClientRect().height;
+			if (this.$refs['aside']) this.height.aside = this.$refs['aside'].getBoundingClientRect().height;
+			if (this.$refs['nav']) this.height.nav = this.$refs['nav'].getBoundingClientRect().height;
+			
 			this.scrollTop = document.documentElement.scrollTop;
 
 			var pageTopOffset = 0;

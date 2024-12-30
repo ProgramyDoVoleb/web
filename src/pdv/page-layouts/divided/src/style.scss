@@ -177,7 +177,7 @@
   .p-layout---nav.down {
     position: absolute;
     bottom: 0;
-    top: auto;
+    top: auto !important;
   }
 }
 
@@ -186,7 +186,7 @@
   .p-layout---aside.down {
     position: absolute;
     bottom: 0;
-    top: auto;
+    top: auto !important;
   }
 }
 
