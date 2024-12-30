@@ -111,7 +111,7 @@ export default {
 
 			if (d) {
 				ga(d.poll.agency + ' - ' + date(d.poll.datum, 3));
-				window.scrollTo(0, 0);
+				window.scrollTo(0, 1);
 
 				if (d.history) {
 					this.series = []

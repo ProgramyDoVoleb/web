@@ -12,6 +12,10 @@
   }
 }
 
+.p-collapsible:not(.borderless) {
+  border-bottom: var(--border);
+}  
+
 .p-area + .collapsible-element,
 .box + .collapsible-element {
   border-top: none !important;
@@ -20,8 +24,8 @@
 .collapsible-element-header {
   padding: .5em 1em;
   position: relative;
-  margin-left: -1rem;
-  margin-right: -1rem;
+  margin-left: -1em;
+  margin-right: -1em;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -30,7 +34,7 @@
   // margin: auto;
 
   .collapsible-element:not(.borderless):not(.opened) & {
-    border-bottom: var(--border);
+    // border-bottom: var(--border);
   }
 
   .collapsible-element.opened & {
@@ -95,7 +99,7 @@
 }
 
 .collapsible-element-content {
-  padding-top: 2rem;
+  padding: 1em 0 1.5em;
 }
 
 @keyframes rotate {
@@ -135,12 +139,15 @@
   height: 2.5rem;
   top: -1.2em;
   left: -.1em;
-  border-radius: 50%;
-  border: var(--border);
+  // border: var(--border);
 
-  .dark & {
-    border-color: #000;
-    background: #fff;
+  .dark &:not([src*="volby"]) {
+    filter: invert(1) brightness(2) opacity(.8);
+  }
+
+  .dark &[src*="volby"] {
+    border-radius: 50%;
+    background: var(--white);
   }
 }
 

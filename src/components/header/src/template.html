@@ -35,7 +35,7 @@
 									<!-- <div><router-link to="/widgety">Widgety</router-link></div> -->
 									<div><router-link to="/novinky">Novinky</router-link></div>
 									<div><p-link href="https://admin.programydovoleb.cz" class="strong">Pro kandidáty</p-link></div>
-									<div><router-link to="/podporit-projekt" class="strong green">Podpořit</router-link></div>
+									<div><router-link to="/o-projektu/jak-podporit" class="strong green">Podpořit</router-link></div>
 						</div>
 						
 						<div v-if="$route.fullPath.split('/volby/krajske-volby/162').length > 1 || $route.fullPath.split('/bod/csu_kz').length > 1">
@@ -82,7 +82,7 @@
 							<li><router-link to="/novinky">Novinky</router-link></li>
 							<li><router-link to="/o-projektu">O projektu</router-link></li>
 							<li><p-link href="https://admin.programydovoleb.cz" class="strong">Pro kandidáty</p-link></li>
-							<li class="_w"><router-link to="/podporit-projekt" class="strong green"><span class="green">Podpořit</span></router-link></li>
+							<li class="_w"><router-link to="/o-projektu/jak-podporit" class="strong green"><span class="green">Podpořit</span></router-link></li>
 							<li>&middot;</li>
 
 							<!-- <li class="_w"><p-link href="https://darujme.cz/programydovoleb" class="strong green"><span class="green">Podpořit</span></p-link></li> -->
@@ -105,6 +105,24 @@
 			<div class="smaller">
 				<strong><router-link to="/volby/senatni-volby/163" class="blue">Senátní volby</router-link> </strong><strong> &middot; obvod </strong><p-list-linear class="or" >
 					<span class="strong" v-for="(obvod, index) in [2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59,62,65,68,71,74,77,80]"><router-link class="is-span" :to="'/volby/senatni-volby/163/obvod/' + obvod" @click="showMenu3 = false">{{ obvod }}</router-link></span>
+				</p-list-linear>
+			</div>
+		</div>
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/o-projektu').length > 1">
+			<div class="smaller">
+				<p-list-linear class="or" >
+					<span>
+						<router-link to="/o-projektu">O projektu</router-link>
+					</span>
+					<span>
+						<p-link href="https://github.com/programydovoleb/web">Zdrojový kód</p-link>
+					</span>
+					<span>
+						<router-link to="/o-projektu/jak-podporit">Podpořit</router-link>
+					</span>
+					<span>
+						<router-link to="/o-projektu/kontakty">Kontakty</router-link>
+					</span>
 				</p-list-linear>
 			</div>
 		</div>

@@ -5,7 +5,7 @@ import { api } from '@/stores/core'
 
 export default {
 	name: 'report-form',
-	props: ['part', 'hint', 'compact', 'hash', 'noLink'],
+	props: ['part', 'hint', 'compact', 'hash', 'noLink', 'full'],
 	components: {},
 	data: function () {
 		return {

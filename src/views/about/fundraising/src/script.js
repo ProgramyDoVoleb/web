@@ -13,7 +13,7 @@ export default {
 		PromoBlock
 	},
   mounted: function () {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 1);
     ga("Podpořte Programy do voleb");
   }
 };

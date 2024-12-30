@@ -79,7 +79,8 @@
 												<p-modal>
 													<template #init>
 														<p-box :click="() => null">
-															<p-box-label class="green">Doplnit či upravit</p-box-label>
+															<p-box-label class="green" v-if="election.status === 1">Doplnit či upravit</p-box-label>
+															<p-box-label class="green" v-if="election.status === 2">Upravit</p-box-label>
 														</p-box>
 													</template>
 													<template #content>
@@ -87,12 +88,14 @@
 														<report-form :part="'Homepage - ' + election.id"></report-form>
 													</template>
 												</p-modal>
+												<template v-if="election.status < 3">
+													<p-box href="https://admin.programydovoleb.cz/seznam">
+														<p-box-label class="dimm">
+															Pro kandidáty
+														</p-box-label>
+													</p-box>
+												</template>
 												<!-- <p-box-gap></p-box-gap> -->
-												<p-box href="https://admin.programydovoleb.cz/seznam">
-													<p-box-label class="dimm">
-														Pro kandidáty
-													</p-box-label>
-												</p-box>
 											</template>
 										</p-box-group>
 										<div class="p-gap_15"></div>
@@ -492,7 +495,7 @@
 					<p-box to="/o-projektu">
 						<p-box-button class="primary">Více o Programech</p-box-button>
 					</p-box>
-					<p-box to="/podporit-projekt">
+					<p-box to="/o-projektu/jak-podporit">
 						<p-box-label class="green">Chci přispět</p-box-label>
 					</p-box>
 				</p-box-group>

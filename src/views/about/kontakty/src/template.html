@@ -1,0 +1,214 @@
+<div class="layout-about">
+	<p-layout-divided>
+		<template #main>
+			<p-block :level="1" headline="Programy do voleb" subheadline="Kontakty">
+				<p class="lead">Zde je přehled všech možných forem, jak se lze spojit s Programy. Nejčastěji tak bude přímo na <button class="inline" @click="slide('socialni-site')">sociálních sítích</button>, pomocí reakcí nebo zpráv. Může se ale stát, že budete chtít využít e-mail nebo jinou formu.</p>
+				<p-block headline="Rychlé kontakty" :hide="true">
+					<p-box-group>
+						<p-box href="mailto:info@programydovoleb.cz">
+							<p-box-button class="primary" icon="email.svg">info@programydovoleb.cz</p-box-button>
+						</p-box>
+						<p-box href="https://m.me/1033702273421005">
+							<p-box-label icon="messenger.svg">Messenger</p-box-label>
+						</p-box>
+						<p-box href="https://discord.gg/fVUmJ7wXzc">
+							<p-box-label icon="discord.svg">Discord</p-box-label>
+						</p-box>
+					</p-box-group>
+					<div class="p-line"></div>
+					<p-collapsible label="Mám tip na doplnění" logo="plus">
+						<p-area class="primary" borderColor="var(--green)">
+							<report-form part="Tip na doplnění"></report-form>
+						</p-area>
+					</p-collapsible>
+					<p-collapsible label="Hlášení chyby" logo="warning">
+						<p-area class="primary" borderColor="var(--red)">
+							<report-form part="Chyba" noLink="true"></report-form>
+						</p-area>
+					</p-collapsible>
+					<p-collapsible label="Rychlá zpráva" logo="answer">
+						<p-area class="primary">
+							<report-form part="Rychlá úprava" noLink="true" :full="true"></report-form>
+						</p-area>
+					</p-collapsible>
+				</p-block>
+			</p-block>
+			<p-block headline="Sociální sítě">
+				<p-grid class="_tiny text-center">
+					<div v-for="item in social">
+						<p-area>
+							<div>
+								<p-icon :src="cdn + '/icon/' + item.icon + '.svg'" size="4em"></p-icon>
+							</div>
+							<p-link class="strong" :href="item.link">{{ item.label }}</p-link>
+							<div class="smallest" :class="{red: item.sub}">{{ item.count || item.sub }}</div>
+						</p-area>
+					</div>
+				</p-grid>
+				<p class="dimm smallest">Údaje o sledovanosti k 30. prosinci 2024</p>
+			</p-block>
+			<p-block headline="Pro strany a kandidáty" anchor="Pro kandidáty">
+				<p-area class="primary">
+					<h3><span class="blue">Admin</span> &middot; spravujte své údaje přímo</h3>
+					<p>Nejsnadnější způsob, jak doplňovat a upravovat informace o straně či kandidátovi, je prostřednictvím jednoduchého online Adminu. Ten je přístupný všem zájemcům, většinou až do dne předcházejícímu dni voleb. Veškeré úpravy se okamžitě propisují do webu.</p>
+					<p-box-group>
+						<p-box href="https://admin.programydovoleb.cz">
+							<p-box-button class="primary" icon="link.svg">Přejít na web Adminu</p-box-button>
+						</p-box>
+					</p-box-group>
+					<div class="p-line"></div>
+					<p-collapsible label="Nechci Admin, chci jen něco doplnit/upravit">
+						<p>Použití Adminu je dobrovolné, informace ale lze doplňovat i bez něj. Pokud se jedná o informaci v článku nebo na sociálních sítích, stačí poslat odkaz.</p>
+						<p>Pokud ale jde o informaci, která zatím nikde není, je nejlepší, pokud napíšete zprávu ze svého profilu na <button class="inline" @click="slide('socialni-site')">sociálních sítích</button> nebo z e-mailu, ze kterého je jasná politická strana/hnutí nebo se jedná o e-mailovou adresu z webu kandidáta.</p>
+						<p-area class="inline smaller" borderColor="var(--blue)">
+							<a href="mailto:doplnit@programydovoleb.cz" class="strong">doplnit@programydovoleb.cz</a>
+						</p-area>
+					</p-collapsible>
+					<p-collapsible label="Chci jen poslat odpovědi na otázky">
+						<p>V tomto případě se doporučuje použití Adminu, protože tam je vysoká míra jistoty, že odpovědi jsou od skutečného a relevantního člověka.</p>
+						<p>Pokud se přesto rozhodnete je zaslat e-mailem, je nutné postupovat podobně jako u žádostí na doplnění. Tzn. e-mail musí pocházet adresy, která patří do domény politické strany, hnutí nebo kandidáta. Na adresy typu jan.novak@seznam.cz je nahlíženo s vysokou  mírou nedůvěry, protože nejde snadno ověřit, komu patří. Naopak jan.novak@stranaxyz.cz nebo jsem@jannovak.cz jsou snadněji ověřitelné.</p>
+						<p-area class="inline smaller" borderColor="var(--blue)">
+							<a href="mailto:odpovedi@programydovoleb.cz" class="strong">odpovedi@programydovoleb.cz</a>
+						</p-area>
+					</p-collapsible>
+					<p-collapsible label="Nemohu najít svůj odkaz do Adminu">
+						<p>Odkaz do Adminu začíná <span class="blue is-link">http://admin.programydovoleb.cz/prihlaseni/</span> a poté následuje unikátní kód. Pokud se vám ho v e-mailu nepodaří najít, dejte vědět na <button class="inline" @click="slide('socialni-site')">sociálních sítích</button> nebo napište. Pokud by se nepodařilo ho obnovit, získáte nový.</p>
+						<p-area class="inline smaller" borderColor="var(--blue)">
+							<a href="mailto:admin@programydovoleb.cz" class="strong">admin@programydovoleb.cz</a>
+						</p-area>
+					</p-collapsible>
+					<p-collapsible label="Můj odkaz do Adminu už nefunguje">
+						<p>Většina přístupů do Adminu je navázána na konkrétní volby. V den voleb se přístup všem kandidátům i stranám vypíná, aby již nebylo možné upravovat údaje (plus to má nějaké další benefity, např pro rychlost webu při volebních dnech).</p>
+						<p>Pokud ještě volby neproběhly, ale odkaz už nefunguje, prosím, napište:</p>
+						<p-area class="inline smaller" borderColor="var(--blue)">
+							<a href="mailto:admin@programydovoleb.cz" class="strong">admin@programydovoleb.cz</a>
+						</p-area>
+					</p-collapsible>
+					<p-collapsible label="Chci odstranit nějaké starší údaje">
+						<p>V souladu s legislativou kolem <em class="strong">GDPR</em> lze kdykoli požádat o odstranění informací, zejména pokud je za vás doplnil někdo jiný, například asistent, manažer kampaně, apod.</p>
+						<p>Berte na vědomí, že lze odstranit pouze informace, které jsou nad rámec otevřených dat poskytnutých Českým statistickým úřadem. Jméno, příjmení, věk, povolání, bydliště, tituly, nominující strana a členství odebrat či změnit nelze.</p>
+						<p-area class="inline smaller" borderColor="var(--blue)">
+							<a href="mailto:gdpr@programydovoleb.cz" class="strong">gdpr@programydovoleb.cz</a>
+						</p-area>
+					</p-collapsible>
+				</p-area>
+			</p-block>
+			<p-block headline="Pro média">
+				<p>Pokud jste zástupcem médií, prosím využívejte tento e-mail. Optimálně využívejte své pracovní e-maily z domény vašeho média. Aktuální fotky, loga apod. najdete na GDrive.</p>
+				<p-box-group>
+					<p-box href="mailto:media@programydovoleb.cz">
+						<p-box-button class="primary" icon="email.svg">media@programydovoleb.cz</p-box-button>
+					</p-box>
+					<p-box href="https://drive.google.com/drive/folders/1TL3ezGmULenjH4rJp9JRV_9WtHeLvwPh">
+						<p-box-label>Google Drive</p-box-label>
+					</p-box>
+					<p-box to="/novinky">
+						<p-box-label>Novinky</p-box-label>
+					</p-box>
+				</p-box-group>
+				<div class="p-gap"></div>
+				<p-collapsible label="Poslední tiskové zprávy">
+					<p-grid>
+						<div>
+							<p-area class="primary">
+								<h3>167 volebních programů na jednom místě, průvodce, volební historie nebo aktivita stran</h3>
+								<div class="smallest blue">17. září 2024</div>
+								<p v-html="truncate('Nejen volební programy, ale i tři unikátní funkce najdou zájemci o krajské nebo senátní volby na webu Programy do voleb. Průvodce na míru, který vytáhne vše podstatné o jakékoli straně nebo kandidátovi z desítek tisíc záznamů a doplňkových informací. Volební historie, aneb, kdy a za koho šel dotyčný kandidát do voleb. A přehled zapojení libovolné strany či hnutí do voleb, takže je vidět, zda šla do voleb samostatně, v koalici nebo jen někoho podporuje.')"></p>
+								<p-box href="https://drive.google.com/drive/folders/1za7fCMgCXiBm0Zae7mlwHveVhXDXmHAE?usp=drive_link">
+									<p-box-button icon="krajske-volby.svg" class="primary">Otevřít zprávu</p-box-button>
+								</p-box>
+							</p-area>
+						</div>
+						<div>
+							<p-area class="primary">
+								<h3>Programy do voleb připravily bohatý a nestranný přehled k eurovolbám</h3>
+								<div class="smallest blue">28. května 2024</div>
+								<p v-html="truncate('Volební programy, medailonky stran a kandidátů, srovnání podle témat nebo volební kalkulačka s komentářem od stran k jednotlivým otázkám. To vše najdou lidé na webových stránkách nestranného projektu Programy do voleb k eurovolbám na adrese eu2024.programydovoleb.cz')"></p>
+								<p-box href="https://drive.google.com/drive/folders/1HR9MjqU24TIHb-6878e9lN6gXaZs3Lhi?usp=drive_link">
+									<p-box-button icon="evropske-volby.svg" class="primary">Otevřít zprávu</p-box-button>
+								</p-box>
+							</p-area>
+						</div>
+					</p-grid>
+				</p-collapsible>
+				<p-collapsible label="Prosím uvádějte zdroj">
+					<p>Při odkazování prosím používejte název <strong>Programy do voleb</strong> a nejlépe odkaz přímo na
+						konkrétní stránku. Pokud to z nějakých důvodů nelze, pak odkazujte na
+						<em class="is-link">https://programydovoleb.cz</em> a připojte také datum, kdy jste informace z webu získali.</p>
+				</p-collapsible>
+			</p-block>
+			<p-block headline="Pro dobrovolníky">
+				<p>Pokud se chcete připojit nebo chcete jen nahlédnout, co se děje, chystá, upravuje, plánuje kolem Programů nebo voleb obecně, připojte se na nový Discord server nebo se zeptejte na cokoli na <button class="inline" @click="slide('socialni-site')">sociálních sítích</button>.</p>
+				<p-box-group>
+					<p-box href="mailto:media@programydovoleb.cz">
+						<p-box-button class="primary" icon="discord.svg">Připojte se</p-box-button>
+					</p-box>
+				</p-box-group>
+			</p-block>
+			<p-block headline="Sídlo a fakturace">
+				<p-area class="primary">
+					<p-list>
+						<div class="strong">Programy do voleb, z. s.</div>
+						<div>Jana Palacha 1413<br>511 01  Turnov</div>
+						<div>IČO: <strong>10906380</strong> &middot; L 13767 vedený u Krajského soudu v Hradci Králové</div>
+						<div>Datovka: <strong>vhwmpce</strong></div>
+						<div class="smaller">Spolek není plátcem DPH a neprovádí žádné zahraniční platby.</div>
+					</p-list>
+				</p-area>
+			</p-block>
+			<p-block headline="Správa údajů, GDPR">
+				<p>V souladu s legislativou kolem <em class="strong">GDPR</em> lze kdykoli požádat o odstranění informací, zejména pokud je za vás doplnil někdo jiný, například asistent, manažer kampaně, apod.</p>
+				<p>Berte na vědomí, že lze odstranit pouze informace, které jsou nad rámec otevřených dat poskytnutých Českým statistickým úřadem. Jméno, příjmení, věk, povolání, bydliště, tituly, nominující strana a členství odebrat či změnit nelze.</p>
+				<p-area class="inline smaller" borderColor="var(--blue)">
+					<a href="mailto:gdpr@programydovoleb.cz" class="strong">gdpr@programydovoleb.cz</a>
+				</p-area>
+			</p-block>
+			<p-block headline="Může se také hodit">
+				<p-list>
+					<div>
+						<a href="mailto:dary@programydovoleb.cz" class="strong">dary@programydovoleb.cz</a>
+						<div class="smaller">– pokud máte problém s Darujme, pokud vám nepřišlo potvrzení o daru z Darujme nebo pokud byste o něj měli zájem po zaslání daru přímo</div>
+					</div>
+					<div>
+						<a href="mailto:eshop@programydovoleb.cz" class="strong">eshop@programydovoleb.cz</a>
+						<div class="smaller">– pokud máte problém s dodávkou z e-shopu, potřebujete něco upravit nebo reklamovat</div>
+					</div>
+				</p-list>
+			</p-block>
+			<p-block headline="Otázky a odpovědi">
+				<p-collapsible label="Proč nikde neuvádíte telefonní číslo?">
+					<p><em>Programy do voleb</em> jsou online projekt, který je spravován hlavně v době mimo běžnou pracovní dobu. Nemá žádného zaměstnance, který by mohl být na přijmu 24/7. Proto je vhodné, aby byla veškerá komunikace písemná (online).</p>
+				</p-collapsible>
+				<p-collapsible label="Proč mezi kontakty není WhatsApp, Telegram nebo Signal?">
+					<p>WhatsApp i Telegram vyžadují k založení telefonní číslo, které <em>Programy do voleb</em> nemají.</p>
+				</p-collapsible>
+				<p-collapsible label="Je možné se někde potkat osobně?">
+					<p>Ano, po domluvě, v Praze, výjimečně v Turnově.</p>
+				</p-collapsible>
+			</p-block>
+		</template>
+		<template #aside>
+			<h3 class="serif w400">Programy do voleb</h3>
+			<p>Nestranný neziskový projekt, díky kterému si můžete snadno, pohodlně a bez hledání přečíst a
+				porovnat volební programy všech stran či kandidátů.</p>
+			<div class="smaller">
+				<p-stats :vertical="true" label="Adresa">
+					Jana Palacha 1413<br>
+					511 01 Turnov
+				</p-stats>
+				<p-stats :vertical="true" label="IČO">
+					10906380 &middot; <p-link class="as-span"
+						href="https://or.justice.cz/ias/ui/rejstrik-firma.vysledky?subjektId=1126297&typ=PLATNY">rejstřík</p-link>
+				</p-stats>
+				<p-stats :vertical="true" label="Datovka">
+					vhwmpce
+				</p-stats>
+			</div>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+	</p-layout-divided>
+</div>

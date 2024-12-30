@@ -5,11 +5,8 @@ import PointerCandidatesView from '../views/pointer/candidates/do.vue'
 import PointerProgramView from '../views/pointer/program/do.vue'
 import PointerPriorityView from '../views/pointer/priority/do.vue'
 import PointerQAView from '../views/pointer/qa/do.vue'
-import VolbyKrajDetail from '../views/volby/detail/krajske-volby/region/do.vue'
 import VolbySenatDetail from '../views/volby/detail/senatni-volby/obvod/do.vue'
 import VolbyDetail from '../views/volby/detail/do.vue'
-import Guide24 from '../views/aktivity/guide/24-kz-senat/do.vue'
-import How24 from '../views/jak-volit/krajske-volby/do.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,7 +29,7 @@ const router = createRouter({
     {
       path: '/pruvodce/krajske-a-senatni-volby-2024',
       name: 'guide-kz-senat-2024',
-      component: Guide24 // () => import('../views/aktivity/guide/24-kz-senat/do.vue')
+      component: () => import('../views/aktivity/guide/24-kz-senat/do.vue')
     },
     {
       path: '/pro-kandidaty/otazky/krajske-a-senatni-volby-2024',
@@ -54,7 +51,7 @@ const router = createRouter({
     {
       path: '/volby/krajske-volby/:id/kraj/:region',
       name: 'volby-detail-krajske-kraj',
-      component: VolbyKrajDetail, // () => import('../views/volby/detail/krajske-volby/region/do.vue'),
+      component: () => import('../views/volby/detail/krajske-volby/region/do.vue'),
       props: true
     },
     {
@@ -215,7 +212,7 @@ const router = createRouter({
     {
       path: '/jak-volit/krajske-volby',
       name: 'LayoutHowKrajske',
-      component: How24, // () => import('../views/jak-volit/krajske-volby/do.vue'),
+      component: () => import('../views/jak-volit/krajske-volby/do.vue'),
       props: true
     },
     {
@@ -224,9 +221,19 @@ const router = createRouter({
       component: () => import('../views/about/do.vue'),
     },
     {
-      path: '/podporit-projekt',
+      path: '/o-projektu/kontakty',
+      name: 'LayoutAboutContants',
+      component: () => import('../views/about/kontakty/do.vue'),
+    },
+    {
+      path: '/o-projektu/jak-podporit',
       name: 'LayoutAboutFundraising',
       component: () => import('../views/about/fundraising/do.vue'),
+    },
+    {
+      path: '/podporit-projekt',
+      name: 'LayoutAboutFundraisingRedirect',
+      redirect: '/o-projektu/jak-podporit',
     },
     {
       path: '/widgety',

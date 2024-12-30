@@ -47,7 +47,7 @@ export default {
 	date, number, color, indicator
   },
   mounted: function () {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 1);
     // this.$store.dispatch("ga", {title: "Přehled volebních průzkumů"});
 	ga("Přehled volebních průzkumů");
   }

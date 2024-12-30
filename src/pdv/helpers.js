@@ -269,7 +269,7 @@ export function reverse (arr) {
 }
 
 export function slide (hash, el) {
-  (el || this.$el).querySelector("[name=" + hash + "]").scrollIntoView({behavior: "smooth", block: "start"});
+  (el || this.$el).querySelector("[name=" + hash + "]").scrollIntoView({behavior: "smooth", block: "center"});
 }
 
 export function lang (_value, _end) {

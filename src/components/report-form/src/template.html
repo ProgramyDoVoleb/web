@@ -25,13 +25,13 @@
 						<div class="form-note"></div>
 					</div>
 				</li>
-				<p-collapsible label="Doplnit kontakt">
+				<p-collapsible label="Doplnit kontakt" :open="full" :skip="full">
 					<li>
 						<!-- <label>Kontakt</label> -->
 						<div>
 							<div class="form-item">
 								<div class="form-input">
-									<input v-model="contact" class="form-input-text" placeholder="vaše jméno">
+									<input v-model="contact" class="form-input-text secondary" placeholder="vaše jméno">
 								</div>
 							</div>
 							<div class="form-note"></div>
@@ -42,7 +42,7 @@
 						<div>
 							<div class="form-item">
 								<div class="form-input">
-									<input v-model="name" class="form-input-text" placeholder="e-mail nebo odkaz na profil">
+									<input v-model="name" class="form-input-text secondary" placeholder="e-mail nebo odkaz na profil">
 								</div>
 								<p class="note dimm">Zanechte e-mail nebo jiný odkaz, aby bylo v případě potřeby možné se vám ozvat zpět. E-maily nejsou použité pro nic jiné.</p>
 							</div>

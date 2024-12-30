@@ -18,7 +18,7 @@ export default {
         var arr = [
           'krajske-volby/162',
           'senatni-volby/163',
-          // 'snemovni-volby/166'
+          'o-projektu'
         ];
 
         return arr.find(x => this.$route.path.split(x).length > 1);
