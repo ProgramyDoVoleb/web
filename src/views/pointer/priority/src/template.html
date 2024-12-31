@@ -191,35 +191,39 @@
 							</div>
 							<div class="p-gap _3 _floar-clear"></div>
 
-							<template v-if="current.$priority.find(x => x.headline && x.content)">
-								<div v-for="(priority, indexP) in current.$priority">
-									<component :is="priority.content && priority.content.charAt(0) === '[' ? 'div' : 'p-block'" :headline="priority.headline">
-										<div class="_mw serif" v-if="priority.content && priority.content.charAt(0) != '['" v-html="priority.content.split('\n').join('<br>')">
-											
-										</div>
-										<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
-											<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
-										</div>
-									</component>
-								</div>
-							</template>
-							<template v-else>
-								<p-list class="_05">
-									<div v-for="(priority, indexP) in current.$priority">
-											<div v-if="priority.headline" v-html="priority.headline" class="smaller strong">
+							<section class="program">
 
-											</div>
+								<template v-if="current.$priority.find(x => x.headline && x.content)">
+									<template v-for="(priority, indexP) in current.$priority">
+										<component :is="priority.content && priority.content.charAt(0) === '[' ? 'div' : 'p-block'" :headline="priority.headline">
 											<div class="_mw serif" v-if="priority.content && priority.content.charAt(0) != '['" v-html="priority.content.split('\n').join('<br>')">
 												
 											</div>
 											<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
 												<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
 											</div>
-										
-									</div>
-								</p-list>
-								<div class="p-gap _2"></div>
-							</template>
+										</component>
+									</template>
+								</template>
+								<template v-else>
+									<p-list class="_05">
+										<div v-for="(priority, indexP) in current.$priority">
+												<div v-if="priority.headline" v-html="priority.headline" class="smaller strong">
+	
+												</div>
+												<div class="_mw serif" v-if="priority.content && priority.content.charAt(0) != '['" v-html="priority.content.split('\n').join('<br>')">
+													
+												</div>
+												<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
+													<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
+												</div>
+											
+										</div>
+									</p-list>
+									<div class="p-gap _2"></div>
+								</template>
+
+							</section>
 							<party-preview v-if="current.NAZEV" :link="'/volby/' + volbyType + '/' + volbyID" :party="current" :election="null" :elections="data"></party-preview>
 							<div class="p-gap _4"></div>
 						</div>

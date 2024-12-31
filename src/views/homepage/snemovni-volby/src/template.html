@@ -6,7 +6,7 @@
 				<div class="p-gap_075"></div>
 				<strong></strong>
 				<component :is="width < 1170 ? 'p-area' : 'div'" class="smaller white">
-					<p-columns>
+					<p-columns :class="{'_2': width < 1170}">
 						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
 							<component :is="width < 1170 ? 'party-preview-tiny' : 'party-preview'" :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></component>
 						</div>

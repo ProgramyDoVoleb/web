@@ -18,7 +18,8 @@
 				<template v-if="(party.$data.program && party.$data.program.length > 0) || (party.$program && party.$program.length > 0)">
 					<p-modal class="inline">
 						<template #init>
-							<span class="strong smallest">program</span>
+							<p-icon icon="program" size="1.25em"></p-icon>
+							<!-- <span class="strong smallest">program</span> -->
 						</template>
 						<template #content>
 							<div class="_b">
@@ -71,7 +72,8 @@
 				<template v-else>
 					<p-modal class="inline">
 						<template #init>
-							<span class="smallest green">doplnit</span>
+							<p-icon icon="plus-green" size="1.25em"></p-icon>
+							<!-- <span class="smallest green">doplnit</span> -->
 						</template>
 						<template #content>
 							<strong>Vložit odkaz na volební program nebo priority</strong>

@@ -48,3 +48,7 @@ li::marker {
 .program-block---holder + .program-block---holder {
   margin-top: 6rem;
 }
+
+section.program > div:not(:last-child) .program-block {
+  padding-bottom: 2em;
+}

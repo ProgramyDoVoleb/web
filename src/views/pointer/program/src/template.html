@@ -96,26 +96,28 @@
 									</p-collapsible>
 								</p-area>
 								<div class="p-gap_3"></div>
-								<template v-if="current.$program[0].content && current.$program[0].type === 5">
-										<template v-for="(part, index) in fullType5">
-												<program-block :parts="part" :hash="url(part.headline)" :headline="part.headline" :color="colorByItem(current, data)"></program-block>
-										</template>
-								</template>
-								<template v-if="current.$program[0].content && current.$program[0].type === 4">
-										<template v-for="(part, index) in JSON.parse(current.$program[0].content)">
-												<program-block :parts="part" :hash="url(part.headline)" :headline="part.headline" :color="colorByItem(current, data)"></program-block>
-										</template>
-								</template>
-								<template v-if="current.$program[0].content && current.$program[0].type === 3">
-										<template v-for="(part, index) in JSON.parse(current.$program[0].content)">
-												<program-block :src="part.src" :hash="url(part.headline)" :headline="part.headline" :color="colorByItem(current, data)"></program-block>
-										</template>
-								</template>
-								<template v-if="current.$program[0].content && current.$program[0].type === 2">
-										<template v-for="(part, index) in JSON.parse(current.$program[0].content)">
-												<program-block :parts="part" :hash="url(part.name)" :headline="part.name" :color="colorByItem(current, data)"></program-block>
-										</template>
-								</template>
+								<section class="program">
+									<template v-if="current.$program[0].content && current.$program[0].type === 5">
+											<template v-for="(part, index) in fullType5">
+													<program-block :parts="part" :hash="url(part.headline)" :headline="part.headline" :color="colorByItem(current, data)"></program-block>
+											</template>
+									</template>
+									<template v-if="current.$program[0].content && current.$program[0].type === 4">
+											<template v-for="(part, index) in JSON.parse(current.$program[0].content)">
+													<program-block :parts="part" :hash="url(part.headline)" :headline="part.headline" :color="colorByItem(current, data)"></program-block>
+											</template>
+									</template>
+									<template v-if="current.$program[0].content && current.$program[0].type === 3">
+											<template v-for="(part, index) in JSON.parse(current.$program[0].content)">
+													<program-block :src="part.src" :hash="url(part.headline)" :headline="part.headline" :color="colorByItem(current, data)"></program-block>
+											</template>
+									</template>
+									<template v-if="current.$program[0].content && current.$program[0].type === 2">
+											<template v-for="(part, index) in JSON.parse(current.$program[0].content)">
+													<program-block :parts="part" :hash="url(part.name)" :headline="part.name" :color="colorByItem(current, data)"></program-block>
+											</template>
+									</template>
+								</section>
 							</p-block>
 							<p-block headline="Vybraná témata a otázky k volebnímu programu" anchor="Vybraná témata" :level="1" v-if="current.$otazky.find(x => x.type === 2)">
 								

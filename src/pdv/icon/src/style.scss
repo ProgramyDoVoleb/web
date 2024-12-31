@@ -3,18 +3,16 @@ img {
   display: inline-block;
   width: 1.5em;
   height: 1.5em;
-  // border: 1px solid rgba(0, 0, 0, .1);
-  // background: #fff;
-
-  .dark & {
-    // border-color: #000 !important;
-  }
 
   .dark &:not([src*="against"]):not([src*="check"]):not([src*="volby"]):not([src*="answers"]):not([src*="answers-mini"]):not([src*="election"]):not([src*="party"]):not([src*="detail"]):not([src*="plus-green"]):not([src*="warning"]) {
     // border-color: #000 !important;
     filter: invert(1) brightness(2) opacity(.8);
     background: none;
   }
+}
+
+button.inline img {
+  transform: translateY(.25em);
 }
 
 .icon-no-background img {

@@ -26,7 +26,20 @@
 												<p-label :color="colorByItem(cand, election, 'NSTRANA')" :after="true">
 													<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id" class="strong">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
 												</p-label>
-													<div class="smaller dimm">{{ cand.NAZEV_VS}}</div>
+												<div class="smaller dimm">{{ cand.NAZEV_VS}}</div>
+												<div class="mv025">
+													<p-list-linear class="smallest strong or" v-if="cand.$data.web.length > 0 || cand.$priority > 0 || cand.$odpovedi > 0">
+														<span v-if="cand.$data.web.length > 0">
+															<p-link :href="cand.$data.web[0].value">Web</p-link>
+														</span>
+														<span v-if="cand.$priority > 0">
+															<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id + '/priority'">Priority</router-link>
+														</span>
+														<span v-if="cand.$odpovedi > 0">
+															<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'">Odpovědi</router-link>
+														</span>
+													</p-list-linear>
+												</div>
 											</div>
 										</p-grid>
 
