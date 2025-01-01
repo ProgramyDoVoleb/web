@@ -35,3 +35,10 @@ a:not(.btn):not(.button) {
     }
   }
 }
+
+.p-link.inline {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+}

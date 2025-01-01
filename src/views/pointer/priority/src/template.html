@@ -196,11 +196,15 @@
 								<template v-if="current.$priority.find(x => x.headline && x.content)">
 									<template v-for="(priority, indexP) in current.$priority">
 										<component :is="priority.content && priority.content.charAt(0) === '[' ? 'div' : 'p-block'" :headline="priority.headline">
-											<div class="_mw serif" v-if="priority.content && priority.content.charAt(0) != '['" v-html="priority.content.split('\n').join('<br>')">
-												
-											</div>
+											<template v-if="priority.content && priority.content.charAt(0) != '['">
+												<div class="_mw serif"  v-html="priority.content.split('\n').join('<br>')"></div>
+											</template>
 											<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
 												<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
+											</div>
+											<div class="smallest dimm mt1" v-if="priority.source">
+												zdroj: <p-link :href="priority.source" class="dimm"></p-link><br>
+												vloženo {{ date(priority.updated) }}
 											</div>
 										</component>
 									</template>
@@ -216,6 +220,10 @@
 												</div>
 												<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
 													<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
+												</div>
+												<div class="smallest dimm mt1" v-if="priority.source">
+													zdroj: <p-link :href="priority.source" class="dimm"></p-link><br>
+													vloženo {{ date(priority.updated) }}
 												</div>
 											
 										</div>

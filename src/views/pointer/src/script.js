@@ -2,6 +2,7 @@ import {useData} from '@/stores/data';
 import { useCore, cdn, today } from '@/stores/core';
 import { useRoute } from 'vue-router';
 import { useEnums } from '@/stores/enums';
+import types from '@/stores/enums/log';
 import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, unique, sortBy} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
@@ -38,7 +39,8 @@ export default {
 			questionLimit: 5,
 			questionLimitOff: false,
 			eventsLimit: 3,
-			eventsOff: false
+			eventsOff: false,
+			types
 		}
 	},
   components: {
@@ -145,6 +147,34 @@ export default {
 		},
 		news: function () {
 			return this.data ? this.data.news : null;
+		},
+		newsmedia: function () {
+			var list = [];
+
+			if (this.news) {
+				// sortBy([].concat(this.news.list, this.news.sys), 'datum', null, true, true).forEach(item => {
+				sortBy([].concat(this.news.list), 'datum', null, true, true).forEach(item => {
+					list.push({
+						source_label: item.source,
+						source: item.source,
+						value: item.title,
+						updated: item.datum,
+						label: item.priority === 9 ? 'pdv' : 'Zpráva'
+					})
+				});
+
+				if (this.current.$data.media) this.current.$data.media.forEach(item => {
+					list.push(item);
+				});
+
+				if (this.current.$data.pr) this.current.$data.pr.forEach(item => {
+					list.push(item);
+				});
+
+				list = sortBy(list, 'updated', null, true, true);
+			}
+
+			return list;
 		},
 		headline: function () {
 			if (!this.data) return 'Načítám...';
@@ -388,6 +418,46 @@ export default {
 				taken[x] = --len in taken ? taken[len] : len;
 			}
 			return result;
+		},
+		fetchAllSourcesOnPage: function () {
+			var arr = [];
+			var list = [
+				'about',
+				'motto',
+				'support',
+				'values',
+				'pr',
+				'graphics',
+				'media',
+				'event',
+				'note',
+				'program'
+			];
+
+			function addIfUnique (item) {
+				if (!arr.find(x => x.updated.split(' ')[0] === item.updated.split(' ')[0] && x.source === item.source) && item.source && item.source.length > 6) {
+					arr.push({
+						updated: item.updated,
+						source: item.source
+					});
+
+					console.log(arr, item);
+				}
+			}
+
+			list.forEach(x => {
+				if (this.current.$data[x]) {
+					this.current.$data[x].forEach(item => addIfUnique(item))
+				}	
+			})
+
+			if (this.current.$priority) {
+				this.current.$priority.forEach(item => addIfUnique(item))
+			}
+
+			arr.sort((a, b) => b.updated.localeCompare(a.updated, 'cs'));
+
+			return arr;
 		}
   },
   mounted: function () {

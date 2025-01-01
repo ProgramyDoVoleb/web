@@ -892,50 +892,17 @@
 									</p-collapsible>
 								</template>
 							</p-block-expandable>
-							<p-block headline="V médiích" v-if="current.$data.media">
-								<p-grid>
-									<template v-for="(item, index) in current.$data.media">
-										<div v-if="index < 6">
-											<p-area :borderColor="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')">
-												<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
-												<div class="p-gap_075"></div>
-												<div class="smallest dimm">{{ item.label || 'Článek' }} &middot; {{ domain(item.source) }}</div>
-												<div class="smallest dimm"> Přidáno {{ date(item.updated) }}</div>
-											</p-area>
-										</div>
-									</template>
-								</p-grid>
-								<template v-if="current.$data.media.length > 6">
-									<div class="p-gap"></div>
-									<p-collapsible label="Starší záznamy" :status="current.$data.media.length - 6">
-										<table class="smaller _vab">
-											<template v-for="(item, index) in current.$data.media">
-												<tr v-if="index > 5">
-													<td>
-														<p-link :href="item.source">{{ item.value }}</p-link>
-														<div class="smallest dimm">
-															{{ domain(item.source) }} &middot; {{ item.label || 'Článek' }} 
-														</div>
-													</td>
-													<td class="smallest dimm text-right">
-														{{ date(item.updated) }}
-													</td>
-												</tr>
-											</template>
-										</table>
-									</p-collapsible>
-								</template>
-							</p-block>
-							<p-block headline="Tiskové zprávy" v-if="current.$data.pr">
-								<p-grid>
-									<div v-for="(item, index) in current.$data.pr">
-										<p-area :borderColor="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')">
+							<p-block headline="Zprávy a media">
+								<p-columns>
+									<div v-for="item in newsmedia">
+										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')">
 											<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
 											<div class="p-gap_075"></div>
-											<div class="smallest dimm">{{ item.label || 'Zpráva' }} &middot; Přidáno {{ date(item.updated) }}</div>
+											<div class="smallest dimm">{{ item.label || 'Článek' }} &middot; {{ domain(item.source) }}</div>
+											<div class="smallest dimm"> Přidáno {{ date(item.updated) }}</div>
 										</p-area>
 									</div>
-								</p-grid>
+								</p-columns>
 							</p-block>
 							<p-block headline="Volební materiály" v-if="current.$data.graphics || (current.PRIJMENI && current.$data.logo)">
 								<p-grid>
@@ -1089,14 +1056,6 @@
 									</p-collapsible> -->
 								</p-area>
 							</p-block>
-							<p-block-expandable headline="Novinky a zdroje">
-								<p-loader :rule="news">
-									<div v-if="news" class="smaller">
-										<news-block :showAll="true" :expandable="true" :limit="4" :news="news" :data="current.$data" :prefix="'/' + $route.path.split('/').splice(1, 3).join('/')"></news-block>
-									</div>
-								</p-loader>
-							</p-block-expandable>
-							<div class="p-gap _2"></div>
 							<candidate-stats v-if="$volby.status > 1 && current.$kandidati && current.$kandidati.length > 1" :data="current.$kandidati" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="$volby.status"></candidate-stats>
 							<okrsky-stats v-if="$volby.id === 162" :elections="$volby" :party="current.$kandidati ? current : $strana" :cand="current.$kandidati ? null: current"></okrsky-stats>
 							<p-block headline="Volby">
@@ -1145,47 +1104,52 @@
 							<p-block headline="Výsledky" v-if="$volby.status === 3">
 								<election-results :type="$volby.$about" :id="$volby.id" :election="$volby" :spec="specs" :label="label"></election-results>
 							</p-block>
+							<p-block headline="Zdroje a podklady">
+								<p-loader :rule="news">
+									<div v-if="news">
+										<p-collapsible label="Historie úprav">
+											<div class="smaller">
+												<news-block :showAll="true" :expandable="true" :limit="4" :news="news" :data="current.$data" :prefix="'/' + $route.path.split('/').splice(1, 3).join('/')" :authors="data.cis.zdroje"></news-block>
+											</div>
+										</p-collapsible>
+										<p-collapsible label="Přehled autorů" v-if="data.cis.zdroje">
+											<p-list class="_025 smaller">
+												<div v-for="user in data.cis.zdroje">
+													{{ user.id === 1 ? 'Programy do voleb' : user.display }}:
+													<p-list-linear class="inline">
+														<span v-for="entry in unique(data.news.log.filter(x => x.user === user.id), 'type')">
+															<span>{{ types[entry] }}</span>
+														</span>
+													</p-list-linear>
+												</div>
+												<div v-if="$volby && $volby.status > 1">
+													Opendata z ČSÚ: základní registry {{ $volby.status === 3 ? 'a výsledky' : ''}}
+												</div>
+											</p-list>
+										</p-collapsible>
+										<p-collapsible label="Souhrn odkazů">
+											<div class="_tmw">
+												<table class="smaller _tmw">
+													<tr v-for="entry in fetchAllSourcesOnPage()">
+														<td class="text-right">
+															{{ date(entry.updated, 4) }}
+														</td>
+														<td>
+															<p-link :href="entry.source" class="inline"></p-link>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</p-collapsible>
+									</div>
+								</p-loader>
+							</p-block>
 						</div>
 					</div>
 				</p-loader>
-				<p-block headline="Data">
+				<p-block headline="Data" :hide="true" class="mt3" v-if="$volby && $volby.editace === 1">
 					<p-grid>
 						<div>
-							<p-area icon="link">
-								<p-modal>
-									<template #init><button class="inline strong">API a Opendata</button></template>
-									<template #content>
-										<strong>Kde je archiv údajů a odkud se tahají data?</strong>
-										<div class="p-gap _05"></div>
-										<p-list>
-											<p-stats label="Permalink"><p-link :href="'https://programydovoleb.cz' + $route.path"></p-link></p-stats>
-											<p-stats label="API"><p-link :href="'https://api.programydovoleb.cz/pointers/full/' + table + ':' + tableID"></p-link></p-stats>
-										</p-list>
-									</template>
-								</p-modal>
-								<div class="smallest dimm">Jednoduché volání, JSON</div>
-							</p-area>
-						</div>
-						<div>
-							<p-area icon="link">
-								<p-modal>
-									<template #init><button class="inline strong">Historie úprav</button></template>
-									<template #content>
-										<div v-if="news">
-											<strong>Historie úprav</strong>
-											<div class="p-gap _05"></div>
-											<p-list>
-												<div v-for="(log, index) in news.log">
-													<log-item :data="log" :list="current.$data[log.type]"></log-item>
-												</div>
-											</p-list>
-										</div>
-									</template>
-								</p-modal>
-								<div class="smallest dimm">Data v čase</div>
-							</p-area>
-						</div>
-						<div v-if="$volby && $volby.editace === 1">
 							<p-area icon="link">
 								<p-modal>
 									<template #init><button class="inline strong">Admin - správa údajů</button></template>

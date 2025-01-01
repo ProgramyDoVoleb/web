@@ -5,7 +5,7 @@ import logtypes from '@/stores/enums/log';
 
 export default {
 	name: 'NewsBlock',
-	props: ['news', 'limit', 'data', 'expandable', 'pattern', 'prefix', 'omitSys', 'showAll'],
+	props: ['news', 'limit', 'data', 'expandable', 'pattern', 'prefix', 'omitSys', 'showAll', 'authors'],
 	data: function () {
 		return {
 			_limit: 1000000

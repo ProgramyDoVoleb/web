@@ -1,9 +1,9 @@
-import {date} from '@/pdv/helpers';
+import {date, truncate} from '@/pdv/helpers';
 import types from '@/stores/enums/log';
 
 export default {
 	name: 'LogItem',
-	props: ['data', 'list', 'small'],
+	props: ['data', 'list', 'small', 'authors'],
 	data: function () {
 		return {
 			types,
@@ -27,6 +27,6 @@ export default {
 		}
 	},
 	methods: {
-		date
+		date, truncate
 	}
 };

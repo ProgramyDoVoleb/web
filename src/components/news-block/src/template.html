@@ -57,9 +57,9 @@
 						<span><p-lang :value="item.log.length" :end="['', 'Upravena 1 položka', 'Upraveny %% položky', 'Upraveno %% položek']"></p-lang></span>
 					</template>
 					<template #content>
-						<p-list>
+						<p-list class="_05">
 							<div v-for="(x, index) in item.log">
-								<log-item :data="x" :list="data[x.type]"></log-item>
+								<log-item :data="x" :list="data[x.type]" :authors="authors"></log-item>
 							</div>
 						</p-list>
 					</template>

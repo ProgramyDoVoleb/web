@@ -4,11 +4,18 @@
 			<div class="strong smallest" :class="{'green': data.action === 'add', 'red': data.action === 'hide', 'blue': data.action === 'replace'}">{{ date(data.date, 2) }}</div>
 		</div>
 		<div class="_f">
-			{{ (small ? actionSmall : action)[data.action] }} <em>{{ types[data.type].toLowerCase() }}</em>
-			<div class="smaller dimm" v-if="item">
+			<div class="smaller">
+				<span v-if="authors && authors.length > 1">{{ data.user === 1 ? 'Programy do voleb' : authors.find(x => x.id === data.user).display }} &middot;</span>
+				{{ (small ? actionSmall : action)[data.action] }} <em>{{ types[data.type].toLowerCase() }}</em>
+				<span v-if="item && item.source">
+					&middot;
+					<p-link :href="item.source">Zdroj</p-link>
+				</span>
+			</div>
+			
+			<div class="serif mt025" v-if="item && ['logo', 'event', 'video'].indexOf(data.type) === -1">
 				<div class="p-offset reverse balanced">
-					<div>{{ item.value || item.label }}</div>
-					<div v-if="item.source"><p-link :href="item.source">Zdroj</p-link></div>
+					<div>{{ truncate(String(item.value) || String(item.label) || '', 20) }}</div>
 				</div>				
 			</div>
 			<div class="smallest dimm" v-if="list && data.time">
@@ -16,7 +23,7 @@
 				Provedeno v {{ data.time }}
 
 			</div>
-		</div>		
+		</div>
 	</div>
 	
 </div>

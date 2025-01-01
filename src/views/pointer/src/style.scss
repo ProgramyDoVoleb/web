@@ -177,3 +177,12 @@
 ._pb {
 	padding-bottom: 2em;
 }
+
+._tmw {
+	table-layout: fixed;
+	width: 100%;
+
+	td:first-child {
+		width: 8em;
+	}
+}
