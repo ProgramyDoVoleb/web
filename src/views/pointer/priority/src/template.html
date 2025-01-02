@@ -203,8 +203,7 @@
 												<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
 											</div>
 											<div class="smallest dimm mt1" v-if="priority.source">
-												zdroj: <p-link :href="priority.source" class="dimm"></p-link><br>
-												vloženo {{ date(priority.updated) }}
+												vloženo {{ date(priority.updated) }}, <p-link :href="priority.source" class="dimm">zdroj</p-link>
 											</div>
 										</component>
 									</template>
@@ -221,14 +220,15 @@
 												<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
 													<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
 												</div>
-												<div class="smallest dimm mt1" v-if="priority.source">
-													zdroj: <p-link :href="priority.source" class="dimm"></p-link><br>
-													vloženo {{ date(priority.updated) }}
-												</div>
 											
 										</div>
 									</p-list>
 									<div class="p-gap _2"></div>
+									<template v-for="priority in [current.$priority.find(x => x.source)]">
+										<div class="smallest dimm mt1" v-if="priority.source">
+											vloženo {{ date(priority.updated) }}, <p-link :href="priority.source" class="dimm">zdroj</p-link>
+										</div>
+									</template>
 								</template>
 
 							</section>

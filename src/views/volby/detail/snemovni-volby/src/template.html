@@ -84,7 +84,7 @@
 			</template> -->
 		</p-block>
 	</template>
-	<p-loader :rule="polls">
+	<!-- <p-loader :rule="polls"> -->
 		<p-block v-if="polls && polls.list.length > 0" headline="Průzkumy">
 			<p-grid class="p-grid---1-2">
 				<div v-for="(poll, index) in polls.list.filter((x, i) => i < 2)">
@@ -104,7 +104,7 @@
 				<p>Do přehledu průzkumů jsou zahrnuty pouze ty, u kterých je dostatečná relevance k vybraných volbám.</p>
 			</p-collapsible>
 		</p-block>
-	</p-loader>
+	<!-- </p-loader> -->
 	<p-block-expandable headline="Aktivita stran">
 		<p-area>
 			<table class="smaller">

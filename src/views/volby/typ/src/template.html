@@ -18,7 +18,10 @@
 						řádné volby budou zřejmě v roce 
 						<template v-if="about.key === 'PS'">2025</template>
 						<template v-if="about.key === 'KV'">2026</template>
+						<template v-if="about.key === 'SENAT'">2026</template>
 						<template v-if="about.key === 'PREZ'">2028</template>
+						<template v-if="about.key === 'KZ'">2028</template>
+						<template v-if="about.key === 'EP'">2029</template>
 					</p>
 					<p v-if="elections && nearest.extra && about.key === 'KV'">
 						<p-label color="var(--blue)">Nejbližší</p-label>
@@ -30,6 +33,20 @@
 							<template v-for="(town, index) in nearest.extra.$dotcene">
 								<li>
 									<router-link :to="'/obec/' + town.NUM" class="is-span">{{ town.NAZEV }}</router-link>
+								</li>
+							</template>
+						</p-list-linear>
+					</p>
+					<p v-if="elections && nearest.extra && about.key === 'SENAT'">
+						<p-label color="var(--blue)">Nejbližší</p-label>
+						mimořádné senátní volby budou 
+						<router-link :to="'/volby/' + hash + '/' + nearest.extra.id">{{ date(nearest.extra.datum) }}</router-link> 
+						a týkají se 
+						<p-lang :value="String(nearest.extra.dotcene).split(',').length" :end="['', 'jednoho obvodu', '%% obvodů', '%% obvodů']"></p-lang>:
+						<p-list-linear>
+							<template v-for="(obv, index) in String(nearest.extra.dotcene).split(',')">
+								<li>
+									<router-link :to="'/volby/' + hash + '/' + nearest.extra.id + '/obvod/' + obv" class="is-span">{{ obv }}</router-link>
 								</li>
 							</template>
 						</p-list-linear>
@@ -91,8 +108,33 @@
 						</template>
 					</p-loader>
 				</p-block>
+				<p-block headline="Novinky">
+					<p-loader :rule="news">
+						<div v-if="news">
+							<p-list>
+								<template v-for="(item, index) in newsmedia">
+									<div>
+										<news-item :data="item"></news-item>
+									</div>
+								</template>
+								<div>
+									<p-area icon="plus-green" background="var(--green11)" class="inline">
+										<p-modal>
+											<template #init> <button class="inline green strong">Tip na další článek</button> </template>
+											<template #content>
+												<div class="strong">Odkaz na článek</div>
+												<report-form part="Přidat média"></report-form>
+											</template>
+										</p-modal>
+										<div class="smallest dimm">Stačí poslat odkaz</div>
+									</p-area>
+								</div>
+							</p-list>
+						</div>
+					</p-loader>
+				</p-block>
 			</p-block>
-			<p-block headline="Přehled voleb" :level="1" class="p-block---up" :hide="true" v-if="list && list.find(x => x.radne === 0)">
+			<p-block headline="Přehled voleb" :level="1" :hide="true" v-if="list && list.find(x => x.radne === 0)">
 				<p-block :open="true" headline="Příští volby" v-if="list && list.filter(x => x.datum === null || x.datum > today).length > 0">
 					<p-loader :rule="elections">
 						<div class="election-timeline">

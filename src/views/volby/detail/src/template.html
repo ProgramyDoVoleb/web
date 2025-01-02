@@ -4,7 +4,7 @@
 			<p-block :headline="about ? about.data.name : 'Volby'" :level="1" :subheadline="current ? (current.datum_label || (current.datum ? date(current.datum, 3) : current.cirka)) : 'načítám...'">
 				<p-loader :rule="current">
 					<div v-if="current">
-						<p-block headline="O volbách" :hide="true">
+						<p-block headline="O volbách" :hide="true" v-if="current.web || current.popis">
 							<!-- <div class="smaller">
 								<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][current.status]) + ')'">{{ current.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[current.status] }}</p-label></div>
 								<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][current.editace]) + ')'">administrace {{ enums.editace[current.editace] }}</p-label></div>
@@ -193,8 +193,8 @@
 				<div>
 					<strong>Novinky</strong>
 					<div class="p-gap"></div>
-					<p-loader :rule="news && current">
-						<div v-if="news && current" class="smallest">
+					<p-loader :rule="news">
+						<div v-if="news" class="smallest">
 							<news-block :omitSys="true" :limit="2" :news="news" :data="current.$data" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>
 						</div>
 					</p-loader>

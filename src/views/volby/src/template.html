@@ -18,24 +18,44 @@
 					</p>
 					<p v-if="elections && nearest.regular">
 						<p-label color="var(--blue)">Příští</p-label> řádné volby: 
-						<div v-for="regular in nearest.regular">
-							<router-link class="strong" :to="'/volby/' + election_types.find(x => x.key === regular.typ).hash + '/' + regular.id">{{ election_types.find(x => x.key === regular.typ).name }} {{ regular.datum ? (regular.datum_label || date(regular.datum)) : regular.cirka }}</router-link>
-						</div>						
+						<span v-for="regular in nearest.regular">
+							<router-link class="strong" :to="'/volby/' + election_types.find(x => x.key === regular.typ).hash + '/' + regular.id">{{ election_types.find(x => x.key === regular.typ).name }}, {{ regular.datum ? (regular.datum_label || date(regular.datum)) : regular.cirka }}</router-link>
+						</span>						
 					</p>
-					<p v-if="elections && nearest.extra">
-						<p-label color="var(--blue)">Nejbližší</p-label>
-						mimořádné komunální volby budou 
-						<router-link :to="'/volby/komunalni-volby/' + nearest.extra.id">{{ date(nearest.extra.datum) }}</router-link> 
-						a týkají se 
-						<p-lang :value="nearest.extra.$dotcene.length" :end="['', 'jedné obce', '%% obcí', '%% obcí']"></p-lang>:
-						<p-list-linear>
-							<template v-for="(town, index) in nearest.extra.$dotcene">
-								<li>
-									<router-link :to="'/obec/' + town.NUM" class="is-span">{{ town.NAZEV }}</router-link>
-								</li>
-							</template>
-						</p-list-linear>
-					</p>
+					<template v-if="elections">
+						<template v-for="extra in nearest.extra.filter(x => x.typ === 'SENAT')">
+							<p>
+								<p-label color="var(--red)">Mimořádné</p-label> 
+								senátní volby budou 
+								<router-link :to="'/volby/senanti-volby/' + extra.id">{{ date(extra.datum) }}</router-link> 
+								a týkají se 
+								<p-lang :value="String(extra.dotcene).split(',').length" :end="['', 'jednoho obvodu', '%% obvodů', '%% obvodů']"></p-lang>:
+								<p-list-linear>
+									<template v-for="(obv, index) in String(extra.dotcene).split(',')">
+										<li>
+											<router-link :to="'/volby/senanti-volby/' + extra.id + '/obvod/' + obv" class="is-span">{{ obv }}</router-link>
+										</li>
+									</template>
+								</p-list-linear>
+							</p>
+						</template>
+						<template v-for="extra in nearest.extra.filter(x => x.typ === 'KV')">
+							<p>
+								<p-label color="var(--red)">Mimořádné</p-label>
+								komunální volby budou 
+								<router-link :to="'/volby/komunalni-volby/' + extra.id">{{ date(extra.datum) }}</router-link> 
+								a týkají se 
+								<p-lang :value="extra.$dotcene.length" :end="['', 'jedné obce', '%% obcí', '%% obcí']"></p-lang>:
+								<p-list-linear>
+									<template v-for="(town, index) in extra.$dotcene">
+										<li>
+											<router-link :to="'/obec/' + town.NUM" class="is-span">{{ town.NAZEV }}</router-link>
+										</li>
+									</template>
+								</p-list-linear>
+							</p>
+						</template>
+					</template>
 				</p-loader>
 				<div class="p-gap_2"></div>
 				<p-block headline="Typy voleb">
@@ -51,7 +71,7 @@
 													<template v-for="(el, inel) in elections.list.filter(x => x.radne === 1 && x.typ === election.key && x.cirka)">
 														<template v-if="inel < 3">
 															<li>
-																<router-link :to="'/volby/' + election.hash + '/' + el.id" class="red">{{ el.cirka.split(' ')[1] }}</router-link>		
+																<router-link :to="'/volby/' + election.hash + '/' + el.id" class="strong red">{{ el.cirka.split(' ')[1] }}</router-link>		
 															</li>
 														</template>
 													</template>
@@ -74,8 +94,33 @@
 						</template>
 					</p-loader>
 				</p-block>
+				<p-block headline="Poslední novinky" >
+					<p-loader :rule="news">
+						<div v-if="news">
+							<p-list>
+								<template v-for="(item, index) in newsmedia">
+									<div>
+										<news-item :data="item"></news-item>
+									</div>
+								</template>
+								<div>
+									<p-area icon="plus-green" background="var(--green11)" class="inline">
+										<p-modal>
+											<template #init> <button class="inline green strong">Tip na další článek</button> </template>
+											<template #content>
+												<div class="strong">Odkaz na článek</div>
+												<report-form part="Přidat média"></report-form>
+											</template>
+										</p-modal>
+										<div class="smallest dimm">Stačí poslat odkaz</div>
+									</p-area>
+								</div>
+							</p-list>
+						</div>
+					</p-loader>
+				</p-block>
 			</p-block>
-			<p-block headline="Přehled voleb" :level="1" class="p-block---up">
+			<p-block headline="Přehled voleb" :level="1">
 				<p-area>
 					<p-grid>
 						<div>
@@ -115,7 +160,7 @@
 				</p-block-expandable>
 				<template v-if="list && list.length > 10">
 					<template v-for="(section, insect) in sections">
-						<p-block-expandable :headline="section[0]" :open="insect === 0">
+						<p-block-expandable :headline="section[0]">
 							<p-loader :rule="elections">
 								<div class="election-timeline">
 									<ol v-if="elections">

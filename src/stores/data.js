@@ -11,7 +11,7 @@ export const useData = defineStore('store', () => {
   const core = useCore();
 
   const pdv2 = computed((state) => {
-    return (request) => {
+    return (request, delay) => {
         var lookup = pdv.value.find(x => x.request === request);
 
         // console.log(request, 1, !!lookup)
@@ -33,14 +33,16 @@ export const useData = defineStore('store', () => {
 
                 // console.log(request, 2, o)
 
-                axios.get(api + request + '?c=' + core.cache).then((response) => {
-                    o.response.value = response.data;
-                    activity.value++; 
-
-                    // console.log(request, 3, o)
-
-                    resolve();
-                });
+                setTimeout(() => {
+                    axios.get(api + request + '?c=' + core.cache).then((response) => {
+                        o.response.value = response.data;
+                        activity.value++; 
+    
+                        // console.log(request, 3, o)
+    
+                        resolve();
+                    });
+                }, delay || 0);
             }).then((resolver, rejected) => {
                 if (rejected) {
                     return undefined;

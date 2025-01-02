@@ -4,7 +4,7 @@
 			<p-block :headline="(about ? about.data.name : 'Volby') + ', ' + (about.obvod ? about.obvod.obvod + ' · ' + about.obvod.nazev : '')" :level="1" :subheadline="current ? (current.datum_label || (current.datum ? date(current.datum, 3) : current.cirka)) : 'načítám...'" :anchor="data ? about.obvod.nazev + ' · ' + obvod : 'Volby'">
 				<p-loader :rule="current">
 					<div v-if="current">
-						<p-block headline="O volbách" :hide="true" v-if="current.web || current.popis">
+						<p-block headline="O volbách" :hide="true" v-if="current.web || current.popis" class="pb2">
 							
 							<template v-if="current.web">
 								<div class="p-gap"></div>
@@ -30,6 +30,51 @@
 							<strong><p-label color="var(--red)"><p-link class="red" href="https://docs.google.com/forms/d/e/1FAIpQLSfeR-LNLlpmOOfSFabK7II9vrO40t2trWlzx2d_K4Q-rmpBdQ/viewform?usp=sf_link">Navrhněte otázku</p-link></p-label> pro kandidáty do senátních voleb.</strong>
 						</p> -->
 						<senatni-volby :data="data" :obvod="Number(obvod)"></senatni-volby>
+
+						<p-block-expandable headline="Media a tiskové zprávy" :open="current.status < 3">
+							<p-loader :rule="news" reserve="450px">
+								<div v-if="news" class="smaller">
+									<div class="columns columns---no-gap">
+										<template v-for="(item, index) in newsmedia">
+											<div v-if="index < 8">
+												<p-area :borderColor="item.type === 'pr' ? 'var(--blue44)' : null">
+													<div>
+														<p-link class="strong" :href="item.source">{{ item.value }}</p-link>
+													</div>
+													<div class="p-gap _05"></div>
+													<div class="smallest dimm" v-if="item.$node">
+														<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id" class="is-span dimm">{{ item.$node[0].NAZEV || item.$node[0].JMENO + ' ' + item.$node[0].PRIJMENI }}</router-link>
+														<span class="dimm" v-if="item.type === 'pr'"> &middot; Tisková zpráva</span>
+													</div>
+													<div class="smallest dimm">
+														{{ date(item.updated) }} &middot; {{ domain(item.source_label || item.source) }}
+													</div>										
+												</p-area>
+											</div>
+										</template>
+										<div>
+											<p-area icon="plus-green" background="var(--green11)">
+												<p-modal>
+													<template #init> <button class="inline green strong">Poslat tip na novinku</button> </template>
+													<template #content>
+														<div class="strong">Odkaz na článek</div>
+														<report-form part="Přidat novinku"></report-form>
+													</template>
+												</p-modal>
+												<div class="smallest dimm">Stačí poslat odkaz</div>
+											</p-area>
+										</div>
+									</div>
+								</div>
+							</p-loader>
+						</p-block-expandable>
+						<p-block-expandable headline="Zdroje a aktuality">
+							<p-loader :rule="news">
+								<div v-if="news">
+									<news-block class="smaller" :omitSys="true" :limit="6" :expandable="true" :news="news" :data="current" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>		
+								</div>
+							</p-loader>
+						</p-block-expandable>
 						<p-block :headline="'Obvod ' + about.obvod.obvod + ' · ' + about.obvod.nazev" anchor="Obce v obvodu" :open="data.cis.obce.length < 32" v-if="data.cis.obce && data.cis.obce.length > 0">
 							<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
 							<p-area>
@@ -105,50 +150,6 @@
 											</tbody>
 										</table>
 									</p-area>
-								</div>
-							</p-loader>
-						</p-block-expandable>
-						<p-block-expandable headline="Media a tiskové zprávy" :open="current.status < 3">
-							<p-loader :rule="news" reserve="450px">
-								<div v-if="news" class="smaller">
-									<div class="columns columns---no-gap">
-										<template v-for="(item, index) in newsmedia">
-											<div v-if="index < 8">
-												<p-area :borderColor="item.type === 'pr' ? 'var(--blue44)' : null">
-													<div>
-														<p-link class="strong" :href="item.source">{{ item.value }}</p-link>
-													</div>
-													<div class="p-gap _05"></div>
-													<div class="smallest dimm" v-if="item.$node">
-														<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id" class="is-span dimm">{{ item.$node[0].NAZEV || item.$node[0].JMENO + ' ' + item.$node[0].PRIJMENI }}</router-link>
-														<span class="dimm" v-if="item.type === 'pr'"> &middot; Tisková zpráva</span>
-													</div>
-													<div class="smallest dimm">
-														{{ date(item.updated) }} &middot; {{ domain(item.source_label || item.source) }}
-													</div>										
-												</p-area>
-											</div>
-										</template>
-										<div>
-											<p-area icon="plus-green" background="var(--green11)">
-												<p-modal>
-													<template #init> <button class="inline green strong">Poslat tip na novinku</button> </template>
-													<template #content>
-														<div class="strong">Odkaz na článek</div>
-														<report-form part="Přidat novinku"></report-form>
-													</template>
-												</p-modal>
-												<div class="smallest dimm">Stačí poslat odkaz</div>
-											</p-area>
-										</div>
-									</div>
-								</div>
-							</p-loader>
-						</p-block-expandable>
-						<p-block-expandable headline="Zdroje a aktuality">
-							<p-loader :rule="news">
-								<div v-if="news">
-									<news-block class="smaller" :omitSys="true" :limit="6" :expandable="true" :news="news" :data="current" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>		
 								</div>
 							</p-loader>
 						</p-block-expandable>
@@ -288,7 +289,7 @@
 		</template>
 		<template #aside>
 			<p-list height="1.5">
-				<!-- <cta-get-admin :election="current" v-if="current" /> -->
+				<cta-get-admin :election="current" v-if="current" />
 				<cta-support></cta-support>
 				<div>
 

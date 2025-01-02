@@ -191,7 +191,7 @@
 								<p-area class="smaller">
 									<p-split class="-up960">
 										<div>
-											<p-list height=".5" class="-np">
+											<p-list height=".5" class="-np _05">
 												<div>
 													<div class="smallest strong">Základní údaje</div>
 												</div>
@@ -235,7 +235,7 @@
 											</p-list>
 										</div>
 										<div>
-											<p-list height=".5" class="-np">
+											<p-list height=".5" class="-np _05">
 												<div>
 													<div class="smallest strong">Formality</div>
 												</div>
@@ -328,6 +328,7 @@
 							<p-block headline="Představení" v-if="!current.$data.length && (current.$data.about || current.$data.motto || current.$data.values)" :hide="true">
 								<div class="p-list _2 _invisible">
 									<div v-if="current.$data.about">
+										<h2 class="serif mt0">Představení</h2>
 										<div class="serif _mw">
 											<p-truncated :size="60" :content="(current.$data.about.find(x => x.type === 'about').value || '').split('\n').join('<br>')"></p-truncated>
 										</div>	
@@ -351,13 +352,13 @@
 													<p-area :borderColor="colorByItem(current, data, 'NSTRANA')">
 														<div class="strong">{{ val.value }}</div>
 														<p v-if="val.label"><p-truncated :size="24" :content="val.label"></p-truncated></p>
-														<p class="smallest sans dimm">
-															Platné {{ date(val.updated) }} 
+														<!-- <p class="smallest sans dimm">
+															Přidáno {{ date(val.updated) }} 
 															<template v-if="val.source">
 																&middot;
 																zdroj <p-link :href="val.source" class="is-span dimm">{{ domain(val.source) }}</p-link>
 															</template>
-														</p>
+														</p> -->
 													</p-area>
 												</div>
 											</p-grid>
@@ -892,7 +893,7 @@
 									</p-collapsible>
 								</template>
 							</p-block-expandable>
-							<p-block headline="Zprávy a media">
+							<p-block headline="Zprávy a média" v-if="newsmedia.length > 0">
 								<p-columns>
 									<div v-for="item in newsmedia">
 										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')">
@@ -908,7 +909,7 @@
 								<p-grid>
 									<div v-for="item in current.PRIJMENI && current.$data.logo ? current.$data.logo : []">
 										<p-area>
-											<img class="_ar _of" :src="item.value" loading="lazy">
+											<img class="_ar _ofc" :src="item.value" loading="lazy">
 											<div class="p-gap"></div>
 											<strong class="smaller">Volební logo</strong>
 											<div class="smallest dimm">Přidáno {{ date(item.updated) }}</div>
@@ -921,26 +922,24 @@
 
 											<div class="p-gap"></div>
 
-											<template v-if="item.source">
-												<p-link class="smaller strong" :href="item.source">{{ item.label || 'Zobrazit' }}</p-link>
-											</template>
-											<template v-else>
-												<p-modal class="inline">
-													<template #init>
-														<div class="smaller">{{ item.label || 'Zobrazit' }}</div>
-													</template>
-													<template #content>
-														<div class="strong">{{ item.label }}</div>
-														<div class="smallest dimm">Přidáno {{ date(item.updated) }} &middot; <p-link :href="item.source">Zdroj</p-link></div>
-														<div class="p-line"></div>
-														<p-image width="100%" :src="item.value"></p-image>
-													</template>
-												</p-modal>
-											</template>
+											<p-modal class="inline">
+												<template #init>
+													<div class="smaller">{{ item.label || 'Zobrazit' }}</div>
+												</template>
+												<template #content>
+													<div class="strong">{{ item.label }}</div>
+													<div class="smallest dimm">Přidáno {{ date(item.updated) }} &middot; <p-link :href="item.source">Zdroj</p-link></div>
+													<div class="p-line"></div>
+													<p-image width="100%" :src="item.value"></p-image>
+												</template>
+											</p-modal>
 
 											<div class="smallest dimm">
 												{{ date(item.updated) }}
-												<span v-if="item.source"> &middot; otevřít v novém okně</span>
+												<span v-if="item.source">
+													 &middot; 
+													<p-link :href="item.source" class="dimm">zdroj</p-link>
+												</span>
 											</div>
 										</p-area>
 									</div>
@@ -1108,9 +1107,9 @@
 								<p-loader :rule="news">
 									<div v-if="news">
 										<p-collapsible label="Historie úprav">
-											<div class="smaller">
+											<p-area class="smaller">
 												<news-block :showAll="true" :expandable="true" :limit="4" :news="news" :data="current.$data" :prefix="'/' + $route.path.split('/').splice(1, 3).join('/')" :authors="data.cis.zdroje"></news-block>
-											</div>
+											</p-area>
 										</p-collapsible>
 										<p-collapsible label="Přehled autorů" v-if="data.cis.zdroje">
 											<p-list class="_025 smaller">

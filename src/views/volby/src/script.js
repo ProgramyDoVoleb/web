@@ -1,10 +1,11 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate} from '@/pdv/helpers';
+import {url, date, number, truncate, sortBy, domain} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import VolbyItem from '../item/do.vue'
+import ReportForm from '@/components/report-form/do.vue';
 
 export default {
 	name: 'layout-volby',
@@ -24,7 +25,7 @@ export default {
 		}
 	},
   components: {
-	NewsItem, VolbyItem
+	NewsItem, VolbyItem, ReportForm
   },
 	computed: {
 		$store: function () {
@@ -57,14 +58,29 @@ export default {
 
 			if (regular.length === 0) regular = this.elections.list.filter(x => x.cirka && x.radne === 1);
 
-			return {regular: regular ? regular : null, outlook: outlook ? outlook[0] : null, extra: extra ? extra[extra.length - 1] : null}
-		}
+			return {regular: regular ? regular : null, outlook: outlook ? outlook[0] : null, extra}
+		},
+		newsmedia: function () {
+			var list = [];
+
+			if (this.news) {
+				// sortBy([].concat(this.news.list, this.news.sys), 'datum', null, true, true).forEach(item => {
+				[].concat(this.news.list, this.news.sys).forEach(item => {
+					list.push(item)
+				});
+
+				list = sortBy(list, 'datum', null, true, true);
+			}
+
+			return list;
+		},
 	},
   methods: {
 		url,
 		date,
 		number,
 		truncate,
+		domain,
 		reverse: function (arr) {
 			return arr.reverse()
 		}

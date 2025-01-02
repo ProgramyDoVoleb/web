@@ -431,7 +431,8 @@ export default {
 				'media',
 				'event',
 				'note',
-				'program'
+				'program',
+				'photo'
 			];
 
 			function addIfUnique (item) {
@@ -441,7 +442,7 @@ export default {
 						source: item.source
 					});
 
-					console.log(arr, item);
+					// console.log(arr, item);
 				}
 			}
 

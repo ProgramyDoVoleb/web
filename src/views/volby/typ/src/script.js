@@ -2,10 +2,11 @@ import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import { useRoute } from 'vue-router'
-import {url, date, number, truncate} from '@/pdv/helpers';
+import {url, date, number, truncate, sortBy} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import VolbyItem from '@/views/volby/item/do.vue'
+import ReportForm from '@/components/report-form/do.vue';
 
 export default {
 	name: 'layout-volby-typ',
@@ -26,7 +27,7 @@ export default {
 		}
 	},
   components: {
-	NewsItem, VolbyItem
+	NewsItem, VolbyItem, ReportForm
   },
 	computed: {
 		$store: function () {
@@ -47,6 +48,20 @@ export default {
 		},
 		news: function () {
 			return this.$store.getters.pdv('news/type/' + this.about.key);
+		},
+		newsmedia: function () {
+			var list = [];
+
+			if (this.news) {
+				// sortBy([].concat(this.news.list, this.news.sys), 'datum', null, true, true).forEach(item => {
+				[].concat(this.news.list, this.news.sys).forEach(item => {
+					list.push(item)
+				});
+
+				list = sortBy(list, 'datum', null, true, true);
+			}
+
+			return list;
 		},
 		elections: function () {
 			return this.$store.getters.pdv('elections/type/' + this.about.key);

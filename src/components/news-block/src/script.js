@@ -1,4 +1,4 @@
-import {url, date, domain, unique, truncate} from '@/pdv/helpers';
+import {url, date, domain, unique, truncate, untag} from '@/pdv/helpers';
 import NewsItem from '@/components/news-item/do.vue'
 import LogItem from '@/components/log-item/do.vue';
 import logtypes from '@/stores/enums/log';
@@ -12,7 +12,7 @@ export default {
 		}
 	},
 	methods: {
-		url, date, domain, unique, truncate
+		url, date, domain, unique, truncate, untag
 	},
 	components: {
 		NewsItem, LogItem
