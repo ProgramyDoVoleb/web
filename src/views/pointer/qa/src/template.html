@@ -158,7 +158,7 @@
 								<p-block headline="Volby">
 									<p-area :icon="$volby.$about.hash">
 										<strong>{{ $volby.$about.name }}</strong>
-										<div class="smaller">{{ $volby.datum ? date($volby.datum, 3) : $volby.cirka }}</div>
+										<div class="smaller">{{ $volby.datum_label || ($volby.datum ? date($volby.datum, 3) : $volby.cirka) }}</div>
 										<div class="smaller dimm" v-if="$volby.radne === 0">{{ $volby.popis }}</div>
 										<div class="smaller dimm" v-if="label">{{ label }}</div>
 										<div class="p-gap"></div>

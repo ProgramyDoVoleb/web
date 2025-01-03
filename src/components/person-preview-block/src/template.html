@@ -31,7 +31,7 @@
 		<div class="_cand-flex">
 			<div>
 				<div class="_soc">
-					<template v-if="cand.$odpovedi && cand.$odpovedi > 0">
+					<template v-if="cand.$odpovedi && (cand.$odpovedi > 0 || cand.$odpovedi.length > 0)">
 						<router-link :to="link + '/kandidat/' + cand.id + '/otazky-a-odpovedi'"><p-icon :src="cdn + 'icon/answers-mini.svg'" size="2em" border="transparent 1px solid"></p-icon></router-link>
 					</template>
 					<template v-if="cand.$data.social && cand.$data.social.length > 0" class="_soc">
@@ -95,7 +95,7 @@
 			<div class="smallest" v-if="cand.$data.support && cand.$data.support.filter(x => typeof x.value === 'number' && x.value != cand.NSTRANA && x.value != cand.PSTRANA && !data.cis.strany.find(z => z.$coalition && z.$coalition.find(y => y.VSTRANA === x.value))).length > 0">
 				<p-label color="var(--grey)">podpora
 					<p-list-linear>
-						<span v-for="sup in cand.$data.support.filter(x => typeof x.value === 'number' && x.value != cand.NSTRANA && x.value != cand.PSTRANA && !data.cis.strany.find(z => z.$coalition && z.$coalition.find(y => y.VSTRANA === x.value)))">
+						<span v-for="sup in cand.$data.support.filter(x => typeof x.value === 'number' && x.value != cand.NSTRANA && x.value != cand.PSTRANA && !data.cis.strany.find(z => z.$coalition && z.$coalition.find(y => y.VSTRANA === x.value)) && data.cis.strany.find(y => y.VSTRANA === x.value))">
 							<router-link :to="'/rejstrik/' + sup.value" class="is-span">
 								{{ data.cis.strany.find(x => x.VSTRANA === sup.value).ZKRATKA }}
 							</router-link>
@@ -124,8 +124,8 @@
 						</template>
 						<template v-if="cand.$program">
 							<template v-for="program in cand.$program">
-								<p-box :href="program.source">
-									<p-box-button class="blue">{{ width > 1024 ? program.value : 'Program' }}</p-box-button>
+								<p-box :href="program.source ? program.source : null" :to="!program.source ? link + '/kandidat/' + cand.id + '/volebni-program/' + program.id : null">
+									<p-box-button class="blue">{{ width > 1024 && program.headline ? program.headline : 'Program' }}</p-box-button>
 								</p-box>
 							</template>
 						</template>

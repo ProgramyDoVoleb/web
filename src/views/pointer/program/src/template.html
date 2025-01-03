@@ -69,7 +69,10 @@
 							<p-block headline="Plné znění" :level="3" v-if="current.$program.length > 0" :open="!current.$program[0].content" :hide="true">
 								<p-area :borderColor="colorByItem(current, data)">
 									<h2 class="_m0">{{ current.$program[0].headline || 'Plné znění' }}</h2>
-									<div class="smallest dimm">Vloženo {{ date(current.$program[0].updated) }}</div>
+									<div class="smallest dimm">
+										Vloženo {{ date(current.$program[0].updated) }}.
+										<span v-if="current.$program[0].guest_comment">{{ current.$program[0].guest_comment }}</span>
+									</div>
 									<div class="p-gap"></div>
 									<p-box-group class="_spaced">
 										<p-box :href="current.$program[0].source" v-if="current.$program[0].source">
@@ -229,7 +232,7 @@
 								<p-block headline="Volby" :hide="true">
 									<p-area :icon="$volby.$about.hash">
 										<strong>{{ $volby.$about.name }}</strong>
-										<div class="smaller">{{ $volby.datum ? date($volby.datum, 3) : $volby.cirka }}</div>
+										<div class="smaller">{{ $volby.datum_label || ($volby.datum ? date($volby.datum, 3) : $volby.cirka) }}</div>
 										<div class="smaller dimm" v-if="$volby.radne === 0">{{ $volby.popis }}</div>
 										<div class="smaller dimm" v-if="label">{{ label }}</div>
 										<div class="p-gap"></div>

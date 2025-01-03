@@ -193,8 +193,8 @@
 				<div>
 					<strong>Novinky</strong>
 					<div class="p-gap"></div>
-					<p-loader :rule="news">
-						<div v-if="news" class="smallest">
+					<p-loader :rule="current && news">
+						<div v-if="current && news" class="smallest">
 							<news-block :omitSys="true" :limit="2" :news="news" :data="current.$data" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>
 						</div>
 					</p-loader>
