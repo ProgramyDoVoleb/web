@@ -23,7 +23,7 @@ export default {
 			sourceSelectedID: 12,
 			coalitions: [],
 			definedTest: {
-				data: {
+				data: { 
 					// attendance: 40,
 					parties: [
 						{hash: 'ano-2011', rs: 25.5},
@@ -61,7 +61,7 @@ export default {
 			return this.$store.getters.pdv('polls/last-10')
 		},
 		_genom: function () {
-			return this.$store.getters.pdv('candidate/genom')
+			return null; this.$store.getters.pdv('candidate/genom')
 		},
 		genom: function () {
 			if (!this._genom || this.hide) return undefined;
@@ -254,7 +254,7 @@ export default {
 			}
 		},
 		secondDistribution: function () {
-			if (!this.secondScrutiny || !this.genom) return;
+			if (!this.secondScrutiny) return;
 
 			var parties = [];
 
@@ -334,10 +334,10 @@ export default {
 			parties.sort((a, b) => b.mandates - a.mandates);
 
 			parties.forEach(party => {
-				party.sex = {
-					male: 0,
-					female: 0
-				}
+				// party.sex = {
+				// 	male: 0,
+				// 	female: 0
+				// }
 
 				if (party.hash === 'spolu-ods-kducsl-top09') {
 					party.members = {
@@ -355,9 +355,9 @@ export default {
 				}
 
 				party.regions.forEach((reg, i) => {
-					// // console.log(party.hash, reg.mandates.total, i, 1, true);
-					party.sex.male += this.getSexCount(party.hash, reg.mandates.total, i, 1, true);
-					party.sex.female += this.getSexCount(party.hash, reg.mandates.total, i, 2, true);
+					// console.log(party.hash, reg.mandates.total, i, 1, true);
+					// party.sex.male += this.getSexCount(party.hash, reg.mandates.total, i, 1, true);
+					// party.sex.female += this.getSexCount(party.hash, reg.mandates.total, i, 2, true);
 
 					if (party.members) {
 						if (typeof party.members.pirati === 'number') party.members.pirati += this.getNomineeCount(party.hash, reg.mandates.total, i, 720, true);
