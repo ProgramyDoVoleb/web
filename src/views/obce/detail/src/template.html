@@ -43,7 +43,7 @@
 						</p-block>
 						<p-loader :rule="current">
 							<div v-if="current">
-								<p-block :headline="([3, 4].indexOf($elected.$obec[0].DRUHZASTUP) > -1 ? 'Primátor' : 'Starosta')" :editable="true">
+								<p-block :headline="([3, 4].indexOf($elected.$obec[0].DRUHZASTUP) > -1 ? 'Primátor' : 'Starosta')">
 									<!-- <template> -->
 										<div class="smaller">
 											<p-list>
@@ -88,16 +88,18 @@
 																		<strong>Vyberte starostu ze zvolených zastupitelů a doplňte zdroj:</strong>
 																		<div class="p-gap"></div>
 																		<p-list height=".5">
-																			<select ref="mayor_person">
-																				<option value="-1">Vyberte zastupitele</option>
-																				<template v-for="(item, index) in _listElected.list[0].$strany.filter(x => x.MAND_STR > 0)">
-																					<option disabled></option>
-																					<option disabled>- {{ item.NAZEV }}</option>
-																					<template v-for="(person, indexP) in _listElected.list[0].$zvoleni.filter(x => x.POR_STR_HL === item.POR_STR_HL)">
-																						<option :value="person.id">{{ person.JMENO }} {{ person.PRIJMENI }}</option>
+																			<div>
+																				<select ref="mayor_person">
+																					<option value="-1">Vyberte zastupitele</option>
+																					<template v-for="(item, index) in _listElected.list[0].$strany.filter(x => x.MAND_STR > 0)">
+																						<option disabled></option>
+																						<option disabled>- {{ item.NAZEV }}</option>
+																						<template v-for="(person, indexP) in _listElected.list[0].$zvoleni.filter(x => x.POR_STR_HL === item.POR_STR_HL)">
+																							<option :value="person.id">{{ person.JMENO }} {{ person.PRIJMENI }}</option>
+																						</template>
 																					</template>
-																				</template>
-																			</select>
+																				</select>
+																			</div>
 																			<div>
 																				<input type="url" placeholder="zdroj" ref="mayor_source">
 																			</div>
@@ -195,8 +197,8 @@
 								</p-block>
 							</div>
 						</p-loader>
-						<template v-if="!showHistory">
-							<p-area borderColor="var(--blue)">
+						<template v-if="!showHistory">							
+							<p-area borderColor="var(--blue)" class="mt2">
 								<strong>Zajímá vás volební historie?</strong>
 								<ul class="smaller">
 									<li>- Výsledky v minulosti</li>
@@ -205,7 +207,9 @@
 								</ul>
 								<!-- <div class="smaller">Pokud vás zajímají výsledky {{ $main.$core[0].ZKRATK }} v minulosti, statistiky úspěšnosti a přehledy spolupráce s dalšími stranami, načtěte si i historická data. Může to chvilku trvat.</div> -->
 								<!-- <div class="p-gap"></div> -->
-								<button @click="click_showHistory">Načíst historická data</button>
+								<div>
+									<button @click="click_showHistory">Načíst historická data</button>
+								</div>								
 							</p-area>
 							<div class="p-gap_2"></div>
 						</template>
@@ -357,7 +361,7 @@
 						<template v-if="showHistoryCandidates">
 							<history-candidates :num="num"></history-candidates>
 						</template>
-						<p-block headline="Odkazy" :editable="true">
+						<p-block headline="Odkazy">
 							<p-list class="invisible">
 								<div v-for="(item, index) in $meta.filter(x => ['social', 'link'].indexOf(x.type) > -1)">
 									<p-box :block="true" :href="item.value">
@@ -367,7 +371,7 @@
 								</div>
 							</p-list>
 						</p-block>
-						<p-block headline="Kontakty" :editable="true">
+						<p-block headline="Kontakty">
 							<p-list class="invisible">
 								<template v-for="(type, index1) in ['address', 'phone', 'email']">
 									<div v-for="(item, index) in $meta.filter(x => type === x.type && x.value && String(x.value).length > 0)">
@@ -385,7 +389,7 @@
 								</template>
 							</p-list>
 						</p-block>
-						<p-block headline="Další údaje" :editable="true">
+						<p-block headline="Další údaje">
 							<p-list class="smaller">
 								<div v-for="(item, index) in $meta.filter(x => ['psc', 'gps', 'ico', 'ruian', 'datovka'].indexOf(x.type) > -1)">
 									<p-stats :label="item.type" v-if="['ico', 'ruain'].indexOf(item.type) > -1">{{ item.value }}</p-stats>
@@ -403,17 +407,6 @@
 									</p-stats>
 								</div>
 							</p-list>
-						</p-block>
-						<p-block headline="Data">
-							<p-area borderColor="var(--blue)">
-								<p-list class="smaller" height=".5">
-									<p-stats label="ID obce">{{ num }}</p-stats>
-									<p-stats label="Permalink"><p-link :href="'https://programydovoleb.cz/obec/' + num"></p-link></p-stats>
-									<p-stats label="API Obec"><p-link :href="'https://api.programydovoleb.cz/town/core/' + num"></p-link></p-stats>
-									<p-stats label="API Historie"><p-link :href="'https://api.programydovoleb.cz/town/history/' + num"></p-link></p-stats>
-									<p-stats label="API Současnost"><p-link :href="'https://api.programydovoleb.cz/town/current/' + num"></p-link></p-stats>
-								</p-list>
-							</p-area>
 						</p-block>
 						<p-block headline="Městské části" v-if="$core.$parts.length > 0">
 							<div class="columns">

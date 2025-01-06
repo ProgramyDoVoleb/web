@@ -30,7 +30,7 @@ export default {
 				this.news.list.forEach(x => datelist.push(x));
 				this.news.auto.forEach(x => datelist.push(x));
 				this.news.log.forEach(x => datelist.push(x));
-				this.news.sys.forEach(x => datelist.push(x));
+				if (!this.omitSys) this.news.sys.forEach(x => datelist.push(x));
 				// if (!this.data && !this.omitSys) this.news.sys.forEach(x => datelist.push(x));
 
 				datelist.forEach(x => {
@@ -53,7 +53,7 @@ export default {
 						auto: this.news.auto.filter(x => x.datum === datum),
 						log: this.news.log.filter(x => x.date === datum && !x.node),
 						log2: this.news.log.filter(x => x.date === datum && x.node),
-						sys: this.data ? [] : this.news.sys.filter(x => x.datum === datum)
+						sys: this.data || this.omitSys ? [] : this.news.sys.filter(x => x.datum === datum)
 					}
 
 					if (o.list.length + o.auto.length + (this.showAll ? o.log.length : 0) + o.log2.length + o.sys.length > 0) {

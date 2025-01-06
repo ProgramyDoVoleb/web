@@ -14,6 +14,7 @@
   background: #fff;
   box-shadow: 0 4px 12px rgba(0,0,0,.1);
   border-radius: 4px;
+  position: relative;
 
   @media (hover: hover) {
     transition: box-shadow .3s;
@@ -79,4 +80,21 @@ img {
 .dark ._icon:not([src*="volby"]) {
   filter: invert(1) brightness(2) opacity(.8);
   background: none;
+}
+
+
+._external {
+  // position: absolute;
+  width: 1em;
+  aspect-ratio: 1;
+  // right: -.85em;
+  // top: -1em;
+  opacity: .5;
+
+  display: none;
+
+  ._external & {
+    display: block;
+    margin: 0 -.5em 0 .25em;
+  }
 }

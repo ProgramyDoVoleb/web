@@ -114,24 +114,34 @@
 					<p-truncated :size="30" :content="cand.$data.about[0].value" :compact="link + '/kandidat/' + cand.id" :unbreak="true"></p-truncated>
 				</div>																	
 			</div>
-			<template v-if="(cand.$data.program && cand.$data.program.length > 0) || cand.$program || cand.$priority">
+			<template v-if="(cand.$data.program && cand.$data.program.length > 0) || cand.$program || cand.$priority || (cand.$odpovedi > 0 || cand.$odpovedi.length > 0)">
 				<div class="p-gap"></div>
 					<p-box-group>
 						<template v-for="program in cand.$data.program">
 							<p-box :href="program.source">
-								<p-box-button class="blue">{{ width > 1024 ? program.value : 'Program' }}</p-box-button>
+								<p-box-button class="primary">{{ width > 1024 ? program.value : 'Program' }}</p-box-button>
 							</p-box>
 						</template>
 						<template v-if="cand.$program">
 							<template v-for="program in cand.$program">
 								<p-box :href="program.source ? program.source : null" :to="!program.source ? link + '/kandidat/' + cand.id + '/volebni-program/' + program.id : null">
-									<p-box-button class="blue">{{ width > 1024 && program.headline ? program.headline : 'Program' }}</p-box-button>
+									<p-box-button>{{ width > 1024 && program.headline ? program.headline : 'Program' }}</p-box-button>
 								</p-box>
 							</template>
 						</template>
 						<template v-if="cand.$priority && cand.$priority > 0">
 							<p-box :to="link + '/kandidat/' + cand.id + '/priority'">
 								<p-box-button><p-lang :value="cand.$priority" :end="['', '1 priorita', '%% priority', '%% priorit']"></p-lang></p-box-button>
+							</p-box>
+						</template>
+						<template v-if="(cand.$odpovedi > 0 || cand.$odpovedi.length > 0)">
+							<p-box :to="link + '/kandidat/' + cand.id + '/otazky-a-odpovedi'">
+								<!-- <p-box-color color="var(--yellow)"></p-box-color> -->
+								<p-box-button icon="answers-mini.svg">
+									<!-- <p-label color="var(--yellow)"> -->
+										Odpovědi
+									<!-- </p-label> -->
+								</p-box-button>
 							</p-box>
 						</template>
 				</p-box-group>

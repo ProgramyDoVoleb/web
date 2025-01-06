@@ -71,7 +71,7 @@
 							</p-block>
 						</template>
 						<template v-if="!showHistory">
-							<p-area :borderColor="colorByItem($main, data)">
+							<p-area :borderColor="colorByItem($main, data)" class="mt2">
 								<strong>Zajímá vás volební historie?</strong>
 								<ul class="smaller">
 									<li>- Výsledky v minulosti</li>
@@ -80,7 +80,9 @@
 								</ul>
 								<!-- <div class="smaller">Pokud vás zajímají výsledky {{ $main.$core[0].ZKRATK }} v minulosti, statistiky úspěšnosti a přehledy spolupráce s dalšími stranami, načtěte si i historická data. Může to chvilku trvat.</div> -->
 								<!-- <div class="p-gap"></div> -->
-								<button @click="click_showHistory">Načíst historická data</button>
+								<div>
+									<button @click="click_showHistory">Načíst historická data</button>
+								</div>								
 							</p-area>
 							<div class="p-gap_2"></div>
 						</template>
