@@ -72,42 +72,9 @@
 								</p-loader>	
 							</p-area>
 						</p-block>
-
-						<p-block headline="Data" :hide="true" v-if="current">
+						<p-block headline="Data" :hide="true" class="mt3" v-if="current && current.editace === 1">
 							<p-grid>
-								<div v-if="current && current.status < 3">
-									<p-area background="var(--green11)" icon="plus-green">
-										<p-modal>
-											<template #init> <button class="inline green strong">Poslat tip na doplnění</button> </template>
-											<template #content>
-												<div class="strong">Stačí vložit odkaz, odkud čerpat. Komentář pomůže.</div>
-												<report-form part="Tip na doplnění"></report-form>
-											</template>
-										</p-modal>
-										<div class="smallest dimm">Stačí poslat odkaz</div>
-									</p-area>
-								</div>
 								<div>
-									<p-area icon="link">
-										<p-modal>
-											<template #init><button class="inline strong">API a Opendata</button></template>
-											<template #content>
-												<strong>Kde je archiv údajů a odkud se tahají data?</strong>
-												<div class="p-gap _05"></div>
-												<p-list>
-													<p-stats label="ID voleb">{{ id }}</p-stats>
-													<p-stats label="Permalink"><p-link :href="'https://programydovoleb.cz/volby/' + hash + '/' + id"></p-link></p-stats>
-													<p-stats v-if="current.web" label="Web k volbám"><p-link :href="current.web"></p-link></p-stats>
-													<p-stats v-if="current.csu_vysledky" label="ČSÚ výsledky"><p-link :href="current.csu_vysledky"></p-link></p-stats>
-													<p-stats v-if="current.csu_opendata" label="ČSÚ opendata"><p-link :href="current.csu_opendata"></p-link></p-stats>
-													<p-stats label="API"><p-link :href="'https://api.programydovoleb.cz/elections/fetch/' + id"></p-link></p-stats>
-												</p-list>
-											</template>
-										</p-modal>
-										<div class="smallest dimm">Jednoduché volání, JSON</div>
-									</p-area>
-								</div>
-								<div v-if="current && current.editace === 1">
 									<p-area icon="link">
 										<p-modal>
 											<template #init><button class="inline strong">Admin - správa údajů</button></template>
@@ -117,7 +84,7 @@
 												<div class="smaller">Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají a která bude údaje pravdivě a svědomitě spravovat.</div>
 												<div class="p-gap"></div>
 												<div class="strong">
-													<p-link :href="'https://admin.programydovoleb.cz/?source=https://programydovoleb.cz' + $route.fullPath" class="button">Vyplnit žádost</p-link>
+													<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $route.path" class="button">Vyplnit žádost</p-link>
 												</div>
 											</template>
 										</p-modal>

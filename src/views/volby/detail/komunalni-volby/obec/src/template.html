@@ -21,20 +21,6 @@
 						<p-block-expandable headline="Vyhledat jinou obec">
 							<search-town :elections="current.id" :link="'/volby/komunalni-volby/' + current.id + '/obec/'"></search-town>
 						</p-block-expandable>
-						<div class="p-gap_4"></div>
-						<p-block headline="Data">
-							<p-area borderColor="var(--blue)">
-								<p-list class="smaller" height=".5">
-									<p-stats label="ID voleb">{{ id }}</p-stats>
-									<p-stats label="ID obce">{{ zast }}</p-stats>
-									<p-stats label="Permalink"><p-link :href="'https://programydovoleb.cz/volby/komunalni-volby/' + id + '/obec/' + zast"></p-link></p-stats>
-									<p-stats v-if="current.web" label="Web k volbám"><p-link :href="current.web"></p-link></p-stats>
-									<p-stats v-if="current.csu_vysledky" label="ČSÚ výsledky"><p-link :href="current.csu_vysledky"></p-link></p-stats>
-									<p-stats v-if="current.csu_opendata" label="ČSÚ opendata"><p-link :href="current.csu_opendata"></p-link></p-stats>
-									<p-stats label="API"><p-link :href="'https://api.programydovoleb.cz/elections/fetch/' + id + ':' + zast"></p-link></p-stats>
-								</p-list>
-							</p-area>
-						</p-block>
 					</div>
 				</p-loader>
 			</p-block>

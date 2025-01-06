@@ -257,25 +257,9 @@
 						</div>
 					</div>
 				</p-loader>
-				<p-block headline="Data" :hide="true">
+				<p-block headline="Data" :hide="true" class="mt3" v-if="$volby && $volby.editace === 1">
 					<p-grid>
 						<div>
-							<p-area icon="link">
-								<p-modal>
-									<template #init><button class="inline strong">API a Opendata</button></template>
-									<template #content>
-										<strong>Kde je archiv údajů a odkud se tahají data?</strong>
-										<div class="p-gap _05"></div>
-										<p-list>
-											<p-stats label="Permalink"><p-link :href="'https://programydovoleb.cz' + $route.path"></p-link></p-stats>
-											<p-stats label="API"><p-link :href="'https://api.programydovoleb.cz/pointers/program/' + table + ':' + tableID"></p-link></p-stats>
-										</p-list>
-									</template>
-								</p-modal>
-								<div class="smallest dimm">Jednoduché volání, JSON</div>
-							</p-area>
-						</div>
-						<div v-if="$volby && $volby.editace === 1">
 							<p-area icon="link">
 								<p-modal>
 									<template #init><button class="inline strong">Admin - správa údajů</button></template>
@@ -285,7 +269,7 @@
 										<div class="smaller">Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají a která bude údaje pravdivě a svědomitě spravovat.</div>
 										<div class="p-gap"></div>
 										<div class="strong">
-											<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $route.fullPath" class="button">Vyplnit žádost</p-link>
+											<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $route.path" class="button">Vyplnit žádost</p-link>
 										</div>
 									</template>
 								</p-modal>

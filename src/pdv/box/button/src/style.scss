@@ -81,20 +81,3 @@ img {
   filter: invert(1) brightness(2) opacity(.8);
   background: none;
 }
-
-
-._external {
-  // position: absolute;
-  width: 1em;
-  aspect-ratio: 1;
-  // right: -.85em;
-  // top: -1em;
-  opacity: .5;
-
-  display: none;
-
-  ._external & {
-    display: block;
-    margin: 0 -.5em 0 .25em;
-  }
-}

@@ -444,7 +444,7 @@
 								</div>
 							</p-area>
 						</p-block>
-						<party-polls :VSTRANA="cid" :color="colorByItem($main, data)" :isCoalition="$main.$core[0].TYP != 'S'"></party-polls>
+						<party-polls :VSTRANA="cid" :color="colorByItem($main, data)" :isCoalition="$main.$core[0].TYP != 'S'" class="mb3"></party-polls>
 						<p-block headline="Poznámky" v-if="$meta.note && $meta.note.length > 0">
 							<p-list height=".25">
 								<div v-for="(item, index) in $meta.note">
@@ -647,16 +647,27 @@
 					</div>
 				</p-loader>
 			</p-block>
-			<!-- <p-block headline="Data"> -->
-				<p-area borderColor="var(--blue)">
-					<strong>Administrace údajů</strong>
-					<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají a která bude údaje pravdivě a svědomitě spravovat.</p>
-					<div class="smaller"></div>
-					<div class="strong">
-						<p-link :href="'https://admin.programydovoleb.cz/zadost/csu_cvs:' + id + '?source=https://programydovoleb.cz' + $route.fullPath" class="button">Vyplnit žádost</p-link>
+			<p-block headline="Data" :hide="true" class="mt3">
+				<p-grid>
+					<div>
+						<p-area icon="link">
+							<p-modal>
+								<template #init><button class="inline strong">Admin - správa údajů</button></template>
+								<template #content>
+									<strong>Administrace údajů</strong>
+									<div class="p-gap _05"></div>
+									<div class="smaller">Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají a která bude údaje pravdivě a svědomitě spravovat.</div>
+									<div class="p-gap"></div>
+									<div class="strong">
+										<p-link :href="'https://admin.programydovoleb.cz/zadost/csu_cvs:' + id + '?source=https://programydovoleb.cz' + $route.fullPath" class="button">Vyplnit žádost</p-link>
+									</div>
+								</template>
+							</p-modal>
+							<div class="smallest dimm">Spravujte údaje na této stránce</div>
+						</p-area>
 					</div>
-				</p-area>
-			<!-- </p-block> -->
+				</p-grid>
+			</p-block>
 			<div class="p-gap_4"></div>
 			<p-block-expandable headline="Vyhledat jinou stranu nebo koalici" :level="1">
 				<search-party link="/rejstrik/"></search-party>
