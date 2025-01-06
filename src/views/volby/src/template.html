@@ -27,13 +27,13 @@
 							<p>
 								<p-label color="var(--red)">Mimořádné</p-label> 
 								senátní volby budou 
-								<router-link :to="'/volby/senanti-volby/' + extra.id">{{ date(extra.datum) }}</router-link> 
+								<router-link :to="'/volby/senatni-volby/' + extra.id">{{ date(extra.datum) }}</router-link> 
 								a týkají se 
 								<p-lang :value="String(extra.dotcene).split(',').length" :end="['', 'jednoho obvodu', '%% obvodů', '%% obvodů']"></p-lang>:
 								<p-list-linear>
 									<template v-for="(obv, index) in String(extra.dotcene).split(',')">
 										<li>
-											<router-link :to="'/volby/senanti-volby/' + extra.id + '/obvod/' + obv" class="is-span">{{ obv }}</router-link>
+											<router-link :to="'/volby/senatni-volby/' + extra.id + '/obvod/' + obv" class="is-span">{{ obv }}</router-link>
 										</li>
 									</template>
 								</p-list-linear>

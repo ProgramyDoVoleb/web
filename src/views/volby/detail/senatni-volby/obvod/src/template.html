@@ -14,22 +14,14 @@
 							</template>
 							<p class="lead" v-if="current.popis" v-html="current.popis"></p>
 						</p-block>
-						<!-- <template v-if="current.id === 163">
-							<p>V tomto senátním obvodě <p-lang :value="data.list[0].$kandidati.length" :end="['', '', 'kandidují %% lidé', 'kandiduje %% lidí']"></p-lang><template v-if="senateHistoryRetry">, mandát obhajuje {{ senateHistoryRetry.JMENO + ' ' + senateHistoryRetry.PRIJMENI }}</template>. Pro zisk mandátu je nutné získat alespoň 50 % hlasů. Pokud se to nikomu nepodaří v prvním kole, koná se druhé kolo o týden později, 27. a 28. září. Do něj postoupí dva kandidáti s nejvyšším počtem hlasů. Do obvodu <p-lang :value=data.cis.obce.length :end="['', 'spadá jedna obec či městská část', 'spadají %% obce či městské části', 'spadá %% obcí či městských částí']"></p-lang>.</p>
-							<p-box-group>
-								<p-box :to="'/pruvodce/krajske-a-senatni-volby-2024?obvod=' + obvod">
-									<p-box-button icon="icon-party.svg" color="var(--blue)">Průvodce volbami</p-box-button>
-								</p-box>
-								<p-box :href="'https://www.volebnikalkulacka.cz/volby/senatni-2024/' + about.obvod.obvod + '-' + url(about.obvod.nazev) + '/navod'">
-									<p-box-button icon="link.svg">Kalkulačka</p-box-button>
-								</p-box>
-							</p-box-group>	
-							<div class="p-gap _2"></div>
-						</template> -->
-						<!-- <p class="smaller">
-							<strong><p-label color="var(--red)"><p-link class="red" href="https://docs.google.com/forms/d/e/1FAIpQLSfeR-LNLlpmOOfSFabK7II9vrO40t2trWlzx2d_K4Q-rmpBdQ/viewform?usp=sf_link">Navrhněte otázku</p-link></p-label> pro kandidáty do senátních voleb.</strong>
-						</p> -->
-						<senatni-volby :data="data" :obvod="Number(obvod)"></senatni-volby>
+						<template v-if="current.radne === 0 && !current.$dotcene.find(x => x.OBVOD === Number(obvod))">
+							<p-area class="primary mb3 strong" borderColor="var(--red)">
+								Mimořádné senátní volby se konají pouze v obvodě <router-link :to="'/volby/senatni-volby/' + id + '/obvod/' + current.$dotcene[0].OBVOD">{{ current.$dotcene[0].OBVOD }} &middot; {{ current.$dotcene[0].NAZEV }}</router-link>
+							</p-area>
+							<div class="p-gap _3"></div>
+						</template>
+
+						<senatni-volby :data="data" :obvod="Number(obvod)" v-if="current.$dotcene.find(x => x.OBVOD === Number(obvod))"></senatni-volby>
 
 						<p-block-expandable headline="Media a tiskové zprávy" :open="current.status < 3">
 							<p-loader :rule="news" reserve="450px">
@@ -88,16 +80,18 @@
 								</p-collapsible>
 							</p-area>
 						</p-block>
-						<div class="p-gap _3" v-if="current.status < 3"></div>
-						<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Minulé volby" :open="current.status < 3">
-							<p-area>
-								<p-loader :rule="previousData">
-									<div v-if="previousData">
-										<senatni-volby-results :data="previousData" type="SENAT" :focus="obvod"></senatni-volby-results>
-									</div>
-								</p-loader>	
-							</p-area>
-						</component>
+						<template v-if="current.$dotcene.find(x => x.OBVOD === Number(obvod))">
+							<div class="p-gap _3" v-if="current.status < 3"></div>
+							<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Minulé volby" :open="current.status < 3">
+								<p-area>
+									<p-loader :rule="previousData">
+										<div v-if="previousData">
+											<senatni-volby-results :data="previousData" type="SENAT" :focus="obvod"></senatni-volby-results>
+										</div>
+									</p-loader>	
+								</p-area>
+							</component>
+						</template>
 						<p-block-expandable headline="Historie senátorů" :open="current.status < 3">
 							<p-loader :rule="senateHistory">
 								<div v-if="senateHistory">
