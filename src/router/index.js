@@ -241,6 +241,11 @@ const router = createRouter({
       redirect: '/o-projektu/jak-podporit',
     },
     {
+      path: '/kontakty',
+      name: 'LayoutAboutContactsRedirect',
+      redirect: '/o-projektu/kontakty',
+    },
+    {
       path: '/widgety',
       name: 'LayoutWidgety',
       component: () => import('../views/widgets/do.vue'),
