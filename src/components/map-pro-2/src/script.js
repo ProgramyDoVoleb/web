@@ -133,6 +133,8 @@ export default {
 			var min = Math.min(...list.map(x => x[key]));
 			var max = Math.max(...list.map(x => x[key]));
 
+			// console.log(obj[key], min, max, list);
+
 			return ((obj[key] - min) / (max - min)) * .8 + .1;
 		},
 		map_filter: function (feature, layer) {
@@ -242,7 +244,7 @@ export default {
 							if (obj.HLASU === 0) {
 								empty = true;
 							} else {
-								fillOpacity = this.autoscale('PROCENT', obj, this.$vysledky.list[0].$kraje.filter(x => x.CAND === this.showParty));
+								fillOpacity = this.autoscale('PROCENT', obj, this.$vysledky.list[0].$kraje.filter(x => x.CAND === this.showParty && x.KRAJ.length === 5));
 								color = colorByItem(this.current.$strany.find(x => x[this.column] === obj.CAND), {cis: this.cis}, null, true);
 							}
 						} else {
@@ -316,7 +318,7 @@ export default {
 							if (obj.HLASU === 0) {
 								empty = true;
 							} else {
-								fillOpacity = this.autoscale('PROCENT', obj, this.$vysledky.list[0].$okresy.filter(x => x.CAND === this.showParty));
+								fillOpacity = this.autoscale('PROCENT', obj, this.$vysledky.list[0].$okresy.filter(x => x.CAND === this.showParty && x.OKRES.length === 6));
 								color = colorByItem(this.current.$strany.find(x => x[this.column] === obj.CAND), {cis: this.cis}, null, true);
 							}
 						} else {

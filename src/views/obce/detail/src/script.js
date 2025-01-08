@@ -99,8 +99,8 @@ export default {
 
 				d.next.sort((a, b) => (a.datum || '2099-12-31').localeCompare((b.datum || '2099-12-31'), 'cs'));
 
-				console.log(d.past);
-				console.log(d.next);
+				// console.log(d.past);
+				// console.log(d.next);
 
 				d.next.forEach(el => {
 

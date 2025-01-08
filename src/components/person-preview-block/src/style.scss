@@ -154,15 +154,27 @@
 }
 
 ._soc {
-	max-width: 6em;
+	max-width: 4em;
 	text-align: right;
 	margin-top: -.3em;
 	max-height: 1.75em;
 	overflow-y: hidden;
 	float: right;
 
-	@media (min-width: 640px) {
+	@media (min-width: 360px) {
+		max-width: 6em;
+	}
+
+	@media (min-width: 440px) {
+		max-width: 8em;
+	}
+
+	@media (min-width: 540px) {
 		max-width: 12em;
+	}
+
+	@media (min-width: 640px) {
+		max-width: 20em;
 	}
 }
 

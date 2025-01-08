@@ -216,7 +216,7 @@
 						<template v-if="showHistory">
 							<p-loader :rule="history">
 								<div v-if="history">
-									<p-block headline="Historie voleb">
+									<p-block headline="Historie voleb" class="mt3">
 										<p>V této části se dozvíte, v kterých volbách lidé volili, s jakou účastí a jak, v porovnání s celkovým výsledkem voleb. U senátních a prezidentských voleb je uvedena účast v prvním a druhém kole.</p>
 										<template v-for="(election, index) in $elections.past">
 											<template v-if="index < 6 || showAll">
@@ -252,7 +252,7 @@
 											</template>
 										</p-grid>
 									</p-block>
-									<p-block headline="Statistiky" subheadline="Vývoj volební účasti">
+									<p-block headline="Statistiky" subheadline="Vývoj volební účasti" class="mb3">
 										<p-grid>
 											<template v-for="(el, index) in election_types">
 												<div v-if="$elections.past.find(x => x.$volby.typ === el.key) && $elections.past.filter(x => x.$volby.typ === el.key).filter(x => x.$data.$ucast.length === 0).length === 0">
