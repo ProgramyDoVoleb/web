@@ -3,7 +3,10 @@
 		<template #main>
 			<p-block headline="Volby" :level="1" :hide="true">
 				<p class="lead">
-					Přehledně o českých volbách: <strong>volební programy</strong>, kandidáti, <router-link to="/rejstrik">politické strany</router-link>, <router-link to="/volebni-pruzkumy">průzkumy</router-link>, <router-link to="/vypocet-mandatu">výpočet mandátů</router-link>, <router-link to="/volby">archiv voleb</router-link> a další statistiky a přehledy. <router-link to="/o-projektu" class="strong smaller">Více o projektu</router-link> &rarr;
+					Přehledně, nestranně a nezávisle o českých volbách: <strong>volební programy</strong>, <router-link to="/lide" class="is-span">kandidáti</router-link>, <router-link to="/rejstrik" class="is-span">politické strany</router-link>, <router-link to="/volebni-pruzkumy" class="is-span">průzkumy</router-link>, <router-link to="/vypocet-mandatu" class="is-span">výpočet mandátů</router-link>, <router-link to="/volby" class="is-span">archiv voleb</router-link> a další.
+					<span class="smaller strong">
+						<router-link to="/o-projektu">O projektu</router-link> &middot; <router-link to="/o-projektu/jak-podporit" class="green">Podpořit</router-link>
+					</span>
 				</p>
 				<!-- <div class="p-gap"></div> -->
 				<!-- <promo-block></promo-block> -->
@@ -489,19 +492,31 @@
 					</p-area>
 				</p-block-expandable>
 			</p-block>
-			<p-block headline="O projektu" subheadline="Programy do voleb">
-				<p>Cílem je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. Nenajdete zde ani komentáře či názory, do textů se nezasahuje.</p>
-				<p-box-group>
-					<p-box to="/o-projektu">
-						<p-box-button class="primary">Více o Programech</p-box-button>
-					</p-box>
-					<p-box to="/o-projektu/kontakty">
-						<p-box-label>Kontakty</p-box-label>
-					</p-box>
-					<p-box to="/o-projektu/jak-podporit">
-						<p-box-label class="green">Chci přispět</p-box-label>
-					</p-box>
-				</p-box-group>
+			<p-block headline="O projektu" :hide="true">
+				<div class="_split">
+					<div>
+						<h2 class="serif mt0">
+							O projektu
+							<div class="small">Programy do voleb</div>
+						</h2>
+						<!-- <h4 class="serif">Programy do voleb</h4> -->
+						<p>Cílem je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. Nenajdete zde ani komentáře či názory, do textů se nezasahuje.</p>
+						<p-box-group>
+							<p-box to="/o-projektu">
+								<p-box-button class="primary">Více o Programech</p-box-button>
+							</p-box>
+							<p-box to="/o-projektu/kontakty">
+								<p-box-label>Kontakty</p-box-label>
+							</p-box>
+							<p-box to="/o-projektu/jak-podporit">
+								<p-box-label class="green">Jak podpořit?</p-box-label>
+							</p-box>
+						</p-box-group>
+					</div>
+					<div>
+						<cta-support :hide="true"></cta-support>
+					</div>
+				</div>
 			</p-block>
 				<p-block headline="Časté otázky" :hide="true">
 					<p-collapsible label="Jak vzniká obsah webu?">

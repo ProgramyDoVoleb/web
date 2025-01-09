@@ -1,3 +1,4 @@
 export default {
-	name: 'CTA-Support'
+	name: 'CTA-Support',
+	props: ['hide']
 };
