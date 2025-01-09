@@ -1,5 +1,5 @@
 import { colorByItem, logoByItem } from '@/components/results/helpers';
-import { con, type, truncate } from '@/pdv/helpers';
+import { con, type, truncate, isWoman } from '@/pdv/helpers';
 import { cdn, missing } from '@/stores/core';
 
 export default {
@@ -52,7 +52,7 @@ export default {
 		}
 	},
 	methods: {
-		colorByItem, logoByItem, con, type, truncate,
+		colorByItem, logoByItem, con, type, truncate, isWoman,
 		checkDuplicates: function (list) {
 			var arr = [];
 

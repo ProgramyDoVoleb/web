@@ -53,7 +53,7 @@
 						<span class="dimm tiny" v-if="cand.TITULPRED"> &middot; {{ cand.TITULPRED }}</span>
 						<span class="dimm tiny" v-if="cand.TITULZA"> &middot; {{ cand.TITULZA }}</span>
 					<!-- </p-label> -->
-					<template v-if="cand.VEK || cand.POVOLANI || cand.BYDLISTEN">
+					<template v-if="cand.VEK || cand.POVOLANI || cand.BYDLISTEN || (cand.$profil && cand.$profil.length > 0)">
 						<!-- <div class="p-gap _033"></div> -->
 						<div class="smaller _mw">
 							<div>
@@ -89,7 +89,7 @@
 				
 			</div>
 			<div class="smallest strong" v-if="cand.PSTRANA && cand.PSTRANA != 99 && cand.PSTRANA != cand.NSTRANA">
-				<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA), data, 'PSTRANA')">člen
+				<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA), data, 'PSTRANA')">člen{{ isWoman(cand) ? 'ka' : '' }}
 					<router-link :to="'/rejstrik/' + cand.PSTRANA" class="is-span keep">
 						{{ data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA).ZKRATKA }}
 					</router-link>

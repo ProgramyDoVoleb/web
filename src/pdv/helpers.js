@@ -310,3 +310,15 @@ export function untag (html) {
   
       return div.textContent || div.innerText || "";
 }
+
+export function isWoman (person) {
+  var woman = false;
+
+  if (person.PRIJMENI[person.PRIJMENI.length - 1] === 'á') woman = true;
+  if (person.JMENO[person.JMENO.length - 1] === 'a') woman = true;
+  if (person.JMENO[person.JMENO.length - 1] === 'e') woman = true;
+  if (person.$data.mfo && person.$data.mfo[0].value === 1) woman = false;
+  if (person.$data.mfo && person.$data.mfo[0].value === 2) woman = true;
+
+  return woman;
+}
