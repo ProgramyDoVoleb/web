@@ -370,25 +370,25 @@
 								<p-grid>
 									<div v-if="current.$program.length > 0">
 										<p-area icon="icon-party" background="var(--blue11)">
-											<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.$program[0].csu_id + '/volebni-program/' + current.$program[0].id + '#plne-zneni'" class="strong">Celý volební program</router-link>
+											<router-link :to="$link + '/volebni-program/' + current.$program[0].id + '#plne-zneni'" class="strong">Celý volební program</router-link>
 											<div class="dimm smallest">{{ date(current.$program[0].updated) }}</div>
 										</p-area>
 									</div>
 									<div v-if="current.$priority.length > 0">
 										<p-area icon="icon-party">
-											<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.$priority[0].csu_id + '/priority'" class="strong"><p-lang :value="current.$priority.length" :end="['', 'Jedna priorita', '%% priority', '%% priorit']"></p-lang></router-link>
+											<router-link :to="$link + '/priority'" class="strong"><p-lang :value="current.$priority.length" :end="['', 'Jedna priorita', '%% priority', '%% priorit']"></p-lang></router-link>
 											<div class="dimm smallest">{{ date(current.$priority[0].updated) }}</div>
 										</p-area>
 									</div>
 									<div v-if="current.$otazky.find(x => x.type === 2)">
 										<p-area icon="detail">
-											<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.$program[0].csu_id + '/volebni-program/' + current.$program[0].id + '#vybrana-temata'" class="strong">Vybraná témata</router-link>
+											<router-link :to="$link + '/volebni-program/' + current.$program[0].id + '#vybrana-temata'" class="strong">Vybraná témata</router-link>
 											<div class="dimm smallest"><p-lang :value="current.$otazky.filter(x => x.type === 2).length" :end="['žádné téma', 'jedno téma', '%% témata', '%% témat']"></p-lang></div>
 										</p-area>
 									</div>
 									<div v-if="current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0">
 										<p-area icon="answers-mini">
-											<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.$odpovedi[0].csu_id + '/otazky-a-odpovedi'" class="strong">Otázky a odpovědi</router-link>
+											<router-link :to="$link + '/otazky-a-odpovedi'" class="strong">Otázky a odpovědi</router-link>
 											<div class="dimm smallest"><p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type != 2).length" :end="['žádná odpověď', 'jedna odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
 										</p-area>
 									</div>
@@ -413,13 +413,13 @@
 											<strong v-if="priority.headline">{{ truncate(priority.headline, 8) }}</strong>
 											<span v-if="priority.headline && priority.content && priority.content.charAt(0) != '['"> &middot; </span>
 											<span v-if="priority.content && priority.content.charAt(0) != '['">
-												<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="12" :compact="$route.path + '/priority#' + url(priority.headline || 'část ' + indexP)"></p-truncated>
+												<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="12" :compact="$link + '/priority#' + url(priority.headline || 'část ' + indexP)"></p-truncated>
 											</span>
 										</p-label>
 									</div>								
 								</p-list>
 								<div class="p-gap"></div>
-								<router-link class="btn" :to="$route.path + '/priority'">Plné znění priorit</router-link>
+								<router-link class="btn" :to="$link + '/priority'">Plné znění priorit</router-link>
 							</p-block>
 
 							<p-block headline="Volební témata" :hide="true" v-if="current.$otazky && current.$otazky.filter(x => x.type === 2).length > 0">
@@ -434,7 +434,7 @@
 														<span class="smaller">{{ question.question }}</span>
 													</template>
 													<template #content>
-														<answer-topic-preview :question="question.id" :table="table" :id="tableID" :link="$route.path"></answer-topic-preview>
+														<answer-topic-preview :question="question.id" :table="table" :id="tableID" :link="$link"></answer-topic-preview>
 													</template>
 												</p-modal>
 											</span>
@@ -530,9 +530,9 @@
 											<p-area class="smaller">
 													<p-list-linear class="or dimm">
 														<div v-for="VOLKRAJ in [3,11,5,8,7,14,12,9,4,1,2,6,10,13]">
-															<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 0}"><router-link :to="$route.path + '/kandidati/' + VOLKRAJ">{{ enums.regionsShort[VOLKRAJ - 1] }}</router-link></span><span class=" dimm"> {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</span>
+															<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 0}"><router-link :to="$link + '/kandidati/' + VOLKRAJ">{{ enums.regionsShort[VOLKRAJ - 1] }}</router-link></span><span class=" dimm"> {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</span>
 														</div>
-														<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === -1).length > 0}"><router-link :to="$route.path + '/kandidati/-1'">nezařazeni</router-link></span><span class=" dimm"> {{ current.$kandidati.filter(x => x.VOLKRAJ === -1).length }}</span>
+														<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === -1).length > 0}"><router-link :to="$link + '/kandidati/-1'">nezařazeni</router-link></span><span class=" dimm"> {{ current.$kandidati.filter(x => x.VOLKRAJ === -1).length }}</span>
 													</p-list-linear>
 											</p-area>
 
@@ -573,7 +573,7 @@
 															</template>
 															<div class="p-line"></div>
 															<div class="smallest strong">
-																<router-link :to="$route.path + '/kandidati/' + VOLKRAJ">Celý seznam &middot; {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</router-link>
+																<router-link :to="$link + '/kandidati/' + VOLKRAJ">Celý seznam &middot; {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</router-link>
 															</div>														
 														</p-area>
 														<p-area v-else class="smaller">
@@ -624,7 +624,7 @@
 														</p-list>
 														<div class="p-gap"></div>
 														<div class="smaller strong">
-															<router-link :to="$route.path + '/kandidati/' + COBVODU">Celý seznam</router-link>
+															<router-link :to="$link + '/kandidati/' + COBVODU">Celý seznam</router-link>
 														</div>														
 													</p-area>
 												</div>
@@ -645,7 +645,7 @@
 																				</template>
 																			</template>
 																			<div v-if="current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).length > limit">
-																				<router-link :to="$route.path + '/kandidati' + (VOLKRAJ > 0 ? '/' + VOLKRAJ : '')" class="btn">Zobrazit celý seznam: {{ current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).length }}</router-link>
+																				<router-link :to="$link + '/kandidati' + (VOLKRAJ > 0 ? '/' + VOLKRAJ : '')" class="btn">Zobrazit celý seznam: {{ current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).length }}</router-link>
 																				<!-- <button @click="limitOff = !limitOff">{{ limitOff ? 'Zkrátit seznam' : 'Zobrazit celý seznam : ' + current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).length }}</button> -->
 																			</div>
 																		</p-list>
@@ -1039,7 +1039,7 @@
 										<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
 	
 										<div class="strong smaller">
-											<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $route.path">Chci přístup do Adminu</p-link>
+											<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link">Chci přístup do Adminu</p-link>
 											&middot;
 											<p-link href="https://admin.programydovoleb.cz">Více o adminu</p-link>
 										</div>
@@ -1108,7 +1108,7 @@
 									<div v-if="news">
 										<p-collapsible label="Historie úprav">
 											<p-area class="smaller">
-												<news-block :showAll="true" :expandable="true" :limit="4" :news="news" :data="current.$data" :prefix="'/' + $route.path.split('/').splice(1, 3).join('/')" :authors="data.cis.zdroje"></news-block>
+												<news-block :showAll="true" :expandable="true" :limit="4" :news="news" :data="current.$data" :prefix="'/' + $link.split('/').splice(1, 3).join('/')" :authors="data.cis.zdroje"></news-block>
 											</p-area>
 										</p-collapsible>
 										<p-collapsible label="Přehled autorů" v-if="data.cis.zdroje">
@@ -1158,7 +1158,7 @@
 										<div class="smaller">Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají a která bude údaje pravdivě a svědomitě spravovat.</div>
 										<div class="p-gap"></div>
 										<div class="strong">
-											<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $route.path" class="button">Vyplnit žádost</p-link>
+											<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link" class="button">Vyplnit žádost</p-link>
 										</div>
 									</template>
 								</p-modal>
@@ -1239,7 +1239,7 @@
 					<div class="p-gap _05"></div>
 					<p-loader :rule="news">
 						<div v-if="news" class="smallest">
-							<news-block :showAll="true" :news="news" :limit="2" :data="current.$data" :prefix="'/' + $route.path.split('/').splice(1, 3).join('/')"></news-block>
+							<news-block :showAll="true" :news="news" :limit="2" :data="current.$data" :prefix="'/' + $link.split('/').splice(1, 3).join('/')"></news-block>
 						</div>
 					</p-loader>
 				</div>

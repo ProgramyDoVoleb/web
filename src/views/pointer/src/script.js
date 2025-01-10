@@ -270,6 +270,9 @@ export default {
 				return this.current && this.data.cis.strany.find(x => x.VSTRANA === this.$strana.VSTRANA).$coalition ? this.data.cis.strany.find(x => x.VSTRANA === this.$strana.VSTRANA).$coalition : null
 			}
 		},
+		$link: function () {
+			return this.current ? '/volby/' + this.$volby.$about.hash + '/' + this.$volby.id + '/' + (this.current.JMENO ? 'kandidat' : 'strana') + '/' + this.current.id : null
+		},
 		specs: function () {
 			var res = null;
 

@@ -225,7 +225,7 @@
 									</p-list>
 									<div class="p-gap _2"></div>
 									<template v-for="priority in [current.$priority.find(x => x.source)]">
-										<div class="smallest dimm mt1" v-if="priority.source">
+										<div class="smallest dimm mt1" v-if="priority && priority.source">
 											vloženo {{ date(priority.updated) }}, <p-link :href="priority.source" class="dimm">zdroj</p-link>
 										</div>
 									</template>
@@ -300,18 +300,6 @@
 
 				<!-- <cta-get-admin :election="$volby" /> -->
 				<cta-support></cta-support>
-				
-				<div v-if="data && $volby && $volby.id === 161">
-					<div>
-							<p-image src="https://static.programydovoleb.cz/img/2024/plakat-161-a2-final.jpg" width="100%" :border="true" :rounded="true"></p-image>
-							<div class="p-gap"></div>
-							<strong class="blue">Objednejte si plakát s výsledky eurovoleb '24</strong>
-							<p class="small">Koupí plakátu pomůžete lepší informovanosti u příštích voleb. Výnos z prodeje jde hlavně na reklamu, aby se o projektu před volbami dozvědělo co nejvíc lidí.</p>
-							<p-box href="https://eshop.programydovoleb.cz/plakat-a2-evropske-volby-2024/">
-								<p-box-button class="primary">Objednat</p-box-button>
-							</p-box>
-					</div>
-				</div>
 				<div>
 					<div class="smallest strong" v-if="data && $volby">
 						<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][$volby.status]) + ')'">volby {{ enums.status[$volby.status] }}</p-label></div>
