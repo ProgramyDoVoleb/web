@@ -56,7 +56,7 @@
 					<div>
 						<p-list-linear class="or">
 							<span><button :class="{'green strong': showDiff === -1}" class="inline" @click="() => map_switch(null, null, -1, showParty, showRegion)">hodnoty</button></span>
-							<span v-if="showType === 'ucast'"><button :class="{'green strong': showDiff === 1}" class="inline" @click="() => map_switch(null, null, 1, null, showRegion)">změnu oproti minule</button></span>
+							<span v-if="showType === 'ucast' && $ucast.list.length > 1"><button :class="{'green strong': showDiff === 1}" class="inline" @click="() => map_switch(null, null, 1, null, showRegion)">změnu oproti minule</button></span>
 							<span v-if="showType === 'strana'"><button :class="{'green strong': showDiff === 1}" class="inline" @click="() => map_switch(null, null, 1, showParty, showRegion)">rozdíl od výsledku</button></span>
 						</p-list-linear>
 					</div>

@@ -63,7 +63,7 @@
 								</div>
 							</p-loader>
 						</p-block-expandable>
-						<p-block v-if="['evropske-volby', 'snemovni-volby'].indexOf(hash) > -1" headline="Minulé volby">
+						<p-block v-if="current && current.predchozi && ['evropske-volby', 'snemovni-volby'].indexOf(hash) > -1" headline="Minulé volby">
 							<p-area>
 								<p-loader :rule="previousData">
 									<div v-if="previousData">

@@ -53,7 +53,7 @@ export default {
 				d.list[0].$ucast.forEach(town => {
 					if (this.$cis.cis.obce.find(x => x[0] === town[0])) {
 						o.list[0].$ucast.push(town);
-						o.list[1].$ucast.push(d.list[1].$ucast.find(x => x[0] === town[0]));
+						if (d.list.length > 1) o.list[1].$ucast.push(d.list[1].$ucast.find(x => x[0] === town[0]));
 					}
 				});
 			}
@@ -441,7 +441,14 @@ export default {
 				content.push('<strong>' + (this.showDetail === 'okresy' ? 'okr. ' : '') + (feature.properties.NAZEV || feature.properties.name) + '</strong><br>');
 				content.push('<hr>');
 				content.push('volilo ' + number(this.fetchVolicu(feature.properties, this.showDetail)) + ' lidí<br>');
-				content.push('<div class="p-offset reverse balanced"><div>' + 'účast ' + this.fetchUcast(feature.properties, this.showDetail) + ' %</div><div class="indicator ' + indicator(this.fetchUcast(feature.properties, this.showDetail), this.fetchUcast(feature.properties, this.showDetail, true)) + '">' + number(this.fetchUcast(feature.properties, this.showDetail) - this.fetchUcast(feature.properties, this.showDetail, true), 2) + ' pb</div></div>');
+				
+				if (this.$ucast.list[1] && this.$ucast.list[1].$ucast.length > 0) {
+					content.push('<div class="p-offset reverse balanced"><div>' + 'účast ' + this.fetchUcast(feature.properties, this.showDetail) + ' %</div><div class="indicator ' + indicator(this.fetchUcast(feature.properties, this.showDetail), this.fetchUcast(feature.properties, this.showDetail, true)) + '">' + number(this.fetchUcast(feature.properties, this.showDetail) - this.fetchUcast(feature.properties, this.showDetail, true), 2) + ' pb</div></div>');
+				} else {
+					content.push('<div class="p-offset reverse balanced"><div>' + 'účast ' + this.fetchUcast(feature.properties, this.showDetail) + ' %</div></div>');
+				}
+				
+				
 				content.push('<hr>');			
 
 			if (this.showParty && this.showType === 'strana') {
