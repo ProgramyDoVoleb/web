@@ -52,14 +52,14 @@ export default {
 			return db[0]
 		},
 		parties: function () {
-			return this.$store.getters.pdv('parties/1,5,7,47,53,166,714,720,721,768,1114,1227,1245,1350,1327,1265,1487,1178');
+			return this.$store.getters.pdv('parties/1,5,7,47,53,166,714,720,721,768,1114,1227,1245,1298,1350,1327,1265,1487,1178');
 		},
 		polls: function () {
 			var res = this.$store.getters.pdv('polls/all');
 			var d = null;
 
 			if (res) d = {
-				list: res.list.filter(x => x.pollofpolls && x.pollofpolls === 1)
+				list: res.list.filter(x => x.pollofpolls) // && x.pollofpolls === 1)
 			};
 
 			return d;

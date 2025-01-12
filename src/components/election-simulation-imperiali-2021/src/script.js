@@ -55,7 +55,7 @@ export default {
 			return useData()
 		},
 		parties: function () {
-			return this.$store.getters.pdv('parties/1,5,7,47,53,166,714,720,721,768,1114,1227,1245,1350,1327,1265,1487,100010,1178');
+			return this.$store.getters.pdv('parties/1,5,7,47,53,166,714,720,721,768,1114,1227,1245,1298,1350,1327,1265,1487,100010,1178');
 		},
 		polls: function () {
 			return this.$store.getters.pdv('polls/last-10')

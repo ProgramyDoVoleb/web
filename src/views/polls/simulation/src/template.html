@@ -7,7 +7,7 @@
 			<p-block headline="Výpočet mandátů" :level="1">
 				<p class="lead">Přepočet hlasů na mandáty jednotlivým stranám a do jednotlivých krajů má několik kroků. Zde si můžete vyzkoušet, co by libovolný průzkum znamenal a jak by pak vypadalo složení Sněmovny.</p>
 				<select v-model="type" v-if="polls">
-					<template v-for="(poll, index) in polls.list.filter(x => x.pollofpolls && x.pollofpolls === 1)">
+					<template v-for="(poll, index) in polls.list.filter(x => x.pollofpolls)">
 						<option v-if="index < 8" :value="index">{{ poll.agency }}, {{ poll.title }}, {{ date(poll.datum) }} </option>
 					</template>
 					<option disabled>---</option>
