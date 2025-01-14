@@ -3,24 +3,24 @@
 		<p-loader :rule="election" reserve="100px">
 			<template v-if="election">
 				<div :class="{'columns-4': election.list[0].$dotcene.length > 1}">
-					<div v-for="(obvod, index) in obvody">
+					<div v-for="(obvod, index) in election.list[0].$dotcene">
 						<div class="p-offset balanced reverse">
 							<div>
-								<router-link :to="'/volby/senatni-volby/' + elections.id + '/obvod/' + obvod" class="strong">{{ list.find(x => x.id === obvod).label }}</router-link>
+								<router-link :to="'/volby/senatni-volby/' + elections.id + '/obvod/' + obvod.OBVOD" class="strong">{{ obvod.NAZEV }}</router-link>
 								<div class="smaller" v-if="election && election.list[0].status === 3">
 									<p-list-linear class="nebo">
-										<span v-for="cand in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD === obvod && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)), 'PRIJMENI', null, true)">
+										<span v-for="cand in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD === obvod.OBVOD && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)), 'PRIJMENI', null, true)">
 											<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
 										</span>
 									</p-list-linear>
 								</div>
-								<div v-if="election && election.list[0].status < 3">
+								<div v-if="election && election.list[0].status < 3 && election.list[0].radne === 0">
 									<!-- <template v-for="obvod in obvody"> -->
 										<!-- <div class="p-gap"></div> -->
 										<p>Mimořádné doplňovací volby z důvodu úmrtí senátora Romana Krause. Volby se týkají brněnských městských částí Žabovřesky, Jundrov, Komín, Královo Pole, Řečkovice a Mokrá Hora, Medlánky, Ivanovice, Jehnice, Ořešín, Útěchov a Brno-sever. Zvolený senátor bude mít mandát do října 2026.</p>
 
 										<p-grid class="_tiny smaller">
-											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod), 'PRIJMENI', '', true)" class="_r">
+											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod.OBVOD), 'PRIJMENI', '', true)" class="_r">
 												<p-photo :data="cand.$data.photo[0]" width="100%" class="_ar1"></p-photo>
 												<div class="p-gap"></div>
 												<p-label :color="colorByItem(cand, election, 'NSTRANA')" :after="true">
@@ -56,7 +56,21 @@
 											<em class="smallest dimm">žádný kandidát</em>
 										</div> -->
 									<!-- </template> -->
-								</div>			
+								</div>	
+								<div v-if="election && election.list[0].status < 3 && election.list[0].radne === 1">
+
+										<component :is="election.list[0].dotcene ? 'div' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod.OBVOD).length > 0" :class="{'columns-4': election.list[0].$dotcene.length === 1}">
+											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod.OBVOD), 'PRIJMENI', '', true)">
+												<p-label :color="colorByItem(cand, election, 'NSTRANA')" class="smaller">
+													<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+												</p-label>
+											</div>
+										</component>
+										<div v-else>
+											<em class="smallest dimm">žádný kandidát</em>
+										</div>
+
+								</div>		
 							</div>
 						</div>
 					</div>

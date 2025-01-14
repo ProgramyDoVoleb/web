@@ -18,9 +18,11 @@
 					</p>
 					<p v-if="elections && nearest.regular">
 						<p-label color="var(--blue)">Příští</p-label> řádné volby: 
-						<span v-for="regular in nearest.regular">
-							<router-link class="strong" :to="'/volby/' + election_types.find(x => x.key === regular.typ).hash + '/' + regular.id">{{ election_types.find(x => x.key === regular.typ).name }}, {{ regular.datum ? (regular.datum_label || date(regular.datum)) : regular.cirka }}</router-link>
-						</span>						
+						<p-list-linear>
+							<span v-for="regular in nearest.regular">
+								<router-link class="strong" :to="'/volby/' + election_types.find(x => x.key === regular.typ).hash + '/' + regular.id">{{ election_types.find(x => x.key === regular.typ).name }}, {{ regular.datum ? (regular.datum_label || date(regular.datum)) : regular.cirka }}</router-link>
+							</span>	
+						</p-list-linear>					
 					</p>
 					<template v-if="elections">
 						<template v-for="extra in nearest.extra.filter(x => x.typ === 'SENAT')">
@@ -71,7 +73,7 @@
 													<template v-for="(el, inel) in elections.list.filter(x => x.radne === 1 && x.typ === election.key && x.cirka)">
 														<template v-if="inel < 3">
 															<li>
-																<router-link :to="'/volby/' + election.hash + '/' + el.id" class="strong red">{{ el.cirka.split(' ')[1] }}</router-link>		
+																<router-link :to="'/volby/' + election.hash + '/' + el.id" class="strong red">{{ el.cirka.split(' ')[el.cirka.split(' ').length - 1] }}</router-link>		
 															</li>
 														</template>
 													</template>
