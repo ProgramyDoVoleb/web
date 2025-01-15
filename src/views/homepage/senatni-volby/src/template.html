@@ -15,9 +15,8 @@
 									</p-list-linear>
 								</div>
 								<div v-if="election && election.list[0].status < 3 && election.list[0].radne === 0">
-									<!-- <template v-for="obvod in obvody"> -->
-										<!-- <div class="p-gap"></div> -->
-										<p>Mimořádné doplňovací volby z důvodu úmrtí senátora Romana Krause. Volby se týkají brněnských městských částí Žabovřesky, Jundrov, Komín, Královo Pole, Řečkovice a Mokrá Hora, Medlánky, Ivanovice, Jehnice, Ořešín, Útěchov a Brno-sever. Zvolený senátor bude mít mandát do října 2026.</p>
+								
+										<p v-html="election.list[0].popis"></p>
 
 										<p-grid class="_tiny smaller">
 											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod.OBVOD), 'PRIJMENI', '', true)" class="_r">
@@ -37,7 +36,7 @@
 														</span>
 														<span v-if="cand.$odpovedi > 0">
 															<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'">Odpovědi</router-link>
-															<!-- <p-icon icon="answers-mini"></p-icon> -->
+															
 														</span>
 													</p-list-linear>
 												</div>
@@ -45,17 +44,23 @@
 											</div>
 										</p-grid>
 
-										<!-- <component :is="election.list[0].dotcene ? 'div' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length > 0" :class="{'columns-4': election.list[0].$dotcene.length === 1}">
-											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod), 'PRIJMENI', '', true)">
-												<p-label :color="colorByItem(cand, election, 'NSTRANA')">
-													<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
-												</p-label>
-											</div>
-										</component>
-										<div v-if="!election.list[0].$kandidati || election.list[0].$kandidati.filter(x => x.OBVOD == obvod).length === 0">
-											<em class="smallest dimm">žádný kandidát</em>
-										</div> -->
-									<!-- </template> -->
+										<div class="p-line"></div>
+
+										<div class="smaller">
+
+											Porovnejte si odpovědi kandidátů na otázky:
+											<p-list-linear>
+												<span>
+													<router-link to="/volby/senatni-volby/171/otazka/382?vyber=60">proč kandiduje</router-link>
+												</span><span>
+													<router-link to="/volby/senatni-volby/171/otazka/383?vyber=60">co lze stihnout za 2 roky</router-link>
+												</span><span>
+													<router-link to="/volby/senatni-volby/171/otazka/384?vyber=60">hodnocení vlády</router-link>
+												</span><span>
+													<router-link to="/volby/senatni-volby/171/otazka/385?vyber=60">Trump a evropské dění</router-link>
+												</span>
+											</p-list-linear>
+										</div>
 								</div>	
 								<div v-if="election && election.list[0].status < 3 && election.list[0].radne === 1">
 

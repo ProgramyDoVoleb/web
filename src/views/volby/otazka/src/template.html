@@ -51,67 +51,71 @@
 								Odpovědi zatím chybí.
 							</p-area>											
 						</template>
-						<p-block :hide="true" headline="Odpovědi">
-							<p-list height="1.25" v-if="data.list[0].$body">
+						<!-- <p-block :hide="true" headline="Odpovědi"> -->
+							<p-list class="_2" v-if="data.list[0].$body">
 								<template v-if="data.list[0].$body.find(x => x.$kandidat)">
 									<template v-for="(cand, index2) in sortByDeepPrijmeni(data.list[0].$body)">
-										<div :name="'answer_' + cand.csu_id">
-											<div class="p-offset">
-												<div>
-													<p-photo :data="cand.$kandidat.$data.photo[0] || null" class="_ph"></p-photo>
-												</div>
-												<div>
-													<router-link :to="'/volby/' + hash + '/' + id + '/kandidat/' + cand.$kandidat.id"><strong>{{ cand.$kandidat.JMENO + ' ' + cand.$kandidat.PRIJMENI }}</strong></router-link> <span class="dimm smallest">&middot; {{ cand.$kandidat.PORCISLO }} </span> 
-													<div class="smallest" v-if="cand.$strana">
-														<router-link :to="'/volby/' + hash + '/' + id + '/strana/' + cand.$strana.id" class="is-span">{{ cand.$strana.ZKRATKA }}</router-link>
+										<p-block :hide="true" :headline="cand.$strana ? cand.$strana.ZKRATKA : cand.$kandidat.JMENO + ' ' + cand.$kandidat.PRIJMENI">
+											<div :name="'answer_' + cand.csu_id">
+												<div class="p-offset">
+													<div>
+														<p-photo :data="cand.$kandidat.$data.photo[0] || null" class="_ph"></p-photo>
 													</div>
-													<div class="p-gap _025"></div>
-													<div v-if="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).quick">
-														<span class="dimm">Rychlá odpověď: </span> {{ ['', 'ANO', 'NE', 'je to komplikované', 'nechci odpovídat'][onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).quick] }}
-													</div>
-													<div v-if="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).answer" class="_mw">
-														<p-truncated :content="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).answer" :size="60" class="serif"></p-truncated>
+													<div>
+														<router-link :to="'/volby/' + hash + '/' + id + '/kandidat/' + cand.$kandidat.id"><strong>{{ cand.$kandidat.JMENO + ' ' + cand.$kandidat.PRIJMENI }}</strong></router-link> <span class="dimm smallest">&middot; {{ cand.$kandidat.PORCISLO }} </span> 
+														<div class="smallest" v-if="cand.$strana">
+															<router-link :to="'/volby/' + hash + '/' + id + '/strana/' + cand.$strana.id" class="is-span">{{ cand.$strana.ZKRATKA }}</router-link>
+														</div>
+														<div class="p-gap _025"></div>
+														<div v-if="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).quick">
+															<span class="dimm">Rychlá odpověď: </span> {{ ['', 'ANO', 'NE', 'je to komplikované', 'nechci odpovídat'][onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).quick] }}
+														</div>
+														<div v-if="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).answer" class="_mw">
+															<p-truncated :content="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).answer" :size="60" class="serif"></p-truncated>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
+										</p-block>
 									</template>
 								</template>
 								<template v-else>
 									<template v-for="(cand, index2) in sortByDeepZkratka(data.list[0].$body)">
-										<div :name="'answer_' + cand.csu_id">
-											<div class="p-offset">
-												<div class="_ph">
-													<div v-if="logoByItem(cand.$strana, data, null, true)">
-														<p-image :src="logoByItem(cand.$strana, data)" width="100%" :rounded="true"></p-image>
-													</div>		
-													<template v-else>
-														<div v-if="data.cis.strany.find(x => x.VSTRANA === cand.$strana.VSTRANA) && data.cis.strany.find(x => x.VSTRANA === cand.$strana.VSTRANA).$coalition" class="_pm">
-															<template v-for="member in data.cis.strany.find(x => x.VSTRANA === cand.$strana.VSTRANA).$coalition">
-																<p-image :src="logoByItem(member, data)" :rounded="true" class="_ph2" width="100%"></p-image>
-															</template>
-														</div>
-														<div v-else>
+										<p-block :hide="true" :headline="cand.$strana.ZKRATKA">
+											<div :name="'answer_' + cand.csu_id">
+												<div class="p-offset">
+													<div class="_ph">
+														<div v-if="logoByItem(cand.$strana, data, null, true)">
 															<p-image :src="logoByItem(cand.$strana, data)" width="100%" :rounded="true"></p-image>
-														</div>
-													</template>											
-												</div>
-												<div>
-													<router-link :to="'/volby/' + hash + '/' + id + '/strana/' + cand.$strana.id"><strong>{{ cand.$strana.ZKRATKA }}</strong></router-link>
-													<div class="p-gap _025"></div>
-													<div v-if="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).quick">
-														<span class="dimm">Rychlá odpověď: </span> {{ ['', 'ANO', 'NE', 'je to komplikované', 'nechci odpovídat'][onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).quick] }}
+														</div>		
+														<template v-else>
+															<div v-if="data.cis.strany.find(x => x.VSTRANA === cand.$strana.VSTRANA) && data.cis.strany.find(x => x.VSTRANA === cand.$strana.VSTRANA).$coalition" class="_pm">
+																<template v-for="member in data.cis.strany.find(x => x.VSTRANA === cand.$strana.VSTRANA).$coalition">
+																	<p-image :src="logoByItem(member, data)" :rounded="true" class="_ph2" width="100%"></p-image>
+																</template>
+															</div>
+															<div v-else>
+																<p-image :src="logoByItem(cand.$strana, data)" width="100%" :rounded="true"></p-image>
+															</div>
+														</template>											
 													</div>
-													<div v-if="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).answer">
-														<p-truncated :content="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).answer" :size="60" class="serif"></p-truncated>
+													<div>
+														<router-link :to="'/volby/' + hash + '/' + id + '/strana/' + cand.$strana.id"><strong>{{ cand.$strana.ZKRATKA }}</strong></router-link>
+														<div class="p-gap _025"></div>
+														<div v-if="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).quick">
+															<span class="dimm">Rychlá odpověď: </span> {{ ['', 'ANO', 'NE', 'je to komplikované', 'nechci odpovídat'][onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).quick] }}
+														</div>
+														<div v-if="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).answer">
+															<p-truncated :content="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).answer" :size="60" class="serif"></p-truncated>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
+										</p-block>
 									</template>
 								</template>
 							</p-list>
-						</p-block>
+						<!-- </p-block> -->
 					</div>
 				</p-loader>
 			</p-block>

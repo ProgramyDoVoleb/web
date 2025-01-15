@@ -67,9 +67,9 @@
 							</div>
 							<div class="p-gap _floar-clear"></div>
 							<p-block headline="Otázky a odpovědi" v-if="current.$odpovedi.find(x => x.$otazka[0].type === 1)">
-								<p-list height="2">
+								<p-list class="_2">
 									<div v-for="(answer, index) in current.$odpovedi.filter(x => x.$otazka[0].type === 1)">
-										<!-- <div v-if="questionLimitOff || index < questionLimit"> -->
+										<p-block :hide="true" :headline="'- ' + truncate(answer.$otazka[0].question, 3)">
 											<div class="p-offset reverse">
 												<div class="strong">
 													<div class="_mw">
@@ -95,7 +95,7 @@
 												<div class="p-gap"></div>
 												<p-link class="smaller strong" :href="answer.source">Více k tomuto tématu</p-link>
 											</template>
-										<!-- </div> -->
+										</p-block>
 									</div>
 								</p-list>
 							</p-block>

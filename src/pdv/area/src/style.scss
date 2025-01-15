@@ -136,4 +136,14 @@
     display: block !important;
     background: var(--blue);
   }
+
+  &.p-area---has-icon .p-box-icon {
+    position: absolute;
+    bottom: 100% !important;
+    right: -1em !important;
+    top: auto !important;
+    left: auto !important;
+    border-radius: 0 !important;
+    transform: translateY(-.5em);
+  }
 }
