@@ -13,7 +13,7 @@ export default {
 				tiktok: "https://www.tiktok.com/@programydovoleb",
 				// fb: "https://www.facebook.com/programydovoleb",
 				// reddit: "https://www.reddit.com/r/volby/",
-				bsky: "https://bsky.app/profile/programydovoleb.cz",
+				bsky: "https://bsky.app/profile/programydovoleb.bsky.social",
 				tw: "https://www.twitter.com/programydovoleb",
 				// mastodon: "https://cztwitter.cz/@programydovoleb",
 				// linkedin: "https://www.linkedin.com/company/programydovoleb",

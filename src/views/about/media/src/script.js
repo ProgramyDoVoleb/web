@@ -17,7 +17,7 @@ export default {
 				{link: "https://www.threads.net/@programydovoleb", icon: "threads", label: "Threads", sub: "", count: 1100},
 				{link: "https://tiktok.com/@programydovoleb", icon: "tiktok", label: "TikTok", sub: "", count: 660},
 				{link: "https://www.facebook.com/programydovoleb", icon: "fb", label: "Facebook", sub: "", count: 640},
-				{link: "https://bsky.app/profile/programydovoleb.cz", icon: "bsky", label: "Bluesky", sub: "", count: 500},
+				{link: "https://bsky.app/profile/programydovoleb.bsky.social", icon: "bsky", label: "Bluesky", sub: "", count: 500},
 				{link: "https://www.reddit.com/u/programydovoleb/", icon: "reddit", label: "Reddit", sub: "", count: 410},
 				{link: "https://cztwitter.cz/@programydovoleb", icon: "mastodon", label: "Mastodon", sub: "", count: 220},
 				{link: "https://www.linkedin.com/company/programydovoleb", icon: "linkedin", label: "LinkedIn", sub: "", count: 20},
