@@ -24,7 +24,12 @@ const router = createRouter({
     {
       path: '/pruvodce',
       name: 'guide-actual',
-      redirect: '/pruvodce/krajske-a-senatni-volby-2024',
+      redirect: '/pruvodce/senatni-volby-2025-leden',
+    },
+    {
+      path: '/pruvodce/senatni-volby-2025-leden',
+      name: 'guide-senat-2025-leden',
+      component: () => import('../views/aktivity/guide/25-senat-leden/do.vue')
     },
     {
       path: '/pruvodce/krajske-a-senatni-volby-2024',

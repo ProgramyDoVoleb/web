@@ -1,0 +1,179 @@
+p {
+	// font-size: 1.4rem;
+}
+
+section + section {
+    margin-top: 2em;
+}
+
+.text-center p {
+	margin: 1em auto;
+  }
+
+.text-left p {
+	margin: 1em 0;
+}
+  
+  h1 {
+	@media (max-width: 800px) {
+	  font-size: 2.5rem;
+	}
+  }
+  
+  ._mw {
+	max-width: 60rem;
+	margin-right: auto;
+	margin-left: auto;
+  }
+  
+  ._mw2 {
+	max-width: 100rem;
+	margin-right: auto !important;
+	margin-left: auto !important;
+  }
+
+  .text-left ._mw {
+	max-width: 40em;
+	margin: 0;
+  }
+  
+  ._pbg {
+	max-width: 40rem;
+	margin: auto;
+	justify-content: center;
+  
+	.p-box-image {
+	  border-radius: 4px;
+	}
+
+	&._mw2 {
+		max-width: 60rem;
+	}
+  }
+
+
+	.p-box-image {
+		border-radius: 4px;
+	  }
+  
+  .dark .red {
+	color: var(--red) !important;
+  }
+  
+  .dark .blue {
+	color: var(--blue) !important;
+  }
+  
+  .dark .green {
+	color: var(--green) !important;
+  }
+
+  ._big {
+	font-size: 4em;
+	font-family: "Palatino Linotype", Georgia, serif;
+
+    &:not(.red):not(.green) {
+	    color: var(--blue);
+    }
+  }
+
+  ._gc {
+	justify-content: center;  
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1em;
+  }
+
+  ._mc {
+	max-width: 48em;
+	margin: 0 auto !important;
+  }
+
+  ._pp {
+	min-width: 30rem;
+	max-width: 30rem;
+  }
+
+  .p-list-linear {
+	display: inline !important;
+  }
+
+  ._fl {
+	float: right;
+	transform: translate(1em, -.5em);
+  }
+
+  ._pb {
+	  padding-bottom: 1em;
+  }
+  
+  ._pt {
+	  padding-top: 1em;
+  }
+  
+  ._l {
+	  width: 4em;
+	  text-align: center;
+  }
+  
+  ._h60 {
+	  @media (min-width: 1140px) {
+		  display: none;
+	  }
+  }
+  
+  ._s60 {
+	  display: none;
+  
+	  @media (min-width: 1140px) {
+		  display: table-cell;
+	  }
+  }
+  
+  ._r {
+	  position: relative;
+  }
+  
+  ._a {
+	  position: absolute;
+	  top: 0;
+	  right: 0;
+	  transform: scale(.4, .4) translate(2.5em, -2em);
+  }
+  
+  ._rnd {
+	  border-radius: 4px;
+  }
+  
+  ._g {
+	  background: var(--greyish);
+  }
+  
+  ._tc {
+	  text-align: center;
+  }
+  
+  ._white {
+	  color: #fff;
+  }
+
+  ._bp {
+	width: .5em;
+	height: .5em;
+	border-radius: 2px;
+  }
+
+  ._i {
+	  position: relative;
+	  display: inline-block;
+  
+	  .p-icon {
+		  position: absolute;
+		  left: 0em;
+		  top: -1.45em;
+	  }
+  }
+
+  ._b {
+	align-items: center;
+  }

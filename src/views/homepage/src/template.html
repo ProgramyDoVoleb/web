@@ -64,6 +64,9 @@
 										<!-- </p-area> -->
 										<div class="p-gap_075"></div>
 										<p-box-group>
+											<p-box to="/pruvodce" v-if="election.id === 171">
+												<p-box-button class="primary">Průvodce</p-box-button>
+											</p-box>
 											<p-box :to="'/volby/' + election_types.find(x => x.key === election.typ).hash + '/' + election.id + (election.id === 171 ? '/obvod/60' : '')">
 												<p-box-button class="primary">
 													Podrobněji

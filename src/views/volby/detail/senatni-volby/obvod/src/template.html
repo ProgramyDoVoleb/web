@@ -13,6 +13,12 @@
 								</p-box>
 							</template>
 							<p class="lead" v-if="current.popis" v-html="current.popis"></p>
+							<template v-if="current.id === 171">
+								<div class="p-gap"></div>
+								<p-box to="/pruvodce">
+									<p-box-button class="primary">Průvodce volbami</p-box-button>
+								</p-box>
+							</template>
 						</p-block>
 						<template v-if="current.radne === 0 && !current.$dotcene.find(x => x.OBVOD === Number(obvod))">
 							<p-area class="primary mb3 strong" borderColor="var(--red)">
