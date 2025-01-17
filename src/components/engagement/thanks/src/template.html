@@ -1,16 +1,20 @@
 <div class="engagement-thanks">
-	<h4>{{ used ? 'Díky za Vaši zpětnou vazbu.' : 'Pomohla vám tato stránka?' }}</h4>
-	<div class="_fi">
-		<button @click="() => click(1)" v-if="!used">Ano, díky</button>
-		<button @click="() => click(-1)" v-if="!used">Ne</button>
+	<p-box-group class="_mw" v-if="!used">
+		<p-box :click="() => click(1)">
+			<p-box-button icon="star-line.svg">Díky za tuhle stránku</p-box-button>
+		</p-box>
 		
-		<p-modal v-if="used" class="text-left">
-			<template #init><button>Chcete něco doplnit?</button></template>
+		<p-modal>
+			<template #init>
+				<p-box>
+					<p-box-label class="dimm">!!!</p-box-label>
+				</p-box>
+			</template>
 			<template #content>
-				<strong>Vaše zpráva</strong>
+				<h3>Narazili jste na problém? Máte nějakou stížnost? Prosím napište:</h3>
 				<report-form :noLink="true"></report-form>
 			</template>
 		</p-modal>
-	</div>
-	
+	</p-box-group>
+	<div v-if="used" class="smallest dimm text-center">Díky za zpětnout vazbu</div>	
 </div>

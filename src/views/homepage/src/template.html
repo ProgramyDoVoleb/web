@@ -429,10 +429,11 @@
 								<news-item :data="item"></news-item>
 							</template>
 						</p-list>
-					</p-loader>
+					</p-loader>					
+					<mailchimp-signup class="mt3"></mailchimp-signup>
 				</p-block>
 			</p-block>
-			<p-block headline="Může vás zajímat" :hide="true" :level="1">
+			<p-block headline="Může vás zajímat" :level="1">
 				<p-block-expandable headline="Rejstřík stran">
 					<p>Pokud byste se chtěli podívat na zapojení strany v následujících volbách, minulé výsledky, přehled koalic, zjistit důležité odkazy nebo přehled krajských organizací.</p>
 					<p-loader :rule="parties">

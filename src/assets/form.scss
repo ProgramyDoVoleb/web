@@ -1,9 +1,8 @@
 form {
 	border: 1px dotted var(--blue);
-  border-left: 3px solid var(--blue);
+  // border-left: 3px solid var(--blue);
 	padding: 1em;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-radius: .5em;
   background: #fff;
 
   .dark & {

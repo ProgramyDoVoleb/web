@@ -12,7 +12,7 @@
 						<p-block headline="Zdroj" :hide="true">
 							<p-link :href="item.source" class="btn">{{ item.label || 'Více zde' }}</p-link>
 						</p-block>
-						<p-block headline="Týká se" v-if="(item.$relates && item.$relates.length > 0) || item.$volby.length > 0" :hide="true">
+						<p-block headline="Týká se" v-if="(item.$relates && item.$relates.length > 0) || item.$volby.length > 1" :hide="true">
 							<div class="p-line"></div>
 							<p class="smallest dimm">
 								Týká se:
@@ -37,7 +37,10 @@
 						</p-block>
 					</div>
 				</p-loader>
-			</p-block>			
+			</p-block>
+			<p-block headline="Novinky e-mailem">
+				<mailchimp-signup></mailchimp-signup>
+			</p-block>	
 		</template>
 		<template #anchors>
 			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>

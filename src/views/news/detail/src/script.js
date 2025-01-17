@@ -1,5 +1,6 @@
 import {date, number, truncate, indicator, domain} from "@/pdv/helpers";
 import NewsItem from '@/components/news-item/do.vue'
+import MailchimpSignup from '@/components/mailchimp/do.vue';
 import {useData} from '@/stores/data';
 import {ga} from '@/pdv/analytics';
 import { useCore, cdn } from '@/stores/core';
@@ -21,7 +22,8 @@ export default {
 		}
 	},
 	components: {
-		NewsItem
+		NewsItem,
+		MailchimpSignup
 	},
 	methods: {
 		date, number, truncate, indicator, domain
