@@ -29,13 +29,13 @@ export default {
 			return useEnums()
 		},
 		data: function () {
-			var d = this.$store.getters.pdv('profile/list');
+			var d = this.$store.getters.pdv('profile/list-higher');
 
-			if (d) {
-				d.list.forEach(item => {
-					item.$csu.sort((a, b) => (b.$volby.datum || "2099-12-31").localeCompare((a.$volby.datum || "2099-12-31"), 'cs'));
-				})
-			}
+			// if (d) {
+			// 	d.list.forEach(item => {
+			// 		item.$csu.sort((a, b) => (b.$volby.datum || "2099-12-31").localeCompare((a.$volby.datum || "2099-12-31"), 'cs'));
+			// 	})
+			// }
 
 			return d;
 		},

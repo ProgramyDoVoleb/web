@@ -4,38 +4,43 @@
 			<p-block headline="Vyhledávání kandidátů" :level="1">
 				<search-person></search-person>
 				<div class="p-gap_3"></div>
-				<p-block headline="Vybrané osobnosti">
+				<p-block-expandable headline="Vybrané osobnosti">
 					<p-loader :rule="data">
 						<div v-if="data">
 							<p-grid class="smaller">
-								<template v-for="(item, index) in data.list.filter(x => x.$funkce.find(y => y.typ < 5 && !y.do))">
+								<template v-for="(item, index) in data.list.filter(x => x.priority === 2)">
 									<profile-preview :id="item.id" :compact="true"></profile-preview>
 								</template>
 							</p-grid>
 						</div>
 					</p-loader>
-				</p-block>
-				<!-- <p-block headline="Abecední přehled">
+				</p-block-expandable>
+				<p-block-expandable headline="Volební historie">
 					<p-loader :rule="sorted">
 						<div v-if="sorted">
 							<div class="columns-4">
-								<template v-for="(item, index) in sorted">
+								<template v-for="c in 'abcdefghijklmnopqrstuvwxyz'.split('')">
 									<div>
-										<router-link :to="'/lide/profil/' + item.id" class="strong smaller">{{ item.display }}</router-link>
-										<div class="smallest dimm">{{ item.popis }}</div>
-										<div class="smallest dimm" v-if="item.$csu.length > 0 && item.$csu.find(x => x.$strana)">
-											<p-label :after="true" :color="colorByItem(item.$csu.find(x => x.$strana).$strana, {cis: {strany: []}})">
-												<router-link :to="'/rejstrik/' + item.$csu.find(x => x.$strana).$strana.VSTRANA" class="is-span dimm">
-													{{ item.$csu.find(x => x.$strana).$strana.ZKRATKA}}
-												</router-link>
-											</p-label>
-										</div>
+										<h2>{{ c.toUpperCase() }}</h2>
 									</div>
+									<template v-for="(item, index) in sorted.filter(x => url((x.PRIJMENI || x.display.split(' ')[x.display.split(' ').length - 1])[0]) === c)">
+										<div>
+											<router-link :to="'/lide/profil/' + item.id" class="strong smaller">{{ item.display }}</router-link>
+											<!-- <div class="smallest dimm">{{ item.popis }}</div> -->
+											<!-- <div class="smallest dimm" v-if="item.$csu.length > 0 && item.$csu.find(x => x.$strana)">
+												<p-label :after="true" :color="colorByItem(item.$csu.find(x => x.$strana).$strana, {cis: {strany: []}})">
+													<router-link :to="'/rejstrik/' + item.$csu.find(x => x.$strana).$strana.VSTRANA" class="is-span dimm">
+														{{ item.$csu.find(x => x.$strana).$strana.ZKRATKA}}
+													</router-link>
+												</p-label>
+											</div> -->
+										</div>
+									</template>
 								</template>
 							</div>
 						</div>
 					</p-loader>
-				</p-block> -->
+				</p-block-expandable>
 			</p-block>
 			
 		</template>

@@ -1,24 +1,18 @@
 <div class="layout-homepage">
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Vyhledat stranu, hnutí či koalici" :level="1">
+			<p-block headline="Rejstřík politických subjektů" :level="1">
+				<p>Zde najdete nejen nejznámější české strany a hnutí, ale také jejich koalice, sdružení i historické záznamy.</p>
 				<search-party link="/rejstrik/"></search-party>
 				<div class="p-gap_3"></div>
-				<p-block headline="Vybrané strany">
+				<p-block headline="Vybrané strany, hnutí a koalice">
 					<p-loader :rule="parties">
 						<div v-if="parties">
-							<div class="_grid">									
-									<div v-for="(item, index) in parties.list">
-										<div class="text-center smallest">
-											<router-link :to="'/rejstrik/' + item.VSTRANA" tag="div">
-												<div>
-													<p-logo :data="{'logo': item.$data.logo[0].value}" size="6rem"></p-logo>
-												</div>
-											</router-link>
-											<div><router-link :to="'/rejstrik/' + item.VSTRANA">{{ item.ZKRATKA }}</router-link></div>
-										</div>
-									</div>
+							<p-columns>
+								<div v-for="(item, index) in sortBy(parties.list, 'NAZEV', null, true)">
+									<party-quicklook :VSTRANA="item.VSTRANA"></party-quicklook>
 								</div>
+							</p-columns>
 						</div>
 					</p-loader>
 				</p-block>
@@ -31,14 +25,14 @@
 			<p-anchors></p-anchors>
 		</template>
 		<template #aside>
-			<strong>Vybrané strany</strong>
+			<strong>Vybrané strany, hnutí a koalice</strong>
 			<div class="p-gap"></div>
 			<p-loader :rule="parties">
 				<div v-if="parties">
 					<div class="smaller">			
-						<p-list height=".25">
+						<p-list class="_05">
 					
-							<div v-for="(item, index) in parties.list">
+							<div v-for="(item, index) in sortBy(parties.list, 'ZKRATKA', null, true)">
 								<div class="">
 									<div><router-link :to="'/rejstrik/' + item.VSTRANA">{{ item.ZKRATKA }}</router-link></div>
 								</div>
