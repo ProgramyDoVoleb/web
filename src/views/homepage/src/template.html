@@ -14,6 +14,9 @@
 					<strong><p-label color="var(--red)">Nominujte <em>Programy</em></p-label> na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou lupu 2024</p-link>.</strong>
 				</p>  -->
 				<!-- <div class="p-gap"></div> -->
+				 
+				<election-results :type="{key: 'SENAT', hash: 'senatni-volby', name: 'Senátní volby'}" :id="171" :election="{typ: 'SENAT', datum_label: '17. a 18. ledna 2025'}" :spec="60" label="obvod 60 · Brno-město"></election-results>
+				 
 				<template v-if="elections && elections.list.find(x => x.status < 3 && x.datum <= today)">
 					<div class="p-gap"></div>
 					<p-area class="p-area---inline smallest strong" borderColor="var(--red)">
@@ -38,7 +41,7 @@
 						<div v-if="elections">
 							<div v-for="(election, index) in elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum > '2024-07-01'))">
 								<p-block class="_nmb" :hide="true" :headline="election_types.find(x => x.key === election.typ).name">
-									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.id === 166 || election.id === 171">
+									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.id === 166">
 										<!-- <p-area :class="election.typ === 'EP' ? '_ep' : null" class="p-area---has-background"> -->
 											<div v-if="election.$dotcene && election.typ === 'KV'">
 												<p class="smaller">Týká se obcí 
@@ -64,12 +67,9 @@
 										<!-- </p-area> -->
 										<div class="p-gap_075"></div>
 										<p-box-group>
-											<p-box to="/pruvodce" v-if="election.id === 171">
-												<p-box-button class="primary">Průvodce</p-box-button>
-											</p-box>
 											<p-box :to="'/volby/' + election_types.find(x => x.key === election.typ).hash + '/' + election.id + (election.id === 171 ? '/obvod/60' : '')">
 												<p-box-button class="primary">
-													Podrobněji
+													{{ election.status === 3 ? 'Výsledky a podrobnosti' : 'Podrobněji' }}
 												</p-box-button>
 											</p-box><!-- 
 											<p-box :href="election.id === 162 ? 'https://www.volebnikalkulacka.cz/volby/krajske-2024/vyber':'https://www.volebnikalkulacka.cz/volby/senatni-2024/vyber' " v-if="[162,163].indexOf(election.id) > -1">

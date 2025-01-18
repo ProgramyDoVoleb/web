@@ -5,8 +5,7 @@
 				<component :is="type.hash" :data="data" :local="local" :label="label || 'Výsledky'"></component>		
 			</div>
 		</p-loader>	
-		<div class="p-line"></div>
-		<div class="smaller dimm">
+		<div class="smaller dimm mt1">
 			<span class="strong">
 				<router-link :to="'/volby/' + type.hash + '/' + id">{{ type.name }}</router-link>
 				<template v-if="label && local || spec">
@@ -17,7 +16,7 @@
 				</template>
 			</span>
 			&middot;
-			{{ date(election.datum) }}
+			{{ election.datum_label || date(election.datum) }}
 		</div>
 	</p-area>	
 </div>
