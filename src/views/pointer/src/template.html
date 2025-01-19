@@ -533,6 +533,7 @@
 															<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 0}"><router-link :to="$link + '/kandidati/' + VOLKRAJ">{{ enums.regionsShort[VOLKRAJ - 1] }}</router-link></span><span class=" dimm"> {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</span>
 														</div>
 														<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === -1).length > 0}"><router-link :to="$link + '/kandidati/-1'">nezařazeni</router-link></span><span class=" dimm"> {{ current.$kandidati.filter(x => x.VOLKRAJ === -1).length }}</span>
+														<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === -1).length > 0}"><router-link :to="$link + '/kandidati'">všichni</router-link></span><span class=" dimm"> {{ current.$kandidati.length }}</span>
 													</p-list-linear>
 											</p-area>
 
@@ -571,10 +572,23 @@
 																	</div>
 																</p-list>
 															</template>
-															<div class="p-line"></div>
-															<div class="smallest strong">
-																<router-link :to="$link + '/kandidati/' + VOLKRAJ">Celý seznam &middot; {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</router-link>
-															</div>														
+															<template v-if="$volby.status === 1 && current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ && (!x.PORCISLO || x.PORCISLO > 5)).length > 0">
+																<div class="p-line"></div>
+																<p-list-linear class="or smaller">
+																	<div v-for="cand in sortBy(current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ && (!x.PORCISLO || x.PORCISLO > 5)), 'PRIJMENI', null, true)">
+																		<!-- <span class="dimm">{{ cand.PORCISLO ? cand.PORCISLO + '.' : '?' }} </span> -->
+																		<component :is="cand.NSTRANA === current.VSTRANA ? 'span' : 'p-label'" :color="colorByItem(cand, data, 'NSTRANA')">
+																			<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>	
+																		</component>																
+																	</div>
+																</p-list-linear>
+															</template>
+															<template v-if="current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 1 && $volby.status > 1">
+																<div class="p-line"></div>
+																<div class="smallest strong">
+																	<router-link :to="$link + '/kandidati/' + VOLKRAJ">Celý seznam &middot; {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</router-link>
+																</div>	
+															</template>													
 														</p-area>
 														<p-area v-else class="smaller">
 															<em class="smallest dimm" v-if="$volby.status === 1 && current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length === 0">Zatím žádní známí kandidáti</em>
@@ -895,7 +909,7 @@
 							</p-block-expandable>
 							<p-block headline="Zprávy a média" v-if="newsmedia.length > 0">
 								<p-columns>
-									<div v-for="item in newsmedia">
+									<div v-for="item in newsmedia.filter((x, i) => i < mediaLimit)">
 										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')">
 											<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
 											<div class="p-gap_075"></div>
@@ -904,6 +918,23 @@
 										</p-area>
 									</div>
 								</p-columns>
+								<template v-if="newsmedia.length >= mediaLimit">
+									<div class="p-line _0 mt3"></div>
+									<p-collapsible label="Starší zprávy" :status="newsmedia.length - mediaLimit">
+										<p-list class="smaller _05">
+											<div v-for="item in newsmedia.filter((x, i) => i >= mediaLimit)">
+												<div class="p-offset">
+													<div class="text-right _w3 smallest dimm">
+														{{ date(item.updated, 2) }}
+													</div>
+													<div>
+														<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
+													</div>
+												</div>
+											</div>
+										</p-list>
+									</p-collapsible>
+								</template>
 							</p-block>
 							<p-block headline="Volební materiály" v-if="current.$data.graphics || (current.PRIJMENI && current.$data.logo)">
 								<p-grid>

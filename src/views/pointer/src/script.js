@@ -40,6 +40,8 @@ export default {
 			questionLimitOff: false,
 			eventsLimit: 3,
 			eventsOff: false,
+			mediaLimit: 9,
+			mediaLimitOff: false,
 			types
 		}
 	},

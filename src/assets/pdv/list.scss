@@ -1,8 +1,8 @@
 .p-list {
-    margin: -1em;
+    margin: -1em 0;
   
     & > div {
-      padding: 1em;
+      padding: 1em 0;
       position: relative;
     }
   
@@ -26,10 +26,10 @@
     // }
 
     aside & {
-      margin: -1em -.25em !important;
+      margin: -1em 0 !important;
   
       & > div {
-        padding: 1em .25em;
+        padding: 1em 0;
       }
     }
   }
