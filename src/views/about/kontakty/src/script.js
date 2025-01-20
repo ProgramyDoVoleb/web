@@ -9,7 +9,7 @@ export default {
 		return {
 			cdn,
 			social: [
-				{link: "https://www.twitter.com/programydovoleb", icon: "tw", label: "Twitter / X", sub: "", count: 4640},
+				// {link: "https://www.twitter.com/programydovoleb", icon: "tw", label: "Twitter / X", sub: "", count: 4640},
 				{link: "https://www.instagram.com/programydovoleb", icon: "ig", label: "Instagram", sub: "", count: 1710},
 				{link: "https://www.threads.net/@programydovoleb", icon: "threads", label: "Threads", sub: "", count: 1100},
 				{link: "https://tiktok.com/@programydovoleb", icon: "tiktok", label: "TikTok", sub: "", count: 660},

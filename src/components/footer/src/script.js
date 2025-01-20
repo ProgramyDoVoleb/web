@@ -8,13 +8,13 @@ export default {
 		return {
 			list: {
 				// email: "mailto:info@programydovoleb.cz",
-				threads: "https://www.threads.net/@programydovoleb",
 				ig: "https://www.instagram.com/programydovoleb",
+				threads: "https://www.threads.net/@programydovoleb",
 				tiktok: "https://www.tiktok.com/@programydovoleb",
 				// fb: "https://www.facebook.com/programydovoleb",
-				// reddit: "https://www.reddit.com/r/volby/",
-				bsky: "https://bsky.app/profile/programydovoleb.bsky.social",
-				tw: "https://www.twitter.com/programydovoleb",
+				bsky: "https://bsky.app/profile/programydovoleb.cz",
+				reddit: "https://www.reddit.com/r/volby/",
+				// tw: "https://www.twitter.com/programydovoleb",
 				// mastodon: "https://cztwitter.cz/@programydovoleb",
 				// linkedin: "https://www.linkedin.com/company/programydovoleb",
 				// yt: "https://youtube.com/@programydovoleb",
