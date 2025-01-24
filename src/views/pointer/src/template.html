@@ -918,7 +918,7 @@
 										</p-area>
 									</div>
 								</p-columns>
-								<template v-if="newsmedia.length >= mediaLimit">
+								<template v-if="newsmedia.length >= mediaLimit + 1">
 									<div class="p-line _0 mt3"></div>
 									<p-collapsible label="Starší zprávy" :status="newsmedia.length - mediaLimit">
 										<p-list class="smaller _05">
@@ -1041,6 +1041,27 @@
 								<p-area background="var(--green11)" borderColor="var(--green)">
 									<strong class="green">Pomozte doplnit další údaje</strong>
 									<p>Podrobnosti na <em>Programech</em> jsou výsledkem práce množství dobrovolníků, návštěvníků webu, samotných kandidátů, mediálních odborů stran/hnutí a dalších lidí. Ke každému lze doplnit široké množství informací.</p>
+
+									<div class="mv1">
+										<p-box-group>
+											<p-modal>
+												<template #init>
+													<p-box>
+														<p-box-button color="var(--green)">Stačí poslat odkaz</p-box-button>
+													</p-box>
+												</template>
+												<template #content>
+													<h3 class="mv05">Zaslat tip</h3>
+													<div class="smaller mb1">Narazili jste na na zajímavý článek, program nebo jiný odkaz, který by neměl v přehledu <em>{{ current.NAZEV || current.JMENO + ' ' + current.PRIJMENI }}</em> chybět?</div>
+													<report-form :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></report-form>
+												</template>
+											</p-modal>
+											<p-box href="mailto:doplnit@programydovoleb.cz">
+												<p-box-label class="green">doplnit@programydovoleb.cz</p-box-label>
+											</p-box>
+										</p-box-group>
+									</div>
+
 									<p-collapsible label="Co lze doplnit?">
 										<ul class="columns _mobile smaller _ulli">
 											<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Volební program</li>
@@ -1062,9 +1083,6 @@
 											<li>Veřejně uváděné kontakty</li>
 											<li>Poznámky a zajímavosti</li>
 										</ul>
-										<report-modal :headline="headline + ': doplnění informací'" :part="table + ':' + tableID">
-											<p-box-button color="var(--green)">Stačí poslat odkaz</p-box-button>
-										</report-modal>
 									</p-collapsible>
 									<p-collapsible label="Pro strany a kandidáty">
 										<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
