@@ -15,7 +15,7 @@
 				</p>  -->
 				<!-- <div class="p-gap"></div> -->
 				 
-				<election-results :type="{key: 'SENAT', hash: 'senatni-volby', name: 'Senátní volby'}" :id="171" :election="{typ: 'SENAT', datum_label: '17. a 18. ledna 2025'}" :spec="60" label="obvod 60 · Brno-město"></election-results>
+				<!-- <election-results :type="{key: 'SENAT', hash: 'senatni-volby', name: 'Senátní volby'}" :id="171" :election="{typ: 'SENAT', datum_label: '17. a 18. ledna 2025'}" :spec="60" label="obvod 60 · Brno-město"></election-results> -->
 				 
 				<template v-if="elections && elections.list.find(x => x.status < 3 && x.datum <= today)">
 					<div class="p-gap"></div>

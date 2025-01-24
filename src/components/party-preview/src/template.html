@@ -44,6 +44,18 @@
 					</template>
 				</div>
 				<div>
+					<p-modal class="inline">
+						<template #init>
+							<p-icon icon="plus-green" size="1.25em"></p-icon>
+						</template>
+						<template #content>
+								<h3 class="mv05">Zaslat tip</h3>
+								<div class="smaller mb1">Narazili jste na  na zajímavý článek, program nebo jiný odkaz, který by neměl v přehledu u <em>{{ party.nazev }} chybět?</em></div>
+								<report-form :part="elections.list[0].typ + ':' + elections.list[0].id + ' - pointer csu_' + elections.list[0].typ.toLowerCase() + '_rkl:' + party.id"></report-form>
+							</template>
+					</p-modal>
+				</div>
+				<!-- <div>
 					<template v-if="party.$odpovedi && (party.$odpovedi > 0 || party.$odpovedi.length > 0)"><component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/strana/' + party.id + '/otazky-a-odpovedi'" :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="_icon"> <img src="https://static.programydovoleb.cz/icon/answers.svg" alt="Odpovědi" class="_icon" loading="lazy" > </component> </template>
 					<template v-if="(party.$data.program && party.$data.program.length > 0) || (party.$program && party.$program.length > 0)">
 						<p-modal class="inline">
@@ -110,7 +122,7 @@
 							</template>
 						</p-modal>
 					</template>
-				</div>
+				</div> -->
 			</div>
 	</p-area>
 </div>
