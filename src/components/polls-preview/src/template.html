@@ -64,7 +64,7 @@
 							<li v-if="poll.error">{{ poll.error }}</li>
 							<li v-if="poll.attendance">účast {{ poll.attendance }} %</li>
 							<li v-if="previous">porovnání vs {{ previous.agency }}, {{ date(previous.datum )}}</li>
-							<li v-if="poll.entries.find(x => x.mandates)">poslední sloupeec ukazuje zisk mandátů uvedený v průzkumu</li>
+							<li v-if="poll.entries.find(x => x.mandates)">poslední sloupec ukazuje zisk mandátů uvedený v průzkumu</li>
 							<li v-if="poll.link"><p-link :href="poll.link" class="dimm">zdroj {{ poll.agency }}</p-link></li>
 						</p-list-linear>
 					</div>
