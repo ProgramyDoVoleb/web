@@ -220,15 +220,15 @@
 										</div>	
 									</div>					
 								<template v-for="(VOLKRAJ, index) in (current.$kandidati.length > 0 && current.$kandidati[0].VOLKRAJ && !focus ? [1,2,3,4,5,6,7,8,9,10,11,12,13,14,-1] : (current.$kandidati.length > 0 && current.$kandidati[0].VOLKRAJ && !!focus ? [Number(focus)] : [-1]))">
-									<template v-if="VOLKRAJ != 0 ? current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 0 : true">
-										<component :is="VOLKRAJ != 0 && !focus ? 'p-collapsible' : 'div'" :label="VOLKRAJ != 0 ? (VOLKRAJ === -1 ? '- nezařazeni' : data.cis.kraje.find(x => x.KRAJ === VOLKRAJ).NAZEV) : null" :status="VOLKRAJ != 0 ? current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length : ''">
+									<template v-if="VOLKRAJ != 0 && current.$kandidati[0].VOLKRAJ ? current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 0 : true">
+										<component :is="VOLKRAJ != 0 && !focus && current.$kandidati[0].VOLKRAJ ? 'p-collapsible' : 'div'" :label="VOLKRAJ != 0 ? (VOLKRAJ === -1 ? '- nezařazeni' : data.cis.kraje.find(x => x.KRAJ === VOLKRAJ).NAZEV) : null" :status="VOLKRAJ != 0 ? current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length : ''">
 											<template v-for="(OBVOD, index2) in (current.$zastupitelstvo && current.$zastupitelstvo[0] && current.$zastupitelstvo[0].COBVODU && current.$zastupitelstvo[0].COBVODU > 1 && focus ? [Number(focus)] : [1])">
 												<!-- <template v-if="OBVOD === 1 || OBVOD <= current.$zastupitelstvo[0].COBVODU"> -->
 													<!-- <component :is="OBVOD > 0 ? 'p-collapsible' : 'div'" :label="OBVOD > 0 ? 'Obvod ' + OBVOD : null"> -->
 														<!-- {{ VOLKRAJ }} {{ OBVOD }} -->
 														<div>
 															<p-list class="_15">
-																<template v-for="(cand, index3) in sortByPorCislo(current.$kandidati.filter(x => VOLKRAJ != 0 ? x.VOLKRAJ === VOLKRAJ : true).filter(x => x.COBVODU ? x.COBVODU === OBVOD : true))">
+																<template v-for="(cand, index3) in sortByPorCislo(current.$kandidati.filter(x => VOLKRAJ != 0 && current.$kandidati[0].VOLKRAJ ? x.VOLKRAJ === VOLKRAJ : true).filter(x => x.COBVODU ? x.COBVODU === OBVOD : true))">
 																	<component :is="index3 < 3 || focus ? 'person-preview-block' : 'person-preview-linear'" :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id"></component>
 																</template>
 															</p-list>
