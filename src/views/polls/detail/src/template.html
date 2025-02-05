@@ -9,7 +9,7 @@
 					</div>
 					<div class="p-gap _2"></div>
 					<p-area class="_w80">
-						<results-parties-graph :list="list" v-if="list.length > 0" :diff="true"></results-parties-graph>
+						<results-parties-graph :list="list" v-if="list.length > 0" :diff="list.find(x => x.ref)"></results-parties-graph>
 						<div class="smallest dimm hide-80rem">Kompletní výpis najdete níže.</div>
 					</p-area>
 					<div class="p-gap _2"></div>
@@ -117,15 +117,17 @@
 							</h3>
 						</template>
 					</div>
-					<div class="p-gap _2"></div>
-					<div class="_w60">
-						<h2 class="text-center">Vývoj v čase</h2>
-						<p-area>
-							<div id="chart">
-								<vue-apex-charts type="line" :height="chartOptions.chart.height" :options="chartOptions" :series="series"></vue-apex-charts>
-							</div>
-						</p-area>
-					</div>
+					<template v-if="list.find(x => x.ref)">
+						<div class="p-gap _2"></div>
+						<div class="_w60">
+							<h2 class="text-center">Vývoj v čase</h2>
+							<p-area>
+								<div id="chart">
+									<vue-apex-charts type="line" :height="chartOptions.chart.height" :options="chartOptions" :series="series"></vue-apex-charts>
+								</div>
+							</p-area>
+						</div>
+					</template>
 					<div class="p-gap _2"></div>
 					<p-box-group class="_jc">
 						<p-box :to="'/volebni-pruzkumy'">
