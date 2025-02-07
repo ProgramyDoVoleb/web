@@ -1,0 +1,5 @@
+<div class="graph-mandates-apex">
+	<template v-if="tick">
+		<vue-apex-charts :class="'_' + tick" ref="myChart" type="donut" :height="chartOptions.chart.height" :options="chartOptions" :series="series"></vue-apex-charts>
+	</template>	
+</div>

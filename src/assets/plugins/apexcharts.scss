@@ -21,4 +21,7 @@
     .apexcharts-gridline {
         stroke: var(--lighter);
     }
+    .apexcharts-pie-series path {
+        stroke: #000
+    }
 }

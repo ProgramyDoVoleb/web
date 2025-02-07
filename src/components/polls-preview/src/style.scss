@@ -35,3 +35,16 @@
 ._nw {
   white-space: nowrap;
 }
+
+._r {
+  position: relative;
+}
+
+._mandates-count {
+  position: absolute;
+  font-size: 2.4em;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: -2.4em;
+}

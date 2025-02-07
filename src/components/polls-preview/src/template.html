@@ -8,9 +8,12 @@
 				</div>								
 				<div class="p-gap"></div>
 				<component :is="both ? 'p-grid' : 'div'" class="p-grid---1-2 p-grid---gap-2">
-					<div v-if="showMandates || both">
+					<div v-if="showMandates || both" class="_r">
 						<election-simulation-imperiali-2021 :defined="defined" :hide="true" :tickDefined="1" @update="setMandates"></election-simulation-imperiali-2021>
-						<graph-mandates :circles="circles"></graph-mandates>
+						<graph-mandates :mandates="mandates" :selected="selected"></graph-mandates>
+						<div class="_r">
+							<div v-if="selected.length > 0" class="_mandates-count" :class="indicator(mandates.reduce((a, b) => a + (selected.indexOf(b.hash) > -1 ? b.value : 0), 0), 100.5)">{{ mandates.reduce((a, b) => a + (selected.indexOf(b.hash) > -1 ? b.value : 0), 0) }}</div>
+						</div>
 						<div class="p-line"></div>
 						<div class="smallest">
 							<p-list-linear v-if="mandates.length > 0" class="or">
@@ -21,10 +24,12 @@
 										{{item.value}}</p-label>
 									</li>
 								</template>
-							</p-list-linear> <span v-if="selected.length > 0"> &rarr; <p-lang :value="mandates.reduce((a, b) => a + (selected.indexOf(b.hash) > -1 ? b.value : 0), 0)" :end="['', 'jeden mandát', '%% mandáty', '%% mandátů']" :class="indicator(mandates.reduce((a, b) => a + (selected.indexOf(b.hash) > -1 ? b.value : 0), 0), 100.5)"></p-lang></span>
+							</p-list-linear> 
 						</div>
 						<div class="p-line p-line__05"></div>
-						<div class="smallest">Přepočet podle vlastního modelu Programů do voleb.</div>
+						<div class="smallest">
+							Přepočet podle vlastního modelu Programů do voleb
+						</div>
 					</div>
 					<div v-if="!showMandates || both">
 						<template v-for="(entry, indexE) in poll.entries">

@@ -3,7 +3,7 @@ import {useData} from '@/stores/data';
 import ResultsPartiesGraph from '@/components/results/parties/graph/do.vue';
 import {colorByItem, logoByItem} from '@/components/results/helpers';
 
-import GraphMandates from '@/components/results/graph/mandates/do.vue'
+import GraphMandatesApex from '@/components/results/graph/mandates-apex/do.vue'
 import ElectionSimulationImperiali2021 from '@/components/election-simulation-imperiali-2021/do.vue';
 import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2021";
 import {ga} from '@/pdv/analytics';
@@ -72,7 +72,7 @@ export default {
 	components: {
 		ResultsPartiesGraph,
 		ElectionSimulationImperiali2021,
-		GraphMandates,
+		GraphMandatesApex,
 		VueApexCharts: defineAsyncComponent(() => import('vue3-apexcharts')),
 	},
 	methods: {

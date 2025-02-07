@@ -101,7 +101,7 @@
 						<div class="smallest dimm text-center">Vlastní přepočet Programů do voleb</div>
 						<div class="p-gap _2"></div>
 						<election-simulation-imperiali-2021 :defined="defined" :hide="true" :tickDefined="1" @update="setMandates"></election-simulation-imperiali-2021>
-						<graph-mandates :circles="circles"></graph-mandates>
+						<graph-mandates-apex :mandates="mandates" :selected="selected"></graph-mandates-apex>
 						<div class="p-line"></div>
 						<p-box-group v-if="mandates.length > 0" class="_mandates">
 							<template v-for="(item, index) in mandates">
