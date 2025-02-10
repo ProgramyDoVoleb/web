@@ -151,7 +151,7 @@ export default {
 				list = sortBy(list, 'updated', null, true, true);
 			}
 
-			return list.filter((x,i) => i < 8);
+			return list.filter((x,i) => i < 12);
 		},
 		elections: function () {
 			var d = this.$store.getters.pdv('elections/quicklist');

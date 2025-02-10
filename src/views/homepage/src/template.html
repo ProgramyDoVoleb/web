@@ -151,7 +151,7 @@
 				<p-loader :rule="news">
 					<div v-if="news">
 						<p-columns>
-							<template v-for="(item, index) in newsmedia.filter((x, i) => i < (width > 960 ? 100 : 4))">
+							<template v-for="(item, index) in newsmedia.filter((x, i) => i < (width > 960 ? 100 : 8))">
 								<div>
 									<p-area :borderColor="item.label === 'pdv' ? 'var(--blue)' : null" class="smaller">
 										<div>

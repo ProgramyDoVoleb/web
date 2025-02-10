@@ -10,7 +10,7 @@ export default {
 	data: function () {
 		return {
 			cdn,
-			agency: [{color: '#d4b655', name: 'Kantar'}, {color: '#21BBE1', name: 'Median'}, {color: '#D75F5F', name: 'STEM'}, {color: '#1964aa', name: 'NMS Market Research'}, {color: '#1bc8b0', name: 'Ipsos'}], // 'CVVM', 'Data Collect', 'Ipsos',
+			agency: [{color: '#d4b655', name: 'Kantar'}, {color: '#21BBE1', name: 'Median'}, {color: '#D75F5F', name: 'STEM'}, {color: '#1964aa', name: 'NMS Market Research'}], // 'CVVM', 'Data Collect', 'Ipsos',
 			agencySelected: null,
 			width: 0,
 			tick: 1,

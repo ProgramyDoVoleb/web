@@ -23,6 +23,7 @@ import PersonPreviewBlock from '@/components/person-preview-block/do.vue';
 import PersonPreviewColumn from '@/components/person-preview-column/do.vue';
 import EventItem from '@/components/event-item/do.vue'
 import AnswerTopicPreview from '@/components/answer-topic-preview/do.vue';
+import PartyPolls from '@/components/party-polls/do.vue'
 
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
@@ -63,7 +64,8 @@ export default {
 	EventItem,
 	CtaGetAdmin,
 	CtaSupport,
-	AnswerTopicPreview
+	AnswerTopicPreview,
+	PartyPolls
   },
 	computed: {
 		$store: function () {
