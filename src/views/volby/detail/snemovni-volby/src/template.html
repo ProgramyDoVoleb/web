@@ -84,6 +84,15 @@
 			</template> -->
 		</p-block>
 	</template>
+	<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Kandidáti v krajích">
+		<p-area class="smaller">
+			<p-columns>
+				<div v-for="(region, index) in enums.regions">
+					<router-link :to="'/volby/snemovni-volby/' + current.id + '/kraj/' + (index + 1)">{{ region }}</router-link>
+				</div>
+			</p-columns>
+		</p-area>
+	</component>
 	<!-- <p-loader :rule="polls"> -->
 		<p-block v-if="polls && polls.list.length > 0" headline="Průzkumy">
 			<p-grid class="p-grid---1-2">

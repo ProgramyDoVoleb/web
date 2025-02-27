@@ -54,6 +54,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/volby/snemovni-volby/:id/kraj/:region',
+      name: 'volby-detail-snemovni-kraj',
+      component: () => import('../views/volby/detail/snemovni-volby/region/do.vue'),
+      props: true
+    },
+    {
       path: '/volby/krajske-volby/:id/kraj/:region',
       name: 'volby-detail-krajske-kraj',
       component: () => import('../views/volby/detail/krajske-volby/region/do.vue'),

@@ -42,9 +42,9 @@
 				<div class="_g2"></div>
 				<p-list class="invisible smaller">
 					<template v-for="(cand, index2) in snemovni ? sortBy(candidates.filter(x => x.PORCISLO === 1), 'PRIJMENI', null, true) : sortByPorCislo(candidates)">
-						<div v-if="index2 < (snemovni ? 15 : 5)">
+						<div v-if="index2 < (snemovni ? 15 : (amount || 5))">
 							<component :is="cand.NSTRANA === party.VSTRANA ? 'span' : 'p-label'" :color="colorByItem(cand, elections, 'NSTRANA')" :asfter="true">
-								<template v-if="!snemovni">{{ cand.PORCISLO ? cand.PORCISLO + '. ' : '?'}}</template>
+								<template v-if="!snemovni">{{ cand.PORCISLO ? cand.PORCISLO + '. ' : '?  '}}</template>
 								<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/kandidat/' + cand.id" :to="link + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</component>
 								<span v-if="snemovni" class="smallest dimm"> &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }}</span>
 							</component>

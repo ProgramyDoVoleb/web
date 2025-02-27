@@ -1,0 +1,72 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block :headline="enums.regions[Number(region) - 1]" :level="1" :subheadline="'Sněmovní volby, ' + (data ? data.list[0].datum_label || data.list[0].cirka || date(data.list[0].datum) : '')">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<div v-if="current.status === 1">
+							<p-modal>
+								<template #init>
+									<p-label color="var(--red)" class="smaller strong red">Předběžný přehled</p-label>
+								</template>
+								<template #content>
+									<p>Zde najdete přehled stran a kandidátů, kteří už nějakou formou oznámili záměr nebo odhodlání kandidovat. Kandidáti uvedeni s číslem již byli oznámeni na té pozici kandidátky, ostatní jsou řazeni dle abecedy a nemusí být součástí finální podoby kandidátky. Pořadí a složení se může měnit. Tento přehled bude nahrazen za oficiální přehled, který vydává Český statistický úřad, cca 45 dní před volbami.</p>
+								</template>
+							</p-modal>
+							<div class="p-gap"></div>
+						</div>
+						<p-columns>
+							<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
+								<party-preview-large :link="'/volby/snemovni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.KRZAST === party.KRZAST && x.KSTRANA === party.KSTRANA)" :election="null" :elections="data" :amount="8"></party-preview-large>
+							</div>
+							<div>
+								<p-area background="var(--green11)" icon="plus-green">
+									<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'PS:' + current.id">
+										<div class="smaller">
+											<button class="inline strong green">Přidat či upravit</button>
+										</div>
+									</report-modal>
+									<div class="smallest dimm">Upozorněte na stranu, kandidáta či program</div>
+								</p-area>
+							</div>
+						</p-columns>
+					</div>
+				</p-loader>
+				<div class="p-gap _3"></div>
+				<p-block headline="Ostatní kraje">
+
+					
+						<p-area class="smaller">
+							<p-columns v-if="data">
+								<div v-for="(region, index) in enums.regions">
+									<router-link :to="'/volby/snemovni-volby/' + id + '/kraj/' + (index + 1)">{{ region }}</router-link>
+								</div>
+							</p-columns>
+						</p-area>
+					
+				</p-block>
+				<!-- <div class="p-gap"></div> -->
+				<p-area icon="snemovni-volby">
+					<strong>Sněmovní volby</strong>
+					<div class="smaller">
+						<router-link :to="'/volby/snemovni-volby/' + id">
+							Kompletní přehled
+						</router-link>
+						
+					</div>
+				</p-area>
+			</p-block>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/snemovni-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+				<cta-get-admin :election="current" v-if="current" />
+				<cta-support></cta-support>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>
