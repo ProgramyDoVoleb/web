@@ -112,6 +112,9 @@
 				</template>
 				<p>Do přehledu průzkumů jsou zahrnuty pouze ty, u kterých je dostatečná relevance k vybraných volbám.</p>
 			</p-collapsible>
+			<p-collapsible label="Poll of Polls">
+				<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 166)" :remap="[[47,1298]]"></poll-of-polls>
+			</p-collapsible>
 		</p-block>
 	<!-- </p-loader> -->
 	<p-block-expandable headline="Aktivita stran">
