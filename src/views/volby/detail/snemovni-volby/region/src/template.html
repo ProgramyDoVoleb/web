@@ -17,7 +17,7 @@
 						</div>
 						<p-columns>
 							<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
-								<party-preview-large :link="'/volby/snemovni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.KRZAST === party.KRZAST && x.KSTRANA === party.KSTRANA)" :election="null" :elections="data" :amount="8"></party-preview-large>
+								<party-preview-large :link="'/volby/snemovni-volby/' + current.id" :more="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id + '/kandidati/' + region" :party="party" :candidates="current.$kandidati.filter(x => x.KRZAST === party.KRZAST && x.KSTRANA === party.KSTRANA)" :election="null" :elections="data" :amount="8"></party-preview-large>
 							</div>
 							<div>
 								<p-area background="var(--green11)" icon="plus-green">
