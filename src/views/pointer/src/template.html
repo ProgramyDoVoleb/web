@@ -188,7 +188,11 @@
 							</div>
 							<div class="p-gap _floar-clear"></div>
 							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="current.PRIJMENI">
-								<p-area class="smaller">
+								<p-area v-if="current.PLATNOST && current.PLATNOST === 'N'">
+									<p class="red strong">Kandidát se voleb neúčastnil.</p>
+									<p>Důvodem mohlo být odstoupení z voleb po podání kandidátní listiny nebo dodatečné vyškrtnutí kandidujícím subjektem.</p>
+								</p-area>
+								<p-area class="smaller" v-else>
 									<p-split class="-up960">
 										<div>
 											<p-list height=".5" class="-np _05">

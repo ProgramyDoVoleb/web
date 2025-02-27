@@ -183,12 +183,12 @@ export default {
 		headline: function () {
 			if (!this.data) return 'Načítám...';
 
-			var hdl = "Chyba";
+			var hdl = "Kandidát se voleb neúčastnil";
 			
 
 			if (this.current.NAZEV) hdl = this.current.NAZEV;
 			
-			if (this.current.JMENO) hdl = this.current.JMENO + ' ' + this.current.PRIJMENI;
+			if (this.current.JMENO && (!this.current.PLATNOST || this.current.PLATNOST === 'A')) hdl = this.current.JMENO + ' ' + this.current.PRIJMENI;
 
 			var title = [hdl];
 			if (this.current.$strana && this.current.$strana.length > 0) title.push(this.current.$strana[0].ZKRATKA);
