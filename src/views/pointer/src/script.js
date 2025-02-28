@@ -454,7 +454,7 @@ export default {
 			}
 
 			list.forEach(x => {
-				if (this.current.$data[x]) {
+				if (this.current.$data[x] && this.current.$data[x].length) {
 					this.current.$data[x].forEach(item => addIfUnique(item))
 				}	
 			})
@@ -462,6 +462,13 @@ export default {
 			if (this.current.$priority) {
 				this.current.$priority.forEach(item => addIfUnique(item))
 			}
+
+			this.news.auto.forEach(x => {
+				addIfUnique({
+					updated: x.datum,
+					source: x.source
+				});
+			});
 
 			arr.sort((a, b) => b.updated.localeCompare(a.updated, 'cs'));
 
