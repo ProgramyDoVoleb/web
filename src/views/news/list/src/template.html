@@ -1,8 +1,9 @@
 <div class="layout-polls">
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Novinky" :level="1">
-				<p-block headline="Aktuální" :hide="true">
+			<p-block headline="Novinky na Programech" :level="1">
+				<div class="p-gap _2"></div>
+				<!-- <p-block headline="Za oponou" :hide="true"> -->
 					<!-- <p-area borderColor="var(--blue)"> -->
 						<p-loader :rule="news">
 							<p-list v-if="news">
@@ -12,74 +13,10 @@
 							</p-list>
 						</p-loader>
 					<!-- </p-area> -->
-					<div class="p-gap"></div>
-					<p-collapsible label="Nové strany nebo kandidáti">
-						<p-area>
-							<p-list v-if="news">
-								<template v-for="(item, index) in news.auto">
-									<div class="p-offset balanced">
-										<div class="text-right _w3">
-											<span class="strong smallest">{{date(item.datum, 2) }}</span>	
-										</div>
-										<div>
-											<div class="p-offset reverse balanced">
-												<div>
-													<router-link v-if="item.relates.split(',')[1] != 'null'" :to="'/bod/' + item.relates.split(',')[1].split(':').join('/')">{{ item.title }}</router-link>
-													<router-link class="strong" v-if="item.relates.split(',')[1] === 'null'" :to="'/bod/' + item.relates.split(',')[0].split(':').join('/')">{{ item.title }}</router-link>
-													<!-- <router-link :to="'/bod/' + item.relates.split(',')[1].split(':').join('/')">{{ item.title }}</router-link> -->
-													<div class="dimm smallest">
-														<p-list-linear class="or">
-															<li v-if="item.content && item.content != '' && item.content != 'null'">{{ item.content }}</li>
-															<li>{{ election_types[news.cis.volby.find(x => x.id === item.volby).typ].name }}</li>
-															<li v-if="item.focus">{{ news.cis.volby.find(x => x.id === item.volby).typ === 'KZ' ? enums.regions[item.focus - 1] : item.focus + ' - ' + news.cis.obvody.find(x => x.OBVOD === item.focus).NAZEV }}</li>
-														</p-list-linear>
-													</div>
-												</div>
-												<div class="smallest show-60rem">
-													<p-link :href="item.source" class="dimm">{{ domain(item.source) }} &rarr;</p-link>
-												</div>
-											</div>
-											
-										</div>		
-									</div>
-								</template>
-							</p-list>
-						</p-area>
-					</p-collapsible>
-					<p-collapsible label="Poslední úpravy">
-						<p-area>
-							<p-list v-if="news">
-								<template v-for="(item, index) in news.log">
-									<div class="p-offset balanced">
-										<div class="text-right _w3">
-											<span class="strong smallest">{{date(item.date, 2) }}</span>	
-										</div>
-										<div>
-											<router-link v-if="item.node.JMENO" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.JMENO }} {{ item.node.PRIJMENI }}</router-link>
-											<router-link v-if="item.node.NAZEV" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.NAZEV }}</router-link>
-											<div class="smallest dimm">
-												<div v-for="(entry, index2) in item.data">
-													{{ log.action[entry.action] }} <em>{{ log.types[entry.type] }}</em>
-												</div>
-											</div>
-										</div>		
-									</div>
-								</template>
-							</p-list>
-						</p-area>
-					</p-collapsible>
-					<p-collapsible label="V médiích">
-						<p-area>
-							<p-list v-if="news">
-								<template v-for="(item, index) in news.list">
-									<news-item :data="item"></news-item>
-								</template>
-							</p-list>
-						</p-area>
-					</p-collapsible>
-					<div class="p-gap"></div>
+					<div class="p-line"></div>
 					<p-label color="var(--red)" class="strong smallest"><p-link href="https://programydovoleb.cz/rss">Odebírat jako RSS</p-link></p-label>
-				</p-block>
+				<!-- </p-block> -->
+				 <div class="p-gap _4"></div>
 				<template v-for="(year, iyear) in [2025, 2024, 2023, 2022, 2021, 2020, 2019]">
 					<p-block-expandable :headline="String(year)">
 						<news-year :year="year"></news-year>

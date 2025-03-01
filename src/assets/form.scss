@@ -6,7 +6,7 @@ form {
   background: #fff;
 
   .dark & {
-    background: #222;
+    background: var(--blue11);
   } 
 }
 

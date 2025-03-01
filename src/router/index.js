@@ -211,6 +211,12 @@ const router = createRouter({
     },
     {
       path: '/novinky',
+      name: 'LayoutNewsWeekly',
+      component: () => import('../views/news/weekly/do.vue'),
+      props: true
+    },
+    {
+      path: '/novinky/archiv',
       name: 'LayoutNews',
       component: () => import('../views/news/list/do.vue'),
     },

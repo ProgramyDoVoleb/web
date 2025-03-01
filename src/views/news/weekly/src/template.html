@@ -1,0 +1,215 @@
+<div class="layout-polls">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Novinky" :level="1" :hide="true">
+				<div class="p-offset reverse">
+					<div>
+						<p-headline :level="1">Novinky</p-headline>
+					</div>
+					<div>
+						<input type="date" v-model="datum" min="2021-10-01" :max="today">
+					</div>
+				</div>
+				<p class="lead mt0">Souhrn novinek a úprav na webu <em>Programy do voleb</em> a monitoring vybraných médií.</p>
+				<div class="p-gap _2"></div>
+				<p-loader :rule="news">
+					<div v-if="news">
+						<template v-for="day in news.list">
+							<p-block :headline="date(day.datum)">
+								<p-list class="">
+									<template v-if="day.sys.length > 0">
+										<div class="smallest dimm strong">Novinky na Programech do voleb</div>
+										<div v-for="item in day.sys">
+											<p-area class="primary inline">
+												<h4><p-link :href="item.source">{{ item.title }}</p-link></h4>
+												<p v-html="truncate(untag(item.content), 40)"></p>
+												<p-box-group>
+													<p-box :to="'/novinky/' + item.id">
+														<p-box-button class="primary">Celý článek</p-box-button>
+													</p-box>
+												</p-box-group>
+											</p-area>
+										</div>
+									</template>
+									<template v-if="day.main.length > 0">
+										<div class="smallest dimm strong">Významné zprávy z médií</div>
+										<div v-for="item in day.main">
+											<h4><p-link :href="item.source">{{ item.title }}</p-link></h4>
+											<p v-html="item.content.split('Původní text: ').join('')"></p>
+											<p class="smallest" v-if="item.$relates.length > 0">
+												Týká se
+												<p-list-linear class="or inline">
+													<span v-for="(relates, index) in item.$relates">
+														<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
+															{{ relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
+														</router-link>
+													</span>
+												</p-list-linear>
+											</p>
+										</div>
+									</template>
+									<template v-if="day.polls.length > 0">
+										<div class="smallest dimm strong">Volební průzkumy</div>
+										<div>
+											<p-grid>
+												<div v-for="poll in day.polls">
+													<p-area>
+														<polls-preview :poll="poll" :previous="poll.$previous"></polls-preview>
+													</p-area>
+												</div>
+											</p-grid>
+										</div>
+									</template>
+									<template v-if="day.media.length > 0">
+										<div class="smallest dimm strong">Články a rozhovory</div>
+										<p-columns class="_noRule _noGap">
+											<div v-for="item in day.media">
+												<p-area class="smaller">
+													<p-link :href="item.source" class="strong">{{ item.value }}</p-link>
+													<p class="smallest dimm">
+														<template v-if="item.node">
+															<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">{{ item.node.NAZEV || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
+															<br>
+														</template>
+														{{ item.label }} &middot; {{ domain(item.source) }}
+													</p>
+												</p-area>
+											</div>
+										</p-columns>
+									</template>
+									<template v-if="day.auto.length > 0">
+										<div class="smallest green strong">Nově v přehledu</div>
+										<div>
+											<p-grid class="smaller">
+												<div v-for="party in unique(day.auto.filter(x => x.content), 'content')">
+													<!-- <p-area> -->
+														<strong>{{ party }}</strong>
+														<div class="p-gap _05"></div>
+														<p-list-linear class="invisible">
+															<div v-for="cand in day.auto.filter(x => x.content === party)">
+																<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')" class="keep">{{ cand.title }}</router-link>
+															</div>
+														</p-list-linear>
+													<!-- </p-area> -->
+												</div>
+												<div v-for="party in day.auto.filter(x => !x.content)">
+													<!-- <p-area> -->
+														<router-link :to="'/bod/' + cand.relates.split(',')[0].split(':').join('/')" class="strong">{{ party.title }}</router-link>
+													<!-- </p-area> -->
+												</div>
+											</p-grid>
+										</div>
+									</template>
+									<template v-if="day.log.length > 0">
+										<div class="smallest dimm strong">Upravené záznamy</div>
+										<div>
+											<p-list class="invisible smaller">
+												<div v-for="item in sortBy(day.log.filter(x => x.node.NAZEV), 'title', null, true)">
+													<router-link :to="'/bod/' + item.pointer.split(':').join('/')" class="strong">{{ item.title }}</router-link>
+													<span class="smallest dimm">
+														&mdash;
+														<p-list-linear class="or">
+															<span v-for="entity in unique(item.data, 'type')">
+																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
+																	{{ logtypes[entity] }}
+																</component>
+															</span>
+														</p-list-linear>
+													</span>
+												</div>
+												<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node.PRIJMENI), 'title', null, true)">
+													<router-link :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.title }}</router-link>
+													<span class="smallest dimm">
+														&mdash;
+														<p-list-linear class="or">
+															<span v-for="entity in unique(item.data, 'type')">
+																<span :class="{'badge blue': ['priority', 'program', 'answer'].indexOf(entity) > -1}">
+																	{{ logtypes[entity] }}
+																</span>
+															</span>
+														</p-list-linear>
+													</span>
+												</div>
+											</p-list>
+										</div>
+									</template>
+									<template v-if="day.main.length === 0 && day.sys.length === 0 && day.polls.length === 0 && day.log.length === 0 && day.media.length === 0">
+										<div class="smallest dimm strong">Ticho po pěšině</div>
+										<div class="smaller">
+											<em>K tomuto dni nejsou doplněné žádné novinky z médií, žádné nové průzkumy, ani žádné nové záznamy či úpravy na Programech.</em>
+										</div>
+									</template>
+									<div v-if="day.datum === today">
+										<p-box-group>
+											<p-modal class="inline">
+												<template #init>
+													<p-box>
+														<p-box-button color="var(--green)" icon="plus-green.svg">Chci něco doplnit</p-box-button>
+													</p-box>
+												</template>
+												<template #content>
+													<h4>Stačí poslat odkat, případně připojit poznámku.</h4>
+													<report-form part="Sedmidenní přehled"></report-form>
+												</template>
+											</p-modal>
+										</p-box-group>
+									</div>
+								</p-list>
+								<div class="p-gap _2"></div>
+							</p-block>
+						</template>
+					</div>
+				</p-loader>
+			</p-block>
+			<p-block headline="Může vás zajímat" :hide="true" :level="1">
+				<p-block headline="Novinky e-mailem" anchor="Newsletter">
+					<mailchimp-signup></mailchimp-signup>
+				</p-block>
+				<p-block headline="Na sociálních sítích">
+					<p><strong>Nechcete čekat?</strong> Vybrané novinky najdete také na vybraných sociálních sítích:</p>
+					<p-box-group>
+						<template v-for="soc in social">
+							<p-box :href="soc.link">
+								<p-box-icon :type="soc.icon"></p-box-icon>
+								<p-box-label>{{ soc.label }}</p-box-label>
+							</p-box>
+						</template>
+					</p-box-group>
+					<div class="p-line"></div>
+					<div class="smallest"><strong>Proč už nejsou Programy na Twitteru (nyní X)?</strong> Publikování na Twitteru bylo ukončeno 20. ledna 2025 po sérii nedemokratických kroků, gest a prohlášení majitele sítě Elona Muska. Zásahy do algoritmu, potlačování svobody slova, protežování vybraných účtů a politických směrů směřujících k potlačení demokracie a politické soutěže, potlačování opozice i zpravodajství, zneužívání sítě k vydírání a poštvávání proti názorovým oponentům, dramatické snížení relevance a dosahu, vysoká míra toxicity i falešných účtů...</div>
+				</p-block>
+				<p-block headline="Programy do voleb">
+					<p>Zajímají vás jen zprávy a novinky, které se týkají samotného projektu Programy do voleb?</p>
+					<p-box-group>
+						<p-box to="/novinky/archiv">
+							<p-box-button icon="list.svg">Archiv zpráv</p-box-button>
+						</p-box>
+						<p-box href="https://programydovoleb.cz/rss">
+							<p-box-button icon="rss.svg">RSS</p-box-button>
+						</p-box>
+						<p-box href="https://github.com/programydovoleb/web">
+							<p-box-button icon="link.svg">Zdrojový kód</p-box-button>
+						</p-box>
+					</p-box-group>
+				</p-block>
+			</p-block>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<cta-support></cta-support>
+			<div class="p-gap"></div>
+			<h4>Monitor médií</h4>
+			<p class="small">
+				<p-list-linear class="or">
+					<span v-for="media in medialist">
+						<p-link :href="media.source" class="keep">{{ media.name }}</p-link>
+					</span>
+				</p-list-linear>
+			</p>
+		</template>
+	</p-layout-divided>
+</div>
