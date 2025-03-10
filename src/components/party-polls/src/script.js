@@ -1,12 +1,12 @@
 import {useData} from '@/stores/data';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import { type, date, number, color } from '@/pdv/helpers';
-import { useCore, cdn } from '@/stores/core';
+import { useCore, cdn, today } from '@/stores/core';
 import { defineAsyncComponent } from 'vue';
 
 export default {
 	name: 'party-polls',
-	props: ['VSTRANA', 'color', 'isCoalition'],
+	props: ['VSTRANA', 'color', 'isCoalition', 'from'],
 	data: function () {
 		return {
 			cdn,
@@ -15,6 +15,8 @@ export default {
 			width: 0,
 			tick: 1,
 			el: null,
+			useFrom: !!this.from,
+			_from: this.from,
 			chartOptions: {
 				chart: {
 					height: 350,
@@ -58,7 +60,7 @@ export default {
 				  curve: 'smooth'
 				},
 				title: {
-				  text: 'Od 6. října 2021'
+				  text: this.from ? 'Vývoj preferencí ve vybraném období' : 'Od 6. října 2021'
 				},
 				markers: {
 					size: 4
@@ -110,10 +112,12 @@ export default {
 							var val = d.entries.find(x => x.poll === poll.id);
 
 							if (val) {
-								o.data.push({
-									x: poll.datum,
+								var entry = {
+									x: this.getDatum(poll),
 									y: d.entries.find(x => x.poll === poll.id).value
-								});
+								};
+
+								if (!this.from || entry.x > this._from)	o.data.push(entry);
 							}
 						}
 					});
@@ -126,6 +130,20 @@ export default {
 		}
 	},
 	methods: {
-		date, number
+		date, number,
+		getDatum: function (poll) {
+			if (poll.from && poll.to) {
+
+				var from = new Date(poll.from).getTime();
+				var to = new Date(poll.to).getTime();
+				var mid = Math.round((to - from) / 2);
+
+				var datum = new Date(from + mid).toISOString().split(' ')[0];
+
+				return datum;
+			} else {
+				return new Date(new Date(poll.datum).getTime() - 1000*60*60*24*30).toISOString().split(' ')[0];
+			}
+		}
 	}
 };

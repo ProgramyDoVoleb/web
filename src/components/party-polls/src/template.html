@@ -2,6 +2,11 @@
 		<p-loader :rule="data">
 			<div v-if="data && data.entries.length > 0">
 				<p-block headline="Volební průzkumy">
+					<div v-if="useFrom" class="smaller">
+						Od <button class="inline" @click="_from = from">{{ date(from) }}</button> nebo od <button class="inline" @click="_from = '2021-09-01'">voleb 2021</button>
+						<div class="p-gap _2"></div>
+						
+					</div>
 					<div class="_layout">
 						<div>
 							<p-area>
@@ -11,13 +16,19 @@
 							</p-area>
 						</div>
 						<div v-if="!isCoalition">
-							<h3>Poslední průzkumy</h3>
+							<h3 class="mt0">Poslední průzkumy</h3>
 							<p-list>
 								<div v-for="(agency, index) in ['Kantar', 'Median', 'STEM', 'NMS Market Research', 'Ipsos']">
 									<div class="p-offset reverse balanced">
 										<div>
-											{{ agency }}
-											<div class="smallest dimm">{{ date(data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).datum) }}</div>
+											<div>
+												<router-link class="strong" :to="'/volebni-pruzkumy/' + data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).id">{{ agency }}</router-link>
+												<!-- <span class="smallest"> &middot; {{ date(data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).datum, 2) }}</span> -->
+											</div>											
+											<div class="smallest dimm" v-if="data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).from">
+												měřeno {{ date(data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).from, 2) }}
+												až {{ date(data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).to, 2) }}
+											</div>
 										</div>
 										<div class="text-right" v-if="data.entries.find(x => x.poll === data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).id)">
 											{{ number(data.entries.find(x => x.poll === data.polls.find(x => x.agency.toLowerCase().split(agency.toLowerCase()).length > 1 && x.pollofpolls).id).value, 1) }} %

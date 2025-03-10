@@ -60,7 +60,7 @@ export default {
 				  curve: 'smooth'
 				},
 				title: {
-				  text: 'Od 6. října 2021'
+				  text: 'Vývoj preferencí'
 				},
 				markers: {
 					size: 4
@@ -101,6 +101,20 @@ export default {
 				this.selected.push(party.hash);
 			}
 		},
+		getDatum: function (poll) {
+			if (poll.from && poll.to) {
+
+				var from = new Date(poll.from).getTime();
+				var to = new Date(poll.to).getTime();
+				var mid = Math.round((to - from) / 2);
+
+				var datum = new Date(from + mid).toISOString().split(' ')[0];
+
+				return datum;
+			} else {
+				return new Date(new Date(poll.datum).getTime() - 1000*60*60*24*30).toISOString().split(' ')[0];
+			}
+		}
 	},
 	computed: {
 		$store: function () {
@@ -125,16 +139,16 @@ export default {
 						}
 
 						party.entries.forEach(entry => {
-							o.data.push({
-								x: entry.datum,
+							if (entry.datum > (!!d.poll.volby ? "2024-09-01" : "2000-01-01")) o.data.push({
+								x: this.getDatum(entry),
 								y: entry.value
 							})
 						});
 
 						d.history.polls.forEach(poll => {
 							if (!o.data.find(x => x.x === poll.datum)) {
-								o.data.push({
-									x: poll.datum,
+								if (poll.datum > (!!d.poll.volby ? "2024-09-01" : "2000-01-01")) o.data.push({
+									x: this.getDatum(poll),
 									y: null
 								})
 							}
