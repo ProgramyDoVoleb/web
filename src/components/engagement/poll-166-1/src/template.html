@@ -1,0 +1,60 @@
+<div class="engagement-result-tip">
+	<p-area borderColor="var(--yellow)" background="var(--yellow44)">
+		<!-- <p-loader :rule="data"> -->
+			<div v-if="!used">
+				<p-list height="2">
+					<div v-for="(q, indexQuestion) in questions">
+						<strong>{{ q.question }}</strong>
+						<div class="p-gap _05"></div>
+						<div v-if="q.comment" v-html="q.comment" class="smaller"></div>
+						<div class="p-gap"></div>
+						<p-box-group>
+							<template v-for="(answer, indexAnswer) in q.options">
+								<p-box :click="() => toggle(indexQuestion, indexAnswer)" class="_r">
+									<p-box-button :color="form.answers[indexQuestion].indexOf(indexAnswer) > -1 ? 'var(--blue)' : null" :class="{dimm: form.answers[indexQuestion].indexOf(indexAnswer) === -1 && questions[indexQuestion].limit && form.answers[indexQuestion].length === questions[indexQuestion].limit}">{{ answer }}</p-box-button>
+									<div class="_c" v-if="form.answers[indexQuestion].indexOf(indexAnswer) > -1 && questions[indexQuestion].limit">
+										{{ form.answers[indexQuestion].indexOf(indexAnswer) + 1 }}
+									</div>
+								</p-box>
+							</template>
+						</p-box-group>
+					</div>
+					<div>
+						<button @click="submit" :disabled="form.answers.find(x => x.length === 0)">Odeslat</button>
+					</div>
+				</p-list>
+			</div>
+			<div v-if="used">
+				<p-area icon="icon-check" class="inline">
+					<strong>Vaše odpovědi jsou odeslány</strong>
+					<div class="smallest dimm">Jakmile se nasbírá alespoň 100 hlasů, zobrazí se průběžné grafy.</div>
+				</p-area>
+			</div>
+		<!-- </p-loader> -->
+	</p-area>
+	<div class="p-gap _025"></div>
+	<p-collapsible label="Průběžné výsledky">
+		<p-loader :rule="results">
+			<div v-if="results">
+				<p>Průběžné výsledky této ankety se aktualizují maximálně jednou za 6 hodin. Poslední aktualizace byla {{ results.cache ? date(results.cache.created) + ' v ' + results.cache.created.split('T')[1].split('+')[0] : 'právě nyní' }}. Do ankety se prozatím zapojilo {{ results.summary.count }} respondentů. U témat a preferovaných stran bylo možné vybrat až 3 odpovědi, přičemž záleželo na pořadí. Každá odpověď pak mohla získala až 7 bodů. Prosím berte v potaz, tohle není reprezentativní průzkum, jedná se o anketu.</p>
+				<p v-if="form.answers.find(x => x.length > 0)"><strong class="green">Zeleně</strong> vidíte položky, pro které jste hlasovali. Také vidíte, jak se po vašem hlasování anketa orientačně přepočítala.</p>
+				<h3 class="serif">Témata</h3>
+				<p-area class="smaller">
+					<p-list height=".25">
+						<div v-for="(item, index) in questions[0].options">
+							<div class="_split" :class="{'strong green': form.answers[0].indexOf(index) > -1}">
+								<div class="_topic">{{ item }}</div>
+								<div class="_graph">
+									<p-line-graph label="" :color="'var(--' + (form.answers[0].indexOf(index) > -1 ? 'green' : 'blue') + ')'" :value="80 * results.summary.topic[index] / Math.max(...results.summary.topic)"></p-line-graph>
+								</div>
+								<div class="_pct">
+									{{ results.summary.topic[index] }}
+								</div>
+							</div>
+						</div>
+					</p-list>
+				</p-area>
+			</div>
+		</p-loader>
+	</p-collapsible>
+</div>

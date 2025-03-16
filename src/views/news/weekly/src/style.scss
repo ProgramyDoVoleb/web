@@ -6,3 +6,35 @@ h4 {
 ._mt0 {
   margin-top: 0;
 }
+
+._split .cta-support {
+	max-width: 208px;
+	margin-top: 3em;
+}
+
+._split > div:nth-child(2) {
+	padding: 0 1em;
+}
+
+@media (min-width: 800px) {
+	._split {
+		display: flex;
+		align-items: center;
+		width: 100%;
+
+		> div:nth-child(1) {
+			flex: 1;
+			padding-left: 2em;
+			
+		}
+
+		> div:nth-child(2) {
+			flex: 0 0 208px;
+			order: -1;
+		}
+
+		.cta-support {
+			margin-top: 0;
+		}
+	}
+}

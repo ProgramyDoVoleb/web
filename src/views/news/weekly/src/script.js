@@ -84,6 +84,7 @@ export default {
 			this.datum = this.$route.query.datum;
 		}
 		ga("Novinky");
+		window.scrollTo(0, 1);
 
 		this.medialist = sortBy(this.medialist, 'name', null, true);
 	}

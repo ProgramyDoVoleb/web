@@ -15,6 +15,7 @@ import PersonPreviewBlock from '@/components/person-preview-block/do.vue'
 import MapPro from '@/components/map-pro-2/do.vue';
 import PollsPreview from '@/components/polls-preview/do.vue';
 import PollOfPolls from '@/views/polls/pollofpolls/do.vue';
+import EngagementBlock1 from '@/components/engagement/poll-166-1/do.vue';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 
 export default {
@@ -44,7 +45,8 @@ export default {
 	PersonPreviewBlock,
 	MapPro,
 	PollsPreview,
-	PollOfPolls
+	PollOfPolls,
+	EngagementBlock1
   },
 	computed: {
 		$store: function () {
