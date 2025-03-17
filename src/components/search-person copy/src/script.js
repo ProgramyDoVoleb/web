@@ -28,7 +28,6 @@ export default {
 			progress: false,
 			filter: ['PS', 'KZ', 'SENAT', 'UPCOMING'],
 			filterOptions: ['EP', 'KV', 'KZ', 'PREZ', 'SENAT', 'PS'],
-			list: null,
 			profile: {
 				show: false,
 				list: [],
@@ -49,36 +48,34 @@ export default {
 		enums: function () {
 			return useEnums()
 		},
-		list2: function () {
+		list: function () {
 
-			// if (!this.dia) return null;
+			if (!this.dia) return null;
 
-			// var spl = this.dia.split('-');
+			var spl = this.dia.split('-');
 
-			// var link = 'person/list/' + spl[spl.length - 1] + (this.filter.length > 0 ? ';' + this.filter.join(',') : '');
+			var link = 'person/list/' + spl[spl.length - 1] + (this.filter.length > 0 ? ';' + this.filter.join(',') : '');
 
-			// // if (this.datum) link += ':' + this.datum;
-			// // if (this.elections && !this.datum) link += ':' + this.elections;
+			// if (this.datum) link += ':' + this.datum;
+			// if (this.elections && !this.datum) link += ':' + this.elections;
 
-			// var d = this.$store.getters.pdv(link);
+			var d = this.$store.getters.pdv(link);
 
-			// if (d && d.cis.kraje && d.cis.kraje.length > 0) {
-			// 	var arr = [];
+			if (d && d.cis.kraje && d.cis.kraje.length > 0) {
+				var arr = [];
 
-			// 	d.cis.kraje.forEach(item => {
-			// 		if (!arr.find(x => x.KRAJ === item.KRAJ) && String(item.NUTS).length === 5) {
-			// 			arr.push(item);
-			// 		}
-			// 	});
+				d.cis.kraje.forEach(item => {
+					if (!arr.find(x => x.KRAJ === item.KRAJ) && String(item.NUTS).length === 5) {
+						arr.push(item);
+					}
+				});
 
-			// 	arr.sort((a, b) => a.NAZEV.localeCompare(b.NAZEV, 'cs'));
+				arr.sort((a, b) => a.NAZEV.localeCompare(b.NAZEV, 'cs'));
 
-			// 	d.cis.kraje = arr;
-			// } 
+				d.cis.kraje = arr;
+			} 
 
-			// return d;
-
-			return null;
+			return d;
 		},
 		results: function () {
 			if (!this.list) return null;
@@ -111,42 +108,9 @@ export default {
 
 			this.progress = true;
 			this.dia = null;
-			this.list = null;
 
 			setTimeout(() => {
 				this.dia = dia(this.query.toLowerCase());
-				if (!this.dia) return null;
-				
-				var query = this.dia.split('-')[0];
-				var hash = url(this.query); 
-
-				axios.post(api + 'person/list-indexed', {
-					query,
-					hash,
-					limit: this.filter
-				}).then(response => {
-					this.progress = false;
-
-					if (response.data.code === 200) {
-						var d = response.data;
-
-						if (d && d.cis.kraje && d.cis.kraje.length > 0) {
-							var arr = [];
-
-							d.cis.kraje.forEach(item => {
-								if (!arr.find(x => x.KRAJ === item.KRAJ) && String(item.NUTS).length === 5) {
-									arr.push(item);
-								}
-							});
-
-							arr.sort((a, b) => a.NAZEV.localeCompare(b.NAZEV, 'cs'));
-
-							d.cis.kraje = arr;
-						} 
-
-						this.list = d;
-					}
-				})
 			}, 250);
 			
 		},

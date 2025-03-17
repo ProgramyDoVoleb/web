@@ -1,0 +1,36 @@
+.p-block {
+    padding-bottom: 0;
+}
+
+.p-block + .p-block {
+    margin-top: 0;
+}
+
+.columns > div {
+    padding-bottom: 1em;
+}
+
+.inline {
+    display: inline;
+    padding: 0;
+    line-height: normal;
+}
+
+.big {
+    font-size: 1.5em;
+    text-decoration: none;
+}
+
+._profile {
+    border-left: 3px solid var(--green);
+    padding-left: 1em;
+    margin-left: calc(-1em - 3px);
+}
+
+._np {
+    padding-bottom: 0 !important;
+}
+
+._lh {
+    line-height: 2;
+}
