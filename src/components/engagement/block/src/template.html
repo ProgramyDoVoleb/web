@@ -1,0 +1,112 @@
+<div class="engagement-result-tip">
+	<p-area :borderColor="sent || used ? 'var(--green)' : 'var(--yellow)'" background="var(--yellow44)">
+		<p-loader :rule="form.answers.length > 0" class="_r">
+			<div v-if="!used && form.answers.length > 0">
+				<p-list height="2">
+					<div v-if="headline">
+						<h2 class="mv0">{{ headline }}</h2>
+					</div>
+					<div v-for="(q, indexQuestion) in data">
+						<div class="pr2">
+							<strong class="smaller">{{ q.question }}</strong>
+							<template v-if="q.comment">
+								<div v-if="q.comment" v-html="q.comment" class="smaller mt025 mb05"></div>
+							</template>
+							<template v-if="compact || (autosend && questions.length === 1)">
+								<div class="p-gap _025"></div>
+								<div class="smaller">
+									<p-list-linear class="or _lh">
+										<span v-for="(answer, indexAnswer) in q.options">
+											<button class="inline strong _r" @click="toggle(indexQuestion, indexAnswer)" :class="{'green strong': form.answers[indexQuestion].indexOf(indexAnswer) > -1 , dimm: form.answers[indexQuestion].indexOf(indexAnswer) === -1 && questions[indexQuestion].limit && form.answers[indexQuestion].length === questions[indexQuestion].limit}">
+												<span>{{ answer }}</span>
+												<!-- <div class="_c dimm" v-if="form.answers[indexQuestion].indexOf(indexAnswer) > -1 && questions[indexQuestion].limit">
+													{{ form.answers[indexQuestion].indexOf(indexAnswer) + 1 }}
+												</div> -->
+											</button>
+										</span>
+									</p-list-linear>
+								</div>
+							</template>
+							<template v-else>
+								<div class="p-gap"></div>
+								<p-box-group>
+									<template v-for="(answer, indexAnswer) in q.options">
+										<p-box :click="() => toggle(indexQuestion, indexAnswer)" class="_r">
+											<p-box-button :color="form.answers[indexQuestion].indexOf(indexAnswer) > -1 ? 'var(--blue)' : null" :class="{dimm: form.answers[indexQuestion].indexOf(indexAnswer) === -1 && questions[indexQuestion].limit && form.answers[indexQuestion].length === questions[indexQuestion].limit}">{{ answer }}</p-box-button>
+											<div class="_c" v-if="form.answers[indexQuestion].indexOf(indexAnswer) > -1 && questions[indexQuestion].limit">
+												{{ form.answers[indexQuestion].indexOf(indexAnswer) + 1 }}
+											</div>
+										</p-box>
+									</template>
+								</p-box-group>
+							</template>
+						</div>
+					</div>
+					<div v-if="!canAutoSend">
+						<div class="p-offset reverse _pr2">
+							<div>
+								<button @click="submit" :disabled="form.answers.find(x => x.length === 0)">Odeslat</button>
+							</div>
+							<div>
+								<div class="smallest">
+									<button class="inline" @click="asked = !asked">
+										<p-icon icon="results" size="2.5em"></p-icon>
+									</button>
+									
+									<!-- <button @click="asked = true" class="inline strong"></button> -->
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</p-list>
+			</div>
+			<div v-if="used">
+				<strong>Vaše odpověď je odeslána. Díky.</strong>
+			</div>
+			<div class="_abr" v-if="canAutoSend">
+				<!-- <div class="_abr"> -->
+					<button class="inline" @click="asked = !asked">
+						<p-icon icon="results" size="1.5em"></p-icon>
+					</button>
+				<!-- </div> -->
+			</div>
+		</p-loader>
+		<template v-if="used || sent || preload || (asked && asked === true)">
+			<!-- <div class="p-gap _05"></div> -->
+			<div class="p-line _075"></div>
+			<!-- <p-collapsible label="Průběžné výsledky" class="smaller" :borderless="true"> -->
+			<!-- <h4>Průběžné výsledky</h4> -->
+				<p-loader :rule="results">
+					<div v-if="results && results.summary.count > _limit - 1">
+						<p-list class="invisible">
+							<div v-for="(question, i) in questions">
+								<p-area>
+									<strong class="smaller">{{ question.question }}</strong>
+									<div class="p-gap _075"></div>
+									<p-list class="_025">
+										<div v-for="(item, index) in questions[0].options">
+											<div class="_split" :class="{'strong green': form.answers[0].indexOf(index) > -1}">
+												<div class="_topic smaller">{{ item }}</div>
+												<div class="_graph">
+													<p-line-graph label="" :color="'var(--' + (form.answers[0].indexOf(index) > -1 ? 'green' : 'blue') + ')'" :value="80 * results.summary.answers[i][index] / Math.max(...results.summary.answers[i])"></p-line-graph>
+												</div>
+												<div class="_pct">
+													{{ results.summary.answers[i][index] }}
+												</div>
+											</div>
+										</div>
+									</p-list>
+								</p-area>
+							</div>
+						</p-list>
+						<div class="tiny mt1">Poslední aktualizace byla {{ results.cache ? date(results.cache.created) + ' v ' + results.cache.created.split('T')[1].split('+')[0] : 'právě nyní' }}. Zatím se <p-lang :value="results.summary.count" :end="['nikdo nezapojil', 'zapojil jeden člověk', 'zapojili %% respondenti', 'zapojilo %% respondentů']"></p-lang>. Do ankety lze zaslat odpovědi vícekrát, ale za každý den se započítá jen ta poslední. Toto není reprezentativní průzkum. </div>
+					</div>
+					<div v-if="results && results.summary.count < _limit" class="smaller">
+						<em><p-label color="var(--red)">V anketě</p-label> zatím hlasovalo málo lidí. Sdílejte tuto stránku, aby jich hlasovalo dostatečně a pak se přijďte podívat na výsledky.</em>
+					</div>
+				</p-loader>
+			<!-- </p-collapsible> -->
+		</template>
+	</p-area>
+</div>

@@ -147,6 +147,9 @@
 					</p-loader>
 				</p-area>
 			</p-block>
+			<p-block headline="Anketa" :hide="true">
+				<engagement-block hash="psp166-rozhodnuti-Q2" headline="Krátká anketa" :data="[{question: 'Už jste rozhodnutí, koho volit?', options: ['Ano', 'Tak napůl', 'Vůbec']}, {question: 'Půjdete k volbám?', options: ['Ano', 'Ještě zvažuji', 'Ne']}]" :compact="true"></engagement-block>
+			</p-block>
 			<p-block headline="Vybrané novinky" :level="1">
 				<p-loader :rule="news">
 					<div v-if="news">
@@ -204,6 +207,8 @@
 							</p-grid>
 						</div>
 					</p-loader>
+					<div class="p-gap"></div>
+					<engagement-block hash="poll-most-trusted" :data="[{question: 'Která agentura má nejlepší průzkumy?', options: ['Data Collect', 'Ipsos', 'Kantar', 'Median', 'NMS Market Research', 'STEM', 'jiná']}]" :autosend="true"></engagement-block>
 				</p-block>
 				<p-block :open="true" headline="Nově v přehledu">
 					<p>Přehled nejnověji založených profilů stran, hnutí, koalic a kandidátů pro následující volby. Pokud nemůžete někoho na Programech najít, stačí poslat 

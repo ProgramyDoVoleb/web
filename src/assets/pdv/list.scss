@@ -148,4 +148,7 @@
   .p-list-linear > div {
     display: inline-block;
     margin-right: .25em;
+    &:after {
+      content: " ";
+    }
   }

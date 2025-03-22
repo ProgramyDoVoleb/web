@@ -167,7 +167,7 @@ button, .button, .btn {
 		}
 	}
 
-	&.button-plain {
+	&.button-plain, &.plain {
 		border: 1px solid transparent;
 		background: rgba(var(--blue), 0);
 

@@ -24,6 +24,7 @@ import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import log from '@/stores/enums/log';
 import PromoBlock from '@/components/cta/promo-block/do.vue';
+import EngagementBlock from '@/components/engagement/block/do.vue';
 
 export default {
 	name: 'layout-homepage',
@@ -46,7 +47,7 @@ export default {
 	},
   components: {
 	NewsItem, NewsItemAside, SearchParty, SearchPerson, SearchTown, MailchimpSignup, ReportForm, PollsPreview, SlovakiaBlock, PartyPreview, PartyPreviewTiny,
-	HomepageEp, HomepageKz, HomepagePs, HomepageSenat, ElectionResults, CtaGetAdmin, CtaSupport, PromoBlock
+	HomepageEp, HomepageKz, HomepagePs, HomepageSenat, ElectionResults, CtaGetAdmin, CtaSupport, PromoBlock, EngagementBlock
   },
 	computed: {
 		$store: function () {

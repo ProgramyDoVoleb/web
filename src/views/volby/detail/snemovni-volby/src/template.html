@@ -84,6 +84,10 @@
 			</template> -->
 		</p-block>
 	</template>
+	<template v-if="current.status < 3 && current.id === 166">
+		<engagement-block :hash="'psp-166-strana-' + (new Date().getMonth() + 1)" :data="[{question: 'Koho byste nyní volili?', limit: 3, comment: 'Můžete vybrat až 3 strany.', options: ['ANO', 'Spolu', 'STAN', 'SPD', 'Piráti', 'Motoristé', 'Stačilo', 'SOCDEM', 'Přísaha', 'Zelení', 'někoho jiného']}]" :compact="true"></engagement-block>
+		<div class="p-gap _3"></div>
+	</template>
 	<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Kandidáti v krajích">
 		<p-area class="smaller">
 			<p-columns>
@@ -93,9 +97,6 @@
 			</p-columns>
 		</p-area>
 	</component>
-	<p-block :hide="true" headline="Průzkum">
-		<engagement-block-1></engagement-block-1>
-	</p-block>
 	<!-- <p-loader :rule="polls"> -->
 		<p-block v-if="polls && polls.list.length > 0" headline="Průzkumy">
 			<p-grid class="p-grid---1-2">
@@ -119,6 +120,10 @@
 				<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 166)" :remap="[[47,1298]]"></poll-of-polls>
 			</p-collapsible>
 		</p-block>
+		<template :hide="true" headline="Vaše témata?" v-if="current.status < 3">
+			<engagement-block hash="psp166-temata" :data="[{question: 'Jaká jsou pro vás nejdůležitější volební témata', limit: 3, comment: 'Můžete vybrat až 3 témata.', options: ['zdravotnictví','podpora rodin','ceny energií','vyrovnaný rozpočet','důchodová reforma','bydlení','EU a NATO','přístup k nelegální migraci','boj s korupcí','daně','evropská témata','klimatické změny','Ukrajina','jiné']}]" :compact="true"></engagement-block>
+			<div class="p-gap _3"></div>
+		</template>
 	<!-- </p-loader> -->
 	<p-block-expandable headline="Aktivita stran">
 		<p-area>

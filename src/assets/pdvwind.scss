@@ -20,6 +20,17 @@
     &025 {padding-bottom: .25em}
 }
 
+.pr, .ph {
+    &0 {padding-right: 0}
+    &1 {padding-right: 1em}
+    &2 {padding-right: 2em}
+    &3 {padding-right: 3em}
+    &4 {padding-right: 4em}
+    &075 {padding-right: .75em}
+    &05 {padding-right: .5em}
+    &025 {padding-right: .25em}
+}
+
 .pt, .pv {
     &0 {padding-top: 0}
     &1 {padding-top: 1em}
