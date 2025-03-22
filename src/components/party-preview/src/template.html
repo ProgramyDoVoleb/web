@@ -37,7 +37,7 @@
 								</li>
 							</p-list-linear>
 						</div>
-						<div v-if="candidates.length === 0" class="dimm smallest"><em>zatím bez dalších informací</em></div>
+						<div v-if="candidates.length === 0" class="dimm smallest"><em>zatím bez známých kandidátů</em></div>
 					</template>
 					<template v-else>
 						<div class="dimm smallest"><em>přejít na volební profil</em></div>
@@ -98,7 +98,7 @@
 							</template>
 						</p-modal> 
 					</template>
-					<p-modal class="inline">
+					<p-modal class="inline" aria="Poslat tip na článek nebo program">
 						<template #init>
 							<p-icon icon="plus-green" size="1.25em"></p-icon>
 						</template>

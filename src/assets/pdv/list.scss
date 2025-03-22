@@ -146,5 +146,6 @@
   .p-list-linear > li,
   .p-list-linear > span,
   .p-list-linear > div {
-    display: inline;
+    display: inline-block;
+    margin-right: .25em;
   }

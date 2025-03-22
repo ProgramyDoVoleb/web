@@ -13,9 +13,9 @@
 			<div class="smallest">
 				<span :class="{dimm: candidates.length === 0}">
 					{{ candidates.length }}
-					&middot; 
+					<!-- &middot;  -->
 				</span>
-				<p-modal class="inline">
+				<!-- <p-modal class="inline">
 					<template #init>
 						<p-icon icon="plus-green" size="1.25em"></p-icon>
 					</template>
@@ -24,7 +24,7 @@
 							<div class="smaller mb1">Narazili jste na na zajímavý článek, program nebo jiný odkaz, který by neměl v přehledu <em>{{ party.NAZEV }}</em> chybět?</div>
 							<report-form :part="elections.list[0].typ + ':' + elections.list[0].id + ' - pointer csu_' + elections.list[0].typ.toLowerCase() + '_rkl:' + party.id"></report-form>
 						</template>
-				</p-modal>
+				</p-modal> -->
 			</div>
 		</div>
 	</div>

@@ -1,6 +1,6 @@
 <div class="modal p-modal" :class="{inline}">
 	<div class="modal-initiator">
-		<button class="inline" @click.stop.prevent="show"><slot name="init"></slot></button>
+		<button class="inline" @click.stop.prevent="show" :aria-label="aria || 'Otevřít modální okno'"><slot name="init"></slot></button>
 	</div>
 	<template v-if="opened">
 		<teleport to="#modal">

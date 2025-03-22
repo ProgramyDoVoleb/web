@@ -20,6 +20,9 @@
 											<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/strana/' + $strana.id">
 												{{ $strana.NAZEV }}
 											</router-link>
+											<span class="dimm" v-if="current.VOLKRAJ > 0">
+												({{ enums.regions[current.VOLKRAJ - 1] }})
+											</span>
 										</div>
 
 										<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id">
@@ -99,10 +102,20 @@
 												<p-box-button icon="answers-mini.svg">{{ current.$odpovedi.filter(x => x.$otazka[0].type != 2).length }}</p-box-button>
 											</p-box>
 										</template>
-										<template v-if="current.MANDAT === null">
+										<template v-if="typeof current.MANDAT !== 'undefined'">
 											<p-box>
 												<p-box-label v-if="!current.PORCISLO">Umístění neuvedeno</p-box-label>
-												<p-box-label background="var(--grey11)" v-if="current.PORCISLO">{{ current.PORCISLO }}</p-box-label>
+												<p-box-label background="var(--grey11)" v-if="current.PORCISLO">
+													{{ current.PORCISLO }}
+													<span v-if="current.VOLKRAJ > 0">
+														&middot;
+														{{ enums.regionsShort[current.VOLKRAJ - 1] }}
+													</span>
+												</p-box-label>
+											</p-box>
+										</template>
+										<template v-if="current.VOLKRAJ">
+											<p-box>
 											</p-box>
 										</template>
 										<template v-if="typeof current.MANDAT === 'undefined'">
@@ -283,11 +296,13 @@
 															</p-label>
 														</div>
 													</p-stats>
+													<p-stats label="Volební kraj" class="_horizontal" v-if="current.VOLKRAJ">
+														<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/strana/' + $strana.id + '/kandidati/' + current.VOLKRAJ">
+															{{ current.VOLKRAJ === -1 ? 'zatím nebyl uveden' : data.cis.kraje.find(x => x.KRAJ === current.VOLKRAJ).NAZEV }}
+														</router-link>
+													</p-stats>
 													<p-stats label="Pořadí" class="_horizontal" v-if="current.PORCISLO && current.PORCISLO > 0">
 														č. {{ current.PORCISLO }} na kandidátce
-													</p-stats>
-													<p-stats label="Volební kraj" class="_horizontal" v-if="current.VOLKRAJ">
-														{{ current.VOLKRAJ === -1 ? 'zatím nebyl uveden' : data.cis.kraje.find(x => x.KRAJ === current.VOLKRAJ).NAZEV }}
 													</p-stats>
 													<p-stats label="Volební číslo" class="_horizontal" v-if="current.CKAND && current.CKAND > 0">
 														č. {{ current.CKAND }}
@@ -548,7 +563,9 @@
 													<div v-if="current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 0">
 														<div class="p-offset reverse balanced _squeeze">
 															<div>
-																<strong>{{ VOLKRAJ === -1 ? 'Nezařazeni do kraje' : enums.regions[VOLKRAJ - 1] }}</strong>
+																<router-link class="smaller strong is-span" :to="$link + '/kandidati/' + VOLKRAJ">
+																	<strong>{{ VOLKRAJ === -1 ? 'Nezařazeni do kraje' : enums.regions[VOLKRAJ - 1] }}</strong>
+																</router-link>
 															</div>
 															<div>
 																<div class="smallest dimm">
@@ -568,7 +585,7 @@
 															<template v-if="current.$kandidati.find(x => x.VOLKRAJ === VOLKRAJ && x.PORCISLO > 1 && x.PORCISLO < 6)">
 																<div class="p-line"></div>
 																<p-list class="invisible smaller">
-																	<div v-for="cand in current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ && x.PORCISLO > 1 && x.PORCISLO < 6)">
+																	<div v-for="cand in sortBy(current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ && x.PORCISLO > 1 && x.PORCISLO < 6), 'PORCISLO')">
 																		<span class="smaller dimm">{{ cand.PORCISLO }}. </span>
 																		<component :is="cand.NSTRANA === current.VSTRANA ? 'span' : 'p-label'" :color="colorByItem(cand, data, 'NSTRANA')">
 																			<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kandidat/' + cand.id" :class="{'green strong': cand.MANDAT && cand.MANDAT === 'A'}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>	
@@ -592,18 +609,21 @@
 																<div class="smallest strong">
 																	<router-link :to="$link + '/kandidati/' + VOLKRAJ">Celý seznam &middot; {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</router-link>
 																</div>	
-															</template>													
+															</template>		
+																									
 														</p-area>
 														<p-area v-else class="smaller">
 															<em class="smallest dimm" v-if="$volby.status === 1 && current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length === 0">Zatím žádní známí kandidáti</em>
-															<p-list-linear class="or" v-else>
-																<div v-for="cand in sortBy(current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ), 'PRIJMENI', null, true)">
-																	<!-- <span class="dimm">{{ cand.PORCISLO ? cand.PORCISLO + '.' : '?' }} </span> -->
-																	<component :is="cand.NSTRANA === current.VSTRANA ? 'span' : 'p-label'" :color="colorByItem(cand, data, 'NSTRANA')">
-																		<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>	
-																	</component>																
-																</div>
-															</p-list-linear>
+															<template v-else>
+																<p-list-linear class="or">
+																	<div v-for="cand in sortBy(current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ), 'PRIJMENI', null, true)">
+																		<!-- <span class="dimm">{{ cand.PORCISLO ? cand.PORCISLO + '.' : '?' }} </span> -->
+																		<component :is="cand.NSTRANA === current.VSTRANA ? 'span' : 'p-label'" :color="colorByItem(cand, data, 'NSTRANA')">
+																			<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>	
+																		</component>																
+																	</div>
+																</p-list-linear>
+															</template>
 														</p-area>
 													</div>
 												</template>
@@ -679,13 +699,15 @@
 								<p class="smallest dimm" v-if="current.$kandidati.length === 0">Zatím žádní známí kandidáti.</p>
 								<template v-if="$volby.status < 3">
 									<div class="p-line"></div>
-									<div class="smallest">
-										Pokud vám nějaká strana nebo kandidát v přehledu chybí, nebo přebývá, dejte prosím vědět. 
+									<p-box-group>
 										<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="$volby.typ + ':' + $volby.id + '- pointer ' + data.pointer" class="_ib">
-											<button class="inline strong green">Stačí kliknout zde</button>
+											<p-box>
+												<p-box-button color="var(--green)" icon="plus-green.svg">
+													Přidat kandidáta
+												</p-box-button>
+											</p-box>
 										</report-modal>
-									</div>
-									
+									</p-box-group>
 								</template>
 							</p-block>
 							<p-block headline="Odkazy" v-if="linksAll.length > 0">

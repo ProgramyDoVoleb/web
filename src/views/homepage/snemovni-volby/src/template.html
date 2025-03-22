@@ -5,10 +5,10 @@
 			<div class="smallest dimm">Upozornění: až do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.</div>
 				<div class="p-gap_075"></div>
 				<strong></strong>
-				<component :is="width < 1170 ? 'p-area' : 'div'" class="smaller white">
-					<p-columns :class="{'_2': width < 1170}">
+				<component :is="width < 640 ? 'p-area' : 'div'" class="smaller white">
+					<p-columns :class="{'_2': width < 640}">
 						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
-							<component :is="width < 1170 ? 'party-preview-tiny' : 'party-preview'" :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></component>
+							<component :is="width < 640 ? 'party-preview-tiny' : 'party-preview'" :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></component>
 						</div>
 					</p-columns>
 					<!-- <div class="p-line"></div>
