@@ -7,7 +7,7 @@ import {useData} from '@/stores/data';
 
 export default {
 	name: 'OkrskyStats',
-	props: ['elections', 'party', 'cand'],
+	props: ['elections', 'party', 'cand', 'volkraj'],
 	data: function () {
 		return {
 			subset: {
@@ -33,7 +33,7 @@ export default {
 			return useData()
 		},
 		data: function () {
-			var d = this.$store.getters.pdv('elections/specific/' + this.elections.id + '/okrsky/' + this.party.id);
+			var d = this.$store.getters.pdv('elections/specific/' + this.elections.id + '/okrsky/' + this.party.id + (this.volkraj ? ':' + this.volkraj : ''));
 
 			if (d) {
 				this.ready = true;

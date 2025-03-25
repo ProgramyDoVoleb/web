@@ -1134,7 +1134,23 @@
 								</p-area>
 							</p-block>
 							<candidate-stats v-if="$volby.status > 1 && current.$kandidati && current.$kandidati.length > 1" :data="current.$kandidati" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="$volby.status"></candidate-stats>
-							<okrsky-stats v-if="$volby.id === 162" :elections="$volby" :party="current.$kandidati ? current : $strana" :cand="current.$kandidati ? null: current"></okrsky-stats>
+							
+							<template v-if="$volby.id === 162">
+								<p-block headline="Výsledky jednotlivých kandidátů">
+									<okrsky-stats :elections="$volby" :party="current.$kandidati ? current : $strana" :cand="current.$kandidati ? null: current"></okrsky-stats>
+								</p-block>
+							</template>
+
+							<template v-if="$volby.id === 149">
+								<p-block headline="Výsledky jednotlivých kandidátů podle kraje" anchor="Podrobně">
+									<template v-for="(reg, index) in enums.regions">
+										<p-collapsible :label="reg">
+											<okrsky-stats :elections="$volby" :party="current.$kandidati ? current : $strana" :cand="current.$kandidati ? null: current" :volkraj="index + 1"></okrsky-stats>
+										</p-collapsible>
+									</template>
+								</p-block>
+							</template>
+
 							<p-block headline="Volby">
 								<p-area :icon="$volby.$about.hash">
 									<strong>{{ $volby.$about.name }}</strong>
