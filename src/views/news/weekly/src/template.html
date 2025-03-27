@@ -174,9 +174,9 @@
 														&mdash;
 														<p-list-linear class="or">
 															<span v-for="entity in unique(item.data, 'type')">
-																<span :class="{'badge blue': ['priority', 'program', 'answer'].indexOf(entity) > -1}">
+																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
 																	{{ logtypes[entity] }}
-																</span>
+																</component>
 															</span>
 														</p-list-linear>
 													</span>
