@@ -123,6 +123,18 @@
   background: #fff !important;
 }
 
+.shadow {
+  box-shadow: 0 10px 25px #eee;
+}
+
+.p-area.highlight {
+  background: var(--white);
+
+  .dark & {
+    background: var(--black);
+  }
+}
+
 .p-area.primary {
   background: var(--white);
   padding: 1.75em 2em !important;

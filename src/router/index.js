@@ -168,6 +168,24 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/bod/:tableName/:tableID/volebni-program/:id',
+      name: 'generic-pointer-with-subpage-and-id',
+      component: PointerProgramView,
+      props: true
+    },
+    {
+      path: '/bod/:tableName/:tableID/otazky-a-odpovedi',
+      name: 'generic-pointer-answers',
+      component: PointerQAView,
+      props: true
+    },
+    {
+      path: '/bod/:tableName/:tableID/priority',
+      name: 'generic-pointer-priority',
+      component: PointerPriorityView,
+      props: true
+    },
+    {
       path: '/bod/:tableName/:tableID',
       name: 'generic-pointer',
       component: PointerView,

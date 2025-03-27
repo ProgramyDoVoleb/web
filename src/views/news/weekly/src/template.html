@@ -31,11 +31,62 @@
 											</p-area>
 										</div>
 									</template>
+									<template v-if="day.log.length > 0 && day.log.find(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1))">
+										<div class="smallest red strong">Nepřehlédněte</div>
+										<p-grid>
+											<template v-for="itemparty in day.log.filter(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1))">
+												<template v-for="item in itemparty.data.filter(y => y.type === 'program')">
+													<div>
+														<p-area class="shadow white" borderColor="var(--blue)" icon="program">
+															<strong>
+																<p-link :href="item.node.source">
+																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																</p-link>
+															</strong>
+															<div class="smallest">
+																Volební program
+																<span class="dimm" v-if="item.node.label">
+																	&middot;
+																	<p-link :href="item.node.label" class="dimm">
+																		záloha
+																	</p-link>
+																</span>
+															</div>
+														</p-area>
+													</div>
+												</template>
+												<template v-if="itemparty.data.find(x => x.type === 'answer')">
+													<div>
+														<p-area class="white shadow" borderColor="var(--yellow)" icon="answers-mini">
+															<strong>
+																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/otazky-a-odpovedi'">
+																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																</router-link>
+															</strong>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer').length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
+														</p-area>
+													</div>
+												</template>
+												<template v-if="itemparty.data.find(x => x.type === 'priority')">
+													<div>
+														<p-area class="white shadow" borderColor="var(--green)" icon="list">
+															<strong>
+																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/priority'">
+																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																</router-link>
+															</strong>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'priority').length" :end="['', '1 priorita', '%% priority', '%% priorit']"></p-lang></div>
+														</p-area>
+													</div>
+												</template>
+											</template>
+										</p-grid>
+									</template>
 									<template v-if="day.main.length > 0">
 										<div class="smallest dimm strong">Významné zprávy z médií</div>
 										<div v-for="item in day.main">
 											<h4><p-link :href="item.source">{{ item.title }}</p-link></h4>
-											<p v-html="item.content.split('Původní text: ').join('')"></p>
+											<p v-html="(item.content || '').split('Původní text: ').join('')"></p>
 											<p class="smallest" v-if="item.$relates.length > 0">
 												Týká se
 												<p-list-linear class="or inline">
@@ -92,19 +143,19 @@
 														</p-list-linear>
 													<!-- </p-area> -->
 												</div>
-												<div v-for="party in day.auto.filter(x => !x.content)">
+												<div v-for="cand in day.auto.filter(x => !x.content)">
 													<!-- <p-area> -->
-														<router-link :to="'/bod/' + cand.relates.split(',')[0].split(':').join('/')" class="strong">{{ party.title }}</router-link>
+														<router-link :to="'/bod/' + cand.relates.split(',')[0].split(':').join('/')" class="strong">{{ cand.title }}</router-link>
 													<!-- </p-area> -->
 												</div>
 											</p-grid>
 										</div>
 									</template>
 									<template v-if="day.log.length > 0">
-										<div class="smallest dimm strong">Upravené záznamy</div>
+										<div class="smallest dimm strong">Všechny upravené záznamy</div>
 										<div>
 											<p-list class="invisible smaller">
-												<div v-for="item in sortBy(day.log.filter(x => x.node.NAZEV), 'title', null, true)">
+												<div v-for="item in sortBy(day.log.filter(x => x.node && x.node.NAZEV) || [], 'title', null, true)">
 													<router-link :to="'/bod/' + item.pointer.split(':').join('/')" class="strong">{{ item.title }}</router-link>
 													<span class="smallest dimm">
 														&mdash;
@@ -117,7 +168,7 @@
 														</p-list-linear>
 													</span>
 												</div>
-												<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node.PRIJMENI), 'title', null, true)">
+												<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node && x.node.PRIJMENI) || [], 'title', null, true)">
 													<router-link :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.title }}</router-link>
 													<span class="smallest dimm">
 														&mdash;
