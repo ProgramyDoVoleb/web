@@ -36,6 +36,7 @@ export default {
 			var x = this.$store.getters.pdv('news/fetch/' + this.id);
 
 			if (x) {
+				ga(x.list[0].title);
 				return x.list[0]
 			} else {
 				return null;
@@ -47,6 +48,5 @@ export default {
 	},
 	mounted: function () {
 		window.scrollTo(0, 1);
-		ga("Novinka " + this.id);
 	}
 };

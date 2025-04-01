@@ -65,6 +65,12 @@
 												<div class="smallest dimm">Stačí poslat odkaz</div>
 											</p-area>
 										</div>
+										<div>
+											<p-area icon="rss" background="var(--blue11)">
+												<router-link to="/novinky" class="strong">Sedmidění</router-link>
+												<div class="smallest dimm">Přehled dění za posledních 7 dní</div>
+											</p-area>
+										</div>
 									</div>
 								</div>
 							</p-loader>
@@ -163,7 +169,7 @@
 						<div class="small">Jdete do voleb? Už máte svůj přístup do <p-link href="https://eu2024.programydovoleb.cz/pro-kandidaty" class="strong">Adminu</p-link>? Už dnes můžete vyplnit své údaje a také odpovědi na <p-link href="https://eu2024.programydovoleb.cz/otazky" class="strong">volební otázky</p-link> a kalkulačku.</div>
 					</p-area>
 				</div> -->
-				<div>
+				<!-- <div>
 					<strong>Novinky</strong>
 					<div class="p-gap"></div>
 					<p-loader :rule="current && news">
@@ -171,7 +177,7 @@
 							<news-block :omitSys="true" :limit="2" :news="news" :data="current.$data" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>
 						</div>
 					</p-loader>
-				</div>
+				</div> -->
 			</p-list>
 		</template>
 	</p-layout-divided>

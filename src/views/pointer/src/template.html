@@ -946,9 +946,23 @@
 								</p-columns>
 								<template v-if="newsmedia.length >= mediaLimit + 1">
 									<div class="p-line _0 mt3"></div>
-									<p-collapsible label="Starší zprávy" :status="newsmedia.length - mediaLimit">
+									<p-collapsible label="Starší články a tiskové zprávy" :status="newsmedia.length - mediaLimit - newsmedia.filter((x, i) => i >= mediaLimit && !x.csu_id).length">
 										<p-list class="smaller _05">
-											<div v-for="item in newsmedia.filter((x, i) => i >= mediaLimit)">
+											<div v-for="item in newsmedia.filter((x, i) => i >= mediaLimit && x.csu_id)">
+												<div class="p-offset">
+													<div class="text-right _w3 smallest dimm">
+														{{ date(item.updated, 2) }}
+													</div>
+													<div>
+														<p-link :href="item.source" class="smaller strong" :class="{'is-span': item.type === 'pr'}">{{ item.value }}</p-link>
+													</div>
+												</div>
+											</div>
+										</p-list>
+									</p-collapsible>
+									<p-collapsible label="Další zmínky v médiích" :status="newsmedia.length - mediaLimit - newsmedia.filter((x, i) => i >= mediaLimit && x.csu_id).length">
+										<p-list class="smaller _05">
+											<div v-for="item in newsmedia.filter((x, i) => i >= mediaLimit && !x.csu_id)">
 												<div class="p-offset">
 													<div class="text-right _w3 smallest dimm">
 														{{ date(item.updated, 2) }}

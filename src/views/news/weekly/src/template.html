@@ -21,7 +21,7 @@
 										<div class="smallest dimm strong">Novinky na Programech do voleb</div>
 										<div v-for="item in day.sys">
 											<p-area class="primary inline">
-												<h4><p-link :href="item.source">{{ item.title }}</p-link></h4>
+												<h4><router-link :to="'/novinky/' + item.id">{{ item.title }}</router-link></h4>
 												<p v-html="truncate(untag(item.content), 40)"></p>
 												<p-box-group>
 													<p-box :to="'/novinky/' + item.id">
@@ -152,15 +152,15 @@
 										</div>
 									</template>
 									<template v-if="day.log.length > 0">
-										<div class="smallest dimm strong">Všechny upravené záznamy</div>
+										<div class="smallest dimm strong">Další upravené záznamy</div>
 										<div>
 											<p-list class="invisible smaller">
-												<div v-for="item in sortBy(day.log.filter(x => x.node && x.node.NAZEV) || [], 'title', null, true)">
+												<div v-for="item in sortBy(day.log.filter(x => x.node && x.node.NAZEV && x.data.filter(y => ['media', 'pr'].indexOf(y.type) === -1).length > 0 ) || [], 'title', null, true)">
 													<router-link :to="'/bod/' + item.pointer.split(':').join('/')" class="strong">{{ item.title }}</router-link>
 													<span class="smallest dimm">
 														&mdash;
 														<p-list-linear class="or">
-															<span v-for="entity in unique(item.data, 'type')">
+															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr'].indexOf(x) === -1)">
 																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
 																	{{ logtypes[entity] }}
 																</component>
@@ -168,12 +168,12 @@
 														</p-list-linear>
 													</span>
 												</div>
-												<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node && x.node.PRIJMENI) || [], 'title', null, true)">
+												<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node && x.node.PRIJMENI && x.data.filter(y => ['media', 'pr'].indexOf(y.type) === -1).length > 0 ) || [], 'title', null, true)">
 													<router-link :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.title }}</router-link>
 													<span class="smallest dimm">
 														&mdash;
 														<p-list-linear class="or">
-															<span v-for="entity in unique(item.data, 'type')">
+															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr'].indexOf(x) === -1)">
 																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
 																	{{ logtypes[entity] }}
 																</component>
