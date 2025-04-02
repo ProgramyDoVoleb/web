@@ -85,7 +85,7 @@
 		</p-block>
 	</template>
 	<template v-if="current.status < 3 && current.id === 166">
-		<engagement-block :hash="'psp-166-strana-' + (new Date().getMonth() + 1)" :data="[{question: 'Koho byste nyní volili?', limit: 3, comment: 'Můžete vybrat až 3 strany.', options: ['ANO', 'Spolu', 'STAN', 'SPD', 'Piráti', 'Motoristé', 'Stačilo', 'SOCDEM', 'Přísaha', 'Zelení', 'někoho jiného']}]" :compact="true"></engagement-block>
+		<engagement-block hash="psp166-rozhodnuti-Q2" headline="Krátká anketa" :data="[{question: 'Už jste rozhodnutí, koho volit?', options: ['Ano', 'Tak napůl', 'Vůbec']}, {question: 'Půjdete k volbám?', options: ['Ano', 'Ještě zvažuji', 'Ne']}]" :compact="true"></engagement-block>
 		<div class="p-gap _3"></div>
 	</template>
 	<component :is="current.status < 3 ? 'p-block' : 'p-block-expandable'" headline="Kandidáti v krajích">

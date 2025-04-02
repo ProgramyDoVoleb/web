@@ -148,7 +148,7 @@
 				</p-area>
 			</p-block>
 			<p-block headline="Anketa" :hide="true">
-				<engagement-block hash="psp166-rozhodnuti-Q2" headline="Krátká anketa" :data="[{question: 'Už jste rozhodnutí, koho volit?', options: ['Ano', 'Tak napůl', 'Vůbec']}, {question: 'Půjdete k volbám?', options: ['Ano', 'Ještě zvažuji', 'Ne']}]" :compact="true"></engagement-block>
+				<engagement-block :hash="'psp-166-strana-' + (new Date().getMonth() + 1)" :data="[{question: 'Koho byste nyní volili?', limit: 3, comment: 'Můžete vybrat až 3 strany.', options: ['ANO', 'Spolu', 'STAN', 'SPD', 'Piráti', 'Motoristé', 'Stačilo', 'SOCDEM', 'Přísaha', 'Zelení', 'někoho jiného']}]" :compact="true"></engagement-block>
 			</p-block>
 			<p-block headline="Vybrané novinky" :level="1">
 				<p-loader :rule="news">
