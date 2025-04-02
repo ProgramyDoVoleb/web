@@ -86,7 +86,7 @@
 										<div class="smallest dimm strong">Významné zprávy z médií</div>
 										<div v-for="item in day.main">
 											<h4><p-link :href="item.source">{{ item.title }}</p-link></h4>
-											<p v-html="(item.content || '').split('Původní text: ').join('')"></p>
+											<p v-if="item.content" v-html="(item.content || '').split('Původní text: ').join('')"></p>
 											<p class="smallest" v-if="item.$relates.length > 0">
 												Týká se
 												<p-list-linear class="or inline">
@@ -128,6 +128,28 @@
 											</div>
 										</p-columns>
 									</template>
+									<template v-if="day.comm.length > 0">
+										<div class="smallest dimm strong">Komentáře</div>
+										<div v-for="item in day.comm">
+											<h4 class="mv0">
+												<em><p-link :href="item.source" class="is-span strong serif">{{ item.title }}</p-link></em>
+											</h4>
+											<p class="smallest">
+												{{ item.content }} &middot; {{ domain(item.source) }}
+												<span v-if="item.$relates.length > 0">
+													&middot;
+													týká se
+													<p-list-linear class="or inline">
+														<span v-for="(relates, index) in item.$relates">
+															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
+																{{ relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
+															</router-link>
+														</span>
+													</p-list-linear>
+												</span>
+											</p>
+										</div>
+									</template>
 									<template v-if="day.auto.length > 0">
 										<div class="smallest green strong">Nově v přehledu</div>
 										<div>
@@ -151,7 +173,7 @@
 											</p-grid>
 										</div>
 									</template>
-									<template v-if="day.log.length > 0">
+									<template v-if="day.log.length > 0 && day.log.find(x => x.data.filter(y => ['media', 'pr'].indexOf(y.type) === -1).length > 0)">
 										<div class="smallest dimm strong">Další upravené záznamy</div>
 										<div>
 											<p-list class="invisible smaller">
