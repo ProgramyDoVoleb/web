@@ -20,6 +20,10 @@ h1, h2, .serif {
   letter-spacing: -.01em;
 }
 
+.mono {
+  font-family: monospace;
+}
+
 .w400 {
   font-weight: normal !important;
 }
@@ -93,6 +97,10 @@ h1, h2, .serif {
 
 .text-left {
   text-align: left;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .keep {

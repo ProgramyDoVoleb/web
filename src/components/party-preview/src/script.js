@@ -16,7 +16,9 @@ export default {
 		ReportForm
 	},
 	computed: {
-
+		extended: function () {
+			return (this.party.$priorit && this.party.$priorit > 0) || (this.party.$odpovedi && this.party.$odpovedi > 0) || (this.party.$program && this.party.$odpovedi.length > 0)
+		}
 	},
 	methods: {
 		colorByItem, logoByItem, date, sortBy,

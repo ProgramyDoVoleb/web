@@ -156,14 +156,19 @@
 						<p-columns>
 							<template v-for="(item, index) in newsmedia.filter((x, i) => i < (width > 960 ? 100 : 8))">
 								<div>
-									<p-area :borderColor="item.label === 'pdv' ? 'var(--blue)' : null" class="smaller">
-										<div>
-											<p-link class="strong" :href="item.source">{{ item.value }}</p-link>
+									<p-area :borderColor="item.label === 'pdv' ? 'var(--blue)' : (item.label === 'comment' ? 'var(--greyish)' : null)" class="smaller">
+										<div :class="{smaller: item.label === 'comment'}">
+											<p-link class="strong" :href="item.source" :class="{'is-span mono': item.label === 'comment'}">{{ item.value }}</p-link>
 										</div>
 										<div class="p-gap _05"></div>
 										<template v-if="item.csu_table">
 											<div class="smallest dimm">
 												<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id" class="is-span dimm">{{ item.$node[0].NAZEV || item.$node[0].JMENO + ' ' + item.$node[0].PRIJMENI }}</router-link>
+											</div>
+										</template>
+										<template v-if="item.label && item.label === 'comment'">
+											<div class="smallest dimm">
+												{{ item.content }} &middot; komentář
 											</div>
 										</template>
 										<div class="smallest dimm">

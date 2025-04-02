@@ -17,6 +17,9 @@ export default {
 	computed: {
 		snemovni: function () {
 			return !this.amount && (this.candidates && this.candidates.find(x => typeof x.VOLKRAJ !== 'undefined'));
+		},
+		extended: function () {
+			return (this.party.$priorit && this.party.$priorit > 0) || (this.party.$odpovedi && this.party.$odpovedi > 0) || (this.party.$program && this.party.$odpovedi.length > 0)
 		}
 	},
 	components: {

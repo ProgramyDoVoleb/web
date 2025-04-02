@@ -131,17 +131,17 @@
 									<template v-if="day.comm.length > 0">
 										<div class="smallest dimm strong">Komentáře</div>
 										<div v-for="item in day.comm">
-											<h4 class="mv0">
-												<em><p-link :href="item.source" class="is-span strong serif">{{ item.title }}</p-link></em>
+											<h4 class="mv0 small">
+												<p-link :href="item.source" class="is-span strong mono">{{ item.title }}</p-link>
 											</h4>
 											<p class="smallest">
-												{{ item.content }} &middot; {{ domain(item.source) }}
+												<strong>{{ item.content }}</strong> &middot; {{ domain(item.source) }}
 												<span v-if="item.$relates.length > 0">
 													&middot;
 													týká se
 													<p-list-linear class="or inline">
 														<span v-for="(relates, index) in item.$relates">
-															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
+															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')" class="is-span">
 																{{ relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
 															</router-link>
 														</span>

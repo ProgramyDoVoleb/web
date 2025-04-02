@@ -367,9 +367,15 @@ a.is-span:not(.dimm) {
 
 .no-link,
 .no-link .underline {
-	border-bottom: none !important;
+  border-bottom: none !important;
   text-decoration: none;
   color: #000;
+}
+
+.unlink,
+.unlink .underline {
+  border-bottom: none !important;
+  text-decoration: none;
 }
 
 .box {
