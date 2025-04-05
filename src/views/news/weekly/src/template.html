@@ -92,7 +92,7 @@
 												<p-list-linear class="or inline">
 													<span v-for="(relates, index) in item.$relates">
 														<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
-															{{ relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
+															{{ relates.ZKRATKA || relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
 														</router-link>
 													</span>
 												</p-list-linear>
@@ -119,7 +119,7 @@
 													<p-link :href="item.source" class="strong">{{ item.value }}</p-link>
 													<p class="smallest dimm">
 														<template v-if="item.node">
-															<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">{{ item.node.NAZEV || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
+															<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">{{ item.node.ZKRATKA || item.node.NAZEV || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
 															<br>
 														</template>
 														{{ item.label }} &middot; {{ domain(item.source) }}
@@ -131,22 +131,21 @@
 									<template v-if="day.comm.length > 0">
 										<div class="smallest dimm strong">Komentáře</div>
 										<div v-for="item in day.comm">
-											<h4 class="mv0 small">
+											<h4 class="mv0 smaller">
 												<p-link :href="item.source" class="is-span strong mono">{{ item.title }}</p-link>
 											</h4>
 											<p class="smallest">
 												<strong>{{ item.content }}</strong> &middot; {{ domain(item.source) }}
-												<span v-if="item.$relates.length > 0">
-													&middot;
-													týká se
+												<div v-if="item.$relates.length > 0" class="dimm">
+													Týká se
 													<p-list-linear class="or inline">
 														<span v-for="(relates, index) in item.$relates">
-															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')" class="is-span">
-																{{ relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
+															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')" class="is-span dimm">
+																{{ relates.ZKRATKA || relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
 															</router-link>
 														</span>
 													</p-list-linear>
-												</span>
+												</div>
 											</p>
 										</div>
 									</template>

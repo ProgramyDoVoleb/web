@@ -133,12 +133,12 @@ export default {
 
 			if (this.news) {
 				// sortBy([].concat(this.news.list, this.news.sys), 'datum', null, true, true).forEach(item => {
-				sortBy([].concat(this.news.list, this.news.sys, this.news.comm), 'datum', null, true, true).forEach(item => {
+				sortBy([].concat(this.news.sys, this.news.list, this.news.comm), 'datum', null, true, true).forEach(item => {
 					list.push({
 						source_label: item.source,
 						source: 'https://programydovoleb.cz/novinky/' + item.id,
 						value: item.title,
-						updated: item.datum,
+						updated: item.datum + (item.priority === 3 ? ' 00:00:00' : ' 23:59:59'),
 						label: [0, 'news', 'auto', 'comment',0,0,0,0,0,'pdv'][item.priority],
 						content: item.priority === 3 ? item.content : null
 					})

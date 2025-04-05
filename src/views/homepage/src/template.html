@@ -156,7 +156,7 @@
 						<p-columns>
 							<template v-for="(item, index) in newsmedia.filter((x, i) => i < (width > 960 ? 100 : 8))">
 								<div>
-									<p-area :borderColor="item.label === 'pdv' ? 'var(--blue)' : (item.label === 'comment' ? 'var(--greyish)' : null)" class="smaller">
+									<p-area :borderColor="item.label === 'pdv' ? 'var(--blue)' : (item.label === 'comment' ? 'var(--greyish)' : (item.label === 'news' ? 'var(--blue44)' : null))" class="smaller">
 										<div :class="{smaller: item.label === 'comment'}">
 											<p-link class="strong" :href="item.source" :class="{'is-span mono': item.label === 'comment'}">{{ item.value }}</p-link>
 										</div>
