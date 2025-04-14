@@ -251,6 +251,24 @@
 									
 								</template>
 							</p-block>
+							<p-block headline="Abecední seznam" v-if="current.$kandidati.length > 0 && current.$kandidati[0].VOLKRAJ && !focus">
+								<p-columns class="smaller _tight">
+									<template v-for="(c, i) in 'aábcčdďeéfghiíjklľmnňoópqrřsštťuúvwxyýzž'.split('')">
+										<template v-if="current.$kandidati.find(x => x.PRIJMENI[0].toLowerCase() === c)">
+											<div class="_mt">
+												<strong class="big">{{ c.toUpperCase() }}</strong>
+											</div>
+											<div v-for="cand in sortBy(sortBy(current.$kandidati.filter(x => x.PRIJMENI[0].toLowerCase() === c), 'JMENO', null, true), 'PRIJMENI', null, true)">
+												<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kandidat/' + cand.id" :class="{strong: cand.PORCISLO === 1, 'is-span': !cand.PORCISLO, 'green': cand.MANDAT && cand.MANDAT === 'A'}">
+													{{ cand.JMENO }} {{ cand.PRIJMENI }}
+												</router-link>
+												<span class="dimm keep smallest" v-if="cand.VOLKRAJ"> &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }}</span>
+												<span class="dimm keep smallest" v-if="cand.PORCISLO && cand.PORCISLO < 4"> &middot; {{ cand.PORCISLO }}</span>
+											</div>
+										</template>
+									</template>
+								</p-columns>
+							</p-block>
 							<p-block headline="Doplnění" v-if="$volby.status < 3 && $volby.editace === 1" :hide="true">
 								<p-area background="var(--green11)" borderColor="var(--green)">
 									<strong class="green">Pomozte doplnit další údaje</strong>

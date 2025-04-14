@@ -977,7 +977,7 @@
 								</template>
 							</p-block>
 							<template v-if="$volby.id === 166">
-								<party-polls :VSTRANA="current.VSTRANA" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :isCoalition="false" class="mb3" from="2024-09-01"></party-polls>
+								<party-polls :VSTRANA="current.VSTRANA" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :isCoalition="false" class="mb3" from="2024-09-01" :election="$volby.id"></party-polls>
 							</template>
 							<p-block headline="Volební materiály" v-if="current.$data.graphics || (current.PRIJMENI && current.$data.logo)">
 								<p-grid>

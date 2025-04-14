@@ -6,7 +6,7 @@ import { defineAsyncComponent } from 'vue';
 
 export default {
 	name: 'party-polls',
-	props: ['VSTRANA', 'color', 'isCoalition', 'from'],
+	props: ['VSTRANA', 'color', 'isCoalition', 'from', 'election'],
 	data: function () {
 		return {
 			cdn,
@@ -106,7 +106,7 @@ export default {
 						data: []
 					}	
 
-					d.polls.forEach(poll => {
+					d.polls.filter(x => this.election ? x.volby === this.election : true).forEach(poll => {
 						if (poll.agency === agency.name) {
 
 							var val = d.entries.find(x => x.poll === poll.id);

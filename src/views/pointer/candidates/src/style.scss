@@ -169,3 +169,8 @@
 ._sif:first-child {
 	display: none;
 }
+
+._mt:not(:first-child) {
+	margin-top: 2em;
+	break-after: avoid;
+}
