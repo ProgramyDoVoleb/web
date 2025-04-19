@@ -1,4 +1,4 @@
-<div class="program-block serif">
+<div class="serif" :class="{'program-block': !list}">
 	<template v-for="(item, index) in data">
 		<template v-if="item.type === 'link'">
 			<div class="smaller strong sans" v-if="item.source">
@@ -26,22 +26,22 @@
 			<p v-html="item.content" class="dimm small"></p>
 		</template>
 		<template v-if="item.type === 'list'">
-			<ul>
+			<ul class="program-list">
 				<li v-for="(part, index2) in item.parts">
-					<program-block :parts="part"></program-block>
+					<program-block :parts="part" :list="true"></program-block>
 				</li>
 				<li v-for="(part, index2) in item.content">
-					<program-block :parts="part"></program-block>
+					<program-block :parts="part" :list="true"></program-block>
 				</li>
 			</ul>
 		</template>
 		<template v-if="item.type === 'ol'">
-			<ol>
+			<ol class="program-list">
 				<li v-for="(part, index2) in item.parts">
-					<program-block :parts="part"></program-block>
+					<program-block :parts="part" :list="true"></program-block>
 				</li>
 				<li v-for="(part, index2) in item.content">
-					<program-block :parts="part"></program-block>
+					<program-block :parts="part" :list="true"></program-block>
 				</li>
 			</ol>
 		</template>
@@ -60,9 +60,9 @@
 			<p class="lead" v-if="item.perex">
 				<program-block :parts="item.perex"></program-block>
 			</p>			
-			<ul v-if="item.list">
+			<ul v-if="item.list" class="program-list">
 				<li v-for="(it, ind) in item.list">
-					<program-block :parts="it"></program-block>	
+					<program-block :parts="it" :list="true"></program-block>	
 				</li>
 			</ul>
 		</template>

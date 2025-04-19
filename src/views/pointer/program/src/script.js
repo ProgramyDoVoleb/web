@@ -17,6 +17,7 @@ import CandidateStats from '@/components/candidate-stats/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import NewsBlock from '@/components/news-block/do.vue'
 import PersonPreviewLinear from '@/components/person-preview-block/do.vue';
+import PointerHeader from '@/views/pointer/header/do.vue';
 
 export default {
 	name: 'layout-pointer',
@@ -42,7 +43,8 @@ export default {
 	PartyPreview,
 	CtaGetAdmin,
 	NewsBlock,
-	PersonPreviewLinear
+	PersonPreviewLinear,
+	PointerHeader
   },
 	computed: {
 		$store: function () {

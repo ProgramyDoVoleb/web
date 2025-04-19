@@ -11,14 +11,17 @@
                 </div>
                 <div>
                     <p-list>
-                        <div>
-                            <p-stats label="Popis">{{ _licence && _licence[0] || 'fotografie' }}</p-stats>
+                        <div v-if="_licence && _licence[0] && _licence[0][0] === '['">
+                            <p-stats label="Popis">{{ _licence[0] || 'fotografie' }}</p-stats>
                         </div>
-                        <div v-if="_licence && _licence[1]">
+                        <div v-if="_licence && _licence[1] && _licence[0][0] === '['">
                             <p-stats label="Autor">{{ _licence[1] }}</p-stats>
                         </div>
-                        <div v-if="_licence && _licence[2]">
+                        <div v-if="_licence && _licence[2] && _licence[0][0] === '['">
                             <p-stats label="Licence">{{ _licence[2] }}</p-stats>
+                        </div>
+                        <div v-if="_licence && _licence[0] && _licence[0][0] !== '['">
+                            <p-stats label="Poznámka">{{ _licence }}</p-stats>
                         </div>
                         <div v-if="_createdDate && (date(_createdDate) != date(data.updated))">
                             <p-stats label="Vytvořeno">{{ date(_createdDate) }}</p-stats>

@@ -20,6 +20,7 @@ import PersonPreviewLinear from '@/components/person-preview-linear/do.vue';
 import PersonPreviewBlock from '@/components/person-preview-block/do.vue';
 import EventItem from '@/components/event-item/do.vue'
 import PartyPreview from '@/components/party-preview/do.vue';
+import PointerHeader from '@/views/pointer/header/do.vue';
 
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
@@ -55,7 +56,8 @@ export default {
 	EventItem,
 	CtaGetAdmin,
 	CtaSupport,
-	PartyPreview
+	PartyPreview,
+	PointerHeader
   },
 	computed: {
 		$store: function () {

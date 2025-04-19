@@ -23,7 +23,7 @@ export default {
 			return l;
 		},
 		_licence: function () {
-			return this.data ? JSON.parse(this.data.label) : null;
+			return this.data && this.data.label && this.data.label[0] === '[' ? JSON.parse(this.data.label) : (this.data ? this.data.label : null);
 		}
 	},
 	methods: {
