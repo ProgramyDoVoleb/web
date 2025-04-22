@@ -577,29 +577,22 @@
 									</div>
 								</p-list>
 							</p-block>
+							<p-block headline="Koalice" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
+								<div class="columns _c">
+									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
+										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
+									</div>
+								</div>
+							</p-block>
 							<p-block v-if="current.$data.support" headline="Podpora">
 								<template v-if="current.$data.support.find(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
 									<!-- <p-area> -->
 										<p-grid class="smaller">
 											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
-												<!-- <p-area> -->
-													<div class="p-offset _vm">
-														<div>
-															<p-image :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === sup.value), data)" :rounded="true"></p-image>
-														</div>
-														<div>
-															<router-link :to="'/rejstrik/' + sup.value">							
-																<span v-if="data.cis.strany.find(x => x.VSTRANA === sup.value)" class="strong">
-																	{{ data.cis.strany.find(x => x.VSTRANA === sup.value).NAZEV }}
-																</span>
-															</router-link>
-															<span v-if="sup.source" class="dimm tiny">
-																  
-																<p-link :href="sup.source" class="dimm">zdroj</p-link>
-															</span>
-														</div>
-													</div>		
-												<!-- </p-area> -->
+												<party-quicklook :VSTRANA="sup.value" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
+												<div v-if="sup.source" class="dimm tiny">
+													<p-link :href="sup.source" class="dimm">zdroj</p-link>
+												</div>
 											</div>
 										</p-grid>
 									<!-- </p-area> -->
@@ -999,13 +992,6 @@
 										<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id">Přejít na detail voleb</router-link>
 									</div>
 								</p-area>
-							</p-block>
-							<p-block headline="Koalice" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
-								<div class="columns _c">
-									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
-										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
-									</div>
-								</div>
 							</p-block>
 							<p-block headline="Více o straně či hnutí" v-if="current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
 								<party-quicklook :VSTRANA="current.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
