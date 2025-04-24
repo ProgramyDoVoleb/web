@@ -68,7 +68,7 @@ export default {
 				sortBy([].concat(this.news.list, this.news.sys), 'datum', null, true, true).forEach(item => {
 					list.push({
 						source_label: item.source,
-						source: 'https://programydovoleb.cz/novinky/' + item.id,
+						source: item.priority === 9 ? 'https://programydovoleb.cz/novinky/' + item.id : item.source,
 						value: item.title,
 						updated: item.datum,
 						label: item.priority === 9 ? 'pdv' : 'news'
