@@ -114,7 +114,7 @@ export default {
 	
 				if (this.current.$data.support) {
 					this.current.$data.support.filter(x => typeof x.value === 'number').forEach(sup => {
-						if (!list.find(x => x.VSTRANA === sup.value)) list.push(this.data.cis.strany.find(x => x.VSTRANA === sup.value));
+						if (!list.find(x => x && x.VSTRANA === sup.value) && this.data.cis.strany.find(x => x.VSTRANA === sup.value)) list.push(this.data.cis.strany.find(x => x.VSTRANA === sup.value));
 					});
 				}
 	

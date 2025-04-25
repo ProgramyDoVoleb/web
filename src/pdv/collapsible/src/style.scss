@@ -141,7 +141,7 @@
   left: -.1em;
   // border: var(--border);
 
-  .dark &:not([src*="volby"]) {
+  .dark &[src*="icon/"]:not([src*="volby"]) {
     filter: invert(1) brightness(2) opacity(.8);
   }
 

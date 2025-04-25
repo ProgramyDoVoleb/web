@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { useCore, cdn, api } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, type} from '@/pdv/helpers';
+import {url, date, number, truncate, type, sortBy} from '@/pdv/helpers';
 import {ga, ge} from '@/pdv/analytics';
 import ReportModal from '@/components/report-modal/do.vue';
 import ListElected from '@/views/history/cr/elected/do.vue';
@@ -18,8 +18,11 @@ export default {
 		return {
 			cdn,
 			showAll: false,
-			showHistory: false,
-			showHistoryCandidates: false
+			showHistory: true,
+			showHistoryCandidates: false,
+			senateView: 1,
+			senatePartyView: 1,
+			w: 0,
 		}
 	},
   components: {
@@ -101,13 +104,13 @@ export default {
 					}
 				});
 
-				if (this.showHistory === true) {
-					if (this.history) {
-						d.past.forEach(el => {
-							el.$data = this.history.list[0].$elections.past.find(x => x.$data['volby'] === el.$data['volby']).$data;
-						});
-					}
-				}
+				// if (this.showHistory === true) {
+				// 	if (this.history) {
+				// 		d.past.forEach(el => {
+				// 			el.$data = this.history.list[0].$elections.past.find(x => x.$data['$volby'] === el.$data['$volby']).$data;
+				// 		});
+				// 	}
+				// }
 
 				// d.past.forEach(el => {
 				// 	el.$data['$ucast'] = []; // d.results.ucast[el.$volby.typ].filter(x => x.volby === el.$volby.id);
@@ -158,6 +161,7 @@ export default {
 		colorByItem,
 		logoByItem,
 		type,
+		sortBy,
 		gps: function (val) {
 			var s = val.split(',');
 			return 'https://mapy.cz/zakladni?source=coor&x=' + s[1] + '&y=' + s[0] + '&z=14';
@@ -216,6 +220,8 @@ export default {
   },
   mounted: function () {
     window.scrollTo(0, 1);
+	this.w = window.innerWidth;
+	window.addEventListener('resize', () => this.w = window.innerWidth);
   },
   watch: {
 	num: function () {
