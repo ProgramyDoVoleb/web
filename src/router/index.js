@@ -206,13 +206,31 @@ const router = createRouter({
     {
       path: '/obce',
       name: 'towns',
-      component: () => import('../views/obce/do.vue'),
+      component: () => import('../views/history/obce/do.vue'),
       props: true
     },
     {
       path: '/obec/:num',
       name: 'town',
-      component: () => import('../views/obce/detail/do.vue'),
+      component: () => import('../views/history/obce/detail/do.vue'),
+      props: true
+    },
+    {
+      path: '/ceska-republika',
+      name: 'country',
+      component: () => import('../views/history/cr/do.vue'),
+      props: true
+    },
+    {
+      path: '/kraj/:id',
+      name: 'region',
+      component: () => import('../views/history/kraj/do.vue'),
+      props: true
+    },
+    {
+      path: '/obvod/:id',
+      name: 'district',
+      component: () => import('../views/history/obvod/do.vue'),
       props: true
     },
     {

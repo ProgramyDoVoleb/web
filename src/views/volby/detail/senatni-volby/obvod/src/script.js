@@ -10,7 +10,7 @@ import ReportForm from '@/components/report-form/do.vue'
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
-import SenatniVolbyResults from '@/views/obce/volby/senatni-volby/do.vue';
+import SenatniVolbyResults from '@/views/history/volby/senatni-volby/do.vue';
 // import CtaSupport from '@/components/cta/support/do.vue';
 import MapLeaflet from '@/components/map-leaflet/do.vue'
 

@@ -5,10 +5,10 @@ import {url, date, number, truncate, type} from '@/pdv/helpers';
 import {ga, ge} from '@/pdv/analytics';
 import SearchTown from '@/components/search-town/do.vue';
 import ReportModal from '@/components/report-modal/do.vue';
-import ListElected from '@/views/obce/detail/elected/do.vue';
-import ElectionDetail from '@/views/obce/volby/detail/do.vue';
+import ListElected from '@/views/history/obce/detail/elected/do.vue';
+import ElectionDetail from '@/views/history/volby/detail/do.vue';
 import StatsTiny from '@/components/stats/stats-tiny/do.vue';
-import StatsTimeline from '@/views/obce/detail/timeline/do.vue';
+import StatsTimeline from '@/views/history/obce/detail/timeline/do.vue';
 import HistoryCandidates from '@/components/history/town/do.vue';
 import axios from 'axios';
 

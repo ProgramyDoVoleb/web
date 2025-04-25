@@ -19,7 +19,7 @@ import HomepageEp from '@/views/homepage/evropske-volby/do.vue';
 import HomepageKz from '@/views/homepage/krajske-volby/do.vue';
 import HomepagePs from '@/views/homepage/snemovni-volby/do.vue';
 import HomepageSenat from '@/views/homepage/senatni-volby/do.vue';
-import ElectionResults from '@/views/obce/volby/detail/do.vue';
+import ElectionResults from '@/views/history/volby/detail/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import log from '@/stores/enums/log';

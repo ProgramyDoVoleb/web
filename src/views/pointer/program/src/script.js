@@ -6,7 +6,7 @@ import {url, date, number, truncate, con, type, domain, sortByPorCislo} from '@/
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
-import ElectionResults from '@/views/obce/volby/detail/do.vue';
+import ElectionResults from '@/views/history/volby/detail/do.vue';
 import ProgramBlock from '@/components/program-block-dynamic/do.vue';
 import ProfilePreview from '@/components/profile-preview/do.vue';
 import ReportModal from '@/components/report-modal/do.vue';

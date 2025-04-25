@@ -5,61 +5,62 @@
 				<p class="lead">
 					Zde najdete kompletní přehled všech voleb, které se konaly v České republice od roku 1993 do současnosti, včetně přehledu voleb v nejbližší době.
 				</p>
-				<p-loader :rule="nearest">
-					<p v-if="elections && elections.list.find(x => x.status < 3 && x.datum <= today)">
-						<p-label color="var(--red)" class="strong">
-							Právě probíhají 
+				<p-block headline="Příští volby" :hide="true">
+					<p-loader :rule="nearest">
+						<p v-if="elections && elections.list.find(x => x.status < 3 && x.datum <= today)">
+							<p-label color="var(--red)" class="strong">
+								Právě probíhají 
+								<p-list-linear>
+									<li v-for="(el, i) in elections.list.filter(x => x.status < 3 && x.datum <= today)">
+										<router-link :to="'/volby/' + election_types.find(x => x.key === el.typ).hash + '/' + el.id">{{ el.radne === 1 ? '' : 'mimořádné '}}{{ election_types.find(x => x.key === el.typ).name.toLowerCase() }}</router-link>
+									</li>
+								</p-list-linear>
+							</p-label>
+						</p>
+						<p v-if="elections && nearest.regular">
+							<p-label color="var(--blue)">Příští</p-label> řádné volby: 
 							<p-list-linear>
-								<li v-for="(el, i) in elections.list.filter(x => x.status < 3 && x.datum <= today)">
-									<router-link :to="'/volby/' + election_types.find(x => x.key === el.typ).hash + '/' + el.id">{{ el.radne === 1 ? '' : 'mimořádné '}}{{ election_types.find(x => x.key === el.typ).name.toLowerCase() }}</router-link>
-								</li>
-							</p-list-linear>
-						</p-label>
-					</p>
-					<p v-if="elections && nearest.regular">
-						<p-label color="var(--blue)">Příští</p-label> řádné volby: 
-						<p-list-linear>
-							<span v-for="regular in nearest.regular">
-								<router-link class="strong" :to="'/volby/' + election_types.find(x => x.key === regular.typ).hash + '/' + regular.id">{{ election_types.find(x => x.key === regular.typ).name }}, {{ regular.datum ? (regular.datum_label || date(regular.datum)) : regular.cirka }}</router-link>
-							</span>	
-						</p-list-linear>					
-					</p>
-					<template v-if="elections">
-						<template v-for="extra in nearest.extra.filter(x => x.typ === 'SENAT')">
-							<p>
-								<p-label color="var(--red)">Mimořádné</p-label> 
-								senátní volby budou 
-								<router-link :to="'/volby/senatni-volby/' + extra.id">{{ date(extra.datum) }}</router-link> 
-								a týkají se 
-								<p-lang :value="String(extra.dotcene).split(',').length" :end="['', 'jednoho obvodu', '%% obvodů', '%% obvodů']"></p-lang>:
-								<p-list-linear>
-									<template v-for="(obv, index) in String(extra.dotcene).split(',')">
-										<li>
-											<router-link :to="'/volby/senatni-volby/' + extra.id + '/obvod/' + obv" class="is-span">{{ obv }}</router-link>
-										</li>
-									</template>
-								</p-list-linear>
-							</p>
+								<span v-for="regular in nearest.regular">
+									<router-link class="strong" :to="'/volby/' + election_types.find(x => x.key === regular.typ).hash + '/' + regular.id">{{ election_types.find(x => x.key === regular.typ).name }}, {{ regular.datum ? (regular.datum_label || date(regular.datum)) : regular.cirka }}</router-link>
+								</span>	
+							</p-list-linear>					
+						</p>
+						<template v-if="elections">
+							<template v-for="extra in nearest.extra.filter(x => x.typ === 'SENAT')">
+								<p>
+									<p-label color="var(--red)">Mimořádné</p-label> 
+									senátní volby budou 
+									<router-link :to="'/volby/senatni-volby/' + extra.id">{{ date(extra.datum) }}</router-link> 
+									a týkají se 
+									<p-lang :value="String(extra.dotcene).split(',').length" :end="['', 'jednoho obvodu', '%% obvodů', '%% obvodů']"></p-lang>:
+									<p-list-linear>
+										<template v-for="(obv, index) in String(extra.dotcene).split(',')">
+											<li>
+												<router-link :to="'/volby/senatni-volby/' + extra.id + '/obvod/' + obv" class="is-span">{{ obv }}</router-link>
+											</li>
+										</template>
+									</p-list-linear>
+								</p>
+							</template>
+							<template v-for="extra in sortBy(nearest.extra.filter(x => x.typ === 'KV'), 'datum', null, true)">
+								<p>
+									<p-label color="var(--red)">Mimořádné</p-label>
+									komunální volby budou 
+									<router-link :to="'/volby/komunalni-volby/' + extra.id">{{ date(extra.datum) }}</router-link> 
+									a týkají se 
+									<p-lang :value="extra.$dotcene.length" :end="['', 'jedné obce', '%% obcí', '%% obcí']"></p-lang>:
+									<p-list-linear>
+										<template v-for="(town, index) in extra.$dotcene">
+											<li>
+												<router-link :to="'/obec/' + town.NUM" class="is-span">{{ town.NAZEV }}</router-link>
+											</li>
+										</template>
+									</p-list-linear>
+								</p>
+							</template>
 						</template>
-						<template v-for="extra in nearest.extra.filter(x => x.typ === 'KV')">
-							<p>
-								<p-label color="var(--red)">Mimořádné</p-label>
-								komunální volby budou 
-								<router-link :to="'/volby/komunalni-volby/' + extra.id">{{ date(extra.datum) }}</router-link> 
-								a týkají se 
-								<p-lang :value="extra.$dotcene.length" :end="['', 'jedné obce', '%% obcí', '%% obcí']"></p-lang>:
-								<p-list-linear>
-									<template v-for="(town, index) in extra.$dotcene">
-										<li>
-											<router-link :to="'/obec/' + town.NUM" class="is-span">{{ town.NAZEV }}</router-link>
-										</li>
-									</template>
-								</p-list-linear>
-							</p>
-						</template>
-					</template>
-				</p-loader>
-				<div class="p-gap_2"></div>
+					</p-loader>
+				</p-block>
 				<p-block headline="Typy voleb">
 					<p-loader :rule="elections">
 						<template v-if="elections">
@@ -96,53 +97,118 @@
 						</template>
 					</p-loader>
 				</p-block>
-				<p-block headline="Poslední novinky" >
-					<p-loader :rule="news">
-						<div v-if="news">
-							<p-list>
-								<template v-for="(item, index) in newsmedia">
-									<div>
-										<news-item :data="item"></news-item>
+			</p-block>
+			<p-block headline="Územní celky" :level="1">
+				<p>Podívejte se na volební historii ve vybraném kraji, obvodě, městě, obci nebo v celé republice.</p>
+				<p-list class="_05">
+					<div>
+						<p-block headline="Celá republika" :hide="true" class="pb0 mb0">
+							<p-area icon="snemovni-volby">
+								<strong><router-link to="/ceska-republika">Česká republika</router-link></strong>
+								<div class="smallest dimm">Sněmovní, evropské a prezidentské volby</div>
+							</p-area>
+						</p-block>
+					</div>
+					<div>
+						<p-block headline="Kraje" :hide="true" class="pb0 mb0">
+							<p-area icon="krajske-volby">
+								<strong>Jednotlivé kraje</strong>
+								<div class="p-gap _05"></div>
+								<p-columns class="smaller _tight">
+									<div v-for="(region, index) in enums.regions.filter(x => x !== 'Praha')">
+										<router-link :to="'/kraj/' + (index + 2)">{{ region }}</router-link>
 									</div>
-								</template>
-								<div>
-									<p-area icon="plus-green" background="var(--green11)" class="inline">
-										<p-modal>
-											<template #init> <button class="inline green strong">Tip na další článek</button> </template>
-											<template #content>
-												<div class="strong">Odkaz na článek</div>
-												<report-form part="Přidat média"></report-form>
-											</template>
-										</p-modal>
-										<div class="smallest dimm">Stačí poslat odkaz</div>
-									</p-area>
+								</p-columns>
+							</p-area>
+						</p-block>
+					</div>
+					<div>
+						<p-block headline="Obvody" :hide="true" class="pb0 mb0">
+							<p-area icon="senatni-volby">
+								<strong>Senátní obvody</strong>
+								<div class="p-gap _01"></div>
+								<div class="smallest">
+									Řadit podle
+									<p-list-linear class="or inline">
+										<span><button class="inline" :class="{'strong green': senatSortByNumber === true}" @click="senatSortByNumber = true">čísla</button></span>
+										<span><button class="inline" :class="{'strong green': senatSortByNumber === false}" @click="senatSortByNumber = false">názvu</button></span>
+									</p-list-linear>
 								</div>
-							</p-list>
-						</div>
-					</p-loader>
-				</p-block>
+								<p-collapsible label="Seznam obvodů" class="smaller" :skip="w > 1000" :open="w > 1000" :class="{mt1: w > 1000}">
+									<p-loader :rule="elections">
+										<div v-if="elections">
+											<p-columns class="_tight">
+												<div v-for="obv in sortBy(elections.cis.obvody, !!senatSortByNumber ? 'OBVOD' : 'NAZEV', null, !senatSortByNumber)">
+													<span class="tiny dimm _w2">{{ obv.OBVOD }}</span>
+													<router-link :to="'/obvod/' + obv.OBVOD" :class="{strong: obv.OBVOD % 3 === 0}">
+														{{ obv.NAZEV }}
+													</router-link>
+												</div>
+											</p-columns>
+										</div>
+									</p-loader>
+								</p-collapsible>
+							</p-area>
+						</p-block>
+					</div>
+					<div>
+						<p-block headline="Obce" :hide="true" class="pb0 mb0">
+							<p-area icon="komunalni-volby">
+								<strong>Jednotlivé obce</strong>
+								<div class="p-gap"></div>
+								<div v-for="(town, index) in enums.towns.capital">
+									<router-link :to="'/obec/' + town.num" :class="{'strong red': index === 0}">
+										{{ town.name }}
+									</router-link>	
+								</div>
+								<div class="p-line"></div>
+								<div class="smaller mb1">
+									<strong>Vybraná města</strong>
+								</div>								
+								<p-columns class="smaller _tight">
+										<div v-for="(town, index) in sortBy([].concat(enums.towns.regional, enums.towns.other), 'name', null, true)">
+											<router-link :to="'/obec/' + town.num">
+												{{ town.name }}
+											</router-link>	
+										</div>
+								</p-columns>
+								<div class="p-line"></div>
+								<div class="smaller mb1">
+									<strong>Vyhledávání všech obcí</strong>
+								</div>	
+								<search-town link="/obec/"></search-town>
+							</p-area>
+						</p-block>
+					</div>
+				</p-list>
 			</p-block>
 			<p-block headline="Přehled voleb" :level="1">
-				<p-area>
-					<p-grid>
+				<p-area class="smallest">
+					<p-list class="_05">
 						<div>
-							<select v-model="typ">
-								<option :value="null">Všechny volby</option>
-								<template v-for="(el, index) in election_types">
-									<option :value="el.key">{{ el.name }}</option>
-								</template>
-							</select>
+							<p-list-linear class="or">
+								<span>
+									<button class="inline" @click="typ = null" :class="{'green strong': typ === null}">Všechny</button>
+								</span>
+								<span v-for="(el, index) in election_types">
+									<button class="inline" @click="typ = el.key" :class="{'green strong': typ === el.key}">{{ el.name }}</button>
+								</span>
+							</p-list-linear>
 						</div>
 						<div v-if="typ === null || typ === 'KV' || typ === 'SENAT'">
-							<select v-model="radne">
-								<option :value="false">Řádné i mimořádné volby</option>
-								<option :value="true">Pouze řádné volby</option>
-							</select>
+							<p-list-linear class="or">
+								<span>
+									<button class="inline" @click="radne = false" :class="{'green strong': radne === false}">Řádné i mimořádné volby</button>
+								</span>
+								<span>
+									<button class="inline" @click="radne = true" :class="{'green strong': radne === true}">Pouze řádné volby</button>
+								</span>
+							</p-list-linear>
 						</div>
-					</p-grid>
+					</p-list>
 				</p-area>
 				<div class="p-gap_3"></div>
-				<p-block-expandable :open="true" headline="Příští volby" v-if="list && list.filter(x => x.datum === null || x.datum > today).length > 0">
+				<p-block-expandable :open="false" headline="Příští volby" v-if="list && list.filter(x => x.datum === null || x.datum > today).length > 0">
 					<p-loader :rule="elections">
 						<div class="election-timeline">
 							<ol v-if="elections">

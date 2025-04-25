@@ -6,6 +6,7 @@ import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import VolbyItem from '../item/do.vue'
 import ReportForm from '@/components/report-form/do.vue';
+import SearchTown from '@/components/search-town/do.vue';
 
 export default {
 	name: 'layout-volby',
@@ -14,6 +15,8 @@ export default {
 			cdn, today,
 			typ: null,
 			radne: false,
+			senatSortByNumber: true,
+			w: 0,
 			sections: [
 				['Nedávné volby', '2020-00-00', today],
 				['Od roku 2015', '2015-00-00', '2019-13-00'],
@@ -25,7 +28,7 @@ export default {
 		}
 	},
   components: {
-	NewsItem, VolbyItem, ReportForm
+	NewsItem, VolbyItem, ReportForm, SearchTown
   },
 	computed: {
 		$store: function () {
@@ -81,12 +84,15 @@ export default {
 		number,
 		truncate,
 		domain,
+		sortBy,
 		reverse: function (arr) {
 			return arr.reverse()
 		}
   },
   mounted: function () {
     window.scrollTo(0, 1);
-    ga("Přehled všech voleb od roku 1993 do současnosti, včetně výhledu na příští rok");
+    ga("Volby");
+	this.w = window.innerWidth;
+	window.addEventListener('resize', () => this.w = window.innerWidth);
   }
 };

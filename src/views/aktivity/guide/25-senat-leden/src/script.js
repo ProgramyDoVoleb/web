@@ -10,8 +10,8 @@ import SearchTown from '@/components/search-town/do.vue'
 import SearchParty from '@/components/search-party/do.vue'
 import PartyPreview from '@/components/party-preview-large/do.vue'
 import PersonPreviewBlock from '@/components/person-preview-block/do.vue'
-import KrajskeVolbyResults from '@/views/obce/volby/krajske-volby/do.vue';
-import SenatniVolbyResults from '@/views/obce/volby/senatni-volby/do.vue';
+import KrajskeVolbyResults from '@/views/history/volby/krajske-volby/do.vue';
+import SenatniVolbyResults from '@/views/history/volby/senatni-volby/do.vue';
 import ActivityLogoSet from '@/views/aktivity/guide/logo/do.vue';
 
 export default {

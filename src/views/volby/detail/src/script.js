@@ -14,8 +14,8 @@ import PrezidentskeVolby from '@/views/volby/detail/prezidentske-volby/do.vue'
 import ReportForm from '@/components/report-form/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
-import EvropskeVolbyResults from '@/views/obce/volby/evropske-volby/do.vue';
-import SnemovniVolbyResults from '@/views/obce/volby/snemovni-volby/do.vue';
+import EvropskeVolbyResults from '@/views/history/volby/evropske-volby/do.vue';
+import SnemovniVolbyResults from '@/views/history/volby/snemovni-volby/do.vue';
 
 export default {
 	name: 'layout-volby-detail',

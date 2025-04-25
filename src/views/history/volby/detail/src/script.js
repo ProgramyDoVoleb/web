@@ -1,12 +1,12 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import EvropskeVolby from '@/views/obce/volby/evropske-volby/do.vue'
-import SnemovniVolby from '@/views/obce/volby/snemovni-volby/do.vue'
-import KrajskeVolby from '@/views/obce/volby/krajske-volby/do.vue'
-import KomunalniVolby from '@/views/obce/volby/komunalni-volby/do.vue'
-import SenatniVolby from '@/views/obce/volby/senatni-volby/do.vue'
-import PrezidentskeVolby from '@/views/obce/volby/prezidentske-volby/do.vue'
+import EvropskeVolby from '@/views/history/volby/evropske-volby/do.vue'
+import SnemovniVolby from '@/views/history/volby/snemovni-volby/do.vue'
+import KrajskeVolby from '@/views/history/volby/krajske-volby/do.vue'
+import KomunalniVolby from '@/views/history/volby/komunalni-volby/do.vue'
+import SenatniVolby from '@/views/history/volby/senatni-volby/do.vue'
+import PrezidentskeVolby from '@/views/history/volby/prezidentske-volby/do.vue'
 import {date} from '@/pdv/helpers';
 
 export default {

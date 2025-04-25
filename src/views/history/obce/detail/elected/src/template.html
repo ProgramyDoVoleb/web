@@ -1,0 +1,3 @@
+<div class="komunalni-volby">
+	<component :is="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni)).reduce((a, b) => a + b.list.length, 0) > 32 ? 'election-list' : 'election-grid'" :list="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni))"></component>
+</div>

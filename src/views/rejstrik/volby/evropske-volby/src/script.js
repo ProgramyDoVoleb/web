@@ -1,4 +1,4 @@
-import ElectionResults from '@/views/obce/volby/detail/do.vue';
+import ElectionResults from '@/views/history/volby/detail/do.vue';
 import {colorByItem, logoByItem} from '@/components/results/helpers';
 import {number, pct} from '@/pdv/helpers';
 import { cdn } from '@/stores/core';

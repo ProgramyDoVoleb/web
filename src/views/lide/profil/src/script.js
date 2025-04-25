@@ -6,7 +6,7 @@ import {url, date, number, truncate, con, type, domain} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
-import ElectionResults from '@/views/obce/volby/detail/do.vue';
+import ElectionResults from '@/views/history/volby/detail/do.vue';
 import ElectionItem from '@/views/volby/item/do.vue';
 
 export default {
