@@ -1,7 +1,7 @@
 <div class="layout-volby">
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Volby v České republice" :level="1">
+			<p-block headline="Volby v České republice" :level="1" anchor="Volby">
 				<p class="lead">
 					Zde najdete kompletní přehled všech voleb, které se konaly v České republice od roku 1993 do současnosti, včetně přehledu voleb v nejbližší době.
 				</p>
@@ -99,7 +99,7 @@
 				</p-block>
 			</p-block>
 			<p-block headline="Územní celky" :level="1">
-				<p>Podívejte se na volební historii ve vybraném kraji, obvodě, městě, obci nebo v celé republice.</p>
+				<p>Podívejte se na volební historii ve vybraném kraji, obvodě, městě, obci nebo v celé republice a porovnejte si je v celkovými výsledky.</p>
 				<p-list class="_05">
 					<div>
 						<p-block headline="Celá republika" :hide="true" class="pb0 mb0">
@@ -115,15 +115,19 @@
 								<strong>Jednotlivé kraje</strong>
 								<div class="p-gap _05"></div>
 								<p-columns class="smaller _tight">
-									<div v-for="(region, index) in enums.regions.filter(x => x !== 'Praha')">
-										<router-link :to="'/kraj/' + (index + 2)">{{ region }}</router-link>
+									<div v-for="(region, index) in enums.regions">
+										<router-link v-if="index === 0" to="/obec/554782" class="red">Praha</router-link>
+										<router-link v-else :to="'/kraj/' + (index + 1)">{{ region }}</router-link>
 									</div>
 								</p-columns>
+								<div class="smallest mt3 _w40">
+									<strong class="red">Praha</strong> má výjimečné postavení, je krajem i městem zároveň. Nekonají se zde ale krajské volby, pravomoci kraje vykonává magistrát. Ten je volen v rámci běžných komunálních voleb podobně jako magistráty jiných statutárních měst.
+								</div>
 							</p-area>
 						</p-block>
 					</div>
 					<div>
-						<p-block headline="Obvody" :hide="true" class="pb0 mb0">
+						<p-block headline="Senátní obvody" :hide="true" class="pb0 mb0">
 							<p-area icon="senatni-volby">
 								<strong>Senátní obvody</strong>
 								<div class="p-gap _01"></div>
@@ -134,12 +138,12 @@
 										<span><button class="inline" :class="{'strong green': senatSortByNumber === false}" @click="senatSortByNumber = false">názvu</button></span>
 									</p-list-linear>
 								</div>
-								<p-collapsible label="Seznam obvodů" class="smaller" :skip="w > 1000" :open="w > 1000" :class="{mt1: w > 1000}">
+								<p-collapsible label="Seznam obvodů" class="smaller" :skip="w > 1000" :open="w > 1000" :class="{mt1: w > 1000}" :borderless="true">
 									<p-loader :rule="elections">
 										<div v-if="elections">
 											<p-columns class="_tight">
 												<div v-for="obv in sortBy(elections.cis.obvody, !!senatSortByNumber ? 'OBVOD' : 'NAZEV', null, !senatSortByNumber)">
-													<span class="tiny dimm _w2">{{ obv.OBVOD }}</span>
+													<span class="tiny dimm _w2" :class="{red: obv.OBVOD % 3 === 0}">{{ obv.OBVOD }}</span>
 													<router-link :to="'/obvod/' + obv.OBVOD" :class="{strong: obv.OBVOD % 3 === 0}">
 														{{ obv.NAZEV }}
 													</router-link>
@@ -147,6 +151,9 @@
 											</p-columns>
 										</div>
 									</p-loader>
+									<div class="smallest mt3">
+										<strong class="red">Červeně</strong> jsou označeny obvody, ve kterých proběhnout nejbližší řádné senátní volby
+									</div>
 								</p-collapsible>
 							</p-area>
 						</p-block>
@@ -208,9 +215,10 @@
 					</p-list>
 				</p-area>
 				<div class="p-gap_3"></div>
-				<p-block-expandable :open="false" headline="Příští volby" v-if="list && list.filter(x => x.datum === null || x.datum > today).length > 0">
+				<p-block :hide="true" :open="false" headline="Příští volby" v-if="list && list.filter(x => x.datum === null || x.datum > today).length > 0">
 					<p-loader :rule="elections">
 						<div class="election-timeline">
+							<h2 class="serif mt0">Příští volby</h2>
 							<ol v-if="elections">
 								<template v-for="(election, index) in reverse(list.filter(x => x.datum && x.status < 3))">
 									<li>
@@ -225,7 +233,8 @@
 							</ol>
 						</div>
 					</p-loader>
-				</p-block-expandable>
+				</p-block>
+				<h2 class="serif mt0">Historie</h2>
 				<template v-if="list && list.length > 10">
 					<template v-for="(section, insect) in sections">
 						<p-block-expandable :headline="section[0]">
@@ -244,7 +253,7 @@
 					</template>
 				</template>
 				<template v-if="list && list.length <= 10">
-					<p-block headline="Uplynulé volby">
+					<p-block headline="Uplynulé volby" :hide="true">
 						<p-loader :rule="elections">
 							<div class="election-timeline">
 								<ol v-if="elections">

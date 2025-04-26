@@ -18,7 +18,8 @@ export default {
 			senatSortByNumber: true,
 			w: 0,
 			sections: [
-				['Nedávné volby', '2020-00-00', today],
+				['Nedávné volby', '2025-00-00', today],
+				['Od roku 2020', '2020-00-00', '2024-13-00'],
 				['Od roku 2015', '2015-00-00', '2019-13-00'],
 				['Od roku 2010', '2010-00-00', '2014-13-00'],
 				['Od roku 2005', '2005-00-00', '2009-13-00'],

@@ -61,6 +61,34 @@
 	}
 }
 
+.p-columns---tighter,
+._tighter {
+	container-type: inline-size;
+
+	@container (min-width: 360px) {
+		.p-columns---container {
+			columns: 2;
+			column-gap: 2em;
+		}
+	
+		.p-columns---container > div {
+			margin-bottom: 2em;
+		}
+	}
+	
+	@container (min-width: 640px) {
+		.p-columns---container {
+			columns: 3;
+		}
+	}
+	
+	@container (min-width: 800px) {
+		.p-columns---container {
+			columns: 4;
+		}
+	}
+}
+
 ._small {
 	columns: 2;
 	column-gap: 2em;

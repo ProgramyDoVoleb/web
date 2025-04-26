@@ -1,52 +1,93 @@
 
 
 .election-item {
-    padding: 1rem 0;
-    border-top: var(--border);
-  
-      .dark & {
-          border-top: 1px solid #000;
-      }
-  
-      .logo-holder {
-        display: inline-block;
-        width: 3.25rem;
-        position: relative;
-      }
-  
-      .logo {
-        position: absolute;
-        width: 2.5rem;
-        height: 2.5rem;
-        top: -1.8rem;
-        border-radius: 50%;
-        border: var(--border);
-          background: #fff;
-      }
-  }
-  
-  .election-item-header {
-    position: relative;
-  
-    .icon {
-      position: absolute;
-      right: 1rem;
-          top: .6rem;
-      font-size: 1.2rem;
-      line-height: 1;
+  padding: 1rem 0;
+  border-top: var(--border);
+
+    .dark & {
+        border-top: 1px solid #000;
     }
-  }
 
-  ._stats .p-offset > div {
-    width: 50%;
-  }
+    .logo-holder {
+      display: inline-block;
+      width: 3.25rem;
+      position: relative;
+    }
 
-  .stats-tiny {
-    width: 50px;
-  }
+    .logo {
+      position: absolute;
+      width: 2.5rem;
+      height: 2.5rem;
+      top: -1.8rem;
+      border-radius: 50%;
+      border: var(--border);
+        background: #fff;
+    }
+}
 
-  .coalition-edit input[type=checkbox] {
-    display: inline-block;
-    width: auto;
-    height: auto;
+.election-item-header {
+  position: relative;
+
+  .icon {
+    position: absolute;
+    right: 1rem;
+        top: .6rem;
+    font-size: 1.2rem;
+    line-height: 1;
   }
+}
+
+._stats .p-offset > div {
+  width: 50%;
+}
+
+.stats-tiny {
+  width: 50px;
+}
+
+.coalition-edit input[type=checkbox] {
+  display: inline-block;
+  width: auto;
+  height: auto;
+}
+
+._w2 {
+  text-align: right;
+  display: inline-block;
+  padding-right: .05em;
+  white-space: nowrap;
+  min-width: 2em;
+}
+
+.mt1 {
+  margin-top: 1em !important;
+}
+
+.btns > * {
+	display: inline-block;
+	margin: .25em .25em 0 0;
+}
+
+h2 {
+	margin-top: .25em;
+}
+
+._tc {
+	width: .25em;
+	padding: 0;
+}
+
+._tdp {
+	padding-top: .75em;
+	padding-bottom: .75em;
+}
+
+._tmax {
+	width: 100%;
+}
+
+._pimg {
+	background: #fff;
+	margin-right: .5em;
+	border-radius: .5em;
+}

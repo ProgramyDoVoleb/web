@@ -29,10 +29,10 @@
 								</div>
 							</p-grid>
 						</p-block>
-						<p-loader :rule="history">
-							<div v-if="history">
-								<p-block headline="Historie voleb">
-									<p>V této části se dozvíte, v kterých celostátních volbách lidé volili, s jakou účastí. U prezidentských voleb je uvedena účast v prvním a druhém kole.</p>
+						<p-block headline="Historie voleb">
+							<p>V této části se dozvíte, v kterých celostátních volbách lidé volili, s jakou účastí. U prezidentských voleb je uvedena účast v prvním a druhém kole.</p>
+							<p-loader :rule="history">
+								<div v-if="history">
 									<template v-for="(election, index) in $elections.past">
 										<template v-if="index < 6 || showAll">
 											<p-collapsible :status="election.$data.$ucast[0] ? election.$data.$ucast[0].UCAST + ' %' + (election.$data.$ucast.length === 2 ? ' · ' + election.$data.$ucast[1].UCAST + ' %' : '') : null" :logo="cdn + 'icon/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '.svg'" :label="enums.elections.find(x => x.key === election.$volby.typ).name + ' ' + (election.$volby.radne === 1 ? election.$volby.datum.split('-')[0] : ' · ' + date(election.$volby.datum))">
@@ -44,279 +44,292 @@
 										<div class="p-gap"></div>
 										<button @click="showAll = !showAll">Zobrazit {{ showAll ? 'zkrácený' : 'celý' }} seznam</button>
 									</template>
-								</p-block>
-								<component :is="w > 1000 ? 'p-block' : 'p-block-expandable'" headline="Trendy" class="mb3">
-									<p>Grafy ukazují, jak se měnily výsledky stran v průběhu času v obci {{ $core.NAZEV }}. Klikněte nebo najeďte na datum pro výsledky pro konkrétní datum.</p>
-									<p-grid>
-										<template v-for="(el, index) in election_types.filter(x => ['PS', 'EP', 'KZ'].indexOf(x.key) > -1)">
-											<div v-if="$elections.past.find(x => x.$volby.typ === el.key)">
-												<p-area>
-													<div class="p-offset">
-														<div>
-															<p-image :src="cdn + 'icon/' + el.hash + '.svg'" :width="4.5"></p-image>
-														</div>
-														<div>
-															<strong>{{ el.name }}</strong>
-															<div class="smallest"><p-lang :value="$elections.past.filter(x => x.$volby.typ === el.key).length" :end="['', 'jedny volby', '%% volby', '%% voleb']"></p-lang></div>
-														</div>
-													</div>
-													<div class="p-line p-line__05"></div>
-													<stats-timeline :election="el" :data="$elections.past.filter(x => x.$volby.typ === el.key)"></stats-timeline>
-												</p-area>
-											</div>
-										</template>
-										<div>
-											<p-list class="invisisble">
-												<template v-for="(el, index) in election_types">
-													<div v-if="$elections.past.find(x => x.$volby.typ === el.key) && $elections.past.filter(x => x.$volby.typ === el.key).filter(x => x.$data.$ucast.length === 0).length === 0">
-														<p-area>
-															<div class="p-offset">
-																<div>
-																	<p-image :src="cdn + 'icon/' + el.hash + '.svg'" :width="4"></p-image>
-																</div>
-																<div>
-																	<div class="p-offset reverse">
-																		<div>
-																			<div class="smaller strong">
-																				{{ el.name }}
-																			</div>
-																			<div class="smallest">
-																				<p-label color="var(--green)">max {{ Math.max(...($elections.past.filter(x => x.$volby.typ === el.key).map(x => x.$data.$ucast[0].UCAST))) }} %</p-label>
-																				<br>
-																				<p-label color="var(--red)">min {{ Math.min(...($elections.past.filter(x => x.$volby.typ === el.key).map(x => x.$data.$ucast[0].UCAST))) }} %</p-label>
-																			</div>
-																		</div>
-																		<div v-if="$elections.past.filter(x => x.$volby.typ === el.key).length > 1">
-																			<stats-tiny :data="statsGraph($elections.past.filter(x => x.$volby.typ === el.key))" color="var(--blue)" :inline="true" :width="50"></stats-tiny>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="p-gap_05"></div>
-															<table class="smallest" >
-																<thead>
-																	<tr>
-																		<th>datum</th>
-																		<th class="text-right">účast</th>
-																		<th class="text-right" v-if="['PREZ', 'SENAT'].indexOf(el.key) > -1">2. kolo</th>
-																	</tr>
-																</thead>
-																<tbody>
-																	<template v-for="(elp, index) in $elections.past.filter(x => x.$volby.typ === el.key)">
-																		<tr v-if="index < 2">
-																			<td>{{ date(elp.$volby.datum, 3) }}</td>
-																			<td class="text-right">{{ elp.$data.$ucast[0].UCAST }} %</td>
-																			<td class="text-right" v-if="['PREZ', 'SENAT'].indexOf(el.key) > -1">{{ elp.$data.$ucast.length > 1 ? elp.$data.$ucast[1].UCAST + ' %' : ''}}</td>
-																		</tr>
-																	</template>
-																</tbody>
-															</table>
-															<template v-if="$elections.past.filter(x => x.$volby.typ === el.key && x.$volby.radne === 1).length > 2">
-																<div class="p-line p-line__0"></div>
-																<p-modal>
-																	<template #init>
-																		<span class="smallest strong">Všechny volby &middot; {{ $elections.past.filter(x => x.$volby.typ === el.key).length }}</span>
-																	</template>
-																	<template #content>
-																		<div>
-																			<strong>{{ el.name }}</strong>
-																			<div class="p-gap"></div>
-																			<table >
-																				<thead>
-																					<tr>
-																						<th>datum</th>
-																						<th class="text-right">účast</th>
-																						<th class="text-right" v-if="['PREZ', 'SENAT'].indexOf(el.key) > -1">2. kolo</th>
-																					</tr>
-																				</thead>
-																				<tbody>
-																					<template v-for="(elp, index) in $elections.past.filter(x => x.$volby.typ === el.key)">
-																						<tr>
-																							<td>{{ date(elp.$volby.datum, 3) }}</td>
-																							<td class="text-right">{{ elp.$data.$ucast[0].UCAST }} %</td>
-																							<td class="text-right" v-if="['PREZ', 'SENAT'].indexOf(el.key) > -1">{{ elp.$data.$ucast.length > 1 ? elp.$data.$ucast[1].UCAST + ' %' : ''}}</td>
-																						</tr>
-																					</template>
-																				</tbody>
-																			</table>
-																		</div>
-																	</template>
-																</p-modal>
-															</template>
-														</p-area>
-													</div>
-												</template>
-											</p-list>
-										</div>
-									</p-grid>
-								</component>
-							</div>
-						</p-loader>
+								</div>
+							</p-loader>
+						</p-block>
 						<p-block headline="Naposled zvolení">
 							<p>Přehled zvolených zastupitelů, v okamžiku završení voleb. Bohužel není kapacitně ani technicky možné zaznamenávat změny v průběhu mandátu.</p>
 							<p-loader :rule="current">
 								<div v-if="current">
-									<h4>Prezident</h4>
-									<p-area icon="prezidentske-volby" class="inline">
-										<template v-for="cand in current.list[2].$kandidati">
-											<router-link :to="'/bod/csu_prez_rk/' + cand.id" class="strong">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
-										</template>
-										<div class="smallest dimm"> 
-											<router-link class="dimm" :to="'/volby/prezidentske-volby/' + current.list[2].$volby.id">{{ date(current.list[2].$volby.datum) }}</router-link>
-										</div>
-									</p-area>
-
-									<h4 class="mb0 mt3">200 poslanců</h4>
-									<div class="smallest dimm mb1"> 
-										<router-link class="dimm" :to="'/volby/snemovni-volby/' + current.list[1].$volby.id">{{ date(current.list[1].$volby.datum) }}</router-link>
-									</div>
-									
-										<template v-for="party in sortBy(current.list[1].$strany, w > 1000 ? 'NAZEV' : 'ZKRATKA', null, true)">
-											<p-collapsible :label="w > 1000 ? party.NAZEV : party.ZKRATKA" :status="party.POCMANDCR" :logo="logoByItem(party, current.list[1])">
-												<p-columns class="smaller _tight">
-													<div v-for="cand in sortBy(current.list[1].$kandidati.filter(x => x.KSTRANA === party.KSTRANA), 'PRIJMENI', null, true)">
-														<component :is="current.list[1].cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition ? 'p-label' : 'span'" :color="colorByItem(cand, current.list[1], 'NSTRANA')">
-															<router-link :to="'/bod/csu_ps_rk/' + cand.id" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO +  ' ' + cand.PRIJMENI }}</router-link>
-														</component>
-													</div>
-												</p-columns>
-												<div class="p-gap _2"></div>
-												<p-area class="inline smaller" :borderColor="colorByItem(party, current.list[1])">
-													<router-link :to="'/bod/csu_ps_rkl/' + party.id" class="strong">{{ party.NAZEV }}</router-link>
-													<template v-if="current.list[1].cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
-														<div class="p-gap"></div>
-														<p-list class="invisible">
-															<div v-for="member in current.list[1].cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
-																<p-label :color="colorByItem(member, current.list[1])">{{ member.ZKRATKA }}</p-label>
-																&middot;
-																<p-lang :value="current.list[1].$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.NSTRANA === member.VSTRANA).length" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>
-															</div>
-														</p-list>
-													</template>
-												</p-area>
-											</p-collapsible>
-										</template>
-									
-									
-									<h4 class="mt3">81 senátorů</h4>
-									<p-area>
-										<!-- <div class="p-line"></div> -->
-										<div class="strong smaller mv2">
-											Počet senátorů podle
-											<p-list-linear class="or inline">
-												<span><button class="inline" @click="senatePartyView = 1" :class="{'strong green': senatePartyView === 1}">navrhující strany</button></span>
-												<span><button class="inline" @click="senatePartyView = 2" :class="{'strong green': senatePartyView === 2}">členství</button></span>
-											</p-list-linear>
-										</div>
-										<p-columns class="_tight">
-											<div  v-for="party in sortBy(current.senat.cis.strany.filter(x => current.senat.list.find(y => y.$elected[senatePartyView === 1 ? 'NSTRANA' : 'PSTRANA'] === x.VSTRANA)), 'ZKRATKA', null, true)">
-												<p-box-group>
-													<p-box :block="true">
-														<p-box-image :src="logoByItem(party, current.senat)"></p-box-image>
-														<p-box-label v-if="party.VSTRANA === 80 || party.VSTRANA === 99">nezávislý</p-box-label>
-														<p-box-label v-else>
-															<router-link :to="'/rejstrik/' + party.VSTRANA" class="is-span">{{ party.ZKRATKA }}</router-link>
-														</p-box-label>
-														<p-box-gap></p-box-gap>
-														<p-box-label>{{ current.senat.list.filter(y => y.$elected[senatePartyView === 1 ? 'NSTRANA' : 'PSTRANA'] === party.VSTRANA).length }}</p-box-label>
-													</p-box>
-												</p-box-group>
+									<p-block headline="Prezident" :hide="true">
+										<h4 class="mt3">Prezident</h4>
+										<p-area icon="prezidentske-volby" class="inline">
+											<template v-for="cand in current.list[2].$kandidati">
+												<router-link :to="'/bod/csu_prez_rk/' + cand.id" class="strong">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+											</template>
+											<div class="smallest dimm"> 
+												<router-link class="dimm" :to="'/volby/prezidentske-volby/' + current.list[2].$volby.id">{{ date(current.list[2].$volby.datum) }}</router-link>
 											</div>
-										</p-columns>
-										<div class="p-line"></div>
+										</p-area>
+									</p-block>
+									<p-block headline="Poslanci" :hide="true">
 
-										<p-collapsible label="Přehled senátorů" logo="person" class="smaller">
+										<h4 class="mb0 mt0">200 poslanců</h4>
+										<div class="smallest dimm mb1"> 
+											<router-link class="dimm" :to="'/volby/snemovni-volby/' + current.list[1].$volby.id">{{ date(current.list[1].$volby.datum) }}</router-link>
+										</div>
+										
+											<template v-for="party in sortBy(current.list[1].$strany, w > 1000 ? 'NAZEV' : 'ZKRATKA', null, true)">
+												<p-collapsible :label="w > 1000 ? party.NAZEV : party.ZKRATKA" :status="party.POCMANDCR" :logo="logoByItem(party, current.list[1])">
+													<p-columns class="smaller _tight">
+														<div v-for="cand in sortBy(current.list[1].$kandidati.filter(x => x.KSTRANA === party.KSTRANA), 'PRIJMENI', null, true)">
+															<component :is="current.list[1].cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition ? 'p-label' : 'span'" :color="colorByItem(cand, current.list[1], 'NSTRANA')">
+																<router-link :to="'/bod/csu_ps_rk/' + cand.id" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO +  ' ' + cand.PRIJMENI }}</router-link>
+															</component>
+														</div>
+													</p-columns>
+													<div class="p-gap _2"></div>
+													<p-area class="inline smaller" :borderColor="colorByItem(party, current.list[1])">
+														<router-link :to="'/bod/csu_ps_rkl/' + party.id" class="strong">{{ party.NAZEV }}</router-link>
+														<template v-if="current.list[1].cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+															<div class="p-gap"></div>
+															<p-list class="invisible">
+																<div v-for="member in current.list[1].cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+																	<p-label :color="colorByItem(member, current.list[1])">{{ member.ZKRATKA }}</p-label>
+																	&middot;
+																	<p-lang :value="current.list[1].$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.NSTRANA === member.VSTRANA).length" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>
+																</div>
+															</p-list>
+														</template>
+													</p-area>
+												</p-collapsible>
+											</template>
 
-											<div class="mb2">
-												<p-area class="smallest inline">
-													Řadit podle
-													<p-list-linear class="or inline">
-														<span><button class="inline" @click="senateView = 1" :class="{'strong green': senateView === 1}">čísla obvodu</button></span>
-														<span><button class="inline" @click="senateView = 2" :class="{'strong green': senateView === 2}">jména obvodu</button></span>
-														<span><button class="inline" @click="senateView = 3" :class="{'strong green': senateView === 3}">jména senátora</button></span>
-													</p-list-linear>
-												</p-area>
+									</p-block>
+									<p-block headline="Senátoři" :hide="true">
+										<h4 class="mt0">81 senátorů</h4>
+										<p-area>
+											<!-- <div class="p-line"></div> -->
+											<div class="strong smaller mv2">
+												Počet senátorů podle
+												<p-list-linear class="or inline">
+													<span><button class="inline" @click="senatePartyView = 1" :class="{'strong green': senatePartyView === 1}">navrhující strany</button></span>
+													<span><button class="inline" @click="senatePartyView = 2" :class="{'strong green': senatePartyView === 2}">členství</button></span>
+												</p-list-linear>
 											</div>
-											
 											<p-columns class="_tight">
-												<div v-for="obvod in sortBy(current.senat.list, ['', 'OBVOD', 'NAZEV', 'index'][senateView], null, senateView > 1)">
-													<div class="smallest">
-														<span :class="{'red strong': obvod.OBVOD % 3 === 0}">{{ obvod.OBVOD }} &middot;</span>
-														{{ obvod.NAZEV }}
-													</div>
-													<p-label :color="colorByItem(obvod.$elected, current.senat, 'NSTRANA')" :after="true">
-														<router-link :to="'/bod/csu_senat_rk/' + obvod.$elected.id" class="strong">{{ obvod.$elected.JMENO +  ' ' + obvod.$elected.PRIJMENI }}</router-link>
-													</p-label>
-													<div class="tiny dimm">
-														<!-- <p-label :color="colorByItem(obvod.$elected, current.senat, 'NSTRANA')" :after="true">
-															{{ current.senat.cis.strany.find(x => x.VSTRANA === obvod.$elected.NSTRANA).ZKRATKA }}
-														</p-label> -->
-														{{ obvod.$elected.NAZEV_VS }}
-													</div>
+												<div  v-for="party in sortBy(current.senat.cis.strany.filter(x => current.senat.list.find(y => y.$elected[senatePartyView === 1 ? 'NSTRANA' : 'PSTRANA'] === x.VSTRANA)), 'ZKRATKA', null, true)">
+													<p-box-group>
+														<p-box :block="true">
+															<p-box-image :src="logoByItem(party, current.senat)"></p-box-image>
+															<p-box-label v-if="party.VSTRANA === 80 || party.VSTRANA === 99">nezávislý</p-box-label>
+															<p-box-label v-else>
+																<router-link :to="'/rejstrik/' + party.VSTRANA" class="is-span">{{ party.ZKRATKA }}</router-link>
+															</p-box-label>
+															<p-box-gap></p-box-gap>
+															<p-box-label>{{ current.senat.list.filter(y => y.$elected[senatePartyView === 1 ? 'NSTRANA' : 'PSTRANA'] === party.VSTRANA).length }}</p-box-label>
+														</p-box>
+													</p-box-group>
 												</div>
 											</p-columns>
-											<div class="smallest mt3">
-												<strong class="red">Červeně</strong> jsou označeny obvody, ve kterých proběhnout nejbližší řádné senátní volby
-											</div>
-										</p-collapsible>
-										<p-collapsible label="Seznam obvodů" logo="list" class="smaller" :borderless="true">
-
-											<div class="mb2">
-												<p-area class="smallest inline">
-													Řadit podle
-													<p-list-linear class="or inline">
-														<span><button class="inline" @click="senateView = 1" :class="{'strong green': senateView === 1}">čísla obvodu</button></span>
-														<span><button class="inline" @click="senateView = 2" :class="{'strong green': senateView === 2}">jména obvodu</button></span>
-														<!-- <span><button class="inline" @click="senateView = 3" :class="{'strong green': senateView === 3}">jména senátora</button></span> -->
-													</p-list-linear>
-												</p-area>
-											</div>
-											
-											<p-columns class="_tight">
-												<div v-for="obvod in sortBy(current.senat.list, ['', 'OBVOD', 'NAZEV', 'index'][senateView], null, senateView > 1)">
-													<!-- <div class="smallest"> -->
-														<span class="_w2" :class="{'red strong': obvod.OBVOD % 3 === 0}">{{ obvod.OBVOD }} &middot; </span>
-														<router-link :to="'/obvod/' + obvod.OBVOD">{{ obvod.NAZEV }}</router-link>
-													<!-- </div> -->
+											<div class="p-line"></div>
+	
+											<p-collapsible label="Přehled senátorů" logo="person" class="smaller">
+	
+												<div class="mb2">
+													<p-area class="smallest inline">
+														Řadit podle
+														<p-list-linear class="or inline">
+															<span><button class="inline" @click="senateView = 1" :class="{'strong green': senateView === 1}">čísla obvodu</button></span>
+															<span><button class="inline" @click="senateView = 2" :class="{'strong green': senateView === 2}">jména obvodu</button></span>
+															<span><button class="inline" @click="senateView = 3" :class="{'strong green': senateView === 3}">jména senátora</button></span>
+														</p-list-linear>
+													</p-area>
 												</div>
-											</p-columns>
-
-											<div class="smallest mt3">
-												<strong class="red">Červeně</strong> jsou označeny obvody, ve kterých proběhnout nejbližší řádné senátní volby
-											</div>
-
-										</p-collapsible>
-									</p-area>
-
-									<h4 class="mb0 mt3">21 europoslanců</h4>
-									<div class="smallest dimm mb2"> 
-										<router-link class="dimm" :to="'/volby/evropske-volby/' + current.list[0].$volby.id">{{ date(current.list[0].$volby.datum) }}</router-link>
-									</div>
-									<p-columns class="smaller _tight">
-										<div v-for="party in sortBy(current.list[0].$strany, 'POCMANDCR', null, false, true)">
-											<p-area>
-												<div class="p-offset">
-													<div>
-														<p-image :src="logoByItem(party, current.list[0])" width="2.5em" :rounded="true"></p-image>
-													</div>
-													<div>
-														<router-link :to="'/bod/csu_ep_rkl/' + party.id" class="strong">{{ party.ZKRATKA }}</router-link>
+												
+												<p-columns class="_tight">
+													<div v-for="obvod in sortBy(current.senat.list, ['', 'OBVOD', 'NAZEV', 'index'][senateView], null, senateView > 1)">
 														<div class="smallest">
-															<p-lang :value="current.list[0].$kandidati.filter(x => x.ESTRANA === party.ESTRANA).length" :end="['', '1 mandát', '%% mandáty', '%% mandátů']"></p-lang>
+															<span :class="{'red strong': obvod.OBVOD % 3 === 0}">{{ obvod.OBVOD }} &middot;</span>
+															{{ obvod.NAZEV }}
+														</div>
+														<p-label :color="colorByItem(obvod.$elected, current.senat, 'NSTRANA')" :after="true">
+															<router-link :to="'/bod/csu_senat_rk/' + obvod.$elected.id" class="strong">{{ obvod.$elected.JMENO +  ' ' + obvod.$elected.PRIJMENI }}</router-link>
+														</p-label>
+														<div class="tiny dimm">
+															<!-- <p-label :color="colorByItem(obvod.$elected, current.senat, 'NSTRANA')" :after="true">
+																{{ current.senat.cis.strany.find(x => x.VSTRANA === obvod.$elected.NSTRANA).ZKRATKA }}
+															</p-label> -->
+															{{ obvod.$elected.NAZEV_VS }}
 														</div>
 													</div>
+												</p-columns>
+												<div class="smallest mt3">
+													<strong class="red">Červeně</strong> jsou označeny obvody, ve kterých proběhnout nejbližší řádné senátní volby
 												</div>
-												<div class="p-gap"></div>
-												<p-list class="_05 invisible">
-													<div v-for="cand in sortBy(current.list[0].$kandidati.filter(x => x.ESTRANA === party.ESTRANA), 'PRIJMENI', null, true)">
-														<component :is="current.list[0].cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition ? 'p-label' : 'span'" :color="colorByItem(cand, current.list[0], 'NSTRANA')">
-															<router-link :to="'/bod/csu_ep_rk/' + cand.id" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO +  ' ' + cand.PRIJMENI }}</router-link>
-														</component>
+											</p-collapsible>
+											<p-collapsible label="Seznam obvodů" logo="list" class="smaller" :borderless="true">
+	
+												<div class="mb2">
+													<p-area class="smallest inline">
+														Řadit podle
+														<p-list-linear class="or inline">
+															<span><button class="inline" @click="senateView = 1" :class="{'strong green': senateView === 1}">čísla obvodu</button></span>
+															<span><button class="inline" @click="senateView = 2" :class="{'strong green': senateView === 2}">jména obvodu</button></span>
+															<!-- <span><button class="inline" @click="senateView = 3" :class="{'strong green': senateView === 3}">jména senátora</button></span> -->
+														</p-list-linear>
+													</p-area>
+												</div>
+												
+												<p-columns class="_tight">
+													<div v-for="obvod in sortBy(current.senat.list, ['', 'OBVOD', 'NAZEV', 'index'][senateView], null, senateView > 1)">
+														<!-- <div class="smallest"> -->
+															<span class="_w2" :class="{'red strong': obvod.OBVOD % 3 === 0}">{{ obvod.OBVOD }} &middot; </span>
+															<router-link :to="'/obvod/' + obvod.OBVOD">{{ obvod.NAZEV }}</router-link>
+														<!-- </div> -->
 													</div>
-												</p-list>
-											</p-area>
+												</p-columns>
+	
+												<div class="smallest mt3">
+													<strong class="red">Červeně</strong> jsou označeny obvody, ve kterých proběhnout nejbližší řádné senátní volby
+												</div>
+	
+											</p-collapsible>
+										</p-area>
+									</p-block>
+									<p-block headline="Europoslanci" :hide="true">
+										<h4 class="mt0 mb0">21 europoslanců</h4>
+										<div class="smallest dimm mb2"> 
+											<router-link class="dimm" :to="'/volby/evropske-volby/' + current.list[0].$volby.id">{{ date(current.list[0].$volby.datum) }}</router-link>
 										</div>
-									</p-columns>
+										<p-columns class="smaller _tight">
+											<div v-for="party in sortBy(current.list[0].$strany, 'POCMANDCR', null, false, true)">
+												<p-area>
+													<div class="p-offset">
+														<div>
+															<p-image :src="logoByItem(party, current.list[0])" width="2.5em" :rounded="true"></p-image>
+														</div>
+														<div>
+															<router-link :to="'/bod/csu_ep_rkl/' + party.id" class="strong">{{ party.ZKRATKA }}</router-link>
+															<div class="smallest">
+																<p-lang :value="current.list[0].$kandidati.filter(x => x.ESTRANA === party.ESTRANA).length" :end="['', '1 mandát', '%% mandáty', '%% mandátů']"></p-lang>
+															</div>
+														</div>
+													</div>
+													<div class="p-gap"></div>
+													<p-list class="_05 invisible">
+														<div v-for="cand in sortBy(current.list[0].$kandidati.filter(x => x.ESTRANA === party.ESTRANA), 'PRIJMENI', null, true)">
+															<component :is="current.list[0].cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition ? 'p-label' : 'span'" :color="colorByItem(cand, current.list[0], 'NSTRANA')">
+																<router-link :to="'/bod/csu_ep_rk/' + cand.id" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO +  ' ' + cand.PRIJMENI }}</router-link>
+															</component>
+														</div>
+													</p-list>
+												</p-area>
+											</div>
+										</p-columns>
+									</p-block>
+									
+									
+
+								</div>
+							</p-loader>
+						</p-block>
+						<p-block headline="Statistiky a trendy">
+							<p-loader :rule="history">
+								<div v-if="history">
+									<p-grid>
+										<template v-for="(el, index) in election_types">
+											<div v-if="$elections.past.find(x => x.$volby.typ === el.key) && $elections.past.filter(x => x.$volby.typ === el.key).filter(x => x.$data.$ucast.length === 0).length === 0">
+												<p-area>
+													<div class="p-offset">
+														<div>
+															<p-image :src="cdn + 'icon/' + el.hash + '.svg'" :width="4"></p-image>
+														</div>
+														<div>
+															<div class="p-offset reverse">
+																<div>
+																	<div class="smaller strong">
+																		{{ el.name }}
+																	</div>
+																	<div class="smallest">
+																		<p-label color="var(--green)">max {{ Math.max(...($elections.past.filter(x => x.$volby.typ === el.key).map(x => x.$data.$ucast[0].UCAST))) }} %</p-label>
+																		<br>
+																		<p-label color="var(--red)">min {{ Math.min(...($elections.past.filter(x => x.$volby.typ === el.key).map(x => x.$data.$ucast[0].UCAST))) }} %</p-label>
+																	</div>
+																</div>
+																<div v-if="$elections.past.filter(x => x.$volby.typ === el.key).length > 1">
+																	<stats-tiny :data="statsGraph($elections.past.filter(x => x.$volby.typ === el.key))" color="var(--blue)" :inline="true" :width="50"></stats-tiny>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="p-gap_05"></div>
+													<table class="smallest" >
+														<thead>
+															<tr>
+																<th>datum</th>
+																<th class="text-right">účast</th>
+																<th class="text-right" v-if="['PREZ', 'SENAT'].indexOf(el.key) > -1">2. kolo</th>
+															</tr>
+														</thead>
+														<tbody>
+															<template v-for="(elp, index) in $elections.past.filter(x => x.$volby.typ === el.key)">
+																<tr v-if="index < 2">
+																	<td>{{ date(elp.$volby.datum, 3) }}</td>
+																	<td class="text-right">{{ elp.$data.$ucast[0].UCAST }} %</td>
+																	<td class="text-right" v-if="['PREZ', 'SENAT'].indexOf(el.key) > -1">{{ elp.$data.$ucast.length > 1 ? elp.$data.$ucast[1].UCAST + ' %' : ''}}</td>
+																</tr>
+															</template>
+														</tbody>
+													</table>
+													<template v-if="$elections.past.filter(x => x.$volby.typ === el.key && x.$volby.radne === 1).length > 2">
+														<div class="p-line p-line__0"></div>
+														<p-modal>
+															<template #init>
+																<span class="smallest strong">Všechny volby &middot; {{ $elections.past.filter(x => x.$volby.typ === el.key).length }}</span>
+															</template>
+															<template #content>
+																<div>
+																	<strong>{{ el.name }}</strong>
+																	<div class="p-gap"></div>
+																	<table >
+																		<thead>
+																			<tr>
+																				<th>datum</th>
+																				<th class="text-right">účast</th>
+																				<th class="text-right" v-if="['PREZ', 'SENAT'].indexOf(el.key) > -1">2. kolo</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<template v-for="(elp, index) in $elections.past.filter(x => x.$volby.typ === el.key)">
+																				<tr>
+																					<td>{{ date(elp.$volby.datum, 3) }}</td>
+																					<td class="text-right">{{ elp.$data.$ucast[0].UCAST }} %</td>
+																					<td class="text-right" v-if="['PREZ', 'SENAT'].indexOf(el.key) > -1">{{ elp.$data.$ucast.length > 1 ? elp.$data.$ucast[1].UCAST + ' %' : ''}}</td>
+																				</tr>
+																			</template>
+																		</tbody>
+																	</table>
+																</div>
+															</template>
+														</p-modal>
+													</template>
+												</p-area>
+											</div>
+										</template>
+									</p-grid>
+									<p-collapsible label="V průběhu času" class="mt1">
+										<p>Zajímá vás, jak se měnily výsledky stran v průběhu času? Klikněte nebo najeďte na datum pro výsledky pro konkrétní datum.</p>
+										<p-grid class="mt3">
+											<template v-for="(el, index) in election_types.filter(x => ['PS', 'EP', 'KZ'].indexOf(x.key) > -1)">
+												<div v-if="$elections.past.find(x => x.$volby.typ === el.key)">
+													<p-area>
+														<div class="p-offset">
+															<div>
+																<p-image :src="cdn + 'icon/' + el.hash + '.svg'" :width="4.5"></p-image>
+															</div>
+															<div>
+																<strong>{{ el.name }}</strong>
+																<div class="smallest"><p-lang :value="$elections.past.filter(x => x.$volby.typ === el.key).length" :end="['', 'jedny volby', '%% volby', '%% voleb']"></p-lang></div>
+															</div>
+														</div>
+														<div class="p-line p-line__05"></div>
+														<stats-timeline :election="el" :data="$elections.past.filter(x => x.$volby.typ === el.key)"></stats-timeline>
+													</p-area>
+												</div>
+											</template>
+										</p-grid>
+									</p-collapsible>
 								</div>
 							</p-loader>
 						</p-block>
