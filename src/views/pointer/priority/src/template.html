@@ -12,7 +12,7 @@
 
 								<template v-if="current.$priority.find(x => x.headline && x.content)">
 									<template v-for="(priority, indexP) in current.$priority">
-										<component :is="priority.content && priority.content.charAt(0) === '[' ? 'div' : 'p-block'" :headline="priority.headline">
+										<component :is="priority.content && priority.content.charAt(0) === '[' ? 'div' : 'p-block'" :headline="priority.headline" :anchor="truncate(priority.headline, 3)">
 											<template v-if="priority.content && priority.content.charAt(0) != '['">
 												<div class="_mw serif"  v-html="priority.content.split('\n').join('<br>')"></div>
 											</template>
@@ -35,7 +35,7 @@
 													
 												</div>
 												<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
-													<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
+													<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)" :anchor="truncate(priority.headline, 3)"></program-block>
 												</div>
 											
 										</div>

@@ -1,6 +1,6 @@
 export default {
 	name: 'program-block',
-	props: ['parts', 'depth', 'color', 'list'],
+	props: ['parts', 'depth', 'color', 'list', 'anchor'],
 	computed: {
 		data: function () {
 			var list = [];

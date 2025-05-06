@@ -956,7 +956,7 @@
 								</p-block>
 							</template>
 
-							<template v-if="$volby.id === 149">
+							<template v-if="$volby.id === 149 && !$strana">
 								<p-block headline="Výsledky jednotlivých kandidátů podle kraje" anchor="Podrobně">
 									<template v-for="(reg, index) in enums.regions">
 										<p-collapsible :label="reg">

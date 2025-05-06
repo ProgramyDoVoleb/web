@@ -64,7 +64,23 @@ export default {
 				},
 				markers: {
 					size: 4
-				}
+				},
+				annotations: {
+					yaxis: [
+					  {
+						y: 5,
+						borderColor: 'var(--red)',
+						label: {
+						  borderColor: 'transparent',
+						  style: {
+							color: 'var(--red)',
+							background: 'transparent'
+						  },
+						  text: '5% hranice'
+						}
+					  }
+					]
+				  }
 			},
 			series: []
 		}
