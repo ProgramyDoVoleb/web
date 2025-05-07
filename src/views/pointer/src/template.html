@@ -239,7 +239,7 @@
 											<strong v-if="priority.headline">{{ truncate(priority.headline, 8) }}</strong>
 											<span v-if="priority.headline && priority.content && priority.content.charAt(0) != '['"> &middot; </span>
 											<span v-if="priority.content && priority.content.charAt(0) != '['">
-												<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="12" :compact="$link + '/priority#' + url(priority.headline || 'část ' + indexP)"></p-truncated>
+												<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="12" :compact="$link + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
 											</span>
 										</p-label>
 									</div>								

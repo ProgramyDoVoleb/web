@@ -104,6 +104,10 @@
 	margin-right: 1em;
 	position: relative;
 
+	&:not(._cand-img-short) {
+		width: 33%;
+	}
+
 	._person, 
 	._partyAlone {
 		display: block;
@@ -124,7 +128,7 @@
 	}
 
 	._person {
-		width: 4em;
+		width: 100%;
 	}
 	
 	@container (min-width: 450px) {
