@@ -3,10 +3,10 @@
 		<div>
 			<p-list class="_0">
 				<div>
-					<input type="url" v-model="val" :placeholder="placeholder || 'Vložit odkaz'" ref="first">
+					<input type="url" v-model="source" :placeholder="placeholder || 'Vložit odkaz'" ref="first">
 				</div>
 				<div v-if="!link || link != 1">
-					<textarea type="text" v-model="label" placeholder="Poznámka"></textarea>
+					<textarea type="text" v-model="val" placeholder="Poznámka"></textarea>
 				</div>
 				<div v-if="!link || link != 1">
 					<input type="text" v-model="contact" placeholder="Kontakt (nepovinné)">
