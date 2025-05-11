@@ -1,0 +1,23 @@
+<div class="editable-field">
+	<div class="p-offset reverse">
+		<div>
+			<p-list class="_0">
+				<div>
+					<input :type="inputType" v-model="val" :placeholder="plcVal" ref="first">
+				</div>
+				<div v-if="showLabel">
+					<textarea type="text" v-model="label" :placeholder="plcLabel"></textarea>
+				</div>
+				<div v-if="showSource">
+					<input type="url" v-model="source" :placeholder="showSource ? 'Zdroj' : 'Zdroj (doporučeno)'">
+				</div>
+				<div v-if="showDate">
+					<input type="date" v-model="datum">
+				</div>
+			</p-list>
+		</div>
+		<div>
+			<input type="button" value="→" :disabled="!valid || sending" @click="send">
+		</div>
+	</div>
+</div>

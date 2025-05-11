@@ -1,0 +1,28 @@
+button {
+  font-size: 1.2rem;
+}
+
+input {
+  border: none !important;
+  background: none !important;
+  height: auto;
+  outline: none !important;
+}
+
+.image-upload {
+  position: relative;
+}
+
+canvas {
+  position: absolute;
+  left: 100vw;
+  width: 900px;
+  height: 1200px;
+}
+
+.result {
+  margin-top: .5em;
+  padding-top: .5em;
+  border-top: 1px dotted #ddf;
+  font-size: 1.2rem;
+}

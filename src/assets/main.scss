@@ -226,6 +226,10 @@ button.inline {
 	text-align: left;
 	line-height: 1.5;
 
+	&.smallest {
+		font-size: 11px;
+	}
+
 	&.strong,
 	&.b {
 		font-weight: 700;

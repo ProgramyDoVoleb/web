@@ -324,3 +324,16 @@ export function isWoman (person) {
 
   return woman;
 }
+
+export function isURL (url) {
+    try { 
+      return Boolean(new URL(url)); 
+    }
+    catch(e){ 
+      return false; 
+    }
+}
+
+export function userInput (content) {
+    return content ? content.split('"').join('”').split("'").join("'").split("\n").join("<br>").split(' ').join('&nbsp;') : content;
+}

@@ -1,0 +1,13 @@
+<div class="image-upload">
+	
+		<div class="p-list _0">
+			<div>
+				<input type="file" ref="myInput" accept=".jpg,.png">
+				<canvas ref="myCanvas" :style="{width: (width || 300) + 'px', height: (height || 400) + 'px'}"></canvas>
+			</div>
+			<div>
+				<button @click="upload" :disabled="uploading">Nahrát obrázek</button>
+			</div>
+		</div>
+	
+</div>

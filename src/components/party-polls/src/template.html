@@ -1,7 +1,7 @@
-<div class="party-polls">
+<div class="party-polls" :class="{'p-block _empty': data && data.entries.length === 0}">
 		<p-loader :rule="data">
 			<div v-if="data && data.entries.length > 0">
-				<p-block headline="Volební průzkumy">
+				<p-block headline="Volební průzkumy" class="mb3">
 					<div v-if="useFrom" class="smaller">
 						Od <button class="inline" @click="_from = from">{{ date(from) }}</button> nebo od <button class="inline" @click="_from = '2021-09-01'">voleb 2021</button>
 						<div class="p-gap _2"></div>
@@ -68,7 +68,8 @@
 				</p-block>
 			</div>
 			<div v-if="data && data.entries.length === 0">
-				<em class="smallest dimm">Nebyly nalezeny žádné záznamy z volebních průzkumů.</em>
+				<span class="p-headline---label" data-label="Volební průzkum"></span>
+				<H3 class="p-headline---component"></h3>
 			</div>
 		</p-loader>
 </div>

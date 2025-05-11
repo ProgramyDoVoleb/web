@@ -75,7 +75,7 @@
 						<p-box-button class="primary"><p-lang :value="current.$data.program.length" :end="['', '', '%% programy', '%% programů']"></p-lang></p-box-button>
 					</p-box>
 				</template>
-				<template v-if="$volby.status < 3 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1 && !(current.$data.program || current.$program.length > 0)">
+				<!-- <template v-if="$volby.status < 3 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1 && !(current.$data.program || current.$program.length > 0)">
 					<p-modal>
 						<template #init>
 							<p-box>
@@ -88,7 +88,7 @@
 							<report-form></report-form>
 						</template>
 					</p-modal>
-				</template>
+				</template> -->
 				<template v-if="current.$data.web && current.$data.web.length > 0">
 					<p-box :href="current.$data.web[0].value">
 						<p-box-button class="primary">Web</p-box-button>

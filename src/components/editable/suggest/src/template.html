@@ -1,0 +1,20 @@
+<div class="editable-field">
+	<div class="p-offset reverse">
+		<div>
+			<p-list class="_0">
+				<div>
+					<input type="url" v-model="val" :placeholder="placeholder || 'Vložit odkaz'" ref="first">
+				</div>
+				<div v-if="!link || link != 1">
+					<textarea type="text" v-model="label" placeholder="Poznámka"></textarea>
+				</div>
+				<div v-if="!link || link != 1">
+					<input type="text" v-model="contact" placeholder="Kontakt (nepovinné)">
+				</div>
+			</p-list>
+		</div>
+		<div>
+			<input type="button" value="→" :disabled="!valid || sending" @click="send">
+		</div>
+	</div>
+</div>

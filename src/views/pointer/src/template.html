@@ -151,7 +151,7 @@
 									<!-- </p-list> -->
 								</p-area>
 							</p-block>
-							<p-block headline="Představení" v-if="!current.$data.length && (current.$data.about || current.$data.motto || current.$data.values)" :hide="true">
+							<p-block headline="Představení" :class="{'_empty': !(!current.$data.length && (current.$data.about || current.$data.motto || current.$data.values))}" :hide="true">
 								<div class="p-list _2 _invisible">
 									<div v-if="current.$data.about">
 										<h2 class="serif mt0">Představení</h2>
@@ -190,9 +190,31 @@
 											</p-grid>
 										</div>
 									</template>
-								</div>							
+								</div>		
+								<div class="mt1 mb2">
+									<div v-if="$volby.editace === 1" class="smallest _edit">
+										<p-icon icon="edit"></p-icon>
+										&nbsp;
+										<pop-up preClass="green strong"><template #init>Upravit představení</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="about"  showSource="1"></editable-basic></template></pop-up>
+										&middot;
+										<pop-up preClass="green strong"><template #init>motto</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="motto" showSource="1" ></editable-basic></template></pop-up>
+										&middot;
+										<pop-up preClass="green strong"><template #init>hodnoty</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="values" showSource="1" showLabel="1"></editable-basic></template></pop-up>
+									</div>
+									<div class="_mb-1"></div>
+									<div v-if="$volby.editace === 1" class="smallest _edit">
+										<p-icon icon="edit"></p-icon>
+										&nbsp;
+										<template v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">
+											<pop-up preClass="green strong"><template #init>Zaslat odkaz na volební program</template><template #content><editable-basic type="program" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" showSource="1"></editable-basic></template></pop-up>
+											&middot;
+										</template>
+										<pop-up preClass="green strong"><template #init>Doplnit priority</template><template #content><editable-suggest placeholder="Odkaz na priority" type="priority" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
+									</div>
+									<div class="_mb-2"></div>
+								</div>					
 							</p-block>
-							<p-block headline="Volební program" :hide="true" v-if="!$strana && (current.$priority.length > 0 || current.$program.length > 0 || (current.$otazky && current.$otazky.find(x => x.type === 2)) || current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0 || (current.$data.program && current.$data.program.length > 0))">
+							<p-block headline="Volební program" :hide="true" v-if="!$strana && (current.$program.length > 0 || (current.$otazky && current.$otazky.find(x => x.type === 2)) || current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0 || (current.$data.program && current.$data.program.length > 0))">
 								<p-grid>
 									<div v-if="current.$program.length > 0">
 										<p-area icon="icon-party" background="var(--blue11)">
@@ -200,12 +222,12 @@
 											<div class="dimm smallest">{{ date(current.$program[0].updated) }}</div>
 										</p-area>
 									</div>
-									<div v-if="current.$priority.length > 0">
+									<!-- <div v-if="current.$priority.length > 0">
 										<p-area icon="icon-party">
 											<router-link :to="$link + '/priority'" class="strong"><p-lang :value="current.$priority.length" :end="['', 'Jedna priorita', '%% priority', '%% priorit']"></p-lang></router-link>
 											<div class="dimm smallest">{{ date(current.$priority[0].updated) }}</div>
 										</p-area>
-									</div>
+									</div> -->
 									<div v-if="current.$otazky.find(x => x.type === 2)">
 										<p-area icon="detail">
 											<router-link :to="$link + '/volebni-program/' + current.$program[0].id + '#vybrana-temata'" class="strong">Vybraná témata</router-link>
@@ -517,7 +539,7 @@
 									</p-box-group>
 								</template>
 							</p-block>
-							<p-block headline="Odkazy" v-if="linksAll.length > 0">
+							<p-block headline="Odkazy" :hide="linksAll.length === 0" :class="{'_empty': linksAll.length === 0}">
 								<p-list class="_025">
 									<template v-if="linksAll.filter(x => x.type === 'web' || x.type === 'wiki').length > 0">
 										<div v-for="(item, index) in linksAll.filter(x => x.type === 'web' || x.type === 'wiki')">
@@ -561,8 +583,19 @@
 										</div>
 									</template>
 								</p-list>
+								<div v-if="$volby.editace === 1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Navrhnout volební web</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="web" ></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>wiki</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="wiki" ></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>sociální síť</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="social" ></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>další odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="social"  :showLabel="1"></editable-basic></template></pop-up>
+								</div>
 							</p-block>
-							<p-block headline="Kontakty" v-if="contacts.length > 0">
+							<p-block headline="Kontakty" :hide="contacts.length === 0" :class="{'_empty': contacts.length === 0}">
 								<p-list class="_025">
 									<div v-for="(item, index) in contacts">
 										<p-box-group>
@@ -576,6 +609,15 @@
 										</p-box-group>										
 									</div>
 								</p-list>
+								<div v-if="$volby.editace === 1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Navrhnout e-mail</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="email"  showSource="1" showLabel="1"></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>telefon</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="phone"  showSource="1" showLabel="1"></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>adresu</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="address"  showSource="1" showLabel="1"></editable-basic></template></pop-up>
+								</div>
 							</p-block>
 							<p-block headline="Koalice" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
 								<div class="columns _c">
@@ -584,8 +626,8 @@
 									</div>
 								</div>
 							</p-block>
-							<p-block v-if="current.$data.support" headline="Podpora">
-								<template v-if="current.$data.support.find(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
+							<p-block :hide="!current.$data.support" :class="{'_empty': !current.$data.support}" headline="Podpora">
+								<template v-if="current.$data.support && current.$data.support.find(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
 									<!-- <p-area> -->
 										<p-grid class="smaller">
 											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
@@ -597,7 +639,7 @@
 										</p-grid>
 									<!-- </p-area> -->
 								</template>
-								<template class="" v-if="current.$data.support.find(sup => typeof sup.value != 'number' || !data.cis.strany.find(x => x.VSTRANA === sup.value))">
+								<template class="" v-if="current.$data.support && current.$data.support.find(sup => typeof sup.value != 'number' || !data.cis.strany.find(x => x.VSTRANA === sup.value))">
 									<div class="smallest strong _sif">Spolky a osobností</div>
 									<div class="columns smaller">
 										<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value != 'number' || !data.cis.strany.find(x => x.VSTRANA === sup.value))">
@@ -605,9 +647,18 @@
 										</div>
 									</div>
 								</template>
+								<div v-if="$volby.editace === 1 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Přidat podporu od strany/hnutí</template><template #content><editable-suggest placeholder="Odkaz, kde strana vyjadřuje podporu" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>spolku či sdružení</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="support"  showSource="1"></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>osobnosti</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="support"  showSource="1"></editable-basic></template></pop-up>
+								</div>
 							</p-block>
-							<p-block-expandable headline="Videa" v-if="current.$data.video">
-								<template v-for="(video, index) in current.$data.video">
+							<p-block headline="Videa" :class="{'_empty': !current.$data.video}" :hide="!current.$data.video">
+								<template v-for="(video, index) in (current.$data.video || [])">
 									<p-collapsible :label="video.label || 'Volební spot'" :open="index === 0">
 										<div class="_video" v-html="video.value" v-if="video.value"></div>
 										<div class="_video" v-if="video.source && video.source.split('facebook').length > 1">
@@ -618,8 +669,13 @@
 										</div>
 									</p-collapsible>
 								</template>
-							</p-block-expandable>
-							<p-block headline="Zprávy a média" v-if="newsmedia.length > 0">
+								<div v-if="$volby.editace === 1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Zaslat odkaz na volební video</template><template #content><editable-suggest placeholder="Odkaz, např na youtube, facebook..." type="video" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
+								</div>
+							</p-block>
+							<p-block headline="Zprávy a média" :class="{'_empty': newsmedia.length === 0}" :hide="newsmedia.length === 0">
 								<p-columns>
 									<div v-for="item in newsmedia.filter((x, i) => i < mediaLimit)">
 										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')">
@@ -631,7 +687,7 @@
 									</div>
 								</p-columns>
 								<template v-if="newsmedia.length >= mediaLimit + 1">
-									<div class="p-line _0 mt3"></div>
+									<div class="p-gap _0 mt1"></div>
 									<p-collapsible label="Starší články a tiskové zprávy" :status="newsmedia.length - mediaLimit - newsmedia.filter((x, i) => i >= mediaLimit && !x.csu_id).length">
 										<p-list class="smaller _05">
 											<div v-for="item in newsmedia.filter((x, i) => i >= mediaLimit && x.csu_id)">
@@ -661,11 +717,26 @@
 										</p-list>
 									</p-collapsible>
 								</template>
+								<div v-if="$volby.editace === 1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Doplnit článek</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Článek" showSource="1"></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>rozhovor</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Rozhovor" showSource="1"></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>profil</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Profil" showSource="1"></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>tiskovou zprávu</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="pr" preLabel="Tisková zpráva" showSource="1"></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>status</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="pr" preLabel="Status" showSource="1"></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>placený článek</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="pr" preLabel="Placený článek" showSource="1"></editable-basic></template></pop-up>
+								</div>
 							</p-block>
-							<template v-if="$volby.id === 166">
-								<party-polls :VSTRANA="current.VSTRANA" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :isCoalition="false" class="mb3" from="2024-09-01" :election="$volby.id"></party-polls>
+							<template v-if="$volby.id === 166 && table === 'csu_ps_rkl'">
+								<party-polls :VSTRANA="current.VSTRANA" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :isCoalition="false" from="2024-09-01" :election="$volby.id"></party-polls>
 							</template>
-							<p-block headline="Volební materiály" v-if="current.$data.graphics || (current.PRIJMENI && current.$data.logo)">
+							<p-block headline="Volební materiály" :hide="!(current.$data.graphics || (current.PRIJMENI && current.$data.logo))" :class="{'_empty': !(current.$data.graphics || (current.PRIJMENI && current.$data.logo))}">
 								<p-grid>
 									<div v-for="item in current.PRIJMENI && current.$data.logo ? current.$data.logo : []">
 										<p-area>
@@ -704,9 +775,16 @@
 										</p-area>
 									</div>
 								</p-grid>
+								<div v-if="$volby.editace === 1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Nahrát leták, plakát nebo billboard</template><template #content><editable-image type="graphics" :pointer="table + ':' + tableID" :elections="$volby.id"></editable-image></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>zaslat odkaz</template><template #content><editable-suggest type="graphics" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template></pop-up>
+								</div>
 							</p-block>
 							<p-block headline="Galerie fotek" v-if="current.$data.gallery">
-								<p-grid>
+								<p-grid class="mb1">
 									<div v-for="(item, index) in current.$data.gallery">
 										<p-area>
 											<img loading="lazy"  class="_ar _of" :src="item.value">
@@ -728,7 +806,7 @@
 									</div>
 								</p-grid>
 							</p-block>
-							<p-block headline="Dokumenty" v-if="current.$data.document && current.$data.document.length > 0">
+							<p-block headline="Dokumenty" :class="{'_empty': !(current.$data.document && current.$data.document.length > 0)}" :hide="!(current.$data.document && current.$data.document.length > 0)">
 								<p-grid>
 									<div v-for="(item, index) in current.$data.document">
 										<p-area icon="link">
@@ -742,96 +820,45 @@
 										</p-area>
 									</div>
 								</p-grid>
+								<div v-if="$volby.editace === 1 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Přidat dokument, smlouvu nebo memorandum</template><template #content><editable-suggest placeholder="Odkaz na dokument" type="document" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template></pop-up>
+								</div>
 							</p-block>
-							<p-block headline="Události" v-if="current.$data.event && current.$data.event.length > 0 && current.$data.event.find(x => JSON.parse(x.label)[0] >= today)">
+
+							<p-block headline="Události" :hide="!(current.$data.event && current.$data.event.length > 0 && current.$data.event.find(x => JSON.parse(x.label)[0] >= today))" :class="{'_empty': !(current.$data.event && current.$data.event.length > 0 && current.$data.event.find(x => JSON.parse(x.label)[0] >= today))}">
 								<p-list height="1.5">
-									<div v-for="(item, index) in sortEvents(current.$data.event.filter(x => JSON.parse(x.label)[0] >= today)).filter((x, i) => i < (eventsOff ? 1000000 : eventsLimit))">
+									<div v-for="(item, index) in sortEvents((current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today)).filter((x, i) => i < (eventsOff ? 1000000 : eventsLimit))">
 										<event-item :item="item" :party="current" :data="data" :noTag="true"></event-item>
 									</div>
-									<div>
+									<div v-if="(current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today).length > 10">
 										<button @click="eventsOff = !eventsOff">{{ eventsOff ? 'Zobrazit méně' : 'Zobrazit vše' }}</button>
 									</div>
 								</p-list>
+								<div v-if="$volby.editace === 1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="$volby.id"></editable-event></template></pop-up>
+								</div>
 							</p-block>
-							<p-block headline="Poznámky" v-if="current.$data.note">
+							<p-block headline="Poznámky" :class="{'_empty': !current.$data.note}" :hide="!current.$data.note">
 								<p-list height="1">
-									<div v-for="(item, index) in current.$data.note">
+									<div v-for="(item, index) in (current.$data.note || [])">
 										<div class="serif">
 											{{ item.value }}
-											<div class="smaller" v-if="item.label" v-html="item.label"></div>
+											<div class="smaller mt1" v-if="item.label" v-html="item.label"></div>
 										</div>
 										<div class="p-gap_05"></div>
 										<!-- <div class="smallest dimm">Vloženo {{ date(item.updated)}}</div> -->
 										<div class="smallest dimm">Vloženo {{ date(item.updated)}}<template v-if="item.source">, zdroj <p-link :href="item.source" class="dimm">{{ domain(item.source) }}</p-link></template></div>
 									</div>
 								</p-list>
-							</p-block>
-							<p-block headline="Doplnění" v-if="$volby.status < 3" :hide="true">
-								<p-area background="var(--green11)" borderColor="var(--green)">
-									<strong class="green">Pomozte doplnit další údaje</strong>
-									<p>Podrobnosti na <em>Programech</em> jsou výsledkem práce množství dobrovolníků, návštěvníků webu, samotných kandidátů, mediálních odborů stran/hnutí a dalších lidí. Ke každému lze doplnit široké množství informací.</p>
-
-									<div class="mv1">
-										<p-box-group>
-											<p-modal>
-												<template #init>
-													<p-box>
-														<p-box-button color="var(--green)">Stačí poslat odkaz</p-box-button>
-													</p-box>
-												</template>
-												<template #content>
-													<h3 class="mv05">Zaslat tip</h3>
-													<div class="smaller mb1">Narazili jste na na zajímavý článek, program nebo jiný odkaz, který by neměl v přehledu <em>{{ current.NAZEV || current.JMENO + ' ' + current.PRIJMENI }}</em> chybět?</div>
-													<report-form :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></report-form>
-												</template>
-											</p-modal>
-											<p-box href="mailto:doplnit@programydovoleb.cz">
-												<p-box-label class="green">doplnit@programydovoleb.cz</p-box-label>
-											</p-box>
-										</p-box-group>
-									</div>
-
-									<p-collapsible label="Co lze doplnit?" logo="edit">
-										<ul class="columns _mobile smaller _ulli">
-											<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Volební program</li>
-											<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Priority</li>
-											<li>Hodnoty</li>
-											<li>Představení</li>
-											<li>Volební slogan</li>
-											<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Podporu stran či osobností</li>
-											<li>Články a rozhovory v médiích</li>
-											<li>Tiskové zprávy</li>
-											<li>Významné statusy</li>
-											<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Události, akce, setkání</li>
-											<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Volební videa</li>
-											<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Plakáty, letáky, další materiály</li>
-											<li>Odkazy na sociální sítě</li>
-											<li>Odkaz na webové stránky</li>
-											<li>Odkazy na další weby, blogy...</li>
-											<li>Odkaz na wiki</li>
-											<li>Veřejně uváděné kontakty</li>
-											<li>Poznámky a zajímavosti</li>
-										</ul>
-									</p-collapsible>
-									<p-collapsible label="Pro strany a kandidáty" status="Admin otevřen" logo="person" v-if="$volby.editace === 1">
-										<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
-	
-										<div class="strong smaller">
-											<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link">Chci přístup do Adminu</p-link>
-											&middot;
-											<p-link href="https://admin.programydovoleb.cz">Více o adminu</p-link>
-										</div>
-									</p-collapsible>
-									<!-- <p-collapsible label="Volební otázky">
-										<template v-if="$store.getters.pdv('elections/specific/162/questions')">
-											<p-list class="smaller">
-												<div v-for="item in $store.getters.pdv('elections/specific/162/questions').questions.filter(x => x.volby === current.volby && (!x.focus || x.focus === current.KRZAST || current.OBVOD) && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
-													{{ item.question }}
-												</div>
-											</p-list>
-										</template>
-									</p-collapsible> -->
-								</p-area>
+								<div v-if="$volby.editace === 1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Přidat poznámku</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="note" showSource="1" showLabel="1"></editable-basic></template></pop-up>
+								</div>
 							</p-block>
 							<p-block headline="Kandidátní listina" v-if="current.$strana && $strana">
 								<p-area :borderColor="colorByItem($strana, data)" class="primary">
@@ -1045,10 +1072,81 @@
 									</div>
 								</p-loader>
 							</p-block>
+							<div class="_split" v-if="$volby.status < 3">
+								<div>
+									<!-- <p-block headline="Doplnění" :hide="true"> -->
+										<p-area background="var(--green11)" borderColor="var(--green)">
+											<strong class="green">Pomozte doplnit další údaje</strong>
+											<p>Přidejte se k lidem, kteří pomáhají doplňovat informace na <em>Programy do voleb</em>. Stačí, když zašlete odkaz na článek, status nebo web, když na něm narazíte na hodnotné informace.</p>
+		
+											<div class="mv1">
+												<p-box-group>
+													<pop-up>
+														<template #init>
+															<p-box>
+																<p-box-button color="var(--green)">Poslat odkaz</p-box-button>
+															</p-box>
+														</template>
+														<template #content><editable-suggest placeholder="Sem vložte odkaz" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template>
+													</pop-up>
+													<p-box href="mailto:doplnit@programydovoleb.cz">
+														<p-box-label class="green">doplnit@programydovoleb.cz</p-box-label>
+													</p-box>
+												</p-box-group>
+											</div>
+		
+											<!-- <p-collapsible label="Co lze doplnit?" logo="edit">
+												<ul class="columns _mobile smaller _ulli">
+													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Volební program</li>
+													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Priority</li>
+													<li>Hodnoty</li>
+													<li>Představení</li>
+													<li>Volební slogan</li>
+													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Podporu stran či osobností</li>
+													<li>Články a rozhovory v médiích</li>
+													<li>Tiskové zprávy</li>
+													<li>Významné statusy</li>
+													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Události, akce, setkání</li>
+													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Volební videa</li>
+													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Plakáty, letáky, další materiály</li>
+													<li>Odkazy na sociální sítě</li>
+													<li>Odkaz na webové stránky</li>
+													<li>Odkazy na další weby, blogy...</li>
+													<li>Odkaz na wiki</li>
+													<li>Veřejně uváděné kontakty</li>
+													<li>Poznámky a zajímavosti</li>
+												</ul>
+											</p-collapsible> -->
+											<!-- <p-collapsible label="Volební otázky">
+												<template v-if="$store.getters.pdv('elections/specific/162/questions')">
+													<p-list class="smaller">
+														<div v-for="item in $store.getters.pdv('elections/specific/162/questions').questions.filter(x => x.volby === current.volby && (!x.focus || x.focus === current.KRZAST || current.OBVOD) && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
+															{{ item.question }}
+														</div>
+													</p-list>
+												</template>
+											</p-collapsible> -->
+											<div class="p-line _05"></div>
+											<p-collapsible label="Pro strany a kandidáty" logo="person" :borderless="true" status="Admin">
+												<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
+
+												<div class="strong smaller">
+													<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link" class="blue">Chci přístup do Adminu</p-link>
+													&middot;
+													<p-link href="https://admin.programydovoleb.cz">Více o adminu</p-link>
+												</div>
+											</p-collapsible>
+										</p-area>
+									<!-- </p-block> -->
+								</div>
+								<div>
+									<cta-support :hide="true"></cta-support>
+								</div>
+							</div>
 						</div>
 					</div>
 				</p-loader>
-				<p-block headline="Data" :hide="true" class="mt3" v-if="$volby && $volby.editace === 1">
+				<!-- <p-block headline="Data" :hide="true" class="mt3" v-if="$volby && $volby.editace === 1">
 					<p-grid>
 						<div>
 							<p-area icon="link">
@@ -1068,7 +1166,7 @@
 							</p-area>
 						</div>
 					</p-grid>
-				</p-block>
+				</p-block> -->
 				<div class="p-gap"></div>
 				<!-- <p class="smaller">
 					<strong><p-label color="var(--red)">Nominujte <em>Programy do voleb</em></p-label> na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou lupu 2024</p-link>.</strong>

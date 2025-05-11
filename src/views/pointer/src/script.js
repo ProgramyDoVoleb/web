@@ -25,6 +25,12 @@ import EventItem from '@/components/event-item/do.vue'
 import AnswerTopicPreview from '@/components/answer-topic-preview/do.vue';
 import PartyPolls from '@/components/party-polls/do.vue'
 import PointerHeader from '@/views/pointer/header/do.vue';
+import PopUp from '@/components/pop-up/do.vue';
+import EditableBasic from '@/components/editable/basic/do.vue';
+import EditableSuggest from '@/components/editable/suggest/do.vue';
+import EditableEvent from '@/components/editable/event/do.vue';
+import EditableImage from '@/components/editable/image/do.vue';
+import EditableSupportParty from '@/components/editable/support-party/do.vue';
 
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
@@ -67,7 +73,9 @@ export default {
 	CtaSupport,
 	AnswerTopicPreview,
 	PartyPolls,
-	PointerHeader
+	PointerHeader,
+	PopUp,
+	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage
   },
 	computed: {
 		$store: function () {

@@ -1,0 +1,26 @@
+<div class="editable-field">
+	<div v-if="!img">
+		<image-upload :pointer="pointer" @update="update" :width="640" :height="640"></image-upload>
+	</div>
+	<div class="p-offset reverse" v-else>
+		<div>
+			<p-list class="_0">
+				<div>
+					<img :src="img" class="_img">
+				</div>
+				<div>
+					<input type="text" v-model="title" placeholder="Popis" ref="first">
+				</div>
+				<div>
+					<input type="text" v-model="author" placeholder="Autor (nepovinné)">
+				</div>
+				<div>
+					<input type="url" v-model="source" placeholder="Odkaz (nepovinné)">
+				</div>
+			</p-list>
+		</div>
+		<div>
+			<input type="button" value="→" :disabled="!valid || sending" @click="send">
+		</div>
+	</div>
+</div>

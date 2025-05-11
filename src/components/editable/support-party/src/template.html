@@ -1,0 +1,33 @@
+<div class="editable-field">
+	<div class="p-offset reverse">
+		<div>
+			<p-list class="_0">
+				<div>
+					<div class="p05 smaller">
+						<div class="p-offset reverse">
+							<div class="">
+								{{ label || 'žádná vybraná strana' }}
+							</div>
+							<div>
+								<p-modal>
+									<template #init>
+										Vybrat
+									</template>
+									<template #content>
+										<search-party :cb="(item) => selectParty(item)"></search-party>
+									</template>
+								</p-modal>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<input type="url" v-model="source" placeholder="Zdroj">
+				</div>
+			</p-list>
+		</div>
+		<div>
+			<input type="button" value="→" :disabled="!valid || sending" @click="send">
+		</div>
+	</div>
+</div>

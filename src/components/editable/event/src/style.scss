@@ -1,0 +1,54 @@
+
+
+.p-offset {
+  align-items: end;
+}
+
+input:not(:focus):not(:hover):not[type=button], textarea {
+  border-bottom-color: transparent !important;
+  background: transparent !important;
+}
+
+input, textarea {
+  padding: .25em .4em !important;
+  min-height: auto !important;
+  font-size: 14px !important;
+  border-color: transparent !important;
+  min-width: 100%;
+  max-width: 100%;
+
+  &:not([type=button]) {
+    background: transparent !important;
+  }
+
+  .dark & {
+    border-color: transparent !important;
+  }
+}
+
+textarea {
+  min-height: 4em !important;
+}
+
+input[type=button] {
+  background: var(--green) !important;
+  color: var(--white) !important;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &[disabled] {
+    background: var(--grey) !important;
+  }
+}
+
+.split {
+  display: flex;
+  justify-content: space-between;
+
+  & > div {
+    width: 45%;
+  }
+}

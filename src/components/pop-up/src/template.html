@@ -1,0 +1,12 @@
+<span class="pop-up" :class="{'_show': show}">
+	<span class="_r">
+		<button :class="preClass" class="inline _btn" @click="toggleShow" ref="btn"><slot name="init"></slot></button>
+		<div class="_arrow" ref="arrow"></div>
+		<div class="_popup reset" ref="popup">
+			<button class="_close plain" @click="toggleShow">&times; zavřít</button>
+			<div v-if="show">
+				<slot name="content"></slot>
+			</div>
+		</div>
+	</span>
+</span>
