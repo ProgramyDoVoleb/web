@@ -206,7 +206,7 @@
 										<p-icon icon="edit"></p-icon>
 										&nbsp;
 										<template v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">
-											<pop-up preClass="green strong"><template #init>Zaslat odkaz na volební program</template><template #content><editable-basic type="program" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" showSource="1"></editable-basic></template></pop-up>
+											<pop-up preClass="green strong"><template #init>Zaslat odkaz na volební program</template><template #content><editable-basic type="program" :pointer="table + ':' + tableID" :elections="$volby.id" showSource="1"></editable-basic></template></pop-up>
 											&middot;
 										</template>
 										<pop-up preClass="green strong"><template #init>Doplnit priority</template><template #content><editable-suggest placeholder="Odkaz na priority" type="priority" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>

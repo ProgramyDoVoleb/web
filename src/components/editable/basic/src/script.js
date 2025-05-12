@@ -34,9 +34,10 @@ export default {
 			if (this.type === 'address' && (!this.val || (this.val.length < 5)) && (!this.source || !isURL(this.source))) valid = false;
 			if (this.type === 'phone' && ((!this.val || (this.val < 200000000 || this.val > 999999999)) || (!this.source || !isURL(this.source)))) valid = false;
 			if (this.type === 'email' && (!this.val || ((this.val.split('@').length === 1 || this.val.split('@')[0].length === 0 || this.val.split('@')[1].length === 0))) && (!this.source || !isURL(this.source))) valid = false;
-			if ((this.type === 'pr' || this.type === 'media') && (!this.val || !this.source || (this.val.length < 5 || !isURL(this.source)))) valid = false;
+			if ((this.type === 'pr' || this.type === 'media') && (!this.val || !this.source || (this.val.length < 2 || !isURL(this.source)))) valid = false;
 			if (this.type === 'program' && (!this.val || !this.source || !isURL(this.source))) valid = false;
 			if (this.type === 'motto' && (!this.val || !this.source || !isURL(this.source))) valid = false;
+			if (this.type === 'about' && (!this.val || !this.source || !isURL(this.source))) valid = false;
 			if (this.type === 'support' && (!this.val || !this.source || !isURL(this.source))) valid = false;
 			if (this.type === 'values' && ((!this.val && !this.label) || !this.source || !isURL(this.source))) valid = false;
 
@@ -97,8 +98,8 @@ export default {
 						pointer: this.pointer,
 						specifics: this.elections,
 						type: this.type,
-						value: userInput(this.val),
-						source: userInput(this.url),
+						value: userInput(String(this.val)),
+						source: userInput(this.source),
 						label: userInput(this.label),
 						date: this.datum
 					}

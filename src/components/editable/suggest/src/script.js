@@ -23,7 +23,7 @@ export default {
 		valid: function () {
 			var valid = true;
 			
-			if (this.val && this.val.length < 5) valid = false;
+			if (this.val && this.val.length < 2) valid = false;
 			if (this.source && !isURL(this.source)) valid = false;
 
 			return valid;
