@@ -592,7 +592,7 @@
 									&middot;
 									<pop-up preClass="green strong"><template #init>sociální síť</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="social" ></editable-basic></template></pop-up>
 									&middot;
-									<pop-up preClass="green strong"><template #init>další odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="social"  :showLabel="1"></editable-basic></template></pop-up>
+									<pop-up preClass="green strong"><template #init>další odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="link"  :showLabel="1"></editable-basic></template></pop-up>
 								</div>
 							</p-block>
 							<p-block headline="Kontakty" :hide="contacts.length === 0" :class="{'_empty': contacts.length === 0}">

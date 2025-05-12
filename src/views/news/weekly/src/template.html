@@ -31,10 +31,10 @@
 											</p-area>
 										</div>
 									</template>
-									<template v-if="day.log.length > 0 && day.log.find(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1))">
+									<template v-if="day.log.length > 0 && day.log.find(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1 && y.action != 'ignore'))">
 										<div class="smallest red strong">Nepřehlédněte</div>
 										<p-grid>
-											<template v-for="itemparty in day.log.filter(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1))">
+											<template v-for="itemparty in day.log.filter(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1 && y.action != 'ignore'))">
 												<template v-for="item in itemparty.data.filter(y => y.type === 'program')">
 													<div>
 														<p-area class="shadow white" borderColor="var(--blue)" icon="program">
@@ -122,7 +122,7 @@
 															<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">{{ item.node.ZKRATKA || item.node.NAZEV || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
 															<br>
 														</template>
-														{{ item.label }} &middot; {{ domain(item.source) }}
+														{{ item.label }} &middot; {{ domain(item.source || '') }}
 													</p>
 												</p-area>
 											</div>
