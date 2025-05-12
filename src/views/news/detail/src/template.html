@@ -4,12 +4,12 @@
 			<p-block headline="Novinka" :level="1" :hide="true">
 				<p-loader :rule="item">
 					<div v-if="item">
-						<p class="red">{{ date(item.datum) }} &middot; {{ domain(item.source) }}</p>
+						<p class="red">{{ date(item.datum) }} &middot; {{ domain(item.source || 'https://programydovoleb.cz') }}</p>
 						<p-headline :level="2">{{ item.title }}</p-headline>
 						<p-block headline="Podrobnosti" :hide="true">
 							<div v-html="item.content" class="wsw"></div>
 						</p-block>
-						<p-block headline="Zdroj" :hide="true">
+						<p-block headline="Zdroj" :hide="true" v-if="item.source">
 							<p-link :href="item.source" class="btn">{{ item.label || 'Více zde' }}</p-link>
 						</p-block>
 						<p-block headline="Týká se" v-if="(item.$relates && item.$relates.length > 0) || item.$volby.length > 1" :hide="true">
