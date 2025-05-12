@@ -650,7 +650,7 @@
 								<div v-if="$volby.editace === 1 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
-									<pop-up preClass="green strong"><template #init>Přidat podporu od strany/hnutí</template><template #content><editable-suggest placeholder="Odkaz, kde strana vyjadřuje podporu" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
+									<pop-up preClass="green strong"><template #init>Přidat podporu od strany/hnutí</template><template #content><editable-suggest placeholder="Odkaz, kde strana vyjadřuje podporu" type="support" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
 									&middot;
 									<pop-up preClass="green strong"><template #init>spolku či sdružení</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="support"  showSource="1"></editable-basic></template></pop-up>
 									&middot;
@@ -1087,7 +1087,7 @@
 																<p-box-button color="var(--green)">Poslat odkaz</p-box-button>
 															</p-box>
 														</template>
-														<template #content><editable-suggest placeholder="Sem vložte odkaz" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template>
+														<template #content><editable-suggest placeholder="Sem vložte odkaz" type="generic" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template>
 													</pop-up>
 													<p-box href="mailto:doplnit@programydovoleb.cz">
 														<p-box-label class="green">doplnit@programydovoleb.cz</p-box-label>
