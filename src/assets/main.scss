@@ -597,6 +597,10 @@ iframe {
 	&.yellow {color: var(--yellow)}
 }
 
+.responsive-container {
+	container-type: inline-size;
+}
+
 @import "./your-voice.scss";
 @import "./pdv/_index.scss";
 @import "./plugins/_index.scss"; 

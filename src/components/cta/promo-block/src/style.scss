@@ -1,67 +1,33 @@
-.current-election-highlight-block {
-	container-type: inline-size;
-}
+._rc {
+    display: inline-block;
+    text-align: center;
+    line-height: 1.25;
 
-.p-area {
-    background-color: var(--white);
-    background-image: url(https://static.programydovoleb.cz/2024/ads/kz24.png);
-    background-repeat: no-repeat;
-    background-position: 60px 70px;
-    background-attachment: local;
-    border: var(--border);
-    padding: 1.5em 2em 2em !important;
-    background-size: 500px 400px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, .1);
-    border-radius: 1em;
+    @container (min-width: 240px) {
+        text-align: left;
+        position: relative;
+        padding: 1em 1em 1em 4em;
+        border-radius: 1em;
+        // background: var(--white);
 
-    .dark & {
-        &, h2 {
-            color: var(--black) !important;
-        }        
-
-        .p-box-button {
-            background: #fff !important;
+        .dark & {
+            // background: var(--blue44);
         }
-    }
-
-    @container (min-width: 380px) {
-        background-size: 300px 240px;
-        background-position: right 70px;
-
-        .p-box-group {
-            max-width: 300px;
-        }
-    }
-
-    @container (min-width: 580px) {
-        background-size: 400px 320px;
-        background-position: right 10px;
-
-        .p-box-group {
-            max-width: 300px;
-        }
-    }
-
-    @container (min-width: 800px) {
-        background-size: 400px 320px;
-        background-position: right 10px;
-
-        .p-box-group {
-            max-width: none;
-        }
-    }
-
-    @container (min-width: 1000px) {
-        background-size: 500px 400px;
-        background-position: right -35px;
-
-        .p-box-group {
-            max-width: none;
+        
+        .p-icon {
+            position: absolute;
+            left: -0.5em;
+            top: 50%;
+            transform: translateY(-50%) scale(.9, .9);
         }
     }
 }
 
-h2 {
-    margin: 0;
-    padding: 0;
+.dark .p-area.highlight {
+    background: var(--blue44) !important;
+    box-shadow: 0 8px 16px rgba(0,0,0,.2);
+}
+
+.is-link {
+    font-size: 14px;
 }

@@ -1,21 +1,46 @@
-<div class="current-election-highlight-block">
-	<p-area class="cancel">
-		<h2>Krajské a senátní volby</h2>
-		<div class="red">20. a 21. září</div>
-		<div class="p-gap"></div>
-		<p-box-group>
-			<p-box to="/pruvodce/krajske-a-senatni-volby-2024">
-				<p-box-button icon="icon-party.svg">Průvodce</p-box-button>
-			</p-box>
-			<p-box to="/volby/krajske-volby/162">
-				<p-box-button icon="krajske-volby.svg">Krajské volby</p-box-button>
-			</p-box>
-			<p-box to="/volby/senatni-volby/163">
-				<p-box-button icon="senatni-volby.svg">Senátní volby</p-box-button>
-			</p-box>
-			<p-box to="/lide">
-				<p-box-button icon="detail.svg">Kandidáti</p-box-button>
-			</p-box>
-		</p-box-group>
+<div class="current-election-highlight-block mt2 mb2">
+	<p-area class="highlight shadow p-area---has-background">
+		<p-grid class="_3">
+			<div class="responsive-container">
+				<pop-up>
+					<template #init>
+						<div class="_rc">
+							<div>
+								<p-icon icon="ig" size="4em"></p-icon>
+							</div>
+							<span class="is-link strong">{{ mobile ? 'Vyfoťte' : 'Nahrajte' }} plakát nebo leták</span>
+						</div>
+					</template>
+					<template #content>
+						<editable-image type="graphics" pointer="pdv_suggestions:1" elections="166"></editable-image>
+					</template>
+				</pop-up>
+			</div>
+			<div class="responsive-container">
+				<pop-up>
+					<template #init>
+						<div class="_rc">
+							<div>
+								<p-icon icon="telegram" size="4em"></p-icon>
+							</div>
+							<span class="is-link strong">Sdílejte článek nebo status</span>
+						</div>
+					</template>
+					<template #content>
+						<editable-suggest type="media" part="Promo Block"></editable-suggest>
+					</template>
+				</pop-up>
+			</div>
+			<div class="responsive-container">
+				<router-link to="/novinky">
+					<div class="_rc">
+						<div>
+							<p-icon icon="detail" size="4em"></p-icon>
+						</div>
+						<span class="is-link strong">Sedmidění, přehled novinek</span>
+					</div>
+				</router-link>
+			</div>
+		</p-grid>
 	</p-area>
 </div>
