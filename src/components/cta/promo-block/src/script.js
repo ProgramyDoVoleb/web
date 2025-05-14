@@ -1,6 +1,6 @@
 import EditableBasic from '@/components/editable/basic/do.vue';
-import EditableSuggest from '@/components/editable/suggest/do.vue';
 import EditableImage from '@/components/editable/image/do.vue';
+import EditableSuggest from '@/components/editable/suggest/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
 
 export default {

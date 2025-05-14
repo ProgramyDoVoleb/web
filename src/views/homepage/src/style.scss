@@ -205,3 +205,21 @@
 		}
 	}
 }
+
+._edit {
+	display: inline-block;
+	padding: .6em 1.2em .8em !important;
+	border-radius: 2em;
+	background: var(--green11);
+	border-top: none !important;
+
+	.p-icon {
+		margin-top: -.5em;
+		display: inline-block;
+		transform: translateY(.45em);
+	}
+}
+
+._pb0 {
+	padding-bottom: 0em !important;
+}

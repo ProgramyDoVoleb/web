@@ -26,4 +26,29 @@
 			
 		</div>
 	</p-loader>
+	<div class="p-line _2 mt05"></div>
+	<strong>Kde jsou?</strong>
+	<div class="p-gap"></div>
+	<p-area class="highlight">
+		<p-columns class="_4">
+			<div v-for="item in sortBy(list, 'name', null, true)">
+				<!-- <p-area> -->
+					<div class="p-offset _ac">
+						<div>
+							<p-image :src="item.logo" width="3em" :round="true"></p-image>
+						</div>
+						<div>
+							<div class="strong">{{ item.name }}</div>
+							<div>
+								{{ item.txt }} <router-link :to="'/volby/snemovni-volby/166/strana/' + item.link" v-if="item.link" class="strong">{{ item.label }}</router-link>
+							</div>
+						</div>
+					</div>
+					
+					
+				<!-- </p-area> -->
+			</div>
+		</p-columns>
+	</p-area>
+	<div class="p-line _2"></div>
 </div>

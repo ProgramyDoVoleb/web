@@ -28,7 +28,8 @@
 }
 
 .p-columns---tight,
-._tight {
+._tight,
+._6 {
 	container-type: inline-size;
 
 	@container (min-width: 360px) {
@@ -62,7 +63,8 @@
 }
 
 .p-columns---tighter,
-._tighter {
+._tighter,
+._4 {
 	container-type: inline-size;
 
 	@container (min-width: 360px) {
