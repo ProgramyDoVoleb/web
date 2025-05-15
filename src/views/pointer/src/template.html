@@ -151,7 +151,7 @@
 									<!-- </p-list> -->
 								</p-area>
 							</p-block>
-							<p-block headline="Představení" :class="{'_empty': !(!current.$data.length && (current.$data.about || current.$data.motto || current.$data.values))}" :hide="true">
+							<p-block headline="Představení" :class="{'_empty': $volby.status === 3 && !(!current.$data.length && (current.$data.about || current.$data.motto || current.$data.values))}" :hide="true">
 								<div class="p-list _2 _invisible">
 									<div v-if="current.$data.about">
 										<h2 class="serif mt0">Představení</h2>
@@ -174,7 +174,8 @@
 									<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.leader && current.$data.leader.length > 0">
 										<h2 class="serif mt0">Volební lídr</h2>
 										<p-area class="primary" :borderColor="colorByItem(current, data)">
-											<person-preview-block :cand="current.$kandidati.find(x => x.id === Number(current.$data.leader[0].label))" :data="data" :current="current" :link="$link.split('/strana')[0]"></person-preview-block>
+											<person-preview-block v-if="current.$data.leader[0].label" :cand="current.$kandidati.find(x => x.id === Number(current.$data.leader[0].label))" :data="data" :current="current" :link="$link.split('/strana')[0]"></person-preview-block>
+											<strong v-else>{{ current.$data.leader[0].value }}</strong>
 										</p-area>
 									</template>
 									<template v-if="current.$data.values">
