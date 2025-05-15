@@ -128,7 +128,7 @@
 									</div>
 								</p-area>
 							</p-block>
-							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="current.NAZEV && (typeof current.SLOZENI === 'string' || (typeof current.SLOZENI === 'undefined' && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition))">
+							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="$volby.status === 3 && current.NAZEV && (typeof current.SLOZENI === 'string' || (typeof current.SLOZENI === 'undefined' && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition))">
 								<p-area class="smaller">
 									<!-- <p-list height=".5"> -->
 											<!-- <p-stats label="Koalice"> -->
@@ -171,7 +171,14 @@
 											</template>
 										</div>
 									</template>
+									<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.leader && current.$data.leader.length > 0">
+										<h2 class="serif mt0">Volební lídr</h2>
+										<p-area class="primary" :borderColor="colorByItem(current, data)">
+											<person-preview-block :cand="current.$kandidati.find(x => x.id === Number(current.$data.leader[0].label))" :data="data" :current="current" :link="$link.split('/strana')[0]"></person-preview-block>
+										</p-area>
+									</template>
 									<template v-if="current.$data.values">
+										<h2 class="serif mt0">Hodnoty</h2>
 										<div class="serif">
 											<p-grid class="tight">
 												<div v-for="(val, indexV) in current.$data.values">
@@ -198,6 +205,8 @@
 										<pop-up preClass="green strong"><template #init>Upravit představení</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="about"  showSource="1"></editable-basic></template></pop-up>
 										&middot;
 										<pop-up preClass="green strong"><template #init>motto</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="motto" showSource="1" ></editable-basic></template></pop-up>
+										&middot;
+										<pop-up preClass="green strong"><template #init>lídra</template><template #content><editable-suggest placeholder="Odkaz na oznámení o lídrovi" type="leader" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
 										&middot;
 										<pop-up preClass="green strong"><template #init>hodnoty</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="values" showSource="1" showLabel="1"></editable-basic></template></pop-up>
 									</div>
@@ -422,18 +431,17 @@
 																	</div>
 																</p-list>
 															</template>
-															<template v-if="$volby.status === 1 && current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ && (!x.PORCISLO || x.PORCISLO > 5)).length > 0">
+															<!-- <template v-if="$volby.status === 1 && current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ && (!x.PORCISLO || x.PORCISLO > 5)).length > 0">
 																<div class="p-line"></div>
 																<p-list-linear class="or smaller">
 																	<div v-for="cand in sortBy(current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ && (!x.PORCISLO || x.PORCISLO > 5)), 'PRIJMENI', null, true)">
-																		<!-- <span class="dimm">{{ cand.PORCISLO ? cand.PORCISLO + '.' : '?' }} </span> -->
 																		<component :is="cand.NSTRANA === current.VSTRANA ? 'span' : 'p-label'" :color="colorByItem(cand, data, 'NSTRANA')">
 																			<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>	
 																		</component>																
 																	</div>
 																</p-list-linear>
-															</template>
-															<template v-if="current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 1 && $volby.status > 1">
+															</template> -->
+															<template v-if="current.$kandidati.find(x => x.VOLKRAJ === VOLKRAJ)">
 																<div class="p-line"></div>
 																<div class="smallest strong">
 																	<router-link :to="$link + '/kandidati/' + VOLKRAJ">Celý seznam &middot; {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</router-link>
@@ -1233,15 +1241,6 @@
 						<div v-if="current.OBVOD">{{ current.OBVOD }} &middot; <router-link :to="'/volby/senatni-volby/163/obvod/' + current.OBVOD">{{ data.cis.obvody.find(x => x.OBVOD === current.OBVOD).NAZEV }}</router-link></div>
 						<div v-if="$strana"><router-link :to="'/volby/krajske-volby/162/strana/' + $strana.id">{{ $strana.NAZEV }}</router-link></div>
 					</div>
-				</div>
-				<div>
-					<strong class="smaller">Novinky a zdroje</strong>
-					<div class="p-gap _05"></div>
-					<p-loader :rule="news">
-						<div v-if="news" class="smallest">
-							<news-block :showAll="true" :news="news" :limit="2" :data="current.$data" :prefix="'/' + $link.split('/').splice(1, 3).join('/')"></news-block>
-						</div>
-					</p-loader>
 				</div>
 			</p-list>
 		</template>

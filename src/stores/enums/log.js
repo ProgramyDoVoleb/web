@@ -25,5 +25,6 @@ export default {
     'mfo': 'Pohlaví',
     'core': 'Registr',
     'answer': 'Odpověď',
-    'priority': 'Priorita'
+    'priority': 'Priorita',
+    'leader': 'Volební lídr'
 }
