@@ -151,7 +151,7 @@
 									<!-- </p-list> -->
 								</p-area>
 							</p-block>
-							<p-block headline="Představení" :class="{'_empty': $volby.status === 3 && !(!current.$data.length && (current.$data.about || current.$data.motto || current.$data.values))}" :hide="true">
+							<p-block headline="Představení" :class="{'_empty': !(!current.$data.length && (current.$data.about || current.$data.motto || current.$data.values))}" :hide="true">
 								<div class="p-list _2 _invisible">
 									<div v-if="current.$data.about">
 										<h2 class="serif mt0">Představení</h2>
@@ -170,13 +170,6 @@
 												<p-quote :color="colorByItem(current, data, current.NSTRANA ? 'PSTRANA' : 'VSTRANA')">{{ item.value }}</p-quote>
 											</template>
 										</div>
-									</template>
-									<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.leader && current.$data.leader.length > 0">
-										<h2 class="serif mt0">Volební lídr</h2>
-										<p-area class="primary" :borderColor="colorByItem(current, data)">
-											<person-preview-block v-if="current.$data.leader[0].label" :cand="current.$kandidati.find(x => x.id === Number(current.$data.leader[0].label))" :data="data" :current="current" :link="$link.split('/strana')[0]"></person-preview-block>
-											<strong v-else>{{ current.$data.leader[0].value }}</strong>
-										</p-area>
 									</template>
 									<template v-if="current.$data.values">
 										<h2 class="serif mt0">Hodnoty</h2>
@@ -199,7 +192,7 @@
 										</div>
 									</template>
 								</div>		
-								<div class="mt1 mb2">
+								<div class="mt1">
 									<div v-if="$volby.editace === 1" class="smallest _edit">
 										<p-icon icon="edit"></p-icon>
 										&nbsp;
@@ -207,9 +200,45 @@
 										&middot;
 										<pop-up preClass="green strong"><template #init>motto</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="motto" showSource="1" ></editable-basic></template></pop-up>
 										&middot;
-										<pop-up preClass="green strong"><template #init>lídra</template><template #content><editable-suggest placeholder="Odkaz na oznámení o lídrovi" type="leader" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
-										&middot;
 										<pop-up preClass="green strong"><template #init>hodnoty</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="values" showSource="1" showLabel="1"></editable-basic></template></pop-up>
+									</div>
+								</div>					
+							</p-block>
+							<p-block headline="Lídr a vládní kandidáti" anchor="Lídr a tým" :class="{'_empty': !(!current.$data.length && (current.$data.leader || current.$data.govrole))}" :hide="true">
+									<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.leader && current.$data.leader.length > 0">
+										<h2 class="serif mt0">Volební lídr <span v-if="current.$data.govrole && current.$data.govrole.length > 0">a vládní kandidáti</span>
+										</h2>
+										<p-area class="primary" :borderColor="colorByItem(current, data)">
+											<person-preview-block v-if="current.$data.leader[0].label" :cand="current.$kandidati.find(x => x.id === Number(current.$data.leader[0].label))" :data="data" :current="current" :link="$link.split('/strana')[0]"></person-preview-block>
+											<strong v-else>{{ current.$data.leader[0].value }}</strong>
+										</p-area>
+									</template>
+									<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.govrole && current.$data.govrole.length > 0">
+										<!-- <h2 class="serif mt1">Vládní kandidáti</h2> -->
+										<!-- <p-area> -->
+											<p-columns class="_4 mt1">
+												<div v-for="cand in current.$data.govrole">
+													<p-area>
+														<div class="p-offset reverse balanced">
+															<div>
+																<component :is="JSON.parse(cand.value || '[1, null]')[1] ? 'router-link' : 'span'" :to="$link.split('/strana')[0] + '/kandidat/' + JSON.parse(cand.value || '[1,1]')[1]" class="strong">{{ JSON.parse(cand.value || "['chybné zadání', null]")[0] }}</component>
+																<div class="smallest">{{ cand.label }}</div>
+															</div>
+															<div>
+																<p-link class="smallest dimm" :href="cand.source">zdroj</p-link>
+															</div>
+														</div>
+													</p-area>
+												</div>
+											</p-columns>
+										<!-- </p-area> -->
+									</template>
+									<div v-if="$volby.editace === 1" class="smallest _edit">
+										<p-icon icon="edit"></p-icon>
+										&nbsp;
+										<pop-up preClass="green strong"><template #init>Upravit lídra</template><template #content><editable-suggest placeholder="Odkaz na oznámení o lídrovi" type="leader" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
+										&middot;
+										<pop-up preClass="green strong"><template #init>vládní kandidáty</template><template #content><editable-suggest placeholder="Odkaz na vládního kandidáta" type="govrole" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
 									</div>
 									<div class="_mb-1"></div>
 									<div v-if="$volby.editace === 1" class="smallest _edit">
@@ -221,8 +250,7 @@
 										</template>
 										<pop-up preClass="green strong"><template #init>Doplnit priority</template><template #content><editable-suggest placeholder="Odkaz na priority" type="priority" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
 									</div>
-									<div class="_mb-2"></div>
-								</div>					
+									<div class="mb0"></div>
 							</p-block>
 							<p-block headline="Volební program" :hide="true" v-if="!$strana && (current.$program.length > 0 || (current.$otazky && current.$otazky.find(x => x.type === 2)) || current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0 || (current.$data.program && current.$data.program.length > 0))">
 								<p-grid>

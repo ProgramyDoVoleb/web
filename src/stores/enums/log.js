@@ -26,5 +26,6 @@ export default {
     'core': 'Registr',
     'answer': 'Odpověď',
     'priority': 'Priorita',
-    'leader': 'Volební lídr'
+    'leader': 'Volební lídr',
+    'govrole': 'Vládní kandidát'
 }
