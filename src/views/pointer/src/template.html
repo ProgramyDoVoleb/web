@@ -224,7 +224,7 @@
 																<component :is="JSON.parse(cand.value || '[1, null]')[1] ? 'router-link' : 'span'" :to="$link.split('/strana')[0] + '/kandidat/' + JSON.parse(cand.value || '[1,1]')[1]" class="strong">{{ JSON.parse(cand.value || "['chybné zadání', null]")[0] }}</component>
 																<div class="smallest">{{ cand.label }}</div>
 															</div>
-															<div>
+															<div v-if="cand.source">
 																<p-link class="smallest dimm" :href="cand.source">zdroj</p-link>
 															</div>
 														</div>
