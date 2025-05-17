@@ -1,4 +1,5 @@
 import {date, number, truncate, indicator, untag, domain, sortBy, unique} from "@/pdv/helpers";
+import { colorByItem, logoByItem } from '@/components/results/helpers';
 import NewsItem from '@/components/news-item/do.vue'
 import PollsPreview from '@/components/polls-preview/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
@@ -62,6 +63,7 @@ export default {
 	},
 	methods: {
 		date, number, truncate, indicator, untag, domain, sortBy, unique,
+		colorByItem, logoByItem,
 		sortByPrijmeni: function (list, desc) {
 			var arr = [];
 			list.forEach(x => arr.push(x));

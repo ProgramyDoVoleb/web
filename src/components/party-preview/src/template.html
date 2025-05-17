@@ -46,8 +46,8 @@
 						<!-- <p-label :color="colorByItem(party, elections)"></p-label> -->
 						<p-list-linear class="or dimm">
 							<span v-if="party.$program && party.$program.length > 0">
-								<p-badge background="var(--highlight)">
-									<router-link :to="link + '/strana/' + party.id + '/volebni-program/' + party.$program[0].id" class="unlink">Program</router-link>
+								<p-badge :background="colorByItem(party, elections)">
+									<router-link :to="link + '/strana/' + party.id + '/volebni-program/' + party.$program[0].id" class="unlink _white">Program</router-link>
 								</p-badge>
 							</span>
 							<span v-if="party.$priorit && party.$priorit > 0">

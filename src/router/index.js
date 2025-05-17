@@ -168,7 +168,7 @@ const router = createRouter({
       props: true
     },
     {
-      path: '/bod/:tableName/:tableID/volebni-program/:id',
+      path: '/bod/:tableName/:tableID/volebni-program/:programID',
       name: 'generic-pointer-with-subpage-and-id',
       component: PointerProgramView,
       props: true

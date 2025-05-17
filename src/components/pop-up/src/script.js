@@ -22,36 +22,38 @@ export default {
 			var arrow = this.$refs.arrow;
 			var w = window.innerWidth;
 
-			if (this.show === true) {
+			if (popup) {
+				if (this.show === true) {
 
-				var btnBB = btn.getBoundingClientRect();
-				var popupBB = popup.getBoundingClientRect();
-	
-				if (w < 640) {
-					popup.style.left = '5vw';
-					popup.style.right = '5vw';
-				} else {
-					popup.style.left = 'auto';
-					popup.style.right = 'auto';
-					
-					if (btnBB.x < 150) {
-						popup.style.left = '10px';
-						popup.style.width = '300px';
-					} else if (btnBB.x + 300 > window.innerWidth - 10) {
-						popup.style.right = '10px';
-						popup.style.width = '300px';
+					var btnBB = btn.getBoundingClientRect();
+					var popupBB = popup.getBoundingClientRect();
+		
+					if (w < 640) {
+						popup.style.left = '5vw';
+						popup.style.right = '5vw';
 					} else {
-						popup.style.left = (btnBB.x + (btnBB.width / 2) - 150) + 'px';
-						popup.style.right = (btnBB.x + (btnBB.width / 2) + 150) + 'px';
+						popup.style.left = 'auto';
+						popup.style.right = 'auto';
+						
+						if (btnBB.x < 150) {
+							popup.style.left = '10px';
+							popup.style.width = '300px';
+						} else if (btnBB.x + 300 > window.innerWidth - 10) {
+							popup.style.right = '10px';
+							popup.style.width = '300px';
+						} else {
+							popup.style.left = (btnBB.x + (btnBB.width / 2) - 150) + 'px';
+							popup.style.right = (btnBB.x + (btnBB.width / 2) + 150) + 'px';
+						}
 					}
-				}
-				arrow.style.left = (btnBB.x + (btnBB.width / 2)) + 'px';
-				arrow.style.bottom = (window.innerHeight - btnBB.y + 15) + 'px';
+					arrow.style.left = (btnBB.x + (btnBB.width / 2)) + 'px';
+					arrow.style.bottom = (window.innerHeight - btnBB.y + 15) + 'px';
 
-				popup.style.bottom = (window.innerHeight - btnBB.y + 15) + 'px';
-			} else {
-				popup.style.bottom = '150vh';
-				arrow.style.bottom = '150vh';
+					popup.style.bottom = (window.innerHeight - btnBB.y + 15) + 'px';
+				} else {
+					popup.style.bottom = '150vh';
+					arrow.style.bottom = '150vh';
+				}
 			}
 
 			// console.log(w, btnBB, popupBB);

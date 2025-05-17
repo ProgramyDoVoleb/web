@@ -31,9 +31,32 @@
 											</p-area>
 										</div>
 									</template>
-									<template v-if="day.log.length > 0 && day.log.find(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1 && y.action != 'ignore'))">
+									<template v-if="(day.log.length > 0 && day.log.find(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1 && y.action != 'ignore'))) || (day.fullprogram && day.fullprogram.length > 0)">
 										<div class="smallest red strong">Nepřehlédněte</div>
 										<p-grid>
+											<template v-for="item in day.fullprogram">
+												<div>
+													<p-area class="shadow highlight" :borderColor="colorByItem(item.$node, item)">
+														<div class="p-offset">
+															<div>
+																<p-image :src="logoByItem(item.$node, item)" width="2.5em" :rounded="true"></p-image>
+															</div>
+															<div>
+																<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id" class="strong">Volební program</router-link>
+																<div class="smallest">
+																	{{ 'Plná verze' }}
+																	<span class="dimm" v-if="item.backup">
+																		&middot;
+																		<p-link :href="item.backup" class="dimm">
+																			záloha
+																		</p-link>
+																	</span>
+																</div>
+															</div>
+														</div>
+													</p-area>
+												</div>
+											</template>
 											<template v-for="itemparty in day.log.filter(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1 && y.action != 'ignore'))">
 												<template v-for="item in itemparty.data.filter(y => y.type === 'program')">
 													<div>
@@ -44,7 +67,7 @@
 																</p-link>
 															</strong>
 															<div class="smallest">
-																Volební program
+																{{ item.node.value || 'Volební program' }}
 																<span class="dimm" v-if="item.node.label">
 																	&middot;
 																	<p-link :href="item.node.label" class="dimm">
@@ -75,7 +98,7 @@
 																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
 																</router-link>
 															</strong>
-															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'priority').length" :end="['', '1 priorita', '%% priority', '%% priorit']"></p-lang></div>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'priority' && x.node && x.node.status === 1 ).length" :end="['', '1 priorita', '%% priority', '%% priorit']"></p-lang></div>
 														</p-area>
 													</div>
 												</template>

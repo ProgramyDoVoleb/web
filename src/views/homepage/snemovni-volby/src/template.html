@@ -40,7 +40,7 @@
 						<div>
 							<div class="strong">{{ item.name }}</div>
 							<div>
-								{{ item.txt }} <router-link :to="'/volby/snemovni-volby/166/strana/' + item.link" v-if="item.link" class="strong">{{ item.label }}</router-link>
+								{{ item.txt }} <router-link :to="item.link" v-if="item.link" class="strong">{{ item.label }}</router-link>
 							</div>
 						</div>
 					</div>
