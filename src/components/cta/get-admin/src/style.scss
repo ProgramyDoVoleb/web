@@ -1,4 +1,4 @@
-.p-area {
+.p-area2 {
     background-color: var(--white);
     border: var(--border);
     padding: 1em !important;
@@ -14,6 +14,11 @@
     .p-layout---aside & {
         background: none !important;
     }
+}
+
+.p-area {
+    margin: 0 -1.25em;
+    padding-left: 4.75em !important;
 }
 
 img {

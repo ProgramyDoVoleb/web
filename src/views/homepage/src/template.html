@@ -441,9 +441,31 @@
 					<!-- <div class="p-gap"></div> -->
 					<!-- <engagement-block hash="poll-most-trusted" :data="[{question: 'Která agentura má nejlepší průzkumy?', options: ['Data Collect', 'Ipsos', 'Kantar', 'Median', 'NMS Market Research', 'STEM', 'jiná']}]" :autosend="true"></engagement-block> -->
 				</p-block>
+
 				<p-block hide="1" headline="Novinky e-mailem">
 					<mailchimp-signup></mailchimp-signup>
 				</p-block>
+							
+				<p-block headline="Nejbližší události">
+					<div v-if="news && news.events && news.events.length > 0">
+						<p-columns>
+							<div v-for="event in news.events.filter((x, i) => i < 6)">
+								<event-item :item="event" :party="event.$node" :data="event" bod="1" class="pb2 _short" :short="true"></event-item>
+							</div>
+						</p-columns>
+						<p-collapsible label="Další akce a události" class="smaller" logo="event" :status="news.events.length - 6" v-if="news.events.length > 6">
+
+						</p-collapsible>
+						<div class="mt1">
+							<div class="smallest _edit">
+								<p-icon icon="edit"></p-icon>
+								&nbsp;
+								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-suggest placeholder="Odkaz na událost" type="event" part="HP Novinky" link="1"></editable-suggest></template></pop-up>
+							</div>
+						</div>
+					</div>
+				</p-block>
+				<div class="p-line"></div>
 			</p-block>
 			<p-block headline="Programy do voleb" :level="1" :hide="1">
 				<p-block headline="O projektu" :hide="true">
@@ -695,21 +717,42 @@
 		</template>
 		<template #aside>
 			<p-list height="1.5">
-				<!-- <cta-get-admin v-if="elections" :election="elections.list.find(x => x.status < 3)" /> -->
-				<cta-support></cta-support>
 				<div>
-					<strong class="smaller">Novinky</strong>
+					<p-list class="mh-1">
+						<template v-if="news && news.events && news.events.length > 0">
+							<div>
+								<strong class="smaller">Nejbližší akce</strong>
+							</div>
+							<div v-for="event in news.events.filter((x, i) => i < 2)">
+								<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="aside"></event-item>
+							</div>
+						</template>
+						<div>
+							<div class="smallest _edit">
+								<p-icon icon="edit"></p-icon>
+								&nbsp;
+								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-suggest placeholder="Odkaz na událost" type="event" part="HP Novinky" link="1"></editable-suggest></template></pop-up>
+							</div>
+						</div>
+					</p-list>
+				</div>
+				<div>
+					<cta-get-admin :election="elections ? elections.list.find(x => x.editace === 1) : null" class="mb05"></cta-get-admin>
+					<cta-support-short></cta-support-short>
+				</div>
+				<div>
+					<strong class="smaller">Nově na Programech</strong>
 					<div class="p-gap"></div>
 					<p-loader :rule="news">
 						<div v-if="news" class="smallest">
 							<p-list height="1.5">
 								<template v-for="(news, index) in sortBy([].concat(news.sys), 'datum', null, true, true)">
-									<div v-if="index < 3">
+									<div v-if="index < 2">
 										<news-item-aside :data="news" :noSource="true"></news-item-aside>
 									</div>
 								</template>
 								<div>
-									<router-link to="/novinky">Archiv</router-link> &rarr;
+									<router-link to="/novinky/archiv">Archiv</router-link> &rarr;
 								</div>
 							</p-list>
 						</div>

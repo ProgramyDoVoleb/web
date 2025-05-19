@@ -12,3 +12,59 @@
     color: #ccc;
   }
 }
+
+.aside {
+	line-height: 1.25;
+
+	.p-offset {
+		display: block;
+	}
+
+	.p-offset > ._cday {
+		float: left;
+		margin-left: -1.85em;
+
+		@media (min-width: 1600px) {
+			margin-left: -2.08em;
+		}
+	}
+
+	.p-area {
+		height: 2.5em;
+		width: .75em;
+		padding-right: 0 !important;
+		padding-left: 0 !important;
+		background-color: transparent !important;
+	}
+
+	.p-area div {
+		display: none;
+	}
+
+	.p-link {
+		font-size: 13px;
+	}
+
+	.tiny {
+		font-size: 11px;
+		padding-bottom: .5em;
+	}
+
+	.smallest {
+		line-height: 1.4;
+	}
+
+	._cTxt {
+		margin-left: 0 !important;
+	}
+}
+
+._short {
+	.p-link {
+		font-size: .9em;
+	}
+
+	.tiny, .smallest {
+		font-size: 12px;
+	}
+}

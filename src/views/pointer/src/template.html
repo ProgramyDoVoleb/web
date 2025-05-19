@@ -1164,7 +1164,7 @@
 												</template>
 											</p-collapsible> -->
 											<div class="p-line _05"></div>
-											<p-collapsible label="Pro strany a kandidáty" logo="person" :borderless="true" status="Admin">
+											<p-collapsible label="Pro strany a kandidáty" logo="admin" :borderless="true" status="Admin">
 												<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
 
 												<div class="strong smaller">
@@ -1243,9 +1243,30 @@
 		</template>
 		<template #aside>
 			<p-list height="1.5">
+				<div>
+					<p-list class="mh-1">
+						<template v-if="data && current && current.$data.event && current.$data.event.length > 0">
+							<div>
+								<strong class="smaller">Nejbližší akce</strong>
+							</div>
+							<div v-for="event in sortBy(current.$data.event.filter(x => JSON.parse(x.label)[0] >= today), 'updated', null, true).filter((x, i) => i < 3)">
+								<event-item :item="event" :party="current" :data="data" bod="1" short="1" class="aside" noTag="1"></event-item>
+							</div>
+						</template>
+						<div>
+							<div class="smallest _edit">
+								<p-icon icon="edit"></p-icon>
+								&nbsp;
+								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="$volby.id"></editable-event></template></pop-up>
+							</div>
+						</div>
+					</p-list>
+				</div>
 
-				<cta-get-admin :election="$volby" />
-				<cta-support></cta-support>
+				<div>
+					<cta-get-admin :election="$volby" class="mb05" />
+					<cta-support-short></cta-support-short>
+				</div>
 				
 				<div v-if="data && $volby && $volby.id === 161">
 					<div>
