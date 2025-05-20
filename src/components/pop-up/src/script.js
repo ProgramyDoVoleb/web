@@ -22,6 +22,8 @@ export default {
 			var arrow = this.$refs.arrow;
 			var w = window.innerWidth;
 
+			var isDown = this.$el.classList.contains('down');
+
 			if (popup) {
 				if (this.show === true) {
 
@@ -47,12 +49,23 @@ export default {
 						}
 					}
 					arrow.style.left = (btnBB.x + (btnBB.width / 2)) + 'px';
-					arrow.style.bottom = (window.innerHeight - btnBB.y + 15) + 'px';
 
-					popup.style.bottom = (window.innerHeight - btnBB.y + 15) + 'px';
+					if (isDown) {
+						arrow.style.top = (btnBB.y + btnBB.height) + 'px';
+						popup.style.top = (btnBB.y + btnBB.height + 15) + 'px';
+					} else {
+						arrow.style.bottom = (window.innerHeight - btnBB.y + 15) + 'px';
+						popup.style.bottom = (window.innerHeight - btnBB.y + 15) + 'px';
+					}
+
 				} else {
-					popup.style.bottom = '150vh';
-					arrow.style.bottom = '150vh';
+					if (isDown) {
+						popup.style.top = '150vh';
+						arrow.style.top = '150vh';
+					} else {
+						popup.style.bottom = '150vh';
+						arrow.style.bottom = '150vh';
+					}
 				}
 			}
 
