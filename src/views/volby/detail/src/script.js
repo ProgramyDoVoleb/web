@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, domain, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, domain, sortBy, sortEvents} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
@@ -14,22 +14,34 @@ import PrezidentskeVolby from '@/views/volby/detail/prezidentske-volby/do.vue'
 import ReportForm from '@/components/report-form/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
+import CtaSupportShort from '@/components/cta/support-short/do.vue';
 import EvropskeVolbyResults from '@/views/history/volby/evropske-volby/do.vue';
 import SnemovniVolbyResults from '@/views/history/volby/snemovni-volby/do.vue';
+import PopUp from '@/components/pop-up/do.vue';
+import EditableBasic from '@/components/editable/basic/do.vue';
+import EditableSuggest from '@/components/editable/suggest/do.vue';
+import EditableEvent from '@/components/editable/event/do.vue';
+import EditableImage from '@/components/editable/image/do.vue';
+import EventItem from '@/components/event-item/do.vue'
 
 export default {
 	name: 'layout-volby-detail',
 	props: ['hash', 'id'],
 	data: function () {
 		return {
-			cdn, today
+			cdn, today,
+			eventsLimit: 3,
+			eventsOff: false,
+			mediaLimit: 9,
+			mediaLimitOff: false,
 		}
 	},
   components: {
 	NewsItem, NewsBlock, ReportForm,
 	EvropskeVolby, SnemovniVolby, KrajskeVolby, KomunalniVolby, SenatniVolby, PrezidentskeVolby,
-	CtaGetAdmin, CtaSupport,
-	EvropskeVolbyResults, SnemovniVolbyResults
+	CtaGetAdmin, CtaSupport, CtaSupportShort,
+	EvropskeVolbyResults, SnemovniVolbyResults,
+	PopUp, EditableBasic, EditableSuggest, EditableEvent, EditableImage, EventItem
   },
 	computed: {
 		$store: function () {
@@ -100,7 +112,9 @@ export default {
 		date,
 		number,
 		truncate,
-		domain
+		domain,
+		sortEvents,
+		sortBy
   },
   mounted: function () {
     window.scrollTo(0, 1);

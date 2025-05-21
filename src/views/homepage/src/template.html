@@ -454,7 +454,9 @@
 							</div>
 						</p-columns>
 						<p-collapsible label="Další akce a události" class="smaller" logo="event" :status="news.events.length - 6" v-if="news.events.length > 6">
-
+							<div v-for="event in news.events.filter((x, i) => i >= 6)">
+								<event-item :item="event" :party="event.$node" :data="event" bod="1" class="pb2 _short" :short="true"></event-item>
+							</div>
 						</p-collapsible>
 						<div class="mt1">
 							<div class="smallest _edit">
