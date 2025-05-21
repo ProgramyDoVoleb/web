@@ -14,6 +14,15 @@
 				<div class="p-gap _2"></div>
 				<p-loader :rule="news">
 					<div v-if="news">
+						<template v-if="nearEvents.length > 0">
+							<component :is="nearEvents.length < 6 ? 'p-block' : 'p-block-expandable'" headline="Blízké události">
+								<p-columns>
+									<div v-for="event in nearEvents">
+										<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1"></event-item>
+									</div>
+								</p-columns>
+							</component>
+						</template>
 						<template v-for="day in news.list">
 							<p-block :headline="date(day.datum)">
 								<p-list class="">
@@ -120,6 +129,7 @@
 													</span>
 												</p-list-linear>
 											</p>
+											<div class="smallest dimm">{{ domain(item.source) }}</div>
 										</div>
 									</template>
 									<template v-if="day.polls.length > 0">
@@ -133,6 +143,14 @@
 												</div>
 											</p-grid>
 										</div>
+									</template>
+									<template v-if="day.events.length > 0">
+										<div class="smallest dimm strong">Události a akce</div>
+										<p-columns class="">
+											<div v-for="event in day.events">
+												<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="column"></event-item>
+											</div>
+										</p-columns>
 									</template>
 									<template v-if="day.media.length > 0">
 										<div class="smallest dimm strong">Články a rozhovory</div>
@@ -327,7 +345,7 @@
 							<div>
 								<strong class="smaller">Nejbližší akce</strong>
 							</div>
-							<div v-for="event in news.events.filter((x, i) => i < 2)">
+							<div v-for="event in sortEvents(news.events, true).filter((x, i) => i < 2)">
 								<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="aside"></event-item>
 							</div>
 						</template>

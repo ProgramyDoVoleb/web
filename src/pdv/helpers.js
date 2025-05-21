@@ -44,10 +44,49 @@ export function sortBy (list, key, fallback, isString, desc) {
   return arr;
 }
 
-export function sortEvents (list) {
+export function sortEvents (list, delistPassed) {
 
   var arr = [];
-  list.forEach(x => arr.push(x));
+  var today = new Date().toISOString().split('T')[0];
+  var time = new Date().toISOString().split('T')[1].split('.')[0];
+
+  // console.log(today, time);
+
+  list.forEach(x => {
+    if (!delistPassed) {
+      arr.push(x)
+    } else {
+      var dates = JSON.parse(x.label);
+
+      // console.log(dates);
+
+      if (dates[0] < today) {
+        // delist
+      } else if (dates[0] === today) {
+
+        var test = false;
+
+        if (!dates[1] && !dates[3]) {
+          // console.log('whole day event')
+          test = true;
+        }
+        if (dates[2] && dates[2] === today && dates[3] && dates[3] > time) {
+          // console.log('not finished yet')
+          test = true;
+        }
+        if (dates[1] && !dates[2] && !dates[3] && dates[1] > time) {
+          test = true;
+          // console.log('not started yet', dates[1], time)
+        }
+
+        if (test) {
+          arr.push(x);
+        }
+      } else {
+        arr.push(x)
+      }
+    }
+  });
 
   arr.sort((a, b) => JSON.parse(a.label)[0].localeCompare(JSON.parse(b.label)[0], 'cs'));
 

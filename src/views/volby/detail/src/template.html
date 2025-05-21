@@ -54,6 +54,12 @@
 											</div>
 										</template>
 										<div>
+											<p-area class="highlight shadow" borderColor="var(--red)">
+												<router-link to="/novinky" class="strong red">Sedmidění</router-link>
+												<div class="smaller mt05">Předvolebního dění, články, rozhovory, průzkumy, noví kandidáti, poslední úpravy... přehledně za posledních 7 dní.</div>
+											</p-area>
+										</div>
+										<div>
 											<p-area icon="plus-green" background="var(--green11)">
 												<p-modal>
 													<template #init> <button class="inline green strong">Poslat tip na novinku</button> </template>
@@ -65,36 +71,27 @@
 												<div class="smallest dimm">Stačí poslat odkaz</div>
 											</p-area>
 										</div>
-										<div>
-											<p-area icon="rss" background="var(--blue11)">
-												<router-link to="/novinky" class="strong">Sedmidění</router-link>
-												<div class="smallest dimm">Přehled dění za posledních 7 dní</div>
-											</p-area>
-										</div>
 									</div>
 								</div>
 							</p-loader>
 						</p-block-expandable>
-						<p-block-expandable headline="Události" :hide="!(current.$data.event && current.$data.event.length > 0 && current.$data.event.find(x => JSON.parse(x.label)[0] >= today))" :class="{'_empty': !(current.$data.event && current.$data.event.length > 0 && current.$data.event.find(x => JSON.parse(x.label)[0] >= today))}" :open="current.status < 3">
+						<p-block-expandable headline="Události" :open="current.status < 3">
 							<p-list height="1.5">
-								<div v-for="(item, index) in sortEvents((current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today)).filter((x, i) => i < (eventsOff ? 1000000 : eventsLimit))">
+								<div v-for="(item, index) in sortEvents((current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today))">
 									<event-item :item="item" :party="current" :data="data" :noTag="true"></event-item>
-								</div>
-								<div v-if="(current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today).length > 10">
-									<button @click="eventsOff = !eventsOff">{{ eventsOff ? 'Zobrazit méně' : 'Zobrazit vše' }}</button>
 								</div>
 							</p-list>
 							<div v-if="current.editace === 1" class="smallest _edit mt3">
 								<p-icon icon="edit"></p-icon>
 								&nbsp;
-								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="current.id"></editable-event></template></pop-up>
+								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="'csu_volby:' + id" :elections="id"></editable-event></template></pop-up>
 							</div>
 						</p-block-expandable>
-						<p-block-expandable headline="Poznámky" :class="{'_empty': !current.$data.note}" :hide="!current.$data.note" :open="current.status < 3">
+						<p-block-expandable headline="Poznámky" :open="current.status < 3">
 							<p-list height="1">
 								<div v-for="(item, index) in (current.$data.note || [])">
-									<div class="serif">
-										{{ item.value }}
+									<div>
+										<strong>{{ item.value }}</strong>
 										<div class="smaller mt1" v-if="item.label" v-html="item.label"></div>
 									</div>
 									<div class="p-gap_05"></div>
@@ -105,9 +102,109 @@
 							<div v-if="current.editace === 1" class="smallest _edit mt3">
 								<p-icon icon="edit"></p-icon>
 								&nbsp;
-								<pop-up preClass="green strong"><template #init>Přidat poznámku</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="note" showSource="1" showLabel="1"></editable-basic></template></pop-up>
+								<pop-up preClass="green strong"><template #init>Přidat poznámku</template><template #content><editable-basic :pointer="'csu_volby:' + id" :elections="id" type="note" showSource="1" showLabel="1"></editable-basic></template></pop-up>
 							</div>
 						</p-block-expandable>
+
+							<p-block-expandable headline="Odkazy" :open="current.status < 3">
+								<p-list class="_025">
+									<template v-if="linksAll.filter(x => x.type === 'web' || x.type === 'wiki').length > 0">
+										<div v-for="(item, index) in linksAll.filter(x => x.type === 'web' || x.type === 'wiki')">
+											<p-box-group>
+												<p-box :block="true" :href="item.value" class="clean">
+													<p-box-icon :type="type(item.value)"></p-box-icon>
+													<p-box-label>
+														{{ item.label || domain(item.value, true) }}
+														<div class="tiny dimm" v-if="item.label">{{ domain(item.value, true) }}</div>
+													</p-box-label>
+												</p-box>
+											</p-box-group>
+										</div>
+									</template>
+									<template v-if="linksAll.filter(x => x.type === 'link').length > 0">
+										<div class="smallest strong mt2">Další odkazy</div>
+										<div v-for="(item, index) in linksAll.filter(x => x.type === 'link')">
+											<p-box-group>
+												<p-box :block="true" :href="item.value" class="clean">
+													<p-box-icon :type="type(item.value)"></p-box-icon>
+													<p-box-label>
+														{{ item.label || domain(item.value, true) }}
+														<div class="tiny dimm" v-if="item.label">{{ domain(item.value, true) }}</div>
+													</p-box-label>
+												</p-box>
+											</p-box-group>
+										</div>
+									</template>
+								</p-list>
+								<div v-if="current.editace === 1" class="smallest _edit mt3">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Navrhnout web</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="web" ></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>wiki</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="wiki" ></editable-basic></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>další odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="link"  :showLabel="1"></editable-basic></template></pop-up>
+								</div>
+							</p-block-expandable>
+							<p-block-expandable headline="Volební materiály">
+								<p-grid>
+									<div v-for="(item, index) in current.$data.graphics">
+										<p-area>
+											<!-- <p-image :src="item.value" :rounded="true" width="100%"></p-image> -->
+											<img class="_ar _of" :src="item.value" loading="lazy">
+
+											<div class="p-gap"></div>
+
+											<p-modal class="inline">
+												<template #init>
+													<div class="smaller">{{ item.label || 'Zobrazit' }}</div>
+												</template>
+												<template #content>
+													<div class="strong">{{ item.label }}</div>
+													<div class="smallest dimm">Přidáno {{ date(item.updated) }} &middot; <p-link :href="item.source">Zdroj</p-link></div>
+													<div class="p-line"></div>
+													<p-image width="100%" :src="item.value"></p-image>
+												</template>
+											</p-modal>
+
+											<div class="smallest dimm">
+												{{ date(item.updated) }}
+												<span v-if="item.source">
+													 &middot; 
+													<p-link :href="item.source" class="dimm">zdroj</p-link>
+												</span>
+											</div>
+										</p-area>
+									</div>
+								</p-grid>
+								<div v-if="current.editace === 1" class="smallest _edit">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Nahrát leták, plakát</template><template #content><editable-image type="graphics" :pointer="'csu_volby:' + id" :elections="id"></editable-image></template></pop-up>
+									&middot;
+									<pop-up preClass="green strong"><template #init>zaslat odkaz</template><template #content><editable-suggest type="graphics" :part="current.typ + ':' + current.id"></editable-suggest></template></pop-up>
+								</div>
+							</p-block-expandable>
+							<p-block-expandable headline="Dokumenty">
+								<p-grid>
+									<div v-for="(item, index) in current.$data.document">
+										<p-area icon="link">
+											<p-link :href="item.source" class="strong">{{ item.value }}</p-link>
+											<div class="smallest dimm">
+												Přidáno {{ date(item.updated) }}
+												<span v-if="item.label">
+													&middot; <p-link :href="item.label" class="dimm">Záloha</p-link>
+												</span>
+											</div>
+										</p-area>
+									</div>
+								</p-grid>
+								<div v-if="current.editace === 1" class="smallest _edit mt3">
+									<p-icon icon="edit"></p-icon>
+									&nbsp;
+									<pop-up preClass="green strong"><template #init>Přidat dokument</template><template #content><editable-suggest placeholder="Odkaz na dokument" type="document" :part="current.typ + ':' + current.id"></editable-suggest></template></pop-up>
+								</div>
+							</p-block-expandable>
 						<p-block v-if="current && current.predchozi && ['evropske-volby', 'snemovni-volby'].indexOf(hash) > -1" headline="Minulé volby">
 							<p-area>
 								<p-loader :rule="previousData">
@@ -190,7 +287,7 @@
 							<div>
 								<strong class="smaller">Nejbližší události</strong>
 							</div>
-							<div v-for="event in sortBy(current.$data.event.filter(x => JSON.parse(x.label)[0] >= today), 'updated', null, true).filter((x, i) => i < 3)">
+							<div v-for="event in sortEvents(current.$data.event.filter(x => JSON.parse(x.label)[0] >= today)).filter((x, i) => i < 3)">
 								<event-item :item="event" :party="current" :data="data" bod="1" short="1" class="aside" noTag="1"></event-item>
 							</div>
 						</template>
@@ -198,7 +295,7 @@
 							<div class="smallest _edit">
 								<p-icon icon="edit"></p-icon>
 								&nbsp;
-								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="$volby.id"></editable-event></template></pop-up>
+								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="current.id"></editable-event></template></pop-up>
 							</div>
 						</div>
 					</p-list>

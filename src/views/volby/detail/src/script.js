@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, domain, sortBy, sortEvents} from '@/pdv/helpers';
+import {url, date, number, truncate, domain, sortBy, sortEvents, type} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
@@ -29,11 +29,7 @@ export default {
 	props: ['hash', 'id'],
 	data: function () {
 		return {
-			cdn, today,
-			eventsLimit: 3,
-			eventsOff: false,
-			mediaLimit: 9,
-			mediaLimitOff: false,
+			cdn, today
 		}
 	},
   components: {
@@ -75,15 +71,16 @@ export default {
 		newsmedia: function () {
 			var list = [];
 
-			if (this.news) {
+			if (this.news && this.current) {
 				// sortBy([].concat(this.news.list, this.news.sys), 'datum', null, true, true).forEach(item => {
 				sortBy([].concat(this.news.list, this.news.sys), 'datum', null, true, true).forEach(item => {
 					list.push({
 						source_label: item.source,
 						source: item.priority === 9 ? 'https://programydovoleb.cz/novinky/' + item.id : item.source,
 						value: item.title,
-						updated: item.datum,
-						label: item.priority === 9 ? 'pdv' : 'news'
+						updated: item.datum + (item.priority === 3 ? ' 00:00:00' : ' 23:59:59'),
+						label: [0, 'news', 'auto', 'comment',0,0,0,0,0,'pdv'][item.priority],
+						content: item.priority === 3 ? item.content : null
 					})
 				});
 
@@ -93,10 +90,36 @@ export default {
 					}
 				});
 
+				if (this.current.$data) {
+					(this.current.$data.media || []).forEach(item => {
+							list.push(item);
+					});
+					(this.current.$data.pr || []).forEach(item => {
+							list.push(item);
+					});
+				}
+
 				list = sortBy(list, 'updated', null, true, true);
 			}
 
 			return list.filter((x,i) => i < 8);
+		},
+		linksAll: function () {
+			var arr = [];
+
+			if (this.current) {
+				['web', 'link', 'wiki'].forEach(type => {
+					if (this.current.$data[type]) {
+						this.current.$data[type].forEach(x => {
+							if (!arr.find(y => y.value === x.value || url(y.value) === url(x.value))) arr.push(x);
+						});
+					}
+				});
+			}
+
+			arr.sort((a, b) => a.type.localeCompare(b.type, 'cs'));
+
+			return arr;
 		},
 		previous: function () {
 			return this.current.predchozi;
@@ -114,7 +137,7 @@ export default {
 		truncate,
 		domain,
 		sortEvents,
-		sortBy
+		sortBy, type
   },
   mounted: function () {
     window.scrollTo(0, 1);

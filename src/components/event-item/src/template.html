@@ -31,8 +31,8 @@
 			</template>
 			<div class="p-gap _05"></div>
 			<div class="smallest" v-if="JSON.parse(item.label).reduce((a, b) => a + (b != null), 0) > 1">
-				<span v-if="!short">Začátek dne </span>{{ date(JSON.parse(item.label)[0], 2) }}<template v-if="JSON.parse(item.label)[1] != null"> v {{ JSON.parse(item.label)[1] }}</template>
-				<template v-if="!short && JSON.parse(item.label)[2] != null"><br>Konec {{ date(JSON.parse(item.label)[2]) }}</template>
+				<span v-if="!short">Dne </span>{{ date(JSON.parse(item.label)[0], 2) }}<template v-if="JSON.parse(item.label)[1] != null && JSON.parse(item.label)[1] != ''"> od {{ JSON.parse(item.label)[1] }}</template>
+				<template v-if="!short && JSON.parse(item.label)[2] != null"><br>Konec {{ date(JSON.parse(item.label)[2], 2) }}</template>
 				<template v-if="!short && JSON.parse(item.label)[3] != null"> do {{ JSON.parse(item.label)[3] }}</template>
 				<div v-if="JSON.parse(item.label)[4] != null" v-html="JSON.parse(item.label)[4]"></div>
 			</div>

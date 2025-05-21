@@ -1,4 +1,4 @@
-import {date, number, truncate, indicator, untag, domain, sortBy, unique} from "@/pdv/helpers";
+import {date, number, truncate, indicator, untag, domain, sortBy, sortEvents, unique} from "@/pdv/helpers";
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import NewsItem from '@/components/news-item/do.vue'
 import PollsPreview from '@/components/polls-preview/do.vue';
@@ -8,6 +8,7 @@ import MailchimpSignup from '@/components/mailchimp/do.vue';
 import ReportForm from '@/components/report-form/do.vue';
 import EventItem from '@/components/event-item/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
+import EditableSuggest from '@/components/editable/suggest/do.vue';
 import logtypes from '@/stores/enums/log';
 import {useData} from '@/stores/data';
 import {today, cdn} from '@/stores/core';
@@ -63,11 +64,12 @@ export default {
 		CtaSupport, CtaSupportShort,
 		MailchimpSignup,
 		ReportForm,
+		EditableSuggest,
 		EventItem,
 		PopUp
 	},
 	methods: {
-		date, number, truncate, indicator, untag, domain, sortBy, unique,
+		date, number, truncate, indicator, untag, domain, sortBy, unique, sortEvents,
 		colorByItem, logoByItem,
 		sortByPrijmeni: function (list, desc) {
 			var arr = [];
@@ -84,6 +86,25 @@ export default {
 		},
 		news: function () {
 			return this.$store.getters.pdv('news/weekly/' + this.datum)
+		},
+		nearEvents: function () {
+			var arr = [];
+
+			if (this.news) {
+				var nextEvents = sortEvents(this.news.events, true);
+				
+				var thisDay = new Date(today);
+				var nearDay = new Date(thisDay.setDate(thisDay.getDate() + 3)).toISOString().split('T')[0];
+
+				nextEvents.forEach(ev => {
+					var dates = JSON.parse(ev.label);
+					if (dates[0] < nearDay) {
+						arr.push(ev);
+					}
+				});
+			}
+
+			return arr;
 		}
 	},
 	mounted: function () {

@@ -63,6 +63,50 @@
 	}
 }
 
+.column {
+	line-height: 1.25;
+
+	.p-offset {
+		display: block;
+	}
+
+	.p-offset > ._cday {
+		float: left;
+		margin-left: -.2em;
+	}
+
+	.p-area {
+		height: 2.75em;
+		width: 1em;
+		padding-right: 0 !important;
+		padding-left: 0 !important;
+		background-color: transparent !important;
+		position: relative;
+		top: -.2em
+	}
+
+	.p-area div {
+		display: none;
+	}
+
+	.p-link {
+		font-size: 13px;
+	}
+
+	.tiny {
+		font-size: 11px;
+		padding-bottom: .5em;
+	}
+
+	.smallest {
+		line-height: 1.4;
+	}
+
+	._cTxt {
+		margin-left: 0 !important;
+	}
+}
+
 ._short {
 	.p-link {
 		font-size: .9em;

@@ -1249,7 +1249,7 @@
 							<div>
 								<strong class="smaller">Nejbližší akce</strong>
 							</div>
-							<div v-for="event in sortBy(current.$data.event.filter(x => JSON.parse(x.label)[0] >= today), 'updated', null, true).filter((x, i) => i < 3)">
+							<div v-for="event in sortEvents(current.$data.event, true).filter((x, i) => i < 3)">
 								<event-item :item="event" :party="current" :data="data" bod="1" short="1" class="aside" noTag="1"></event-item>
 							</div>
 						</template>

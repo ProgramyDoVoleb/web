@@ -449,12 +449,12 @@
 				<p-block headline="Nejbližší události">
 					<div v-if="news && news.events && news.events.length > 0">
 						<p-columns>
-							<div v-for="event in news.events.filter((x, i) => i < 6)">
+							<div v-for="event in sortEvents(news.events, true).filter((x, i) => i < 6)">
 								<event-item :item="event" :party="event.$node" :data="event" bod="1" class="pb2 _short" :short="true"></event-item>
 							</div>
 						</p-columns>
-						<p-collapsible label="Další akce a události" class="smaller" logo="event" :status="news.events.length - 6" v-if="news.events.length > 6">
-							<div v-for="event in news.events.filter((x, i) => i >= 6)">
+						<p-collapsible label="Další akce a události" class="smaller" logo="event" :status="sortEvents(news.events, true).length - 6" v-if="sortEvents(news.events, true).length > 6">
+							<div v-for="event in sortEvents(news.events, true).filter((x, i) => i >= 6)">
 								<event-item :item="event" :party="event.$node" :data="event" bod="1" class="pb2 _short" :short="true"></event-item>
 							</div>
 						</p-collapsible>
@@ -725,7 +725,7 @@
 							<div>
 								<strong class="smaller">Nejbližší akce</strong>
 							</div>
-							<div v-for="event in news.events.filter((x, i) => i < 2)">
+							<div v-for="event in sortEvents(news.events, true).filter((x, i) => i < 2)">
 								<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="aside"></event-item>
 							</div>
 						</template>

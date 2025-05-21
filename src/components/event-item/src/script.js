@@ -20,6 +20,8 @@ export default {
 			if (this.item.csu_id && this.item.csu_table != 'csu_volby') {
 				if (this.party.ZKRATKA) {
 					c = colorByItem(this.party, this.data, 'VSTRANA')
+				} else if (this.party.PSTRANA) {
+					c = colorByItem(this.party, this.data, 'PSTRANA')
 				} else {
 					c = colorByItem(this.party, this.data, 'NSTRANA')
 				}

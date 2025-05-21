@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { useCore, cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, domain, con, sortBy, unique} from '@/pdv/helpers';
+import {url, date, number, truncate, domain, con, sortBy, sortEvents, unique} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
@@ -199,7 +199,7 @@ export default {
 		con,
 		colorByItem,
 		logoByItem,
-		sortBy,
+		sortBy, sortEvents,
 		unique,
 		$getParty: function (hash) {
 			var item = this.parties.list.find(x => x.hash === hash);
