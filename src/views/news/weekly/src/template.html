@@ -108,7 +108,7 @@
 									<template v-if="day.main.length > 0">
 										<div class="smallest dimm strong">Významné zprávy z médií</div>
 										<div v-for="item in day.main">
-											<h4><p-link :href="item.source">{{ item.title }}</p-link></h4>
+											<h4><p-link :href="item.source">{{ item.title.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link></h4>
 											<p v-if="item.content" v-html="(item.content || '').split('Původní text: ').join('')"></p>
 											<p class="smallest" v-if="item.$relates.length > 0">
 												Týká se
@@ -139,7 +139,7 @@
 										<p-columns class="_noRule _noGap">
 											<div v-for="item in day.media">
 												<p-area class="smaller">
-													<p-link :href="item.source" class="strong">{{ item.value }}</p-link>
+													<p-link :href="item.source" class="strong">{{ item.value.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link>
 													<p class="smallest dimm">
 														<template v-if="item.node">
 															<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">{{ item.node.ZKRATKA || item.node.NAZEV || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
@@ -321,7 +321,27 @@
 			<p-anchors></p-anchors>
 		</template>
 		<template #aside>
-			<cta-support></cta-support>
+				<div>
+					<p-list class="mh-1">
+						<template v-if="news && news.events && news.events.length > 0">
+							<div>
+								<strong class="smaller">Nejbližší akce</strong>
+							</div>
+							<div v-for="event in news.events.filter((x, i) => i < 2)">
+								<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="aside"></event-item>
+							</div>
+						</template>
+						<div>
+							<div class="smallest _edit">
+								<p-icon icon="edit"></p-icon>
+								&nbsp;
+								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-suggest placeholder="Odkaz na událost" type="event" part="HP Novinky" link="1"></editable-suggest></template></pop-up>
+							</div>
+						</div>
+					</p-list>
+				</div>
+			<div class="p-gap"></div>
+			<cta-support-short></cta-support-short>
 			<div class="p-gap"></div>
 			<h4>Monitor médií</h4>
 			<p class="small">

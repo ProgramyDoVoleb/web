@@ -3,8 +3,11 @@ import { colorByItem, logoByItem } from '@/components/results/helpers';
 import NewsItem from '@/components/news-item/do.vue'
 import PollsPreview from '@/components/polls-preview/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
+import CtaSupportShort from '@/components/cta/support-short/do.vue';
 import MailchimpSignup from '@/components/mailchimp/do.vue';
 import ReportForm from '@/components/report-form/do.vue';
+import EventItem from '@/components/event-item/do.vue';
+import PopUp from '@/components/pop-up/do.vue';
 import logtypes from '@/stores/enums/log';
 import {useData} from '@/stores/data';
 import {today, cdn} from '@/stores/core';
@@ -57,9 +60,11 @@ export default {
 	components: {
 		NewsItem,
 		PollsPreview,
-		CtaSupport,
+		CtaSupport, CtaSupportShort,
 		MailchimpSignup,
-		ReportForm
+		ReportForm,
+		EventItem,
+		PopUp
 	},
 	methods: {
 		date, number, truncate, indicator, untag, domain, sortBy, unique,
