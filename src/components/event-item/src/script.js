@@ -7,7 +7,8 @@ export default {
 	props: ['item', 'party', 'data', 'noTag', 'link', 'bod', 'short'],
 	data: function () {
 		return {
-			enums
+			enums,
+			pAreaTransparent: false
 		}
 	},
 	methods: {
@@ -29,5 +30,14 @@ export default {
 
 			return c;
 		}
+	},
+	mounted: function () {
+		setTimeout(() => {
+			if (this.$el) {
+				if (this.$el.className.includes('short') || this.$el.className.includes('aside')) {
+					this.pAreaTransparent = true;
+				}
+			}
+		}, 150);
 	}
 };

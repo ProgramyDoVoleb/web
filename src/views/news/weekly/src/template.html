@@ -15,13 +15,20 @@
 				<p-loader :rule="news">
 					<div v-if="news">
 						<template v-if="nearEvents.length > 0">
-							<component :is="nearEvents.length < 6 ? 'p-block' : 'p-block-expandable'" headline="Blízké události">
+							<p-block headline="Blízké události">
 								<p-columns>
-									<div v-for="event in nearEvents">
-										<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1"></event-item>
+									<div v-for="event in nearEvents.filter((x, i) => i < 3)">
+										<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="pb1"></event-item>
 									</div>
 								</p-columns>
-							</component>
+								<p-collapsible label="Další události" v-if="nearEvents.length > 3" :status="nearEvents.length - 3">
+									<p-columns>
+										<div v-for="event in nearEvents.filter((x, i) => i >= 3)">
+											<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="pb1"></event-item>
+										</div>
+									</p-columns>
+								</p-collapsible>
+							</p-block>
 						</template>
 						<template v-for="day in news.list">
 							<p-block :headline="date(day.datum)">
@@ -119,17 +126,19 @@
 										<div v-for="item in day.main">
 											<h4><p-link :href="item.source">{{ item.title.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link></h4>
 											<p v-if="item.content" v-html="(item.content || '').split('Původní text: ').join('')"></p>
-											<p class="smallest" v-if="item.$relates.length > 0">
-												Týká se
-												<p-list-linear class="or inline">
-													<span v-for="(relates, index) in item.$relates">
-														<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
-															{{ relates.ZKRATKA || relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
-														</router-link>
-													</span>
-												</p-list-linear>
+											<p class="smallest">
+												<span class="blue">{{ domain(item.source) }}</span>												
+												<template v-if="item.$relates.length > 0">
+													&middot; týká se
+													<p-list-linear class="or inline">
+														<span v-for="(relates, index) in item.$relates">
+															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
+																{{ relates.ZKRATKA || relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
+															</router-link>
+														</span>
+													</p-list-linear>
+												</template>
 											</p>
-											<div class="smallest dimm">{{ domain(item.source) }}</div>
 										</div>
 									</template>
 									<template v-if="day.polls.length > 0">
@@ -147,8 +156,8 @@
 									<template v-if="day.events.length > 0">
 										<div class="smallest dimm strong">Události a akce</div>
 										<p-columns class="">
-											<div v-for="event in day.events">
-												<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="column"></event-item>
+											<div v-for="event in day.events" class="pb05">
+												<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="column short"></event-item>
 											</div>
 										</p-columns>
 									</template>

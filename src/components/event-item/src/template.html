@@ -1,7 +1,7 @@
 <div class="event-item">
 	<div class="p-offset">
 		<div class="_cday">
-			<p-area class="smaller strong" :borderColor="color" padding=".3em .7em .5em 1em">
+			<p-area class="smaller strong _area" :borderColor="color" padding=".3em .7em .5em 1em" :class="{'p-area---has-background': pAreaTransparent}">
 				<div class="_cday" v-html="date(JSON.parse(item.label)[0], 0).split(' ')[0]"></div>
 				<div class="smallest" v-html="date(JSON.parse(item.label)[0], 0).split(' ')[1].substring(0, 3)"></div>
 			</p-area>
@@ -25,16 +25,18 @@
 				</div>
 			</template>
 			<component :is="item.source ? 'p-link' : 'span'" :href="item.source"><strong>{{ JSON.parse(item.value)[0] }}</strong></component>
-			<template v-if="!short && JSON.parse(item.value)[1]">
+			<div class="_details">
+				<template v-if="!short && JSON.parse(item.value)[1]">
+					<div class="p-gap _05"></div>
+					<p-truncated class="smaller serif" :content="JSON.parse(item.value)[1]" :size="20"></p-truncated>
+				</template>
 				<div class="p-gap _05"></div>
-				<p-truncated class="smaller serif" :content="JSON.parse(item.value)[1]" :size="20"></p-truncated>
-			</template>
-			<div class="p-gap _05"></div>
-			<div class="smallest" v-if="JSON.parse(item.label).reduce((a, b) => a + (b != null), 0) > 1">
-				<span v-if="!short">Dne </span>{{ date(JSON.parse(item.label)[0], 2) }}<template v-if="JSON.parse(item.label)[1] != null && JSON.parse(item.label)[1] != ''"> od {{ JSON.parse(item.label)[1] }}</template>
-				<template v-if="!short && JSON.parse(item.label)[2] != null"><br>Konec {{ date(JSON.parse(item.label)[2], 2) }}</template>
-				<template v-if="!short && JSON.parse(item.label)[3] != null"> do {{ JSON.parse(item.label)[3] }}</template>
-				<div v-if="JSON.parse(item.label)[4] != null" v-html="JSON.parse(item.label)[4]"></div>
+				<div class="smallest" v-if="JSON.parse(item.label).reduce((a, b) => a + (b != null), 0) > 1">
+					<span v-if="!short">Dne </span>{{ date(JSON.parse(item.label)[0], 2) }}<template v-if="JSON.parse(item.label)[1] != null && JSON.parse(item.label)[1] != ''"> od {{ JSON.parse(item.label)[1] }}</template>
+					<template v-if="!short && JSON.parse(item.label)[2] != null"><br>Konec {{ date(JSON.parse(item.label)[2], 2) }}</template>
+					<template v-if="!short && JSON.parse(item.label)[3] != null"> do {{ JSON.parse(item.label)[3] }}</template>
+					<div v-if="JSON.parse(item.label)[4] != null" v-html="JSON.parse(item.label)[4]"></div>
+				</div>
 			</div>
 		</div>
 	</div>

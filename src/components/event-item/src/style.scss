@@ -39,6 +39,10 @@
 		padding-right: 0 !important;
 		padding-left: 0 !important;
 		background-color: transparent !important;
+
+		.dark & {
+			background-color: transparent !important;
+		}
 	}
 
 	.p-area div {
@@ -77,12 +81,17 @@
 
 	.p-area {
 		height: 2.75em;
-		width: 1em;
+		width: .75em;
+		margin-right: .5em;
 		padding-right: 0 !important;
 		padding-left: 0 !important;
 		background-color: transparent !important;
 		position: relative;
-		top: -.2em
+		top: -.35em;
+
+		.dark & {
+			background-color: transparent !important;
+		}
 	}
 
 	.p-area div {
@@ -104,6 +113,23 @@
 
 	._cTxt {
 		margin-left: 0 !important;
+	}
+}
+
+.short {
+	._details {
+		display: none;
+	}
+	&.column .tiny {
+		padding-bottom: .1em;
+
+		a {
+			color: var(--black) !important;
+
+			.dark & {
+				color: var(--white) !important;
+			}
+		}
 	}
 }
 
