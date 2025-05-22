@@ -292,6 +292,16 @@
 								</p-grid>
 							</p-block>
 							
+							<p-block headline="Kapitoly programu" v-if="current.$program && current.$program.length > 0 && current.$program[0].structure">
+								<p-area class="primary" :borderColor="colorByItem(current, data)">
+									<p-columns class="smaller">
+										<div v-for="(section, indexP) in current.$program[0].structure">
+											<router-link :to="$link + '/volebni-program/' + current.$program[0].id + '#' + url(truncate(section.name, 16, true))">{{ section.name }}</router-link>	
+										</div>								
+									</p-columns>
+								</p-area>
+							</p-block>
+							
 							<p-block headline="Volební priority" v-if="current.$priority.length > 0">
 								<p-list class="_05 smaller">
 									<div v-for="(priority, indexP) in current.$priority">
