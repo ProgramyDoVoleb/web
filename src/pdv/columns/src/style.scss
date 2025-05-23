@@ -27,8 +27,46 @@
 	}
 }
 
+.squeeze {
+	container-type: inline-size;
+
+	.p-columns---container {
+		columns: 2;
+		column-gap: 2em;
+	}
+	
+	.p-columns---container > div {
+		margin-bottom: 2em;
+	}
+
+	@container (min-width: 360px) {
+		.p-columns---container {
+			columns: 3;
+		}
+	}
+	
+	@container (min-width: 540px) {
+		.p-columns---container {
+			columns: 4;
+		}
+	}
+	
+	@container (min-width: 720px) {
+		.p-columns---container {
+			columns: 6;
+		}
+	}
+	
+	@container (min-width: 960px) {
+		.p-columns---container {
+			columns: 8;
+		}
+	}
+}
+
 .p-columns---tight,
 ._tight,
+.tight,
 ._6 {
 	container-type: inline-size;
 
@@ -64,6 +102,7 @@
 
 .p-columns---tighter,
 ._tighter,
+.tighter,
 ._4 {
 	container-type: inline-size;
 

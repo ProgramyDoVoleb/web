@@ -11,17 +11,20 @@
   }
 }
 
-.p-image---rounded {
+.p-image---rounded,
+.p-image.rounded {
   border-radius: 6px;
   overflow: hidden;
 }
 
-.p-image---round {
+.p-image---round,
+.p-image.round {
   border-radius: 50%;
   overflow: hidden;
 }
 
-.p-image.drop-shadow img {
+.p-image.drop-shadow img,
+.p-image.shadow {
   box-shadow: 1.6rem 1.6rem 4.8rem rgba(0,0,0,.1);
 }
 

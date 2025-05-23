@@ -41,6 +41,12 @@
 						</div>
 						<div v-if="candidates.length === 0" class="dimm smallest"><em>zatím bez známých kandidátů</em></div>
 					</template>
+					<template v-if="typeof candidatesCount !== 'undefined'">
+						<div class="p-gap _01"></div>
+						<div class="smaller">
+							<component :is="candidatesCount === 0 ? 'span' : 'router-link'" :to="link + '/strana/' + party.id + '/kandidati'" class="is-span" :class="{dimm: candidatesCount === 0}"><p-lang :value="candidatesCount" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></component>
+						</div>						
+					</template>
 					<div v-if="extended" class="smallest strong">
 						<div class="p-gap _075"></div>
 						<!-- <p-label :color="colorByItem(party, elections)"></p-label> -->
