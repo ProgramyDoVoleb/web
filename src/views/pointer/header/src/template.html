@@ -1,10 +1,10 @@
 <div class="pointer-header">
 	<div class="_float">
-		<div v-if="current.NAZEV && logoByItem(current, data, null, true)" class="hide-40rem _float-right">
+		<div v-if="current.NAZEV && logoByItem(current, data, null, true)" class="hide-60rem _float-right">
 			<p-logo :data="{logo: logoByItem(current, data)}" :size="'8rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
 		</div>
-		<div v-if="con(current.$data, 'photo')" class="hide-40rem _float-right">
-			<p-photo :data="con(current.$data, 'photo', null, null, true)" width="8rem" :rounded="true" :border="true"></p-photo>
+		<div v-if="con(current.$data, 'photo')" class="hide-60rem _float-right">
+			<p-photo :data="con(current.$data, 'photo', null, null, true)" width="4rem" :rounded="true" :border="true"></p-photo>
 		</div>
 		<div>
 			<p-headline :level="1">

@@ -60,11 +60,11 @@ export default {
 
 				} else {
 					if (isDown) {
-						popup.style.top = '150vh';
-						arrow.style.top = '150vh';
+						popup.style.top = '1500vh';
+						arrow.style.top = '1500vh';
 					} else {
-						popup.style.bottom = '150vh';
-						arrow.style.bottom = '150vh';
+						popup.style.bottom = '1500vh';
+						arrow.style.bottom = '1500vh';
 					}
 				}
 			}

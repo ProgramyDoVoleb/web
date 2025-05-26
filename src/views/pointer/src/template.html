@@ -154,7 +154,7 @@
 							<p-block headline="Představení" :class="{'_empty': !(!current.$data.length && (current.$data.about || current.$data.motto || current.$data.values))}" :hide="true">
 								<div class="p-list _2 _invisible">
 									<div v-if="current.$data.about">
-										<h2 class="serif mt0">Představení</h2>
+										<!-- <h2 class="serif mt0">Představení</h2> -->
 										<div class="serif _mw">
 											<p-truncated :size="60" :content="(current.$data.about.find(x => x.type === 'about').value || '').split('\n').join('<br>')"></p-truncated>
 										</div>	
@@ -233,7 +233,7 @@
 											</p-columns>
 										<!-- </p-area> -->
 									</template>
-									<div v-if="$volby.editace === 1" class="smallest _edit">
+									<div v-if="$volby.editace === 1 && table === 'csu_ps_rkl'" class="smallest _edit">
 										<p-icon icon="edit"></p-icon>
 										&nbsp;
 										<pop-up preClass="green strong"><template #init>Upravit lídra</template><template #content><editable-suggest placeholder="Odkaz na oznámení o lídrovi" type="leader" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
@@ -808,7 +808,7 @@
 													<div class="strong">{{ item.label }}</div>
 													<div class="smallest dimm">Přidáno {{ date(item.updated) }} &middot; <p-link :href="item.source">Zdroj</p-link></div>
 													<div class="p-line"></div>
-													<p-image width="100%" :src="item.value"></p-image>
+													<p-image width="100%" :src="item.value" class="_limitWithinPage"></p-image>
 												</template>
 											</p-modal>
 

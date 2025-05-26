@@ -47,3 +47,9 @@
   object-fit: contain;
   border-radius: 4px;
 }
+
+._limitWithinPage img {
+	max-width: 70vw;
+	max-height: 70vh;
+	object-fit: contain;
+}

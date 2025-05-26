@@ -14,10 +14,10 @@
                         <div v-if="_licence && _licence[0] && _licence[0][0] === '['">
                             <p-stats label="Popis">{{ _licence[0] || 'fotografie' }}</p-stats>
                         </div>
-                        <div v-if="_licence && _licence[1] && _licence[0][0] === '['">
+                        <div v-if="_licence && _licence[1] && (!_licence[0] || _licence[0][0] === '[')">
                             <p-stats label="Autor">{{ _licence[1] }}</p-stats>
                         </div>
-                        <div v-if="_licence && _licence[2] && _licence[0][0] === '['">
+                        <div v-if="_licence && _licence[2] && (!_licence[0] || _licence[0][0] === '[')">
                             <p-stats label="Licence">{{ _licence[2] }}</p-stats>
                         </div>
                         <div v-if="_licence && _licence[0] && _licence[0][0] !== '['">
