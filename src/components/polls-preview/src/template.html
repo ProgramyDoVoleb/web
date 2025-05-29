@@ -4,7 +4,8 @@
 			<!-- <p-area :class="{cancel: both}"> -->
 				<div class="text-center">
 					<component :is="poll.type === 1 && poll.id > 227 && poll.id != 999999 ? 'router-link' : 'span'" :to="'/volebni-pruzkumy/' + poll.id" class="strong">{{ poll.agency }}</component>
-					<div class="smaller">{{ date(poll.datum) }}</div>
+					<div class="smaller" v-if="!poll.from">{{ date(poll.datum) }}</div>
+					<div class="smaller" v-if="poll.from">od {{ date(poll.from, 2) }} do {{ date(poll.to, 2) }}</div>
 				</div>								
 				<div class="p-gap"></div>
 				<component :is="both ? 'p-grid' : 'div'" class="p-grid---1-2 p-grid---gap-2">
@@ -65,7 +66,7 @@
 						<p-list-linear class="or">
 							<li v-if="remaining > 0">ostatní {{ number(remaining, 1) }} %</li>
 							<li v-if="poll.amount > -1">{{ poll.amount }} resp.</li>
-							<li v-if="poll.from && poll.to">{{ date(poll.from, 2) }}–{{ date(poll.to, 2) }}</li>
+							<li v-if="poll.from && poll.to">zveřejněno {{ date(poll.datum) }}</li>
 							<li v-if="poll.error">{{ poll.error }}</li>
 							<li v-if="poll.attendance">účast {{ poll.attendance }} %</li>
 							<li v-if="previous">porovnání vs {{ previous.agency }}, {{ date(previous.datum )}}</li>

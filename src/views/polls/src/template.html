@@ -5,7 +5,13 @@
 				<p-block headline="Poslední průzkumy" :hide="true">
 					<p-loader :rule="pollsQuick">
 						<div v-if="pollsQuick">
-							<p-grid class="p-grid---1-2">
+							<p-area class="inline smallest">
+								<p-list-linear>
+									<span>Řadit podle <button class="inline" @click="sortByMid = true" :class="{'strong green': sortByMid === true}">doby sběru</button></span>
+									<span><button class="inline" @click="sortByMid = false" :class="{'strong green': sortByMid === false}">dne zveřejnění</button></span>
+								</p-list-linear>
+							</p-area>
+							<p-grid class="p-grid---1-2 mt1">
 								<template v-for="(poll, index) in pollsQuick.list">
 									<div>
 										<p-area>
@@ -17,15 +23,41 @@
 						</div>
 					</p-loader>
 				</p-block>
-				<p-block-expandable headline="Od roku 2017">
+				<p-block headline="Sběr dat">
+					<p-area>
+						<div id="chart" v-if="series.length > 0">
+							<vue-apex-charts type="rangeBar" :height="chartOptions.chart.height" :options="chartOptions" :series="getSeries()"></vue-apex-charts>
+						</div>
+					</p-area>
+				</p-block>
+				<p-block-expandable headline="Poll of Polls">
 					<p-loader :rule="polls">
 						<div v-if="polls">
+							<h3 class="serif">Vážený průměr stran a hnutí</h3>
 							<p-area>
-								<div class="serif"><button class="inline" @click="type = 1" :class="{'active': type === 1}">Průzkumy</button> / <button class="inline" @click="type = 2" :class="{'active': type === 2}">další výstupy</button> / <button class="inline" @click="type = 5" :class="{'active': type === 5}">ostatní</button></div>
-							</p-area>	
-							<div class="p-gap"></div>					
-							<template v-for="(year, index) in [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017]">
-								<p-collapsible :label="'Rok ' + year" v-if="polls.list.filter(x => x.datum > year + '-01-00' && x.datum < year + '-13-01').filter(x => x.priority === type).length > 0">
+								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 1)"></poll-of-polls>
+							</p-area>
+							<h3 class="serif">Vážený průměr pro sněmovní volby 2025</h3>
+							<p-area>
+								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 166)" :remap="[[47,1298]]"></poll-of-polls>
+							</p-area>
+						</div>
+					</p-loader>
+				</p-block-expandable>
+			</p-block>
+			<p-block headline="Od roku 2017" :level="1">
+				<p-area class="inline smallest">
+					<p-list-linear class="or">
+						<span><button class="inline" @click="type = 1" :class="{'green strong': type === 1}">Průzkumy</button></span>
+						<span><button class="inline" @click="type = 2" :class="{'green strong': type === 2}">další výstupy</button></span>
+						<span><button class="inline" @click="type = 5" :class="{'green strong': type === 5}">ostatní</button></span>
+					</p-list-linear>
+				</p-area>	
+				<div class="p-gap"></div>					
+				<template v-for="(year, index) in [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017]">
+					<p-block-expandable :headline="'Rok ' + year">
+							<p-loader :rule="polls">
+								<div v-if="polls">
 									<template v-for="(poll, index) in polls.list.filter(x => x.datum > year + '-01-00' && x.datum < year + '-13-01').filter(x => x.priority === type)">
 										<p-collapsible :label="poll.agency + ', ' + poll.title" :status="date(poll.datum)">
 											<template v-if="poll.type === 1">
@@ -52,25 +84,10 @@
 											</div>
 										</p-collapsible>
 									</template>
-								</p-collapsible>
-							</template>
-						</div>
-					</p-loader>
-				</p-block-expandable>
-				<p-block-expandable headline="Poll of Polls">
-					<p-loader :rule="polls">
-						<div v-if="polls">
-							<h3 class="serif">Vážený průměr stran a hnutí</h3>
-							<p-area>
-								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 1)"></poll-of-polls>
-							</p-area>
-							<h3 class="serif">Vážený průměr pro sněmovní volby 2025</h3>
-							<p-area>
-								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 166)" :remap="[[47,1298]]"></poll-of-polls>
-							</p-area>
-						</div>
-					</p-loader>
-				</p-block-expandable>
+								</div>
+						</p-loader>
+					</p-block-expandable>
+				</template>
 			</p-block>
 		</template>
 		<template #anchors>

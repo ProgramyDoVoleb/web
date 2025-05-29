@@ -25,7 +25,7 @@ export default {
 			if (this.remap) {
 				x = this.remap.find(x => x[0] === party);
 
-				console.log(x, party);
+				// console.log(x, party);
 			}
 
 			return x ? x[1] : party;

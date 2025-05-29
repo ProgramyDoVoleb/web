@@ -66,17 +66,23 @@ export function sortEvents (list, delistPassed) {
 
         var test = false;
 
+        // console.log(dates, time);
+
         if (!dates[1] && !dates[3]) {
           // console.log('whole day event')
           test = true;
         }
-        if (dates[2] && dates[2] === today && dates[3] && dates[3] > time) {
-          // console.log('not finished yet')
+        if (dates[2] && dates[2] > today) {
+          // console.log('multiple days')
           test = true;
         }
         if (dates[1] && !dates[2] && !dates[3] && dates[1] > time) {
           test = true;
           // console.log('not started yet', dates[1], time)
+        }
+        if (dates[1] && !dates[2] && dates[3] && dates[3] > time) {
+          test = true;
+          // console.log('not finished yet', dates[1], time)
         }
 
         if (test) {
