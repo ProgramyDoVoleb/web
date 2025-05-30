@@ -6,7 +6,7 @@
 					<p v-if="elections && nearest.regular">
 						<p-label color="var(--blue)">Příští</p-label>
 						řádné volby budou 
-						<router-link :to="'/volby/' + hash + '/' + nearest.regular.id">{{ date(nearest.regular.datum) }}</router-link>.
+						<router-link :to="'/volby/' + hash + '/' + nearest.regular.id">{{ nearest.regular.datum_label || date(nearest.regular.datum) }}</router-link>.
 					</p>
 					<p v-if="elections && !nearest.regular && nearest.outlook">
 						<p-label color="var(--blue)">Příští</p-label>
@@ -60,7 +60,7 @@
 								<template v-for="(election, index) in list.filter(x => x.radne === 1 && x.datum)">
 									<div>
 										<p-area :icon2="hash === 'referendum' ? null : hash" borderColor="var(--blue)">
-											<router-link :to="'/volby/' + hash + '/' + election.id" class="b" :class="{red: election.datum > today}">{{ election.datum ? election.datum.split('-')[0] : election.cirka }}</router-link>
+											<router-link :to="'/volby/' + hash + '/' + election.id" class="b" :class="{red: election.datum > today}">{{ (election.datum ? election.datum.split('-')[0] : election.cirka) }}</router-link>
 											<div class="p-gap_05"></div>
 											<div>
 												<p-list class="smaller tight">
@@ -81,7 +81,7 @@
 													</template>
 													<template v-if="election.datum > today">
 														<div>
-															Datum voleb: {{ date(election.datum) }}
+															Datum voleb: {{ election.datum_label || date(election.datum) }}
 														</div>
 													</template>
 													<template v-if="election.$obci">
