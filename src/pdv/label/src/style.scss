@@ -11,12 +11,13 @@ i {
   }
 }
 
+.block, 
 ._block {
   display: block;
   padding-left: 1em;
   position: relative;
 
-  i {
+  > i {
     position: absolute;
     left: -.1em;
   }

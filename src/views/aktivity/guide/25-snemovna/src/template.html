@@ -1,0 +1,636 @@
+<div class="layout-homepage text-center">
+	<p-layout-simple>
+		<section name="section_1">
+			<h1>Průvodce volbami</h1>
+			<p>Porovnejte si rychle strany a kandidáty, kteří vás zajímají, seznamte se s jejich názory, a připravte se na volby, abyste naplno využili svůj hlas.</p>
+			<p-box-group class="_pbg">
+				<p-box>
+					<p-box-button @click="setActivity(false)" :color="selection.useActivity === false ? 'var(--blue)' : null">Vyberu si</p-box-button>
+				</p-box>
+				<p-box>
+					<p-box-button @click="setActivity(true)" :color="selection.useActivity !== false ? 'var(--blue)' : null">Podle strany</p-box-button>
+				</p-box>
+			</p-box-group>
+			<p class="smallest strong red pt1">Předběžné informace</p>
+		</section>
+		<template v-if="selection.useActivity === true">
+			<section name="section_31">
+				<div class="p-line"></div>
+				<!-- <p-icon icon="detail" size="8em"></p-icon> -->
+				<h2>Jaké strany vás zajímají?</h2>
+				<p>V tomto kroku si můžete vybrat <strong>až tři strany</strong>. Průvodce následně najde volební subjekty a/nebo kandidáty podle aktivity stran. Může jít o samostatnou kandidátku, koaliční spolupráci nebo podporu.</p>
+				<p-loader :rule="parties">
+					<div class="_mw mb1" v-if="parties">
+						<p-area class="primary text-left">
+							<div class="columns-4 smaller">
+								<div v-for="(party, index) in sortBy(parties.list.filter(x => x.VSTRANA != 99), 'ZKRATKA', null, true)">
+									<button class="inline" @click="toggle(partyList, party.VSTRANA)" :class="{'strong green': partyList.find(x => x === party.VSTRANA)}">{{ party.ZKRATKA }}</button>
+								</div>
+							</div>
+						</p-area>
+					</div>
+				</p-loader>
+				<div class="p-gap"></div>
+				<p-box-group class="_pbg">
+					<template v-if="partyList.length > 0">
+						<p-box :click="() => slide('section_4', $el)">
+							<p-box-button class="primary">Pokračovat</p-box-button>
+						</p-box>
+					</template>
+				</p-box-group>
+			</section>
+			<section name="section_4" v-if="partyList.length > 0">
+				<div class="p-line"></div>
+				<!-- <div class="_big">03</div> -->
+				<h2>Aktivita vybraných stran</h2>
+				<p-loader :rule="parties">
+					<div class="_gc text-left" v-if="parties">
+						<div v-for="(party, index) in activity" class="_pp">
+							<p-area :borderColor="colorByItem(party.party, {cis: {strany: parties.list}})">
+								<div class="p-offset">
+									<div>
+										<p-image :src="logoByItem(party.party, {cis: {strany: parties.list}})" :rounded="true"></p-image>
+									</div>
+									<div>
+										<strong>{{ party.party.ZKRATKA }}</strong>
+										<div class="smallest dimm">{{ party.party.NAZEV }}</div>
+									</div>
+								</div>
+								<div class="p-line"></div>
+								<p-list class="smaller">
+									<div v-if="party.kraj">
+										Ve volbách
+										<template v-if="!party.kraj.party">nepostavili kandidátku ani žádnou jinou nepodporují.
+											<template v-if="krajID === 7 && party.party.VSTRANA === 166">STAN v Libereckém kraji kandiduje pod názvem <button class="inline" @click="swap(166,703)">Starostové pro Liberecký kraj</button> </template>
+											<template v-if="krajID !== 7 && party.party.VSTRANA === 703">SLK kandiduje ve všech krajích krom Libereckého pod názvem <button class="inline" @click="swap(703,166)">Starostové a nezávislí</button> </template>
+										</template>
+										<template v-else>
+											<template v-if="party.kraj.type.solemn">kandidují samostatně jako <router-link :to="'/volby/snemovni-volby/166/strana/' + party.kraj.party.id" class="strong" target="_blank">{{ party.kraj.party.NAZEV }}</router-link></template>
+											<template v-else>
+												<template v-if="party.kraj.type.coal">kandidují v koalici <router-link :to="'/volby/snemovni-volby/166/strana/' + party.kraj.party.id" class="strong" target="_blank">{{ party.kraj.party.NAZEV }}</router-link></template>
+												<template v-else>
+													podporují <router-link :to="'/volby/snemovni-volby/166/strana/' + party.kraj.party.id" class="strong" target="_blank">{{ party.kraj.party.NAZEV }}</router-link>
+												</template>
+											</template>
+										</template>
+									</div>
+								</p-list>
+							</p-area>
+						</div>
+					</div>
+				</p-loader>
+			</section>
+		</template>
+		<template v-else>
+			<section name="section_31">
+				<div class="p-line"></div>
+				<h2>Vyberte si přímo</h2>
+				<p>Můžete si vybrat až tři kandidující strany nebo kandidáty.</p>
+				<div class="p-gap"></div>
+				<p-list class="_2 _mw2">
+					<!-- <div v-if="inKraj"> -->
+						<p-loader :rule="krajData.data">
+							<div v-if="krajData.data">
+									<p-area>
+										<strong>Kdo kandiduje v krajských volbách:</strong>
+										<div class="p-line"></div>
+										<div class="columns text-left smaller">
+											<div v-for="party in krajData.data.list[0].$strany">
+												<button class="inline" :class="{'green strong': selection.kraj.find(x => x.id === party.id)}" @click="() => toggle(selection.kraj, party)">{{ party.NAZEV }}</button>
+											</div>
+										</div>
+									</p-area>
+							</div>
+						</p-loader>
+					<!-- </div> -->
+				</p-list>
+			</section>
+		</template>
+		<!-- <template v-if="inKraj || inSenat"> -->
+			<div class="p-gap _2"></div>
+			<!-- <div class="_mw2 _pbg"> -->
+				<p-box-group class="_mw2 _pbg">
+					<p-box :click="() => slide('section_k', $el)" v-if="krajData.list.length > 0">
+						<p-box-button icon="snemovni-volby.svg">Porovnat vybrané</p-box-button>
+					</p-box>
+				</p-box-group>
+			<!-- </div> -->
+			<div class="p-gap _2"></div>
+		<!-- </template> -->
+		<template v-if="true && (partyList.length > 0 || (!selection.useActivity && selection.kraj.length > 0))">
+			<section name="section_k">
+				<div class="p-line"></div>
+				<p-icon icon="krajske-volby" size="8em"></p-icon>
+				<h2>Jednotlivé strany ve sněmovních volbách</h2>
+				<p>Takhle vypadá základní pohled na kandidátky. Jméno strany, lídři v krajích, odkaz na volební program, odkazy na sociální sítě a web.</p>
+				<p-loader :rule="krajData.data">
+					<div class="_gc text-left" v-if="krajData.data">
+						<template v-for="party in krajData.data.list[0].$strany.filter(x => krajData.list.indexOf(x.id) > -1)">
+							<div class="_pp">
+								<party-preview :party="party" :elections="krajData.data" link="/volby/snemovni-volby/166" :candidates="krajData.data.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA)"></party-preview>
+							</div>
+						</template>
+					</div>
+				</p-loader>
+				<div class="p-gap _3"></div>
+				<p-list-linear class="or">
+					<span><button class="inline" @click="() => slide('section_k1', $el)">Představení</button></span><span><button class="inline" @click="() => slide('section_k2', $el)">Program</button></span><span><button class="inline" @click="() => slide('section_k3', $el)">Kandidáti</button></span><span><button class="inline" @click="() => slide('section_k4', $el)">Minule</button></span><span><button class="inline" @click="() => slide('section_kv', $el)">Jak volit</button></span>
+				</p-list-linear>
+			</section>
+			<section name="section_k1">
+				<div class="p-line"></div>
+				<div class="_big">01</div>
+				<h2>Představení</h2>
+				<p>Zde je krátký úvod ke každé straně, představení, volební slogany, apod</p>
+						<p-list class="_mc text-left">
+							<template v-for="(data, index) in krajData.detail">
+								<p-loader :rule="data">
+									<div v-if="data">
+										<template v-for="party in [data.list[0]]">
+											<p-area :borderColor="colorByItem(party, data)">
+												<activity-logo-set class="_fl" :party="party" :data="data"></activity-logo-set>
+												<div class="_mw smaller">
+													Na kandidátce <router-link class="strong" :to="'/volby/snemovni-volby/166/strana/' + party.id">{{ party.NAZEV }}</router-link> <p-lang :value="party.$kandidati.length" :end="['nikdo není', 'je jeden kandidát', 'jsou %% kandidáti', 'je %% kandidátů']"></p-lang>,
+													<template v-if="party.$data.leader">lídrem je <template v-for="cand in party.$kandidati.filter(x => x.id === party.$data.leader[0].label)">
+														<router-link class="strong" :to="'/volby/snemovni-volby/166/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+													</template>.</template>
+													<template v-else>lídr zatím není znám.</template>
+													<!-- v čele je <router-link :to="'/volby/snemovni-volby/166/kandidat/' + party.$kandidati.find(x => x.PORCISLO === (party.id === 1429 ? 13 : 1)).id" class="strong">{{ party.$kandidati.find(x => x.PORCISLO === (party.id === 1429 ? 13 : 1)).JMENO }} {{ party.$kandidati.find(x => x.PORCISLO === (party.id === 1429 ? 13 : 1)).PRIJMENI }}</router-link>.  -->
+													<template v-if="data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+														Jedná se o koalici <p-lang :value="data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.length" :end="['', '', '%% stran či hnutí', '%% stran či hnutí']"></p-lang>: 
+														<p-list-linear>
+															<span v-for="(member, indexm) in data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+																<router-link :to="'/rejstrik/' + member.VSTRANA">{{ member.ZKRATKA }}</router-link>
+															</span>
+														</p-list-linear>.
+													</template>
+													<template v-if="party.$data.support">
+														Podporu vyjádřili 
+														<p-list-linear>
+															<span v-for="(member, indexm) in party.$data.support.filter(x => typeof x.value === 'number')">
+																<router-link :to="'/rejstrik/' + member.value">{{ member.label }}</router-link>
+															</span>
+														</p-list-linear>.
+													</template>
+													Do voleb si <p-lang :value="party.$priority.length" :end="['nestanovili žádné priority', 'stanovili jednu prioritu, najdete ji níže', 'stanovili %% priority, najdete je níže', 'stanovili %% priorit, najdete je níže']"></p-lang>.
+													<template v-if="party.$program.length === 0">Volební program není dodnes znám.</template>
+													<template v-if="party.$program.length === 1"><router-link :to="'/volby/snemovni-volby/166/strana/' + party.id + '/volebni-program/' + party.$program[0].id">Volební program</router-link> byl zveřejněn {{ date(party.$program[0].updated) }}.</template>
+													<!-- <template v-if="party.$odpovedi.find(x => x.$otazka[0].type === 1)"> Zaslali také <router-link :to="'/volby/snemovni-volby/166/strana/' + party.id + '/otazky-a-odpovedi'">odpovědi</router-link> na volební otázky.</template> -->
+													<!-- <template v-else> Prozatím nedorazily odpovědi na volební otázky</template> -->
+												</div>
+												<template v-if="party.$data.about">
+													<div class="p-gap"></div>
+													<div class="strong smallest">Představení{{ party.$data.motto ? ' a volební slogan' : '' }}:</div>
+													<div class="p-gap _05"></div>
+													<div class="_mw serif smaller">
+														<p-truncated :size="30" :content="party.$data.about[0].value"></p-truncated>
+													</div>
+												</template>
+												<template v-if="party.$data.motto">
+													<template v-if="!party.$data.about">
+														<div class="p-gap"></div>
+														<div class="strong smallest">Volební slogan:</div>
+													</template>
+													<div class="p-gap _05"></div>
+													<p-list class="invisible">
+														<div v-for="(quote, index) in party.$data.motto" class="_mw">
+															<div class="p-offset balanced">
+																<div>
+																	<div class="_bp" :style="{background: colorByItem(party, data)}"></div>
+																</div>
+																<div>
+																	<div class="strong smaller">{{ quote.value }}</div>
+																</div>
+															</div>
+														</div>
+													</p-list>
+												</template>
+												<template v-if="party.$odpovedi.find(x => x.volby === 166)">
+													<!-- <div class="p-gap"></div> -->
+													<div class="p-line"></div>
+													<div class="strong smallest">Odpovědi na volební otázky</div>
+													<div class="p-gap"></div>
+													<div class="smaller">
+														<template v-for="(answer, indexA) in sortBy(party.$odpovedi.filter(x => x.volby === 162), 'question')">
+															<p-collapsible :label="party.$otazky.find(x => x.id === answer.question).question">
+																<div class="serif _mw">
+																	<p-truncated :size="120" :content="answer.$odpoved[0].answer"></p-truncated>
+																	<div class="smallest dimm" v-if="answer.source">Více na <p-link :href="answer.source">{{ domain(answer.source) }}</p-link></div>
+																</div>
+															</p-collapsible>
+														</template>
+													</div>
+												</template>
+												<template v-if="party.$data.video">
+													<div class="p-gap"></div>
+													<!-- <div class="p-gap _05"></div> -->
+													<template v-for="(video, index) in party.$data.video">
+														<p-collapsible :label="video.label" class="smaller" logo="yt">
+															<div v-html="video.value"></div>
+														</p-collapsible>
+													</template>
+												</template>
+											</p-area>
+										</template>
+									</div>
+								</p-loader>
+							</template>
+						</p-list>
+			</section>
+			<section name="section_k2">
+				<div class="p-line"></div>
+				<div class="_big">02</div>
+				<h2>Celostátní lídři kandidátek</h2>
+				<p-list class="_mc text-left">
+					<template v-for="(data, index) in krajData.detail">
+						<p-loader :rule="data">
+							<div v-if="data">
+								<template v-for="party in [data.list[0]]">
+									<template v-if="party.$data.leader">
+										<template v-for="cand in party.$kandidati.filter(x => x.id === party.$data.leader[0].label)">
+											<p-area class="primary" :borderColor="colorByItem(party, data)">
+												<person-preview-block :logoAlways="true" :cand="cand" :data="data" :current="party" link="/volby/snemovni-volby/166"></person-preview-block>
+											</p-area>											
+										</template>
+									</template>
+									<template v-else>
+										<div class="smallest dimm">
+											<em>{{ party.ZKRATKA }} ještě svého lídra nevybral.</em>
+										</div>										
+									</template>
+								</template>
+							</div>
+						</p-loader>
+					</template>					
+				</p-list>
+			</section>
+			<section name="section_k3">
+				<div class="p-line"></div>
+				<div class="_big">03</div>
+				<h2>Priority a program</h2>
+				<p>Nyní si porovnáme volební priority a také volební programy. Pokud vás to bude zajímat, můžete si je rovnou otevřít.</p>
+				<p-list class="_mc text-left">
+					<div v-for="(data, index) in krajData.detail">
+						<p-loader :rule="data">
+							<div v-if="data">
+								<template v-for="(party, index) in [data.list[0]]">
+									<p-area :borderColor="colorByItem(party, data)">
+										
+										<activity-logo-set class="_fl" :party="party" :data="data"></activity-logo-set>
+										<strong>{{ party.NAZEV }}</strong>
+										<div class="p-gap _05"></div>
+										<!-- <template v-if="party.$odpovedi.find(x => x.question === 353)">
+											<div class="smaller">
+												<strong>Co patří mezi nejpalčivější problémy kraje? Jaké řešení navrhujete?</strong>
+												<div class="p-gap _05"></div>
+											</div>
+											<div class="_mw serif">
+												<p-truncated :content="party.$odpovedi.find(x => x.question === 353).$odpoved[0].answer" :size="30"></p-truncated>
+											</div>
+											<div class="p-line"></div>
+										</template>
+										<template v-if="party.$odpovedi.find(x => x.question === 354)">
+											<div class="smaller">
+												<strong>Jaký projekt byste v příštích čtyřech letech chtěli v kraji realizovat?</strong>
+												<div class="p-gap _05"></div>
+											</div>
+											<div class="_mw serif">
+												<p-truncated :content="party.$odpovedi.find(x => x.question === 354).$odpoved[0].answer" :size="30"></p-truncated>
+											</div>
+											<div class="p-line"></div>
+										</template> -->
+										<p-list>
+											<div v-if="party.$priority.length > 0">
+												<div class="strong smallest">Priority:</div>
+												<div class="p-gap _05"></div>
+												<p-list class="invisible smaller">
+													<div v-for="(priority, index) in party.$priority.filter((x, i) => i < priorityLimit[index])" class="_mw">
+														<p-label :color="colorByItem(party, data)" class="block">
+															<strong v-if="priority.headline">{{ priority.headline }}</strong>
+															<span v-if="priority.headline && priority.content && priority.content.charAt(0) != '['"> &middot; </span>
+															<span v-if="priority.content && priority.content.charAt(0) != '['">
+																<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="12" :comspact="'/volby/snemovni-volby/166/strana/' + party.id + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
+															</span>
+														</p-label>
+													</div>
+												</p-list>
+
+												<!-- <p-list>
+													<div v-for="(item, index) in party.$priority.filter((x, i) => i < priorityLimit[index])" class="_mw">
+														<strong>{{ item.headline }}</strong>
+														<div class="serif" :class="{smaller: !!item.headline}" v-if="item.content && item.content.length > 10">
+															<p-truncated :content="item.content" :size="24"></p-truncated>
+														</div>
+													</div>
+													<div v-if="party.$priority.length > 3" class="strong">
+														<button class="inline smallest" @click="priorityLimit[index] = priorityLimit[index] === 3 ? 100 : 3">
+															<template v-if="priorityLimit[index] === 3">
+																Zobrazit <p-lang :value="party.$priority.length" :end="['', '', 'všechny %% priority', 'všech %% priorit']"></p-lang>
+															</template>
+															<template v-else>
+																<span class="red">Zkrátit seznam priorit</span>
+															</template>
+														</button>
+													</div>
+												</p-list> -->
+											</div>
+											<div v-else>
+												<em class="smaller">Priority nebyly zveřejněny</em>
+											</div>
+											<div v-if="party.$data.program">
+												<!-- <div class="p-gap"></div> -->
+												<!-- <div class="p-line"></div> -->
+												<div class="p-offset">
+													<div>
+														<p-icon icon="icon-party" size="2.5em"></p-icon>
+													</div>
+													<div>
+														<div class="strong smallest">Programové dokumenty:</div>
+														<div class="p-gap _02"></div>
+														<p-list class="invisible" height=".25">
+															<div v-for="(item, index) in party.$data.program" class="_mw smaller">
+																<p-link class="strong" :href="item.source">{{ item.value }}</p-link>
+																&middot;
+																zveřejněno {{ date(item.updated) }}
+																<template v-if="item.label">
+																	&middot;
+																	<p-link :href="item.label" class="dimm">záložní odkaz</p-link>
+																</template>
+															</div>
+														</p-list>
+													</div>
+												</div>
+											</div>
+											<div v-else>
+												<em class="smaller">Programové dokumenty nebyly nalezeny.</em>
+											</div>
+											<div v-if="party.$program.length > 0 || party.$priority.length > 0">
+												<div class="_mw">
+													<template v-if="party.$priority.length > 0">
+														<!-- <div class="_mw"> -->
+															<router-link :to="'/volby/snemovni-volby/166/strana/' + party.id + '/priority'" class="btn">Zobrazit priority</router-link>
+															&nbsp;
+														<!-- </div> -->
+													</template>
+													<template v-if="party.$program.length > 0">
+														<template v-for="(item, index) in party.$program" class="_mw">
+															<router-link :to="'/volby/snemovni-volby/166/strana/' + party.id + '/volebni-program/' + item.id" class="btn">Zobrazit volební program</router-link>
+														</template>
+													</template>
+												</div>
+											</div>
+										</p-list>
+									</p-area>
+								</template>
+							</div>
+						</p-loader>
+					</div>
+				</p-list>
+			</section>
+			<section name="section_k4">
+				<div class="p-line"></div>
+				<div class="_big">04</div>
+				<h2>Koho mohu volit?</h2>
+				<p>To záleží, v kterém kraji budete volit. Ten si nelze vybrat jen tak, záleží na vašem trvalém bydlišti. Když si ale včas zařídíte voličský průkaz, můžete osobně volit v kterémkoli jiném. Pokud volíte v zahraničí, pak záleží, v které části světa se budete nacházet.</p>
+				<div class="_mc">
+					<p-area class="primary">
+						<div class="columns text-left">
+							<div v-for="(kraj, index) in [3,11,5,8,7,14,12,9,4,1,2,6,10,13]">
+								<button @click="focusKraj = kraj" class="inline" :class="{'green strong': focusKraj === kraj}">{{ enums.regions[kraj - 1] }}</button>
+							</div>
+						</div>
+					</p-area>
+				</div>
+			</section>
+			<section name="section_k5" v-if="focusKraj">
+				<div class="p-line"></div>
+				<div class="_big">05</div>
+				<h2>Čelo kandidátky</h2>
+				<p>Kdo tvoří pětici kandidátů na čele? Kdo má největší šance se dostat?</p>
+				<p-list class="_mc text-left" height="2" v-if="focusKraj">
+					<div v-for="(data, index) in krajData.detail">
+						<p-loader :rule="data">
+							<div v-if="data">
+								<template v-for="(party, index) in [data.list[0]]">
+									<p-area :borderColor="colorByItem(party, data)">
+										<div class="p-offset _b">
+											<div>
+												<activity-logo-set :party="party" :data="data"></activity-logo-set>
+											</div>
+											<div class="strong">
+												{{ party.NAZEV }}
+											</div>
+										</div>
+										<div class="p-line"></div>
+										<p-list>
+											<div v-for="(cand, indexC) in sortBy(party.$kandidati.filter(x => x.VOLKRAJ === focusKraj && x.PORCISLO && x.PORCISLO < 6), 'PORCISLO')">
+												<person-preview-block :logoAlways="true" :cand="cand" :data="data" :current="party" link="/volby/snemovni-volby/166"></person-preview-block>
+											</div>
+											<div v-if="party.$kandidati.filter(x => x.VOLKRAJ === focusKraj && x.PORCISLO && x.PORCISLO < 6).length === 0">
+												<em class="smallest dimm">Zatím nejsou známí žádní kandidáti</em>
+											</div>
+										</p-list>
+										<template v-if="data.cis.volby[0].status > 1">
+											<div class="p-line"></div>
+											<p>
+												Na kandidátce je celkem <p-lang :value="party.$kandidati.length" :end="['', 'jeden člověk', '%% lidé', '%% lídí']"></p-lang>.
+												<template v-if="data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+													Z toho
+													<p-list-linear>
+														<span v-for="(id, indexID) in unique(party.$kandidati, 'NSTRANA')">
+															<p-lang :value="party.$kandidati.filter(x => x.NSTRANA === id).length" :end="['', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang> bylo nominováno {{ (data.cis.strany.find(x => x.VSTRANA === id) || {ZKRATKA: 'neuvedeno'}).ZKRATKA }}
+														</span>
+													</p-list-linear>.
+												</template>
+												<p-list-linear>
+													<span v-for="(id, indexID) in unique(party.$kandidati, 'PSTRANA')">
+														<p-lang :value="party.$kandidati.filter(x => x.PSTRANA === id).length" :end="['', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang> {{ id === 99 ? 'jsou' : 'uvádí jako své členství' }} {{ (data.cis.strany.find(x => x.VSTRANA === id) || {ZKRATKA: 'nevyplněno'}).ZKRATKA }}
+													</span>
+												</p-list-linear>.
+												Průměrný věk je {{ Math.round(party.$kandidati.reduce((a, b) => a + b.VEK, 0) * 100 / party.$kandidati.length) / 100 }} let.
+											</p>
+										</template>
+										<template v-if="party.$kandidati.filter(x => x.VOLKRAJ === focusKraj && x.PORCISLO).length > 0">
+											<div class="p-line"></div>
+											<router-link class="strong smaller" :to="'/volby/snemovni-volby/166/strana/' + party.id + '/kandidati/' + focusKraj">Celá kandidátka</router-link>
+
+										</template>
+									</p-area>
+								</template>
+							</div>
+						</p-loader>
+					</div>
+				</p-list>
+			</section>
+			<!-- <section name="section_9">
+				<div class="p-line"></div>
+				<div class="_big">04</div>
+				<h2>Zaostřeno</h2>
+				<p>Někteří kandidáti odpověděli na několik volebních otázek. Vyberte si, kdo vás zajímá a můžete si hned odpovědi přečíst.</p>
+				<p-area class="_mc text-left" background="var(--blue11)">
+					<div class="columns-4">
+						<template v-for="(data, index) in krajData.detail">
+							
+								<template v-if="data">
+									<template v-for="(party, index) in [data.list[0]]">
+										<div v-if="party.$kandidati.find(x => x.$odpovedi > 0)">
+											<strong>{{ party.ZKRATKA }}</strong>
+											<div class="p-gap _025"></div>
+											<template v-for="(cand, index) in party.$kandidati.filter(x => x.$odpovedi > 0)">
+												<div>
+													<button @click="focusKraj = cand.id" class="inline">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</button> <span class="dimm">&middot; {{ cand.PORCISLO }}</span>
+												</div>
+											</template>
+										</div>
+									</template>
+								</template>
+							
+						</template>
+					</div>
+					<div class="text-center smaller dimm" v-if="!krajData.detail.find(x => x && x.list[0].$kandidati.find(y => y.$odpovedi > 0))">
+						<em>Nikdo neodpověděl</em>
+					</div>
+				</p-area>
+				<template v-if="focusKraj">
+					<h3 class="serif">Vybraný kandidát</h3>
+					<div class="_mc text-left">
+						<p-loader :rule="candData">
+							<div v-if="candData">
+								<p-area>
+									<person-preview-block :cand="candData.list[0]" :data="candData" :current="{$kandidati: candData.list}" link="/volby/snemovni-volby/166"></person-preview-block>
+								</p-area>
+								<template v-for="(q, index) in candData.list[0].$odpovedi.filter(x => x.$odpoved)">
+									<div class="p-gap"></div>
+									<p-area :borderColor="colorByItem(candData.cis.strany.find(x => x.VSTRANA === candData.list[0].NSTRANA), candData)">
+										<div class="_mw">
+											<strong>{{ q.$otazka[0].question }}</strong>
+											<div class="p-gap"></div>
+											<p-truncated class="serif" :size="100" :content="q.$odpoved[0].answer"></p-truncated>
+										</div>
+									</p-area>
+								</template>
+								<template v-if="candData.list[0].$odpovedi.find(x => !x.$odpoved)">
+									<div class="p-gap"></div>
+									<div class="text-center">
+										<p-area icon="answers" class="inline text-left">
+											<router-link :to="'/volby/snemovni-volby/166/kandidat/' + candData.list[0].id + '/otazky-a-odpovedi'" class="strong">Z volební kalkulačky</router-link>
+											<div class="smaller dimm">Pokračujte v čtení zde</div>
+										</p-area>
+									</div>
+								</template>
+							</div>
+						</p-loader>
+					</div>
+				</template>
+			</section> -->
+			<section name="section_k4">
+				<div class="p-line"></div>
+				<p-icon icon="icon-election" size="8em"></p-icon>
+				<h2>Jak to dopadlo minule?</h2>
+				<p>Ještě se podíváme na výsledek sněmovních voleb v roce 2021.</p>
+				<div class="p-gap _2"></div>
+				<p-area class="_mw2 text-left">
+					<p-loader :rule="krajData.previous">
+						<div v-if="krajData.previous">
+							<krajske-volby-results :data="krajData.previous" type="PS"></krajske-volby-results>
+						</div>
+					</p-loader>
+				</p-area>
+				<div class="p-gap"></div>
+				<h3 class="serif">Kolik musí strana získat?</h3>
+				<p-area background="var(--blue11)" class="_mc text-left">
+					<p-list>
+						<div>
+							<div class="p-offset">
+								<div>
+									<p-box-ticker background="var(--blue)" color="var(--white)">5 %</p-box-ticker>
+								</div>
+								<div class="smaller _mw">
+									Pokud strana získá alespoň 5 % hlasů, dostává se do Sněmovny. Počet mandátů se vypočítává pomocí Imperialiho kvóty, kompletní výpočet najdete zde.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="p-offset">
+								<div>
+									<p-box-ticker background="var(--blue)" color="var(--white)">8 %</p-box-ticker>
+								</div>
+								<div class="smaller _mw">
+									Koalice 2 stran potřebuje alespoň 8 % hlasů.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="p-offset">
+								<div>
+									<p-box-ticker background="var(--blue)" color="var(--white)">11 %</p-box-ticker>
+								</div>
+								<div class="smaller _mw">
+									Koalice 3 a více stran potřebuje alespoň 11 % hlasů.
+								</div>
+							</div>
+						</div>
+					</p-list>
+				</p-area>
+			</section>
+		</template>
+		<section name="section_kv">
+			<div class="p-line"></div>
+			<p-icon icon="krajske-volby" size="8em"></p-icon>
+			<h2>A teď už k volbám!</h2>
+			<p>Volby do Sněmovny jsou formou i průběhem velmi podobné jako krajské nebo evropské volby. Stejně jako u krajských voleb můžete <strong>zakroužkovat až čtyři kandidáty</strong> na jedné vybrané kandidátní listině.</p>
+			<h2 class="serif">Kdy se volí?</h2>
+			<p>K volbám můžete přijít <strong>v pátek 3. října</strong> od 14:00 do 22:00 nebo v sobotu 4. října od 8:00 <strong>do 14:00</strong>. Pokud už budete ve frontě, ale čas vyprší, tak ještě budete moct odvolit.</p>
+			<h2 class="serif">Kdo může volit</h2>
+			<p>Volit mohou pouze občané České republiky starší 18 let. Registrace k volbám je automatická, netřeba pro to nic dělat.</p>
+			<p>Volit mohou i občané žijící dlouhodobě v zahraničí (osobně nebo korespondenčně), pokud jsou zapsání na speciální voličský seznam.</p>
+			<p>Lidé, kteří budou v době voleb mimo republiku a dostaví se osobně na ambasádu nebo zastupitelský úřad, a budou mít voličský průkaz, mohou volit také.</p>
+			<h2>Kde mohu volit?</h2>
+			<p>Obvyklé se volí <strong>v místě trvalého bydliště</strong>. Pokud jste si zařídili voličský průkaz, pak kdekoli <strong>v České republice</strong> nebo libovolné ambasádě či zastupitelském úřadě. Zařídit si ho lze do 26. září písemně nebo online, nebo osobně na úřadě, což jde udělat až do středy 1. října do 16:00.</p>
+			<div class="p-gap"></div>
+			<!-- <p-box-group class="_pbg">
+				<p-box to="/jak-volit/krajske-volby">
+					<p-box-button>Chci vědět víc</p-box-button>
+				</p-box>
+			</p-box-group> -->
+		</section>
+		<section>
+			<div class="p-line _2"></div>
+			<div class="p-gap _2"></div>
+			<div class="_mc">
+				<p-area background="var(--blue11)">
+					<p-icon icon="icon-party" size="8em"></p-icon>
+					<h1 class="text-center">Průběh voleb</h1>
+					<p-list>
+						<div>Vemte si <strong>platnou</strong> občanku nebo pas a jděte do volební místnosti. Vemte si i hlasovací lístky, pokud vám domů přišli poštou. Pokud máte, nezapomeňte na voličský průkaz. </div>
+						<div>Jděte na adresu své hlasovací místnost — je napsaná na obálce s lístky — a v ní svůj okrsek.</div>
+						<div><strong>Prokažte svou totožnost</strong> platným dokladem. Dostanete pak hlasovací obálku.</div>
+						<div>Do obálky patří <strong>jen jeden hlasovací lístek</strong>. Na něm můžete zakroužkovat <strong>až čtyři kandidáty</strong>.</div>
+						<div>Obálku přehnout, nelepit, hodit do urny. Zbylé lístky přetrhnout a hodit do koše.</div>
+						<div>Kdyby cokoli, zeptejte se komise, pomůže, poradí.</div>
+					</p-list>
+				</p-area>
+			</div>
+			<div class="p-gap"></div>
+			<h2>Na co si dát pozor?</h2>
+			<p>Do hlasovací obálky patří jen jeden hlasovací lístek, který nesmí být roztrhnutý. Když uděláte víc kroužků než čtyři, tak se na ně nebere ohled. Když hodíte do urny hlasovací lístek, ale nebude v hlasovací obálce, nebude platit.</p>
+			
+			<div class="p-gap _3"></div>
+			<p-list-linear class="or">
+				<span><button class="inline" @click="() => slide('section_k', $el)">Na začátek</button></span><span><button class="inline" @click="() => slide('section_1', $el)">Jiné strany</button></span><span> <router-link to="/volby/snemovni-volby/166">Přehled</router-link> </span>
+			</p-list-linear>
+			
+		</section>
+		<section>
+			<div class="p-line"></div>
+			<!-- <p-icon icon="icon-check" size="8em"></p-icon> -->
+			<h2>A to je vše!</h2>
+			<p>Výsledky budou v sobotu 4. října později večer. Všechna významná média budou mít volební studia, kde budou grafy, statistiky a další zajímavosti z průběhu volebního dne.</p>
+			<p>Pokud se vám tento průvodce líbil, sdílejte ho prosím s přáteli nebo kolegy. A pokud chcete, můžete ho také podpořit:</p>
+			<div class="_mw4">
+				<cta-support-short></cta-support-short>
+			</div>			
+			<p class="strong">Tak dobrou volbu!</p>
+		</section>
+	</p-layout-simple>
+</div>

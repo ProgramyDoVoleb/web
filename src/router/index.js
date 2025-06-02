@@ -24,7 +24,12 @@ const router = createRouter({
     {
       path: '/pruvodce',
       name: 'guide-actual',
-      redirect: '/pruvodce/senatni-volby-2025-leden',
+      redirect: '/pruvodce/snemovni-volby-2025',
+    },
+    {
+      path: '/pruvodce/snemovni-volby-2025',
+      name: 'guide-ps-25',
+      component: () => import('../views/aktivity/guide/25-snemovna/do.vue')
     },
     {
       path: '/pruvodce/senatni-volby-2025-leden',

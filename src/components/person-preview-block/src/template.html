@@ -73,7 +73,7 @@
 			</div>
 			<div class="smallest strong" v-if="cand.VSTRANA && !current.VSTRANA && cand.VSTRANA != current.VSTRANA && (cand.VSTRANA < 997 || cand.VSTRANA > 999)">
 				
-				<p-label :color="colorByItem(cand, data, 'VSTRANA')">volební strana 
+				<p-label :color="colorByItem(cand, data, 'VSTRANA')" class="block">volební strana 
 					<router-link :to="'/rejstrik/' + cand.VSTRANA" class="is-span keep">
 						{{ cand.NAZEV_VS || data.cis.strany.find(x => x.VSTRANA === cand.VSTRANA).ZKRATKA }}
 					</router-link>
@@ -81,7 +81,7 @@
 				
 			</div>
 			<div class="smallest strong" v-if="cand.NSTRANA && !current.PSTRANA && cand.NSTRANA != current.VSTRANA">
-				<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA), data, 'NSTRANA')">nominace <template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
+				<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA), data, 'NSTRANA')" class="block">nominace <template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
 					<router-link :to="'/rejstrik/' + cand.NSTRANA" class="is-span keep">
 						{{ data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}
 					</router-link>
@@ -89,7 +89,7 @@
 				
 			</div>
 			<div class="smallest strong" v-if="cand.PSTRANA && cand.PSTRANA != 99 && cand.PSTRANA != cand.NSTRANA">
-				<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA), data, 'PSTRANA')">člen{{ isWoman(cand) ? 'ka' : '' }}
+				<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA), data, 'PSTRANA')" class="block">člen{{ isWoman(cand) ? 'ka' : '' }}
 					<router-link :to="'/rejstrik/' + cand.PSTRANA" class="is-span keep">
 						{{ data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA).ZKRATKA }}
 					</router-link>
