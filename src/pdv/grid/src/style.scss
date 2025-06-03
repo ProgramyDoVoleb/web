@@ -45,6 +45,14 @@
   }
 }
 
+._4 {
+  @container (min-width: 960px) {
+    &:not(.p-grid---1-2):not(._2) ._container {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
 .p-grid---tiny, ._tiny {
 	container-type: inline-size;
 

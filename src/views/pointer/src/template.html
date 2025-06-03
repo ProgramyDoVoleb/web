@@ -151,8 +151,8 @@
 									<!-- </p-list> -->
 								</p-area>
 							</p-block>
-							<p-block headline="Představení" :class="{'_empty': !(!current.$data.length && (current.$data.about || current.$data.motto || current.$data.values))}" :hide="true">
-								<div class="p-list _2 _invisible">
+							<p-block headline="Představení" :class="{'_empty': typeof current.$data.length === 'number' || !((current.$data.about || current.$data.motto || current.$data.values))}" :hide="true">
+								<div class="p-list _2 _invisible" v-if="typeof current.$data.length === 'undefined'">
 									<div v-if="current.$data.about">
 										<!-- <h2 class="serif mt0">Představení</h2> -->
 										<div class="serif _mw">

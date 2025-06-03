@@ -17,6 +17,8 @@ import PollsPreview from '@/components/polls-preview/do.vue';
 import PollOfPolls from '@/views/polls/pollofpolls/do.vue';
 import EngagementBlock1 from '@/components/engagement/poll-166-1/do.vue';
 import EngagementBlock from '@/components/engagement/block/do.vue';
+import PopUp from '@/components/pop-up/do.vue';
+import EditableSuggest from '@/components/editable/suggest/do.vue';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 
 export default {
@@ -47,7 +49,8 @@ export default {
 	MapPro,
 	PollsPreview,
 	PollOfPolls,
-	EngagementBlock1, EngagementBlock
+	EngagementBlock1, EngagementBlock,
+	PopUp, EditableSuggest
   },
 	computed: {
 		$store: function () {

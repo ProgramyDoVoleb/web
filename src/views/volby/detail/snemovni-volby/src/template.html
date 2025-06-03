@@ -1,4 +1,10 @@
 <div class="snemovni-volby">
+	<template v-if="current.status < 3">
+		<p-box to="/pruvodce">
+			<p-box-button icon="map.svg" class="primary">Průvodce volbami</p-box-button>
+		</p-box>
+		<div class="p-gap _2"></div>
+	</template>
 	<template v-if="current.status === 3">
 		<p-block headline="Výsledky">
 			<p-area class="relative">
@@ -29,6 +35,38 @@
 			<election-compare :current="data" :previous="$store.getters.pdv('elections/fetch/' + current.predchozi)"></election-compare>
 		</p-block-expandable>
 	</template>
+	<p-block headline="Programy a priority" v-if="current.$strany.find(x => x.$program || x.$priorit > 0)">
+		<p-area>
+			<p-columns class="smaller">
+				<div v-for="party in sortBy(current.$strany.filter(x => x.$data.program.length > 0 || x.$priorit > 0), 'ZKRATKA', null, true)">
+					<div class="p-offset reverse balanced">
+						<div>
+							<p-label :color="colorByItem(party, data)">
+								<router-link :to="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id">{{ party.ZKRATKA }}</router-link>
+							</p-label>							
+						</div>
+						<div>
+							<p-list-linear class="or">
+								<span v-for="program in party.$program">
+									<router-link :to="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id + '/volebni-program/' + program.id" class="strong">program</router-link>
+								</span>
+								<span>
+									<router-link :to="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id + '/priority'">priority</router-link>
+								</span>
+							</p-list-linear>
+						</div>
+					</div>
+				</div>
+			</p-columns>
+		</p-area>
+		<template v-if="current.status < 3">
+			<div class="smallest _edit mt1">
+				<p-icon icon="edit"></p-icon>
+				&nbsp;
+				<pop-up preClass="green strong"><template #init>Doplnit program nebo priority</template><template #content><editable-suggest placeholder="Stačí odkaz" type="program" :part="current.typ + ':' + current.id" link="1"></editable-suggest></template></pop-up>
+			</div>
+		</template>
+	</p-block>
 	<template v-if="current.status > 1">
 		<component :is="current.status === 2 ? 'p-block' : 'p-block-expandable'" headline="Strany a lídři">
 			<p>Zde najdete přehled stran, hnutí a koalic, které byly registrováni do voleb.</p>

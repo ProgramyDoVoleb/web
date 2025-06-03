@@ -25,3 +25,18 @@
 ._ng {
 	margin-bottom: 0 !important;
 }
+
+._edit {
+	display: inline-block;
+	padding: .6em 1.2em .8em !important;
+	border-radius: 2em;
+	background: var(--green11);
+	border-top: none !important;
+	margin-bottom: -.5em;
+
+	.p-icon {
+		margin-top: -.5em;
+		display: inline-block;
+		transform: translateY(.45em);
+	}
+}
