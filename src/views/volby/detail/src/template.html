@@ -301,7 +301,10 @@
 					</p-list>
 				</div>
 				<div>
-					<cta-get-admin :election="data.list[0]" v-if="data" class="mb05" />
+					<template v-if="current && current.editace === 1">
+						<cta-questions class="mb05"></cta-questions>
+						<cta-get-admin :election="data.list[0]" v-if="data" class="mb05" />
+					</template>
 					<cta-support-short></cta-support-short>
 				</div>
 				<div>

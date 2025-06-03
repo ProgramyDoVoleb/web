@@ -21,6 +21,7 @@ import HomepagePs from '@/views/homepage/snemovni-volby/do.vue';
 import HomepageSenat from '@/views/homepage/senatni-volby/do.vue';
 import ElectionResults from '@/views/history/volby/detail/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
+import CtaQuestions from '@/components/cta/questions/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import CtaSupportShort from '@/components/cta/support-short/do.vue';
 import log from '@/stores/enums/log';
@@ -52,7 +53,7 @@ export default {
   components: {
 	NewsItem, NewsItemAside, SearchParty, SearchPerson, SearchTown, MailchimpSignup, ReportForm, PollsPreview, SlovakiaBlock, PartyPreview, PartyPreviewTiny,
 	HomepageEp, HomepageKz, HomepagePs, HomepageSenat, ElectionResults, CtaGetAdmin, CtaSupport, PromoBlock, EngagementBlock, EventItem, CtaSupportShort,
-	EditableSuggest, PopUp
+	EditableSuggest, PopUp, CtaQuestions
   },
 	computed: {
 		$store: function () {

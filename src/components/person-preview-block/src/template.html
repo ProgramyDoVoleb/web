@@ -3,8 +3,8 @@
 		<!-- <div class="_cand-mandat" v-if="cand.MANDAT === 'A' || (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 1) || (cand.ZVOLEN_K2 && cand.ZVOLEN_K2 === 1)"></div> -->
 		<!-- <div class="_cand-2rnd" v-if="(cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 2 && (!cand.ZVOLEN_K2 || cand.ZVOLEN_K2 === 3))"></div> -->
 		<div class="dimm smallest _cand-no"> {{ (cand.PORCISLO && cand.PORCISLO > 0 ? cand.PORCISLO + '.' : null) || (cand.CKAND && cand.CKAND > 0 ? cand.CKAND + '.' : null ) || '?' }}</div>
-		<div class="_cand-img" :class="{'_cand-img-short': !(current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo'))}">
-			<template v-if="current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo')">
+		<div class="_cand-img" :class="{'_cand-img-short': !(current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo'))}">
+			<template v-if="current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo')">
 				<p-photo class="_person" :data="con(cand.$data, 'photo', null, null, true)" :alt="cand.JMENO + ' ' + cand.PRIJMENI"></p-photo>
 				<img class="_party" loading="lazy" :src="logoByItem(nominee, data)" v-if="nominee.VSTRANA != current.VSTRANA && !logoByItem(nominee, data).includes('empty.png')" :alt="'Logo ' + nominee.ZKRATKA">
 				<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 99">
@@ -14,7 +14,7 @@
 					<img class="_party" loading="lazy" :src="cand.$data.logo[0].value" :alt="'Logo ' + member.ZKRATKA">
 				</template>
 			</template>
-			<template v-if="!(current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
+			<template v-if="!(current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
 				<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 99">
 					<img class="_partyAlone" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
 				</template>	

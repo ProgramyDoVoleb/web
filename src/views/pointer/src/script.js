@@ -32,7 +32,7 @@ import EditableEvent from '@/components/editable/event/do.vue';
 import EditableImage from '@/components/editable/image/do.vue';
 import EditableSupportParty from '@/components/editable/support-party/do.vue';
 import CtaSupportShort from '@/components/cta/support-short/do.vue';
-
+import CtaQuestions from '@/components/cta/questions/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 
@@ -70,8 +70,7 @@ export default {
 	PersonPreviewBlock,
 	PersonPreviewColumn,
 	EventItem,
-	CtaGetAdmin,
-	CtaSupport, CtaSupportShort,
+	CtaGetAdmin, CtaSupport, CtaSupportShort, CtaQuestions,
 	AnswerTopicPreview,
 	PartyPolls,
 	PointerHeader,

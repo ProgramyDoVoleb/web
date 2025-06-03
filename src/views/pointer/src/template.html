@@ -1141,40 +1141,10 @@
 													</p-box>
 												</p-box-group>
 											</div>
-		
-											<!-- <p-collapsible label="Co lze doplnit?" logo="edit">
-												<ul class="columns _mobile smaller _ulli">
-													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Volební program</li>
-													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Priority</li>
-													<li>Hodnoty</li>
-													<li>Představení</li>
-													<li>Volební slogan</li>
-													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Podporu stran či osobností</li>
-													<li>Články a rozhovory v médiích</li>
-													<li>Tiskové zprávy</li>
-													<li>Významné statusy</li>
-													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Události, akce, setkání</li>
-													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Volební videa</li>
-													<li v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">Plakáty, letáky, další materiály</li>
-													<li>Odkazy na sociální sítě</li>
-													<li>Odkaz na webové stránky</li>
-													<li>Odkazy na další weby, blogy...</li>
-													<li>Odkaz na wiki</li>
-													<li>Veřejně uváděné kontakty</li>
-													<li>Poznámky a zajímavosti</li>
-												</ul>
-											</p-collapsible> -->
-											<!-- <p-collapsible label="Volební otázky">
-												<template v-if="$store.getters.pdv('elections/specific/162/questions')">
-													<p-list class="smaller">
-														<div v-for="item in $store.getters.pdv('elections/specific/162/questions').questions.filter(x => x.volby === current.volby && (!x.focus || x.focus === current.KRZAST || current.OBVOD) && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
-															{{ item.question }}
-														</div>
-													</p-list>
-												</template>
-											</p-collapsible> -->
-											<div class="p-line _05"></div>
-											<p-collapsible label="Pro strany a kandidáty" logo="admin" :borderless="true" status="Admin">
+										</p-area>
+										<p-area background="var(--blue11)" borderColor="var(--blue)">
+											<div class="mb05"><strong class="blue">Pro strany a kandidáty</strong></div>
+											<p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin">
 												<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
 
 												<div class="strong smaller">
@@ -1183,6 +1153,19 @@
 													<p-link href="https://admin.programydovoleb.cz">Více o adminu</p-link>
 												</div>
 											</p-collapsible>
+											<p-collapsible label="Volební otázky" logo="answers-mini" borderless="1" v-if="$volby.id === 166">
+												<template v-if="$store.getters.pdv('elections/specific/166/questions')">
+													<p-list class="smaller _05">
+														<div v-for="item in $store.getters.pdv('elections/specific/166/questions').questions.filter(x => x.volby === current.volby && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
+															{{ item.question }}
+														</div>
+														<div class="strong">
+															Podrobnosti k otázkám, termín a jak odpovědět <router-link to="/novinky/6343">najdete zde</router-link>	
+														</div>
+													</p-list>
+												</template>
+											</p-collapsible>
+
 										</p-area>
 									<!-- </p-block> -->
 								</div>
@@ -1274,7 +1257,10 @@
 				</div>
 
 				<div>
-					<cta-get-admin :election="$volby" class="mb05" />
+					<template v-if="data && $volby.editace === 1">
+						<cta-questions class="mb05"></cta-questions>
+						<cta-get-admin :election="$volby" class="mb05" />
+					</template>
 					<cta-support-short></cta-support-short>
 				</div>
 				
