@@ -1,12 +1,12 @@
 import {useData} from '@/stores/data';
-import PartyPreview from '@/components/party-preview/do.vue';
+import PartyPreviewLeader from '@/components/party-preview-leader/do.vue';
 import PartyPreviewTiny from '@/components/party-preview-tiny/do.vue';
-import {url, date, number, truncate, domain, con, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, domain, con, sortBy, shuffle} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 
 export default {
 	name: 'HomepagePS',
-	props: ['elections'],
+	props: ['elections', 'answers'],
 	data: function () {
 		return {
 			width: window.innerWidth,
@@ -71,7 +71,7 @@ export default {
 		}
 	},
 	components: {
-	  PartyPreview, PartyPreviewTiny
+	  PartyPreviewLeader, PartyPreviewTiny
 	},
 	computed: {
 		$store: function () {
@@ -82,7 +82,7 @@ export default {
 		}
 	},
 	methods: {
-		sortBy,
+		sortBy, shuffle,
 		logoByItem, colorByItem,
 		sortByPorCislo: function (list) {
 			list.sort((a, b) => (a.PORCISLO || 1000) - (b.PORCISLO || 1000));

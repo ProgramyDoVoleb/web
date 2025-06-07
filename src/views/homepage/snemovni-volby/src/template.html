@@ -1,50 +1,46 @@
 <div class="homepage-ep">
 	<p-loader :rule="election">
 		<div v-if="election">
-			
+			<p-area icon="snemovni-volby" class="inline mb1" background="transparent">
+				<h2 class="mv0">	
+					Sněmovní volby
+				</h2>
+					<div class="smaller sans">
+						<router-link to="/volby/snemovni-volby/166">3. a 4. října 2025</router-link>
+					</div>
+			</p-area>
+			<div class="p-gap"></div>
 			<div class="smallest dimm">Upozornění: až do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.</div>
 				<div class="p-gap_075"></div>
 				<component :is="width < 640 ? 'p-area' : 'div'" class="smaller white">
 					<p-columns :class="{'_2': width < 640}">
 						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
-							<component :is="width < 640 ? 'party-preview-tiny' : 'party-preview'" :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :candidatessCount="election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PORCISLO).length" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></component>
+							<component :is="width < 640 ? 'party-preview-tiny' : 'party-preview-leader'" :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :candidatessCount="election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PORCISLO).length" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></component>
 						</div>
 					</p-columns>
 				</component>
-				
-			<!-- <p-columns class="squeeze smaller text-center">
-				<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
-					<div>
-						<div class="p-line"></div>
-						<div class="show-40rem pb025">
-							<p-image :src="logoByItem(party, election)" class="rounded _dib" width="4em"></p-image>
-						</div>
-						<div class="pb025">
-							<router-link class="strong" :to="'/volby/snemovni-volby/' + election.list[0].id + '/strana/' + party.id">{{ party.ZKRATKA }}</router-link>
-						</div>
-						<div class="smallest" v-if="party.$program.length || party.$priorit">
-							<p-list-linear class="or">
-								<span v-if="party.$program.length">
-									<router-link :to="'/volby/snemovni-volby/' + election.list[0].id + '/strana/' + party.id + '/volebni-program/' + party.$program[0].id">Program</router-link>
-								</span>
-								<span v-if="party.$priorit && party.$priorit > 0">
-									<router-link :to="'/volby/snemovni-volby/' + election.list[0].id + '/strana/' + party.id + '/priority'">Priority</router-link>
-								</span>
-							</p-list-linear>
-						</div>
-						<div class="smallest pt025">
-							<router-link :to="'/volby/snemovni-volby/' + election.list[0].id + '/strana/' + party.id + '/kandidati'">
-								<p-lang class="dimm" :value="election.list[0].$kandidati.filter(x => x.PORCISLO && x.KSTRANA === party.KSTRANA).length" :end="['žádný kandidát', '1 kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>
-							</router-link>									
-						</div>
-					</div>
-				</div>
-			</p-columns> -->
-			
 		</div>
 	</p-loader>
 	<div class="p-line _2 mt05"></div>
-	<strong>Kde jsou?</strong>
+
+				<p-area class="primary smaller" borderColor="var(--yellow)">
+					<div class="p-offset reverse">
+						<div><strong>4 otázky pro kandidáty</strong><p-icon icon="answers-mini"></p-icon></div>
+						<div><router-link to="/novinky/6343" class="smallest is-span dimm">o co jde?</router-link></div>
+					</div>
+					<div class="_mw60 pt025">
+						Proč <router-link to="/volby/snemovni-volby/166/otazka/386" class="is-spann strong">kandidují</router-link>, na co se musí Česko <router-link to="/volby/snemovni-volby/166/otazka/389" class="is-spann strong">připravit</router-link> v příštích letech, co pro ně znamená <router-link to="/volby/snemovni-volby/166/otazka/388" class="is-spann strong">svoboda</router-link> a co je podle nich <router-link to="/volby/snemovni-volby/166/otazka/387" class="is-spann strong">přehlížené téma</router-link>?
+						<div class="p-line _0 mt1"></div>
+						<div class="strong pt1 pb025">Odpovědi již zaslali např.</div>
+						<p-list-linear class="nebo inline" v-if="answers">
+							<span v-for="cand in sortBy(shuffle(answers).filter((x, i) => i < 12), 'PRIJMENI', null, true)">
+								<router-link :to="'/volby/snemovni-volby/166/kandidat/' + cand.id + '/otazky-a-odpovedi'" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
+							</span>
+						</p-list-linear>
+					</div>
+				</p-area>
+	<div class="p-line _2"></div>
+	<strong>Kde jsou další strany?</strong>
 	<div class="p-gap"></div>
 	<p-area class="highlight">
 		<p-columns class="_2_4">

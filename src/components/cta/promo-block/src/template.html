@@ -6,17 +6,7 @@
 		<pop-up class="down">
 			<template #init>
 				<p-box>
-					<p-box-button icon="plus-green" class="green">Chci něco doplnit</p-box-button>
-				</p-box>
-			</template>
-			<template #content>
-				<editable-suggest type="media" part="Promo Block"></editable-suggest>
-			</template>
-		</pop-up>
-		<pop-up class="down">
-			<template #init>
-				<p-box>
-					<p-box-button icon="ig">{{ mobile ? 'Vyfoťte' : 'Nahrajte' }} plakát</p-box-button>
+					<p-box-button icon="ig">Vyfoť kampaň</p-box-button>
 				</p-box>
 			</template>
 			<template #content>
@@ -26,11 +16,21 @@
 		<p-box href="https://admin.programydovoleb.cz">
 			<p-box-button icon="admin">Admin &middot; pro kandidáty</p-box-button>
 		</p-box>
+		<pop-up class="down">
+			<template #init>
+				<p-box>
+					<p-box-button icon="plus-green"><span class="green">Doplnit</span></p-box-button>
+				</p-box>
+			</template>
+			<template #content>
+				<editable-suggest type="media" part="Promo Block"></editable-suggest>
+			</template>
+		</pop-up>
 	</p-box-group>
 	<div class="smaller mt1">
 		<p-label color="var(--yellow)">
-			Všichni kandidáti již mohou odpovědět na čtyři otázky.
-			<router-link to="/novinky/6343">Více informací</router-link>
+			Kandidáti již mohou odpovědět na čtyři otázky.
+			<router-link to="/novinky/6343">Více</router-link>
 		</p-label>
 	</div>
 

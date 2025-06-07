@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, gradient, color, pct, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, con, gradient, color, pct, sortBy, shuffle} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
@@ -23,7 +23,7 @@ import { colorByItem, logoByItem } from '@/components/results/helpers';
 
 export default {
 	name: 'layout-volby-detail-snemovni',
-	props: ['data', 'prev'],
+	props: ['data', 'prev', 'news'],
 	data: function () {
 		return {
 			cdn, today,
@@ -32,7 +32,7 @@ export default {
 				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka'},
 				{type: 3, label: 'Volební kalkulačka', hash: 'kalkulacka'}
 			],
-			compactList: false
+			compactList: true
 		}
 	},
   components: {
@@ -74,6 +74,7 @@ export default {
 		pct,
 		sortBy,
 		colorByItem,
+		shuffle,
 		// colorByItem: function (item, data) {
 
 		// 	var res = con(item.$data, 'color');

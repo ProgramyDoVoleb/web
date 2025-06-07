@@ -3,11 +3,17 @@
 		<template #main>
 			<p-block headline="Volby" :level="1" :hide="true">
 				<p class="lead">
+					Přehled <router-link to="/volby/snemovni-volby/166" class="is-span">stran</router-link>, kandidátů, <strong>volebních programů a priorit</strong>, událostí, <router-link to="/novinky" class="is-span">novinek</router-link>, <router-link to="/volebni-pruzkumy" class="is-span">volebních průzkumů</router-link> s <router-link to="/vypocet-mandatu" class="is-span">přepočtem na mandáty</router-link> nejen k příštím volbám.
+					<span class="smaller strong">
+						<router-link to="/o-projektu">O projektu</router-link> &middot; <router-link to="/o-projektu/jak-podporit" class="green">Podpořit</router-link>
+					</span>
+				</p> 
+				<!-- <p class="lead">
 					<strong>Volební programy</strong>, <router-link to="/lide" class="is-span">kandidáti</router-link>, <router-link to="/rejstrik" class="is-span">politické strany</router-link>, <router-link to="/novinky" class="is-span">přehled zpráv</router-link>, <router-link to="/volebni-pruzkumy" class="is-span">průzkumy</router-link>, <router-link to="/vypocet-mandatu" class="is-span">výpočet mandátů</router-link>, <router-link to="/volby" class="is-span">archiv voleb</router-link> a další. Přehledně, nestranně, neziskově.
 					<span class="smaller strong">
 						<router-link to="/o-projektu">O projektu</router-link> &middot; <router-link to="/o-projektu/jak-podporit" class="green">Podpořit</router-link>
 					</span>
-				</p>
+				</p> -->
 				<!-- <div class="p-gap"></div> -->
 				<promo-block></promo-block>
 				<!-- <p class="smaller">
@@ -31,7 +37,7 @@
 					</p-area>
 					<div class="p-gap"></div>
 				</template>
-				<div class="p-gap"></div>
+				<!-- <div class="p-gap"></div> -->
 				<!-- <p-area class="inline">
 					<p-label color="var(--red)" class="smaller strong">Důležité informace Ministerstva vnitra <p-link class="red" href="https://www.mvcr.cz/clanek/ustredni-krizovy-stab-resil-pomoc-oblastem-zasazenym-povodnemi-i-podporu-postizenym-krajum-s-organizaci-voleb.aspx">pro voliče zasažené povodněmi</p-link></p-label>
 				</p-area>				
@@ -41,7 +47,7 @@
 						<div v-if="elections">
 							<div v-for="(election, index) in elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum > '2024-07-01'))">
 								<p-block class="_nmb" :hide="true" :headline="election_types.find(x => x.key === election.typ).name">
-									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.id === 166">
+									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.id === 166" :skip="election.id === 166">
 										<!-- <p-area :class="election.typ === 'EP' ? '_ep' : null" class="p-area---has-background"> -->
 											<div v-if="election.$dotcene && election.typ === 'KV'">
 												<p class="smaller">Týká se obcí 
@@ -62,7 +68,7 @@
 												<homepage-senat :elections="election"></homepage-senat>
 											</div>
 											<div v-if="election.typ === 'PS'">
-												<homepage-ps :elections="election"></homepage-ps>
+												<homepage-ps :elections="election" :answers="news ? news.answers : null"></homepage-ps>
 											</div>
 										<!-- </p-area> -->
 										<div class="p-gap_075"></div>
@@ -397,7 +403,7 @@
 															<template v-if="news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum).length > 0">
 																<!-- <span v-if="point === 'csu_senat_rk:'">Senát</span> -->
 																<!-- <span v-if="point === 'csu_kz_rkl:'">Krajské volby</span> -->
-																<span v-if="point === 'csu_ps_rk:'">Kandidáti</span>
+																<span v-if="point === 'csu_ps_rk:'"><br>Kandidáti</span>
 															</template>
 															<span v-for="item in news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum)">
 																<router-link v-if="item.node.JMENO" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.JMENO }} {{ item.node.PRIJMENI }}</router-link>

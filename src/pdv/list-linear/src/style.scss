@@ -9,26 +9,26 @@
   }
 }
 .p-list-linear {
-  > :not(:last-child):after {
+  > :not(:first-child):not(:last-child):before {
     content: ", ";
   }
-  > :last-child:not(:last-child):after {
+  > :not(:first-child):last-child:before {
     content: " a ";
   }
 }
 .p-list-linear.nebo {
-  > :not(:last-child):after {
+  > :not(:first-child):not(:last-child):before {
     content: ", ";
   }
-  > :last-child:not(:last-child):after {
-    content: " nebo ";
+  > :not(:first-child):last-child:before {
+    content: " nebo ";
   }
 }
 .p-list-linear.or {
-  > :not(:last-child):after {
+  > :not(:first-child):not(:last-child):before {
     content: " · ";
   }
-  > :last-child:not(:last-child):after {
+  > :not(:first-child):last-child:before {
     content: " · ";
   }
 }

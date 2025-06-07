@@ -382,3 +382,24 @@ export function isURL (url) {
 export function userInput (content) {
     return content ? content.split('"').join('”').split("'").join("'").split("\n").join("<br>").split(' ').join('&nbsp;') : content;
 }
+
+export function shuffle(array) {
+  let currentIndex = array.length;
+
+  var arr = [];
+  array.forEach(x => arr.push(x));
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [arr[currentIndex], arr[randomIndex]] = [
+      arr[randomIndex], arr[currentIndex]];
+  }
+
+  return arr;
+}

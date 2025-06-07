@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { useCore, cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, domain, con, sortBy, sortEvents, unique} from '@/pdv/helpers';
+import {url, date, number, truncate, domain, con, sortBy, sortEvents, unique, shuffle} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
@@ -122,7 +122,7 @@ export default {
 						var k = {
 							focus: null,
 							content,
-							list: o.pre.ps.filter(x => x.content === content).sort((a, b) => a.title.split(' ')[1].localeCompare(b.title.split(' ')[1], 'cs'))
+							list: o.pre.ps.filter(x => x.content === content).sort((a, b) => (a.title.includes(' ') ? a.title.split(' ')[1] : a.title).localeCompare((b.title.includes(' ') ? b.title.split(' ')[1] : b.title), 'cs'))
 						}
 
 						o.list.ps.push(k);
@@ -201,7 +201,7 @@ export default {
 		colorByItem,
 		logoByItem,
 		sortBy, sortEvents,
-		unique,
+		unique, shuffle,
 		$getParty: function (hash) {
 			var item = this.parties.list.find(x => x.hash === hash);
 
