@@ -209,7 +209,7 @@
 										<h2 class="serif mt0">Volební lídr <span v-if="current.$data.govrole && current.$data.govrole.length > 0">a vládní kandidáti</span>
 										</h2>
 										<p-area class="primary" :borderColor="colorByItem(current, data)">
-											<person-preview-block v-if="current.$data.leader[0].label" :cand="current.$kandidati.find(x => x.id === Number(current.$data.leader[0].label))" :data="data" :current="current" :link="$link.split('/strana')[0]"></person-preview-block>
+											<component :is="width < 640 ? 'person-preview-column' : 'person-preview-block'" v-if="current.$data.leader[0].label" :cand="current.$kandidati.find(x => x.id === Number(current.$data.leader[0].label))" :data="data" :current="current" :link="$link.split('/strana')[0]"></component>
 											<strong v-else>{{ current.$data.leader[0].value }}</strong>
 										</p-area>
 									</template>
@@ -706,7 +706,7 @@
 							</p-block>
 							<p-block headline="Videa" :class="{'_empty': !current.$data.video}" :hide="!current.$data.video">
 								<template v-for="(video, index) in (current.$data.video || [])">
-									<p-collapsible :label="video.label || 'Volební spot'" :open="index === 0">
+									<p-collapsible :label="video.label || 'Volební spot'" logo="yt">
 										<div class="_video" v-html="video.value" v-if="video.value"></div>
 										<div class="_video" v-if="video.source && video.source.split('facebook').length > 1">
 											<iframe :src="video.source" width="560" height="429" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
@@ -716,6 +716,9 @@
 										</div>
 									</p-collapsible>
 								</template>
+								<div class="smallest mv1" v-if="(current.$data.video || []).length > 0">
+									<p-label color="var(--red)" class="strong red">Cookies:</p-label> videa jsou vkládána ze zdrojů třetích stran, jako je Youtube nebo Facebook. Při načtení mohou využívat soubory cookies.
+								</div>
 								<div v-if="$volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;

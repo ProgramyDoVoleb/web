@@ -108,7 +108,7 @@
 												</template>
 												<template v-if="itemparty.data.find(x => x.type === 'priority')">
 													<div>
-														<p-area class="white shadow" borderColor="var(--green)" icon="list">
+														<p-area class="white shadow" borderColor="var(--green)" icon="priority">
 															<strong>
 																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/priority'">
 																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}

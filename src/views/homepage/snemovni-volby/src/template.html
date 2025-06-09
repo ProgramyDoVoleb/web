@@ -1,15 +1,15 @@
 <div class="homepage-ep">
 	<p-loader :rule="election">
 		<div v-if="election">
-			<p-area icon="snemovni-volby" class="inline mb1" background="transparent">
+			<p-area icon="snemovni-volby" class="inline highlight shadow">
 				<h2 class="mv0">	
 					Sněmovní volby
 				</h2>
-					<div class="smaller sans">
+					<div class="smaller sans strong">
 						<router-link to="/volby/snemovni-volby/166">3. a 4. října 2025</router-link>
 					</div>
 			</p-area>
-			<div class="p-gap"></div>
+			<div class="p-gap _2"></div>
 			<div class="smallest dimm">Upozornění: až do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.</div>
 				<div class="p-gap_075"></div>
 				<component :is="width < 640 ? 'p-area' : 'div'" class="smaller white">

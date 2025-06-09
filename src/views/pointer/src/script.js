@@ -43,6 +43,7 @@ export default {
 		return {
 			today,
 			cdn,
+			width: window.innerWidth,
 			limit: 5,
 			limitOff: false,
 			questionLimit: 5,
@@ -487,6 +488,11 @@ export default {
   },
   mounted: function () {
     window.scrollTo(0, 1);
+	setTimeout(() => {
+		this.width = this.$el.getBoundingClientRect().width;
+		window.addEventListener('resize', () => this.width = this.$el.getBoundingClientRect().width);
+	}, 500);
+	
   },
   watch: {
 	data: function () {
