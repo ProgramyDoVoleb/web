@@ -3,6 +3,8 @@ import PartyPreviewLeader from '@/components/party-preview-leader/do.vue';
 import PartyPreviewTiny from '@/components/party-preview-tiny/do.vue';
 import {url, date, number, truncate, domain, con, sortBy, shuffle} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
+import PopUp from '@/components/pop-up/do.vue';
+import { useEnums } from '@/stores/enums';
 
 export default {
 	name: 'HomepagePS',
@@ -67,11 +69,12 @@ export default {
 					label: 'SPD',
 					link: '/volby/snemovni-volby/166/strana/230'
 				}
-			]
+			],
+			searchQuery: null
 		}
 	},
 	components: {
-	  PartyPreviewLeader, PartyPreviewTiny
+	  PartyPreviewLeader, PartyPreviewTiny, PopUp
 	},
 	computed: {
 		$store: function () {
@@ -79,6 +82,18 @@ export default {
 		},
 		election: function () {
 			return this.$store.getters.pdv('elections/fetch/' + this.elections.id);
+		},
+		enums: function () {
+			return useEnums()
+		},
+		searchResults: function () {
+			var results = [];
+
+			if (this.election.list[0] && this.searchQuery && this.searchQuery.length > 2) {
+				this.election.list[0].$kandidati.filter(x => x.PORCISLO && url(x.JMENO + ' ' + x.PRIJMENI).includes(url(this.searchQuery))).forEach(x => results.push(x));
+			}
+
+			return sortBy(sortBy(results, 'JMENO', null, true), 'PRIJMENI', null, true);
 		}
 	},
 	methods: {
@@ -89,5 +104,11 @@ export default {
 
 			return list;
 		}
+	},
+	mounted: function () {
+		setTimeout(() => {
+			this.width = this.$el.getBoundingClientRect().width;
+			window.addEventListener('resize', () => this.width = this.$el.getBoundingClientRect().width);
+		}, 500);
 	}
 };

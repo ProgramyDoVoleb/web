@@ -228,6 +228,9 @@ export default {
   mounted: function () {
     window.scrollTo(0, 1);
     ga();
-	window.addEventListener('resize', () => this.width = window.innerWidth);
+	setTimeout(() => {
+		this.width = this.$el.getBoundingClientRect().width;
+		window.addEventListener('resize', () => this.width = this.$el.getBoundingClientRect().width);
+	}, 500);
   }
 };

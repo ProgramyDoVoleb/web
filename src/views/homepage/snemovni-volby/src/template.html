@@ -17,6 +17,27 @@
 						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
 							<component :is="width < 640 ? 'party-preview-tiny' : 'party-preview-leader'" :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :candidatessCount="election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PORCISLO).length" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></component>
 						</div>
+						<div>
+							<component :is="width < 640 ? 'div' : 'p-area'" class="highlight shadow" icon="search">
+								<pop-up class="down">
+									<template #init>
+										<strong class="red">Hledat kandidáta</strong>
+									</template>
+									<template #content>
+										<div class="mb1">
+											<input type="text" placeholder="Začněte psát" v-model="searchQuery">
+										</div>							
+										<p-list class="smaller _05">
+											<div v-for="cand in searchResults">
+												<router-link :to="'/volby/snemovni-volby/' + election.list[0].id + '/kandidat/' + cand.id" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+												<span class="dimm smallest"> &middot; {{ cand.PORCISLO }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }} &middot; {{ election.list[0].$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}</span>
+											</div>
+										</p-list>
+									</template>
+								</pop-up>
+								<div class="smallest dimm show-40rem">Ať je kdekoli</div>
+							</component>
+						</div>
 					</p-columns>
 				</component>
 		</div>

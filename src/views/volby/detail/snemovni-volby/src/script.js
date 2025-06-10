@@ -32,7 +32,8 @@ export default {
 				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka'},
 				{type: 3, label: 'Volební kalkulačka', hash: 'kalkulacka'}
 			],
-			compactList: true
+			compactList: true,
+			searchQuery: null
 		}
 	},
   components: {
@@ -64,6 +65,15 @@ export default {
 		},
 		polls: function () {
 			return this.$store.getters.pdv('polls/election/' + (this.data ? this.data.list[0].id : 0))
+		},
+		searchResults: function () {
+			var results = [];
+
+			if (this.current && this.searchQuery && this.searchQuery.length > 2) {
+				this.current.$kandidati.filter(x => x.PORCISLO && url(x.JMENO + ' ' + x.PRIJMENI).includes(url(this.searchQuery))).forEach(x => results.push(x));
+			}
+
+			return sortBy(sortBy(results, 'JMENO', null, true), 'PRIJMENI', null, true);
 		}
 	},
   methods: {
