@@ -1,0 +1,50 @@
+<div class="results-parties-graph" :class="{diff}">
+	<div class="_space">
+		<div class="_item" v-for="(item, index) in display" :class="{passed: item.passed, rest: !item.link}">
+			<div class="_bar-holder" :class="{'_ref': item.ref}">
+				<div class="_bar">
+					<div class="_bar-pane" :style="{height: ((this.show ? item.graph : 0) * 6) + 'px', background: item.color, 'transition-delay': (index * .05 + .5) + 's'}"></div>
+					<div class="_bar-value">
+						<strong>{{ number(item.pct, 1) }}</strong>
+						<template v-if="diff && item.ref.pct > 0">
+							<div class="_bar-value-diff" :class="{red: item.pct < item.ref.pct, green: item.pct > item.ref.pct, dimm: item.pct === item.ref.pct}">
+								{{ item.pct > item.ref.pct ? '+' : '' }}{{ number(item.pct - item.ref.pct, 1) }}
+							</div>
+						</template>
+						<template v-if="diff && item.ref.pct === 0">
+							<div class="tiny blue">
+								nově
+							</div>
+						</template>
+					</div>
+					<template v-if="item.ref">
+						<div class="_bar-pane _ref-pane" :style="{height: (item.ref.graph * 6) + 'px', background: item.color}"></div>
+						<div class="_bar-value _ref-value smallest" :style="{bottom: (item.ref.graph * 2.5) + 'px'}" v-if="!diff">
+							{{ number(item.ref.pct, 1) }}
+						</div>
+					</template>
+				</div>
+			</div>
+			<div class="_data">
+				<div class="_short smallest">
+					<strong>{{ truncate(item.short, 8, true) }}</strong>
+				</div>
+				<div class="_logo">
+					<p-image :src="item.logo" :rounded="true" width="100%"></p-image>
+				</div>
+				<div class="_mandates strong" v-if="item.mandates">
+					<span class="_mandates-value">{{ item.mandates }}<span class="_mandates-diff" :class="indicator(item.mandates, item.ref.mandates)" v-if="item.mandates !== item.ref.mandates && item.ref.mandates">{{ item.mandates > item.ref.mandates ? '+' : '' }}{{ item.mandates - item.ref.mandates }}</span><span v-if="!item.ref.mandates" class="_mandates-diff _blue">*</span></span>					
+				</div>
+				<div class="_mandates _blue" v-if="mandates && mandates.length > 0 && mandates.find(x => x.hash === item.id)">
+					<span class="_mandates-value">
+						{{ mandates.find(x => x.hash === item.id).value }}
+						<span class="_mandates-diff" :class="indicator(mandates.find(x => x.hash === item.id).value, mandatesPrevious.find(x => x.hash === item.id).value)" v-if="mandatesPrevious.length > 0 && mandates.find(x => x.hash === item.id).value !== mandatesPrevious.find(x => x.hash === item.id).value && mandatesPrevious.find(x => x.hash === item.id).value">{{ mandates.find(x => x.hash === item.id).value > mandatesPrevious.find(x => x.hash === item.id).value ? '+' : '' }}{{ mandates.find(x => x.hash === item.id).value - mandatesPrevious.find(x => x.hash === item.id).value }}</span>
+						<span v-if="mandatesPrevious.length > 0 && !mandatesPrevious.find(x => x.hash === item.id)" class="_mandates-diff _blue">*</span>
+						<span class="_mandates-since" :class="indicator(mandates.find(x => x.hash === item.id).value, mandatesSince.find(x => x.hash === item.id).value)" v-if="mandatesSince.length > 0 && mandatesSince.find(x => x.hash === item.id) && mandates.find(x => x.hash === item.id).value !== mandatesSince.find(x => x.hash === item.id).value">{{ mandates.find(x => x.hash === item.id).value > mandatesSince.find(x => x.hash === item.id).value ? '+' : '' }}{{ mandates.find(x => x.hash === item.id).value - mandatesSince.find(x => x.hash === item.id).value }}</span>
+						<span v-if="mandatesSince.length > 0 && !mandatesSince.find(x => x.hash === item.id)" class="_mandates-since _blue">*</span>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

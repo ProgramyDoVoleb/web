@@ -46,7 +46,7 @@
 						</table>
 					</div>
 					<div class="p-gap _2"></div>
-					<p-box-group class="_jc">
+					<p-box-group class="_jc" v-if="data.poll.link">
 						<p-box :href="data.poll.link">
 							<p-box-button color="var(--blue)" icon="link.svg">Celá zpráva na {{ domain(data.poll.link) }}</p-box-button>
 						</p-box>
@@ -101,6 +101,7 @@
 						<div class="smallest dimm text-center">Vlastní přepočet Programů do voleb</div>
 						<div class="p-gap _2"></div>
 						<election-simulation-imperiali-2021 :defined="defined" :hide="true" :tickDefined="1" @update="setMandates"></election-simulation-imperiali-2021>
+						<election-simulation-imperiali-2021 :defined="definedPrevious" :hide="true" :tickDefined="1" @update="(data) => setMandates(data, 'mandatesPrevious')"></election-simulation-imperiali-2021>
 						<graph-mandates-apex :mandates="mandates" :selected="selected"></graph-mandates-apex>
 						<div class="p-line"></div>
 						<p-box-group v-if="mandates.length > 0" class="_mandates">
@@ -137,6 +138,10 @@
 							<p-box-button>Předchozí</p-box-button>
 						</p-box>
 					</p-box-group>
+					<div class="p-gap _2"></div>
+					<p-collapsible label="Obrázek ke sdílení">
+						<results-parties-graph-shareable :list="list" v-if="list.length > 0" :diff="list.find(x => x.ref)" :mandates="mandates" :mandatesPrevious="mandatesPrevious" :mandatesSince="mandatesSince" ></results-parties-graph-shareable>
+					</p-collapsible>
 				</div>
 			</p-loader>
 		</div>
