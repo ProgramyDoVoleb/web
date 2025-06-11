@@ -52,9 +52,9 @@ export default {
 		$store: function () {
 			return useData()
 		},
-		$route: function () {
-			return useRoute()
-		},
+		// $route: function () {
+		// 	return useRoute()
+		// },
 		core: function () {
 			return useCore()
 		},
@@ -82,7 +82,15 @@ export default {
 			}
 		},
 		data: function () {
-			var d = this.$store.getters.pdv('pointers/qa/' + this.table + ':' + this.tableID)
+			var d = this.$store.getters.pdv('pointers/qa/' + this.table + ':' + this.tableID);
+
+			if (d) {
+				if (this.$route && this.$route.fullPath.split('/bod/').length === 2) {
+					this.$router.replace('/volby/' + this.enums.elections.find(x => x.key === d.cis.volby[0].typ).hash + '/' + d.cis.volby[0].id + '/' + (this.tableName.split('_')[2] === 'rk' ? 'kandidat' : 'strana') + '/' + d.list[0].id + '/otazky-a-odpovedi');
+
+					d = null;
+				}
+			}
 
 			if (d) {
 				if (d.cis.okresy) {

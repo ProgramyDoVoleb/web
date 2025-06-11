@@ -50,9 +50,9 @@ export default {
 		$store: function () {
 			return useData()
 		},
-		$route: function () {
-			return useRoute()
-		},
+		// $route: function () {
+		// 	return useRoute()
+		// },
 		core: function () {
 			return useCore()
 		},
@@ -81,6 +81,14 @@ export default {
 		},
 		data: function () {
 			var d = this.$store.getters.pdv('pointers/program/' + this.table + ':' + this.tableID + ':' + this.programID)
+
+			if (d) {
+				if (this.$route && this.$route.fullPath.split('/bod/').length === 2) {
+					this.$router.replace('/volby/' + this.enums.elections.find(x => x.key === d.cis.volby[0].typ).hash + '/' + d.cis.volby[0].id + '/' + (this.tableName.split('_')[2] === 'rk' ? 'kandidat' : 'strana') + '/' + d.list[0].id + '/volebni-program' + this.programID);
+
+					d = null;
+				}
+			}
 
 			if (d) {
 				if (d.cis.okresy) {
