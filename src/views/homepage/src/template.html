@@ -459,10 +459,12 @@
 								<event-item :item="event" :party="event.$node" :data="event" bod="1" class="pb2 _short" :short="true"></event-item>
 							</div>
 						</p-columns>
-						<p-collapsible label="Další akce a události" class="smaller" logo="event" :status="sortEvents(news.events, true).length - 6" v-if="sortEvents(news.events, true).length > 6">
-							<div v-for="event in sortEvents(news.events, true).filter((x, i) => i >= 6)">
-								<event-item :item="event" :party="event.$node" :data="event" bod="1" class="pb2 _short" :short="true"></event-item>
-							</div>
+						<p-collapsible label="Další akce a události" logo="event" :status="sortEvents(news.events, true).length - 6" v-if="sortEvents(news.events, true).length > 6">
+							<p-columns>
+								<div v-for="event in sortEvents(news.events, true).filter((x, i) => i >= 6)">
+									<event-item :item="event" :party="event.$node" :data="event" bod="1" class="pb2 _short" :short="true"></event-item>
+								</div>
+							</p-columns>
 						</p-collapsible>
 						<div class="mt1">
 							<div class="smallest _edit">

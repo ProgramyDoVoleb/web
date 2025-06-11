@@ -1,7 +1,7 @@
 <div class="layout-polls">
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Novinky" :level="1" :hide="true">
+			<p-block headline="Sedmidění" :level="1" :hide="true">
 				<div class="p-offset reverse">
 					<div>
 						<p-headline :level="1">Sedmidění</p-headline>
@@ -11,19 +11,14 @@
 					</div>
 				</div>
 				<p class="lead mt0">Souhrn článků z 24 různých médií, které se týkají voleb, stran nebo kandidátů, volební průzkumy a přehled novinek a úprav na webu <em>Programy do voleb</em> za uplynulých sedm dní.</p>
-				<div class="p-gap _2"></div>
+				<!-- <div class="p-gap _2"></div> -->
 				<p-loader :rule="news">
 					<div v-if="news">
 						<template v-if="nearEvents.length > 0">
-							<p-block headline="Blízké události">
-								<p-columns>
-									<div v-for="event in nearEvents.filter((x, i) => i < 3)">
-										<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="pb1"></event-item>
-									</div>
-								</p-columns>
-								<p-collapsible label="Další události" v-if="nearEvents.length > 3" :status="nearEvents.length - 3">
+							<p-block headline="Blízké události" :hide="true" class="pb2">
+								<p-collapsible label="Blízké události" v-if="nearEvents.length > 3" :status="nearEvents.length" logo="event">
 									<p-columns>
-										<div v-for="event in nearEvents.filter((x, i) => i >= 3)">
+										<div v-for="event in nearEvents">
 											<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="pb1"></event-item>
 										</div>
 									</p-columns>
