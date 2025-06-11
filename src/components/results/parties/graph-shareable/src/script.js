@@ -3,7 +3,7 @@ import { cdn } from '@/stores/core';
 
 export default {
 	name: 'results-parties-graph',
-	props: ['list', 'diff', 'mandates', 'mandatesPrevious', 'mandatesSince'],
+	props: ['list', 'diff', 'mandates', 'mandatesPrevious', 'mandatesSince', 'about'],
 	data: function () {
 		return {
 			show: true,

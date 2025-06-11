@@ -7,8 +7,11 @@
 					<div class="_bar-value">
 						<strong>{{ number(item.pct, 1) }}</strong>
 						<template v-if="diff && item.ref.pct > 0">
-							<div class="_bar-value-diff" :class="{red: item.pct < item.ref.pct, green: item.pct > item.ref.pct, dimm: item.pct === item.ref.pct}">
+							<div v-if="item.pct !== item.ref.pct" class="_bar-value-diff" :class="{red: item.pct < item.ref.pct, green: item.pct > item.ref.pct, dimm: item.pct === item.ref.pct}">
 								{{ item.pct > item.ref.pct ? '+' : '' }}{{ number(item.pct - item.ref.pct, 1) }}
+							</div>
+							<div v-if="item.pct === item.ref.pct" class="_bar-value-diff" :class="{red: item.pct < item.ref.pct, green: item.pct > item.ref.pct, dimm: item.pct === item.ref.pct}">
+								—
 							</div>
 						</template>
 						<template v-if="diff && item.ref.pct === 0">
@@ -32,8 +35,13 @@
 				<div class="_logo">
 					<p-image :src="item.logo" :rounded="true" width="100%"></p-image>
 				</div>
-				<div class="_mandates strong" v-if="item.mandates">
-					<span class="_mandates-value">{{ item.mandates }}<span class="_mandates-diff" :class="indicator(item.mandates, item.ref.mandates)" v-if="item.mandates !== item.ref.mandates && item.ref.mandates">{{ item.mandates > item.ref.mandates ? '+' : '' }}{{ item.mandates - item.ref.mandates }}</span><span v-if="!item.ref.mandates" class="_mandates-diff _blue">*</span></span>					
+				<div class="_mandates strong" v-if="item.mandates || item.pct >= 5">
+					<span class="_mandates-value">
+						{{ item.mandates || 0 }}
+						<span class="_mandates-diff" :class="indicator(item.mandates, item.ref.mandates)" v-if="item.mandates !== item.ref.mandates && item.ref.mandates">{{ item.mandates > item.ref.mandates ? '+' : '' }}{{ item.mandates - item.ref.mandates }}</span>
+						<span v-if="!item.ref.mandates" class="_mandates-diff _blue">*</span>
+						<span class="_mandates-source dimm" v-if="!display[index + 1].passed">‹   výpočet {{ about.poll.agency }}</span>
+					</span>					
 				</div>
 				<div class="_mandates _blue" v-if="mandates && mandates.length > 0 && mandates.find(x => x.hash === item.id)">
 					<span class="_mandates-value">
@@ -42,6 +50,7 @@
 						<span v-if="mandatesPrevious.length > 0 && !mandatesPrevious.find(x => x.hash === item.id)" class="_mandates-diff _blue">*</span>
 						<span class="_mandates-since" :class="indicator(mandates.find(x => x.hash === item.id).value, mandatesSince.find(x => x.hash === item.id).value)" v-if="mandatesSince.length > 0 && mandatesSince.find(x => x.hash === item.id) && mandates.find(x => x.hash === item.id).value !== mandatesSince.find(x => x.hash === item.id).value">{{ mandates.find(x => x.hash === item.id).value > mandatesSince.find(x => x.hash === item.id).value ? '+' : '' }}{{ mandates.find(x => x.hash === item.id).value - mandatesSince.find(x => x.hash === item.id).value }}</span>
 						<span v-if="mandatesSince.length > 0 && !mandatesSince.find(x => x.hash === item.id)" class="_mandates-since _blue">*</span>
+						<span class="_mandates-source" v-if="!display[index + 1].passed">‹   výpočet Programy</span>
 					</span>
 				</div>
 			</div>
