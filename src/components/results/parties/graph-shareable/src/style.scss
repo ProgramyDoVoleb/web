@@ -4,6 +4,7 @@
 	height: 1080px;
 	width: 1080px;
 	color: #20133C;
+	// transform: scale(.5, .5) translate(-50%, -50%);
 	position: absolute;
 	left: 300vw;
 
@@ -149,8 +150,21 @@
   border-left: 2px dotted #f00;
 }
 
-._logo {
-	// padding: 0 .2em;
+._logo-rest {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: space-between;
+	width: 80px;
+	margin-left: 10px;
+
+	> div {
+		width: 35px;
+		height: 35px;
+		margin-bottom: 10px;
+		background: #E9E9E9;
+		border-radius: 6px;
+	}
 }
 
 ._short {

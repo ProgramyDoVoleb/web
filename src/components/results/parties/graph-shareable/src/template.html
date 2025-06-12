@@ -31,10 +31,16 @@
 				</div>
 				<div class="_data">
 					<div class="_short smallest">
-						<span class="_strong">{{ truncate(item.short, 8, true) }}</span>
+						<span class="_strong" :class="{dimm: !item.id}">{{ truncate(item.short, 8, true) }}</span>
 					</div>
-					<div class="_logo">
+					<div class="_logo" v-if="item.id">
 						<p-image :src="item.logo" :rounded="true" width="100%"></p-image>
+					</div>
+					<div class="_logo-rest" v-else>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
 					</div>
 					<div class="_mandates" v-if="item.id && (item.mandates || item.pct >= 5)">
 						<span class="_mandates-value">
@@ -63,7 +69,7 @@
 			<br>
 			Zveřejněno {{ date(about.poll.datum) }}
 			<br>
-			Srovnání s {{ about.poll.agency }} z dne {{ date(about.previous.datum) }}
+			Srovnání s {{ about.poll.agency }} z {{ date(about.previous.datum) }}
 		</div>
 		<div class="_header" :class="'_header_' + url(about.poll.agency)" :style="{right: ((detectWidth - (display.length * 100)) / 2 + 10) + 'px'}">
 			<div class="_header-agency _quando">{{ about.poll.agency }}</div>
@@ -86,6 +92,9 @@
 		</p-box>
 		<p-box :click="() => bg = !bg">
 			<p-box-button>{{ bg ? 'Vypnout' : 'Zapnout' }} pozadí</p-box-button>
+		</p-box>
+		<p-box v-if="imagedata">
+			<p-box-label><a :href="imagedata" :download="'graf-' + (new Date().getTime()) + '.png'">Stáhnout obrázek</a></p-box-label>
 		</p-box>
 	</p-box-group>
 	<div class="canvas mt1" ref="canvas"></div>

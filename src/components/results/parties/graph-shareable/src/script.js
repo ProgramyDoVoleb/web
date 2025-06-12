@@ -9,7 +9,8 @@ export default {
 		return {
 			show: true,
 			width: 400,
-			bg: true
+			bg: true,
+			imagedata: null
 		}
 	},
 	computed: {
