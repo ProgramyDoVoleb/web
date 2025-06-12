@@ -1,5 +1,6 @@
 import { number, pct, round, truncate, indicator } from '@/pdv/helpers';
 import { cdn } from '@/stores/core';
+import html2canvas from 'html2canvas'
 
 export default {
 	name: 'results-parties-graph',
@@ -9,9 +10,6 @@ export default {
 			show: true,
 			width: 400,
 		}
-	},
-	methods: {
-		number
 	},
 	computed: {
 		passed: function () {
@@ -86,6 +84,21 @@ export default {
 		number, indicator,
 		onResize: function () {
 			this.width = this.$el.getBoundingClientRect().width;
+		},
+		snapshot: function (ev) {
+			html2canvas(this.$el.querySelector('._rendered'),{
+				allowTaint: true,
+				useCORS : true,
+				backgroundColor:null,
+				alpha: false
+			}).then((canvas) => {
+				this.$refs.canvas.appendChild(canvas);
+				this.imagedata = canvas.toDataURL("image/png");
+
+				canvas.style.width = '100%';
+				canvas.style['max-width'] = canvas.width + 'px';
+				canvas.style.height = 'auto';
+			})
 		}
 	},
 	mounted: function () {

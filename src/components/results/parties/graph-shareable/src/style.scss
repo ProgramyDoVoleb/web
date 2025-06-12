@@ -1,13 +1,13 @@
 ._space {
 	display: flex;
-	padding-top: 300px;
+	padding-top: 400px;
 }
 
 ._item {
 	// flex: 1;
 	text-align: center;
 	padding-bottom: .5em;
-	width: 80px;
+	width: 100px;
 
 	// @media (hover: hover) {
 
@@ -54,14 +54,14 @@
 ._bar-pane {
 	border-top-left-radius: .25em;
 	border-top-right-radius: .25em;
-	width: 80px;
+	width: 100px;
 	margin: 0 10px;
 	height: 0px;
 
 	transition: height 1s ease-in-out;
 
 	._ref & {
-		width: 60px;
+		width: 80px;
 		margin: 0 10px 0;
 	}
 
@@ -75,7 +75,7 @@
 	position: absolute;
 	bottom: 0;
 	left: -10px;
-	width: 60px;
+	width: 80px;
 	opacity: .4;
 	z-index: 1;
 
@@ -91,7 +91,7 @@
 	right: 0;
 	white-space: nowrap;
 	text-align: center;
-	font-size: 26px;
+	font-size: 30px;
 	font-weight: bold;
 	z-index: 1000;
 
@@ -100,12 +100,12 @@
 	}
 
 	.diff & {
-		top: -3em;
+		top: -90px;
 	}
 }
 
 ._bar-value-diff {
-	font-size: 18px;
+	font-size: 20px;
 	font-weight: bold;
 	margin-top: -3px;
 }
@@ -127,24 +127,20 @@
 ._short {
 	overflow: hidden;
 	position: relative;
-	height: 42px;
-	font-size: 16px;
+	height: 52px;
+	font-size: 20px;
 
 	> span,
 	> a,
 	> strong {
 		position: absolute;
 		display: block;
-		top: 6px;
+		top: 8px;
 		left: 0;
 		right: 0;
 		text-align: center;
 		// transform: translateX(-50%);
 		white-space: nowrap;
-	}
-
-	@media (max-width: 480px) {
-		font-size: 9px;
 	}
 }
 
@@ -153,7 +149,7 @@
 	left: 10px;
 	border: var(--border);
 	background: #fff;
-	width: 60px;
+	width: 80px;
 	border-radius: 8px;
 	overflow: hidden;
 }
@@ -178,7 +174,7 @@
 
 ._mandates {
 	font-size: 28px;
-	margin: 12px 0 -8px;
+	margin: 20px 0 -8px;
 }
 
 ._blue {
@@ -239,7 +235,7 @@
 	display: block;
 	position: absolute;
 	white-space: nowrap;
-	left: 80px;
+	left: 140px;
 	top: 0;
 	font-weight: normal;
 	font-size: 24px;
