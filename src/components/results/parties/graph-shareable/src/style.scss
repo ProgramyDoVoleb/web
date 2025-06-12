@@ -1,6 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Quando&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+._rendered {
+	height: 1080px;
+	width: 1080px;
+	color: #20133C;
+	position: absolute;
+	left: 300vw;
+
+	.dark & {
+		color: #20133C;
+	}
+
+	&.bg {
+		background: #fff url(https://programydovoleb.cz/static/chartgen-bg2.png) no-repeat;
+		background-size: 100% 100%;
+	}
+}
+
+._quando {
+	font-family: "Quando", serif;
+	letter-spacing: -0.015em;
+}
+
+._roboto {
+	font-family: "Roboto", sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
+	font-variation-settings:
+	  "wdth" 100;
+  }
+
 ._space {
 	display: flex;
-	padding-top: 400px;
+	padding-top: 380px;
+	margin: auto;
+}
+
+._strong {
+	font-weight: 600;
 }
 
 ._item {
@@ -40,10 +77,6 @@
 	height: 300px;
 	border-bottom: 1px solid #ccc;
 	margin-bottom: .5em;
-
-	.dark & {
-		border-bottom: 1px solid #666;
-	}
 }
 
 ._bar {
@@ -78,10 +111,6 @@
 	width: 80px;
 	opacity: .4;
 	z-index: 1;
-
-	.dark & {
-		opacity: .33;
-	}
 }
 
 ._bar-value {
@@ -92,7 +121,7 @@
 	white-space: nowrap;
 	text-align: center;
 	font-size: 30px;
-	font-weight: bold;
+	font-weight: 500;
 	z-index: 1000;
 
 	._ref & {
@@ -106,7 +135,7 @@
 
 ._bar-value-diff {
 	font-size: 20px;
-	font-weight: bold;
+	font-weight: 500;
 	margin-top: -3px;
 }
 
@@ -173,7 +202,7 @@
 }
 
 ._mandates {
-	font-size: 28px;
+	font-size: 30px;
 	margin: 20px 0 -8px;
 }
 
@@ -205,9 +234,9 @@
 
 ._mandates-diff {
 	position: absolute;
-	top: 2px;
+	top: 1px;
 	left: 100%;
-	font-size: 13px;
+	font-size: 14px;
 	padding-left: 2px;
 
 	&._blue {
@@ -220,13 +249,13 @@
 	position: absolute;
 	bottom: 3px;
 	left: 100%;
-	font-size: 13px;
+	font-size: 14px;
 	padding-left: 2px;
 	color: #aaa;
 
 	&._blue {
-		font-size: 24px;
-		top: 15px;
+		font-size: 20px;
+		top: 20px;
 		color: #aaa !important;
 	}
 }
@@ -235,8 +264,79 @@
 	display: block;
 	position: absolute;
 	white-space: nowrap;
-	left: 140px;
-	top: 0;
-	font-weight: normal;
+	left: 130px;
+	top: 2px;
+	font-weight: 300;
 	font-size: 24px;
+}
+
+._footer_brand {
+	color: #fff;
+	font-size: 20px;
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
+}
+
+._footer_about {
+	font-weight: 600;
+	color: #fff;
+	font-size: 20px;
+	position: absolute;
+	bottom: 10px;
+	left: 15px;
+	line-height: 1.25;
+}
+
+._header {
+	position: absolute;
+	text-align: right;
+	top: 60px;
+}
+
+._header-agency {
+	font-size: 80px;
+	letter-spacing: -0.03em;
+
+	._header_nms-market-research & {
+		font-size: 50px;
+		margin-top: 10px;
+	}
+
+	margin-bottom: -.2em;
+}
+
+._header-agency_paid {
+	font-size: 30px;
+}
+
+._header-fromto {
+	font-size: 30px;
+}
+
+._header-attendance {
+	margin-top: 20px;
+	position: relative;
+}
+
+._header-attendance-bar {
+	background: #fff;
+	border-radius: 10px;
+	height: 20px;
+	width: 300px;
+	position: absolute;
+	right: 0;
+}
+
+._header-attendance-indicator {
+	background: #269AFF;
+	height: 20px;
+	border-radius: 10px;
+	position: absolute;
+	width: 100px;
+}
+
+._header-attendance-value {
+	padding-top: 30px;
+	font-size: 20px;
 }

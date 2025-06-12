@@ -136,12 +136,18 @@
 						<p-box :to="'/volebni-pruzkumy/' + data.previous.id" v-if="data.previous">
 							<p-box-button>Předchozí</p-box-button>
 						</p-box>
+						<p-modal>
+							<template #init>
+								<p-box>
+									<p-box-icon type="ig"></p-box-icon>
+								</p-box>
+							</template>
+							<template #content>
+								<election-simulation-imperiali-2021 :defined="definedPrevious" :hide="true" :tickDefined="1" @update="(data) => setMandates(data, 'mandatesPrevious')"></election-simulation-imperiali-2021>
+								<results-parties-graph-shareable :list="list" v-if="list.length > 0" :diff="list.find(x => x.ref)" :mandates="mandates" :mandatesPrevious="mandatesPrevious" :mandatesSince="mandatesSince" :about="data" ></results-parties-graph-shareable>
+							</template>
+						</p-modal>
 					</p-box-group>
-					<div class="p-gap _2"></div>
-					<p-collapsible label="Obrázek ke sdílení">
-						<election-simulation-imperiali-2021 :defined="definedPrevious" :hide="true" :tickDefined="1" @update="(data) => setMandates(data, 'mandatesPrevious')"></election-simulation-imperiali-2021>
-						<results-parties-graph-shareable :list="list" v-if="list.length > 0" :diff="list.find(x => x.ref)" :mandates="mandates" :mandatesPrevious="mandatesPrevious" :mandatesSince="mandatesSince" :about="data" ></results-parties-graph-shareable>
-					</p-collapsible>
 				</div>
 			</p-loader>
 		</div>

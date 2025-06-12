@@ -1,4 +1,4 @@
-import { number, pct, round, truncate, indicator } from '@/pdv/helpers';
+import { number, pct, round, truncate, indicator, date, url } from '@/pdv/helpers';
 import { cdn } from '@/stores/core';
 import html2canvas from 'html2canvas'
 
@@ -9,6 +9,7 @@ export default {
 		return {
 			show: true,
 			width: 400,
+			bg: true
 		}
 	},
 	computed: {
@@ -17,6 +18,18 @@ export default {
 		},
 		missed: function () {
 			return this.list.filter(x => !x.passed).length
+		},
+		detectWidth: function () {
+			var w = 1080;
+
+			if (this.display) {
+				if (this.display.length > 9) w = 1280;
+				if (this.display.length > 11) w = 1440;
+				if (this.display.length > 13) w = 1600;
+				if (this.display.length > 15) w = 1920;
+			}
+
+			return w;
 		},
 		display: function () {
 			var arr = this.list.filter(x => x.passed);
@@ -81,7 +94,7 @@ export default {
 	methods: {
 		round,
 		truncate,
-		number, indicator,
+		number, indicator, date, url,
 		onResize: function () {
 			this.width = this.$el.getBoundingClientRect().width;
 		},

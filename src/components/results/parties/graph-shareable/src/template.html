@@ -1,12 +1,12 @@
-<div class="results-parties-graph" :class="{diff}">
-	<div class="_rendered">
-		<div class="_space">
+<div class="results-parties-graph _roboto" :class="{diff}">
+	<div class="_rendered" :style="{width: detectWidth + 'px'}" :class="{bg}">
+		<div class="_space" :style="{width: (display.length * 100) + 'px'}">
 			<div class="_item" v-for="(item, index) in display" :class="{passed: item.passed, rest: !item.link}">
 				<div class="_bar-holder" :class="{'_ref': item.ref}">
 					<div class="_bar">
-						<div class="_bar-pane" :style="{height: ((this.show ? item.graph : 0) * 6.85) + 'px', background: item.color, 'transition-delay': (index * .05 + .5) + 's'}"></div>
+						<div class="_bar-pane" :style="{height: ((this.show ? item.graph : 0) * 6.5) + 'px', background: item.color, 'transition-delay': (index * .05 + .5) + 's'}"></div>
 						<div class="_bar-value">
-							<strong>{{ number(item.pct, 1) }}</strong>
+							<span class="_strong">{{ number(item.pct, 1) }}</span>
 							<template v-if="diff && item.ref.pct > 0">
 								<div v-if="item.pct !== item.ref.pct" class="_bar-value-diff" :class="{red: item.pct < item.ref.pct, green: item.pct > item.ref.pct, dimm: item.pct === item.ref.pct}">
 									{{ item.pct > item.ref.pct ? '+' : '' }}{{ number(item.pct - item.ref.pct, 1) }}
@@ -22,7 +22,7 @@
 							</template>
 						</div>
 						<template v-if="item.ref">
-							<div class="_bar-pane _ref-pane" :style="{height: (item.ref.graph * 6.85) + 'px', background: item.color}"></div>
+							<div class="_bar-pane _ref-pane" :style="{height: (item.ref.graph * 6.5) + 'px', background: item.color}"></div>
 							<div class="_bar-value _ref-value smallest" :style="{bottom: (item.ref.graph * 2.5) + 'px'}" v-if="!diff">
 								{{ number(item.ref.pct, 1) }}
 							</div>
@@ -31,14 +31,14 @@
 				</div>
 				<div class="_data">
 					<div class="_short smallest">
-						<strong>{{ truncate(item.short, 8, true) }}</strong>
+						<span class="_strong">{{ truncate(item.short, 8, true) }}</span>
 					</div>
 					<div class="_logo">
 						<p-image :src="item.logo" :rounded="true" width="100%"></p-image>
 					</div>
-					<div class="_mandates strong" v-if="item.id && (item.mandates || item.pct >= 5)">
+					<div class="_mandates" v-if="item.id && (item.mandates || item.pct >= 5)">
 						<span class="_mandates-value">
-							{{ item.mandates || 0 }}
+							<span class="_strong">{{ item.mandates || 0 }}</span>
 							<span class="_mandates-diff" :class="indicator(item.mandates, item.ref.mandates)" v-if="item.mandates !== item.ref.mandates && item.ref.mandates">{{ item.mandates > item.ref.mandates ? '+' : '' }}{{ item.mandates - item.ref.mandates }}</span>
 							<span v-if="!item.ref.mandates" class="_mandates-diff _blue">*</span>
 						</span>		
@@ -47,7 +47,7 @@
 					<div class="_mandates _blue" v-if="mandates && mandates.length > 0 && mandates.find(x => x.hash === item.id)">
 						<span class="_mandates-value">
 							{{ mandates.find(x => x.hash === item.id).value }}
-							<span class="_mandates-diff" :class="indicator(mandates.find(x => x.hash === item.id).value, mandatesPrevious.find(x => x.hash === item.id).value)" v-if="mandatesPrevious.length > 0 && mandates.find(x => x.hash === item.id).value !== mandatesPrevious.find(x => x.hash === item.id).value && mandatesPrevious.find(x => x.hash === item.id).value">{{ mandates.find(x => x.hash === item.id).value > mandatesPrevious.find(x => x.hash === item.id).value ? '+' : '' }}{{ mandates.find(x => x.hash === item.id).value - mandatesPrevious.find(x => x.hash === item.id).value }}</span>
+							<span class="_mandates-diff" :class="indicator(mandates.find(x => x.hash === item.id).value, mandatesPrevious.find(x => x.hash === item.id).value)" v-if="mandatesPrevious.length > 0 && mandatesPrevious.find(x => x.hash === item.id) && mandates.find(x => x.hash === item.id).value !== mandatesPrevious.find(x => x.hash === item.id).value && mandatesPrevious.find(x => x.hash === item.id).value">{{ mandates.find(x => x.hash === item.id).value > mandatesPrevious.find(x => x.hash === item.id).value ? '+' : '' }}{{ mandates.find(x => x.hash === item.id).value - mandatesPrevious.find(x => x.hash === item.id).value }}</span>
 							<span v-if="mandatesPrevious.length > 0 && !mandatesPrevious.find(x => x.hash === item.id)" class="_mandates-diff _blue">*</span>
 							<span class="_mandates-since" :class="indicator(mandates.find(x => x.hash === item.id).value, mandatesSince.find(x => x.hash === item.id).value)" v-if="mandatesSince.length > 0 && mandatesSince.find(x => x.hash === item.id) && mandates.find(x => x.hash === item.id).value !== mandatesSince.find(x => x.hash === item.id).value">{{ mandates.find(x => x.hash === item.id).value > mandatesSince.find(x => x.hash === item.id).value ? '+' : '' }}{{ mandates.find(x => x.hash === item.id).value - mandatesSince.find(x => x.hash === item.id).value }}</span>
 							<span v-if="mandatesSince.length > 0 && !mandatesSince.find(x => x.hash === item.id)" class="_mandates-since _blue">*</span>
@@ -57,7 +57,36 @@
 				</div>
 			</div>
 		</div>
+		<div class="_footer_brand _quando">programydovoleb.cz</div>
+		<div class="_footer_about">
+			{{ number(about.poll.amount) }} respondentů
+			<br>
+			Zveřejněno {{ date(about.poll.datum) }}
+			<br>
+			Srovnání s {{ about.poll.agency }} z dne {{ date(about.previous.datum) }}
+		</div>
+		<div class="_header" :class="'_header_' + url(about.poll.agency)" :style="{right: ((detectWidth - (display.length * 100)) / 2 + 10) + 'px'}">
+			<div class="_header-agency _quando">{{ about.poll.agency }}</div>
+			<div class="_header-agency_paid _quando _header-agency-STEMCNN" v-if="about.poll.agency === 'STEM'">pro CNN Prima News</div>
+			<div class="_header-agency_paid _quando _header-agency-KANTAR" v-if="about.poll.agency === 'Kantar'">pro Českou televizi</div>
+			<div class="_header-fromto _blue _quando" v-if="about.poll.from">sběr od {{ date(about.poll.from, 2) }} do {{ date(about.poll.to, 2) }}</div>
+			<div class="_header-attendance" v-if="about.poll.attendance">
+				<div class="_header-attendance-bar">
+					<div class="_header-attendance-indicator" :style="{width: Math.floor(300 * Number(about.poll.attendance) / 100) + 'px'}"></div>
+				</div>
+				<div class="_header-attendance-value _blue _strong">
+					účast {{ number(about.poll.attendance) }} %
+				</div>
+			</div>
+		</div>
 	</div>
-	<button @click="snapshot">Uložit</button>
-	<div class="canvas" ref="canvas"></div>
+	<p-box-group>
+		<p-box :click="() => snapshot()">
+			<p-box-button icon="results">Vygenerovat graf</p-box-button>
+		</p-box>
+		<p-box :click="() => bg = !bg">
+			<p-box-button>{{ bg ? 'Vypnout' : 'Zapnout' }} pozadí</p-box-button>
+		</p-box>
+	</p-box-group>
+	<div class="canvas mt1" ref="canvas"></div>
 </div>
