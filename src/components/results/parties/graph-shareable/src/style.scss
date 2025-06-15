@@ -86,8 +86,8 @@
 }
 
 ._bar-pane {
-	border-top-left-radius: .25em;
-	border-top-right-radius: .25em;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
 	width: 100px;
 	margin: 0 10px;
 	height: 0px;
@@ -100,8 +100,8 @@
 	}
 
 	@media (min-width: 800px) {
-		border-top-left-radius: .5em;
-		border-top-right-radius: .5em;
+		border-top-left-radius: 12px;
+		border-top-right-radius: 12px;
 	}
 }
 
