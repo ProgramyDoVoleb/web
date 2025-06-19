@@ -56,7 +56,7 @@
 									<router-link :to="link + '/strana/' + party.id + '/volebni-program/' + party.$program[0].id" class="unlink _white">Program</router-link>
 								</p-badge>
 							</span>
-							<span v-if="party.$priorit && party.$priorit > 0">
+							<span v-if="(party.$priorit && party.$priorit > 0) || party.$priority && party.$priority.length > 0">
 								<p-badge background="var(--highlight)">
 									<router-link :to="link + '/strana/' + party.id + '/priority'" class="unlink">Priority</router-link>
 								</p-badge>

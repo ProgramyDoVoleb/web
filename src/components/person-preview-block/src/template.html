@@ -1,4 +1,4 @@
-<div class="person-preview-block"  :class="{'_cand-bg-mandat': (cand.MANDAT === 'A' || (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 1) || (cand.ZVOLEN_K2 && cand.ZVOLEN_K2 === 1)), '_cand-bg-2rnd': (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 2 && (!cand.ZVOLEN_K2 || cand.ZVOLEN_K2 === 3))}">
+<div class="person-preview-block"  :class="{'_cand-bg-mandat': (cand.MANDAT === 'A' || (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 1) || (cand.ZVOLEN_K2 && cand.ZVOLEN_K2 === 1)), '_cand-bg-2rnd': (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 2 && (!cand.ZVOLEN_K2 || cand.ZVOLEN_K2 === 3)), '_unconfirmed': (typeof cand.CKAND != 'undefined' && !cand.CKAND) || (typeof cand.PORCISLO != 'undefined' && !cand.PORCISLO)}">
 	<div class="_cand">
 		<!-- <div class="_cand-mandat" v-if="cand.MANDAT === 'A' || (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 1) || (cand.ZVOLEN_K2 && cand.ZVOLEN_K2 === 1)"></div> -->
 		<!-- <div class="_cand-2rnd" v-if="(cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 2 && (!cand.ZVOLEN_K2 || cand.ZVOLEN_K2 === 3))"></div> -->

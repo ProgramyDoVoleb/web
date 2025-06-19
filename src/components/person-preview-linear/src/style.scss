@@ -3,6 +3,10 @@
 	margin-right: 0;
 }
 
+._unconfirmed {
+	filter: grayscale(1) opacity(.33);
+}
+
 ._cand {
 	display: flex;
 	position: relative;
