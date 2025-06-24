@@ -19,7 +19,7 @@ export default {
 	},
 	computed: {
 		extended: function () {
-			return (this.party.$priorit && this.party.$priorit > 0) || (this.party.$odpovedi && this.party.$odpovedi > 0) || (this.party.$program && this.party.$odpovedi.length > 0)
+			return (this.party.$priorit && this.party.$priorit > 0) || (this.party.$odpovedi && this.party.$odpovedi > 0) || (this.party.$program && this.party.$program.length > 0)
 		}
 	},
 	methods: {
