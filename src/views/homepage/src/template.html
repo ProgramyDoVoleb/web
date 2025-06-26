@@ -202,7 +202,44 @@
 									</p-modal>.
 								</p> -->
 								<div class="p-gap _2"></div>
-								<h3 class="serif"></h3>
+								<h4>Poslední významné úpravy</h4>
+								<p-area class="primary">
+									<p-loader :rule="news">
+										<div v-if="news" class="smaller">
+											<p-list>
+												<div class="strong">
+													<!-- <p-list-linear class="or strong"> -->
+														<!-- <span> -->
+															<p-label color="var(--blue)">Program</p-label>  
+														<!-- </span><span> -->
+															<p-label color="var(--red)">Priority</p-label>  
+														<!-- </span><span> -->
+															<p-label color="var(--yellow)">Odpovědi</p-label>
+														<!-- </span> -->
+													<!-- </p-list-linear> -->
+												</div>
+												<p-columns class="tighter">
+													<div v-for="datum in unique(news.log.filter(x => x.node && x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1)), 'date').filter((x, i) => i < 12)">
+														<div class="strong">{{date(datum, 2) }} </div>
+														<!-- <p-list-linear class="_pll or"> -->
+															<template v-for="point in ['csu_ps_rkl:', 'csu_ps_rk:', 'csu_senat_rk:']">
+																<div v-for="item in news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum).filter(x => x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1))">
+																	<router-link v-if="item.node.JMENO" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.JMENO }} {{ item.node.PRIJMENI }}</router-link>
+																	<router-link class="strong" v-if="item.node.NAZEV" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.NAZEV }}</router-link>
+																	<span class="badge blue" v-if="item.data.find(x => x.type === 'program')">●</span>
+																	<span class="badge yellow" v-if="item.data.find(x => x.type === 'answer')">●</span>
+																	<span class="badge red" v-if="item.data.find(x => x.type === 'priority')">●</span>
+																</div>
+															</template>
+														<!-- </p-list-linear> -->
+													</div>
+												</p-columns>
+											</p-list>
+										</div>
+									</p-loader>
+								</p-area>
+								<div class="p-gap _1"></div>
+								<h4>Další nové záznamy na Programech</h4>
 								<div class="p-line _0"></div>
 								<p-collapsible label="Nově přidaní kandidáti" logo="person">
 									<p-area class="primary">
@@ -410,6 +447,7 @@
 																<router-link class="strong" v-if="item.node.NAZEV" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.NAZEV }}</router-link>
 																<span class="badge blue" v-if="item.data.find(x => x.type === 'program')">●</span>
 																<span class="badge yellow" v-if="item.data.find(x => x.type === 'answer')">●</span>
+																<span class="badge red" v-if="item.data.find(x => x.type === 'priority')">●</span>
 															</span>
 														</template>
 													</p-list-linear>

@@ -48,7 +48,7 @@
 													{{ cand.$kraj[0] ? cand.$kraj[0].NAZEV : enums.regions[cand.KRZAST - 1] }}
 												</span>
 												<span class="dimm" v-if="election.typ === 'EP' || election.typ === 'PS' || election.typ === 'KZ' || election.typ === 'KV'">
-													{{ cand.$strana[0].NAZEV }}
+													{{ cand.$strana[0] ? cand.$strana[0].NAZEV : 'nakonec se nezúčastnil/a' }}
 												</span>
 												<span class="dimm" v-if="election.typ === 'PS'">
 													{{ cand.VOLKRAJ === -1 ? 'volební kraj zatím nebyl uveden' : enums.regionsShort[cand.VOLKRAJ - 1] }}

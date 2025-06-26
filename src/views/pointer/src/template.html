@@ -37,13 +37,13 @@
 															<template v-if="current.TITULPRED">{{ current.TITULPRED + ' ' }} </template>{{ current.JMENO }} {{ current.PRIJMENI }}<template v-if="current.TITULZA">{{ ', ' + current.TITULZA }}</template>
 														</div>
 													</p-stats>
-													<p-stats label="Povolání" class="_horizontal" v-if="current.POVOLANI || (current.$data.mfo && current.$data.mfo.length > 0)">
+													<p-stats label="Povolání" class="_horizontal" v-if="current.POVOLANI">
 														<div>
-															<p-list-linear class="or">
-																<li v-if="current.$data.mfo && current.$data.mfo[0]">{{ ['neuvedeno', 'muž', 'žena', 'jinak', 'nechci uvést'][current.$data.mfo[0].value] }}</li>
-																<li v-if="current.POVOLANI">{{ current.POVOLANI }}</li>
-															</p-list-linear>
-															
+															<!-- <p-list-linear class="or"> -->
+																<!-- <li v-if="current.POVOLANI"> -->
+																	{{ current.POVOLANI }}
+																<!-- </li> -->
+															<!-- </p-list-linear>															 -->
 														</div>
 													</p-stats>
 													<p-stats label="Bydliště" class="_horizontal" v-if="current.BYDLISTEN">
@@ -52,8 +52,11 @@
 															&middot; <p-link :href="'https://programydovoleb.cz/obec/' + (current.BYDLISTEK > 100 ? current.BYDLISTEK : data.cis.obce.find(x => x.QUICKNUM === current.BYDLISTEK).NUM)" class="smallest dimm">historie voleb</p-link>
 														</span>
 													</p-stats>
-													<p-stats label="Věk" class="_horizontal" v-if="current.VEK">
-														<div>{{ current.VEK }} let</div>
+													<p-stats label="Bio" class="_horizontal" v-if="current.VEK || (current.$data.mfo && current.$data.mfo.length > 0)">
+														<p-list-linear class="or">
+															<li v-if="current.$data.mfo && current.$data.mfo[0]">{{ ['neuvedeno', 'muž', 'žena', 'jinak', 'nechci uvést'][current.$data.mfo[0].value] }}</li>
+															<li v-if="current.vek">{{ current.VEK }} let</li>
+														</p-list-linear>
 													</p-stats>
 												</template>
 											</p-list>
@@ -305,7 +308,7 @@
 							<p-block headline="Volební priority" v-if="current.$priority.length > 0">
 								<p-list class="_05 smaller">
 									<div v-for="(priority, indexP) in current.$priority">
-										<p-label class="_block _mw2" :color="colorByItem(current, data)">
+										<p-label class="_block _mw2" :color="colorByItem(current, data, current.PSTRANA && current.PSTRANA != 99 ? 'PSTRANA' : (current.NSTRANA ? 'NSTRANA' : null))">
 											<strong v-if="priority.headline">{{ truncate(priority.headline, 8) }}</strong>
 											<span v-if="priority.headline && priority.content && priority.content.charAt(0) != '['"> &middot; </span>
 											<span v-if="priority.content && priority.content.charAt(0) != '['">
