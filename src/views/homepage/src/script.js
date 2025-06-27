@@ -24,6 +24,8 @@ import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaQuestions from '@/components/cta/questions/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import CtaSupportShort from '@/components/cta/support-short/do.vue';
+import CtaGuide from '@/components/cta/guide/do.vue';
+import CtaHowTo from '@/components/cta/howto/do.vue';
 import log from '@/stores/enums/log';
 import EventItem from '@/components/event-item/do.vue';
 import PromoBlock from '@/components/cta/promo-block/do.vue';
@@ -53,7 +55,9 @@ export default {
   components: {
 	NewsItem, NewsItemAside, SearchParty, SearchPerson, SearchTown, MailchimpSignup, ReportForm, PollsPreview, SlovakiaBlock, PartyPreview, PartyPreviewTiny,
 	HomepageEp, HomepageKz, HomepagePs, HomepageSenat, ElectionResults, CtaGetAdmin, CtaSupport, PromoBlock, EngagementBlock, EventItem, CtaSupportShort,
-	EditableSuggest, PopUp, CtaQuestions
+	EditableSuggest, PopUp, CtaQuestions,
+	CtaGuide,
+	CtaHowTo
   },
 	computed: {
 		$store: function () {

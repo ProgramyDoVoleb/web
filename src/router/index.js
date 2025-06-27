@@ -268,6 +268,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/jak-volit/snemovni-volby',
+      name: 'LayoutHowSnemovni',
+      component: () => import('../views/jak-volit/snemovni-volby/do.vue'),
+      props: true
+    },
+    {
       path: '/jak-volit/krajske-volby',
       name: 'LayoutHowKrajske',
       component: () => import('../views/jak-volit/krajske-volby/do.vue'),

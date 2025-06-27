@@ -16,6 +16,8 @@ import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaQuestions from '@/components/cta/questions/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import CtaSupportShort from '@/components/cta/support-short/do.vue';
+import CtaGuide from '@/components/cta/guide/do.vue';
+import CtaHowTo from '@/components/cta/howto/do.vue';
 import EvropskeVolbyResults from '@/views/history/volby/evropske-volby/do.vue';
 import SnemovniVolbyResults from '@/views/history/volby/snemovni-volby/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
@@ -38,7 +40,9 @@ export default {
 	EvropskeVolby, SnemovniVolby, KrajskeVolby, KomunalniVolby, SenatniVolby, PrezidentskeVolby,
 	CtaGetAdmin, CtaSupport, CtaSupportShort, CtaQuestions,
 	EvropskeVolbyResults, SnemovniVolbyResults,
-	PopUp, EditableBasic, EditableSuggest, EditableEvent, EditableImage, EventItem
+	PopUp, EditableBasic, EditableSuggest, EditableEvent, EditableImage, EventItem,
+	CtaGuide,
+	CtaHowTo
   },
 	computed: {
 		$store: function () {
