@@ -168,19 +168,30 @@
 										</div>									
 									</div>
 									<template v-if="current.$data.motto">
-										<div>
+										<!-- <div v-if="current.$data.motto.length < 3">
 											<template v-for="(item, index) in current.$data.motto">
 												<p-quote :color="colorByItem(current, data, current.NSTRANA ? 'PSTRANA' : 'VSTRANA')">{{ item.value }}</p-quote>
 											</template>
 										</div>
+										<div v-else> -->
+											<div>
+												<p-quote :color="colorByItem(current, data, current.NSTRANA ? 'PSTRANA' : 'VSTRANA')">
+													<p-list class="_025 smaller">
+														<template v-for="(item, index) in current.$data.motto">
+															<div>{{ item.value }}</div>
+														</template>
+													</p-list>
+												</p-quote>
+											</div>
+										<!-- </div> -->
 									</template>
 									<template v-if="current.$data.values">
-										<h2 class="serif mt0">Hodnoty</h2>
+										<h2 class="serif mv0">Hodnoty</h2>
 										<div class="serif">
 											<p-grid class="tight">
 												<div v-for="(val, indexV) in current.$data.values">
 													<p-area :borderColor="colorByItem(current, data, 'NSTRANA')">
-														<div class="strong">{{ val.value }}</div>
+														<div class="strong" v-if="val.value">{{ val.value }}</div>
 														<p v-if="val.label"><p-truncated :size="24" :content="val.label"></p-truncated></p>
 														<!-- <p class="smallest sans dimm">
 															Přidáno {{ date(val.updated) }} 
@@ -217,7 +228,7 @@
 										</p-area>
 									</template>
 									<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.govrole && current.$data.govrole.length > 0">
-										<!-- <h2 class="serif mt1">Vládní kandidáti</h2> -->
+										<h2 class="serif mt1">Vládní kandidáti</h2>
 										<!-- <p-area> -->
 											<p-columns class="_4 mt1">
 												<div v-for="cand in current.$data.govrole">
@@ -731,7 +742,7 @@
 							<p-block headline="Zprávy a média" :class="{'_empty': newsmedia.length === 0}" :hide="newsmedia.length === 0">
 								<p-columns>
 									<div v-for="item in newsmedia.filter((x, i) => i < mediaLimit)">
-										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')">
+										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue11)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :class="{'highlight shadow': item.label != 'Zpráva'}">
 											<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
 											<div class="p-gap_075"></div>
 											<div class="smallest dimm">{{ item.label || 'Článek' }} &middot; {{ domain(item.source) }}</div>

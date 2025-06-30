@@ -42,7 +42,7 @@
 						<div></div>
 						<div></div>
 					</div>
-					<div class="_mandates" v-if="item.id && (item.mandates || item.pct >= 5)">
+					<div class="_mandates" v-if="display.find(x => x.mandates > 0) && item.id && (item.mandates || item.pct >= 5)">
 						<span class="_mandates-value">
 							<span class="_strong">{{ item.mandates || 0 }}</span>
 							<span class="_mandates-diff" :class="indicator(item.mandates, item.ref.mandates)" v-if="item.mandates !== item.ref.mandates && item.ref.mandates">{{ item.mandates > item.ref.mandates ? '+' : '' }}{{ item.mandates - item.ref.mandates }}</span>
