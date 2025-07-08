@@ -3,9 +3,10 @@
 		<template #main>
 			<p-block headline="Volby" :level="1" :hide="true">
 				<p class="lead">
-					Přehled <router-link to="/volby/snemovni-volby/166" class="is-span">stran</router-link>, kandidátů, <strong>volebních programů a priorit</strong>, událostí, <router-link to="/novinky" class="is-span">novinek</router-link>, <router-link to="/volebni-pruzkumy" class="is-span">volebních průzkumů</router-link> s <router-link to="/vypocet-mandatu" class="is-span">přepočtem na mandáty</router-link> nejen k příštím volbám.
+					Přehled <router-link to="/volby/snemovni-volby/166" class="is-span">stran</router-link>, kandidátů, <strong>volebních programů a priorit</strong> nejen k příštím volbám. Zkuste také <router-link to="/vypocet-mandatu" class="is-span">přepočet na mandáty</router-link> nebo si projděte poslední <router-link to="/volebni-pruzkumy" class="is-span">volební průzkumy</router-link>.
 					<span class="smaller strong">
-						<router-link to="/o-projektu">O projektu</router-link> &middot; <router-link to="/o-projektu/jak-podporit" class="green">Podpořit</router-link>
+						<router-link to="/o-projektu">O projektu</router-link>
+						<!--  &middot; <router-link to="/o-projektu/jak-podporit" class="green">Podpořit</router-link> -->
 					</span>
 				</p> 
 				<!-- <p class="lead">
@@ -16,7 +17,7 @@
 				</p> -->
 				<!-- <div class="p-gap"></div> -->
 				<homepage-summary :news="news" :polls="polls"></homepage-summary>
-				<div class="p-gap _1"></div>
+				<!-- <div class="p-gap _1"></div> -->
 				<!-- <promo-block></promo-block> -->
 				<!-- <p class="smaller">
 					<strong><p-label color="var(--red)">Nominujte <em>Programy</em></p-label> na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou lupu 2024</p-link>.</strong>

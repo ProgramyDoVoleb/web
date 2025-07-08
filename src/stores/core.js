@@ -5,6 +5,8 @@ export const api = 'https://api.programydovoleb.cz/';
 export const cdn = 'https://static.programydovoleb.cz/';
 export const data = 'https://data.programydovoleb.cz/';
 export const today = new Date().toISOString().split('T')[0];
+export const yesterday = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
+export const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
 export const missing = 'https://static.programydovoleb.cz/missing.png';
 
 export const useCore = defineStore('core', () => {

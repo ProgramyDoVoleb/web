@@ -1,11 +1,12 @@
-import { today } from '@/stores/core';
+import { today, yesterday } from '@/stores/core';
 
 export default {
 	name: 'homepage-summary',
 	props: ['news', 'polls'],
 	data: function () {
 		return {
-			today
+			today,
+			yesterday
 		}
 	},
 	computed: {
@@ -13,12 +14,12 @@ export default {
 			var count = 0;
 
 			if (this.news && this.polls) {
-				count += this.news.list.filter(x => x.datum === today).length;
-				count += this.news.log.filter(x => x.date === today).length;
-				count += this.news.auto.filter(x => x.datum === today).length;
-				count += this.news.comm.filter(x => x.datum === today).length;
-				count += this.news.sys.filter(x => x.datum === today).length;
-				count += this.polls.list.filter(x => x.datum === today).length;
+				count += this.news.list.filter(x => x.datum === today || x.datum === yesterday).length;
+				count += this.news.log.filter(x => x.date === today || x.datum === yesterday).length;
+				count += this.news.auto.filter(x => x.datum === today || x.datum === yesterday).length;
+				count += this.news.comm.filter(x => x.datum === today || x.datum === yesterday).length;
+				count += this.news.sys.filter(x => x.datum === today || x.datum === yesterday).length;
+				count += this.polls.list.filter(x => x.datum === today || x.datum === yesterday).length;
 			}
 
 			return count;

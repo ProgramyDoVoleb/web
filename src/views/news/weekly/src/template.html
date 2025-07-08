@@ -225,7 +225,7 @@
 													<router-link :to="'/bod/' + item.pointer.split(':').join('/')" class="strong">{{ item.title }}</router-link>
 													<span class="smallest dimm">
 														&mdash;
-														<p-list-linear class="or">
+														<p-list-linear class="or inline">
 															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr'].indexOf(x) === -1)">
 																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
 																	{{ logtypes[entity] }}
@@ -238,7 +238,7 @@
 													<router-link :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.title }}</router-link>
 													<span class="smallest dimm">
 														&mdash;
-														<p-list-linear class="or">
+														<p-list-linear class="or inline">
 															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr'].indexOf(x) === -1)">
 																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
 																	{{ logtypes[entity] }}

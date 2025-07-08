@@ -17,7 +17,7 @@
 		</router-link>
 	</div>
 	<div class="p-gap _075"></div>
-	<div class="show-40rem">
+	<div>
 		<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/strana/' + party.id" :to="link + '/strana/' + party.id" class="strong">{{ party.ZKRATKA }}</component>
 	</div>
 	<div>
