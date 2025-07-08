@@ -1,0 +1,20 @@
+<div class="homepage-summary">
+	<p-loader :rule="news">
+		<div class="smallest dimm _mw60" v-if="news && polls">
+			<template v-if="countToday > 0">
+				Dnes
+				<p-list-linear class="inline">
+					<span v-if="news.log.find(x => x.date === today)"><p-lang :value="news.log.filter(x => x.date === today).length" :end="['žádná úprava', 'jedna úprava záznamů', '%% úpravy záznamů', '%% úprav záznamů']"></p-lang></span>
+					<span v-if="news.auto.find(x => x.datum === today)"><p-lang :value="news.auto.filter(x => x.datum === today).length" :end="['žádný nový kandidát', 'jeden nový kandidát', '%% noví kandidáti', '%% nových kandidátů']"></p-lang></span>
+					<span v-if="news.list.find(x => x.datum === today) || news.sys.find(x => x.datum === today) || news.sys.find(x => x.datum === today)"><p-lang :value="news.list.filter(x => x.datum === today).length + news.sys.filter(x => x.datum === today).length + news.media.filter(x => x.updated.split(' ')[0] === today).length" :end="['zatím žádný zpráva', 'jedna nová zpráva', '%% nové zprávy', '%% nových zpráv']"></p-lang> z médií</span>
+					<span v-if="news.log.find(x => x.date === today && x.data.find(y => y.type === 'answer'))"><p-lang :value="news.log.filter(x => x.date === today && x.data.find(y => y.type === 'answer')).length" :end="['žádná nová odpověď', 'jedna nová odpověď', '%% nové odpovědi', '%% nových odpovědí']"></p-lang> na volební otázky</span>
+					<span v-if="news.log.find(x => x.date === today && x.data.find(y => y.type === 'priority'))"><p-lang :value="news.log.filter(x => x.date === today && x.data.find(y => y.type === 'priority')).length" :end="['žádná nová priorita', 'jedna nová priorita', '%% nové priority', '%% nových priorit']"></p-lang></span>
+					<span v-if="news.log.find(x => x.date === today && x.data.find(y => y.type === 'program'))"><p-lang :value="news.log.filter(x => x.date === today && x.data.find(y => y.type === 'program')).length" :end="['žádná nový program', 'jedna nový program', '%% nové program', '%% nových program']"></p-lang></span>
+					<span v-if="news.comm.find(x => x.datum === today)"><p-lang :value="news.comm.filter(x => x.datum === today).length" :end="['žádný nový komentář', 'jeden nový komentář', '%% noví komentář', '%% nových komentář']"></p-lang></span>
+					<span v-if="polls.list.find(x => x.datum === today)"><p-lang :value="polls.list.filter(x => x.datum === today).length" :end="['žádný nový průzkum', 'jeden nový průzkum', '%% noví průzkumy', '%% nových průzkumů']"></p-lang></span>.
+				</p-list-linear>
+			</template>			
+			Za poslední dobu <p-lang :value="countLately" :end="['žádný nový záznam', 'jeden nový záznam', '%% nové záznamy', 'celkem %% nových záznamů']"></p-lang>. Kompletní přehled najdete v <router-link to="/novinky" class="strong is-span dimm">Sedmidění</router-link>.
+		</div>
+	</p-loader>
+</div>

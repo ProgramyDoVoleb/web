@@ -251,6 +251,13 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/sedmideni',
+      name: 'LayoutNewsSedmideni',
+      redirect: to => {
+        return { path: '/novinky'}
+      }
+    },
+    {
       path: '/novinky',
       name: 'LayoutNewsWeekly',
       component: () => import('../views/news/weekly/do.vue'),

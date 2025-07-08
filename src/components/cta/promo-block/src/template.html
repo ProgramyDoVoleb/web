@@ -1,4 +1,4 @@
-<div class="current-election-highlight-block mt2 mb2">
+<div class="current-election-highlight-block mt1 mb2">
 	<p-box-group>
 		<p-box to="/pruvodce">
 			<p-box-button icon="guide" class="primary">Průvodce volbami</p-box-button>
@@ -16,9 +16,6 @@
 				<editable-suggest type="media" part="Promo Block"></editable-suggest>
 			</template>
 		</pop-up> -->
-		<p-box href="https://admin.programydovoleb.cz">
-			<p-box-button icon="admin">Admin &middot; pro kandidáty</p-box-button>
-		</p-box>
 		<pop-up class="down">
 			<template #init>
 				<p-box>
@@ -29,17 +26,8 @@
 				<editable-suggest type="media" part="Promo Block"></editable-suggest>
 			</template>
 		</pop-up>
+		<p-box href="https://admin.programydovoleb.cz">
+			<p-box-button icon="admin">Admin &middot; pro kandidáty</p-box-button>
+		</p-box>
 	</p-box-group>
-	<div class="smaller mt1">
-		<p-label color="var(--yellow)">
-			<p-link href="https://docs.google.com/forms/d/e/1FAIpQLSd0WRK4p3rKfLtwKxr5d451UQgqiz0ooxIGkYpbqCNZI0SoXQ/viewform?usp=header" class="strong">Navrhněte otázku</p-link> do volební kalkulačky.
-		</p-label>
-	</div>
-	<div class="smaller mt025">
-		<p-label color="var(--yellow)">
-			Kandidáti již mohou odpovídat na <router-link to="/novinky/6343" class="strong">čtyři otázky</router-link>.
-			
-		</p-label>
-	</div>
-
 </div>

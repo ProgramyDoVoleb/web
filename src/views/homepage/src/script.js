@@ -32,6 +32,7 @@ import PromoBlock from '@/components/cta/promo-block/do.vue';
 import EngagementBlock from '@/components/engagement/block/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
+import HomepageSummary from '@/views/homepage/summary/do.vue';
 
 export default {
 	name: 'layout-homepage',
@@ -56,8 +57,8 @@ export default {
 	NewsItem, NewsItemAside, SearchParty, SearchPerson, SearchTown, MailchimpSignup, ReportForm, PollsPreview, SlovakiaBlock, PartyPreview, PartyPreviewTiny,
 	HomepageEp, HomepageKz, HomepagePs, HomepageSenat, ElectionResults, CtaGetAdmin, CtaSupport, PromoBlock, EngagementBlock, EventItem, CtaSupportShort,
 	EditableSuggest, PopUp, CtaQuestions,
-	CtaGuide,
-	CtaHowTo
+	CtaGuide, CtaHowTo, 
+	HomepageSummary
   },
 	computed: {
 		$store: function () {

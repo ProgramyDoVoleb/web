@@ -1,15 +1,30 @@
 <div class="homepage-ep">
 	<p-loader :rule="election">
 		<div v-if="election">
-			<p-area icon="snemovni-volby" class="inline highlight shadow">
+			<p-area icon="snemovni-volby" class="inline highlight shadow mt05">
 				<h2 class="mv0">	
 					Sněmovní volby
 				</h2>
-					<div class="smaller sans strong">
-						<router-link to="/volby/snemovni-volby/166">3. a 4. října 2025</router-link>
-					</div>
+				<div class="smaller sans strong">
+					<router-link to="/volby/snemovni-volby/166">3. a 4. října 2025</router-link>
+				</div>
 			</p-area>
-			<div class="p-gap _2"></div>
+			<div class="smaller mt2 mb2">
+				<div>
+					<p-label color="var(--yellow)">
+						<p-link href="https://docs.google.com/forms/d/e/1FAIpQLSd0WRK4p3rKfLtwKxr5d451UQgqiz0ooxIGkYpbqCNZI0SoXQ/viewform?usp=header" class="strong">Navrhněte otázku</p-link> do volební kalkulačky.
+					</p-label>
+				</div>
+				<div class="mt05">
+					<p-label color="var(--yellow)">Kandidáti již mohou odpovídat na <router-link to="/novinky/6343" class="strong">čtyři otázky</router-link>.</p-label>
+				</div>
+				<div class="mt05">
+					<p-label color="var(--blue)"><router-link to="/novinky/6718" class="is-span">Měsíční přehled</router-link> jako <p-link href="https://open.spotify.com/show/0t3PQ53sL3JkydArnDCTZZ" class="strong">podcast</p-link> nebo <p-link href="https://us20.campaign-archive.com/home/?u=cb5f587f6433e8f14b4308e1f&id=50f4ec211a">newsletter</p-link>.</p-label>
+				</div>
+			</div>
+			<!-- <div class="p-gap"></div> -->
+			<promo-block></promo-block>
+			<!-- <div class="p-gap"></div> -->
 			<div class="smallest dimm">Upozornění: až do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.</div>
 				<div class="p-gap_075"></div>
 				<component :is="width < 640 ? 'p-area' : 'div'" class="smaller white">

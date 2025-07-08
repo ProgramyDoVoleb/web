@@ -15,7 +15,9 @@
 					</span>
 				</p> -->
 				<!-- <div class="p-gap"></div> -->
-				<promo-block></promo-block>
+				<homepage-summary :news="news" :polls="polls"></homepage-summary>
+				<div class="p-gap _1"></div>
+				<!-- <promo-block></promo-block> -->
 				<!-- <p class="smaller">
 					<strong><p-label color="var(--red)">Nominujte <em>Programy</em></p-label> na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou lupu 2024</p-link>.</strong>
 				</p>  -->
@@ -23,6 +25,7 @@
 				 
 				<!-- <election-results :type="{key: 'SENAT', hash: 'senatni-volby', name: 'Senátní volby'}" :id="171" :election="{typ: 'SENAT', datum_label: '17. a 18. ledna 2025'}" :spec="60" label="obvod 60 · Brno-město"></election-results> -->
 				 
+
 				<template v-if="elections && elections.list.find(x => x.status < 3 && x.datum <= today)">
 					<div class="p-gap"></div>
 					<p-area class="p-area---inline smallest strong" borderColor="var(--red)">

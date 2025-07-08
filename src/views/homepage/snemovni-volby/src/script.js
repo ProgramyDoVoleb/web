@@ -4,6 +4,7 @@ import PartyPreviewTiny from '@/components/party-preview-tiny/do.vue';
 import {url, date, number, truncate, domain, con, sortBy, shuffle} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import PopUp from '@/components/pop-up/do.vue';
+import PromoBlock from '@/components/cta/promo-block/do.vue';
 import { useEnums } from '@/stores/enums';
 
 export default {
@@ -74,7 +75,7 @@ export default {
 		}
 	},
 	components: {
-	  PartyPreviewLeader, PartyPreviewTiny, PopUp
+	  PartyPreviewLeader, PartyPreviewTiny, PopUp, PromoBlock
 	},
 	computed: {
 		$store: function () {

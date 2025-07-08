@@ -18,7 +18,8 @@ export default {
 				{link: "https://www.reddit.com/u/programydovoleb/", icon: "reddit", label: "Reddit", sub: "", count: 410},
 				{link: "https://cztwitter.cz/@programydovoleb", icon: "mastodon", label: "Mastodon", sub: "", count: 220},
 				{link: "https://www.linkedin.com/company/programydovoleb", icon: "linkedin", label: "LinkedIn", sub: "", count: 20},
-				{link: "https://youtube.com/@programydovoleb", icon: "yt", label: "Youtube", sub: "nové", count: 0},
+				{link: "https://open.spotify.com/show/0t3PQ53sL3JkydArnDCTZZ", icon: "spotify", label: "Spotify", sub: "od července", count: 0},
+				{link: "https://youtube.com/@programydovoleb", icon: "yt", label: "Youtube", sub: "od července", count: 0},
 				// {link: "https://discord.gg/fVUmJ7wXzc", icon: "discord", label: "Discord", sub: "nové", count: 0}
 			]
 		}

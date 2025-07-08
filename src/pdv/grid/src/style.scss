@@ -33,6 +33,14 @@
   }
 }
 
+._2_classic {
+  @container (min-width: 800px) {
+    ._container {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+}
+
 ._2 {
   ._container {
     grid-template-columns: repeat(2, 1fr) !important;
