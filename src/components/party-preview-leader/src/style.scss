@@ -1,4 +1,5 @@
-
+.party-preview {
+}
 
 ._aig {
 	// padding-bottom: 1.5rem;
@@ -65,10 +66,11 @@
 
 ._logo {
 	display: block !important;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 8px;
     background: #fff;
+	margin: auto;
 }
 
 ._logos {
@@ -122,9 +124,12 @@
 }
 
 .p-icon {
-	background: var(--green11);
-	border-radius: 50%;
-	padding: .33em;
+	// background: var(--green11);
+	// border-radius: 50%;
+	// padding: .33em;
+	background: transparent;
+	transform: translate(0, .5em);
+	display: inline-block;
 }
 
 ._white {

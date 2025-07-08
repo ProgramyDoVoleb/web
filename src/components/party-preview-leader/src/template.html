@@ -1,71 +1,63 @@
-<div class="party-preview">
-	<p-area class="_aig">
-			<div class="_b">
-				<div v-if="!logoByItem(party, elections).includes('empty')">
-					<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV" class="_logo">
-				</div>
-				<div v-if="logoByItem(party, elections).includes('empty')">
-					<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET > 1">
-						<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
-							<img loading="lazy" :src="logoByItem(coal, elections)" :alt="'logo ' + coal.NAZEV" class="_logo" :style="{'z-index': 10 - indexC}">
-						</template>
-					</div>
-					<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET === 1">
-						<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV + ' chybí'" class="_logo">
-					</div>
-				</div>
-				<div class="_f">
-					<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/strana/' + party.id" :to="link + '/strana/' + party.id" class="strong">{{ party.ZKRATKA }}</component>
-					<template v-if="party.$data && party.$data.leader && party.$data.leader.length > 0">
-						<div class="p-gap _01"></div>
-						<div class="smallest">
-							<router-link :to="link + '/kandidat/' + party.$data.leader[0].label" class="is-span">
-								{{ party.$data.leader[0].value }}
-							</router-link>
-							<span class="dimm">
-								<p-lang :value="candidates.length - 1" :end="['', ' a jeden ', ' a %% ', ' a %% ']"></p-lang>
-								<router-link :to="link + '/strana/' + party.id + '/kandidati'" class="is-span dimm"><p-lang :value="candidates.length - 1" :end="['', 'další', 'další', 'dalších']"></p-lang></router-link>
-							</span>
-						</div>
+<div class="party-preview text-center">
+	<div>
+		<router-link :to="link + '/strana/' + party.id">
+			<div v-if="!logoByItem(party, elections).includes('empty')">
+				<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV" class="_logo">
+			</div>
+			<div v-if="logoByItem(party, elections).includes('empty')">
+				<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET > 1">
+					<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+						<img loading="lazy" :src="logoByItem(coal, elections)" :alt="'logo ' + coal.NAZEV" class="_logo" :style="{'z-index': 10 - indexC}">
 					</template>
-					<template v-else>
-						<div class="p-gap _01"></div>
-						<div class="smallest dimm">
-							<component :is="candidates.length === 0 ? 'span' : 'router-link'" :to="link + '/strana/' + party.id + '/kandidati'" class="is-span dimm"><p-lang :value="candidates.length" :end="['žádný známý kandidát', 'jeden známý kandidát', '%% známí kandidáti', '%% známých kandidátů']"></p-lang></component>
-						</div>
-					</template>
-					<div v-if="extended" class="smallest strong">
-						<div class="p-gap _075"></div>
-						<p-list-linear class="or dimm">
-							<span v-if="party.$program && party.$program.length > 0">
-								<p-badge :background="colorByItem(party, elections)">
-									<router-link :to="link + '/strana/' + party.id + '/volebni-program/' + party.$program[0].id" class="unlink _white">Program</router-link>
-								</p-badge>
-							</span>
-							<span v-if="party.$priorit && party.$priorit > 0">
-								<p-badge background="var(--highlight)">
-									<router-link :to="link + '/strana/' + party.id + '/priority'" class="unlink">Priority</router-link>
-								</p-badge>
-							</span>
-							<span v-if="party.$odpovedi && party.$odpovedi > 0">
-								<p-badge background="var(--highlight)">
-									<router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="unlink">Odpovědi</router-link>
-								</p-badge>
-							</span>
-						</p-list-linear>
-					</div>
 				</div>
-				<div>
-					<pop-up>
-						<template #init>
-							<p-icon icon="plus-green" size="1.25em"></p-icon>
-						</template>
-						<template #content>
-								<div class="smaller mb1">Narazili jste na volební program, kandidáta, článek nebo jiný odkaz, který by neměl v přehledu <em>{{ party.NAZEV }}</em> chybět?</div>
-								<editable-suggest :part="elections.list[0].typ + ':' + elections.list[0].id + ' - pointer csu_' + elections.list[0].typ.toLowerCase() + '_rkl:' + party.id"></editable-suggest>
-							</template>
-					</pop-up>
+				<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET === 1">
+					<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV + ' chybí'" class="_logo">
 				</div>
 			</div>
-	</p-area>
+		</router-link>
+	</div>
+	<div class="p-gap _075"></div>
+	<div class="show-40rem">
+		<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/strana/' + party.id" :to="link + '/strana/' + party.id" class="strong">{{ party.ZKRATKA }}</component>
+	</div>
+	<div>
+		<template v-if="party.$data && party.$data.leader && party.$data.leader.length > 0">
+			<div class="p-gap _01"></div>
+			<div class="smallest">
+				<router-link :to="link + '/kandidat/' + party.$data.leader[0].label" class="is-span">
+					{{ party.$data.leader[0].value.split(' ')[1] }}
+				</router-link>
+				<span class="dimm" v-if="candidates.length > 1">
+					+
+					<router-link :to="link + '/strana/' + party.id + '/kandidati'" class="dimm">{{ candidates.length - 1 }}</router-link>
+				</span>
+			</div>
+		</template>
+		<template v-else>
+			<div class="p-gap _01"></div>
+			<div class="smallest dimm">
+				<component :is="candidates.length === 0 ? 'span' : 'router-link'" :to="link + '/strana/' + party.id + '/kandidati'" class="is-span dimm"><p-lang :value="candidates.length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></component>
+			</div>
+		</template>
+	</div>
+	<div v-if="extended" class="smallest strong">
+		<div class="p-gap _075"></div>
+		<!-- <p-list-linear class="or dimm"> -->
+			<span v-if="party.$program && party.$program.length > 0">
+				<p-badge :background="colorByItem(party, elections)">
+					<router-link :to="link + '/strana/' + party.id + '/volebni-program/' + party.$program[0].id" class="unlink _white">Program</router-link>
+				</p-badge> 
+			</span>
+			<span v-if="party.$priorit && party.$priorit > 0">
+				<!-- <p-badge background="var(--highlight)"> -->
+					<router-link :to="link + '/strana/' + party.id + '/priority'" class="unlink" title="Priority"><span v-if="!party.$program || party.$program.length === 0">Priority</span><p-icon icon="pdv" v-if="party.$program && party.$program.length > 0"></p-icon></router-link>
+				<!-- </p-badge> -->
+			</span>
+			<span v-if="party.$odpovedi && party.$odpovedi > 0">
+				<!-- <p-badge background="var(--highlight)"> -->
+					 <router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="unlink" title="Odpovědi"><p-icon icon="answers"></p-icon></router-link>
+				<!-- </p-badge> -->
+			</span>
+		<!-- </p-list-linear> -->
+	</div>
 </div>

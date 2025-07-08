@@ -1,0 +1,57 @@
+.p-grid.border {
+    --gap: 1em;
+    // overflow: hidden;
+    border-top: var(--border);
+    border-left: var(--border);
+
+    > ._container {
+        grid-column-gap: 0 !important;
+        grid-row-gap: 0 !important;
+
+        > div {
+            position: relative;
+            padding: var(--gap);
+
+            &:after {
+                content: "";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                border-right: var(--border);
+            }
+
+            &:before {
+                content: "";
+                position: absolute;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                border-bottom: var(--border);
+            }
+        }
+    }
+}
+
+.p-grid.hover > ._container > div {
+
+	@media (hover: hover) {
+		box-shadow: 0 0 0 #00000000;
+		transition: all .6s .9s;
+		background: #ffffff00;
+
+		&:hover {
+			background: #ffffffff;
+            box-shadow: 0 4px 24px #00000033;
+            z-index: 4;
+		}
+
+        .dark & {
+            background: #00000000;
+
+            &:hover {
+                background: var(--blue11);
+            }
+        }
+	}
+}
