@@ -38,14 +38,14 @@
 									<router-link :to="'/volebni-pruzkum/' + item.id">{{ item.agency }}</router-link>
 								</span>
 							</p-list-linear>)</span>
-					<span v-if="news.auto.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.auto.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný kandidát', 'jeden kandidát', '%% noví kandidáti', '%% kandidátů']"></p-lang></span>
+					<span v-if="news.auto.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.auto.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></span>
 					<span v-if="news.log.find(x => (x.date === today || x.date === yesterday))">celkem <p-lang :value="news.log.filter(x => x.date === today || x.date === yesterday).length" :end="['žádná úprava', 'jedna úprava záznamů', '%% různé úpravy záznamů', '%% různých úprav záznamů']"></p-lang></span>
 					<span v-if="news.list.find(x => x.datum === today || x.datum === yesterday) || news.sys.find(x => x.datum === today || x.datum === yesterday) || news.sys.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.list.filter(x => x.datum === today || x.datum === yesterday).length + news.sys.filter(x => x.datum === today || x.datum === yesterday).length + news.media.filter(x => x.updated.split(' ')[0] === today).length" :end="['zatím žádný zpráva', 'jedna zpráva', '%% zprávy', '%% zpráv']"></p-lang> z médií</span>
 					<span v-if="news.comm.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.comm.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný nový komentář', 'jeden komentář', '%% komentáře', '%% komentářů']"></p-lang></span>
 				</p-list-linear>.
 			</template>			
 			<!-- Za poslední dobu <p-lang :value="countLately" :end="['žádný nový záznam', 'jeden nový záznam', '%% nové záznamy', 'celkem %% nových záznamů']"></p-lang>.  -->
-			Vše přehledně v <router-link to="/novinky" class="strong red">Sedmidění</router-link>.
+			Vše přehledně v <router-link to="/novinky" class="strong red">Sedmidění</router-link>.
 		</p>
 	</p-loader>
 </div>

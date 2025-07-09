@@ -148,7 +148,7 @@
 					</p-loader>
 			</p-block>
 			<p-block headline="Anketa" :hide="true">
-				<engagement-block :hash="'psp-166-strana-' + (new Date().getMonth() + 1)" :data="[{question: 'Koho byste nyní volili?', limit: 3, comment: 'Můžete vybrat až 3 strany.', options: ['ANO', 'Spolu', 'STAN', 'SPD', 'Piráti', 'Motoristé', 'Stačilo', 'SOCDEM', 'Přísaha', 'Zelení', 'někoho jiného']}]" :compact="true"></engagement-block>
+				<engagement-block :hash="'psp-166-strana-' + (new Date().getMonth() + 1)" :data="[{question: 'Koho byste nyní volili?', limit: 3, comment: 'Můžete vybrat až 3 strany.', options: ['ANO', 'Spolu', 'STAN', 'SPD', 'Piráti', 'Motoristé', 'Stačilo', 'SOCDEM', 'Přísaha', 'někoho jiného']}]" :compact="true"></engagement-block>
 			</p-block>
 			<p-block headline="Nejnovější průzkumy">
 				<p class="mb3">Kompletní výpis všech stran, přepočet na mandáty, rozdíl od minulého měření nebo vývoj od minulých voleb u této agentury najdete v detailu průzkumu. Seznam volebních průzkumů <router-link to="/volebni-pruzkumy">od roku 2017 zde</router-link> a můžete si také zkusit <router-link to="/vypocet-mandatu">výpočet mandátů</router-link>.</p>

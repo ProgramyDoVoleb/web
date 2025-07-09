@@ -70,7 +70,7 @@
 ._6 {
 	container-type: inline-size;
 
-	@container (min-width: 360px) {
+	@container (min-width: 320px) {
 		.p-columns---container {
 			columns: 2;
 			column-gap: 2em;

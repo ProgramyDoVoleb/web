@@ -37,7 +37,7 @@
 
 	@media (hover: hover) {
 		box-shadow: 0 0 0 #00000000;
-		transition: all .6s .9s;
+		transition: all .2s;
 		background: #ffffff00;
 
 		&:hover {
@@ -50,7 +50,7 @@
             background: #00000000;
 
             &:hover {
-                background: var(--blue11);
+                background: var(--blue44);
             }
         }
 	}
