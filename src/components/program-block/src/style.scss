@@ -45,9 +45,9 @@ li::marker {
   color: var(--grey);
 }
 
-.program-block---holder + .program-block---holder {
-  margin-top: 6rem;
-}
+// .program-block---holder + .program-block---holder {
+  // margin-top: 6rem;
+// }
 
 section.program > div:not(:last-child) :not(.program-list) .program-block {
   padding-bottom: 2em;
