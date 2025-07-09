@@ -150,6 +150,22 @@
 			<p-block headline="Anketa" :hide="true">
 				<engagement-block :hash="'psp-166-strana-' + (new Date().getMonth() + 1)" :data="[{question: 'Koho byste nyní volili?', limit: 3, comment: 'Můžete vybrat až 3 strany.', options: ['ANO', 'Spolu', 'STAN', 'SPD', 'Piráti', 'Motoristé', 'Stačilo', 'SOCDEM', 'Přísaha', 'Zelení', 'někoho jiného']}]" :compact="true"></engagement-block>
 			</p-block>
+			<p-block headline="Nejnovější průzkumy">
+				<p class="mb3">Kompletní výpis všech stran, přepočet na mandáty, rozdíl od minulého měření nebo vývoj od minulých voleb u této agentury najdete v detailu průzkumu. Seznam volebních průzkumů <router-link to="/volebni-pruzkumy">od roku 2017 zde</router-link> a můžete si také zkusit <router-link to="/vypocet-mandatu">výpočet mandátů</router-link>.</p>
+				<p-loader :rule="polls">
+					<div v-if="polls">
+						<p-grid>
+							<div v-for="(poll, index) in polls.list.filter((x, i) => i < (width > 960 ? 3 : 2))">
+								<p-area>
+									<polls-preview :poll="poll" :previous="poll.previous ? polls.list.find(x => x.id === poll.previous) : null" :name="'poll_' + poll.id"></polls-preview>
+								</p-area>								
+							</div>
+						</p-grid>
+					</div>
+				</p-loader>
+				<!-- <div class="p-gap"></div> -->
+				<!-- <engagement-block hash="poll-most-trusted" :data="[{question: 'Která agentura má nejlepší průzkumy?', options: ['Data Collect', 'Ipsos', 'Kantar', 'Median', 'NMS Market Research', 'STEM', 'jiná']}]" :autosend="true"></engagement-block> -->
+			</p-block>
 			<p-block headline="Novinky" :level="1">
 
 				
@@ -158,6 +174,45 @@
 						&nbsp;
 						<pop-up preClass="green strong"><template #init>Přidat článek, rozhovor nebo tiskovou zprávu</template><template #content><editable-suggest placeholder="Odkaz na článek nebo tiskovou zprávu" type="support" part="HP Novinky" link="1"></editable-suggest></template></pop-up>
 					</div>
+				<p-block headline="Významné" :hide="true">
+
+					<p-area class="primary">
+						<p-loader :rule="news">
+							<div v-if="news" class="smaller">
+								<p-list>
+									<div class="strong">
+										<!-- <p-list-linear class="or strong"> -->
+											<!-- <span> -->
+												<p-label color="var(--blue)">Program</p-label>  
+											<!-- </span><span> -->
+												<p-label color="var(--red)">Priority</p-label>  
+											<!-- </span><span> -->
+												<p-label color="var(--yellow)">Odpovědi</p-label>
+											<!-- </span> -->
+										<!-- </p-list-linear> -->
+									</div>
+									<p-columns class="tighter">
+										<div v-for="datum in unique(news.log.filter(x => x.node && x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1)), 'date').filter((x, i) => i < 12)">
+											<div class="strong">{{date(datum, 2) }} </div>
+											<!-- <p-list-linear class="_pll or"> -->
+												<template v-for="point in ['csu_ps_rkl:', 'csu_ps_rk:', 'csu_senat_rk:']">
+													<div v-for="item in news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum).filter(x => x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1))">
+														<router-link v-if="item.node.JMENO" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.JMENO }} {{ item.node.PRIJMENI }}</router-link>
+														<router-link class="strong" v-if="item.node.NAZEV" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.NAZEV }}</router-link>
+														<span class="badge blue" v-if="item.data.find(x => x.type === 'program')">●</span>
+														<span class="badge yellow" v-if="item.data.find(x => x.type === 'answer')">●</span>
+														<span class="badge red" v-if="item.data.find(x => x.type === 'priority')">●</span>
+													</div>
+												</template>
+											<!-- </p-list-linear> -->
+										</div>
+									</p-columns>
+								</p-list>
+							</div>
+						</p-loader>
+					</p-area>
+
+				</p-block>
 				
 				<p-block hide="1" headline="Přehled">
 					<p-loader :rule="news">
@@ -206,43 +261,6 @@
 									</p-modal>.
 								</p> -->
 								<div class="p-gap _2"></div>
-								<h4>Poslední významné úpravy</h4>
-								<p-area class="primary">
-									<p-loader :rule="news">
-										<div v-if="news" class="smaller">
-											<p-list>
-												<div class="strong">
-													<!-- <p-list-linear class="or strong"> -->
-														<!-- <span> -->
-															<p-label color="var(--blue)">Program</p-label>  
-														<!-- </span><span> -->
-															<p-label color="var(--red)">Priority</p-label>  
-														<!-- </span><span> -->
-															<p-label color="var(--yellow)">Odpovědi</p-label>
-														<!-- </span> -->
-													<!-- </p-list-linear> -->
-												</div>
-												<p-columns class="tighter">
-													<div v-for="datum in unique(news.log.filter(x => x.node && x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1)), 'date').filter((x, i) => i < 12)">
-														<div class="strong">{{date(datum, 2) }} </div>
-														<!-- <p-list-linear class="_pll or"> -->
-															<template v-for="point in ['csu_ps_rkl:', 'csu_ps_rk:', 'csu_senat_rk:']">
-																<div v-for="item in news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum).filter(x => x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1))">
-																	<router-link v-if="item.node.JMENO" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.JMENO }} {{ item.node.PRIJMENI }}</router-link>
-																	<router-link class="strong" v-if="item.node.NAZEV" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.NAZEV }}</router-link>
-																	<span class="badge blue" v-if="item.data.find(x => x.type === 'program')">●</span>
-																	<span class="badge yellow" v-if="item.data.find(x => x.type === 'answer')">●</span>
-																	<span class="badge red" v-if="item.data.find(x => x.type === 'priority')">●</span>
-																</div>
-															</template>
-														<!-- </p-list-linear> -->
-													</div>
-												</p-columns>
-											</p-list>
-										</div>
-									</p-loader>
-								</p-area>
-								<div class="p-gap _1"></div>
 								<h4>Další nové záznamy na Programech</h4>
 								<div class="p-line _0"></div>
 								<p-collapsible label="Nově přidaní kandidáti" logo="person">
@@ -472,22 +490,6 @@
 							<!-- </p-block> -->
 						</div>
 					</p-loader>
-				</p-block>
-				<p-block headline="Nejnovější průzkumy">
-					<p class="mb3">Kompletní výpis všech stran, přepočet na mandáty, rozdíl od minulého měření nebo vývoj od minulých voleb u této agentury najdete v detailu průzkumu. Seznam volebních průzkumů <router-link to="/volebni-pruzkumy">od roku 2017 zde</router-link> a můžete si také zkusit <router-link to="/vypocet-mandatu">výpočet mandátů</router-link>.</p>
-					<p-loader :rule="polls">
-						<div v-if="polls">
-							<p-grid>
-								<div v-for="(poll, index) in polls.list.filter((x, i) => i < (width > 960 ? 3 : 2))">
-									<p-area>
-										<polls-preview :poll="poll" :previous="poll.previous ? polls.list.find(x => x.id === poll.previous) : null" :name="'poll_' + poll.id"></polls-preview>
-									</p-area>								
-								</div>
-							</p-grid>
-						</div>
-					</p-loader>
-					<!-- <div class="p-gap"></div> -->
-					<!-- <engagement-block hash="poll-most-trusted" :data="[{question: 'Která agentura má nejlepší průzkumy?', options: ['Data Collect', 'Ipsos', 'Kantar', 'Median', 'NMS Market Research', 'STEM', 'jiná']}]" :autosend="true"></engagement-block> -->
 				</p-block>
 
 				<p-block hide="1" headline="Novinky e-mailem">
@@ -789,11 +791,7 @@
 					</p-list>
 				</div>
 				<div>
-					<cta-how-to class="mb05"></cta-how-to>
-					<cta-guide class="mb05"></cta-guide>
-					<cta-get-admin :election="elections ? elections.list.find(x => x.editace === 1) : null" class="mb05"></cta-get-admin>
-					<cta-questions class="mb05"></cta-questions>
-					<cta-support-short></cta-support-short>
+					<top-tasks></top-tasks>
 				</div>
 				<div>
 					<strong class="smaller">Nově na Programech</strong>

@@ -1272,13 +1272,8 @@
 						</div>
 					</p-list>
 				</div>
-
 				<div>
-					<template v-if="data && $volby.editace === 1">
-						<cta-questions class="mb05"></cta-questions>
-						<cta-get-admin :election="$volby" class="mb05" />
-					</template>
-					<cta-support-short></cta-support-short>
+					<top-tasks></top-tasks>
 				</div>
 				
 				<div v-if="data && $volby && $volby.id === 161">

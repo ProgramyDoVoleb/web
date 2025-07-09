@@ -26,6 +26,80 @@
 			<promo-block></promo-block>
 			<!-- <div class="p-gap"></div> -->
 			<div class="smallest dimm">
+				Upozornění: až do 15. srpna, do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.
+			</div>
+			<!-- <div class="smallest dimm">Upozornění: až do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.</div> -->
+				<div class="p-gap_075"></div>
+				<component :is="width < 640 ? 'div' : 'div'" class="smaller white">
+					<p-grid class="_squeeze border hover">
+						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
+							<party-preview-leader :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :candidatessCount="election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PORCISLO).length" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></party-preview-leader>
+						</div>
+					</p-grid>
+				</component>
+		</div>
+	</p-loader>
+
+
+	<div class="p-line _2 mt05"></div>
+
+				<p-area class="primary smaller" borderColor="var(--yellow)">
+					<div class="p-offset reverse">
+						<div><strong>4 otázky pro kandidáty</strong><p-icon icon="answers-mini"></p-icon></div>
+						<div><router-link to="/novinky/6343" class="smallest is-span dimm">o co jde?</router-link></div>
+					</div>
+					<div class="_mw60 pt025">
+						Proč <router-link to="/volby/snemovni-volby/166/otazka/386" class="is-spann strong">kandidují</router-link>, na co se musí Česko <router-link to="/volby/snemovni-volby/166/otazka/389" class="is-spann strong">připravit</router-link> v příštích letech, co pro ně znamená <router-link to="/volby/snemovni-volby/166/otazka/388" class="is-spann strong">svoboda</router-link> a co je podle nich <router-link to="/volby/snemovni-volby/166/otazka/387" class="is-spann strong">přehlížené téma</router-link>?
+						<div class="p-line _0 mt1"></div>
+						<div class="strong pt1 pb025">Odpovědi již zaslalo {{ answers ? answers.length : 0 }} kandidátů, např.</div>
+						<p-list-linear class="nebo inline" v-if="answers">
+							<span v-for="cand in sortBy(shuffle(answers).filter((x, i) => i < 12), 'PRIJMENI', null, true)">
+								<router-link :to="'/volby/snemovni-volby/166/kandidat/' + cand.id + '/otazky-a-odpovedi'" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
+							</span>
+						</p-list-linear>
+					</div>
+				</p-area>
+	
+	
+				<div class="p-line _2"></div>
+				<strong>Přehled lídrů</strong>
+				<div class="p-gap"></div>
+			
+				<p-loader :rule="election">
+					<div v-if="election">
+						<p-grid class="smaller _squeeze text-center">
+							<div v-for="party in sortBy(election.list[0].$strany.filter(x => x.$data.leader && x.$data.leader.length > 0), 'ZKRATKA', null, true)">
+								<!-- <div class="p-offset"> -->
+									<div class="p05">
+										<template v-for="person in election.list[0].$kandidati.filter(x => x.id === party.$data.leader[0].label)">
+											<p-image :src="person.$data && person.$data.photo && person.$data.photo.length > 0 ? person.$data.photo[0].value : null" class="_ar round ma" width="100%"></p-image>
+										</template>
+									</div>
+									<div>
+										<div class="strong">
+											<router-link :to="'/volby/snemovni-volby/166/kandidat/' + party.$data.leader[0].label">{{ party.$data.leader[0].value }}</router-link>
+										</div>
+										<div class="smallest">
+											{{ party.ZKRATKA }}
+										</div>	
+									</div>
+								<!-- </div>			 -->
+							</div>
+						</p-grid>
+					</div>
+				</p-loader>
+
+
+				
+	<div class="p-line _2"></div>
+	<strong>Kandidáti v krajích</strong>
+	<div class="p-gap"></div>
+	<p-area class="smaller">
+		<p-columns class="_tight">
+			<div v-for="(region, index) in enums.regions">
+				<router-link :to="'/volby/snemovni-volby/166/kraj/' + (index + 1)">{{ region }}</router-link>
+			</div>
+			<div>
 				<pop-up class="down inline">
 					<template #init>
 						<strong class="red">Hledat kandidáta</strong>
@@ -41,37 +115,12 @@
 							</div>
 						</p-list>
 					</template>
-				</pop-up>, ať je kdekoli. Upozornění: až do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.
+				</pop-up>
 			</div>
-			<!-- <div class="smallest dimm">Upozornění: až do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.</div> -->
-				<div class="p-gap_075"></div>
-				<component :is="width < 640 ? 'div' : 'div'" class="smaller white">
-					<p-grid class="_squeeze border hover">
-						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
-							<party-preview-leader :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :candidatessCount="election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PORCISLO).length" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></party-preview-leader>
-						</div>
-					</p-grid>
-				</component>
-		</div>
-	</p-loader>
-	<div class="p-line _2 mt05"></div>
-
-				<p-area class="primary smaller" borderColor="var(--yellow)">
-					<div class="p-offset reverse">
-						<div><strong>4 otázky pro kandidáty</strong><p-icon icon="answers-mini"></p-icon></div>
-						<div><router-link to="/novinky/6343" class="smallest is-span dimm">o co jde?</router-link></div>
-					</div>
-					<div class="_mw60 pt025">
-						Proč <router-link to="/volby/snemovni-volby/166/otazka/386" class="is-spann strong">kandidují</router-link>, na co se musí Česko <router-link to="/volby/snemovni-volby/166/otazka/389" class="is-spann strong">připravit</router-link> v příštích letech, co pro ně znamená <router-link to="/volby/snemovni-volby/166/otazka/388" class="is-spann strong">svoboda</router-link> a co je podle nich <router-link to="/volby/snemovni-volby/166/otazka/387" class="is-spann strong">přehlížené téma</router-link>?
-						<div class="p-line _0 mt1"></div>
-						<div class="strong pt1 pb025">Odpovědi již zaslali např.</div>
-						<p-list-linear class="nebo inline" v-if="answers">
-							<span v-for="cand in sortBy(shuffle(answers).filter((x, i) => i < 12), 'PRIJMENI', null, true)">
-								<router-link :to="'/volby/snemovni-volby/166/kandidat/' + cand.id + '/otazky-a-odpovedi'" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
-							</span>
-						</p-list-linear>
-					</div>
-				</p-area>
+		</p-columns>
+	</p-area>
+	
+	
 	<div class="p-line _2"></div>
 	<strong>Kde jsou další strany?</strong>
 	<div class="p-gap"></div>

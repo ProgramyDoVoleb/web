@@ -25,21 +25,7 @@
 			<p-anchors></p-anchors>
 		</template>
 		<template #aside>
-			<strong>Vybrané strany, hnutí a koalice</strong>
-			<div class="p-gap"></div>
-			<p-loader :rule="parties">
-				<div v-if="parties">
-					<div class="smaller">			
-						<p-list class="_05">
-							<div v-for="(item, index) in sortBy(parties.list, 'ZKRATKA', null, true)">
-								<div class="">
-									<div><router-link :to="'/rejstrik/' + item.VSTRANA">{{ item.ZKRATKA }}</router-link></div>
-								</div>
-							</div>
-						</p-list>	
-					</div>
-				</div>
-			</p-loader>
+			<top-tasks></top-tasks>
 		</template>
 	</p-layout-divided>
 </div>

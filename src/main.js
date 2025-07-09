@@ -135,4 +135,7 @@ import 'leaflet/dist/leaflet.css';
 
 // app.use(VueApexCharts);
 
+import TopTasks from './components/cta/top-tasks/do.vue';
+app.component('top-tasks', TopTasks);
+
 app.mount('#app')
