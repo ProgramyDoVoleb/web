@@ -35,7 +35,7 @@
 						 průzkum
 						(<p-list-linear class="or">
 								<span v-for="item in polls.list.filter(x => x.datum === today || x.datum === yesterday)">
-									<router-link :to="'/volebni-pruzkum/' + item.id">{{ item.agency }}</router-link>
+									<router-link :to="'/volebni-pruzkumy/' + item.id">{{ item.agency }}</router-link>
 								</span>
 							</p-list-linear>)</span>
 					<span v-if="news.auto.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.auto.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></span>

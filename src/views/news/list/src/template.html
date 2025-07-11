@@ -1,7 +1,7 @@
 <div class="layout-polls">
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Novinky na Programech" :level="1">
+			<p-block headline="Novinky na Programech" :level="1" anchor="Novinky">
 				<div class="p-gap _2"></div>
 				<!-- <p-block headline="Za oponou" :hide="true"> -->
 					<!-- <p-area borderColor="var(--blue)"> -->
@@ -16,15 +16,18 @@
 					<div class="p-line"></div>
 					<p-label color="var(--red)" class="strong smallest"><p-link href="https://programydovoleb.cz/rss">Odebírat jako RSS</p-link></p-label>
 				<!-- </p-block> -->
-				 <div class="p-gap _4"></div>
+				<div class="p-gap _4"></div>
+				<p-block headline="Newsletter" anchor="Newsletter">
+					<mailchimp-signup></mailchimp-signup>
+				</p-block>
+			</p-block>
+			<p-block :level="1" headline="Archiv">
+				<p>Zde najdete všechny zprávy a komentáře, rozdělené podle typu.</p>
 				<template v-for="(year, iyear) in [2025, 2024, 2023, 2022, 2021, 2020, 2019]">
 					<p-block-expandable :headline="String(year)">
 						<news-year :year="year"></news-year>
 					</p-block-expandable>
 				</template>
-			</p-block>
-			<p-block headline="Novinky e-mailem" :level="1" anchor="Newsletter">
-				<mailchimp-signup></mailchimp-signup>
 			</p-block>
 		</template>
 		<template #anchors>
@@ -33,14 +36,7 @@
 			<p-anchors></p-anchors>
 		</template>
 		<template #aside>
-			<h3 class="serif">Za oponou</h3>
-			<p-list v-if="news" class="smallest">
-				<template v-for="(item, index) in news.sys">
-					<news-item :data="item" v-if="index < 5"></news-item>
-				</template>
-			</p-list>	
-			<!-- <p-anchors></p-anchors> -->	
-						
+			<top-tasks></top-tasks>
 		</template>
 	</p-layout-divided>
 </div>

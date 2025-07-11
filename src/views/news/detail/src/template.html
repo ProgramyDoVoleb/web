@@ -38,7 +38,7 @@
 					</div>
 				</p-loader>
 			</p-block>
-			<p-block headline="Novinky e-mailem">
+			<p-block headline="Newsletter">
 				<mailchimp-signup></mailchimp-signup>
 			</p-block>	
 		</template>
@@ -48,14 +48,7 @@
 			<p-anchors></p-anchors>
 		</template>
 		<template #aside>
-			<h3 class="serif">Novinky</h3>
-			<p-list v-if="news" class="smallest">
-				<template v-for="(item, index) in news.list">
-					<news-item :data="item"></news-item>
-				</template>
-			</p-list>	
-			<!-- <p-anchors></p-anchors> -->	
-						
+			<top-tasks></top-tasks>
 		</template>
 	</p-layout-divided>
 </div>
