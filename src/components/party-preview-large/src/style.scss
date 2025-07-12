@@ -146,10 +146,7 @@
 }
 
 .dark {
-	img[src*=tw],
-	img[src*=fb],
-	img[src*=ig],
-	img[src*=threads] {
+	._icon img:not([src*="volby"]):not([src*="answers-mini"]):not([src*="green"]) {
 		filter: invert(0.7);
 	}
 }

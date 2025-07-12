@@ -1,6 +1,6 @@
 <div class="homepage-summary">
-	<p-loader :rule="news" reserve="120px">
-		<p class="_mw60" v-if="news && polls">
+	<p class="_mw60">
+		<template v-if="news && polls">
 			<template v-if="countToday > 0">
 				<strong>Nově v přehledu:</strong>
 				<p-list-linear class="inline">
@@ -43,11 +43,10 @@
 					<span v-if="news.list.find(x => x.datum === today || x.datum === yesterday) || news.sys.find(x => x.datum === today || x.datum === yesterday) || news.sys.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.list.filter(x => x.datum === today || x.datum === yesterday).length + news.sys.filter(x => x.datum === today || x.datum === yesterday).length + news.media.filter(x => x.updated.split(' ')[0] === today).length" :end="['zatím žádný zpráva', 'jedna zpráva', '%% zprávy', '%% zpráv']"></p-lang> z médií</span>
 					<span v-if="news.comm.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.comm.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný nový komentář', 'jeden komentář', '%% komentáře', '%% komentářů']"></p-lang></span>
 				</p-list-linear>.
-			</template>			
-			<!-- Za poslední dobu <p-lang :value="countLately" :end="['žádný nový záznam', 'jeden nový záznam', '%% nové záznamy', 'celkem %% nových záznamů']"></p-lang>.  -->
-			Vše najdete přehledně v <router-link to="/novinky" class="strong">Sedmidění</router-link>.
-			Nyní také můžete <p-link href="https://docs.google.com/forms/d/e/1FAIpQLSd0WRK4p3rKfLtwKxr5d451UQgqiz0ooxIGkYpbqCNZI0SoXQ/viewform?usp=header" class="strong">navrhnout otázku</p-link> do volební kalkulačky nebo si poslechnout měsíční shrnutí jako <p-link href="https://open.spotify.com/show/0t3PQ53sL3JkydArnDCTZZ" class="strong">podcast</p-link>.
-			Navíc můžete tento web nominovat na <p-link to="/novinky/6343" class="strong red">Křišťálovou Lupu</p-link>, například v kategorii <em>veřejně prospěšná služba</em> nebo <em>nástroje a služby</em>.
-		</p>
-	</p-loader>
+			</template>		
+		</template>
+		Vše najdete přehledně v <router-link to="/novinky" class="strong">Sedmidění</router-link>.
+		Nyní také můžete <p-link href="https://docs.google.com/forms/d/e/1FAIpQLSd0WRK4p3rKfLtwKxr5d451UQgqiz0ooxIGkYpbqCNZI0SoXQ/viewform?usp=header" class="strong">navrhnout otázku</p-link> do volební kalkulačky nebo si poslechnout <p-link href="https://us20.campaign-archive.com/home/?u=cb5f587f6433e8f14b4308e1f&id=50f4ec211a" class="is-span">měsíční shrnutí</p-link> jako <p-link href="https://open.spotify.com/show/0t3PQ53sL3JkydArnDCTZZ" class="strong">podcast</p-link>.
+		Navíc můžete tento web nominovat na <p-link to="/novinky/6343" class="strong red">Křišťálovou Lupu</p-link>, například v kategorii <em>veřejně prospěšná služba</em> nebo <em>nástroje a služby</em>.
+	</p>
 </div>

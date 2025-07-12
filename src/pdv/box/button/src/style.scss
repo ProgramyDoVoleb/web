@@ -77,7 +77,7 @@ img {
   width: 3rem;
 }
 
-.dark ._icon:not([src*="volby"]):not([src*="answers-mini"]) {
+.dark ._icon:not([src*="volby"]):not([src*="answers-mini"]):not([src*="green"]) {
   filter: invert(1) brightness(2) opacity(.8);
   background: none;
 }

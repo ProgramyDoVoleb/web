@@ -512,12 +512,12 @@
 				<p-block headline="O projektu" :hide="true">
 					<div class="_split">
 						<div>
-							<h2 class="serif mt0">
-								O projektu
+							<!-- <h2 class="serif mt0"> -->
+								<!-- O projektu -->
 								<!-- <div class="small">Programy do voleb</div> -->
-							</h2>
+							<!-- </h2> -->
 							<!-- <h4 class="serif">Programy do voleb</h4> -->
-							<p>Cílem je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. Nenajdete zde ani komentáře či názory, do textů se nezasahuje.</p>
+							<p><em class="strong">Programy do voleb</em> jsou nestranný předvolební přehled, který se zaměřuje na přehledy kandidátů a volebních programů. Cílem je usnadnit každému, kdo se zajímá o volby, aby našel všechny hlavní informace přehledně na jednom místě. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. Programy do voleb jsou nezávislý, neziskový, dobrovolnický projekt. Nejsou oficiálním státním webem.</p>
 							<p-box-group>
 								<p-box to="/o-projektu">
 									<p-box-button class="primary">Více o Programech</p-box-button>
@@ -759,11 +759,11 @@
 		<template #aside>
 			<p-list height="1.5">
 				<div>
+							<div class="mb1">
+								<strong class="smaller">Nejbližší události</strong>
+							</div>
 					<p-list class="mh-1">
 						<template v-if="news && news.events && news.events.length > 0">
-							<div>
-								<strong class="smaller">Nejbližší akce</strong>
-							</div>
 							<div v-for="event in sortEvents(news.events, true).filter((x, i) => i < 2)">
 								<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="aside"></event-item>
 							</div>
@@ -780,23 +780,8 @@
 				<div>
 					<top-tasks></top-tasks>
 				</div>
-				<div>
-					<strong class="smaller">Nově na Programech</strong>
-					<div class="p-gap"></div>
-					<p-loader :rule="news">
-						<div v-if="news" class="smallest">
-							<p-list height="1.5">
-								<template v-for="(news, index) in sortBy([].concat(news.sys), 'datum', null, true, true)">
-									<div v-if="index < 2">
-										<news-item-aside :data="news" :noSource="true"></news-item-aside>
-									</div>
-								</template>
-								<div>
-									<router-link to="/novinky/archiv">Archiv</router-link> &rarr;
-								</div>
-							</p-list>
-						</div>
-					</p-loader>
+				<div class="smallest">
+					<em class="strong">Programy do voleb</em> jsou nestranný předvolební přehled, který se zaměřuje na přehledy stran, kandidátů a jejich volebních programů. <router-link to="/o-projektu" class="">O projektu</router-link> &middot; <router-link to="/novinky/archiv" class="">Novinky</router-link>
 				</div>
 			</p-list>
 		</template>
