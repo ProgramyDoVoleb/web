@@ -27,16 +27,16 @@
 				<router-link :to="link + '/kandidat/' + party.$data.leader[0].label" class="is-span">
 					{{ party.$data.leader[0].value.split(' ')[1] }}
 				</router-link>
-				<span class="dimm" v-if="candidates.length > 1">
+				<span class="dimm" v-if="candidatesCount > 1">
 					+
-					<router-link :to="link + '/strana/' + party.id + '/kandidati'" class="dimm">{{ candidates.length - 1 }}</router-link>
+					<router-link :to="link + '/strana/' + party.id + '/kandidati'" class="dimm">{{ candidatesCount - 1 }}</router-link>
 				</span>
 			</div>
 		</template>
 		<template v-else>
 			<div class="p-gap _01"></div>
 			<div class="smallest dimm">
-				<component :is="candidates.length === 0 ? 'span' : 'router-link'" :to="link + '/strana/' + party.id + '/kandidati'" class="is-span dimm"><p-lang :value="candidates.length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></component>
+				<component :is="candidatesCount === 0 ? 'span' : 'router-link'" :to="link + '/strana/' + party.id + '/kandidati'" class="is-span dimm"><p-lang :value="candidatesCount" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></component>
 			</div>
 		</template>
 	</div>

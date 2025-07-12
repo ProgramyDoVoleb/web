@@ -1,5 +1,5 @@
 <div class="homepage-summary">
-	<p-loader :rule="news">
+	<p-loader :rule="news" reserve="60px">
 		<p class="_mw60" v-if="news && polls">
 			<template v-if="countToday > 0">
 				<strong>Nově:</strong>

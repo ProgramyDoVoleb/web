@@ -33,7 +33,7 @@
 				<component :is="width < 640 ? 'div' : 'div'" class="smaller white">
 					<p-grid class="_squeeze border hover">
 						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
-							<party-preview-leader :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :candidatessCount="election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PORCISLO).length" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></party-preview-leader>
+							<party-preview-leader :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :candidatesCount="(election.list[0].$kandidatu.find(x => x.KSTRANA === party.KSTRANA) || {pocet: 0}).pocet" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></party-preview-leader>
 						</div>
 					</p-grid>
 				</component>
@@ -68,19 +68,19 @@
 				<p-loader :rule="election">
 					<div v-if="election">
 						<p-grid class="smaller _squeeze text-center">
-							<div v-for="party in sortBy(election.list[0].$strany.filter(x => x.$data.leader && x.$data.leader.length > 0), 'ZKRATKA', null, true)">
+							<div v-for="person in sortBy(election.list[0].$kandidati, 'PRIJMENI', null, true)">
 								<!-- <div class="p-offset"> -->
 									<div class="p05">
-										<template v-for="person in election.list[0].$kandidati.filter(x => x.id === party.$data.leader[0].label)">
+										<!-- <template v-for="person in election.list[0].$kandidati.filter(x => x.id === party.$data.leader[0].label)"> -->
 											<p-image :src="person.$data && person.$data.photo && person.$data.photo.length > 0 ? person.$data.photo[0].value : null" class="_ar round ma" width="100%"></p-image>
-										</template>
+										<!-- </template> -->
 									</div>
 									<div>
 										<div class="strong">
-											<router-link :to="'/volby/snemovni-volby/166/kandidat/' + party.$data.leader[0].label">{{ party.$data.leader[0].value }}</router-link>
+											<router-link :to="'/volby/snemovni-volby/166/kandidat/' + person.id">{{ person.JMENO + ' ' + person.PRIJMENI }}</router-link>
 										</div>
 										<div class="smallest">
-											{{ party.ZKRATKA }}
+											{{ election.list[0].$strany.find(x => x.KSTRANA === person.KSTRANA).ZKRATKA }}
 										</div>	
 									</div>
 								<!-- </div>			 -->

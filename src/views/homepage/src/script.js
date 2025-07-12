@@ -50,7 +50,8 @@ export default {
 					hide: '–',
 					show: '+',
 				}
-			}
+			},
+			enableNewsLoad: false
 		}
 	},
   components: {
@@ -74,7 +75,7 @@ export default {
 			return this.enums.elections;
 		},
 		news: function () {
-			return this.$store.getters.pdv('news/last50');
+			return this.enableNewsLoad ? this.$store.getters.pdv('news/last50') : null;
 		},
 		newsauto: function () {
 			var list = [];
@@ -236,6 +237,7 @@ export default {
 	setTimeout(() => {
 		this.width = this.$el.getBoundingClientRect().width;
 		window.addEventListener('resize', () => this.width = this.$el.getBoundingClientRect().width);
+		this.enableNewsLoad = true;
 	}, 500);
   }
 };

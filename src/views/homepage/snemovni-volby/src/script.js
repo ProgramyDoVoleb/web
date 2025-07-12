@@ -82,7 +82,7 @@ export default {
 			return useData()
 		},
 		election: function () {
-			return this.$store.getters.pdv('elections/fetch/' + this.elections.id);
+			return this.$store.getters.pdv('elections/specific/' + this.elections.id + '/quicklook');
 		},
 		enums: function () {
 			return useEnums()
