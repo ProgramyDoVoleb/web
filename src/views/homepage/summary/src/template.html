@@ -1,15 +1,15 @@
 <div class="homepage-summary">
-	<p-loader :rule="news" reserve="60px">
+	<p-loader :rule="news" reserve="120px">
 		<p class="_mw60" v-if="news && polls">
 			<template v-if="countToday > 0">
-				<strong>Nově:</strong>
+				<strong>Nově v přehledu:</strong>
 				<p-list-linear class="inline">
 					<span v-if="news.log.find(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'program'))">
 						<!-- <p-lang :value="news.log.filter(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'program')).length" :end="['žádná nový program', 'jedna nový program', '%% nové program', '%% nových program']"></p-lang> -->
 						program
 							(<p-list-linear class="inline">
 								<span v-for="item in news.log.filter(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'program'))">
-									<router-link :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
+									<router-link :to="'/bod/' + item.pointer.split(':').join('/')" class="strong">{{ item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
 								</span>
 							</p-list-linear>)</span>
 					<span v-if="news.log.find(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'priority'))">
@@ -18,7 +18,7 @@
 						
 							(<p-list-linear class="inline">
 								<span v-for="item in news.log.filter(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'priority'))">
-									<router-link :to="'/bod/' + item.pointer.split(':').join('/') + '/priority'">{{ item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
+									<router-link :to="'/bod/' + item.pointer.split(':').join('/') + '/priority'" class="strong">{{ item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
 								</span>
 							</p-list-linear>)</span>
 					<span v-if="news.log.find(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'answer'))">
@@ -27,7 +27,7 @@
 						
 							(<p-list-linear class="inline">
 								<span v-for="item in news.log.filter(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'answer'))">
-									<router-link :to="'/bod/' + item.pointer.split(':').join('/') + '/otazky-a-odpovedi'">{{ item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
+									<router-link :to="'/bod/' + item.pointer.split(':').join('/') + '/otazky-a-odpovedi'" class="strong">{{ item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
 								</span>
 							</p-list-linear>)</span>
 					<span v-if="polls.list.find(x => x.datum === today || x.datum === yesterday)">
@@ -35,17 +35,19 @@
 						 průzkum
 						(<p-list-linear class="or">
 								<span v-for="item in polls.list.filter(x => x.datum === today || x.datum === yesterday)">
-									<router-link :to="'/volebni-pruzkumy/' + item.id">{{ item.agency }}</router-link>
+									<router-link :to="'/volebni-pruzkumy/' + item.id" class="strong">{{ item.agency }}</router-link>
 								</span>
 							</p-list-linear>)</span>
-					<span v-if="news.auto.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.auto.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></span>
-					<span v-if="news.log.find(x => (x.date === today || x.date === yesterday))">celkem <p-lang :value="news.log.filter(x => x.date === today || x.date === yesterday).length" :end="['žádná úprava', 'jedna úprava záznamů', '%% různé úpravy záznamů', '%% různých úprav záznamů']"></p-lang></span>
-					<span v-if="news.list.find(x => x.datum === today || x.datum === yesterday) || news.sys.find(x => x.datum === today || x.datum === yesterday) || news.sys.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.list.filter(x => x.datum === today || x.datum === yesterday).length + news.sys.filter(x => x.datum === today || x.datum === yesterday).length + news.media.filter(x => x.updated.split(' ')[0] === today).length" :end="['zatím žádný zpráva', 'jedna zpráva', '%% zprávy', '%% zpráv']"></p-lang> z médií</span>
-					<span v-if="news.comm.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.comm.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný nový komentář', 'jeden komentář', '%% komentáře', '%% komentářů']"></p-lang></span>
+					<span v-if="news.auto.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.auto.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></span>
+					<span v-if="news.log.find(x => (x.date === today || x.date === yesterday))">celkem <p-lang :value="news.log.filter(x => x.date === today || x.date === yesterday).length" :end="['žádná úprava', 'jedna úprava', '%% různé úpravy', '%% různých úprav']"></p-lang></span>
+					<span v-if="news.list.find(x => x.datum === today || x.datum === yesterday) || news.sys.find(x => x.datum === today || x.datum === yesterday) || news.sys.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.list.filter(x => x.datum === today || x.datum === yesterday).length + news.sys.filter(x => x.datum === today || x.datum === yesterday).length + news.media.filter(x => x.updated.split(' ')[0] === today).length" :end="['zatím žádný zpráva', 'jedna zpráva', '%% zprávy', '%% zpráv']"></p-lang> z médií</span>
+					<span v-if="news.comm.find(x => x.datum === today || x.datum === yesterday)"><p-lang :value="news.comm.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný nový komentář', 'jeden komentář', '%% komentáře', '%% komentářů']"></p-lang></span>
 				</p-list-linear>.
 			</template>			
 			<!-- Za poslední dobu <p-lang :value="countLately" :end="['žádný nový záznam', 'jeden nový záznam', '%% nové záznamy', 'celkem %% nových záznamů']"></p-lang>.  -->
-			Vše přehledně v <router-link to="/novinky" class="strong red">Sedmidění</router-link>.
+			Vše najdete přehledně v <router-link to="/novinky" class="strong">Sedmidění</router-link>.
+			Nyní také můžete <p-link href="https://docs.google.com/forms/d/e/1FAIpQLSd0WRK4p3rKfLtwKxr5d451UQgqiz0ooxIGkYpbqCNZI0SoXQ/viewform?usp=header" class="strong">navrhnout otázku</p-link> do volební kalkulačky nebo si poslechnout měsíční shrnutí jako <p-link href="https://open.spotify.com/show/0t3PQ53sL3JkydArnDCTZZ" class="strong">podcast</p-link>.
+			Navíc můžete tento web nominovat na <p-link to="/novinky/6343" class="strong red">Křišťálovou Lupu</p-link>, například v kategorii <em>veřejně prospěšná služba</em> nebo <em>nástroje a služby</em>.
 		</p>
 	</p-loader>
 </div>

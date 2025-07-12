@@ -2,24 +2,7 @@
 	<p-layout-divided>
 		<template #main>
 			<p-block headline="Volby" :level="1" :hide="true">
-				<p class="lead">
-					Přehled <router-link to="/volby/snemovni-volby/166" class="is-span">stran</router-link>, kandidátů, <strong>volebních programů a priorit</strong> nejen k příštím volbám. Zkuste také <router-link to="/vypocet-mandatu" class="is-span">přepočet na mandáty</router-link> nebo si projděte poslední <router-link to="/volebni-pruzkumy" class="is-span">volební průzkumy</router-link>.
-					<span class="smaller strong">
-						<router-link to="/o-projektu">O projektu</router-link>
-						<!--  &middot; <router-link to="/o-projektu/jak-podporit" class="green">Podpořit</router-link> -->
-					</span>
-				</p> 
-				<!-- <p class="lead">
-					<strong>Volební programy</strong>, <router-link to="/lide" class="is-span">kandidáti</router-link>, <router-link to="/rejstrik" class="is-span">politické strany</router-link>, <router-link to="/novinky" class="is-span">přehled zpráv</router-link>, <router-link to="/volebni-pruzkumy" class="is-span">průzkumy</router-link>, <router-link to="/vypocet-mandatu" class="is-span">výpočet mandátů</router-link>, <router-link to="/volby" class="is-span">archiv voleb</router-link> a další. Přehledně, nestranně, neziskově.
-					<span class="smaller strong">
-						<router-link to="/o-projektu">O projektu</router-link> &middot; <router-link to="/o-projektu/jak-podporit" class="green">Podpořit</router-link>
-					</span>
-				</p> -->
-				<!-- <div class="p-gap"></div> -->
-				<p-area class="inline smaller" borderColor="var(--red)">
-					<div class="strong">Nominujte tento web na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou Lupu 2025</p-link></div>
-					<div class="smallest">&rarr; <em>veřejně prospěšná služba</em> &middot; <em>zájmové weby</em> &middot; <em>nástroje a služby</em></div>
-				</p-area>
+
 				<homepage-summary :news="news" :polls="polls"></homepage-summary>
 				<!-- <div class="p-gap _1"></div> -->
 				<!-- <promo-block></promo-block> -->
