@@ -46,6 +46,8 @@ export function ga (payloadOriginal) {
       p: payload.path,
       q: query,
       d: window.location.hostname
+    }).catch(function (err) {
+      console.log(err.toJSON());
     });
   }
 };
@@ -57,6 +59,8 @@ export function ge (payload) {
     e: payload.event,
     v: payload.value,
     d: window.location.hostname
+  }).catch(function (err) {
+    console.log(err.toJSON());
   });
 };
 

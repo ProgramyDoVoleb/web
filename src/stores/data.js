@@ -33,15 +33,29 @@ export const useData = defineStore('store', () => {
 
                 // console.log(request, 2, o)
 
-                setTimeout(() => {
-                    axios.get(api + request + '?c=' + core.cache).then((response) => {
+                var tries = 0;
+
+                function tryLoadResource(link) {
+                    axios.get(link).then((response) => {
                         o.response.value = response.data;
-                        activity.value++; 
-    
-                        // console.log(request, 3, o)
+                        activity.value++;
     
                         resolve();
+                    }).catch(function (err) {
+                        console.log(tries);
+                        console.log(err.toJSON());
+
+                        tries++;
+
+                        if (tries < 5) {
+                            setTimeout(() => tryLoadResource(link), 50 * tries);
+                        }                        
                     });
+                }
+
+
+                setTimeout(() => {
+                    tryLoadResource(api + request + '?c=' + core.cache);
                 }, delay || 0);
             }).then((resolver, rejected) => {
                 if (rejected) {
