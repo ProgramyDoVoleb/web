@@ -315,23 +315,27 @@
 									</p-columns>
 								</p-area>
 							</p-block>
-							
-							<p-block headline="Garanti" :class="{'_empty': !current.$data.garant}">
-								<p-columns v-if="current.$data.garant" class="mb1">
-									<div v-for="cand in current.$data.garant">
-										<!-- <p-area> -->
-											<div class="p-offset reverse balanced">
-												<div>
-													<component :is="JSON.parse(cand.value || '[1, null]')[1] ? 'router-link' : 'span'" :to="$link.split('/strana')[0] + '/kandidat/' + JSON.parse(cand.value || '[1,1]')[1]" class="strong">{{ JSON.parse(cand.value || "['chybné zadání', null]")[0] }}</component>
-													<div class="smallest">{{ cand.label }}</div>
+
+							<p-block headline="Garanti" :hide="true" :class="{'_empty': !current.$data.garant}">
+								<template v-if="current.$data.garant" class="mb1">
+									<h2 class="serif">Garanti</h2>
+									<p-columns>
+										<div v-for="cand in current.$data.garant">
+											<!-- <p-area> -->
+												<div class="p-offset reverse balanced">
+													<div>
+														<component :is="JSON.parse(cand.value || '[1, null]')[1] ? 'router-link' : 'span'" :to="$link.split('/strana')[0] + '/kandidat/' + JSON.parse(cand.value || '[1,1]')[1]" class="strong">{{ JSON.parse(cand.value || "['chybné zadání', null]")[0] }}</component>
+														<div class="smallest">{{ cand.label }}</div>
+													</div>
+													<div v-if="cand.source">
+														<p-link class="smallest dimm" :href="cand.source">zdroj</p-link>
+													</div>
 												</div>
-												<div v-if="cand.source">
-													<p-link class="smallest dimm" :href="cand.source">zdroj</p-link>
-												</div>
-											</div>
-										<!-- </p-area> -->
-									</div>
-								</p-columns>
+											<!-- </p-area> -->
+										</div>
+									</p-columns>
+
+								</template>
 								<div v-if="$volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
