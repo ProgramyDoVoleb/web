@@ -69,6 +69,48 @@ export default {
 					txt: 'podpoří',
 					label: 'SPD',
 					link: '/volby/snemovni-volby/166/strana/230'
+				},
+				{
+					name: 'SOCDEM',
+					logo: 'https://static.programydovoleb.cz/logo2/FyRGB03XoAMWE7t.jpeg',
+					txt: 'podpoří',
+					label: 'Stačilo',
+					link: '/volby/snemovni-volby/166/strana/234'
+				},
+				{
+					name: 'Moravané',
+					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/83-moravane.png',
+					txt: 'podpoří',
+					label: 'Stačilo',
+					link: '/volby/snemovni-volby/166/strana/234'
+				},
+				{
+					name: 'Soukromníci',
+					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/716-sscr-n.jpg',
+					txt: 'podpoří',
+					label: 'Motoristy',
+					link: '/volby/snemovni-volby/166/strana/232'
+				},
+				{
+					name: 'KOA',
+					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/182-koa.png',
+					txt: 'podpoří',
+					label: 'Starosty',
+					link: '/volby/snemovni-volby/166/strana/231'
+				},
+				{
+					name: 'Východočeši',
+					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/770-vychodocesi.png',
+					txt: 'podpoří',
+					label: 'Starosty',
+					link: '/volby/snemovni-volby/166/strana/231'
+				},
+				{
+					name: 'JsmePRO!',
+					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/1126-jsme-pro-kraj.png',
+					txt: 'podpoří',
+					label: 'Starosty',
+					link: '/volby/snemovni-volby/166/strana/231'
 				}
 			],
 			searchQuery: null

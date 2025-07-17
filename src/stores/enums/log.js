@@ -27,5 +27,6 @@ export default {
     'answer': 'Odpověď',
     'priority': 'Priorita',
     'leader': 'Volební lídr',
-    'govrole': 'Vládní kandidát'
+    'govrole': 'Vládní kandidát',
+    'garant': 'Garant'
 }
