@@ -46,7 +46,8 @@
 			</template>		
 		</template>
 		Vše najdete přehledně v <router-link to="/novinky" class="strong">Sedmidění</router-link>.
-		Nyní také můžete <p-link href="https://docs.google.com/forms/d/e/1FAIpQLSd0WRK4p3rKfLtwKxr5d451UQgqiz0ooxIGkYpbqCNZI0SoXQ/viewform?usp=header" class="strong">navrhnout otázku</p-link> do volební kalkulačky nebo si poslechnout <p-link href="https://us20.campaign-archive.com/home/?u=cb5f587f6433e8f14b4308e1f&id=50f4ec211a" class="is-span">měsíční shrnutí</p-link> jako <p-link href="https://open.spotify.com/show/0t3PQ53sL3JkydArnDCTZZ" class="strong">podcast</p-link>.
-		Navíc můžete tento web nominovat na <p-link href="https://kristalova.lupa.cz/nominace/" class="strong red">Křišťálovou Lupu</p-link>, například v kategorii <em>veřejně prospěšná služba</em> nebo <em>nástroje a služby</em>.
+		Shrnutí za celý měsíc si můžete <router-link to="/novinky/7350" class="strong">přečíst</router-link> nebo <p-link href="https://open.spotify.com/show/0t3PQ53sL3JkydArnDCTZZ" class="strong">poslechnout</p-link>.
+		Tento projekt můžete nominovat na <p-link href="https://kristalova.lupa.cz/nominace/" class="strong red">Křišťálovou Lupu</p-link>, například v kategorii <em>veřejně prospěšná služba</em> nebo <em>nástroje a služby</em>.
+		Do voleb je {{ Math.floor((new Date("2025-10-03").getTime() - new Date().getTime())/3600/24/1000) }} dní.
 	</p>
 </div>

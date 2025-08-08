@@ -108,24 +108,6 @@
 			<div v-for="(region, index) in enums.regions">
 				<router-link :to="'/volby/snemovni-volby/166/kraj/' + (index + 1)">{{ region }}</router-link>
 			</div>
-			<div>
-				<pop-up class="down inline">
-					<template #init>
-						<strong class="red">Hledat kandidáta</strong>
-					</template>
-					<template #content>
-						<div class="mb1">
-							<input type="text" placeholder="Začněte psát" v-model="searchQuery">
-						</div>							
-						<p-list class="smaller _05">
-							<div v-for="cand in searchResults">
-								<router-link :to="'/volby/snemovni-volby/' + election.list[0].id + '/kandidat/' + cand.id" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
-								<span class="dimm smallest"> &middot; {{ cand.PORCISLO }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }} &middot; {{ election.list[0].$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}</span>
-							</div>
-						</p-list>
-					</template>
-				</pop-up>
-			</div>
 		</p-columns>
 	</p-area>
 	
