@@ -401,8 +401,8 @@
 								</p-list>
 							</p-block>
 
-							<p-block headline="Z volební kalkulačky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 2).length > 0" :hide="true">
-								<h3 class="">Z volební kalkulačky <p-icon icon="answers-mini" :border="0"></p-icon></h3>
+							<p-block headline="Z kalkulačky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 2).length > 0" :hide="true">
+								<h3 class="">Z kalkulačky <p-icon icon="answers-mini" :border="0"></p-icon></h3>
 								<p-list class="_05">
 									<div v-for="(question, index) in randonAmount(current.$otazky.filter(x => x.type === 3 && (!x.designated || x.designated === (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 2 : 1))), 5)">
 										<div class="smaller p-offset reverse balanced">

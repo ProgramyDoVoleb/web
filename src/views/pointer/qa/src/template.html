@@ -27,7 +27,7 @@
 											</div>
 											<div class="p-gap _05"></div>
 											<div v-if="answer.quick" class="serif strong" :style="{color: ['', 'var(--green)', 'var(--red)', null, 'var(--greyish)'][answer.quick]}">
-												<p-label :after="true" :color="['', 'var(--green)', 'var(--red)', 'var(--blue)', 'var(--greyish)'][answer.quick]" title="Rychlá odpověď, např do volební kalkulačky">
+												<p-label :after="true" :color="['', 'var(--green)', 'var(--red)', 'var(--blue)', 'var(--greyish)'][answer.quick]" title="Rychlá odpověď, např do kalkulačky">
 													{{ ['', 'ANO', 'NE', 'je to složitější', 'nechci odpovídat'][answer.quick] }}
 												</p-label>
 											</div>
@@ -40,7 +40,7 @@
 									</div>
 								</p-list>
 							</p-block>
-							<p-block headline="Z volební kalkulačky" v-if="current.$odpovedi.find(x => x.$otazka[0].type === 3)">
+							<p-block headline="Z kalkulačky" v-if="current.$odpovedi.find(x => x.$otazka[0].type === 3)">
 								<p-list height="2">
 									<div v-for="(answer, index) in sortBy(current.$odpovedi.filter(x => x.$otazka[0].type === 3), 'question')">
 										<!-- <div v-if="questionLimitOff || index < questionLimit"> -->

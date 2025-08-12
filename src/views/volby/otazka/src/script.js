@@ -17,7 +17,7 @@ export default {
 				{type: 1, designee: null, label: 'Otázky', hash: 'otazka'},
 				{type: 1, designee: 1, label: 'Otázky pro strany', hash: 'otazka'},
 				{type: 1, designee: 2, label: 'Otázky pro kandidáty', hash: 'otazka'},
-				{type: 3, designee: null, label: 'Volební kalkulačka', hash: 'kalkulacka'}
+				{type: 3, designee: null, label: 'Kalkulačka', hash: 'kalkulacka'}
 			],
 			hasObvody: this.hash === 'senatni-volby',
 			hasKraje: this.hash === 'krajske-volby',

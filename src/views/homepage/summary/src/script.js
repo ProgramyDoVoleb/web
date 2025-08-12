@@ -1,4 +1,5 @@
 import { today, yesterday } from '@/stores/core';
+import { unique } from '@/pdv/helpers';
 
 export default {
 	name: 'homepage-summary',
@@ -39,6 +40,18 @@ export default {
 			}
 
 			return count;
+		}
+	},
+	methods: {
+		uniqueList: function (list, id) {
+			var ids = unique(list, id);
+			var arr = [];
+
+			ids.forEach(i => {
+				arr.push(list.find(x => x[id] === i));
+			})
+
+			return arr;
 		}
 	}
 };

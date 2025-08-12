@@ -18,7 +18,7 @@ export default {
 			qenum: [
 				{type: 2, label: 'Volební témata', hash: 'tema'},
 				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka'},
-				{type: 3, label: 'Volební kalkulačka', hash: 'kalkulacka'}
+				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka'}
 			]
 		}
 	},

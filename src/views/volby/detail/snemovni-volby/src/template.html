@@ -264,7 +264,7 @@
 			<p-area class="highlight shadow" borderColor="var(--yellow)">
 				<h2 class="serif mv0">Otázky a odpovědi</h2>
 				<template v-for="(qitem, qindex) in qenum">
-					<p-collapsible :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0" logo="answers-mini" :open="data.list[0].id === 166">
+					<p-collapsible :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0" logo="answers-mini" :open="data.list[0].id === 166 && qitem.type === 1">
 						<p-area>
 							<div :class="qitem.type < 0 ? 'columns smaller' : 'p-list smaller _05'">
 								<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 1)">
@@ -283,11 +283,19 @@
 								</p-collapsible>
 							</template>
 						</p-area>
-						<template v-if="news && data.list[0].id === 166">
+						<template v-if="news && data.list[0].id === 166 && qitem.type === 1">
 							<h3 class="serif">Odpovědi</h3>
 							<p-columns class="tight smaller">
 								<div v-for="cand in sortBy(shuffle(news.answers.filter(x => x.PRIJMENI)).filter((x, i) => i < 12), 'PRIJMENI', null, true)">
 									<router-link :to="'/volby/snemovni-volby/' + data.list[0].id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
+								</div>
+							</p-columns>
+						</template>
+						<template v-if="news && data.list[0].id === 166 && qitem.type === 3 && news.answers.find(x => x.ZKRATKA)">
+							<h3 class="serif">Odpovědi stran</h3>
+							<p-columns class="tight smaller">
+								<div v-for="cand in sortBy(shuffle(news.answers.filter(x => x.ZKRATKA)).filter((x, i) => i < 12), 'ZKRATKA', null, true)">
+									<router-link :to="'/volby/snemovni-volby/' + data.list[0].id + '/strana/' + cand.id + '/otazky-a-odpovedi'">{{ cand.ZKRATKA }}</router-link>
 								</div>
 							</p-columns>
 						</template>

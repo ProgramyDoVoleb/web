@@ -56,7 +56,7 @@ export default {
 				{type: 2, label: 'Volební témata', hash: 'tema', list: []},
 				{type: 1, designated: 2, label: 'Otázky pro kandidáty', hash: 'otazka', list: []},
 				{type: 1, designated: 1, label: 'Otázky pro strany', hash: 'otazka', list: []},
-				{type: 3, label: 'Volební kalkulačka', hash: 'kalkulacka', list: []}
+				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka', list: []}
 			]
 
 			if (this.data) {

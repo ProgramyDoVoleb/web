@@ -5,7 +5,7 @@
 				<p-loader :rule="data">
 					<div v-if="data">
 						<div class="smallest dimm" v-if="data">
-							<strong>Odpovědi ve volební kalkulačce pro {{ enums.elections.find(x => x.key === data.cis.volby[0].typ).name.toLowerCase() }}</strong>
+							<strong>Odpovědi v kalkulačce pro {{ enums.elections.find(x => x.key === data.cis.volby[0].typ).name.toLowerCase() }}</strong>
 							<div class="smaller">
 								{{ data.cis.volby[0].datum_label || data.cis.volby[0].cirka || date(data.cis.volby[0].datum) }}
 								<template v-if="data && $route.query.vyber && hash === 'krajske-volby'">
