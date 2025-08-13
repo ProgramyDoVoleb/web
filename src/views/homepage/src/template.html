@@ -438,7 +438,7 @@
 										</p-loader>
 									</p-area>
 								</p-collapsible>
-								<p-collapsible label="Poslední úpravy profilů" logo="edit">
+								<!-- <p-collapsible label="Poslední úpravy profilů" logo="edit">
 									<p-loader :rule="news">
 										<div v-if="news" class="smaller">
 											<p-list>
@@ -447,8 +447,6 @@
 													<p-list-linear class="_pll or">
 														<template v-for="point in ['csu_ps_rkl:', 'csu_ps_rk:', 'csu_senat_rk:']">
 															<template v-if="news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum).length > 0">
-																<!-- <span v-if="point === 'csu_senat_rk:'">Senát</span> -->
-																<!-- <span v-if="point === 'csu_kz_rkl:'">Krajské volby</span> -->
 																<span v-if="point === 'csu_ps_rk:'"><br>Kandidáti</span>
 															</template>
 															<span v-for="item in news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum)">
@@ -464,7 +462,7 @@
 											</p-list>
 										</div>
 									</p-loader>
-								</p-collapsible>
+								</p-collapsible> -->
 								<p-collapsible label="Novinky na Programech" logo="program">
 									<p-area class="primary">
 										<p-list>
