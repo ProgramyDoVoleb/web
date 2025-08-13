@@ -89,7 +89,7 @@
 														</p-area>
 													</div>
 												</template>
-												<template v-if="itemparty.data.find(x => x.type === 'answer')">
+												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.quick === null)">
 													<div>
 														<p-area class="white shadow" borderColor="var(--yellow)" icon="answers-mini">
 															<strong>
@@ -97,7 +97,19 @@
 																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
 																</router-link>
 															</strong>
-															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer').length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.quick === null).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
+														</p-area>
+													</div>
+												</template>
+												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.quick !== null)">
+													<div>
+														<p-area class="white shadow" borderColor="var(--greyish)" icon="calc">
+															<strong>
+																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/otazky-a-odpovedi'">
+																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																</router-link>
+															</strong>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.quick !== null).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
 														</p-area>
 													</div>
 												</template>
@@ -217,7 +229,7 @@
 											</p-grid>
 										</div>
 									</template>
-									<template v-if="day.log.length > 0 && day.log.find(x => x.data.filter(y => ['media', 'pr'].indexOf(y.type) === -1).length > 0)">
+									<template v-if="day.log.length > 0 && day.log.find(x => x.data.filter(y => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(y.type) === -1).length > 0)">
 										<div class="smallest dimm strong">Další upravené záznamy</div>
 										<div>
 											<p-list class="invisible smaller">
@@ -226,7 +238,7 @@
 													<span class="smallest dimm">
 														&mdash;
 														<p-list-linear class="or inline">
-															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr'].indexOf(x) === -1)">
+															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(x) === -1)">
 																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
 																	{{ logtypes[entity] }}
 																</component>
@@ -234,12 +246,12 @@
 														</p-list-linear>
 													</span>
 												</div>
-												<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node && x.node.PRIJMENI && x.data.filter(y => ['media', 'pr'].indexOf(y.type) === -1).length > 0 ) || [], 'title', null, true)">
+												<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node && x.node.PRIJMENI && x.data.filter(y => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(y.type) === -1).length > 0 ) || [], 'title', null, true)">
 													<router-link :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.title }}</router-link>
 													<span class="smallest dimm">
 														&mdash;
 														<p-list-linear class="or inline">
-															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr'].indexOf(x) === -1)">
+															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(x) === -1)">
 																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
 																	{{ logtypes[entity] }}
 																</component>
@@ -338,7 +350,7 @@
 			</p-block>
 		</template>
 		<template #anchors>
-			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<p-logo :data="{logo: cdn + 'icon/sedmideni.svg'}" :size="'12rem'"></p-logo>
 			<div class="p-gap"></div>
 			<p-anchors></p-anchors>
 		</template>
