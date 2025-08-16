@@ -20,6 +20,7 @@ import EngagementBlock from '@/components/engagement/block/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
+import SearchParty from '@/components/search-party/do.vue'
 
 export default {
 	name: 'layout-volby-detail-snemovni',
@@ -51,7 +52,8 @@ export default {
 	PollsPreview,
 	PollOfPolls,
 	EngagementBlock1, EngagementBlock,
-	PopUp, EditableSuggest
+	PopUp, EditableSuggest,
+	SearchParty
   },
 	computed: {
 		$store: function () {
@@ -74,7 +76,10 @@ export default {
 			}
 
 			return sortBy(sortBy(results, 'JMENO', null, true), 'PRIJMENI', null, true);
-		}
+		},
+		partiesActivityList: function () {
+			return this.$store.getters.pdv('parties/as-of/' + this.data.list[0].datum + ';1,7,47,53,166,703,720,721,768,1114,714,5,1227,1245,1265,1178,1298');
+		},
 	},
   methods: {
 		url,
@@ -84,6 +89,7 @@ export default {
 		pct,
 		sortBy,
 		colorByItem,
+		logoByItem,
 		shuffle,
 		// colorByItem: function (item, data) {
 

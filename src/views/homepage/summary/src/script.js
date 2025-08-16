@@ -40,6 +40,9 @@ export default {
 			}
 
 			return count;
+		},
+		remaining: function () {
+			return Math.floor((new Date("2025-10-03").getTime() - new Date().getTime())/3600/24/1000);
 		}
 	},
 	methods: {

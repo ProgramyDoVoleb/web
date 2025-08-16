@@ -1,0 +1,174 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block :headline="(data ? data.strana.NAZEV : 'Načítám...')" :level="1" :anchor="data ? data.strana.ZKRATKA : 'Načítám...'" :subheadline="data ? ' ve sněmovních volbách ' + data.cis.volby.datum.split('-')[0] : null">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<p class="strong red" v-if="data.cis.volby.status === 1">
+							<p-label color="var(--red)">Předběžné údaje</p-label>
+						</p>
+						<p-list class="_4">
+							<div v-for="strana in data.list.filter(x => x.KSTRANA && x.KSTRANA != 0 && !others.find(y => y.party.KSTRANA === x.KSTRANA))">
+								<party-preview :link="'/volby/snemovni-volby/' + id" :party="strana" :election="null" :elections="data"></party-preview>
+								<div class="mt05">
+									<p-box-group>
+										<p-box v-if="data.cis.volby.status === 3">
+											<p-box-icon :type="data.kandidati.filter(x => x.MANDAT && x.MANDAT === 'A' && x.KSTRANA === strana.KSTRANA).length > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
+											<p-box-label>
+												<p-lang :value="data.kandidati.filter(x => x.MANDAT === 'A' && x.KSTRANA === strana.KSTRANA).length" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>
+												<template v-if="data.kandidati.filter(x => x.MANDAT === 'A' && x.KSTRANA === strana.KSTRANA).length > 0">
+													&middot;
+													<p-lang :value="data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA && x.MANDAT === 'A' && x.PSTRANA === Number(party)).length" :end="['žádný člen', 'jeden člen', '%% členové', '%% členů']"></p-lang>
+												</template>
+											</p-box-label>
+										</p-box>
+										<p-box>
+											<p-box-icon type="person"></p-box-icon>
+											<p-box-label>
+												<p-lang :value="data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA).length" :end="['', 'Jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>
+												&middot;
+												<p-lang :value="data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA && x.PSTRANA === Number(party)).length" :end="['žádní člen', 'jeden člen', '%% členové', '%% členů']"></p-lang>
+											</p-box-label>
+										</p-box>
+									</p-box-group>
+								</div>
+								<div class="p-line"></div>
+								<p>
+									V přehledu jsou kandidáti, kteří jsou buď členy <router-link :to="'/rejstrik/' + data.strana.VSTRANA"><em>{{ data.strana.NAZEV }}</em></router-link> nebo získali jejich formální nominaci.
+									<template v-if="unique(data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA), 'PSTRANA').length > 1">
+										Členové jsou buď 
+										<p-list-linear class="nebo inline">
+											<span v-for="pty in unique(data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA), 'PSTRANA')">
+												<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === pty) || {PSTRANA: pty}, data, 'PSTRANA')">
+													<component :is="pty && pty != 99 ? 'router-link' : 'span'" :to="'/volby/snemovni-volby/' + id + '/aktivita/' + pty">
+														{{ (data.cis.strany.find(x => x.VSTRANA === pty) || {ZKRATKA: 'bez určeného členství'}).ZKRATKA }}
+													</component> <span class="tiny">({{ data.kandidati.filter(x => x.PSTRANA === pty).length }})</span>
+												</p-label>
+											</span>
+										</p-list-linear>
+									</template>
+									<template v-if="data.podpora.length > 0">Protože se jedná o stranu, která pouze podporuje kandidátku <router-link :to="'/volby/snemovni-volby/' + id + '/strana/' + strana.id"><em>{{ strana.NAZEV }}</em></router-link> a nejde o koalici, tak pokud navrhla nějakého nestraníka, nelze takového kandidáta na základě oficiálních dat správně přiřadit k této straně, a proto v přehledu se nezobrazí.</template>
+								</p>
+								<p-list class="_1">
+									<div v-for="(kraj, index) in [3,11,5,8,7,14,12,9,4,1,2,6,10,13].filter(y => data.kandidati.find(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === y))">
+										<p-block :hide="true" :headline="enums.regions[kraj - 1]" class="_p0">
+											<p-box-group :block="true">
+												<p-box :block="true">
+													<p-box-label><router-link :to="'/volby/snemovni-volby/' + id + '/strana/' + strana.id + '/kandidati/' + kraj" class="is-span">{{ enums.regions[kraj - 1] }}</router-link></p-box-label>
+													<p-box-gap></p-box-gap>
+													<p-box-label v-if="data.kandidati.find(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === kraj && x.MANDAT && x.MANDAT === 'A')" class="green">{{ data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === kraj && x.MANDAT && x.MANDAT === 'A').length }}</p-box-label>
+													<p-box-label>{{ data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === kraj).length }}</p-box-label>
+													<p-box-icon :type="data.kandidati.find(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === kraj) ? 'person' : 'icon-against'"></p-box-icon>
+												</p-box>
+											</p-box-group>
+											<template v-if="data.kandidati.find(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === kraj)">
+												<div class="p-gap"></div>
+												<p-area :borderColor="data.cis.volby.status === 3 ? (data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === kraj && x.MANDAT && x.MANDAT === 'A').length > 0 ? 'var(--green)' : 'var(--red)') : null">
+														<div class="smaller _t" v-if="data.kandidati.filter(x => x.VOLKRAJ === kraj).length > 0">
+															<p-columns class="_2_4">
+																<div v-for="cand in sortBy(data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === kraj), 'PORCISLO', 99)">
+																	<p-label class="block" :color="colorByItem(cand, data, 'PSTRANA')">
+																		<router-link :to="'/volby/snemovni-volby/' + id + '/kandidat/' + cand.id" :class="{'strong green': cand.MANDAT && cand.MANDAT === 'A'}">
+																			{{ cand.JMENO + ' ' + cand.PRIJMENI }}
+																		</router-link>		
+																		<span v-if="cand.PORCISLO" class="tiny blue"> ({{ cand.PORCISLO }})</span>	
+																	</p-label>												
+																</div>
+															</p-columns>												
+														</div>
+													</p-area>
+											</template>
+										</p-block>
+									</div>
+									<div v-if="[3,11,5,8,7,14,12,9,4,1,2,6,10,13].filter(y => !data.kandidati.find(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === y)).length > 0">
+										<p>
+											Strana nemusí mít svého kandidáta nebo nominanta ve všech krajích. Zástupce <em>{{ data.strana.ZKRATKA }}</em> nenajdete v těchto krajích: 
+											<p-list-linear class="inline nebo">
+												<span v-for="kraj in [3,11,5,8,7,14,12,9,4,1,2,6,10,13].filter(y => !data.kandidati.find(x => x.KSTRANA === strana.KSTRANA && x.VOLKRAJ === y))">
+													{{ enums.regions[kraj - 1] }}
+												</span>
+											</p-list-linear>
+										</p>
+									</div>
+								</p-list>
+								<div class="p-gap _4"></div>
+								<candidate-stats v-if="data.cis.volby.status > 1 && data.kandidati && data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA).length > 1" :data="data.kandidati.filter(x => x.KSTRANA === strana.KSTRANA)" :focus="null" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === strana.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(strana, data, strana.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="data.cis.volby.status"></candidate-stats>
+							</div>
+						</p-list>
+						<p v-if="data.podpora.length === 0 && !data.list.find(x => x.KSTRANA && x.KSTRANA != 0)" class="mt3">
+							Nebyly nalezeny žádné údaje o samostatné nebo koaliční kandidatuře, nebo o podpoře jiné strany. <em>{{ data.strana.NAZEV}}</em> se zřejmě těchto voleb přímo neúčastní. 
+							<template v-if="data.list.find(x => x.KSTRANA === 0)">
+								Nějakou dobu se strana objevovala v přehledu jako 
+								<p-list-linear class="inline or">
+									<span v-for="suggested in data.list.filter(x => x.KSTRANA === 0)">
+										<router-link :to="'/volby/snemovni-volby/' + id + '/strana/' + suggested.id">{{ suggested.NAZEV}}</router-link>
+									</span>
+								</p-list-linear>.
+							</template>
+							<template v-if="data.cis.volby.status < 3">Je možné, že někdo z členů se objeví na kandidátce jiné strany. Pokud ale informaci o členství neuvede, není jak takovou informaci zjistit.</template>
+						</p>
+						<!-- <p-block headline="Jednotlivé kraje" :hide="true"> -->
+						<!-- </p-block> -->
+					</div>
+				</p-loader>
+			</p-block>		
+			<p-loader :rule="data">
+				<div v-if="data">	
+					<p-block headline="Členové na jiné kandidátce" :level="1" v-if="others.length > 0">
+						<p>V některých případech se mohou členové strany objevit na jiné kandidátce, než je jejich, koaliční nebo které strana vyslovila podporu.</p>
+						<p-list>
+							<template v-for="item in others">
+								<div>
+									<router-link :to="'/volby/snemovni-volby/' + id + '/kandidat/' + item.cand.id">
+										{{ item.cand.JMENO + ' ' + item.cand.PRIJMENI }}
+									</router-link>
+									je {{ item.cand.PORCISLO }}. na kandidátce 
+									<router-link :to="'/volby/snemovni-volby/' + id + '/strana/' + item.party.id">
+										<em>{{ item.party.NAZEV }}</em>
+									</router-link>
+									({{ item.region }})
+								</div>
+							</template>
+						</p-list>
+					</p-block>
+				</div>
+			</p-loader>
+			<p-loader :rule="partiesActivityList">
+				<div v-if="partiesActivityList">
+					<p-block :level="1" headline="Další strany">
+						<p-box-group>
+							<template v-for="party in sortBy(partiesActivityList.list, 'ZKRATKA', null, true)">
+								<p-box :to="'/volby/snemovni-volby/' + id + '/aktivita/' + party.VSTRANA">
+									<p-box-image :src="logoByItem(party, {cis: {strany: partiesActivityList.list}})" class="_r"></p-box-image>
+								</p-box>
+							</template>
+							<p-modal>
+								<template #init>
+									<p-box>
+										<p-box-button icon="detail.svg">jiná strana</p-box-button>
+									</p-box>
+								</template>
+								<template #content>
+									<search-party :link="'/volby/snemovni-volby/' + id + '/aktivita/'"></search-party>
+								</template>
+							</p-modal>
+						</p-box-group>
+					</p-block>
+				</div>
+			</p-loader>
+		</template>
+		<template #anchors>
+			<p-logo v-if="data && logoByItem(data.strana, data, null, true)" :data="{logo: logoByItem(data.strana, data)}" :size="'12rem'" :alt="'Logo ' + data.strana.NAZEV"></p-logo>
+			<p-logo v-else :data="{logo: cdn + 'icon/snemovni-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+				<div>
+					<top-tasks></top-tasks>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

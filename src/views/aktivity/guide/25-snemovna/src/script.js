@@ -65,6 +65,7 @@ export default {
 			partyList: [],
 			priorityLimit: [3,3,3],
 			focusKraj: null,
+			focusCand: null,
 			selection: {
 				useActivity: false,
 				kraj: []
@@ -168,8 +169,8 @@ export default {
 		candData: function () {
 			var res = null;
 
-			if (this.focusKraj) {
-				res = this.$store.getters.pdv('pointers/full/csu_ps_rk:' + this.focusKraj)
+			if (this.focusCand) {
+				res = this.$store.getters.pdv('pointers/full/csu_ps_rk:' + this.focusCand)
 			}
 
 			return res;

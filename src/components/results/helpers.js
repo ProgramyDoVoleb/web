@@ -37,7 +37,7 @@ export function colorByItem (item, data, _key, _flat) {
         }
     }
 
-    return res || '#f959e7';
+    return res || 'var(--greyish)';
 }
 
 export function logoByItem (item, data, _key, _canBeNull) {

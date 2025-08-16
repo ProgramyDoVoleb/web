@@ -23,29 +23,31 @@
 							</div>
 						</p-headline>
 						<p class="lead" v-if="data && data.list[0].comment">{{ data.list[0].comment }}</p>
-						<p-block :hide="true" headline="Rejstřík" v-if="data.list[0].$body && data.list[0].$body.length > 8">
-							<p-area>
-								<p-columns class="smaller -tight">
-									<template v-if="data.list[0].$body && data.list[0].$body.find(x => x.$kandidat)">
-										<div v-for="(cand, index2) in sortByDeepPrijmeni(data.list[0].$body)">
-											<button class="inline" @click="slide('answer_' + cand.csu_id)">
-												{{ cand.$kandidat.JMENO + ' ' + cand.$kandidat.PRIJMENI }}
-											</button>
-										</div>
-									</template>
-									<template v-else>
-										<template v-if="data.list[0].$body">
-											<div v-for="(cand, index2) in sortByDeepZkratka(data.list[0].$body)">
+						<p-area v-if="data.list[0].$body && data.list[0].$body.length > 8">
+							<p-block-expandable :hide="true" headline="Rejstřík" borderless="1" :status="data.list[0].$body.length">
+								<!-- <p-area> -->
+									<p-columns class="smaller -tight _2_4">
+										<template v-if="data.list[0].$body && data.list[0].$body.find(x => x.$kandidat)">
+											<div v-for="(cand, index2) in sortByDeepPrijmeni(data.list[0].$body)">
 												<button class="inline" @click="slide('answer_' + cand.csu_id)">
-													{{ cand.$strana.ZKRATKA }}
+													{{ cand.$kandidat.JMENO + ' ' + cand.$kandidat.PRIJMENI }}
 												</button>
 											</div>
 										</template>
-									</template>
-								</p-columns>
-							</p-area>
-						</p-block>
-						<div class="p-gap _2" v-else></div>
+										<template v-else>
+											<template v-if="data.list[0].$body">
+												<div v-for="(cand, index2) in sortByDeepZkratka(data.list[0].$body)">
+													<button class="inline" @click="slide('answer_' + cand.csu_id)">
+														{{ cand.$strana.ZKRATKA }}
+													</button>
+												</div>
+											</template>
+										</template>
+									</p-columns>
+								<!-- </p-area> -->
+							</p-block-expandable>
+						</p-area>
+						<div class="p-gap _2"></div>
 						<template v-if="!data.list[0].$body">
 							<p-area class="dimm smaller">
 								Odpovědi zatím chybí.
@@ -55,7 +57,7 @@
 							<p-list class="_2" v-if="data.list[0].$body">
 								<template v-if="data.list[0].$body.find(x => x.$kandidat)">
 									<template v-for="(cand, index2) in sortByDeepPrijmeni(data.list[0].$body)">
-										<p-block :hide="true" :headline="cand.$strana ? cand.$strana.ZKRATKA : cand.$kandidat.JMENO + ' ' + cand.$kandidat.PRIJMENI">
+										<!-- <p-block :hide="true" :headline="cand.$kandidat.JMENO[0] + '. ' + cand.$kandidat.PRIJMENI"> -->
 											<div :name="'answer_' + cand.csu_id">
 												<div class="p-offset">
 													<div>
@@ -76,7 +78,7 @@
 													</div>
 												</div>
 											</div>
-										</p-block>
+										<!-- </p-block> -->
 									</template>
 								</template>
 								<template v-else>

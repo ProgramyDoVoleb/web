@@ -92,7 +92,7 @@
 						<p-loader :rule="krajData.data">
 							<div v-if="krajData.data">
 									<p-area>
-										<strong>Kdo kandiduje v krajských volbách:</strong>
+										<strong>Kdo kandiduje ve sněmovních volbách:</strong>
 										<div class="p-line"></div>
 										<div class="columns text-left smaller">
 											<div v-for="party in krajData.data.list[0].$strany">
@@ -462,36 +462,43 @@
 					</div>
 				</p-list>
 			</section>
-			<!-- <section name="section_9">
+			<section name="section_9" v-if="focusKraj">
 				<div class="p-line"></div>
-				<div class="_big">04</div>
+				<div class="_big">06</div>
 				<h2>Zaostřeno</h2>
 				<p>Někteří kandidáti odpověděli na několik volebních otázek. Vyberte si, kdo vás zajímá a můžete si hned odpovědi přečíst.</p>
 				<p-area class="_mc text-left" background="var(--blue11)">
-					<div class="columns-4">
+					<div class="columns">
 						<template v-for="(data, index) in krajData.detail">
 							
 								<template v-if="data">
 									<template v-for="(party, index) in [data.list[0]]">
-										<div v-if="party.$kandidati.find(x => x.$odpovedi > 0)">
+										<div v-if="party.$kandidati.find(x => x.$odpovedi > 0 && x.VOLKRAJ === focusKraj)">
 											<strong>{{ party.ZKRATKA }}</strong>
-											<div class="p-gap _025"></div>
-											<template v-for="(cand, index) in party.$kandidati.filter(x => x.$odpovedi > 0)">
+											<div class="mt025 smaller">
+											<template v-for="(cand, index) in party.$kandidati.filter(x => x.$odpovedi > 0 && x.VOLKRAJ === focusKraj)">
 												<div>
-													<button @click="focusKraj = cand.id" class="inline">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</button> <span class="dimm">&middot; {{ cand.PORCISLO }}</span>
+													<button @click="focusCand = cand.id" class="inline">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</button> <span class="dimm">&middot; {{ cand.PORCISLO }}</span>
 												</div>
 											</template>
+											</div>
 										</div>
 									</template>
 								</template>
 							
 						</template>
 					</div>
+					<!-- <template v-if="krajData.detail.find(x => x.list.find(y => y.$kandidati.find(x => x.$odpovedi > 0 && x.VOLKRAJ != focusKraj)))">
+						<div class="p-line"></div>
+						<p-collapsible label="Odpovědi kandidátů ve všech krajích">
+
+						</p-collapsible>
+					</template> -->
 					<div class="text-center smaller dimm" v-if="!krajData.detail.find(x => x && x.list[0].$kandidati.find(y => y.$odpovedi > 0))">
 						<em>Nikdo neodpověděl</em>
 					</div>
 				</p-area>
-				<template v-if="focusKraj">
+				<template v-if="focusCand">
 					<h3 class="serif">Vybraný kandidát</h3>
 					<div class="_mc text-left">
 						<p-loader :rule="candData">
@@ -499,7 +506,7 @@
 								<p-area>
 									<person-preview-block :cand="candData.list[0]" :data="candData" :current="{$kandidati: candData.list}" link="/volby/snemovni-volby/166"></person-preview-block>
 								</p-area>
-								<template v-for="(q, index) in candData.list[0].$odpovedi.filter(x => x.$odpoved)">
+								<template v-for="(q, index) in candData.list[0].$odpovedi.filter(x => x.$odpoved && x.$otazka[0].type === 1)">
 									<div class="p-gap"></div>
 									<p-area :borderColor="colorByItem(candData.cis.strany.find(x => x.VSTRANA === candData.list[0].NSTRANA), candData)">
 										<div class="_mw">
@@ -509,11 +516,30 @@
 										</div>
 									</p-area>
 								</template>
-								<template v-if="candData.list[0].$odpovedi.find(x => !x.$odpoved)">
+								<template v-if="candData.list[0].$odpovedi.filter(x => x.$odpoved && x.$otazka[0].type === 3)">
 									<div class="p-gap"></div>
-									<div class="text-center">
-										<p-area icon="answers" class="inline text-left">
-											<router-link :to="'/volby/snemovni-volby/166/kandidat/' + candData.list[0].id + '/otazky-a-odpovedi'" class="strong">Z volební kalkulačky</router-link>
+									<p-collapsible label="Z kalkulačky" logo="calc">
+										<p-area>
+											<p-list class="_05">
+												<div v-for="(q, index) in candData.list[0].$odpovedi.filter(x => x.$odpoved && x.$otazka[0].type === 3)">
+													<div class="p-offset reverse smaller">
+														<div>
+															<strong>{{ q.$otazka[0].question }}</strong>
+														</div>
+														<div class="strong keep">
+															<p-icon icon="answers-mini" v-if="q.$odpoved[0].answer" class="inline _answer"></p-icon>
+															<span class="green" v-if="q.$odpoved[0].quick === 1">ANO</span>
+															<span class="red" v-if="q.$odpoved[0].quick === 2">NE</span>
+															<span class="blue" v-if="q.$odpoved[0].quick === 3">je to složitější</span>
+														</div>
+													</div>
+												</div>
+											</p-list>
+										</p-area>
+									</p-collapsible>
+									<div class="text-center mt3">
+										<p-area icon="answers-mini" class="inline text-left">
+											<router-link :to="'/volby/snemovni-volby/166/kandidat/' + candData.list[0].id + '/otazky-a-odpovedi'" class="strong">Všechny odpovědi přehledně</router-link>
 											<div class="smaller dimm">Pokračujte v čtení zde</div>
 										</p-area>
 									</div>
@@ -522,7 +548,7 @@
 						</p-loader>
 					</div>
 				</template>
-			</section> -->
+			</section>
 			<section name="section_k4">
 				<div class="p-line"></div>
 				<p-icon icon="icon-election" size="8em"></p-icon>

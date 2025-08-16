@@ -83,6 +83,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/volby/snemovni-volby/:id/aktivita/:party',
+      name: 'volby-senatni-aktivity',
+      component: () => import('../views/volby/detail/snemovni-volby/activity/do.vue'),
+      props: true
+    },
+    {
       path: '/volby/komunalni-volby/:id/obec/:zast',
       name: 'volby-detail-komunal-kraj',
       component: () => import('../views/volby/detail/komunalni-volby/obec/do.vue'),
