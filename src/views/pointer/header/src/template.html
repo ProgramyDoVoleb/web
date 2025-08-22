@@ -193,6 +193,35 @@
 							</p-box>
 						</template>
 				</template>
+				<template v-if="$volby.editace === 1">
+					<p-modal>
+						<template #init>
+							<p-box>
+								<p-box-button icon="warning">Kandidujete?</p-box-button>
+							</p-box>
+						</template>
+						<template #content>
+							<strong>Pro všechny strany a kandidáty</strong>
+							<p-list class="smaller _05 pt2">
+								<div>
+									Každá strana i kandidát může využít <strong>Admin</strong> pro správu svého profilu. <p-link href="https://admin.programydovoleb.cz" class="strong">Získejte přístup</p-link>
+								</div>
+								<div>
+									Všichni mohou vyplnit bohatý profil: představení, fotku, priority, hodnoty, zmínky v médiích, volební materiály, události...
+								</div>
+								<div>
+									Strany i kandidáti mohou odpovídat na otázky do kalkulačky. Spuštění je naplánováno na 16. září. <router-link to="/novinky/7684">Více informací</router-link>
+								</div>
+								<div>
+									Kandidáti mohou odpovědět na čtyři otázky a lépe tak představit sebe a svůj pohled. <router-link to="/novinky/6343">Více informací</router-link>
+								</div>
+								<div>
+									Všechny úpravy lze dělat až <strong>do středy 1. října</strong>.
+								</div>
+							</p-list>
+						</template>
+					</p-modal>
+				</template>
 			</p-box-group>
 		</div>
 	</div>

@@ -8,7 +8,7 @@
 				<p-box-button>Jak volit?</p-box-button>
 			</p-box>
 			<p-box-gap></p-box-gap>
-			<p-modal>
+			<p-modal v-if="data && data.list[0].editace === 1">
 				<template #init>
 					<p-box>
 						<p-box-button icon="warning">Kandidujete?</p-box-button>
