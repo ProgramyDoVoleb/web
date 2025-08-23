@@ -18,7 +18,7 @@ function dia (str) {
 
 export default {
 	name: 'search-person',
-	props: ['elections', 'cb', 'link', 'datum', 'area'],
+	props: ['elections', 'cb', 'link', 'datum', 'area', 'profiles'],
 	data: function () {
 		return {
 			query: null,
@@ -26,8 +26,9 @@ export default {
 			dia: null,
 			raw: null,
 			progress: false,
-			filter: ['PS', 'KZ', 'SENAT', 'UPCOMING'],
+			filter: ['PS', 'UPCOMING'],
 			filterOptions: ['EP', 'KV', 'KZ', 'PREZ', 'SENAT', 'PS'],
+			filterByPerson: null,
 			list: null,
 			profile: {
 				show: false,
@@ -99,7 +100,37 @@ export default {
 			});
 
 			arr.sort((a, b) => (b.datum || '2099-12-31').localeCompare((a.datum || '2099-12-31'), 'cs'));
+
+			var finalArr = [];
+
+			if (this.filterByPerson) {
+				arr.forEach(el => {
+
+					var check = el.$kandidati.filter(x => this.relevantByAge(x, el) || x === this.filterByPerson);
+
+					if (check.length > 0) {
+
+						var o = el;
+							o.$kandidati = check;
+
+						finalArr.push(o);
+					}
+				});
+			} else {
+				finalArr = arr;
+			}
 			
+			return finalArr;
+		},
+		profilesList: function () {
+			var arr = [];
+			var hash = url(this.query);
+			var hashspecify = url(this.specify || '');
+
+			if (this.profiles) {
+				arr = this.profiles.filter(x => x.hash.includes(hash) && (this.specify ? x.hash.includes(hashspecify) : true));
+			}
+
 			return arr;
 		}
 	},
@@ -175,6 +206,25 @@ export default {
 				this.filter.push('UPCOMING')	
 			}
 			console.log(this.filter);
+		},
+		relevantByAge: function (person, election) {
+			var relevant = false;
+
+			if (this.filterByPerson) {
+				var last = this.filterByPerson;
+				var prevEl = this.list.cis.volby.find(x => x.id === last.volby);
+
+				if (last.VEK && prevEl.datum && last.VEK >= person.VEK && last.JMENO === person.JMENO) {
+					var diffEl = Number(prevEl.datum.split('-')[0]) - Number(election.datum.split('-')[0]);
+					var diffPe = last.VEK - person.VEK;
+
+					if (Math.abs(diffEl - diffPe) < 2) {
+						relevant = true;
+					}
+				}
+			}
+
+			return relevant;
 		}
 	}
 };

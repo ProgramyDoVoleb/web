@@ -2,9 +2,9 @@
 	<p-layout-divided>
 		<template #main>
 			<p-block headline="Vyhledávání kandidátů" :level="1">
-				<search-person></search-person>
+				<search-person :profiles="data ? data.list : null"></search-person>
 				<div class="p-gap_3"></div>
-				<p-block-expandable headline="Vybrané osobnosti">
+				<!-- <p-block-expandable headline="Vybrané osobnosti">
 					<p-loader :rule="data">
 						<div v-if="data">
 							<p-grid class="smaller">
@@ -14,7 +14,7 @@
 							</p-grid>
 						</div>
 					</p-loader>
-				</p-block-expandable>
+				</p-block-expandable> -->
 				<p-block-expandable headline="Volební historie">
 					<p-loader :rule="sorted">
 						<div v-if="sorted">

@@ -34,3 +34,15 @@
 ._lh {
     line-height: 2;
 }
+
+._suggested {
+    display: inline-block;
+    padding: 0 .25em;
+    background: var(--green);
+    color: var(--white);
+    font-weight: bold;
+}
+
+._lh2 {
+    line-height: 1.5;
+}

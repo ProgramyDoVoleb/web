@@ -55,7 +55,7 @@
 													<p-stats label="Bio" class="_horizontal" v-if="current.VEK || (current.$data.mfo && current.$data.mfo.length > 0)">
 														<p-list-linear class="or">
 															<li v-if="current.$data.mfo && current.$data.mfo[0]">{{ ['neuvedeno', 'muž', 'žena', 'jinak', 'nechci uvést'][current.$data.mfo[0].value] }}</li>
-															<li v-if="current.vek">{{ current.VEK }} let</li>
+															<li v-if="current.VEK">{{ current.VEK }} let</li>
 														</p-list-linear>
 													</p-stats>
 												</template>
