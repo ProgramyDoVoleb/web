@@ -15,32 +15,30 @@
 						</div>
 					</p-loader>
 				</p-block-expandable> -->
-				<p-block-expandable headline="Volební historie">
-					<p-loader :rule="sorted">
-						<div v-if="sorted">
-							<div class="columns-4">
-								<template v-for="c in 'abcdefghijklmnopqrstuvwxyz'.split('')">
-									<div>
-										<h2>{{ c.toUpperCase() }}</h2>
-									</div>
-									<template v-for="(item, index) in sorted.filter(x => url((x.PRIJMENI || x.display.split(' ')[x.display.split(' ').length - 1])[0]) === c)">
-										<div>
-											<router-link :to="'/lide/profil/' + item.id" class="strong smaller">{{ item.display }}</router-link>
-											<!-- <div class="smallest dimm">{{ item.popis }}</div> -->
-											<!-- <div class="smallest dimm" v-if="item.$csu.length > 0 && item.$csu.find(x => x.$strana)">
-												<p-label :after="true" :color="colorByItem(item.$csu.find(x => x.$strana).$strana, {cis: {strany: []}})">
-													<router-link :to="'/rejstrik/' + item.$csu.find(x => x.$strana).$strana.VSTRANA" class="is-span dimm">
-														{{ item.$csu.find(x => x.$strana).$strana.ZKRATKA}}
-													</router-link>
-												</p-label>
-											</div> -->
-										</div>
-									</template>
-								</template>
-							</div>
-						</div>
-					</p-loader>
-				</p-block-expandable>
+				<p-block headline="Historie" :level="1" :hide="true">
+					<h2 class="serif">Volební historie kandidátů</h2>
+					<p>Pro každého kandidáta lze dohledat a uložit jeho historickou pouť volbami. Nezáleží na tom, zda se jedná o premiéra nebo komunálního politika, matadora nebo nováčka. Profily lze navrhovat ve vyhledávání výše, kandidáti je mohou tvořit přímo v Adminu. Aktuální seznam všech uložených profilů najdete níže, nebo můžete použít hledání výše - našeptávač je zobrazí okamžitě a přednostně.</p>
+					<p-block :hide="true" headline="Seznam profilů">
+						<p-collapsible label="Seznam uložených profilů" logo="person" status="1000+">
+							<p-loader :rule="sorted">
+								<div v-if="sorted">
+									<p-columns class="_tight smaller">
+										<template v-for="c in 'abcdefghijklmnopqrstuvwxyz'.split('')">
+											<div>
+												<h2>{{ c.toUpperCase() }}</h2>
+											</div>
+											<template v-for="(item, index) in sorted.filter(x => url((x.PRIJMENI || x.display.split(' ')[x.display.split(' ').length - 1])[0]) === c)">
+												<div>
+													<router-link :to="'/lide/profil/' + item.id">{{ item.display }}</router-link>
+												</div>
+											</template>
+										</template>
+									</p-columns>
+								</div>
+							</p-loader>
+						</p-collapsible>
+					</p-block>
+				</p-block>
 			</p-block>
 			
 		</template>

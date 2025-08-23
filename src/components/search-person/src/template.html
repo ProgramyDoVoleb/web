@@ -1,14 +1,5 @@
 <div class="search-person">
 	<div class="smaller _lh">
-		<p-list-linear class="or">
-			<span v-for="(item, index) in filterOptions">
-				<button class="inline" @click="(filter.find(x => x === item) ? filter.splice(filter.indexOf(item), 1) : filter.push(item))" :class="{'green strong': filter.find(x => x === item)}">
-					{{ enums.elections.find(x => x.key === item).name }}
-				</button>
-			</span>
-		</p-list-linear>
-	</div>
-	<div class="smaller _lh">
 		<p-list-linear class="inline nebo">
 			<span>
 				<button class="inline" @click="toggleUpcoming" :class="{'green strong': filter.find(x => x === 'UPCOMING')}">
@@ -17,7 +8,19 @@
 			</span>
 			<span>
 				<button class="inline" @click="toggleUpcoming" :class="{'green strong': !filter.find(x => x === 'UPCOMING')}">
-					v celé historii
+					hledat i v minulosti
+				</button>
+			</span>
+		</p-list-linear>
+	</div>
+	<div class="smaller _lh" v-if="!filter.find(x => x === 'UPCOMING')">
+		<p-list-linear class="or">
+			<span>
+				<button class="inline" @click="filter = ['EP', 'KV', 'KZ', 'PS', 'PREZ', 'SENAT']">Všechny</button>
+			</span>
+			<span v-for="(item, index) in filterOptions">
+				<button class="inline" @click="(filter.find(x => x === item) ? filter.splice(filter.indexOf(item), 1) : filter.push(item))" :class="{'green strong': filter.find(x => x === item), dimm: filter.find(x => x === 'UPCOMING')}">
+					{{ enums.elections.find(x => x.key === item).name }}
 				</button>
 			</span>
 		</p-list-linear>
