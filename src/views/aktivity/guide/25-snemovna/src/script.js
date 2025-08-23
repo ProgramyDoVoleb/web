@@ -14,6 +14,7 @@ import KrajskeVolbyResults from '@/views/history/volby/krajske-volby/do.vue';
 import SenatniVolbyResults from '@/views/history/volby/senatni-volby/do.vue';
 import ActivityLogoSet from '@/views/aktivity/guide/logo/do.vue';
 import CtaSupportShort from '@/components/cta/support-short/do.vue';
+import AnswerPreview from '@/components/answer-preview/do.vue';
 
 export default {
 	name: 'aktivity-guide-25-snemovna',
@@ -80,7 +81,8 @@ export default {
 		KrajskeVolbyResults,
 		SenatniVolbyResults,
 		ActivityLogoSet,
-		CtaSupportShort
+		CtaSupportShort,
+		AnswerPreview
 	},
 	computed: {
 		$store: function () {

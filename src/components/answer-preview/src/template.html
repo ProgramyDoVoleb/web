@@ -1,0 +1,19 @@
+<div class="answer-topic-preview">
+	<p-loader :rule="data">
+		<div v-if="data">
+			<strong>{{ data.list[0].$otazka.question }}</strong>
+			<div class="smallest dimm" v-if="data.list[0].$otazka.comment" v-html="data.list[0].$otazka.comment"></div>
+			<div class="p-gap"></div>
+			<div class="smaller" v-if="answer.quick">
+				<strong v-if="answer.quick === 1" class="green">ANO</strong>
+				<strong v-if="answer.quick === 2" class="red">NE</strong>
+				<strong v-if="answer.quick === 3" class="blue">je to složitější</strong>
+				<span v-if="answer.quick === 4" class="grey">bez odpovědi</span>
+				<template v-if="answer.important && answer.important === 1"> &middot; tohle je důležité</template>
+			</div>
+			<p class="serif" v-html="answer.answer" v-if="answer.answer"></p>
+			<div class="p-line"></div>
+			<div class="smallest dimm">Odpověď vložena {{ date(answer.updated) }}</div>
+		</div>
+	</p-loader>
+</div>

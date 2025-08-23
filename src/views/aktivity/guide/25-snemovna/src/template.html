@@ -206,24 +206,35 @@
 													</p-list>
 												</template>
 												<template v-if="party.$odpovedi.find(x => x.volby === 166)">
-													<!-- <div class="p-gap"></div> -->
 													<div class="p-line"></div>
-													<div class="strong smallest">Odpovědi na volební otázky</div>
+													<div class="strong smallest">Odpovědi na vybrané volební otázky &middot; <router-link :to="'/volby/snemovni-volby/166/strana/' + party.id + '/otazky-a-odpovedi'">všechny odpovědi</router-link></div>
 													<div class="p-gap"></div>
-													<div class="smaller">
-														<template v-for="(answer, indexA) in sortBy(party.$odpovedi.filter(x => x.volby === 162), 'question')">
-															<p-collapsible :label="party.$otazky.find(x => x.id === answer.question).question">
-																<div class="serif _mw">
-																	<p-truncated :size="120" :content="answer.$odpoved[0].answer"></p-truncated>
-																	<div class="smallest dimm" v-if="answer.source">Více na <p-link :href="answer.source">{{ domain(answer.source) }}</p-link></div>
+													<p-list class="_05 smaller">
+														<div v-for="(answer, indexA) in sortBy(party.$odpovedi.filter(x => x.volby === 166 && [390, 401, 412, 427].indexOf(x.question) > -1), 'question')">
+															<div class="p-offset reverse balanced">
+																<div>
+																	{{ party.$otazky.find(x => x.id === answer.question).question }}
 																</div>
-															</p-collapsible>
-														</template>
-													</div>
+																<div>
+																	<p-modal>
+																		<template #init>
+																			<p-icon v-if="answer.$odpoved[0].answer" icon="answers-mini" size="1em"></p-icon>
+																			<strong v-if="answer.$odpoved[0].quick === 1" class="green">ANO</strong>
+																			<strong v-if="answer.$odpoved[0].quick === 2" class="red">NE</strong>
+																			<strong v-if="answer.$odpoved[0].quick === 3" class="blue">je to složitější</strong>
+																			<span v-if="answer.$odpoved[0].quick === 4" class="grey">bez odpovědi</span>
+																		</template>
+																		<template #content>
+																			<answer-preview :question="party.$otazky.find(x => x.id === answer.question).id" table="csu_ps_rkl" :id="party.id" :link="'/volby/snemovni-volby/166/strana/' + party.id"></answer-preview>
+																		</template>
+																	</p-modal>
+																</div>
+															</div>
+														</div>
+													</p-list>
 												</template>
 												<template v-if="party.$data.video">
 													<div class="p-gap"></div>
-													<!-- <div class="p-gap _05"></div> -->
 													<template v-for="(video, index) in party.$data.video">
 														<p-collapsible :label="video.label" class="smaller" logo="yt">
 															<div v-html="video.value"></div>
@@ -527,10 +538,18 @@
 															<strong>{{ q.$otazka[0].question }}</strong>
 														</div>
 														<div class="strong keep">
-															<p-icon icon="answers-mini" v-if="q.$odpoved[0].answer" class="inline _answer"></p-icon>
-															<span class="green" v-if="q.$odpoved[0].quick === 1">ANO</span>
-															<span class="red" v-if="q.$odpoved[0].quick === 2">NE</span>
-															<span class="blue" v-if="q.$odpoved[0].quick === 3">je to složitější</span>
+															<p-modal>
+																<template #init>
+																	<p-icon v-if="q.$odpoved[0].answer" icon="answers-mini" size="1em"></p-icon>
+																	<strong v-if="q.$odpoved[0].quick === 1" class="green">ANO</strong>
+																	<strong v-if="q.$odpoved[0].quick === 2" class="red">NE</strong>
+																	<strong v-if="q.$odpoved[0].quick === 3" class="blue">je to složitější</strong>
+																	<span v-if="q.$odpoved[0].quick === 4" class="grey">bez odpovědi</span>
+																</template>
+																<template #content>
+																	<answer-preview :question="q.$otazka[0].id" table="csu_ps_rk" :id="q.csu_id" :link="'/volby/snemovni-volby/166/kandidati/' + q.csu_id"></answer-preview>
+																</template>
+															</p-modal>
 														</div>
 													</div>
 												</div>

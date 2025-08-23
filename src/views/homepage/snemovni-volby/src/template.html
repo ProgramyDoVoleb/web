@@ -139,7 +139,9 @@
 							<p-image :src="item.logo" width="3em" :round="true"></p-image>
 						</div>
 						<div>
-							<div class="strong">{{ item.name }}</div>
+							<div class="strong">
+								<router-link class="is-span" :to="'/volby/snemovni-volby/166/aktivita/' + item.activity">{{ item.name }}</router-link>
+							</div>
 							<div>
 								{{ item.txt }} <router-link :to="item.link" v-if="item.link" class="strong">{{ item.label }}</router-link>
 							</div>

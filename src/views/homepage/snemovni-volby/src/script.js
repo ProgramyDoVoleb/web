@@ -19,98 +19,112 @@ export default {
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/53-ods.svg',
 					txt: 'v koalici',
 					label: 'Spolu',
-					link: '/volby/snemovni-volby/166/strana/227'
+					link: '/volby/snemovni-volby/166/strana/227',
+					activity: 53
 				},
 				{
 					name: 'KDU-ČSL',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/1-kdu-csl.svg',
 					txt: 'v koalici',
 					label: 'Spolu',
-					link: '/volby/snemovni-volby/166/strana/227'
+					link: '/volby/snemovni-volby/166/strana/227',
+					activity: 1
 				},
 				{
 					name: 'TOP 09',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/721-top09.svg',
 					txt: 'v koalici',
 					label: 'Spolu',
-					link: '/volby/snemovni-volby/166/strana/227'
+					link: '/volby/snemovni-volby/166/strana/227',
+					activity: 721
 				},
 				{
 					name: 'Zelení',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/5-strana-zelenych-2022.jpg',
 					txt: 'podpoří',
 					label: 'Piráty',
-					link: '/volby/snemovni-volby/166/strana/226'
+					link: '/volby/snemovni-volby/166/strana/226',
+					activity: 5
 				},
 				{
 					name: 'KSČM',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/47-kscm.svg',
 					txt: 'podpoří',
 					label: 'Stačilo!',
-					link: '/volby/snemovni-volby/166/strana/234'
+					link: '/volby/snemovni-volby/166/strana/234',
+					activity: 47
 				},
 				{
 					name: 'Svobodní',
 					logo: 'https://static.programydovoleb.cz/2024/csu_cvs/1114/714/78872531ed.jpg',
 					txt: 'podpoří',
 					label: 'SPD',
-					link: '/volby/snemovni-volby/166/strana/230'
+					link: '/volby/snemovni-volby/166/strana/230',
+					activity: 714
 				},
 				{
 					name: 'Trikolora',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/1227-trikolora-2022.jpg',
 					txt: 'podpoří',
 					label: 'SPD',
-					link: '/volby/snemovni-volby/166/strana/230'
+					link: '/volby/snemovni-volby/166/strana/230',
+					activity: 1227
 				},
 				{
 					name: 'PRO',
 					logo: 'https://static.programydovoleb.cz/2024/csu_cvs/0424/1265/11890033c8.jpg',
 					txt: 'podpoří',
 					label: 'SPD',
-					link: '/volby/snemovni-volby/166/strana/230'
+					link: '/volby/snemovni-volby/166/strana/230',
+					activity: 1265
 				},
 				{
 					name: 'SOCDEM',
 					logo: 'https://static.programydovoleb.cz/logo2/FyRGB03XoAMWE7t.jpeg',
 					txt: 'podpoří',
 					label: 'Stačilo',
-					link: '/volby/snemovni-volby/166/strana/234'
+					link: '/volby/snemovni-volby/166/strana/234',
+					activity: 7
 				},
 				{
 					name: 'Moravané',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/83-moravane.png',
 					txt: 'podpoří',
 					label: 'Stačilo',
-					link: '/volby/snemovni-volby/166/strana/234'
+					link: '/volby/snemovni-volby/166/strana/234',
+					activity: 83
 				},
 				{
 					name: 'Soukromníci',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/716-sscr-n.jpg',
 					txt: 'podpoří',
 					label: 'Motoristy',
-					link: '/volby/snemovni-volby/166/strana/232'
+					link: '/volby/snemovni-volby/166/strana/232',
+					activity: 716
 				},
 				{
 					name: 'KOA',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/182-koa.png',
 					txt: 'podpoří',
 					label: 'Starosty',
-					link: '/volby/snemovni-volby/166/strana/231'
+					link: '/volby/snemovni-volby/166/strana/231',
+					activity: 182
 				},
 				{
 					name: 'Východočeši',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/770-vychodocesi.png',
 					txt: 'podpoří',
 					label: 'Starosty',
-					link: '/volby/snemovni-volby/166/strana/231'
+					link: '/volby/snemovni-volby/166/strana/231',
+					activity: 770
 				},
 				{
 					name: 'JsmePRO!',
 					logo: 'https://data.programydovoleb.cz/obecne/strany/loga/1126-jsme-pro-kraj.png',
 					txt: 'podpoří',
 					label: 'Starosty',
-					link: '/volby/snemovni-volby/166/strana/231'
+					link: '/volby/snemovni-volby/166/strana/231',
+					activity: 1126
 				}
 			],
 			searchQuery: null

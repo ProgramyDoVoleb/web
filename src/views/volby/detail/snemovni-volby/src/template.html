@@ -302,15 +302,41 @@
 								</p-collapsible>
 							</template>
 						</p-area>
-						<template v-if="news && data.list[0].id === 166 && qitem.type === 1">
-							<h3 class="serif">Odpovědi</h3>
+						<template v-if="news && data.list[0].status < 3 && qitem.type === 1">
+							<h3 class="serif">Odpovědi již zaslalo {{ news.answers.length }} kandidátů, např:</h3>
 							<p-columns class="tight smaller">
-								<div v-for="cand in sortBy(shuffle(news.answers.filter(x => x.PRIJMENI)).filter((x, i) => i < 12), 'PRIJMENI', null, true)">
+								<div v-for="cand in sortBy(shuffle(news.answers.filter(x => x.PRIJMENI)).filter((x, i) => i < 24), 'PRIJMENI', null, true)">
 									<router-link :to="'/volby/snemovni-volby/' + data.list[0].id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
 								</div>
 							</p-columns>
 						</template>
-						<template v-if="news && data.list[0].id === 166 && qitem.type === 3 && news.answers.find(x => x.ZKRATKA)">
+						<template v-if="data.list[0].editace === 1">
+							<p-modal class="mt2">
+								<template #init>
+									<p-box>
+										<p-box-button icon="warning">Chcete také doplnit odpovědi?</p-box-button>
+									</p-box>
+								</template>
+								<template #content>
+									<strong>Kandidujete a chcete také zaslat odpovědi?</strong>
+									<p-list class="smaller _05 pt2">
+										<div>
+											Nejlépe tak uděláte pomocí <strong>Adminu</strong>. Ještě nemáte přístup? <p-link href="https://admin.programydovoleb.cz" class="strong">Získejte ho zde</p-link>
+										</div>
+										<div>
+											V Adminu můžete doplnit fotku, priority, představení a další...
+										</div>
+										<div>
+											Pokud máte stranický e-mail, můžete své odpovědi poslat přímo na <a href="mailto:odpovedi@programydovoleb.cz">odpovedi@programydovoleb.cz</a>
+										</div>
+										<div>
+											Posledním dnem, kdy lze odpovědi zaslat, je <strong>středa 1. října</strong>.
+										</div>
+									</p-list>
+								</template>
+							</p-modal>
+						</template>
+						<template v-if="news && data.list[0].status < 3 && qitem.type === 3 && news.answers.find(x => x.ZKRATKA)">
 							<h3 class="serif">Odpovědi stran</h3>
 							<p-columns class="tight smaller">
 								<div v-for="cand in sortBy(shuffle(news.answers.filter(x => x.ZKRATKA)).filter((x, i) => i < 12), 'ZKRATKA', null, true)">
