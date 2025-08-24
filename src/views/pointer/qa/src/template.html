@@ -26,7 +26,7 @@
 																</p-box>
 															</template>
 															<template #content>
-																<qa-shareable :question="answer.$otazka[0].question" :answer="answer.answer" :display="headline" :data="data" :current="current" :datum="answer.updated"></qa-shareable>
+																<qa-shareable :id="answer.$otazka[0].id" :question="answer.$otazka[0].question" :answer="answer.answer" :display="headline" :data="data" :current="current" :datum="answer.updated"></qa-shareable>
 															</template>
 														</p-modal>
 														<p-box :to="'/volby/' + volbyType + '/' + volbyID + '/otazka/' + answer.question + (current.KRZAST || current.OBVOD || current.KODZASTUP ? '?vyber=' + (current.KRZAST || current.OBVOD || current.KODZASTUP) : '')">
@@ -77,7 +77,7 @@
 														</p-box>
 													</template>
 													<template #content>
-														<qa-shareable :question="answer.$otazka[0].question" :answer="answer.answer" :quick="answer.quick" :important="answer.important" :display="headline" :data="data" :current="current" :datum="answer.updated"></qa-shareable>
+														<qa-shareable :id="answer.$otazka[0].id" :question="answer.$otazka[0].question" :answer="answer.answer" :quick="answer.quick" :important="answer.important" :display="headline" :data="data" :current="current" :datum="answer.updated"></qa-shareable>
 													</template>
 												</p-modal>
 												<p-box :to="'/volby/' + volbyType + '/' + volbyID + '/kalkulacka/' + answer.question + (current.KRZAST || current.OBVOD || current.KODZASTUP ? '?vyber=' + (current.KRZAST || current.OBVOD || current.KODZASTUP) : '')">

@@ -2,10 +2,11 @@ import { number, pct, round, truncate, indicator, date, url, con, czechify } fro
 import html2canvas from 'html2canvas'
 import { useEnums } from '@/stores/enums';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { ge } from '@/pdv/analytics'
 
 export default {
 	name: 'qa-shareable',
-	props: ['answer', 'question', 'display', 'datum', 'current', 'data', 'quick', 'important'],
+	props: ['answer', 'question', 'display', 'datum', 'current', 'data', 'quick', 'important', 'id'],
 	data: function () {
 		return {
 			show: true,
@@ -49,6 +50,11 @@ export default {
 					canvas.style.width = '100%';
 					canvas.style['max-width'] = canvas.width + 'px';
 					canvas.style.height = 'auto';
+
+					ge({
+						event: "quote-generated",
+						value: this.data.pointer + ':' + this.id
+					})
 				})
 			}, 500);
 

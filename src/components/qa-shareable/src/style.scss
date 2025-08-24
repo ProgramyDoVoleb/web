@@ -19,6 +19,13 @@
 		transform: scale(.4, .4) translate(-70%, -50%);
 		position: static;
 		margin: -120px -20px -660px;
+
+		@media (max-width: 500px) {
+			transform: scale(.3, .3);
+			position: static;
+			margin: -450px auto auto -380px;
+			min-height: 80vh;
+		}
 	}
 }
 
@@ -120,7 +127,7 @@
 	display: block;
 	width: 160px;
 	height: 160px;
-	border-radius: 30px;
+	border-radius: 80px;
 }
 
 ._image2 {
@@ -187,5 +194,6 @@
 		left: 105px;
 		width: 160px;
 		height: 160px;
+		z-index: 2;
 	}
 }
