@@ -61,7 +61,22 @@ export default {
 		truncate,
 		sortBy,
 		domain,
-		colorByItem, logoByItem
+		colorByItem, logoByItem,
+		checkRegistration: function (party) {
+			var res = false;
+
+			if (party.STAVREG === null) res = true;
+			if (party.STAVREG === 0) res = true;
+			if (party.STAVREG != null && party.STAVREG > 0) {
+				var stavreg = String(party.STAVREG);
+
+				while (stavreg.length < 14) stavreg = '0' + stavreg;
+
+				if (stavreg[this.region - 1] === '0') res = true;
+			}
+
+			return res;
+		}
   },
   mounted: function () {
     window.scrollTo(0, 1);

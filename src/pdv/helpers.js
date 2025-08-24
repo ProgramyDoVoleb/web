@@ -403,3 +403,13 @@ export function shuffle(array) {
 
   return arr;
 }
+
+export function toggleItem (item, list) {
+  var found = list.findIndex(x => x === item);
+
+  if (found > -1) {
+    list.splice(found, 1);
+  } else {
+    list.push(item);
+  }
+}

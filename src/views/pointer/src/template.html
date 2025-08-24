@@ -286,10 +286,16 @@
 											<div class="dimm smallest"><p-lang :value="current.$otazky.filter(x => x.type === 2).length" :end="['žádné téma', 'jedno téma', '%% témata', '%% témat']"></p-lang></div>
 										</p-area>
 									</div>
-									<div v-if="current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0">
+									<div v-if="current.$odpovedi.filter(x => x.$otazka[0].type === 1).length > 0">
 										<p-area icon="answers-mini">
 											<router-link :to="$link + '/otazky-a-odpovedi'" class="strong">Otázky a odpovědi</router-link>
-											<div class="dimm smallest"><p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type != 2).length" :end="['žádná odpověď', 'jedna odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
+											<div class="dimm smallest"><p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type === 1).length" :end="['žádná odpověď', 'jedna odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
+										</p-area>
+									</div>
+									<div v-if="current.$odpovedi.filter(x => x.$otazka[0].type === 3).length > 0">
+										<p-area icon="calc">
+											<router-link :to="$link + '/otazky-a-odpovedi#z-kalkulacky'" class="strong">Z kalkulačky</router-link>
+											<div class="dimm smallest"><p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type === 3).length" :end="['žádná odpověď', 'jedna odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
 										</p-area>
 									</div>
 									<div v-for="(item, index) in current.$data.program">
@@ -402,7 +408,7 @@
 							</p-block>
 
 							<p-block headline="Z kalkulačky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 3).length > 0" :hide="true">
-								<h3 class="">Z kalkulačky <p-icon icon="answers-mini" :border="0"></p-icon></h3>
+								<h3 class="">Z kalkulačky <p-icon icon="calc" :border="0"></p-icon></h3>
 								<p-list class="_05">
 									<div v-for="(question, index) in randonAmount(current.$otazky.filter(x => x.type === 3 && (!x.designated || x.designated === (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 2 : 1))), 5)">
 										<div class="smaller p-offset reverse balanced">
@@ -430,7 +436,7 @@
 									</div>
 									<div v-if="current.$odpovedi.filter(x => x.$otazka[0].type === 3).length > 1" class="smaller">
 										<!-- <p-area class="inline"> -->
-											<strong><p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type === 3).length" :end="['', '', 'Všechny %% odpovědi', 'Všech %% odpovědí']"></p-lang> <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/' + (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 'kandidat' : 'strana') + '/' + tableID + '/otazky-a-odpovedi'">najdete zde</router-link></strong>
+											<strong><p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type === 3).length" :end="['', '', 'Všechny %% odpovědi', 'Všech %% odpovědí']"></p-lang> <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/' + (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 'kandidat' : 'strana') + '/' + tableID + '/otazky-a-odpovedi#z-kalkulacky'">najdete zde</router-link></strong>
 										<!-- </p-area>										 -->
 									</div>
 								</p-list>
@@ -614,7 +620,7 @@
 										</template>	
 									</template>	
 								<p class="smallest dimm" v-if="current.$kandidati.length === 0">Zatím žádní známí kandidáti.</p>
-								<template v-if="$volby.status < 3">
+								<template v-if="$volby.status < 2">
 									<div class="p-line"></div>
 									<p-box-group>
 										<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="$volby.typ + ':' + $volby.id + '- pointer ' + data.pointer" class="_ib">
@@ -1197,14 +1203,26 @@
 													<p-link href="https://admin.programydovoleb.cz">Více o adminu</p-link>
 												</div>
 											</p-collapsible>
-											<p-collapsible label="Volební otázky" logo="answers-mini" borderless="1" v-if="$volby.id === 166">
+											<p-collapsible label="Volební otázky" logo="answers-mini" v-if="$volby.id === 166 && current.JMENO">
 												<template v-if="$store.getters.pdv('elections/specific/166/questions')">
 													<p-list class="smaller _05">
-														<div v-for="item in $store.getters.pdv('elections/specific/166/questions').questions.filter(x => x.volby === current.volby && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
+														<div v-for="item in $store.getters.pdv('elections/specific/166/questions').questions.filter(x => x.volby === current.volby && x.type === 1 && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
 															{{ item.question }}
 														</div>
 														<div class="strong">
 															Podrobnosti k otázkám, termín a jak odpovědět <router-link to="/novinky/6343">najdete zde</router-link>	
+														</div>
+													</p-list>
+												</template>
+											</p-collapsible>
+											<p-collapsible label="Otázky do kalkulačky" logo="calc" borderless="1" v-if="$volby.id === 166">
+												<template v-if="$store.getters.pdv('elections/specific/166/questions')">
+													<p-list class="smaller _05">
+														<div v-for="item in $store.getters.pdv('elections/specific/166/questions').questions.filter(x => x.volby === current.volby && x.type === 3 && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
+															{{ item.question }}
+														</div>
+														<div class="strong">
+															Podrobnosti k otázkám, termín a jak odpovědět <router-link to="/novinky/7684">najdete zde</router-link>	
 														</div>
 													</p-list>
 												</template>
@@ -1290,7 +1308,7 @@
 								<event-item :item="event" :party="current" :data="data" bod="1" short="1" class="aside" noTag="1"></event-item>
 							</div>
 						</template>
-						<div>
+						<div v-if="data && $volby.editace === 1">
 							<div class="smallest _edit">
 								<p-icon icon="edit"></p-icon>
 								&nbsp;

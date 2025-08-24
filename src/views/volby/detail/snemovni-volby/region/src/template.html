@@ -2,6 +2,14 @@
 	<p-layout-divided>
 		<template #main>
 			<p-block :headline="enums.regions[Number(region) - 1]" :level="1" :subheadline="'Sněmovní volby, ' + (data ? data.list[0].datum_label || data.list[0].cirka || date(data.list[0].datum) : '')">
+				<p>
+					Seznam kandidujících subjektů v tomto kraji nemusí odpovídat celkovému počtu různých kandidujících subjektů. Je na rozhodnutí každé stran, hnutí nebo koalice, v kolika krajích půjde do voleb. 
+					<template v-if="data && current && current.status > 1">V tomto kraji jde do voleb {{ current.$strany.filter(x => checkRegistration(x)).length }} uskupení z celkových {{ current.$strany.length }}. Do voleb zde nejdou <p-list-linear class="inline nebo">
+						<span v-for="party in sortBy(current.$strany.filter(x => !checkRegistration(x)), 'ZKRATKA', null, true)">
+							<em>{{ party.ZKRATKA }}</em>
+						</span>
+					</p-list-linear>.</template>
+				</p>
 				<p-loader :rule="data">
 					<div v-if="data">
 						<div v-if="current.status === 1">
@@ -16,7 +24,7 @@
 							<div class="p-gap"></div>
 						</div>
 						<p-columns>
-							<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
+							<div v-for="(party, index) in sortBy(current.$strany.filter(x => checkRegistration(x)), (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
 								<party-preview-large :link="'/volby/snemovni-volby/' + current.id" :more="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id + '/kandidati/' + region" :party="party" :candidates="current.$kandidati.filter(x => x.KRZAST === party.KRZAST && x.KSTRANA === party.KSTRANA)" :election="null" :elections="data" :amount="8"></party-preview-large>
 							</div>
 							<div>

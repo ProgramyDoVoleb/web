@@ -4,7 +4,7 @@ import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, sortBy, unique, slide} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
-import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
+import CtaGetAdmin from '@/components/cta/calc/do.vue';
 
 export default {
 	name: 'volby-qa',

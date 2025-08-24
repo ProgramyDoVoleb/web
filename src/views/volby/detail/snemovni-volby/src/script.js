@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, gradient, color, pct, sortBy, shuffle} from '@/pdv/helpers';
+import {url, date, number, truncate, con, gradient, color, pct, sortBy, shuffle, toggleItem} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
@@ -33,8 +33,9 @@ export default {
 				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka'},
 				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka'}
 			],
-			compactList: true,
-			searchQuery: null
+			compactList: false,
+			searchQuery: null,
+			listFilter: []
 		}
 	},
   components: {
@@ -91,6 +92,7 @@ export default {
 		colorByItem,
 		logoByItem,
 		shuffle,
+		toggleItem,
 		// colorByItem: function (item, data) {
 
 		// 	var res = con(item.$data, 'color');
@@ -247,5 +249,6 @@ export default {
 		}
   },
   mounted: function () {
+	if (window.innerWidth < 960) this.compactList = true;
   }
 };

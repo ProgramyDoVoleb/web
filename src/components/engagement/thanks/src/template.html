@@ -3,18 +3,6 @@
 		<p-box :click="() => click(1)">
 			<p-box-button icon="star-line.svg">Díky za tuhle stránku</p-box-button>
 		</p-box>
-		
-		<p-modal>
-			<template #init>
-				<p-box>
-					<p-box-label class="dimm">!!!</p-box-label>
-				</p-box>
-			</template>
-			<template #content>
-				<h3>Narazili jste na problém? Máte nějakou stížnost? Prosím napište:</h3>
-				<report-form :noLink="true"></report-form>
-			</template>
-		</p-modal>
 	</p-box-group>
 	<div v-if="used" class="smallest dimm text-center">Díky za zpětnout vazbu</div>	
 </div>
