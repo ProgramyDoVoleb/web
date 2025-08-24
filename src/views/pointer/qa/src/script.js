@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { useCore, cdn } from '@/stores/core';
 import { useRoute } from 'vue-router';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, type, domain, sortByPorCislo, unique, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, con, type, domain, sortByPorCislo, unique, sortBy, czechify} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
@@ -18,6 +18,7 @@ import NewsBlock from '@/components/news-block/do.vue'
 import PartyPreview from '@/components/party-preview/do.vue';
 import PersonPreviewLinear from '@/components/person-preview-block/do.vue';
 import PointerHeader from '@/views/pointer/header/do.vue';
+import QaShareable from '@/components/qa-shareable/do.vue';
 
 
 
@@ -46,7 +47,8 @@ export default {
 	NewsBlock,
 	PartyPreview,
 	PersonPreviewLinear,
-	PointerHeader
+	PointerHeader,
+	QaShareable
   },
 	computed: {
 		$store: function () {
@@ -311,6 +313,7 @@ export default {
 		logoByItem,
 		sortByPorCislo,
 		sortBy,
+		czechify,
 		checkDuplicates: function (list) {
 			var arr = [];
 

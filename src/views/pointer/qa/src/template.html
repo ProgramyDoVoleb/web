@@ -14,11 +14,21 @@
 											<div class="p-offset reverse">
 												<div class="strong">
 													<div class="_mw">
-														{{ answer.$otazka[0].question }}
+														{{ czechify(answer.$otazka[0].question) }}
 													</div>
 												</div>
 												<div>
 													<p-box-group>
+														<p-modal>
+															<template #init>
+																<p-box>
+																	<p-box-icon type="quote"></p-box-icon>
+																</p-box>
+															</template>
+															<template #content>
+																<qa-shareable :question="answer.$otazka[0].question" :answer="answer.answer" :display="headline" :data="data" :current="current" :datum="answer.updated"></qa-shareable>
+															</template>
+														</p-modal>
 														<p-box :to="'/volby/' + volbyType + '/' + volbyID + '/otazka/' + answer.question + (current.KRZAST || current.OBVOD || current.KODZASTUP ? '?vyber=' + (current.KRZAST || current.OBVOD || current.KODZASTUP) : '')">
 															<p-box-button class="primary">Porovnat</p-box-button>
 														</p-box>
@@ -31,7 +41,7 @@
 													{{ ['', 'ANO', 'NE', 'je to složitější', 'nechci odpovídat'][answer.quick] }}
 												</p-label>
 											</div>
-											<div v-if="answer.answer" v-html="answer.answer" class="serif _mw"></div>
+											<div v-if="answer.answer" v-html="czechify(answer.answer)" class="serif _mw"></div>
 											<template v-if="answer.source && answer.source.charAt(0) === 'h'">
 												<div class="p-gap"></div>
 												<p-link class="smaller strong" :href="answer.source">Více k tomuto tématu</p-link>
@@ -46,7 +56,7 @@
 										<!-- <div v-if="questionLimitOff || index < questionLimit"> -->
 											
 											<div class="strong _mw">
-												{{ answer.$otazka[0].question }}
+												{{ czechify(answer.$otazka[0].question) }}
 											</div>
 											<div class="p-gap _05"></div>
 											<p-box-group>
@@ -60,13 +70,23 @@
 													<p-box-label class="" background="var(--greyish)">!!!</p-box-label>
 												</p-box>
 												<p-box-gap></p-box-gap>
+												<p-modal>
+													<template #init>
+														<p-box>
+															<p-box-icon type="quote"></p-box-icon>
+														</p-box>
+													</template>
+													<template #content>
+														<qa-shareable :question="answer.$otazka[0].question" :answer="answer.answer" :quick="answer.quick" :important="answer.important" :display="headline" :data="data" :current="current" :datum="answer.updated"></qa-shareable>
+													</template>
+												</p-modal>
 												<p-box :to="'/volby/' + volbyType + '/' + volbyID + '/kalkulacka/' + answer.question + (current.KRZAST || current.OBVOD || current.KODZASTUP ? '?vyber=' + (current.KRZAST || current.OBVOD || current.KODZASTUP) : '')">
 													<p-box-button class="primary">Porovnat</p-box-button>
 												</p-box>
 											</p-box-group>
 											<template v-if="answer.answer">
 												<div class="p-gap _05"></div>
-												<div v-html="answer.answer" class="serif _mw"></div>
+												<div v-html="czechify(answer.answer)" class="serif _mw"></div>
 											</template>
 											<!-- <div class="smallest strong blue" v-if="answer.important === 1">Tohle je důležité!</div> -->
 											<template v-if="answer.source && answer.source.charAt(0) === 'h'">

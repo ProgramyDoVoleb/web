@@ -413,3 +413,15 @@ export function toggleItem (item, list) {
     list.push(item);
   }
 }
+
+export function czechify (txt) {
+
+			var subs = ['A','I','K','Ke','N','Na','O','Po','S','U','V','Ve','Z','Ze'];
+
+			subs.forEach(sub => {
+				txt = txt.split(' ' + sub + ' ').join(' ' + sub + ' ');
+				txt = txt.split(' ' + sub.toLowerCase() + ' ').join(' ' + sub.toLowerCase() + ' ');
+			});
+
+			return txt;
+		}

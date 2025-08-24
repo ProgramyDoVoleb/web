@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Quando&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+._rendered {
+	height: 1350px;
+	width: 1080px;
+	color: #20133C;
+	// transform: scale(.4, .4) translate(-70%, -50%);
+	position: absolute;
+	left: 300vw;
+	background: #fff url(https://programydovoleb.cz/static/chartgen-bg2.png) no-repeat;
+	background-size: 100% 100%;
+	overflow: hidden;
+
+	.dark & {
+		color: #20133C;
+	}
+
+	&.preview {
+		transform: scale(.4, .4) translate(-70%, -50%);
+		position: static;
+		margin: -120px -20px -660px;
+	}
+}
+
+._quando {
+	font-family: "Quando", serif;
+	letter-spacing: -0.015em;
+}
+
+._roboto {
+	font-family: "Roboto", sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
+	font-variation-settings:
+	  "wdth" 100;
+  }
+
+._blue {
+	color: #269AFF;
+}
+._white {
+	color: #fff;
+}
+
+._quote {
+	padding: 108px;
+	font-size: 32px;
+}
+
+._quote-quick {
+	display: inline-block;
+	padding: .25em .5em;
+	border-radius: .25em;
+	margin-top: 48px;
+}
+
+._quote-question {
+	padding-right: 216px;
+	line-height: 1.25;
+	text-wrap: balance;
+	font-size: 36px;
+}
+
+._quote-answer {
+	font-size: 40px;
+	line-height: 1.25;
+	margin-top: 54px;
+}
+
+._quote-footer {
+	margin-top: 54px;
+	align-items: center
+}
+
+._quote-author {
+	font-size: 42px;
+}
+
+._quote-meta {
+	font-size: 24px;
+	line-height: 1.25;
+}
+
+._quote-party {
+	font-size: 30px;
+	margin-top: 18px;
+}
+
+._quote-images {
+	position: relative;
+	margin-right: 42px;
+	width: 300px;
+}
+
+._quote-images-narrow {
+	width: 160px;
+}
+
+._quote.quick {
+	._quote-question {
+		font-size: 48px;
+	}
+
+	._quote-quick {
+		font-size: 64px;
+		margin-bottom: 104px;
+	}
+}
+
+._image1 {
+	display: block;
+	width: 300px;
+	height: 300px;
+	background-size: cover;
+	object-position: center center;
+	border-radius: 60px;
+}
+
+._image4 {
+	display: block;
+	width: 160px;
+	height: 160px;
+	border-radius: 30px;
+}
+
+._image2 {
+	display: block;
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	position: absolute;
+	top: -30px;
+	left: -30px;
+	background: #fff;
+}
+
+._image3 {
+	display: block;
+	width: 80px;
+	height: 80px;
+	border-radius: 50px;
+	position: absolute;
+	left: -20px;
+	top: 60px;
+	background: #fff;
+}
+
+._footer_brand {
+	color: #fff;
+	font-size: 32px;
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
+}
+
+._footer_about {
+	font-weight: 600;
+	color: #fff;
+	font-size: 24px;
+	position: absolute;
+	bottom: 15px;
+	left: 20px;
+	line-height: 1.25;
+}
+
+._about {
+	position: absolute;
+	bottom: 200px;
+	max-width: 864px;
+	left: 108px;
+}
+
+._decor {
+	position: absolute;
+	top: -130px;
+	right: -30px;
+
+	img, svg {
+		width: 360px;
+		height: 360px;
+		display: block;
+	}
+
+	svg:nth-child(2) {
+		position: absolute;
+		top: 110px;
+		left: 105px;
+		width: 160px;
+		height: 160px;
+	}
+}
