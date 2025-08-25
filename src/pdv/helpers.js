@@ -421,6 +421,8 @@ export function czechify (txt) {
 			subs.forEach(sub => {
 				txt = txt.split(' ' + sub + ' ').join(' ' + sub + ' ');
 				txt = txt.split(' ' + sub.toLowerCase() + ' ').join(' ' + sub.toLowerCase() + ' ');
+				txt = txt.split(' ' + sub + ' ').join(' ' + sub + ' ');
+				txt = txt.split(' ' + sub.toLowerCase() + ' ').join(' ' + sub.toLowerCase() + ' ');
 			});
 
 			return txt;
