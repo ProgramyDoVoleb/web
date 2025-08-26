@@ -89,7 +89,7 @@
 														</p-area>
 													</div>
 												</template>
-												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.quick === null)">
+												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.question <= 389)">
 													<div>
 														<p-area class="white shadow" borderColor="var(--yellow)" icon="answers-mini">
 															<strong>
@@ -97,11 +97,11 @@
 																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
 																</router-link>
 															</strong>
-															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.quick === null).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.question <= 389).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
 														</p-area>
 													</div>
 												</template>
-												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.quick !== null)">
+												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.question > 389)">
 													<div>
 														<p-area class="white shadow" borderColor="var(--greyish)" icon="calc">
 															<strong>
@@ -109,7 +109,7 @@
 																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
 																</router-link>
 															</strong>
-															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.quick !== null).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.question > 389).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
 														</p-area>
 													</div>
 												</template>
