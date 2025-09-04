@@ -65,8 +65,10 @@
 		</div>
 		<div class="_footer_brand _quando">programydovoleb.cz</div>
 		<div class="_footer_about">
-			{{ number(about.poll.amount) }} respondentů
-			<br>
+			<template v-if="!username">
+				{{ number(about.poll.amount) }} respondentů
+				<br>
+			</template>
 			Zveřejněno {{ date(about.poll.datum) }}
 			<template v-if="about.previous">
 				<br>
@@ -97,7 +99,7 @@
 			<p-box-button>{{ bg ? 'Vypnout' : 'Zapnout' }} pozadí</p-box-button>
 		</p-box>
 		<p-box v-if="imagedata">
-			<p-box-label><a :href="imagedata" :download="'graf-' + (new Date().getTime()) + '.png'">Stáhnout obrázek</a></p-box-label>
+			<p-box-label><a :href="imagedata" :download="'graf-' + (new Date().getTime()) + '.png'">Stáhnout</a></p-box-label>
 		</p-box>
 	</p-box-group>
 	<div class="canvas mt1" ref="canvas"></div>

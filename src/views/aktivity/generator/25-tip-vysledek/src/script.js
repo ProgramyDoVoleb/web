@@ -24,7 +24,10 @@ export default {
 				{hash: 1114, value: 20},
 				{hash: 720, value: 4}
 			],
-			tick: 0
+			tick: 0,
+			username: null,
+			att: null,
+			loaded: null
 		}
 	},
 	components: {
@@ -39,7 +42,18 @@ export default {
 			return useEnums()
 		},
 		parties: function () {
-			return this.$store.getters.pdv('elections/fetch/166');
+			if (this.loaded) return this.loaded;
+
+			var d = this.$store.getters.pdv('elections/fetch/166');
+
+			if (d) {
+				setTimeout(() => {
+					this.addMainEight();
+					this.loaded = d;
+				}, 500);				
+			}
+
+			return d;
 		},
 		valid: function () {
 			return this.list.length > 7 && this.list.find(x => x.value > 10) && this.list.reduce((a, b) => a + b.value, 0) <= 100;
@@ -50,7 +64,8 @@ export default {
 				agency: 'Můj tip',
 				datum: today,
 				amount: 1,
-				type: 1
+				type: 1,
+				attendance: this.att && this.att >= 0 && this.att <= 100 ? this.att : null 
 			};
 
 			this.list.forEach(item => {
@@ -59,6 +74,8 @@ export default {
 					value: item.value
 				});
 			});
+
+			d.$data.sort((a, b) => b.value - a.value);
 
 			var datalist = {
 				poll: d,
@@ -211,6 +228,14 @@ export default {
 				this[list || 'mandates'].push(o);
 			});
 		},
+		handleParty: function (party) {
+			var item = this.list.find(x => x.item.id === party.id);
+			if (item) {
+				this.removeItem(item);
+			} else if (this.list.length < 10) {
+				this.addItem(party);
+			}
+		}
 	},
 	mounted: function () {
 	  window.scrollTo(0, 1);

@@ -1,6 +1,8 @@
 import { number, pct, round, truncate, indicator, date, url } from '@/pdv/helpers';
 import { cdn } from '@/stores/core';
 import html2canvas from 'html2canvas'
+import { useEngagement } from '@/stores/engagement';
+import { ge } from '@/pdv/analytics'
 
 export default {
 	name: 'results-parties-graph',
@@ -14,6 +16,9 @@ export default {
 		}
 	},
 	computed: {
+		engagement: function () {
+			return useEngagement();
+		},
 		passed: function () {
 			return this.list.filter(x => x.passed).length
 		},
@@ -105,19 +110,45 @@ export default {
 			this.width = this.$el.getBoundingClientRect().width;
 		},
 		snapshot: function (ev) {
-			html2canvas(this.$el.querySelector('._rendered'),{
-				allowTaint: true,
-				useCORS : true,
-				backgroundColor:null,
-				alpha: false
-			}).then((canvas) => {
-				this.$refs.canvas.appendChild(canvas);
-				this.imagedata = canvas.toDataURL("image/png");
 
-				canvas.style.width = '100%';
-				canvas.style['max-width'] = canvas.width + 'px';
-				canvas.style.height = 'auto';
-			})
+			if (this.username) {
+				var arr = [];
+
+				this.list.forEach(x => {
+					arr.push({
+						id: x.id,
+						pct: x.pct,
+						short: x.short
+					})
+				})
+
+				this.engagement.add(this.$route.fullPath, 'psp25-tip-1', JSON.stringify(arr), 'Ukládám tip');
+			}			
+			
+			while (this.$refs.canvas.children.length > 0) {
+				this.$refs.canvas.children[0].remove();
+			}
+
+			setTimeout(() => {
+				html2canvas(this.$el.querySelector('._rendered'),{
+					allowTaint: true,
+					useCORS : true,
+					backgroundColor:null,
+					alpha: false
+				}).then((canvas) => {
+					this.$refs.canvas.appendChild(canvas);
+					this.imagedata = canvas.toDataURL("image/png");
+
+					canvas.style.width = '100%';
+					canvas.style['max-width'] = canvas.width + 'px';
+					canvas.style.height = 'auto';
+
+					ge({
+						event: "graph-generated",
+						value: this.username ? 'Tip na výsledek' : 'Průzkum'
+					})
+				})
+			}, 500);
 		}
 	},
 	mounted: function () {
