@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Quando&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Quando&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 ._rendered {
 	height: 1080px;
 	width: 1080px;
 	color: #20133C;
-	// transform: scale(.5, .5) translate(-50%, -50%);
-	position: absolute;
-	left: 300vw;
+	transform: scale(.5, .5) translate(-50%, -50%);
+	// position: absolute;
+	// left: 300vw;
 
 	.dark & {
 		color: #20133C;

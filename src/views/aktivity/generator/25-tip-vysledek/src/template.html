@@ -1,0 +1,63 @@
+<div class="layout-activity text-center">
+	<p-layout-simple>
+		<section>
+			<h1>Můj tip na výsledek</h1>
+			<p>Naklikejte si, jak to podle vás u letošních voleb 3. a 4. října dopadne, a vygenerovaný graf s výsledky pak můžete kdekoli sdílet.</p>
+		</section>
+		<template v-if="parties">
+			<section>
+				<h2>Nejprve vyberte 8 až 10 stran</h2>
+				<p>Může to být těch <button class="inline" @click="addMainEight">osm hlavních stran</button>, které se nyní objevují v průzkumech, ale klidně to mohou být jakékoli jiné strany.</p>
+			</section>
+			<section>
+				<h2>Kolik získají procent?</h2>
+				<div class="_pbg">
+					<div class="p-list _025">
+						<div v-for="party in list">
+							<p-box-group>
+								<p-box>
+									<p-box-image :src="logoByItem(party.item, parties)"></p-box-image>
+									<p-box-label>{{ party.item.ZKRATKA }}</p-box-label>
+								</p-box>
+								<p-box-gap></p-box-gap>
+								<p-box>
+									<p-box-label class="_r">
+										<input type="number" min="1" max="100" v-model="party.value">
+										<span class="_pct dimm">%</span>
+									</p-box-label>
+								</p-box>
+								<p-box :click="() => removeItem(party)">
+									<p-box-icon type="icon-against"></p-box-icon>
+								</p-box>
+							</p-box-group>
+						</div>
+						<div class="smallest dimm" v-if="list.find(x => x.value > 0)">
+							Součet je {{ list.reduce((a, b) => a + b.value, 0) }} %
+						</div>
+						<div>
+							<div class="p-gap _05"></div>
+							<p-box-group>
+								<p-box :click="() => generate">
+									<p-box-button icon="results" :class="{primary: valid, 'disabled dimm': !valid}">Vytvořit graf</p-box-button>
+								</p-box>
+								<p-box-gap></p-box-gap>
+								<p-box v-if="list.length < 10">
+									<p-box-label>
+										<button class="inline strong green">Přidat stranu</button>
+									</p-box-label>
+								</p-box>
+							</p-box-group>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section v-if="data.poll.$data.length > 0">
+				<h2>Výsledky v grafu</h2>
+				<div class="_pgb">
+					<election-simulation-imperiali-2021 :defined="defined" :hide="true" :tickDefined="1" @update="(data) => setMandates(data, 'mandates')"></election-simulation-imperiali-2021>
+					<results-parties-graph-shareable :list="listOfParties" :mandates="mandates" :mandatesSince="mandatesSince" :about="data" :username="'Anonym'"></results-parties-graph-shareable>
+				</div>
+			</section>
+		</template>
+	</p-layout-simple>
+</div>

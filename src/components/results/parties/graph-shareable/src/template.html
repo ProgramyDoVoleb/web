@@ -53,8 +53,8 @@
 					<div class="_mandates _blue" v-if="mandates && mandates.length > 0 && mandates.find(x => x.hash === item.id)">
 						<span class="_mandates-value">
 							{{ mandates.find(x => x.hash === item.id).value }}
-							<span class="_mandates-diff" :class="indicator(mandates.find(x => x.hash === item.id).value, mandatesPrevious.find(x => x.hash === item.id).value)" v-if="mandatesPrevious.length > 0 && mandatesPrevious.find(x => x.hash === item.id) && mandates.find(x => x.hash === item.id).value !== mandatesPrevious.find(x => x.hash === item.id).value && mandatesPrevious.find(x => x.hash === item.id).value">{{ mandates.find(x => x.hash === item.id).value > mandatesPrevious.find(x => x.hash === item.id).value ? '+' : '' }}{{ mandates.find(x => x.hash === item.id).value - mandatesPrevious.find(x => x.hash === item.id).value }}</span>
-							<span v-if="mandatesPrevious.length > 0 && !mandatesPrevious.find(x => x.hash === item.id)" class="_mandates-diff _blue">*</span>
+							<span class="_mandates-diff" :class="indicator(mandates.find(x => x.hash === item.id).value, mandatesPrevious.find(x => x.hash === item.id).value)" v-if="mandatesPrevious && mandatesPrevious.length > 0 && mandatesPrevious.find(x => x.hash === item.id) && mandates.find(x => x.hash === item.id).value !== mandatesPrevious.find(x => x.hash === item.id).value && mandatesPrevious.find(x => x.hash === item.id).value">{{ mandates.find(x => x.hash === item.id).value > mandatesPrevious.find(x => x.hash === item.id).value ? '+' : '' }}{{ mandates.find(x => x.hash === item.id).value - mandatesPrevious.find(x => x.hash === item.id).value }}</span>
+							<span v-if="mandatesPrevious && mandatesPrevious.length > 0 && mandatesPrevious && !mandatesPrevious.find(x => x.hash === item.id)" class="_mandates-diff _blue">*</span>
 							<span class="_mandates-since" :class="indicator(mandates.find(x => x.hash === item.id).value, mandatesSince.find(x => x.hash === item.id).value)" v-if="mandatesSince.length > 0 && mandatesSince.find(x => x.hash === item.id) && mandates.find(x => x.hash === item.id).value !== mandatesSince.find(x => x.hash === item.id).value">{{ mandates.find(x => x.hash === item.id).value > mandatesSince.find(x => x.hash === item.id).value ? '+' : '' }}{{ mandates.find(x => x.hash === item.id).value - mandatesSince.find(x => x.hash === item.id).value }}</span>
 							<span v-if="mandatesSince.length > 0 && !mandatesSince.find(x => x.hash === item.id)" class="_mandates-since _blue">*</span>
 						</span>
@@ -68,14 +68,17 @@
 			{{ number(about.poll.amount) }} respondentů
 			<br>
 			Zveřejněno {{ date(about.poll.datum) }}
-			<br>
-			Srovnání s {{ about.poll.agency }} z {{ date(about.previous.datum) }}
+			<template v-if="about.previous">
+				<br>
+				Srovnání s {{ about.poll.agency }} z {{ date(about.previous.datum) }}
+			</template>
 		</div>
 		<div class="_header" :class="'_header_' + url(about.poll.agency)" :style="{right: ((detectWidth - (display.length * 100)) / 2 + 10) + 'px'}">
 			<div class="_header-agency _quando">{{ about.poll.agency }}</div>
 			<div class="_header-agency_paid _quando _header-agency-STEMCNN" v-if="about.poll.agency === 'STEM'">pro CNN Prima News</div>
 			<div class="_header-agency_paid _quando _header-agency-KANTAR" v-if="about.poll.agency === 'Kantar'">pro Českou televizi</div>
 			<div class="_header-fromto _blue _quando" v-if="about.poll.from">sběr od {{ date(about.poll.from, 2) }} do {{ date(about.poll.to, 2) }}</div>
+			<div class="_header-fromto _blue _quando" v-if="username">{{ username }}</div>
 			<div class="_header-attendance" v-if="about.poll.attendance">
 				<div class="_header-attendance-bar">
 					<div class="_header-attendance-indicator" :style="{width: Math.floor(300 * Number(about.poll.attendance) / 100) + 'px'}"></div>

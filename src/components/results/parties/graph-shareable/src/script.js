@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas'
 
 export default {
 	name: 'results-parties-graph',
-	props: ['list', 'diff', 'mandates', 'mandatesPrevious', 'mandatesSince', 'about'],
+	props: ['list', 'diff', 'mandates', 'mandatesPrevious', 'mandatesSince', 'about', 'username'],
 	data: function () {
 		return {
 			show: true,
@@ -65,10 +65,15 @@ export default {
 			}
 
 			// if (arr[0].ref) {
+
+			if (arr.find(x => x.ref)) {
 				o.ref = {
 					votes: 100 - arr.reduce((a, b) => a + b.ref.pct, 0),
 					pct: 100 - arr.reduce((a, b) => a + b.ref.pct, 0)
 				}
+			}
+
+				
 			// }
 
 			arr.push(o);
