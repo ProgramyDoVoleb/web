@@ -3,6 +3,14 @@
     padding: 0;
 }
 
+._smt {
+    scroll-margin-top: max(20vh, 100px);
+}
+
 .p-headline {
     max-width: 35em;
+}
+
+.truncated-text {
+    display: inline;
 }

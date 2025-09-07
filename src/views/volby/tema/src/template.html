@@ -4,7 +4,7 @@
 			<p-block :hide="true" :level="1" :headline="data ? data.list[0].question : 'Načítám téma...'">
 				<p-loader :rule="data">
 					<div v-if="data">
-						<div v-if="data" class="dimm smallest">
+						<div v-if="data" class="dimm smaller">
 							<strong>Vybraná témata ve volebních programech pro {{ enums.elections.find(x => x.key === data.cis.volby[0].typ).name.toLowerCase() }}</strong>
 							<div class="smaller">
 								{{ data.cis.volby[0].datum_label || (data.cis.volby[0].cirka || date(data.cis.volby[0].datum)) }}
@@ -20,52 +20,45 @@
 						<p-headline :level="1">{{ data ? data.list[0].question : 'Načítám otázku' }}</p-headline>
 						<p class="lead" v-if="data.list[0].comment">{{ data.list[0].comment }}</p>
 						<p-area v-if="$strany">
-							<div class="columns columns-4 smaller">
+							<p-columns class="_tight smaller">
 								<div v-for="(party, index) in $strany">
 									<button class="inline" @click="() => slide(url(party.ZKRATKA || party.NAZEV))">{{ party.ZKRATKA || party.NAZEV }}</button>
 								</div>
-							</div>
+							</p-columns>
 						</p-area>
 						<div class="p-gap _2"></div>
 						<template v-if="['evropske-volby', 'snemovni-volby', 'komunalni-volby', 'krajske-volby'].indexOf(hash) > -1">
 
 							<template v-if="$strany">
 								<template v-for="(party, index) in $strany">
-									<p-block :headline="party.NAZEV" :anchor="party.ZKRATKA || party.NAZEV" :hide="true" :name="url(party.ZKRATKA || party.NAZEV)">
-										<!-- <p-area class="inline" :borderColor="colorByItem(party, data)"> -->
+									<p-block :headline="party.NAZEV" :anchor="party.ZKRATKA || party.NAZEV" :hide="true" :name="url(party.ZKRATKA || party.NAZEV)" class="_smt">
+										
 											<div class="p-offset">
 												<div>
 													<p-image :src="logoByItem(party, data)" :rounded="true"></p-image>
 												</div>
 												<div>
-													<router-link class="strong" :to="'/volby/' + hash + '/' + id + '/strana/' + party.id">{{ truncate(party.NAZEV, 10) }}</router-link>
-													<div class="smallest dimm">Program přidán {{ date(data.list[0].$body.find(x => x.csu_table === party.csu_table && x.csu_id === party.id).$program[0].updated) }}</div>
+													<router-link class="strong" :to="'/volby/' + hash + '/' + id + '/strana/' + party.id + '/volebni-program/' + data.list[0].$body.find(x => x.csu_table === party.csu_table && x.csu_id === party.id).$program[0].id">{{ truncate(party.NAZEV, 10) }}</router-link>
+													<div class="smallest dimm">
+														Program přidán {{ date(data.list[0].$body.find(x => x.csu_table === party.csu_table && x.csu_id === party.id).$program[0].updated) }}
+														<!-- &middot; -->
+														<!-- <router-link :to="'/volby/' + hash + '/' + id + '/strana/' + party.id + '/volebni-program/' + data.list[0].$body.find(x => x.csu_table === party.csu_table && x.csu_id === party.id).$program[0].id" class="dimm">Zobrazit</router-link> -->
+													</div>
 												</div>
 											</div>
-										<!-- </p-area> -->
 										<div class="p-gap"></div>
-										<!-- <p-collapsible :label="party.NAZEV" :logo="logoByItem(party, data)"> -->
-											<!-- <p-area :borderColor="colorByItem(party, data)"> -->
 												<template v-if="data.list[0].$odpovedi.filter(x => x.csu_id === party.id).length > 0">
 													<p-list height="1.25">
 														<template v-for="(content, indexC) in data.list[0].$odpovedi.filter(x => x.csu_id === party.id)">
 															<div>
 																<p-truncated :content="content.answer" :size="60" class="serif"></p-truncated>
+																<div class="smallest strong mt05" v-if="content.source">
+																	&rarr; <router-link :to="'/volby/' + hash + '/' + id + '/strana/' + party.id + '/volebni-program/' + data.list[0].$body.find(x => x.csu_table === party.csu_table && x.csu_id === party.id).$program[0].id + '#' + url(truncate(content.source, 16, true))"><em>{{ content.source }}</em></router-link>
+																</div>
 															</div>
 														</template>
-														<div class="smaller strong">
-															<p-box :to="'/volby/' + hash + '/' + id + '/strana/' + party.id + '/volebni-program/' + data.list[0].$body.find(x => x.csu_table === party.csu_table && x.csu_id === party.id).$program[0].id">
-																<!-- <p-box-color :color="colorByItem(party, data)"></p-box-color> -->
-																<p-box-button class="primary">
-																	Zobrazit volební program
-																</p-box-button>
-															</p-box>
-														</div>
 													</p-list>
 												</template>
-											<!-- </p-area> -->
-										<!-- </p-collapsible> -->
-										<div class="p-gap _2"></div>
 									</p-block>
 								</template>
 								
@@ -103,7 +96,7 @@
 			</p-block>
 		</template>
 		<template #anchors>
-			<p-logo :data="{logo: cdn + 'icon/' + $route.fullPath.split('/')[2] + '.svg'}" :size="'12rem'"></p-logo>
+			<p-logo :data="{logo: cdn + 'icon/' + (data && data.list[0].icon ? data.list[0].icon : $route.fullPath.split('/')[2]) + '.svg'}" :size="'12rem'"></p-logo>
 			<div class="p-gap"></div>
 			<p-anchors></p-anchors>
 		</template>
