@@ -8,7 +8,7 @@ export default {
 			if (this.link) {
 				return this.link
 			} else {
-				return cdn + 'icon/' + this.type + (this.png ? '.png' : '.svg');
+				return cdn + 'icon/' + this.type + (this.type.includes('.png') || this.type.includes('.svg') ? '' : (this.png ? '.png' : '.svg'));
 			}
 		}
 	}

@@ -96,7 +96,7 @@
 			</p-block>
 		</template>
 		<template #anchors>
-			<p-logo :data="{logo: cdn + 'icon/' + (data && data.list[0].icon ? data.list[0].icon : $route.fullPath.split('/')[2]) + '.svg'}" :size="'12rem'"></p-logo>
+			<p-logo :data="{logo: cdn + 'icon/' + (data && data.list[0].icon ? data.list[0].icon : $route.fullPath.split('/')[2] + '.svg')}" :size="'12rem'"></p-logo>
 			<div class="p-gap"></div>
 			<p-anchors></p-anchors>
 		</template>
