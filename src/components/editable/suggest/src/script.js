@@ -46,9 +46,9 @@ export default {
 				axios.post(api + 'report/add', {
 					p: this.$route.path,
 					c: this.part,
-					txt: encodeURIComponent(this.type + ': ' + (this.val || '')),
+					txt: encodeURIComponent(this.type + ': ' + userInput(this.val || '')),
 					src: encodeURIComponent(this.source),
-					author: this.contact ? encodeURIComponent(this.contact) : null,
+					author: this.contact ? encodeURIComponent(userInput(this.contact)) : null,
 					contact: null,
 					d: window.location.hostname
 				}).then(response => {
