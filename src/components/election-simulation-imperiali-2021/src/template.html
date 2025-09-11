@@ -592,6 +592,89 @@
 					<!-- </div> -->
 				<!-- </p-loader> -->
 			</p-block>
+			<p-block v-if="!hide && secondDistribution" headline="Statistiky">
+				<p>Pokud by nedošlo vlivem kroužkování k přeskakování kandidátů, tak by bylo rozdělení mandátů mezi muže, ženy a členy jednotlivých strany následující</p>
+				<p-loader :rule="genom2025">
+					<div v-if="genom2025">
+						<table>
+							<thead>
+								<tr>
+									<th>Strana</th>
+									<th class="line-right">Mandátů</th>
+									<th v-for="(reg, i) in enums.regionsShort">{{ reg }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<template v-for="(party, index) in secondDistribution.parties">
+									<template v-if="party.mandates > 0">
+										<tr class="_tl">
+											<td>
+												<strong>
+													{{ party.hash ? $getParty(party.hash).short : party.short }}
+												</strong>
+											</td>
+											<td class="line-right strong">{{ party.mandates }}</td>
+											<td v-for="(reg, i) in enums.regionsShort" :class="{'dimm small': party.regions[i].mandates.total === 0, strong: party.regions[i].mandates.total > 0}">
+												{{ party.regions[i].mandates.total }}
+											</td>
+										</tr>
+										<!-- <template v-if="sourceSelectedID === 12"> -->
+											<tr class="small">
+												<td>muži</td>
+												<td class="line-right small" :class="{'tiny dimm': getGenomSexCount(party, 1) === 0}">
+													{{ getGenomSexCount(party, 1) }}
+												</td>
+												<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomSexCount(party, 1, i+1) === 0}">
+													 {{ getGenomSexCount(party, 1, i+1) }}
+												</td>
+											</tr>
+											<tr class="small">
+												<td>ženy</td>
+												<td class="line-right small" :class="{'tiny dimm': getGenomSexCount(party, 2) === 0}">
+													{{ getGenomSexCount(party, 2) }}
+												</td>
+												<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomSexCount(party, 2, i+1) === 0}">
+													 {{ getGenomSexCount(party, 2, i+1) }}
+												</td>
+											</tr>
+										<template v-for="member in getGenomPartyMemberList(party)">
+
+											<tr class="small">
+												<td>{{ member.ZKRATKA }}</td>
+												<td class="line-right small" :class="{'tiny dimm': getGenomMemberCount(party, member.VSTRANA) === 0}">
+													{{ getGenomMemberCount(party, member.VSTRANA) }}
+												</td>
+												<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomMemberCount(party, member.VSTRANA, i+1) === 0}">
+													{{ getGenomMemberCount(party, member.VSTRANA, i+1) }}
+												</td>
+											</tr>
+										</template>
+
+										<tr class="small">
+											<td>nestraníci</td>
+											<td class="line-right small" :class="{'tiny dimm': getGenomMemberCount(party, 99) === 0}">
+												{{ getGenomMemberCount(party, 99) }}
+											</td>
+											<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomMemberCount(party, 99, i+1) === 0}">
+												{{ getGenomMemberCount(party, 99, i+1) }}
+											</td>
+										</tr>
+									</template>
+								</template>
+							</tbody>
+							<tfoot>
+								<tr class="_tl">
+									<td><strong>Součty</strong></td>
+									<td class="line-right"><strong>200</strong></td>
+									<td v-for="(rem, i) in secondDistribution.regions">
+										<strong>{{ rem.mandates }}</strong>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</p-loader>
+			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="Koalice a většina">
 				<p>
 					Ve Sněmovně jsou důležité dvě čísla pro vládnoucí strany. Většina poslanců a ústavní většina. Pro mnoho zákonů a úkonů stačí většina prostá, ale když dojde na hlasování silou, nebo protože to ukládá zákon, je dobré držet 101, resp 120 hlasů.

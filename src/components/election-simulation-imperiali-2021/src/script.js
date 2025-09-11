@@ -1,5 +1,5 @@
 import {elections, attendance, votes, chairs, results2021, scrutinize, turnout, db} from '../helpers/votes-imperiali-2021';
-import {number, date, con, color} from '@/pdv/helpers';
+import {number, date, con, color, unique} from '@/pdv/helpers';
 
 import GraphMandates from '@/components/results/graph/mandates/do.vue'
 import {useData} from '@/stores/data';
@@ -69,6 +69,11 @@ export default {
 			this._genom.list.sort((a, b) => (a.position || 99) - (b.position || 99));
 
 			return this._genom;
+		},
+		genom2025: function () {
+			if (this.hide) return undefined;
+
+			return this.$store.getters.pdv('elections/specific/166/genom');
 		},
 		turnout: function () {
 			return turnout(this.attendanceCustom, undefined, this.tick, this.selectedOverseasID, this.defined)
@@ -793,6 +798,54 @@ export default {
 			}
 
 			return o;
+		},
+		getGenomSexCount: function (pty, sex, regionSelected) {
+			var regions = regionSelected ? [regionSelected] : [1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+			var count = 0;
+			var genom = this.genom2025.list[0];
+			var party = genom.$strany.find(x => x.VSTRANA === pty.hash);
+
+			regions.forEach(r => {
+				var total = pty.regions[r-1].mandates.total;
+				var sub = genom.$kandidati.filter(x => x.VOLKRAJ === r && x.KSTRANA === party.KSTRANA && x.POHLAVI === sex && x.PORCISLO <= total).length;
+
+				count += sub;
+			});
+
+			return count;
+		},
+		getGenomMemberCount: function (pty, member, regionSelected) {
+			var regions = regionSelected ? [regionSelected] : [1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+			var count = 0;
+			var genom = this.genom2025.list[0];
+			var party = genom.$strany.find(x => x.VSTRANA === pty.hash);
+
+			regions.forEach(r => {
+				var total = pty.regions[r-1].mandates.total;
+				var sub = genom.$kandidati.filter(x => x.VOLKRAJ === r && x.KSTRANA === party.KSTRANA && x.PSTRANA === member && x.PORCISLO <= total).length;
+
+				count += sub;
+			});
+
+			return count;
+		},
+		getGenomPartyMemberList: function (pty) {
+			var genom = this.genom2025.list[0];
+			var party = genom.$strany.find(x => x.VSTRANA === pty.hash);
+
+			var arr = [];
+
+			function onlyUnique(value, index, array) {
+				return array.indexOf(value) === index;
+			  }
+
+			var uniqueList = [].concat(unique(genom.$kandidati.filter(x => x.KSTRANA === party.KSTRANA), 'NSTRANA'), unique(genom.$kandidati.filter(x => x.KSTRANA === party.KSTRANA), 'PSTRANA')).filter(onlyUnique);
+
+			uniqueList.forEach(item => {
+				if (item != 99)	arr.push(this.genom2025.cis.strany.find(x => x.VSTRANA === item));
+			});
+
+			return arr;
 		}
 	},
 	mounted: function () {

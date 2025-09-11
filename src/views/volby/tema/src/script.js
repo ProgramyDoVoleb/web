@@ -35,7 +35,7 @@ export default {
 			var d = this.$store.getters.pdv('elections/qa/' + this.qid + (this.$route.query.vyber ? ':' + this.$route.query.vyber : ''));
 
 			if (d) {
-				ga(d.list[0].question + ' - ' + this.enums.elections.find(x => x.key === d.cis.volby[0].typ).name + ' - ' + (d.cis.volby[0].cirka || date(d.cis.volby[0].datum)));
+				ga(d.list[0].question + ' - ' + this.enums.elections.find(x => x.key === d.cis.volby[0].typ).name + ' - ' + (d.cis.volby[0].datum_label || d.cis.volby[0].cirka || date(d.cis.volby[0].datum)));
 				this.hasStrany = d.list[0].$body && !!d.list[0].$body.find(x => x.$strana);
 			}
 
