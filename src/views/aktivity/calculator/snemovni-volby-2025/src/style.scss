@@ -1,0 +1,176 @@
+.icons {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	> li {
+		display: inline-block;
+	}
+}
+
+.icon {
+	display: inline-block;
+	margin-right: .5em;
+	position: relative;
+	top: .4em;
+}
+
+.election-item {
+  padding: 1rem 0;
+  border-top: var(--border);
+
+	.dark & {
+		border-top: 1px solid #000;
+	}
+
+	.logo-holder {
+	  display: inline-block;
+	  width: 3.25rem;
+	  position: relative;
+	}
+
+	.logo {
+	  position: absolute;
+	  width: 2.5rem;
+	  height: 2.5rem;
+	  top: -1.8rem;
+	  border-radius: 50%;
+	  border: var(--border);
+		background: #fff;
+	}
+}
+
+.logo-item {
+	margin-top: .25em;
+	margin-bottom: .1em;
+}
+
+.election-item-header {
+  position: relative;
+
+  .icon {
+    position: absolute;
+    right: 1rem;
+		top: .6rem;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+}
+
+.p-list---invisible-spacing:not(:first-child),
+.p-list---invisible-spacing-skip {
+	padding-top: .2em !important;
+}
+
+.p-list---invisible-spacing:not(:last-child) {
+	padding-bottom: .2em !important;
+}
+
+.grid---n {
+	display: flex;
+	flex-wrap: wrap;
+	margin: -.5em;
+
+	& > div {
+		width: 7.5rem;
+		padding: .5em;
+	}
+}
+
+._up {
+	margin-top: -6em;
+}
+
+._b {
+	display: block;
+}
+
+._c800 {
+	@media (max-width: 800px) {
+		columns: 1;
+	}
+}
+
+._center {
+	margin: 0 auto;
+	width: 4em;
+}
+
+.p-area---inline {
+	padding: .5em 1.5em !important;
+	display: inline-block;
+}
+
+._aig {
+	// padding-bottom: 1.5rem;
+}
+
+._pg {
+	text-decoration: none;
+	border-radius: 1.5em;
+	display: inline-block;
+	padding: .5em .85em;
+	color: #fff !important;
+}
+
+._pgb {
+	border: var(--border);
+	color: var(--grey) !important;
+}
+
+._gap {
+	margin-bottom: .5em;
+	column-gap: 1em !important;
+	column-rule: none;
+
+	> div {
+		margin-bottom: .5em;
+	}
+
+	@media (max-width: 799px) {
+		columns: 1;
+
+		> div {
+			margin-bottom: .25em;
+		}
+	}
+}
+
+._b {
+	align-items: center;
+}
+
+._logo {
+	display: block !important;
+}
+
+._logos {
+	display: flex;
+}
+
+._logos > ._logo {
+	display: inline-block !important;
+
+	&:not(:first-child) {
+		margin-left: -1em;
+	}
+}
+
+._note {
+	padding: .5em 1em;
+	font-size: 11px;
+	display: inline-block;
+	color: var(--red);
+	font-weight: 700;
+}
+
+._w3 {
+	width: 3em;
+}
+
+._square {
+	display: block;
+	aspect-ratio: 1;
+	object-fit: cover;
+	border-radius: 4px;
+}

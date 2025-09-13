@@ -1,0 +1,265 @@
+<div class="layout-homepage">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Porovnejte si odpovědi stran z kalkulačky" anchor="Porovnání odpovědí" :level="1">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<p-area>
+							<strong>
+								Vyberte až 6 stran
+							</strong>
+							<div class="p-gap"></div>
+							<div class="columns-4 smaller">
+								<div v-for="(party, index) in sortBy(data.parties.filter(x => data.answers.find(y => y[0] === x.id && y[2] < 4)), 'ZKRATKA', null, true)">
+									<button class="inline" @click="sublist_toggle(party.id)" :class="{'strong green': sublist.find(x => x === party.id)}">{{ party.ZKRATKA }}</button>
+								</div>
+							</div>
+						</p-area>
+						<div class="p-gap _3"></div>
+						<table class="smaller" v-if="sublist.length === 0">
+							<thead>
+								<tr>
+									<th class="_s60">Otázka</th>
+										<th class="_l">
+											<p-box>
+												<p-box-icon type="icon-check"></p-box-icon>
+											</p-box>
+										</th>
+										<th class="_l">
+											<p-box>
+												<p-box-icon type="icon-against"></p-box-icon>
+											</p-box>
+										</th>
+										<th class="_l">
+											<p-box>
+												<p-box-icon type="icon-none"></p-box-icon>
+											</p-box>
+										</th>
+										<th class="_l">
+											<p-box>
+												<p-box-icon type="icon-false"></p-box-icon>
+											</p-box>
+										</th>
+								</tr>
+							</thead>
+							<tbody>
+								<template v-for="(item, index) in data.questions">
+									<tr class="_h60">
+										<td colspan="10">
+											<div class="_pt" v-html="item.question"></div>
+										</td>
+									</tr>
+									<tr>
+										<td v-html="item.question" class="_s60"></td>
+										<template v-for="(val, inval) in [1,2,3,4]">
+											<td class="_tc">
+												<p-modal>
+													<template #init>
+														{{ data.answers.reduce((a, b) => a + (b[2] === val && b[1] === item.id ? 1 : 0), 0) }}
+													</template>
+													<template #content>
+														<div class="_pb strong _mw" v-html="item.question"></div>
+														<p-list>
+															<div v-for="(party, indexParty) in data.parties.filter(x => data.answers.find(y => y[0] === x.id && y[1] === item.id && y[2] === val)).map(x => x.id)">
+																<p-box-group>
+																	<p-box>
+																		<p-box-image :src="logoByItem(data.parties.find(x => x.id === party), data)"></p-box-image>
+																		<p-box-label>{{ data.parties.find(x => x.id === party).ZKRATKA }}</p-box-label>
+																	</p-box>
+																	<p-box-gap></p-box-gap>
+																	<p-box v-if="data.answers.find(x => x[0] === party && x[1] === item.id)[3] === 1">
+																		<p-box-ticker>!!!</p-box-ticker>
+																	</p-box>
+																	<p-box>
+																		<p-box-icon :type="['', 'icon-check', 'icon-against', 'icon-none', 'icon-false'][data.answers.find(x => x[0] === party && x[1] === item.id)[2]]"></p-box-icon>
+																	</p-box>
+																</p-box-group>
+																<template v-if="data.comments.find(x => x.csu_id === party && x.question === item.id)">
+																	<div class="_pt serif _mw" v-html="data.comments.find(x => x.csu_id === party && x.question === item.id).answer"></div>
+																</template>
+															</div>
+														</p-list>
+														<div class="p-line"></div>
+														<div class="smaller strong">
+															<router-link :to="'/volby/' + hash + '/' + id + '/kalkulacka/otazka/' + item.id">Přehledné porovnání odpovědí</router-link>
+														</div>
+													</template>
+												</p-modal>
+												
+											</td>
+										</template>
+									</tr>
+									<!-- <template v-if="(width < 1140 && index % 10 === 4) || index % 10 === 9">
+										<tr>
+											<th colspan="10">
+												&nbsp;
+											</th>
+										</tr>
+										<tr>
+											<th class="_s60">Otázka</th>
+											<th class="_l">
+												<p-box>
+													<p-box-icon type="icon-check"></p-box-icon>
+												</p-box>
+											</th>
+											<th class="_l">
+												<p-box>
+													<p-box-icon type="icon-against"></p-box-icon>
+												</p-box>
+											</th>
+											<th class="_l">
+												<p-box>
+													<p-box-icon type="icon-none"></p-box-icon>
+												</p-box>
+											</th>
+											<th class="_l">
+												<p-box>
+													<p-box-icon type="icon-false"></p-box-icon>
+												</p-box>
+											</th>
+										</tr>
+									</template> -->
+								</template>
+							</tbody>
+						</table>
+						<table class="smaller" v-if="sublist.length > 0">
+							<thead>
+								<tr>
+									<th class="_s60">Otázka</th>
+									<template v-for="(party, index) in sublist">
+										<th class="_l">
+											<p-box>
+												<p-box-image class="_rnd" :src="logoByItem(data.parties.find(x => x.id === party), data)"></p-box-image>
+											</p-box>
+										</th>
+									</template>
+								</tr>
+							</thead>
+							<tbody>
+								<template v-for="(item, index) in data.questions">
+									<tr class="_h60">
+										<td colspan="10">
+											<div class="_pt" v-html="item.question"></div>
+										</td>
+									</tr>
+									<tr>
+										<td v-html="item.question" class="_s60"></td>
+										<template v-for="(party, index) in sublist">
+											<td class="_l">
+												<p-box class="_r">
+													<p-box-icon :type="['', 'icon-check', 'icon-against', 'icon-none', 'icon-false'][(data.answers.find(x => x[0] === party && x[1] === item.id) || [0,0,4])[2]]"></p-box-icon>
+													<template v-if="data.comments.find(x => x.csu_id === party && x.question === item.id)">
+														<p-modal class="_a">
+															<template #init>
+																<p-box-icon type="answers"></p-box-icon>
+															</template>
+															<template #content>
+																<div class="_pb strong _mw" v-html="item.question"></div>
+																<p-box-group>
+																	<p-box>
+																		<p-box-image :src="logoByItem(data.parties.find(x => x.id === party), data)"></p-box-image>
+																		<p-box-label>{{ data.parties.find(x => x.id === party).ZKRATKA }}</p-box-label>
+																	</p-box>
+																	<p-box-gap></p-box-gap>
+																	<p-box>
+																		<p-box-icon :type="['', 'icon-check', 'icon-against', 'icon-none', 'icon-false'][data.answers.find(x => x[0] === party && x[1] === item.id)[2]]"></p-box-icon>
+																	</p-box>
+																	<p-box v-if="data.answers.find(x => x[0] === party && x[1] === item.id)[3] === 1">
+																		<p-box-ticker>!!!</p-box-ticker>
+																	</p-box>
+																</p-box-group>
+																<div class="_pt serif _mw" v-html="data.comments.find(x => x.csu_id === party && x.question === item.id).answer"></div>
+																<div class="p-line"></div>
+																<div class="smaller">
+																	<router-link :to="'/volby/' + hash + '/' + id + '/strana/' + party" class="strong">Profil strany</router-link>
+																	&middot;
+																	<router-link :to="'/volby/' + hash + '/' + id + '/strana/' + party + '/otazky-a-odpovedi'">Všechny odpovědi</router-link>
+																</div>
+															</template>
+														</p-modal>
+													</template>
+													
+												</p-box>
+											</td>
+										</template>
+									</tr>
+									<!-- <template v-if="(width < 1140 && index % 10 === 4) || index % 10 === 9">
+										<tr>
+											<th colspan="10">
+												&nbsp;
+											</th>
+										</tr>
+										<tr>
+											<th class="_s60">Otázka</th>
+											<template v-for="(party, index) in sublist">
+												<th class="_l">
+													<p-box>
+														<p-box-image class="_rnd" :src="logoByItem(data.parties.find(x => x.id === party), data)"></p-box-image>
+													</p-box>
+												</th>
+											</template>
+										</tr>
+									</template> -->
+								</template>
+							</tbody>
+						</table>
+					</div>
+				</p-loader>
+			</p-block>
+			<!-- <p-block headline="Aktivity" :hide="true">
+				<p-grid>
+					<div>
+						<p-area icon="icon-check" background="var(--blue)">
+							<router-link to="/kalkulacka" class="strong _white">Volební kalkulačka</router-link>
+							<div class="smallest _white">40 otázek napoví, kdo vám je blíž</div>
+						</p-area>
+					</div>
+					<div>
+						<p-area icon="icon-election" background="var(--blue11)">
+							<router-link to="/aktivity/odhad-vysledku" class="strong">Odhad výsledku</router-link>
+							<div class="smallest">Tipněte si, jak letos volby dopadnout</div>
+						</p-area>
+					</div>
+					<div>
+						<p-area icon="euroquiz" background="var(--blue11)">
+							<router-link to="/aktivity/kviz-pro-eurovolby" class="strong">Volební eurokvíz</router-link>
+							<div class="smallest">Vyzkoušte své znalosti, čeká vás 10 otázek</div>
+						</p-area>
+					</div>
+					<div>
+						<p-area icon="evropske-volby" background="var(--blue11)">
+							<router-link to="/" class="strong">Volební přehled</router-link>
+							<div class="smallest">Přejít na úvodní stránku</div>
+						</p-area>
+					</div>
+					<div>
+						<p-area icon="answers" background="var(--blue11)">
+							<router-link to="/" class="strong">Odpovědi kandidátů</router-link>
+							<div class="smallest">Seznamte se s jejich názory</div>
+						</p-area>
+					</div>
+					<div>
+						<p-area icon="warning" background="var(--blue11)">
+							<router-link to="/jak-volit" class="strong">Jak volit</router-link>
+							<div class="smallest">Termíny, podmínky, krok za krokem</div>
+						</p-area>
+					</div>
+				</p-grid>
+
+			</p-block> -->
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/' + hash + '.svg'}" :size="'12rem'" alt="Podovnání odpovědí"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			
+			<p-list height="1.25">
+				<div>
+					<top-tasks></top-tasks>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

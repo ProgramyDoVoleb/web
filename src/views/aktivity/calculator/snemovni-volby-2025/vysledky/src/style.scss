@@ -1,0 +1,92 @@
+._plg {
+	position: absolute;
+	width: 80vw;
+	height: 4px;
+	overflow: hidden;
+	left: 0;    
+	bottom: 0;
+
+	@media (min-width: 400px) {
+		position: static;
+		min-width: 5em;
+		width: auto;
+		height: auto;
+	}
+
+	@media (min-width: 640px) {
+		min-width: 8em;
+	}
+}
+
+._ws {
+	white-space: nowrap;
+}
+
+._s {
+	font-size: 1.6rem;
+	@media (min-width: 960px) {
+		font-size: 2rem;
+	}
+}
+
+._action {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+._mw {
+	max-width: 40em;
+}
+
+._area {
+	position: relative;
+
+	h1 {
+		margin-top: 0;
+		line-height: 1.2;
+
+		div {
+			padding-top: .2em;
+		}
+	}
+}
+
+td.text-right, ._w {
+	width: 2em;
+}
+
+._pbg {
+  max-width: 40rem;
+  margin: auto;
+  justify-content: center;
+
+  .p-box-image {
+    border-radius: 4px;
+  }
+}
+
+._vat td {
+	// vertical-align: top;
+}
+
+._oppose {
+	background: var(--red11);
+}
+
+._fs {
+	font-size: 14px !important;
+	margin-bottom: .5em;
+}
+
+._r {
+	position: relative;
+}
+
+._diff {
+	background: var(--red11);
+	
+	.dark & {
+		color: #ddd;
+	}
+}

@@ -1,0 +1,9 @@
+<div class="layout-kalkulačka">
+	<p-layout-simple>
+		<calc-1 :id="id" :hash="hash" enghash="psp25-calc-1"></calc-1>
+		<div class="p-gap _3"></div>
+		<div class="text-center strong smaller">
+			<router-link :to="'/volby/' + hash + '/' + id + '/kalkulacka/porovnani'">Chci si jen porovnat odpovědi</router-link>
+		</div>
+	</p-layout-simple>
+</div>

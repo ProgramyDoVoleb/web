@@ -7,6 +7,9 @@ import PointerPriorityView from '../views/pointer/priority/do.vue'
 import PointerQAView from '../views/pointer/qa/do.vue'
 import VolbySenatDetail from '../views/volby/detail/senatni-volby/obvod/do.vue'
 import VolbyDetail from '../views/volby/detail/do.vue'
+import Activity_Calc from '../views/aktivity/calculator/snemovni-volby-2025/do.vue'
+import Activity_CalcResult from '../views/aktivity/calculator/snemovni-volby-2025/vysledky/do.vue'
+import Activity_CalcCompare from '../views/aktivity/calculator/snemovni-volby-2025/porovnani/do.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +24,36 @@ const router = createRouter({
       name: 'volby',
       component: () => import('../views/volby/do.vue')
     },
+        {
+          path: '/kalkulacka',
+          name: 'Activity_Calc_Alias',
+          redirect: '/volby/snemovni-volby/166/kalkulacka',
+          props: true
+        },
+        {
+          path: '/volby/:hash/:id/kalkulacka',
+          name: 'Activity_Calc',
+          component: Activity_Calc,
+          props: true
+        },
+            {
+              path: '/volby/:hash/:id/kalkulacka/porovnani',
+              name: 'Activity_CalcCompare',
+              component: Activity_CalcCompare,
+              props: true
+            },
+            {
+              path: '/volby/:hash/:id/kalkulacka/otazka/:qid',
+              name: 'TopicCalc',
+              component: () => import('../views/volby/kalkulacka/do.vue'),
+              props: true
+            },
+            {
+              path: '/volby/:hash/:id/kalkulacka/vysledek/:res',
+              name: 'Activity_CalcResult',
+              component: Activity_CalcResult,
+              props: true
+            },
     {
       path: '/pruvodce',
       name: 'guide-actual',

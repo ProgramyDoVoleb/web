@@ -289,15 +289,11 @@ export default {
 	  if (this.$route.query.obvod) this.obvodID = Number(this.$route.query.obvod);
 
 	  if (this.$route.query.vyber) {
-		this.$route.query.vyber.split(',').forEach(party => {
-			this.toggle(this.partyList, Number(party));
-		});
-
-		this.selection.useActivity = true;
-
 		setTimeout(() => {
-			slide('section_3', this.$el);
-		}, 250);		
+			this.$route.query.vyber.split(',').forEach(party => {
+				this.toggle(this.selection.kraj, this.krajData.data.list[0].$strany.find(x => x.id === Number(party)))
+			});
+		}, 2000);
 	  }
 
 	  if (this.$route.query.kraj || this.$route.query.obvod || this.$route.query.obec) {

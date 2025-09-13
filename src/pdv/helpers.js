@@ -192,7 +192,7 @@ export function truncate (str, count, chars) {
 }
 
 export function number (num, digits, plus) {
-  var n = (num || 0).toLocaleString('cs-CZ', { minimumFractionDigits: digits || 0}).split(' ').join(' ');
+  var n = ((digits ? round(num, digits) : num) || 0).toLocaleString('cs-CZ', { minimumFractionDigits: digits || 0}).split(' ').join(' ');
 
   if (plus && num > 0) n = "+" + n;
 

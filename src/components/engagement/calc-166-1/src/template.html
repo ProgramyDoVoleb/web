@@ -1,0 +1,137 @@
+<div class="engagement-calc-1">
+	<div v-if="step === 0" class="text-center">
+		<h1>
+			Kalkulačka
+			<div class="normal blue sans">Sněmovní volby 2025</div>
+		</h1>
+		<p>Odpovězte na 40 otázek a zjistíte, ke které z kandidujících stran máte nejblíž. Hlasovat můžete ANO, NE, Je to složitější nebo můžete otázku přeskočit. Po vyplnění můžete otázkám přiřadit, jak jsou pro vás důležité. Pokud byste u nějaké otázky váhali, můžete si zobrazit komentáře stran.</p>
+		<p>Nezapomeňte, kalkulačka pracuje se zjednodušeným pohledem na často velmi složité otázky. Je jen příjemným doplňkem a pomocníkem v předvolebním období, ale nemůže nahradit poctivé sledování politiky ani volební programy stran.</p>
+		<p>Odpovědi pro kalkulačku vyplnily jednotlivé strany. Žádné odpovědi nejsou domýšlené nebo získané analýzou programu, článků v novinách nebo veřejných vystoupení.</p>
+		<div class="p-gap _3"></div>
+		<p-box :click="() => start_calc()">
+			<p-box-button color="var(--blue)">Přejít na první otázku</p-box-button>
+		</p-box>
+		<div class="p-gap _3"></div>
+		<!-- <button @click="demo">Demo</button> -->
+		<!-- <button @click="demo1">Demo 1</button> -->
+		<div class="p-line"></div>
+		<p-loader :rule="data">
+			<div v-if="data">
+				<h3>Odpovědi pro kalkulačku zaslali:</h3>
+				<p-box-group class="_pbg">
+					<template v-for="(party, index) in data.parties.filter(x => data.answers.find(y => y[0] === x.id && y[2] < 4))">
+						<p-box :to="'/volby/' + hash + '/' + id + '/strana/' + party.id">
+							<p-box-image :src="logoByItem(party, data)"></p-box-image>
+						</p-box>
+					</template>
+				</p-box-group>
+				<div class="p-gap _3"></div>
+				<strong class="dimm smaller">Zatím neodpověděli</strong>
+				<p class="dimm">
+					<p-list-linear>
+						<span v-for="(party, index) in data.parties.filter(x => !data.answers.find(y => y[0] === x.id && y[2] < 4))">
+							<router-link class="is-span dimm" :to="'/volby/' + hash + '/' + id + '/strana/' + party.id">{{ party.ZKRATKA }}</router-link>
+						</span>
+					</p-list-linear>
+				</p>
+			</div>
+		</p-loader>
+	</div>
+	<div v-if="step === 1" class="text-center">
+		<h1 class="_mw">
+			<div class="normal sans blue">
+				<template v-if="index > 0">
+					<button class="inline dimm" @click="index--">&larr; předchozí</button> 
+					&middot; 
+				</template>
+				{{ index + 1 }} ze 40
+				<template v-if="index < 40">
+					&middot; 
+					<button class="inline dimm" @click="add_result(data.questions[index].id, 4, 2, true)">přeskočit &rarr;</button> 
+				</template>
+			</div>
+			<div class="p-gap"></div>
+			{{ data.questions[index].question }}
+		</h1>
+		<p v-if="data.questions[index].comment" v-html="data.questions[index].comment"></p>
+		<div class="p-gap _3"></div>
+		<p>
+			<button class="inline" :class="{green: important === 1}" @click="important = important === 2 ? 1 : 2">Tohle je pro mě důležité</button>
+			<p-icon :icon="important === 1 ? 'icon-check' : 'icon-none'" size="1.5em"></p-icon>
+		</p>
+		<div class="p-gap"></div>
+		<p-box-group class="_pbg">
+			<p-box :click="() => add_result(data.questions[index].id, 1, important, true)">
+				<p-box-button icon="icon-check.svg" color="var(--green)">ANO</p-box-button>
+			</p-box>
+			<p-box :click="() => add_result(data.questions[index].id, 3, important, true)">
+				<p-box-button color="var(--blue)">Je to složitější</p-box-button>
+			</p-box>
+			<p-box :click="() => add_result(data.questions[index].id, 2, important, true)">
+				<p-box-button icon="icon-against.svg" color="var(--red)">NE</p-box-button>
+			</p-box>
+		</p-box-group>
+		<div class="p-gap _3"></div>
+		<p><button class="inline dimm" @click="add_result(data.questions[index].id, 4, 2, true)">Nechci odpovídat</button></p>
+		<div class="p-gap _3"></div>
+		<p-icon icon="answers"></p-icon>
+		<p-modal>
+			<template #init> <span class="smaller">Komentáře stran</span></template>
+			<template #content>
+				<strong>{{ data.questions[index].question }}</strong>
+				<!-- <p>Níže najdete komentáře stran k tématu, třeba to pomůže v rozhodování:</p> -->
+				<div class="p-line"></div>
+				<p-list class="smaller">
+					<div class="serif" v-for="(comment, index) in data.comments.filter(x => x.question === data.questions[index].id)">
+						<p-truncated :size="30" :content="comment.answer"></p-truncated>
+					</div>
+				</p-list>
+			</template>
+		</p-modal>
+	</div>
+	<div v-if="step === 2" class="text-center _mw">
+		<h1>Jsou pro vás některá témata důležitá?</h1>
+		<p></p>
+		<p-box-group class="_pbg">
+			<p-box :click="() => step = 3">
+				<p-box-button color="var(--blue)">Vybrat témata</p-box-button>
+			</p-box>
+			<p-box :click="() => end_calc()">
+				<p-box-button color="var(--green)">Přejít na výsledky</p-box-button>
+			</p-box>
+		</p-box-group>
+	</div>
+	<div v-if="step === 3">
+		<div class="text-center">
+			<h1>Zde můžete upravit, jak moc jsou jednotlivá témata pro vás důležitá.</h1>
+			<p></p>
+		</div>
+		<p-list height="2">
+			<div v-for="(item, index) in data.questions">
+				<div> 
+					<span class="serif">{{ item.question }}</span> 
+					<strong :class="['','green','red','blue','grey'][answers.find(x => x.id === item.id).answer]">{{ ['', 'ANO', 'NE', 'Je to složitější', 'nechci odpovídat'][answers.find(x => x.id === item.id).answer] }}</strong>
+					<div class="p-gap"></div>
+					<p-list-linear class="or">
+						<span>
+							<button @click="add_result(item.id, answers.find(x => x.id === item.id).answer, 1)" class="inline dimm" :class="{'strong green': answers.find(x => x.id === item.id).importance === 1}">Velmi důležité</button>
+						</span>
+						<span>
+							<button @click="add_result(item.id, answers.find(x => x.id === item.id).answer, 2)" class="inline dimm" :class="{'strong blue': answers.find(x => x.id === item.id).importance === 2}">Nijak zvlášť</button>
+						</span>
+						<span>
+							<button @click="add_result(item.id, answers.find(x => x.id === item.id).answer, 3)" class="inline dimm" :class="{'strong red': answers.find(x => x.id === item.id).importance === 3}">Vůbec</button>
+						</span>
+					</p-list-linear>
+				</div>
+			</div>
+			<div>
+				<p-box-group class="_pbg">
+					<p-box :click="() => end_calc()">
+						<p-box-button color="var(--green)">Zobrazit výsledky</p-box-button>
+					</p-box>
+				</p-box-group>
+			</div>
+		</p-list>
+	</div>
+</div>
