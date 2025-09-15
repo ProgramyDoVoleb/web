@@ -32,7 +32,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr v-for="(party, index) in list.filter((x, i) => i < (limit && sublist.length === 0 ? 8 : 100))">
+											<tr v-for="(party, index) in list.filter((x, i) => i < (limit && sublist.length === 0 ? 8 : 1000))">
 												<td class="_w">
 													<p-logo :size="(width < 1140 ? 2 : 3) + 'em'" :data="logoByItem(data.candidates.find(x => x.id === party.id), data, 'NSTRANA,PSTRANA')"></p-logo>
 												</td>
