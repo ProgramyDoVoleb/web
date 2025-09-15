@@ -2,13 +2,13 @@
 	<p-layout-divided>
 		<template #main>
 			<p-block headline="Výsledky kalkulačky" anchor="Výsledky" :level="1" :hide="true">
-				<p-loader :rule="results">
-					<div v-if="results && list">
+				<p-loader :rule="results && elections">
+					<div v-if="results && list && elections">
 						<div class="_r">
 							<p-area class="_area">
 								<h1>
 									<div class="_fs blue">Programy do voleb</div>
-									Výsledky kalkulačky
+									Výsledky kalkulačky kandidátů
 								</h1>
 								<div class="p-offset reverse _fs">
 									<div>
@@ -17,27 +17,7 @@
 										<button class="inline" @click="type = 1" :class="{'strong green': type === 1}">Zohlednit důležité</button>
 									</div>
 									<div>
-										<p-modal>
-											<template #init>Filtr <template v-if="sublist.length > 0">&middot; {{ sublist.length }}</template> </template>
-											<template #content>
-												<strong>
-													Výběr stran
-													
-												</strong>
-												<div class="p-gap"></div>
-												<div class="columns smaller">
-													<div v-for="(party, index) in sortBy(result.parties, 'short', null, true)">
-														<button class="inline" @click="sublist_toggle(party.id)" :class="{'strong green': sublist.find(x => x === party.id)}">{{ data.parties.find(x => x.id === party.id).ZKRATKA }}</button>
-													</div>
-												</div>
-												<div class="p-line"></div>
-												<div class="smaller">
-													<button class="inline red" @click="sublist = []">Zrušit filtr</button>
-													&middot;
-													<button class="inline" @click="sublist = [229,232,226,236,230,227,234,231]">Podle průzkumů</button> 
-												</div>
-											</template>
-										</p-modal>
+										
 									</div>
 								</div>
 								<div class="p-gap"></div>
@@ -45,7 +25,7 @@
 									<table class="smaller">
 										<thead>
 											<tr>
-												<th colspan="2">Strana</th>
+												<th colspan="2">Kandidát</th>
 												<th colspan="2">míra shody</th>
 												<th class="text-right">S</th>
 												<th class="text-right">N</th>
@@ -54,19 +34,19 @@
 										<tbody>
 											<tr v-for="(party, index) in list.filter((x, i) => i < (limit && sublist.length === 0 ? 8 : 100))">
 												<td class="_w">
-													<p-logo :size="(width < 1140 ? 2 : 3) + 'em'" :data="logoByItem(data.parties.find(x => x.id === party.id), data)"></p-logo>
+													<p-logo :size="(width < 1140 ? 2 : 3) + 'em'" :data="logoByItem(data.candidates.find(x => x.id === party.id), data, 'NSTRANA,PSTRANA')"></p-logo>
 												</td>
 												<td class="strong _s">
 														<p-modal>
-															<template #init>{{ data.parties.find(x => x.id === party.id).ZKRATKA }}</template>
+															<template #init>{{ data.candidates.find(x => x.id === party.id).JMENO + ' ' + data.candidates.find(x => x.id === party.id).PRIJMENI }}</template>
 															<template #content>
 																<strong>Porovnání otázek a odpovědí:</strong>
-																<div class="smaller _mw">{{ data.parties.find(x => x.id === party.id).NAZEV }}</div>
+																<div class="smaller _mw">{{ data.candidates.find(x => x.id === party.id).NAZEV }}</div>
 																<table>
 																	<thead>
 																		<tr>
 																			<th>Otázky a komentáře</th>
-																			<th><p-logo size="3rem" :data="logoByItem(elections.list[0].$strany.find(x => x.id === party.id), elections)"></p-logo></th>
+																			<th><p-logo size="3rem" :data="logoByItem(elections.list[0].$kandidati.find(x => x.id === party.id), elections, 'NSTRANA,PSTRANA')"></p-logo></th>
 																			<th><p-icon size="3rem" icon="people"></p-icon></th>
 																		</tr>
 																	</thead>
@@ -86,10 +66,8 @@
 																		</tr>
 																	</tbody>
 																</table>
-																<div class="p-gap"></div>
-																<div>
-																	<party-preview :party="elections.list[0].$strany.find(x => x.id === party.id)"  :candidates="elections.list[0].$kandidati.filter(x => x.KSTRANA === elections.list[0].$strany.find(x => x.id === party.id).KSTRANA && x.PORCISLO === 1)" label="Více informací" :election="null" :elections="elections" :link="'/volby/' + hash + '/' + id"></party-preview>
-																</div>
+																<div class="p-line"></div>
+																<person-preview-block :cand="data.candidates.find(x => x.id === party.id)" :data="data" :link="'/volby/' + hash + '/' + id" :current="elections.list[0]"></person-preview-block>
 															</template>
 														</p-modal>
 												</td>
@@ -97,7 +75,7 @@
 													{{ number((type === 1 ? party.balres : party.simres), 2) }}
 												</td>
 												<td>
-													<p-line-graph label="" class="_plg" :value="round(type === 1 ? party.balres : party.simres, 2)" :color="colorByItem(data.parties.find(x => x.id === party.id), data)"></p-line-graph>
+													<p-line-graph label="" class="_plg" :value="round(type === 1 ? party.balres : party.simres, 2)" :color="colorByItem(data.candidates.find(x => x.id === party.id), data, 'NSTRANA,PSTRANA')"></p-line-graph>
 												</td>
 												<td class="text-right green strong">
 													{{ party.agree }}
@@ -114,10 +92,8 @@
 										<template v-if="sublist.length === 0">
 											<div class="p-gap"></div>
 											<div>
-												<button @click="limit = false" v-if="limit">Zobrazit všechny strany</button>
+												<button @click="limit = false" v-if="limit">Zobrazit všechny</button>
 												<button @click="limit = true" v-if="!limit">Zobrazit zkrácený výpis</button>
-												<div class="p-gap _05"></div>
-												<button @click="sublist = [229,232,226,236,230,227,234,231]" class="inline smallest strong">Jen strany, které byly v průzkumech</button> 
 											</div>
 										</template>
 										<template v-else>
@@ -137,7 +113,7 @@
 									</div>
 								</div>
 								<div class="p-line"></div>
-								<router-link :to="$route.fullPath.split('/vysledek/').join('/vysledek-kandidati/')" class="btn">Porovnat s kandidáty</router-link>
+								<router-link :to="$route.fullPath.split('/vysledek-kandidati/').join('/vysledek/')" class="btn">Porovnat strany</router-link>
 								<div class="p-gap _01"></div>
 							</p-area>
 							<div class="_action">
@@ -160,16 +136,17 @@
 							<p-area background="var(--blue11)">
 								<p-list-linear class="or smaller">
 									<span v-for="(party, index) in sortBy(list, 'short', null, true)">
-										<button class="inline" @click="focus = party" :class="{strong: focus && focus.id === party.id}">{{ data.parties.find(x => x.id === party.id).ZKRATKA }}</button>
+										<button class="inline" @click="focus = party" :class="{strong: focus && focus.id === party.id}">{{ data.candidates.find(x => x.id === party.id).PRIJMENI }}</button>
 									</span>
 								</p-list-linear>
 							</p-area>
 							<template v-if="focus">
 								<div class="p-gap"></div>
+								<p-area>
+									<person-preview-block :cand="data.candidates.find(x => x.id === focus.id)" :data="data" :link="'/volby/' + hash + '/' + id" :current="elections.list[0]"></person-preview-block>
+								</p-area>
+								<div class="p-gap"></div>
 								<p-grid>
-									<div>
-										<party-preview :party="elections.list[0].$strany.find(x => x.id === focus.id)"  :candidates="elections.list[0].$kandidati.filter(x => x.KSTRANA === elections.list[0].$strany.find(x => x.id === focus.id).KSTRANA && x.PORCISLO === 1)" label="Více informací" :election="null" :elections="elections" :link="'/volby/' + hash + '/' + id"></party-preview>
-									</div>
 									<div>
 										<p-area icon="icon-check">
 											<strong>
@@ -197,12 +174,12 @@
 										<tr>
 											<td>Základní shoda</td>
 											<td class="text-right strong">{{ number(focus.simres, 2) }}</td>
-											<td><p-line-graph label="" class="_plg" :value="round(focus.simres, 2)" :color="colorByItem(data.parties.find(x => x.id === focus.id), data)"></p-line-graph></td>
+											<td><p-line-graph label="" class="_plg" :value="round(focus.simres, 2)" :color="colorByItem(data.candidates.find(x => x.id === focus.id), data, 'NSTRANA,PSTRANA')"></p-line-graph></td>
 										</tr>
 										<tr>
 											<td>Shoda s důležitostí</td>
 											<td class="text-right strong">{{ number(focus.balres, 2) }}</td>
-											<td><p-line-graph label="" class="_plg" :value="round(focus.balres, 2)" :color="colorByItem(data.parties.find(x => x.id === focus.id), data)"></p-line-graph></td>
+											<td><p-line-graph label="" class="_plg" :value="round(focus.balres, 2)" :color="colorByItem(data.candidates.find(x => x.id === focus.id), data, 'NSTRANA,PSTRANA')"></p-line-graph></td>
 										</tr>
 									</table>
 								
@@ -212,7 +189,7 @@
 										<thead>
 											<tr>
 												<th></th>
-												<th><p-logo size="3rem" :data="logoByItem(elections.list[0].$strany.find(x => x.id === focus.id), elections)"></p-logo></th>
+												<th><p-logo size="3rem" :data="logoByItem(elections.list[0].$kandidati.find(x => x.id === focus.id), elections, 'NSTRANA,PSTRANA')"></p-logo></th>
 												<th>!!!</th>
 												<th><p-icon size="3rem" icon="people"></p-icon></th>
 												<th>!!!</th>
@@ -255,10 +232,10 @@
 							</template>
 						</p-block-expandable>
 						<p-block-expandable headline="Rozdílné odpovědi" anchor="Rozdíly">
-								<p>V některých bodech se nebudete shodovat s odpovědí strany. Protože svět není černobílý a ne vždy stačí odpověď ANO/NE, dostaly strany prostor své odpovědi zdůvodnit. Některé toho využily a jejich komentáře najdete níže.</p>
+								<p>V některých bodech se nebudete shodovat s odpovědí kandidáta. Protože svět není černobílý a ne vždy stačí odpověď ANO/NE, dostaly kandidáti prostor své odpovědi zdůvodnit. Někteří toho využili a jejich komentáře najdete níže.</p>
 								<template v-for="(party, index) in list">
-									<p-collapsible :logo="logoByItem(elections.list[0].$strany.find(x => x.id === party.id), elections)" :label="elections.list[0].$strany.find(x => x.id === party.id).ZKRATKA" :status="result.answers.length - party.agree">
-											<p-area class="smaller inline" :borderColor="colorByItem(elections.list[0].$strany.find(x => x.id === party.id), elections)">
+									<p-collapsible :logo="logoByItem(elections.list[0].$kandidati.find(x => x.id === party.id), elections, 'NSTRANA,PSTRANA')" :label="elections.list[0].$kandidati.find(x => x.id === party.id).JMENO + ' ' + elections.list[0].$kandidati.find(x => x.id === party.id).PRIJMENI" :status="result.answers.length - party.agree">
+											<p-area class="smaller inline" :borderColor="colorByItem(elections.list[0].$kandidati.find(x => x.id === party.id), elections, 'NSTRANA,PSTRANA')">
 												<div class="strong">Odporující si odpovědi: {{ party.oppose }}</div>
 												<div>Rozdílné odpovědi: {{ 40 - party.agree }}</div>
 											</p-area>
@@ -266,9 +243,9 @@
 											<table class="smaller _vat">
 												<thead>
 													<tr>
-														<th>Otázka + případný komentář od strany</th>
+														<th>Otázka + případný komentář od kandidáta</th>
 														<th>
-															<p-logo size="3rem" :data="logoByItem(elections.list[0].$strany.find(x => x.id === party.id), elections)"></p-logo>
+															<p-logo size="3rem" :data="logoByItem(elections.list[0].$kandidati.find(x => x.id === party.id), elections, 'NSTRANA,PSTRANA')"></p-logo>
 														</th>
 														<th>
 															<p-icon size="3rem" icon="people"></p-icon>
@@ -304,12 +281,6 @@
 													</tr>
 												</tbody>
 											</table>
-											<div class="p-gap"></div>
-											<p-grid>
-												<div>
-													<party-preview :party="elections.list[0].$strany.find(x => x.id === party.id)"  :candidates="elections.list[0].$kandidati.filter(x => x.KSTRANA === elections.list[0].$strany.find(x => x.id === party.id).KSTRANA && x.PORCISLO === 1)" label="Více informací" :election="null" :elections="elections" :link="'/volby/' + hash + '/' + id"></party-preview>
-												</div>
-											</p-grid>
 
 									</p-collapsible>
 								</template>
@@ -328,7 +299,7 @@
 											<strong>{{ list.filter(x => x.questions[index].agree === 1).length }} z {{ list.length }}: </strong>
 											<p-list-linear>
 												<span v-for="(party, index2) in sortBy(list.filter(x => x.questions[index].agree === 1), 'short', null, true)">
-													{{ elections.list[0].$strany.find(x => x.id === party.id).ZKRATKA }}
+													{{ elections.list[0].$kandidati.find(x => x.id === party.id).PRIJMENI }}
 												</span>
 											</p-list-linear>
 										</div>
@@ -336,7 +307,7 @@
 										<p-collapsible label="Souhlasí s vámi" v-if="list.filter(x => x.questions[index].agree === 1).length > 0">
 											<p-list>
 												<div v-for="(party, index2) in sortBy(list.filter(x => x.questions[index].agree === 1), 'short', null, true)">
-													<strong>{{ elections.list[0].$strany.find(x => x.id === party.id).ZKRATKA }}</strong>
+													<strong>{{ elections.list[0].$kandidati.find(x => x.id === party.id).PRIJMENI }}</strong>
 													<div class="smaller serif _mw" v-if="data.comments.find(x => x.csu_id === party.id && x.question === question.id)">
 														<p-truncated :size="30" :content="data.comments.find(x => x.csu_id === party.id && x.question === question.id).answer"></p-truncated>
 													</div>
@@ -351,7 +322,7 @@
 										<p-collapsible label="Nesouhlasí s vámi" v-if="list.filter(x => x.questions[index].oppose === 1).length > 0">
 											<p-list>
 												<div v-for="(party, index2) in sortBy(list.filter(x => x.questions[index].oppose === 1), 'short', null, true)">
-													<strong>{{ elections.list[0].$strany.find(x => x.id === party.id).ZKRATKA }}</strong>
+													<strong>{{ elections.list[0].$kandidati.find(x => x.id === party.id).PRIJMENI }}</strong>
 													<div class="smaller serif _mw" v-if="data.comments.find(x => x.csu_id === party.id && x.question === question.id)">
 														<p-truncated :size="30" :content="data.comments.find(x => x.csu_id === party.id && x.question === question.id).answer"></p-truncated>
 													</div>
@@ -366,7 +337,7 @@
 										<p-collapsible label="Jiná odpověď" v-if="list.filter(x => x.questions[index].oppose === 0 && x.questions[index].agree === 0).length > 0">
 											<p-list>
 												<div v-for="(party, index2) in sortBy(list.filter(x => x.questions[index].oppose === 0 && x.questions[index].agree === 0), 'short', null, true)">
-													<strong>{{ elections.list[0].$strany.find(x => x.id === party.id).ZKRATKA }}</strong>
+													<strong>{{ elections.list[0].$kandidati.find(x => x.id === party.id).PRIJMENI }}</strong>
 													<div class="smaller">Odpověď: <strong :class="['', 'green', 'red', 'blue', 'grey'][data.answers.find(x => x[1] === question.id && x[0] === party.id)[2]]">{{ ['', 'ANO', 'NE', 'je to složitější', 'nechci odpovědět'][data.answers.find(x => x[1] === question.id && x[0] === party.id)[2]] }}</strong></div>
 													<div class="smaller serif _mw" v-if="data.comments.find(x => x.csu_id === party.id && x.question === question.id)">
 														<p-truncated :size="30" :content="data.comments.find(x => x.csu_id === party.id && x.question === question.id).answer"></p-truncated>
@@ -380,7 +351,7 @@
 											</p-list>
 										</p-collapsible>
 										<div class="p-line"></div>
-										<router-link :to="'/kalkulacka/otazka/' + question.id" class="smaller strong">Porovnejte si všechny odpovědi</router-link>
+										<router-link :to="'/volby/' + hash + '/' + id + '/kalkulacka/otazka/' + question.id" class="smaller strong">Porovnejte si všechny odpovědi</router-link>
 									</p-area>
 								</div>
 							</p-list>
@@ -388,44 +359,27 @@
 						<p-block headline="Kalkulačka" :hide="true">
 							<p-area background="var(--blue11)">
 								<p-box-group class="_pbg">
-									<p-modal class="_pmod">
-										<template #init>
-											<p-box>
-												<p-box-button color="var(--blue)">Do průvodce</p-box-button>
-											</p-box>
-										</template>
-										<template #content>
-											<strong>Vyberte si až tři strany do Průvodce</strong>
-											<div class="p-gap"></div>
-											<div class="columns-4 smaller">
-												<div v-for="(party, index) in sortBy(list, 'short', null, true)">
-													<button class="inline" @click="guide_toggle(party.id)" :class="{'strong green': guide.find(x => x === party.id)}">{{ data.parties.find(x => x.id === party.id).ZKRATKA }}</button>
-												</div>
-											</div>
-											<div class="p-line"></div>
-											<router-link class="btn" :to="'/pruvodce?vyber=' + guide.join(',')" :disabled="guide.length === 0">Přejít do průvodce {{ guide.length }}</router-link>
-										</template>
-									</p-modal>
-									<p-box to="/">
-										<p-box-button color="var(--blue)">Volební přehled</p-box-button>
+									<p-box :to="$route.fullPath.split('/vysledek-kandidati/').join('/vysledek/')">
+										<p-box-button color="var(--blue)">Porovnat strany</p-box-button>
 									</p-box>
 									<p-box to="/kalkulacka">
 										<p-box-button color="var(--blue)">Vyplnit kalkulačku</p-box-button>
 									</p-box>
+									<p-box to="/">
+										<p-box-button color="var(--blue)">Volební přehled</p-box-button>
+									</p-box>
 								</p-box-group>
 							</p-area>
 						</p-block>
-						<p-block headline="Více o vybraných stranách" :level="1" anchor="Více o stranách" :hide="true">
-							<h2>Více o vybraných stranách</h2>
+						<p-block headline="Strany ve volbách" :level="1" anchor="Více o stranách" :hide="true">
+							<h2>Strany ve volbách</h2>
 							<p-loader :rule="elections">
 								<div v-if="elections">
 									<p-columns>
-										<div v-for="(party, index) in sortBy(elections.list[0].$strany, 'ZKRATKA', null, true).filter(x => list.find(y => x.id === y.id))">
+										<div v-for="(party, index) in sortBy(elections.list[0].$strany, 'ZKRATKA', null, true)">
 											<party-preview :party="party" :candidates="elections.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PORCISLO === 1)" :election="null" :elections="elections" :link="'/volby/' + hash + '/' + id"></party-preview>
 										</div>
 									</p-columns>
-									<div class="p-line"></div>
-									<router-link to="/">Zobrazit všechny strany</router-link>
 								</div>
 							</p-loader>
 						</p-block>

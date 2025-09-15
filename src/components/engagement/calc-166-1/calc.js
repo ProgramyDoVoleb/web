@@ -72,7 +72,7 @@ function balance (answers) {
 export function processParty (party, data, result, keep) {
     var o = {
         id: party.id,
-        short: party.ZKRATKA.toLowerCase(),
+        short: (party.ZKRATKA || party.PRIJMENI).toLowerCase(),
         res: 0,
         pts: null,
         pwi: null,

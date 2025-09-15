@@ -9,6 +9,7 @@ import VolbySenatDetail from '../views/volby/detail/senatni-volby/obvod/do.vue'
 import VolbyDetail from '../views/volby/detail/do.vue'
 import Activity_Calc from '../views/aktivity/calculator/snemovni-volby-2025/do.vue'
 import Activity_CalcResult from '../views/aktivity/calculator/snemovni-volby-2025/vysledky/do.vue'
+import Activity_CalcPersonResult from '../views/aktivity/calculator/snemovni-volby-2025/vysledky-lide/do.vue'
 import Activity_CalcCompare from '../views/aktivity/calculator/snemovni-volby-2025/porovnani/do.vue'
 
 const router = createRouter({
@@ -52,6 +53,12 @@ const router = createRouter({
               path: '/volby/:hash/:id/kalkulacka/vysledek/:res',
               name: 'Activity_CalcResult',
               component: Activity_CalcResult,
+              props: true
+            },
+            {
+              path: '/volby/:hash/:id/kalkulacka/vysledek-kandidati/:res',
+              name: 'Activity_CalcPersonResult',
+              component: Activity_CalcPersonResult,
               props: true
             },
     {

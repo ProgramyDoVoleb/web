@@ -3,7 +3,7 @@ import { cdn } from '@/stores/core';
 
 export function colorByItem (item, data, _key, _flat) {
 
-    var key = _key || 'VSTRANA';
+    var key = (_key || 'VSTRANA').split(',')[0];
 
     if (item) {
 
@@ -37,22 +37,30 @@ export function colorByItem (item, data, _key, _flat) {
         }
     }
 
-    return res || 'var(--greyish)';
+    return res || ((_key || 'VSTRANA').split(',').length > 1 ? colorByItem(item, date, (_key || 'VSTRANA').split(',').splice(1,5)) : 'var(--greyish)');
 }
 
 export function logoByItem (item, data, _key, _canBeNull) {
 
-    if (item) {
-        var key = _key || 'VSTRANA';
+    var res = null;
 
-        var res = item.$data ? con(item.$data, 'logo') : null;
+    if (item) {
+        var key = (_key || 'VSTRANA').split(',')[0];
+
+        res = item.$data ? con(item.$data, 'logo') : null;
         var s = data.cis.strany.find(x => x.VSTRANA === item[key]);
 
         if (!res && s) {
             res = con(s.$data, 'logo');
         }
 
-        if (!res && !_canBeNull) res = cdn + 'empty.png';
+        if (!res && !_canBeNull) {
+            if ((_key || 'VSTRANA').split(',').length > 1) {
+                res = logoByItem(item, data, (_key || 'VSTRANA').split(',').splice(1,5));
+            } else {
+                res = cdn + 'empty.png';
+            }
+        } 
     } else {
         res = cdn + 'empty.png';   
     }
