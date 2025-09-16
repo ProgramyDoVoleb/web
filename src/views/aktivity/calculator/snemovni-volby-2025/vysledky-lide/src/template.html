@@ -17,7 +17,24 @@
 										<button class="inline" @click="type = 1" :class="{'strong green': type === 1}">Zohlednit důležité</button>
 									</div>
 									<div>
-										
+										<p-modal>
+											<template #init>Filtr <template v-if="sublist.length > 0">&middot; {{ sublist.length }}</template> </template>
+											<template #content>
+												<strong>
+													Výběr kraje
+												</strong>
+												<div class="p-gap"></div>
+												<div class="columns smaller">
+													<div v-for="(region, index) in enums.regions">
+														<button class="inline" @click="sublist_toggle(index + 1)" :class="{'strong green': sublist.find(x => x === index + 1)}">{{ region }}</button>
+													</div>
+												</div>
+												<div class="p-line"></div>
+												<div class="smaller">
+													<button class="inline red" @click="sublist = []">Zrušit filtr</button>
+												</div>
+											</template>
+										</p-modal>
 									</div>
 								</div>
 								<div class="p-gap"></div>
@@ -38,7 +55,11 @@
 												</td>
 												<td class="strong _s">
 														<p-modal>
-															<template #init>{{ data.candidates.find(x => x.id === party.id).JMENO + ' ' + data.candidates.find(x => x.id === party.id).PRIJMENI }}</template>
+															<template #init>
+																<span :class="{dimm: party.missing > 10}">
+																	{{ data.candidates.find(x => x.id === party.id).JMENO + ' ' + data.candidates.find(x => x.id === party.id).PRIJMENI }}
+																</span>
+															</template>
 															<template #content>
 																<strong>Porovnání otázek a odpovědí:</strong>
 																<div class="smaller _mw">{{ data.candidates.find(x => x.id === party.id).NAZEV }}</div>
@@ -70,6 +91,9 @@
 																<person-preview-block :cand="data.candidates.find(x => x.id === party.id)" :data="data" :link="'/volby/' + hash + '/' + id" :current="elections.list[0]"></person-preview-block>
 															</template>
 														</p-modal>
+														<div class="regular dimm tiny w400" v-if="party.missing > 10">
+															Odpověď chybí u <p-lang :value="party.missing" :end="['', '%% otázky', '%% otázek', '%% otázek']"></p-lang>
+														</div>
 												</td>
 												<td class="text-right _ws _s strong">
 													{{ number((type === 1 ? party.balres : party.simres), 2) }}

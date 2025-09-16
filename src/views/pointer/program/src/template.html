@@ -42,7 +42,7 @@
 								<section class="program">
 									<template v-if="current.$program[0].content && current.$program[0].type === 5">
 											<template v-for="(part, index) in fullType5">
-													<program-block :parts="part" :hash="url(part.headline)" :headline="part.headline" :color="colorByItem(current, data)"></program-block>
+													<program-block :parts="part" :hash="url(part.headline)" :headline="part.headline" :color="colorByItem(current, data)" class="_pb"></program-block>
 											</template>
 									</template>
 									<template v-if="current.$program[0].content && current.$program[0].type === 4">

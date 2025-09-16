@@ -1,5 +1,6 @@
 import {ga} from '@/pdv/analytics';
 import { cdn } from '@/stores/core';
+import { useEnums } from '@/stores/enums';
 import { useData } from '@/stores/data';
 import {logoByItem, colorByItem} from '@/components/results/helpers';
 import {number, sortBy, date, round} from '@/pdv/helpers';
@@ -21,7 +22,8 @@ export default {
 			sublist: [],
 			guide: [],
 			focus: null,
-			width: 0
+			width: 0,
+			enums: useEnums()
 		}
 	},
 	components: {
@@ -73,7 +75,7 @@ export default {
 
 		if (this.sublist.length > 0) {
 			this.result.parties.forEach(x => {
-				if (this.sublist.indexOf(x.id) > -1) {
+				if (this.sublist.indexOf(x.vk) > -1) {
 					list.push(x);
 				}
 			});	

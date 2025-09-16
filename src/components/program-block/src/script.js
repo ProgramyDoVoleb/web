@@ -41,7 +41,7 @@ export default {
 							list.push({
 								type: key,
 								content: item[key],
-								level: this.depth
+								level: item['level'] || this.depth
 							})
 						} 
 

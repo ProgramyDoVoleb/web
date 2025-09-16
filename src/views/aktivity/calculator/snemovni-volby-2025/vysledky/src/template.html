@@ -54,11 +54,15 @@
 										<tbody>
 											<tr v-for="(party, index) in list.filter((x, i) => i < (limit && sublist.length === 0 ? 8 : 100))">
 												<td class="_w">
-													<p-logo :size="(width < 1140 ? 2 : 3) + 'em'" :data="logoByItem(data.parties.find(x => x.id === party.id), data)"></p-logo>
+													<p-logo class="_logo" :size="(width < 1140 ? 2 : 3) + 'em'" :data="logoByItem(data.parties.find(x => x.id === party.id), data)"></p-logo>
 												</td>
 												<td class="strong _s">
 														<p-modal>
-															<template #init>{{ data.parties.find(x => x.id === party.id).ZKRATKA }}</template>
+															<template #init>
+																<span :class="{dimm: party.missing > 10}">
+																	{{ data.parties.find(x => x.id === party.id).ZKRATKA }}
+																</span>
+															</template>
 															<template #content>
 																<strong>Porovnání otázek a odpovědí:</strong>
 																<div class="smaller _mw">{{ data.parties.find(x => x.id === party.id).NAZEV }}</div>
@@ -92,6 +96,9 @@
 																</div>
 															</template>
 														</p-modal>
+														<div class="regular dimm tiny w400" v-if="party.missing > 10">
+															Odpověď chybí u <p-lang :value="party.missing" :end="['', '%% otázky', '%% otázek', '%% otázek']"></p-lang>
+														</div>
 												</td>
 												<td class="text-right _ws _s strong">
 													{{ number((type === 1 ? party.balres : party.simres), 2) }}
@@ -137,7 +144,14 @@
 									</div>
 								</div>
 								<div class="p-line"></div>
-								<router-link :to="$route.fullPath.split('/vysledek/').join('/vysledek-kandidati/')" class="btn">Porovnat s kandidáty</router-link>
+								<p-box-group>
+									<p-box :to="$route.fullPath.split('/vysledek/').join('/vysledek-kandidati/')">
+										<p-box-button icon="person" class="primary">Porovnat s kandidáty</p-box-button>
+									</p-box>
+									<p-box>
+										<p-box-label class="dimm">nemusíte nic vyplňovat znovu</p-box-label>
+									</p-box>
+								</p-box-group>
 								<div class="p-gap _01"></div>
 							</p-area>
 							<div class="_action">
@@ -155,7 +169,11 @@
 							</div>
 						</div>
 						<p>Základní kalkulačka porovnává pouze soulad v odpovědích, přičemž nějakou váhu mají i odpovědi <em>je to složité</em>. Pokročilá porovnává také to, nakolik se shoduje důležitost témat.</p>
-						<div class="p-gap"></div>
+						<p-area icon="hint" class="" background="var(--yellow44)">
+							<strong>Odkaz se hodí i pro příště</strong>
+							<div class="smaller">Až přibudou nové odpovědi od stran a kandidátů, nemusíte kalkulačku vyplňovat znova. Stačí se vrátit na tuto stránkku a vše se nově přepočítá, aniž byste museli cokoli víc udělat. Přidejte si ho do záložek nebo si ho kamkoli zkopírujte.</div>
+						</p-area>
+						<div class="p-gap _2"></div>
 						<p-block-expandable headline="Podrobný výpočet" anchor="Výpočet">
 							<p-area background="var(--blue11)">
 								<p-list-linear class="or smaller">

@@ -72,6 +72,7 @@ function balance (answers) {
 export function processParty (party, data, result, keep) {
     var o = {
         id: party.id,
+        vk: party.VOLKRAJ,
         short: (party.ZKRATKA || party.PRIJMENI).toLowerCase(),
         res: 0,
         pts: null,
@@ -125,8 +126,8 @@ export function processParty (party, data, result, keep) {
             };
 
             if ((answerParty[4] === 0 || answerPerson[4] === 0) && answerParty[4] != answerPerson[4]) {
-                res.pts *= 1.5;
-                res.pwi *= 1.5;
+                // res.pts *= 1.5;
+                // res.pwi *= 1.5;
             }
 
             if (res.missing === 1) {
@@ -165,7 +166,7 @@ export function processParty (party, data, result, keep) {
         if (!keep) o.questions = null;
     }
 
-    if (o.id === 35279) console.log(o);
+    // if (o.id === 35279) console.log(o);
 
     return o;
 }
