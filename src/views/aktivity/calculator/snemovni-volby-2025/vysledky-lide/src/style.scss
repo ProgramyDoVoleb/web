@@ -90,3 +90,14 @@ td.text-right, ._w {
 		color: #ddd;
 	}
 }
+
+._logo {
+	position: relative;
+	transform: translateY(.25em);
+}
+
+._logo2 {
+	position: absolute !important;
+	top: 0;
+	right: 0;
+}
