@@ -11,12 +11,12 @@
   //   background: #fff;
   // }
 
-  .dark &:not([src*="against"]):not([src*="check"]):not([src*="volby"]):not([src*="answers"]):not([src*="election"]):not([src*="party"]):not([src*="detail"]):not([src*="plus-green"]) {
+  .dark &:not([src*="against"]):not([src*="check"]):not([src*="volby"]):not([src*="answers"]):not([src*="election"]):not([src*="party"]):not([src*="plus-green"]) {
     filter: invert(1) brightness(2) opacity(.8);
   }
 
   @media (hover: hover) {
-    .dark .p-box-wrapper---hoverable:hover &:not([src*="against"]):not([src*="check"]):not([src*="volby"]):not([src*="answers"]):not([src*="election"]):not([src*="party"]):not([src*="detail"]):not([src*="plus-green"]) {  
+    .dark .p-box-wrapper---hoverable:hover &:not([src*="against"]):not([src*="check"]):not([src*="volby"]):not([src*="answers"]):not([src*="election"]):not([src*="party"]):not([src*="plus-green"]) {  
     filter: invert(1) brightness(2) opacity(1);
     }
   }

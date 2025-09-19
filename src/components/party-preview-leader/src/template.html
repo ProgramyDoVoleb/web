@@ -44,7 +44,7 @@
 		<div class="p-gap _075"></div>
 		<!-- <p-list-linear class="or dimm"> -->
 			<span v-if="party.$program && party.$program.length > 0">
-				<p-badge :background="colorByItem(party, elections)">
+				<p-badge :background="colorByItem(party, elections) + 'dd'">
 					<router-link :to="link + '/strana/' + party.id + '/volebni-program/' + party.$program[0].id" class="unlink _white">Program</router-link>
 				</p-badge> 
 			</span>
