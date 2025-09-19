@@ -12,7 +12,8 @@ export default {
 			results: [],
 			important: 2,
 			index: 0,
-			step: 0
+			step: 0,
+			urlAfterSuccess: 'vysledek'
 		}
 	},
 	components: {},
@@ -32,8 +33,9 @@ export default {
 		start_calc: function () {
 			this.step = 1;
 		},
-		end_calc: function () {
+		end_calc: function (showCandidates) {
 			this.toggle_footer(false);
+			this.urlAfterSuccess = 'vysledek-kandidati';
 			this.send_results();
 		},
 		toggle_footer: function (add) {
@@ -92,7 +94,7 @@ export default {
 
 			result.parties.sort((a, b) => b.res - a.res);
 
-			this.engagement.add(this.$route.fullPath, this.enghash, JSON.stringify(result), 'Odesílám výsledky', (token) => this.$router.push('/volby/' + this.hash + '/' + this.id + '/kalkulacka/vysledek/' + token));
+			this.engagement.add(this.$route.fullPath, this.enghash, JSON.stringify(result), 'Odesílám výsledky', (token) => this.$router.push('/volby/' + this.hash + '/' + this.id + '/kalkulacka/' + this.urlAfterSuccess + '/' + token));
 		}
 	},
 	mounted: function () {

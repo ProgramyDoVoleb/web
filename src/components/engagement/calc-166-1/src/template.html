@@ -99,6 +99,9 @@
 			<p-box :click="() => end_calc()">
 				<p-box-button color="var(--green)">Přejít na výsledky</p-box-button>
 			</p-box>
+			<p-box :click="() => end_calc(1)">
+				<p-box-button>Přejít na výsledky s kandidáty</p-box-button>
+			</p-box>
 		</p-box-group>
 	</div>
 	<div v-if="step === 3">
@@ -129,6 +132,9 @@
 				<p-box-group class="_pbg">
 					<p-box :click="() => end_calc()">
 						<p-box-button color="var(--green)">Zobrazit výsledky</p-box-button>
+					</p-box>
+					<p-box :click="() => end_calc(1)">
+						<p-box-button>Zobrazit výsledky s kandidáty</p-box-button>
 					</p-box>
 				</p-box-group>
 			</div>
