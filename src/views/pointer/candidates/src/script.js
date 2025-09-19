@@ -37,7 +37,8 @@ export default {
 			questionLimit: 5,
 			questionLimitOff: false,
 			eventsLimit: 3,
-			eventsOff: false
+			eventsOff: false,
+			listLimit: 1
 		}
 	},
   components: {
@@ -343,6 +344,9 @@ export default {
 			}
 
 			return list;
+		},
+		listLimited: function () {
+			return this.current.$kandidati.filter(x => this.listLimit === 1 ? true : (this.listLimit === 2 ? x.PORCISLO < 6 : x.$odpovedi > 0));
 		}
 	},
   methods: {

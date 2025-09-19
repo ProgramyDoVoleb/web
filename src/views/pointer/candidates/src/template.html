@@ -69,18 +69,29 @@
 								</template>
 							</p-block>
 							<p-block headline="Abecední seznam" v-if="current.$kandidati.length > 0 && current.$kandidati[0].VOLKRAJ && !focus">
+								<p-area icon="filtr" class="smaller inline">
+									<strong>Omezit výpis</strong>
+									<br>
+									<p-list-linear class="or inline">
+										<span><button @click="listLimit = 1" :class="{'strong green': listLimit === 1}" class="inline red">Všichni</button></span>
+										<span><button @click="listLimit = 2" :class="{'strong green': listLimit === 2}" class="inline">Jen prvních 5</button></span>
+										<span><button @click="listLimit = 3" :class="{'strong green': listLimit === 3}" class="inline">Jen s odpovědí</button></span>
+									</p-list-linear>
+								</p-area>
+								<div class="p-gap _2"></div>
 								<p-columns class="smaller _tight">
 									<template v-for="(c, i) in 'aábcčdďeéfghiíjklľmnňoópqrřsštťuúvwxyýzž'.split('')">
-										<template v-if="current.$kandidati.find(x => x.PRIJMENI[0].toLowerCase() === c && x.PORCISLO)">
+										<template v-if="listLimited.find(x => x.PRIJMENI[0].toLowerCase() === c && x.PORCISLO)">
 											<div class="_mt">
 												<strong class="big">{{ c.toUpperCase() }}</strong>
 											</div>
-											<div v-for="cand in sortBy(sortBy(current.$kandidati.filter(x => x.PRIJMENI[0].toLowerCase() === c && x.PORCISLO), 'JMENO', null, true), 'PRIJMENI', null, true)">
-												<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kandidat/' + cand.id" :class="{strong: cand.PORCISLO === 1, 'is-span': !cand.PORCISLO, 'green': cand.MANDAT && cand.MANDAT === 'A'}">
+											<div v-for="cand in sortBy(sortBy(listLimited.filter(x => x.PRIJMENI[0].toLowerCase() === c && x.PORCISLO), 'JMENO', null, true), 'PRIJMENI', null, true)">
+												<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kandidat/' + cand.id" :class="{strong: cand.PORCISLO < 4, 'is-span': !cand.PORCISLO, 'green': cand.MANDAT && cand.MANDAT === 'A'}">
 													{{ cand.JMENO }} {{ cand.PRIJMENI }}
 												</router-link>
 												<span class="dimm keep smallest" v-if="cand.VOLKRAJ"> &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }}</span>
-												<span class="dimm keep smallest" v-if="cand.PORCISLO && cand.PORCISLO < 4"> &middot; {{ cand.PORCISLO }}</span>
+												<span class="dimm keep smallest" v-if="cand.PORCISLO && cand.PORCISLO < 6"> &middot; {{ cand.PORCISLO }}</span>
+												<span class="badge yellow" v-if="cand.$odpovedi" :title="'Počet odpovědí: ' + cand.$odpovedi">●<sup class="tiny">{{ cand.$odpovedi }}</sup></span>
 											</div>
 										</template>
 									</template>
