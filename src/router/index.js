@@ -64,10 +64,15 @@ const router = createRouter({
     {
       path: '/pruvodce',
       name: 'guide-actual',
-      redirect: '/pruvodce/snemovni-volby-2025',
+      redirect: '/volby/snemovni-volby/166/pruvodce',
     },
     {
       path: '/pruvodce/snemovni-volby-2025',
+      name: 'guide-actual-old',
+      redirect: '/volby/snemovni-volby/166/pruvodce',
+    },
+    {
+      path: '/volby/snemovni-volby/166/pruvodce',
       name: 'guide-ps-25',
       component: () => import('../views/aktivity/guide/25-snemovna/do.vue')
     },
@@ -131,6 +136,18 @@ const router = createRouter({
       path: '/volby/snemovni-volby/:id/aktivita/:party',
       name: 'volby-senatni-aktivity',
       component: () => import('../views/volby/detail/snemovni-volby/activity/do.vue'),
+      props: true
+    },
+    {
+      path: '/volby/snemovni-volby/:id/strany',
+      name: 'volby-snemovni-strany',
+      component: () => import('../views/volby/detail/snemovni-volby/strany/do.vue'),
+      props: true
+    },
+    {
+      path: '/volby/snemovni-volby/:id/kandidati',
+      name: 'volby-snemovni-kandidati',
+      component: () => import('../views/volby/detail/snemovni-volby/kandidati/do.vue'),
       props: true
     },
     {
@@ -327,8 +344,19 @@ const router = createRouter({
     },
     {
       path: '/jak-volit/snemovni-volby',
+      name: 'LayoutHowSnemovniAlias',
+      redirect: '/volby/snemovni-volby/166/jak-volit'
+    },
+    {
+      path: '/volby/snemovni-volby/:id/jak-volit',
       name: 'LayoutHowSnemovni',
       component: () => import('../views/jak-volit/snemovni-volby/do.vue'),
+      props: true
+    },
+    {
+      path: '/volby/snemovni-volby/:id/otazky-a-odpovedi',
+      name: 'LayoutQuestionsOverview',
+      component: () => import('../views/volby/otazky/do.vue'),
       props: true
     },
     {

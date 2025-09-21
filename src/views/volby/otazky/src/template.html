@@ -1,0 +1,101 @@
+<div class="layout-volby-questions">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Přehled otázek" :level="1" subheadline="Sněmovní volby 2025">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<p-block headline="Volební otázky" :hide="true">
+							<p>Čtyři otázky k představení kandidátů i zamyšlení:</p>
+							<div class="p-list invisible">
+								<div v-for="item in data.$otazky">
+									<p-area borderColor="var(--yellow)">
+										<h4>{{ item.question }}</h4>
+										<p class="smaller mt05">
+											Odpověděli např:
+											<p-list-linear class="inline nebo">
+												<span v-for="cand in shuffle(data.$odpovedeli.filter(x => x.PORCISLO < 6 && data.$vsechnyOdpovedi.find(y => y.csu_id === x.csu_id && y.question === item.id))).filter((x, i) => i < 6)">
+													<router-link :to="link + 'kandidat/' + cand.csu_id + '/otazky-a-odpovedi'" class="keep">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+												</span>
+											</p-list-linear>. 
+											Celkem se sešlo <p-lang :value="data.$vsechnyOdpovedi.filter(x => x.question === item.id).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang>.
+										</p>
+										<p-box-group>
+											<p-box :to="link + 'otazka/' + item.id">
+												<p-box-button icon="answers-mini">Porovnat</p-box-button>
+											</p-box>
+										</p-box-group>
+									</p-area>
+								</div>
+							</div>
+							<p>Na otázky mohou odpovídat všichni kandidáti až do 1. října přímo v <p-link href="https://admin.programydovoleb.cz">Adminu</p-link>.</p>
+						</p-block>
+						<p-block headline="Z kalkulačky">
+							<p>{{ data.$kalkulacka.length }} otázek z <router-link to="/kalkulacka">kalkulačky</router-link> pro snadnější a rychlejší porovnání. Vedle stran se mohou zapojit i všichni kandidáti. Navíc mohl každý přidat komentář. Do kalkulačky zaslalo odpovědi {{ unique(data.$vsechnyOdpovedi.filter(x => x.quick && x.csu_id < 1000), 'csu_id').length }} stran a {{ unique(data.$vsechnyOdpovedi.filter(x => x.quick && x.csu_id > 1000), 'csu_id').length }} kandidátů.</p>
+							<p-columns class="_4 smaller">
+								<div v-for="item in data.$kalkulacka">
+									<p-area>
+										<strong>{{ item.question }}</strong>
+										<table class="mt1">
+											<thead>
+												<tr>
+													<th>
+														<router-link :to="link + 'kalkulacka/' + item.id" class="smaller strong">Porovnat</router-link>
+													</th>
+													<th class="strong green text-right">
+														ANO
+													</th>
+													<th class="strong red text-right">
+														NE
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Strany</td>
+													<td class="text-right">
+														{{ data.$vsechnyOdpovedi.filter(x => x.quick === 1 && x.question === item.id && x.csu_id < 1000).length }}
+													</td>
+													<td class="text-right">
+														{{ data.$vsechnyOdpovedi.filter(x => x.quick === 2 && x.question === item.id && x.csu_id < 1000).length }}
+													</td>
+												</tr>
+												<tr>
+													<td>Kandidáti</td>
+													<td class="text-right">
+														{{ data.$vsechnyOdpovedi.filter(x => x.quick === 1 && x.question === item.id && x.csu_id > 1000).length }}
+													</td>
+													<td class="text-right">
+														{{ data.$vsechnyOdpovedi.filter(x => x.quick === 2 && x.question === item.id && x.csu_id > 1000).length }}
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</p-area>
+								</div>
+							</p-columns>
+							<p>Na otázky do kalkulačky mohou odpovídat všechny strany i jednotliví kandidáti až do 1. října přímo v <p-link href="https://admin.programydovoleb.cz">Adminu</p-link>.</p>
+						</p-block>
+						<p-block headline="Volební témata">
+							<p>Několikrát projité kompletní volební programy a z nich vybrané části, které se věnují nějakému konkrétnímu tématu. Číslo udává, v kolika programech se téma objevilo. V přehledu je {{ data.$strany.reduce((a, b) => a + b.$program.length ,0) }} dostupných programů.</p>
+							<p-box-group>
+								<template v-for="item in sortBy(data.$temata, 'question', null, true)">
+									<p-box :to="link + 'tema/' + item.id">
+										<p-box-button :icon="item.icon">{{ item.question }} <span class="dimm w400">&nbsp;&middot; {{ unique(data.$vsechnyOdpovedi.filter(x => x.question === item.id), 'csu_id').length }}</span></p-box-button>
+									</p-box>
+								</template>
+							</p-box-group>
+						</p-block>
+					</div>
+				</p-loader>
+			</p-block>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/answers-mini.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<top-tasks></top-tasks>
+		</template>
+	</p-layout-divided>
+</div>

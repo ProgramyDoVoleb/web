@@ -15,7 +15,16 @@ export default {
 			querySearchTown: null,
 			querySearchTownSearching: false,
 			enums: useEnums(),
-			showMenu3: false
+			showMenu3: false,
+			menu166: [
+				{label: 'Průvodce', route: '/volby/snemovni-volby/166/pruvodce'},
+				{label: 'Strany', route: '/volby/snemovni-volby/166/strany'},
+				{label: 'Kandidati', route: '/volby/snemovni-volby/166/kandidati'},
+				{label: 'Jak volit?', route: '/volby/snemovni-volby/166/jak-volit'},
+				{label: 'Otázky a odpovědi', route: '/volby/snemovni-volby/166/otazky-a-odpovedi'},
+				{label: 'Tip na výsledek', route: '/volby/snemovni-volby/166/muj-tip'},
+				{label: 'Kalkulačka', route: '/volby/snemovni-volby/166/kalkulacka'},
+			]
 		}
 	},
 	computed: {

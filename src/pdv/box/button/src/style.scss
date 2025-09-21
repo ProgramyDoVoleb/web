@@ -81,3 +81,8 @@ img {
   filter: invert(1) brightness(2) opacity(.8);
   background: none;
 }
+
+.p-box-color + .p-box-button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

@@ -4,7 +4,7 @@ import { useEnums } from '@/stores/enums';
 
 export default {
 	name: 'CandidateStats',
-	props: ['data', 'cis', 'color', 'status', 'slozeni', 'focus'],
+	props: ['data', 'cis', 'color', 'status', 'slozeni', 'focus', 'simple', 'tag'],
 	data: function () {
 		return {
 			selected: null,
@@ -101,8 +101,8 @@ export default {
 			if (person.PRIJMENI[person.PRIJMENI.length - 1] === 'á') woman = true;
 			if (person.JMENO[person.JMENO.length - 1] === 'a') woman = true;
 			if (person.JMENO[person.JMENO.length - 1] === 'e') woman = true;
-			if (person.$data && person.$data.mfo && person.$data.mfo[0].value === 1) woman = false;
-			if (person.$data && person.$data.mfo && person.$data.mfo[0].value === 2) woman = true;
+			if (person.$data && person.$data.mfo && person.$data.mfo.length > 0 && person.$data.mfo[0].value === 1) woman = false;
+			if (person.$data && person.$data.mfo && person.$data.mfo.length > 0 && person.$data.mfo[0].value === 2) woman = true;
 
 			return woman;
 		}

@@ -1,0 +1,150 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Přehled stran" :level="1" subheadline="Sněmovní volby 2025">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<p-area class="smallest">
+							<p-list-linear class="inline nebo">
+								<span>Zobrazit <button class="inline" :class="{'green strong': !showAll}" @click="showAll = false">pouze kandidující</button></span>
+								<span><button class="inline" :class="{'green strong': showAll}" @click="showAll = true">všechny jakkoli zapojené</button></span>
+							</p-list-linear>
+						</p-area>
+						<div class="p-gap _1"></div>
+						<template v-if="!showAll">
+							<p-columns class="_noRule _noGap">
+								<div v-for="party in sortBy(current.$strany, 'ZKRATKA', null, true)">
+									<p-area>
+										<!-- <div class="p-offset"> -->
+											<div class="_fr">
+												<p-image :src="logoByItem(party, data)" :rounded="true"></p-image>
+											</div>
+											<div>
+												<router-link :to="link + 'strana/' + party.id" class="strong">{{ party.ZKRATKA }}</router-link>
+												<span class="tiny dimm">&nbsp;&middot; č.{{ party.KSTRANA }}</span>
+												<div class="smaller mt05">
+													<template v-if="party.STAVREG === 0">Kandiduje ve všech krajích</template>
+													<template v-else>Kandiduje <p-lang :value="String(party.STAVREG).split('').filter(x => x === '0').length + (14 - String(party.STAVREG).length)" :end="['žádném kraji', 'v jednom kraji', 've %% krajích', 'v %% krajích']"></p-lang></template>
+												</div>
+												<div class="smaller">
+													<router-link :to="link + 'strana/' + party.id + '/kandidati'" class="strsong is-span"><p-lang :value="current.$kandidati.filter(x => x.KSTRANA === party.KSTRANA).length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></router-link>
+													<template v-if="party.$data.leader && party.$data.leader.length > 0">
+														&middot; lídr <router-link :to="link + 'kandidat/' + party.$data.leader[0].label" class="is-span">{{ party.$data.leader[0].value }}</router-link>
+													</template>
+												</div>
+												<div class="smallest mt05">
+													Členové: 
+													<p-list-linear class="inline">
+														<span v-for="member in unique(current.$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PSTRANA != 99), 'PSTRANA')">
+															{{ current.$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PSTRANA === member).length }}&times; <router-link :to="link + 'aktivita/' + member" class="is-span">{{ data.cis.strany.find(x => x.VSTRANA === member).ZKRATKA }}</router-link>
+														</span>
+														<span v-if="current.$kandidati.find(x => x.KSTRANA === party.KSTRANA && x.PSTRANA === 99)">
+															<p-lang :value="current.$kandidati.filter(x => x.KSTRANA === party.KSTRANA && x.PSTRANA === 99).length" :end="['', 'jeden nestraník', '%% nestraníci', '%% nestraníků']"></p-lang>
+														</span>
+													</p-list-linear>
+												</div>
+												<div class="p-line _05"></div>
+												<div>
+													<p-list-linear class="or smallest">
+														<p-badge class="strong" :background="colorByItem(party, data)" v-if="party.$program.length">
+															<router-link :to="link + 'strana/' + party.id + '/volebni-program/' + party.$program[0].id" class="_w">Program</router-link>
+														</p-badge>
+														<span v-if="party.$priorit > 0"><router-link :to="link + 'strana/' + party.id + '/priority'" class="strong">Priority</router-link></span>
+														<span v-if="party.$odpovedi > 0"><router-link :to="link + 'strana/' + party.id + '/otazky-a-odpovedi'" class="strong">Z kalkulačky</router-link></span>
+														<span><router-link :to="link + 'strana/' + party.id" class="strong">Více &rarr;</router-link></span>
+													</p-list-linear>
+												</div>
+											</div>
+										<!-- </div> -->
+									</p-area>
+								</div>
+							</p-columns>
+						</template>
+						<template v-if="showAll">
+							<p>Zde vidíte všechny strany, které se nějakým způsobem zapojili do voleb. Ať formou samostatné kandidátky, nebo vysláním svých kandidátů na listiny jiné strany. V některých případech také vidíte, že se členové jedné strany účastní voleb na kandidátce více stran.</p>
+							<p-columns class="_noGap _noRule">
+								<div v-for="party in sortBy(data.cis.strany.filter(x => x.VSTRANA != 99), 'ZKRATKA', null, true)">
+									<p-area>
+										<div class="_fr">
+											<p-image :src="logoByItem(party, data)" :rounded="true"></p-image>
+										</div>
+										<div>
+											<template v-if="current.$strany.find(x => x.VSTRANA === party.VSTRANA)">
+												<router-link :to="link + 'strana/' + current.$strany.find(x => x.VSTRANA === party.VSTRANA).id" class="strong">{{ party.ZKRATKA }}</router-link>
+											</template>
+											<template v-else>
+												<router-link :to="link + 'aktivita/' + party.VSTRANA" class="strong">{{ party.ZKRATKA }}</router-link>
+											</template>
+											<div class="smaller mt05">
+												<div class="p-list _05">
+													<div v-for="member in unique(current.$kandidati.filter(x => x.PSTRANA === party.VSTRANA), 'KSTRANA')">
+														<p-label :color="colorByItem(current.$strany.find(x => x.KSTRANA === member), data)" :after="true">
+															<template v-if="current.$strany.find(x => x.KSTRANA === member).VSTRANA === party.VSTRANA">
+																<router-link :to="link + 'strana/' + current.$strany.find(x => x.KSTRANA === member).id" class="strong is-span">Samostatně</router-link> 
+															</template>
+															<template v-if="current.$strany.find(x => x.KSTRANA === member).VSTRANA !== party.VSTRANA">
+																<p-lang :value="current.$kandidati.filter(x => x.KSTRANA === member && x.PSTRANA === party.VSTRANA).length" :end="['...', '1 člen', '%% členi', '%% členů']"></p-lang>
+																&rarr;
+																<router-link class="is-span" :to="link + 'strana/' + current.$strany.find(x => x.KSTRANA === member).id">{{ current.$strany.find(x => x.KSTRANA === member).ZKRATKA }}</router-link>
+															</template>
+														</p-label>
+														<template v-if="current.$strany.find(x => x.KSTRANA === member).VSTRANA === party.VSTRANA">
+															<div>
+																<p-lang :value="current.$kandidati.filter(x => x.KSTRANA === member && x.PSTRANA === party.VSTRANA).length" :end="['...', '1 člen', '%% členi', '%% členů']"></p-lang>
+															</div>
+															<div v-for="reg in current.$strany.filter(x => x.VSTRANA === party.VSTRANA)" class="mt05">
+																<div>
+																	<p-list-linear class="or smallest">
+																		<p-badge class="strong" :background="colorByItem(reg, data)" v-if="reg.$program.length">
+																			<router-link :to="link + 'strana/' + reg.id + '/volebni-program/' + reg.$program[0].id" class="_w">Program</router-link>
+																		</p-badge>
+																		<span v-if="reg.$priorit > 0"><router-link :to="link + 'strana/' + reg.id + '/priority'" class="strong">Priority</router-link></span>
+																		<span v-if="reg.$odpovedi > 0"><router-link :to="link + 'strana/' + reg.id + '/otazky-a-odpovedi'" class="strong">Z kalkulačky</router-link></span>
+																		<span><router-link :to="link + 'strana/' + reg.id" class="strong">Více &rarr;</router-link></span>
+																	</p-list-linear>
+																</div>
+															</div>
+
+														</template>
+													</div>
+													<div v-if="unique(current.$kandidati.filter(x => x.PSTRANA === party.VSTRANA), 'KSTRANA').length === 0">
+														<p-label :color="colorByItem(current.$strany.find(x => x.VSTRANA === party.VSTRANA), data)" :after="true">
+															<router-link :to="link + 'strana/' + current.$strany.find(x => x.VSTRANA === party.VSTRANA).id" class="strong is-span">Koalice stran</router-link> 
+														</p-label>
+														<div class="smallest">
+															<p-list-linear>
+																<span v-for="member in party.$coalition">
+																	{{ current.$kandidati.filter(x => x.PSTRANA === member.VSTRANA).length }}&times;
+																	<router-link :to="link + 'aktivita/' + member.VSTRANA" class="is-span">{{ member.ZKRATKA}}</router-link>
+																</span>
+																<span>
+																	{{ current.$kandidati.filter(x => x.PSTRANA === 99 && x.KSTRANA === current.$strany.find(y => y.VSTRANA === party.VSTRANA).KSTRANA).length }} nestraníků
+																</span>
+															</p-list-linear>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</p-area>
+								</div>
+							</p-columns>
+						</template>
+					</div>
+				</p-loader>
+			</p-block>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/snemovni-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+				<div>
+					<top-tasks></top-tasks>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

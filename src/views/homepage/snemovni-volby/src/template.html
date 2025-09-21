@@ -74,8 +74,7 @@
 						<p-box-group>
 							<template v-for="topic in sortBy(election.list[0].$temata, 'question', null, true)">
 								<p-box :to="'/volby/snemovni-volby/166/tema/' + topic.id">
-									<p-box-icon :type="topic.icon" v-if="topic.icon"></p-box-icon>
-									<p-box-label>{{ topic.question }}</p-box-label>
+									<p-box-button :icon="topic.icon">{{ topic.question }}</p-box-button>
 								</p-box>
 							</template>
 						</p-box-group>

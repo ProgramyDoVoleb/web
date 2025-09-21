@@ -18,6 +18,7 @@ export default {
         var arr = [
           'krajske-volby/162',
           'senatni-volby/163',
+          'snemovni-volby/166',
           'o-projektu'
         ];
 
