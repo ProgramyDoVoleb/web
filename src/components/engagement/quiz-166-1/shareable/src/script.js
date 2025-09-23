@@ -70,21 +70,12 @@ export default {
 	},
 	mounted: function () {
 		setTimeout(() => {
-			this.show = true
+			// this.show = true
 			this.snapshot();
-		}, 150)
+		}, 450)
 		this.onResize();
 		window.addEventListener("resize", () => this.onResize());
 		
 		
-	},
-	watch: {
-		list: function () {
-			// this.show = false;
-			
-			setTimeout(() => {
-				this.show = true
-			}, 150)
-		}
 	}
 };

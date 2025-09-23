@@ -167,6 +167,8 @@ export default {
 					// p.votes[14] = 0;
 				}
 
+				if (entry.party === 1327) p.coal = 3;
+
 				o.data.parties.push(p);
 			});
 

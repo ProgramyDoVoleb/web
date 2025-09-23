@@ -1,6 +1,6 @@
 <div class="p-box-wrapper">
   <div :class="{'p-box-wrapper---hoverable': href || to || click, 'clickable': !! click}">
-    <component :is="href && href.charAt(0) === '#' ? 'a' : (href ? 'p-link' : (to ? 'a' : 'button'))" :href="to || href" @click="isClicked" :title="title" :target="target" :disabled="disabled">
+    <component :is="href && href.charAt(0) === '#' ? 'a' : (href ? 'p-link' : (to ? 'a' : (click ? 'button' : 'span')))" :href="to || href" @click="isClicked" :title="title" :target="target" :disabled="disabled">
       <slot></slot>
     </component>
   </div>

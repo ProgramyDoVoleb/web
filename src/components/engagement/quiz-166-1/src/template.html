@@ -161,7 +161,7 @@
 							<tr class="strong">
 								<td>Bodů za otázku</td>
 								<td colspan="2" class="text-right"> 
-									{{ item.options.reduce((a, b) => a + (answers[index].indexOf(item.options.indexOf(b)) - item.correct.indexOf(item.options.indexOf(b)) === 0 ? 1 : 0), 0) }}
+									{{ item.options.reduce((a, b) => a + (answers[index].indexOf(item.options.indexOf(b)) > -1 === item.correct.indexOf(item.options.indexOf(b)) > -1 ? 1 : 0), 0) }}
 									ze {{ item.options.length }}
 								</td>
 							</tr>
