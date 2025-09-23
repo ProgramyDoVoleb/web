@@ -151,6 +151,11 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/kviz',
+      name: 'kviz-redirect',
+      redirect: '/volby/snemovni-volby/166/kviz'
+    },
+    {
       path: '/volby/snemovni-volby/166/kviz',
       name: 'volby-snemovni-166-kviz',
       component: () => import('../views/aktivity/quiz/166-general/do.vue'),

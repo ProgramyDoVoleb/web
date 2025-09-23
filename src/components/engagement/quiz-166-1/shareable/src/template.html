@@ -1,0 +1,32 @@
+<div class="qa-shareable _roboto">
+	<a :href="imagedata" :download="'graf-' + (new Date().getTime()) + '.png'" class="strong">Stáhnout</a>
+	<div class="p-line"></div>
+	<!-- <template v-if="preview"> -->
+		<div class="_rendered" :class="{preview}">
+			
+			<div class="_main">
+				<div class="_main-intro _roboto">
+					Můj zisk<br>ve volebním kvízu?
+				</div>
+				<div class="_main-pct _quando _blue">
+					{{ display.pct }}
+					<span class="small">%</span>
+				</div>
+				<div class="_main-body _roboto">
+					Zkus si ho taky udělat.
+					<br>
+					Stačí odpovědět na 15 otázek:
+				</div>
+				
+				<div class="_main-link _roboto _blue strong">programydovoleb.cz/kviz</div>
+			</div>
+
+			<div class="_footer_brand _quando">programydovoleb.cz</div>
+			<div class="_footer_about">
+				
+			</div>
+		</div>
+
+	<!-- </template> -->
+	<div class="canvas mt1" ref="canvas"></div>
+</div>

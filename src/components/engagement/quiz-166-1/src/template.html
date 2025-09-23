@@ -77,7 +77,17 @@
 	<div v-if="step === 2" class="text-center mv4 _mw">
 		<h1>Vyhodnocení</h1>
 		<div class="_big serif blue">{{ result.pct }} <span class="small">%</span></div>
-		Získali jste <p-lang :value="result.points" :end="['nula bodů', '1 bod', '%% body', '%% bodů']"></p-lang> ze {{ result.max }}.
+		<div class="mb1">Získali jste <p-lang :value="result.points" :end="['nula bodů', '1 bod', '%% body', '%% bodů']"></p-lang> ze {{ result.max }}.</div>		
+		<p-modal>
+			<template #init>
+				<p-box>
+					<p-box-button icon="share">Sdílet výsledek</p-box-button>
+				</p-box>
+			</template>
+			<template #content>
+				<share-me :display="result" class="text-center"></share-me>
+			</template>
+		</p-modal>		
 		<div class="p-gap _3"></div>
 		<p class="_twb _bigger" v-if="result.pct > 90">Skvělé, na volby jste dobře připraveni a nic vás nepřekvapí. Štěpánovi jste dobře radili.</p>
 		<p class="_twb _bigger" v-if="result.pct <= 90 && result.pct > 60">Na většinu otázek jste odpověděli správně. Mrkněte dolů do přehledu otázek, kde jste Štěpánovi poradili špatně.</p>

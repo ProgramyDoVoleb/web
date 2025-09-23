@@ -1,5 +1,6 @@
 import {useEngagement} from '@/stores/engagement';
 import questions from './questions';
+import ShareMe from '../shareable/do.vue'
 
 export default {
 	name: 'EngagementCalc166',
@@ -12,7 +13,9 @@ export default {
 			index: 0
 		}
 	},
-	components: {},
+	components: {
+		ShareMe
+	},
 	computed: {
 		engagement: function () {
 			return useEngagement();
