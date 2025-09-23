@@ -1,6 +1,6 @@
 export default {
 	name: 'BoxWrapper',
-	props: ['href', 'to', 'click', 'title', 'target'],
+	props: ['href', 'to', 'click', 'title', 'target', 'disabled'],
 	computed: {
 		_click: function () {
 			return this.click || function () {};

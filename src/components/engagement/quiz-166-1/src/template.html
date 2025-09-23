@@ -1,0 +1,180 @@
+<div class="engagement-calc-1">
+	<div v-if="step === 0" class="text-center mv4">
+		<h1>
+			Volební kvíz
+			<div class="normal blue sans">Jak zvládnout volby na jedničku?</div>
+		</h1>
+		<p>Letošní volební kvíz pojmeme trochu jinak. Podíváme se na 15 docela obyčejných situací, do kterých se dostal Štěpán Plašil, náš imaginární volič. A vaším úkolem je mu správně poradit, aby zvládl volby na jedničku.</p>
+		<p class="_twb">U každé otázky vyberte všechny správné odpovědi a pak klikněte na tlačítko <em class="strong">Další otázka</em>. Správně je vždy alespoň jedna odpověď.</p>
+		<div class="p-gap"></div>
+		<p-box :click="() => step = 1">
+			<p-box-button>Jdeme na to!</p-box-button>
+		</p-box>
+		<div class="p-gap _4"></div>
+		<div class="p-gap _4"></div>
+	</div>
+	
+	<div v-if="step === 1" class="text-center mv4 _mw">
+		<section>
+			<h1>
+				<div class="normal sans blue">
+					{{ index + 1 }} z 15
+					&middot;
+					{{ questions[index].part }}
+				</div>
+				<p>{{ questions[index].question }}</p>
+				<div class="sans normal">
+					{{ questions[index].hint }}
+				</div>
+			</h1>
+			<div class="p-gap"></div>
+			<div v-if="questions[index].type === 'buttons'">
+				<p-box-group class="_mw _jc">
+					<template v-for="(opt, i) in questions[index].options">
+						<p-box :click="() => toggle_answer(index, i)">
+							<p-box-button :icon="answers[index].indexOf(i) > -1 ? 'check-blue' : 'not-selected'" :color="answers[index].indexOf(i) > -1 ? 'var(--blue)' : null">{{ opt }}</p-box-button>
+						</p-box>
+					</template>
+				</p-box-group>
+			</div>
+			<div v-if="questions[index].type === 'chat'">
+				<p-grid class="_2 text-left">
+					<div v-for="(opt, i) in questions[index].options">
+						<p-area>
+							<p class="serif">{{ opt }}</p>
+							<p-box :click="() => toggle_answer(index, i)">
+								<p-box-button :icon="answers[index].indexOf(i) > -1 ? 'check-blue' : 'not-selected'" :color="answers[index].indexOf(i) > -1 ? 'var(--blue)' : null">{{ answers[index].indexOf(i) > -1 ? 'Vybráno' : 'Vybrat' }}</p-box-button>
+							</p-box>
+						</p-area>
+					</div>
+				</p-grid>
+			</div>
+			<div v-if="questions[index].type === 'images'">
+				<p-grid class="_2_classic text-left">
+					<div v-for="(opt, i) in questions[index].options">
+						<p-area>
+							<p-image width="100%" class="_ar" :src="'https://static.programydovoleb.cz/img' + opt"></p-image>
+							<p-box :click="() => toggle_answer(index, i)">
+								<p-box-button :icon="answers[index].indexOf(i) > -1 ? 'check-blue' : 'not-selected'" :color="answers[index].indexOf(i) > -1 ? 'var(--blue)' : null">{{ answers[index].indexOf(i) > -1 ? 'Vybráno' : 'Vybrat' }}</p-box-button>
+							</p-box>
+						</p-area>
+					</div>
+				</p-grid>
+			</div>
+			<div class="p-gap _3"></div>
+			<p-box :click="() => click_next(index+1)" :disabled="answers[index].length === 0" v-if="index < 13">
+				<p-box-button >Další otázka &rarr;</p-box-button>
+			</p-box>
+			<p-box :click="() => click_next(index+1)" :disabled="answers[index].length === 0" v-if="index === 13">
+				<p-box-button >Poslední otázka &rarr;</p-box-button>
+			</p-box>
+			<p-box :click="() => click_final()" :disabled="answers[index].length === 0" v-if="index === 14">
+				<p-box-button >Zobrazit vyhodnocení</p-box-button>
+			</p-box>
+		</section>
+	</div>
+
+	<div v-if="step === 2" class="text-center mv4 _mw">
+		<h1>Vyhodnocení</h1>
+		<div class="_big serif blue">{{ result.pct }} <span class="small">%</span></div>
+		Získali jste <p-lang :value="result.points" :end="['nula bodů', '1 bod', '%% body', '%% bodů']"></p-lang> ze {{ result.max }}.
+		<div class="p-gap _3"></div>
+		<p class="_twb _bigger" v-if="result.pct > 90">Skvělé, na volby jste dobře připraveni a nic vás nepřekvapí. Štěpánovi jste dobře radili.</p>
+		<p class="_twb _bigger" v-if="result.pct <= 90 && result.pct > 60">Na většinu otázek jste odpověděli správně. Mrkněte dolů do přehledu otázek, kde jste Štěpánovi poradili špatně.</p>
+		<p class="_twb _bigger" v-if="result.pct <= 60 && result.pct > 30">Je to tak padesát na padesát. Některé otázky jste možná nikdy nemuseli řešit, tak jste asi nevěděli. Nevadí, mrkněte se Štěpánem do tipů níže.</p>
+		<p class="_twb _bigger" v-if="result.pct <= 30">Není to nejlepší výsledek, co si budeme namlouvat. Ale nenechte se odradit. Mrkněte níže do přehledu odpovědí, kde jste udělali chybu, a pak ještě do části "Jak volit".</p>
+		<p class="_twb">Pokud se chcete ještě mrknout na všechny informace a tipy, jak správně volit, mrkněte sem:</p>
+		<p-box to="/volby/snemovni-volby/166/jak-volit">
+			<p-box-button class="primary">Jak volit?</p-box-button>
+		</p-box>
+		<div class="p-gap _4"></div>
+		<div class="p-line _4"></div>
+		<h2>Přehled odpovědí</h2>
+		<div class="p-list _3 smaller text-left">
+			<div v-for="(item, index) in questions">
+				<strong>{{ item.question}}</strong>
+				<div class="smaller" v-if="item.hint" v-html="item.hint"></div>
+				<div class="mv1">
+					<table v-if="item.type != 'images'">
+						<thead>
+							<tr>
+								<th>Odpověď</th>
+								<th class="_w right">Vaše</th>
+								<th class="_w right">Správně</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(answer, i) in item.options" :class="{'_wrong': answers[index].indexOf(i) > -1 !== item.correct.indexOf(i) > -1}">
+								
+								<td>{{ answer }}</td>
+								<td class="right">{{ answers[index].indexOf(i) > -1 ? 'ANO' : 'ne' }}</td>
+								<td class="right">{{ item.correct.indexOf(i) > -1 ? 'ANO' : 'ne' }}</td>
+								
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr class="strong">
+								<td>Bodů za otázku</td>
+								<td colspan="2" class="text-right"> 
+									{{ item.options.reduce((a, b) => a + (answers[index].indexOf(item.options.indexOf(b)) > -1 === item.correct.indexOf(item.options.indexOf(b)) > -1 ? 1 : 0), 0) }}
+									ze {{ item.options.length }}
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+					<table v-if="item.type === 'images'">
+						<thead>
+							<tr>
+								<th colspan="3">Odpověď</th>
+								<!-- <th class="_w right">Vaše</th> -->
+								<!-- <th class="_w right">Správně</th> -->
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td colspan="3">
+									<p-grid class="_3 text-left">
+										<div v-for="(opt, i) in item.options">
+											<p-area :background="answers[index].indexOf(i) > -1 !== item.correct.indexOf(i) > -1 ? 'var(--red11)' : null">
+												<div>
+													<p-image width="100%" class="_ar" :src="'https://static.programydovoleb.cz/img' + opt"></p-image>
+												</div>
+												<div>Vaše: {{ answers[index].indexOf(i) > -1 ? 'ANO' : 'ne' }}</div>
+												<div>Správně: {{ item.correct.indexOf(i) > -1 ? 'ANO' : 'ne' }}</div>
+											</p-area>
+										</div>
+									</p-grid>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr class="strong">
+								<td>Bodů za otázku</td>
+								<td colspan="2" class="text-right"> 
+									{{ item.options.reduce((a, b) => a + (answers[index].indexOf(item.options.indexOf(b)) - item.correct.indexOf(item.options.indexOf(b)) === 0 ? 1 : 0), 0) }}
+									ze {{ item.options.length }}
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<p-area v-if="item.note" icon="hint" class="_mh" background="var(--blue11)">
+					{{ item.note }}
+				</p-area>
+			</div>
+		</div>
+		<div class="p-gap _4"></div>
+		<h2>Vyzkoušejte také</h2>
+		<p-box-group class="_pbg">
+			<p-box to="/pruvodce">
+				<p-box-button class="primary" icon="guide">Průvodce volbami</p-box-button>
+			</p-box>
+			<p-box to="/kalkulacka">
+				<p-box-button class="primary" icon="calc">Kalkulačku</p-box-button>
+			</p-box>
+			<p-box to="/">
+				<p-box-button>Zpět na úvodní stránku</p-box-button>
+			</p-box>
+		</p-box-group>
+	</div>
+</div>

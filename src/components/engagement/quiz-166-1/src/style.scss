@@ -1,0 +1,73 @@
+.text-center p {
+  margin: 1em auto;
+}
+
+h1 {
+  @media (max-width: 800px) {
+    font-size: 2.5rem;
+  }
+}
+
+h1, ._twb {
+  text-wrap: balance;
+}
+
+p.serif {
+  font-size: 1em;
+}
+
+._mw {
+  max-width: 60rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+._jc {
+  justify-content: center;
+}
+
+._pbg {
+  max-width: 40rem;
+  margin: auto;
+  justify-content: center;
+
+  .p-box-image {
+    border-radius: 4px;
+  }
+}
+
+.dark .red {
+  color: var(--red) !important;
+}
+
+.dark .blue {
+  color: var(--blue) !important;
+}
+
+.dark .green {
+  color: var(--green) !important;
+}
+
+._w {
+  width: 4em;
+}
+
+._correct td {
+  background: var(--green11);
+}
+
+._wrong td {
+  background: var(--red11);
+}
+
+._big {
+  font-size: 4em;
+}
+
+._mh, .dark ._mh {
+  min-height: 4.5em;
+}
+
+._bigger {
+  font-size: 1em;
+}

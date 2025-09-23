@@ -151,6 +151,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/volby/snemovni-volby/166/kviz',
+      name: 'volby-snemovni-166-kviz',
+      component: () => import('../views/aktivity/quiz/166-general/do.vue'),
+      props: true
+    },
+    {
       path: '/volby/komunalni-volby/:id/obec/:zast',
       name: 'volby-detail-komunal-kraj',
       component: () => import('../views/volby/detail/komunalni-volby/obec/do.vue'),

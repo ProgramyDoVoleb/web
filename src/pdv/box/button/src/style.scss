@@ -77,7 +77,7 @@ img {
   width: 3rem;
 }
 
-.dark ._icon:not([src*="volby"]):not([src*="answers-mini"]):not([src*="green"]):not([src*="icon-check"]):not([src*="icon-against"]) {
+.dark ._icon:not([src*="volby"]):not([src*="answers-mini"]):not([src*="green"]):not([src*="blue"]):not([src*="icon-check"]):not([src*="icon-against"]) {
   filter: invert(1) brightness(2) opacity(.8);
   background: none;
 }
@@ -85,4 +85,8 @@ img {
 .p-box-color + .p-box-button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+[disabled] .p-box-button {
+  filter: saturate(0) opacity(.2);
 }

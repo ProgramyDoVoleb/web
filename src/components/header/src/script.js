@@ -24,6 +24,7 @@ export default {
 				{label: 'Otázky a odpovědi', route: '/volby/snemovni-volby/166/otazky-a-odpovedi'},
 				{label: 'Tip na výsledek', route: '/volby/snemovni-volby/166/muj-tip'},
 				{label: 'Kalkulačka', route: '/volby/snemovni-volby/166/kalkulacka'},
+				{label: 'Kvíz', route: '/volby/snemovni-volby/166/kviz'},
 			]
 		}
 	},
