@@ -14,7 +14,7 @@ export default {
 	name: 'layout-polls',
 	data: function () {
 		return {
-			agency: [{color: '#d4b655', name: 'Kantar'}, {color: '#21BBE1', name: 'Median'}, {color: '#D75F5F', name: 'STEM'}, {color: '#1964aa', name: 'NMS Market Research'}, {color: '#1bc8b0', name: 'Ipsos'}], // 'CVVM', 'Data Collect', 'Ipsos',
+			agency: [{color: '#d4b655', name: 'Kantar'}, {color: '#21BBE1', name: 'Median'}, {color: '#D75F5F', name: 'STEM'}, {color: '#1964aa', name: 'NMS Market Research'}, {color: '#1bc8b0', name: 'Ipsos'}, {color: '#8F12E2', name: 'STEM/MARK'}], // 'CVVM', 'Data Collect', 'Ipsos',
 			type: 1,
 			pollCoalitions: false,
 			sortByMid: true,

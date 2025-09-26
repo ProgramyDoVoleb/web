@@ -780,6 +780,7 @@ export default {
 			return x > 0 ? x : (keep ? 0 : '');
 		},
 		getNomineeCount: function (party, limit, region, nominee, keep) {
+			if (!this.genom) return (keep ? 0 : '');
 			var x = this.genom.list.filter(x => x[0] === party && (x[2] || 99) < limit + 1 && x[3] === nominee && x[1] === (typeof region === 'number' ? region : x[1])).length;
 			return x > 0 ? x : (keep ? 0 : '');
 		},

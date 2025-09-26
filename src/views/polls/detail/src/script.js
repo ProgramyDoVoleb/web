@@ -112,10 +112,13 @@ export default {
 				var o = item;
 				var p = this.data.cis.strany.find(x => x.VSTRANA === item.hash);
 
-				o.color = colorByItem(p, this.data);
-				o.short = p.ZKRATKA;
+				if (p) {
 
-				this[list || 'mandates'].push(o);
+					o.color = colorByItem(p, this.data);
+					o.short = p.ZKRATKA || '';
+	
+					this[list || 'mandates'].push(o);
+				}
 			});
 		},
 		toggle: function (party) {
@@ -287,7 +290,7 @@ export default {
 			return o;
 		},
 		definedPrevious: function () {
-			if (!this.data || this.data.poll.type != 1) return null;
+			if (!this.data || this.data.poll.type != 1 || !this.data.poll.previous) return null;
 
 			var o = {
 				data: {
