@@ -22,7 +22,7 @@ export default {
           'o-projektu'
         ];
 
-        return arr.find(x => this.$route.path.split(x).length > 1);
+        return arr.find(x => this.$route.path.split(x).length > 1) || this.$route.path === '/';
       }
     },
     methods: {

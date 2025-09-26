@@ -114,7 +114,7 @@
 				</p-list-linear>
 			</div>
 		</div>
-		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/snemovni-volby/166').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1">
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/snemovni-volby/166').length > 1 || $route.path === '/'">
 			<div class="smaller">
 				<strong><router-link to="/volby/snemovni-volby/166" class="blue">Sněmovní volby</router-link> </strong>
 				&middot;

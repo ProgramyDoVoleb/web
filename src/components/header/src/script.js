@@ -19,7 +19,7 @@ export default {
 			menu166: [
 				{label: 'Průvodce', route: '/volby/snemovni-volby/166/pruvodce'},
 				{label: 'Strany', route: '/volby/snemovni-volby/166/strany'},
-				{label: 'Kandidati', route: '/volby/snemovni-volby/166/kandidati'},
+				{label: 'Kandidáti', route: '/volby/snemovni-volby/166/kandidati'},
 				{label: 'Jak volit?', route: '/volby/snemovni-volby/166/jak-volit'},
 				{label: 'Otázky a odpovědi', route: '/volby/snemovni-volby/166/otazky-a-odpovedi'},
 				{label: 'Tip na výsledek', route: '/volby/snemovni-volby/166/muj-tip'},
