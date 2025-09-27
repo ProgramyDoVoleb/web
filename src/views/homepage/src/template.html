@@ -179,9 +179,8 @@
 										<!-- </p-list-linear> -->
 									</div>
 									<p-columns class="tighter">
-										<div v-for="datum in unique(news.log.filter(x => x.node && x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1)), 'date').filter((x, i) => i < 12)">
-											<div class="strong">{{date(datum, 2) }} </div>
-											<!-- <p-list-linear class="_pll or"> -->
+										<div v-for="(datum, index) in unique(news.log.filter(x => x.node && x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1)), 'date').filter((x, i) => i < 12)">
+											<p-collapsible :label="date(datum, 2)" :open="index < 1">
 												<template v-for="point in ['csu_ps_rkl:', 'csu_ps_rk:', 'csu_senat_rk:']">
 													<div v-for="item in news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum).filter(x => x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1))">
 														<router-link v-if="item.node.JMENO" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.JMENO }} {{ item.node.PRIJMENI }}</router-link>
@@ -191,7 +190,7 @@
 														<span class="badge red" v-if="item.data.find(x => x.type === 'priority')">●</span>
 													</div>
 												</template>
-											<!-- </p-list-linear> -->
+											</p-collapsible>
 										</div>
 									</p-columns>
 								</p-list>

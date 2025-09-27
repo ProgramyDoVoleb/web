@@ -52,6 +52,24 @@
 
 	<div class="p-line _2 mt05"></div>
 
+	<h2 class="serif mt0">Vybraná volební témata</h2>
+
+
+				<p-loader :rule="election">
+					<div v-if="election">
+						<p-box-group>
+							<template v-for="topic in sortBy(election.list[0].$temata, 'question', null, true)">
+								<p-box :to="'/volby/snemovni-volby/166/tema/' + topic.id">
+									<!-- <p-box-icon :type="topic.icon" v-if="topic.icon"></p-box-icon> -->
+									<p-box-button :icon="topic.icon">{{ topic.question }}</p-box-button>
+								</p-box>
+							</template>
+						</p-box-group>
+					</div>
+				</p-loader>
+
+				<div class="p-gap _2"></div>
+
 				<p-area class="primary smaller" borderColor="var(--yellow)">
 					<div class="p-offset reverse">
 						<div><strong>4 otázky pro kandidáty</strong><p-icon icon="answers-mini"></p-icon></div>
@@ -68,37 +86,27 @@
 						</p-list-linear>
 					</div>
 				</p-area>
-				<div class="p-gap"></div>
-				<p-loader :rule="election">
-					<div v-if="election">
-						<p-box-group>
-							<template v-for="topic in sortBy(election.list[0].$temata, 'question', null, true)">
-								<p-box :to="'/volby/snemovni-volby/166/tema/' + topic.id">
-									<p-box-button :icon="topic.icon">{{ topic.question }}</p-box-button>
-								</p-box>
-							</template>
-						</p-box-group>
-					</div>
-				</p-loader>
-				<div class="p-gap"></div>
-				<p-grid class="_2">
-					<div>
-						<p-area icon="calc">
-								<router-link to="/volby/snemovni-volby/166/otazky-a-odpovedi" class="strong">Otázky do kalkulačky</router-link>
-								<div class="smallest">Odpovědi mohou vyplňovat strany i kandidáti.</div>
-						</p-area>
-					</div>
-					<div>
-						<p-area icon="admin">
-								<p-link href="https://admin.programydovoleb.cz" class="strong">Přístup do Adminu</p-link>
-								<div class="smallest">Kandidujete a chcete vyplnit své odpovědi? </div>
-						</p-area>
-					</div>
-				</p-grid>
-	
+				<div class="p-gap _2"></div>
+
+				<h2 class="serif mv0">Kalkulačka stran a kandidátů</h2>
+				<p class="mt0">Čeká vás 40 otázek napříč obory a tématy. Stačí ji projít jen jednou a pak si můžete přepnout mezi výsledky kandidátů a stran. Zapojilo se 22 stran a skoro 200 kandidátů.</p>
+				<p-box-group>
+					<p-box to="/kalkulacka">
+						<p-box-button icon="calc" class="primary">Spustit kalkulačku</p-box-button>
+					</p-box>
+					<p-box to="/volby/snemovni-volby/166/kalkulacka/porovnani">
+						<p-box-label>Porovnat odpovědi</p-box-label>
+					</p-box>
+					<template v-if="elections.editace === 1">
+						<p-box-gap></p-box-gap>
+						<p-box href="https://admin.programydovoleb.cz">
+							<p-box-button icon="admin">Chci doplnit odpovědi</p-box-button>
+						</p-box>
+					</template>
+				</p-box-group>
 	
 				<div class="p-line _2"></div>
-				<strong>Přehled lídrů</strong>
+				<h2 class="serif mv0">Přehled lídrů</h2>
 				<div class="p-gap"></div>
 			
 				<p-loader :rule="election">
@@ -108,7 +116,7 @@
 								<!-- <div class="p-offset"> -->
 									<div class="p05">
 										<!-- <template v-for="person in election.list[0].$kandidati.filter(x => x.id === party.$data.leader[0].label)"> -->
-											<p-image :src="person.$data && person.$data.photo && person.$data.photo.length > 0 ? person.$data.photo[0].value : null" class="_ar round ma" width="100%"></p-image>
+											<p-image :src="person.$data && person.$data.photo && person.$data.photo.length > 0 ? person.$data.photo[0].value : null" class="_ar rounded ma" width="100%"></p-image>
 										<!-- </template> -->
 									</div>
 									<div>
@@ -128,19 +136,22 @@
 
 				
 	<div class="p-line _2"></div>
-	<strong>Kandidáti v krajích</strong>
+	<h2 class="serif mv0">Kandidáti v krajích</h2>
 	<div class="p-gap"></div>
 	<p-area class="smaller">
 		<p-columns class="_tight">
 			<div v-for="(region, index) in enums.regions">
 				<router-link :to="'/volby/snemovni-volby/166/kraj/' + (index + 1)">{{ region }}</router-link>
 			</div>
+			<div>
+				<router-link to="/volby/snemovni-volby/166/kandidati" class="strong red">Vyhledávání</router-link>
+			</div>
 		</p-columns>
 	</p-area>
 	
 	
 	<div class="p-line _2"></div>
-	<strong>Kde jsou další strany?</strong>
+	<h2 class="serif mv0">Kde jsou další strany?</h2>
 	<div class="p-gap"></div>
 	<p-area class="highlight">
 		<p-columns class="_2_4">
@@ -168,7 +179,7 @@
 	
 	
 	<div class="p-line _2"></div>
-	<strong>Přehled průvodců, kalkulaček a dalších nástrojů:</strong>
+	<h2 class="serif mv0">Přehled průvodců, kalkulaček a dalších nástrojů:</h2>
 	<div class="p-gap"></div>
 	<div class="p-list invisible">
 		<div>
@@ -178,6 +189,12 @@
 				</p-box>
 				<p-box to="/kalkulacka">
 					<p-box-button icon="calc">Kalkulačka</p-box-button>
+				</p-box>
+				<p-box to="/kviz">
+					<p-box-button icon="check">Kvíz</p-box-button>
+				</p-box>
+				<p-box to="/jak-volit">
+					<p-box-button icon="question">Jak volit</p-box-button>
 				</p-box>
 			</p-box-group>
 		</div>
