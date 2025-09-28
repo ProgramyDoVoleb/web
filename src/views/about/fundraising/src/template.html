@@ -3,9 +3,9 @@
 		<template #main>
 			<p-block :level="1" headline="Podpořte Programy do voleb" anchor="Podpora projektu">
 				<p-box-group>
-					<template v-for="(kc, i) in [50, 100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
+					<template v-for="(kc, i) in [100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
 					<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
-					<!-- <p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Koupit plakát</p-box-button></p-box> -->
+					<p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Koupit tričko</p-box-button></p-box>
 				</p-box-group>
 				<p class="smallest dimm">Kliknutí přesměruje na portál Darujme.cz</p>
 			</p-block>
@@ -14,13 +14,14 @@
 				<p>Velká část činnosti je zabezpečena svépomocí, programování, grafika, komunikace je ryze dobrovolnickou nehrazenou prací, ve volném čase. Jediným nezbytným nákladem je webhosting a doména. Veškeré další prostředky tak jdou na propagaci projektu.</p>
 			</p-block>
 			<p-block headline="Jak můžete přispět?" anchor="Dostupné formy">
-				<p-grid class="p-grid---1-2 _mw2 text-left">
+				<p-grid class="_mw2 text-left">
 					<div>
 						<p-area>
-							<p-grid class="_2 _small _balance">
+							
 								<div>
 									<p-image :src="cdn + 'img/fund/qr-fio-transparent.png'" width="100%"></p-image>
 								</div>
+								<div class="p-gap"></div>
 								<div>
 									<div class="strong">Přímá platba na účet</div>
 									<div class="strong"><p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">2502004588/2010</p-link></div>
@@ -33,17 +34,18 @@
 										</ul>
 									</div>
 								</div>
-							</p-grid>
+							
 							<div class="p-line"></div>
-							<div class="smallest dimm">Otevřete svou bankovní aplikaci a vyberte platbu pomocí QR kódu. Poté nasměrujte telefon na QR kód. Všechny potřebné údaje pro platbu se vyplní.</div>
+							<p-area icon="hint" background="transparent" class="smallest">Otevřete svou bankovní aplikaci a vyberte platbu pomocí QR kódu. Poté nasměrujte telefon na QR kód. Všechny potřebné údaje pro platbu se vyplní.</p-area>
 						</p-area>
 					</div>
 					<div>
 						<p-area>
-							<p-grid class="_2 _small _balance">
+							
 								<div>
 									<p-image :src="cdn + 'img/fund/qr-darujme-transparent.png'" width="100%"></p-image>
 								</div>
+								<div class="p-gap"></div>
 								<div>
 									<div class="strong">Přes <p-link href="https://darujme.cz/programydovoleb">Darujme.cz</p-link></div>
 									<div class="smaller">
@@ -56,9 +58,32 @@
 										</ul>
 									</div>
 								</div>
-							</p-grid>
+							
 							<div class="p-line"></div>
-							<div class="smallest dimm">Spusťte foťák ne svém mobilu a nasměrujte telefon na QR kód. Není nutná žádná speciální aplikace. Odkaz vás přesměruje na <p-link href="https://darujme.cz/programydovoleb"></p-link></div>
+							<p-area icon="hint" background="transparent" class="smallest">Spusťte foťák ne svém mobilu a nasměrujte telefon na QR kód. Není nutná žádná speciální aplikace. Odkaz vás přesměruje na <p-link href="https://darujme.cz/programydovoleb"></p-link></p-area>
+						</p-area>
+					</div>
+					<div>
+						<p-area>
+							
+								<div>
+									<p-image :src="cdn + 'img/2025/eshop.jpg'" width="100%" class="rounded"></p-image>
+								</div>
+								<div class="p-gap"></div>
+								<div>
+									<div class="strong">Koupí triček v <p-link href="https://eshop.programydovoleb.cz">e-shopu</p-link></div>
+									<div class="smaller">
+										<ul>
+											<li>- podpora s odměnou</li>
+											<li>- převodem nebo kartou</li>
+											<li>- zásilkovna nebo osobně</li>
+											<li>- nyní předobjednávky</li>
+										</ul>
+									</div>
+								</div>
+							
+							<div class="p-line"></div>
+							<p-area icon="hint" background="transparent" class="smallest">Všechny objednávky budou s ohledem na předpokládané vytížení realizovány po volbách. K odběru budou až od druhé půlky října.</p-area>
 						</p-area>
 					</div>
 				</p-grid>
@@ -74,7 +99,7 @@
 						</div>
 						<div>
 							<p-box>
-								<p-box-icon type="program"></p-box-icon>
+								<p-box-icon type="pdv"></p-box-icon>
 								<p-box-label>Na provoz a rozvoj webu.</p-box-label>
 							</p-box>
 						</div>

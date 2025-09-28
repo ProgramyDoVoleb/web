@@ -1,8 +1,16 @@
 <div class="engagement-thanks">
-	<p-box-group class="_mw" v-if="!used">
-		<p-box :click="() => click(1)">
-			<p-box-button icon="star-line.svg">Díky za tuhle stránku</p-box-button>
+	<p-box-group class="_mw">
+		<p-box :click="() => click(1)" v-if="!used">
+			<p-box-button icon="star-line.svg">Díky</p-box-button>
+		</p-box>
+		<p-box v-if="used" :disabled="1">
+			<p-box-button icon="star.svg">Díky</p-box-button>
+		</p-box>
+		<p-box to="/o-projektu/jak-podporit">
+			<p-box-button color="var(--green)">Podpořit</p-box-button>
+		</p-box>
+		<p-box href="https://eshop.programydovoleb.cz">
+			<p-box-button>E-shop</p-box-button>
 		</p-box>
 	</p-box-group>
-	<div v-if="used" class="smallest dimm text-center">Díky za zpětnout vazbu</div>	
 </div>
