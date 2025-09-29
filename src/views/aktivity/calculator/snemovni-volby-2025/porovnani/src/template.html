@@ -46,11 +46,17 @@
 								<template v-for="(item, index) in data.questions">
 									<tr class="_h60">
 										<td colspan="10">
-											<div class="_pt" v-html="item.question"></div>
+											<span class="_pt" v-html="item.question"></span>
+											&middot; 
+											<router-link :to="'/volby/' + hash + '/' + id + '/kalkulacka/otazka/' + item.id" class="smallest strong">Porovnat</router-link>
 										</td>
 									</tr>
 									<tr>
-										<td v-html="item.question" class="_s60"></td>
+										<td class="_s60">
+											<span class="_pt" v-html="item.question"></span>
+											&middot; 
+											<router-link :to="'/volby/' + hash + '/' + id + '/kalkulacka/otazka/' + item.id" class="smallest strong">Porovnat</router-link>
+										</td>
 										<template v-for="(val, inval) in [1,2,3,4]">
 											<td class="_tc">
 												<p-modal>
@@ -139,11 +145,17 @@
 								<template v-for="(item, index) in data.questions">
 									<tr class="_h60">
 										<td colspan="10">
-											<div class="_pt" v-html="item.question"></div>
+											<span class="_pt" v-html="item.question"></span>
+											&middot; 
+											<router-link :to="'/volby/' + hash + '/' + id + '/kalkulacka/otazka/' + item.id" class="smallest strong">Porovnat</router-link>
 										</td>
 									</tr>
 									<tr>
-										<td v-html="item.question" class="_s60"></td>
+										<td class="_s60">
+											<span class="_pt" v-html="item.question"></span>
+											&middot; 
+											<router-link :to="'/volby/' + hash + '/' + id + '/kalkulacka/otazka/' + item.id" class="smallest strong">Porovnat</router-link>
+										</td>
 										<template v-for="(party, index) in sublist">
 											<td class="_l">
 												<p-box class="_r">

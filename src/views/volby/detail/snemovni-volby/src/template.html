@@ -332,7 +332,7 @@
 						<template v-if="news && data.list[0].status < 3 && qitem.type === 1">
 							<h3 class="serif">Odpovědi již zaslalo {{ news.answers.length }} kandidátů, např:</h3>
 							<p-columns class="tight smaller">
-								<div v-for="cand in sortBy(shuffle(news.answers.filter(x => x.PRIJMENI)).filter((x, i) => i < 24), 'PRIJMENI', null, true)">
+								<div v-for="cand in sortBy(shuffle(news.answers.filter(x => x && x.PRIJMENI)).filter((x, i) => i < 24), 'PRIJMENI', null, true)">
 									<router-link :to="'/volby/snemovni-volby/' + data.list[0].id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
 								</div>
 							</p-columns>
