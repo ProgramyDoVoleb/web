@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, sortBy, domain, unique} from '@/pdv/helpers';
+import {url, date, number, truncate, sortBy, domain, unique, slide} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
@@ -44,6 +44,10 @@ export default {
 		},
 		data: function () {
 			var d = this.$store.getters.pdv('elections/fetch/' + this.id);
+
+			if (d && location.hash) {
+				setTimeout(() => slide(location.hash.split('#')[1], this.$el), 250);
+			}
 
 			return d;
 		},

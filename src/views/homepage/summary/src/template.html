@@ -5,7 +5,6 @@
 				<strong>Nově v přehledu:</strong>
 				<p-list-linear class="inline">
 					<span v-if="news.log.find(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'program'))">
-						<!-- <p-lang :value="news.log.filter(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'program')).length" :end="['žádná nový program', 'jedna nový program', '%% nové program', '%% nových program']"></p-lang> -->
 						program
 							(<p-list-linear class="inline">
 								<span v-for="item in news.log.filter(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'program'))">
@@ -13,7 +12,6 @@
 								</span>
 							</p-list-linear>)</span>
 					<span v-if="news.log.find(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'priority'))">
-						<!-- <p-lang :value="news.log.filter(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'priority')).length" :end="['žádná nová priorita', 'jedny nové priority', '%% nové priority', '%% nové priority']"></p-lang> -->
 						priority
 						
 							(<p-list-linear class="inline">
@@ -22,7 +20,6 @@
 								</span>
 							</p-list-linear>)</span>
 					<span v-if="news.log.find(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'answer'))">
-						<!-- <p-lang :value="news.log.filter(x => (x.date === today || x.date === yesterday) && x.data.find(y => y.type === 'answer')).length" :end="['žádná nová odpověď', 'jedna nová odpověď', '%% nové odpovědi', '%% nových odpovědí']"></p-lang> na volební otázky -->
 						 odpovědi
 						
 							(<p-list-linear class="inline">
@@ -31,7 +28,6 @@
 								</span>
 							</p-list-linear>)</span>
 					<span v-if="polls.list.find(x => x.datum === today || x.datum === yesterday)">
-						<!-- <p-lang :value="polls.list.filter(x => x.datum === today || x.datum === yesterday).length" :end="['žádný nový průzkum', 'jeden nový průzkum', '%% noví průzkumy', '%% nových průzkumů']"></p-lang> -->
 						 průzkum
 						(<p-list-linear class="or">
 								<span v-for="item in polls.list.filter(x => x.datum === today || x.datum === yesterday)">
@@ -45,9 +41,12 @@
 				</p-list-linear>.
 			</template>		
 		</template>
+		<br><br>
 		Vše najdete přehledně v <router-link to="/novinky" class="strong">Sedmidění</router-link>.
-		Shrnutí za srpen si můžete <router-link to="/novinky/7928" class="strong">přečíst</router-link> nebo <p-link href="https://open.spotify.com/show/0t3PQ53sL3JkydArnDCTZZ" class="strong">poslechnout</p-link>.
+		<!-- Shrnutí za srpen si můžete <router-link to="/novinky/7928" class="strong">přečíst</router-link> nebo <p-link href="https://open.spotify.com/show/0t3PQ53sL3JkydArnDCTZZ" class="strong">poslechnout</p-link>. -->
 		<!-- Tento projekt můžete nominovat na <p-link href="https://kristalova.lupa.cz/nominace/" class="strong red">Křišťálovou Lupu</p-link>, například v kategorii <em>veřejně prospěšná služba</em> nebo <em>nástroje a služby</em>. -->
+		<br><br>
 		<template v-if="remaining > 5">Do voleb zbývá {{ remaining }} dní.</template>
+		<template v-else>Volby začínají v pátek ve 14:00.</template>
 	</p>
 </div>

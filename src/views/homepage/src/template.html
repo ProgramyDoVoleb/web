@@ -3,7 +3,31 @@
 		<template #main>
 			<p-block headline="Volby" :level="1" :hide="true">
 
-				<homepage-summary :news="news" :polls="polls"></homepage-summary>
+				<div class="smallest">
+					<p-modal>
+						<template #init>
+							<span class="strong" :class="{green: news && polls}">Rychlý přehled novinek</span>							
+						</template>
+						<template #content>
+							<homepage-summary :news="news" :polls="polls"></homepage-summary>
+						</template>
+					</p-modal>
+				</div>
+
+				<p-area icon="snemovni-volby" class="inline highlight shadow mt05">
+					<h2 class="mv0">	
+						Sněmovní volby
+					</h2>
+					<div class="smaller sans">
+						<router-link to="/volby/snemovni-volby/166" class="strong">3. a 4. října 2025</router-link>
+						&middot;
+						<router-link to="/volby/snemovni-volby/166/kandidati" class="is-span">kdo kandiduje?</router-link>
+						
+						
+					</div>
+				</p-area>
+
+				<promo-block></promo-block>
 				<!-- <div class="p-gap _1"></div> -->
 				<!-- <promo-block></promo-block> -->
 				<!-- <p class="smaller">
@@ -155,28 +179,30 @@
 			</p-block>
 			<p-block headline="Novinky" :level="1">
 
+				<homepage-summary :news="news" :polls="polls"></homepage-summary>
+
 				
 					<div class="smallest _edit mb3">
 						<p-icon icon="edit"></p-icon>
 						&nbsp;
 						<pop-up preClass="green strong"><template #init>Přidat článek, rozhovor nebo tiskovou zprávu</template><template #content><editable-suggest placeholder="Odkaz na článek nebo tiskovou zprávu" type="support" part="HP Novinky" link="1"></editable-suggest></template></pop-up>
 					</div>
-				<p-block headline="Významné" :hide="true">
+				<!-- <p-block headline="Významné" :hide="true">
 
 					<p-area class="primary">
 						<p-loader :rule="news">
 							<div v-if="news" class="smaller">
 								<p-list>
 									<div class="strong">
-										<!-- <p-list-linear class="or strong"> -->
-											<!-- <span> -->
+										
+											
 												<p-label color="var(--blue)">Program</p-label>  
-											<!-- </span><span> -->
+											
 												<p-label color="var(--red)">Priority</p-label>  
-											<!-- </span><span> -->
+											
 												<p-label color="var(--yellow)">Odpovědi</p-label>
-											<!-- </span> -->
-										<!-- </p-list-linear> -->
+											
+										
 									</div>
 									<p-columns class="tighter">
 										<div v-for="(datum, index) in unique(news.log.filter(x => x.node && x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1)), 'date').filter((x, i) => i < 12)">
@@ -198,7 +224,7 @@
 						</p-loader>
 					</p-area>
 
-				</p-block>
+				</p-block> -->
 				
 				<p-block hide="1" headline="Přehled">
 					<p-loader :rule="news">

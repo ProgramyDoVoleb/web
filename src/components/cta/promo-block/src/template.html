@@ -1,14 +1,17 @@
 <div class="current-election-highlight-block mt1 mb2">
 		<p-box-group :full="true">
+			<p-box to="/jak-volit/snemovni-volby">
+				<p-box-button icon="hint" class="primary">Jak volit?</p-box-button>
+			</p-box>
 			<p-box to="/pruvodce">
 				<p-box-button icon="guide" class="primary">Průvodce</p-box-button>
 			</p-box>
 			<p-box to="/kalkulacka">
 				<p-box-button icon="calc" class="primary">Kalkulačka</p-box-button>
 			</p-box>
-			<!-- <p-box to="/jak-volit/snemovni-volby">
-				<p-box-button>Jak volit?</p-box-button>
-			</p-box> -->
+			<p-box to="/volby/snemovni-volby/166/otazky-a-odpovedi">
+				<p-box-button icon="answers-mini" class="primary">Odpovědi</p-box-button>
+			</p-box>
 			<p-box to="/volby/snemovni-volby/166/muj-tip">
 				<p-box-button>Tip na výsledek</p-box-button>
 			</p-box>
@@ -16,6 +19,9 @@
 				<p-box-button>Kvíz</p-box-button>
 			</p-box>
 			<p-box-gap></p-box-gap>
+			<!-- <p-box to="/novinky">
+				<p-box-button icon="sedmideni">Sedmidění</p-box-button>
+			</p-box> -->
 			<p-modal>
 				<template #init>
 					<p-box>

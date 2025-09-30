@@ -1,7 +1,8 @@
 import {useData} from '@/stores/data';
 import { cdn } from '@/stores/core';
 import {ga} from '@/pdv/analytics';
-import {shuffle, sortBy, number, unique} from '@/pdv/helpers';
+import {shuffle, sortBy, number, unique, slide} from '@/pdv/helpers';
+import { colorByItem, logoByItem } from '@/components/results/helpers';
 
 export default {
 	name: 'volby-qa-overview',
@@ -30,6 +31,11 @@ export default {
 		},
 		data: function () {
 			var d = this.$store.getters.pdv('elections/specific/' + this.id + '/quicklook');
+
+			if (d && location.hash) {
+				setTimeout(() => slide(location.hash.split('#')[1]), 250);
+			}
+
 			return d ? d.list[0] : null;
 		},
 		link: function () {
@@ -40,7 +46,8 @@ export default {
 		sortBy,
 		shuffle,
 		number,
-		unique
+		unique,
+		logoByItem
 	},
 	mounted: function () {
 	  window.scrollTo(0, 1);

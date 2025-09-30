@@ -75,6 +75,34 @@
 							</p-columns>
 							<p>Na otázky do kalkulačky mohou odpovídat všechny strany i jednotliví kandidáti až do 1. října přímo v <p-link href="https://admin.programydovoleb.cz">Adminu</p-link>.</p>
 						</p-block>
+						<p-block headline="Kdo odpověděl?">
+							<p-list>
+								<div>
+									<p-area borderColor="var(--yellow)">
+										<p-list class="_05">
+											<div>
+												<p-collapsible label="Z kandidátů" borderless="1" class="smaller" logo="person">
+													<p-columns class="_4">
+														<div v-for="cand in sortBy(data.$odpovedeli, 'PRIJMENI', null, true)">
+															<router-link :to="link + 'kandidat/' + cand.csu_id + '/otazky-a-odpovedi'" :class="{strong: cand.PORCISLO < 3}">{{ cand.JMENO + ' ' + cand.PRIJMENI }} <span class="dimm smallest">&middot; {{ cand.PORCISLO }}</span></router-link>
+														</div>
+													</p-columns>
+												</p-collapsible>
+											</div>
+											<div>
+												<p-collapsible label="Ze stran" borderless="1" class="smaller" logo="party">
+													<p-columns class="_4">
+														<div v-for="party in sortBy(data.$strany.filter(x => x.$odpovedi > 0), 'ZKRATKA', null, true)">
+															<router-link :to="link + 'strana/' + party.id + '/otazky-a-odpovedi'">{{ party.ZKRATKA }}</router-link>
+														</div>
+													</p-columns>
+												</p-collapsible>
+											</div>
+										</p-list>
+									</p-area>
+								</div>
+							</p-list>
+						</p-block>
 						<p-block headline="Volební témata">
 							<p>Několikrát projité kompletní volební programy a z nich vybrané části, které se věnují nějakému konkrétnímu tématu. Číslo udává, v kolika programech se téma objevilo. V přehledu je {{ data.$strany.reduce((a, b) => a + b.$program.length ,0) }} dostupných programů.</p>
 							<p-box-group>
