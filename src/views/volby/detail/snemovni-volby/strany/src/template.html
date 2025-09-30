@@ -61,7 +61,7 @@
 							</p-columns>
 						</template>
 						<template v-if="showAll">
-							<p>Zde vidíte všechny strany, které se nějakým způsobem zapojili do voleb. Ať formou samostatné kandidátky, nebo vysláním svých kandidátů na listiny jiné strany. V některých případech také vidíte, že se členové jedné strany účastní voleb na kandidátce více stran.</p>
+							<p>Zde vidíte všechny strany, které se nějakým způsobem zapojily do voleb. Ať formou samostatné kandidátky, nebo vysláním svých kandidátů na listiny jiné strany. V některých případech také vidíte, že se členové jedné strany účastní voleb na kandidátce více stran.</p>
 							<p-columns class="_noGap _noRule">
 								<div v-for="party in sortBy(data.cis.strany.filter(x => x.VSTRANA != 99), 'ZKRATKA', null, true)">
 									<p-area>
