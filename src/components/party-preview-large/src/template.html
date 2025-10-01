@@ -115,18 +115,20 @@
 							<report-form :part="elections.list[0].typ + ':' + elections.list[0].id + ' - pointer csu_' + elections.list[0].typ.toLowerCase() + '_rkl:' + party.id"></report-form>
 						</template>
 					</p-modal>
-				</template>		
-				<template v-if="party.$priorit && party.$priorit > 0">
-					 <router-link :to="link + '/strana/' + party.id + '/priority'" class="_icon" title="Priority"> <img src="https://static.programydovoleb.cz/icon/list.svg" alt="Odpovědi" class="_icon" loading="lazy" > </router-link>
-				</template>
+				</template>	
 				<template v-if="party.$odpovedi && party.$odpovedi > 0">
-					 <router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="_icon" title="Otázky a odpovědi"> <img src="https://static.programydovoleb.cz/icon/answers.svg" alt="Odpovědi" class="_icon" loading="lazy" > </router-link>	
+					 <router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="strong smallest _pq" title="Otázky a odpovědi"> Z kalkulačky </router-link>	
+				</template>	
+				<template v-if="party.$priorit && party.$priorit > 0">
+					 <router-link :to="link + '/strana/' + party.id + '/priority'" class="strong smallest _ps" title="Priority">priority</router-link>
+				</template>
+				<div class="p-line _05"></div>
+				<router-link :to="link + '/strana/' + party.id + '/kandidati'" class="strong smallest _pp" title="Priority">kandidáti</router-link>
+				<template v-if="party.$data && party.$data.web">
+					<template v-if="party.$data.web && party.$data.web.length > 0"> <p-link :href="party.$data.web[0].value" class="smallest strong _pp">web</p-link></template>										
 				</template>
 				<template v-if="party.$data && party.$data.social">
-					<template v-for="(soc, index) in party.$data.social.filter(x => ['tw', 'fb', 'threads', 'ig'].indexOf(type(x.value)) > -1)"> <p-link :href="soc.value" class="_icon"> <img :src="'https://static.programydovoleb.cz/icon/' + type(soc.value) + '.svg'"  loading="lazy" :alt="type(soc.value).toUpperCase() + ' ' + party.ZKRATKA"></p-link></template>
-				</template>
-				<template v-if="party.$data && party.$data.web">
-					<template v-if="party.$data.web && party.$data.web.length > 0"> <p-link :href="party.$data.web[0].value" class="_icon"><img src="https://static.programydovoleb.cz/icon/link.svg" alt="Webové stránky" class="_icon" loading="lazy" ></p-link></template>										
+					<template v-for="(soc, index) in party.$data.social.filter(x => ['tw', 'fb', 'threads', 'ig', 'tiktok'].indexOf(type(x.value)) > -1)"> <p-link :href="soc.value" class="_icon"> <img :src="'https://static.programydovoleb.cz/icon/' + type(soc.value) + '.svg'"  loading="lazy" :alt="type(soc.value).toUpperCase() + ' ' + party.ZKRATKA"></p-link></template>
 				</template>
 			</div>
 			<div class="smallest dimm _br" v-if="party.ESTRANA > 0">

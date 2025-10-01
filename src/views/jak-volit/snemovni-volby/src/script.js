@@ -7,6 +7,7 @@ import CtaSupport from '@/components/cta/support/do.vue';
 import CtaGuide from '@/components/cta/guide/do.vue';
 import CtaHowTo from '@/components/cta/howto/do.vue';
 import CtaSupportShort from '@/components/cta/support-short/do.vue';
+import {slide} from '@/pdv/helpers';
 
 export default {
 	name: 'layout-howto',
@@ -38,5 +39,9 @@ export default {
   mounted: function () {
     window.scrollTo(1, 0);
     ga("Jak volit do Sněmovny?");
+
+	if (location.hash) {
+		setTimeout(() => slide(location.hash.split('#')[1], this.$el), 250);
+	}
   }
 };

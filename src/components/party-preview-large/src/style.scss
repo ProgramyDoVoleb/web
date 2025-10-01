@@ -12,6 +12,33 @@
 	}
 }
 
+._pp {
+	text-decoration: none;
+	border-radius: 1.5em;
+	display: inline-block;
+	padding: .5em .85em;
+	background: var(--blue11);
+	color: var(--black);
+}
+
+._pq {
+	text-decoration: none;
+	border-radius: 1.5em;
+	display: inline-block;
+	padding: .5em .85em;
+	background: var(--yellow);
+	color: var(--black);
+}
+
+._ps {
+	text-decoration: none;
+	border-radius: 1.5em;
+	display: inline-block;
+	padding: .5em .85em;
+	background: var(--greyish);
+	color: var(--black);
+}
+
 ._pgb {
 	border: var(--border);
 	color: var(--grey) !important;
@@ -121,7 +148,7 @@
 		aspect-ratio: 1;
 		width: 100%;
 		position: relative;
-		top: .4em;
+		top: .5em;
 	}
 }
 

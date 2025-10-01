@@ -210,7 +210,75 @@
 					<div class="p-gap"></div>
 					<div class="smaller">Ve všech těchto případech můžete komisi požádat o nové lístky.</div>
 				</p-block>
-				<p-block headline="Na co si dát pozor?">
+				<p-block headline="Jak funguje kroužkování?">
+					<p>Kroužkování je mocný nástroj voličů, který mnoho z nich zanedbává, možná i zapomíná, a nakonec vede k mnoha překvapením. Navíc nejen u nich, ale i lídrů a stran samotných.</p>
+					<p-grid>
+						<div>
+							<p-area>
+								<p-image src="https://static.programydovoleb.cz/2025/krouzkovani/1.png" width="100%"></p-image>
+								<div class="p-gap"></div>
+								<div>Kroužkování je cesta, jak se lidé z nižších míst kandidátky mohou dostat nahoru.</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<p-image src="https://static.programydovoleb.cz/2025/krouzkovani/2.png" width="100%"></p-image>
+								<div class="p-gap"></div>
+								<div>Jakmile se strana dostane do Sněmovny, rozdělují se mandáty. A zde pak platí pravidlo 5 % preferenčních hlasů.</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<p-image src="https://static.programydovoleb.cz/2025/krouzkovani/3.png" width="100%"></p-image>
+								<div class="p-gap"></div>
+								<div>Podle počtu odevzdaných lístků pro stranu se určí, kolik kroužků musel kandidát dostat, aby poskočil nahoru.</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<p-image src="https://static.programydovoleb.cz/2025/krouzkovani/4.png" width="100%"></p-image>
+								<div class="p-gap"></div>
+								<div>Zde na příkladu, strana dostala 100 hlasů. Na skákání stačí 5 kroužků. Lojza jich dostal 6 a skáče dopředu.</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<p-image src="https://static.programydovoleb.cz/2025/krouzkovani/5.png" width="100%"></p-image>
+								<div class="p-gap"></div>
+								<div>Protože zde má Lojza víc kroužků než lídr Jan (který má také přes 5 %), tak je Lojza první a Jan až druhý.</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<p-image src="https://static.programydovoleb.cz/2025/krouzkovani/6.png" width="100%"></p-image>
+								<div class="p-gap"></div>
+								<div>Proto lídr, pokud si chce udržet pozici proti skokanům, potřebuje mít víc kroužků než oni.</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<p-image src="https://static.programydovoleb.cz/2025/krouzkovani/7.png" width="100%" :style="{background: '#fff', 'border-radius': '.5em'}"></p-image>
+								<div class="p-gap"></div>
+								<div>Princip je to vlastně docela jednoduchý, ale dává velkou sílu voličům zamíchat s kandidátkami.</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<p-image src="https://static.programydovoleb.cz/2025/krouzkovani/8.png" width="100%" :style="{background: '#fff', 'border-radius': '.5em'}"></p-image>
+								<div class="p-gap"></div>
+								<div>Voliči mohou volit různé strategie. Ale klidně jen prostě kroužkují ženy, mladé, politiky podporující nějakou myšlenku...</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area>
+								<p-image src="https://static.programydovoleb.cz/2025/krouzkovani/9.png" width="100%" :style="{background: '#fff', 'border-radius': '.5em'}"></p-image>
+								<div class="p-gap"></div>
+								<div>Důležité je, že kroužky má každý volič k dispozici <strong>čtyři</strong>. Jakmile jich dá na lístek víc, ani jeden neplatí.</div>
+							</p-area>
+						</div>
+					</p-grid>
+				</p-block>
+				<p-block headline="Na co si dát pozor ve volební místnosti?">
 					<p-grid class="strong">
 						<div>
 							<p-area borderColor="var(--red)">Ve volební místnosti nesmíte žádnou stranu propagovat.</p-area>
@@ -234,7 +302,7 @@
 							<div><strong>Účast je dobrovolná.</strong> Nikdo vás k volbám nesmí nutit.</div>
 							<div><strong>Volba je svobodná.</strong> Nikdo vám nemůže vnucovat, koho musíte či nesmíte volit.</div>
 							<div><strong>Volba je tajná.</strong> Nikdo nemá právo vidět, pro koho hlasujete. A nikomu to nemusíte ani poté říkat.</div>
-							<div><strong>Rozhodnutí je na vás.</strong> <router-link to="/volebni-pruzkumy">Průzkumy</router-link>, <router-link to="/pruvodce">průvodci</router-link>, debaty i tento web jsou jen pomůckami při rozhodování.</div>
+							<div><strong>Rozhodnutí je na vás.</strong> <router-link to="/volebni-pruzkumy">Průzkumy</router-link>, <router-link to="/pruvodce">průvodci</router-link>, <router-link to="/kalkulacka">kalkulačky</router-link>, debaty i tento web jsou jen pomůckami při rozhodování.</div>
 							<div><strong>Volby jsou svátek.</strong> Nemusíte se extra strojit, ale slušnost, ohleduplnost a střízlivost jsou vždy vítány.</div>
 							<div><strong>Kampaň končí před volební místností.</strong> Uvnitř nesmí nikdo nikoho přesvědčovat, ani nikoho propagovat.</div>
 						</p-list>
@@ -251,6 +319,8 @@
 								<p-list class="strong smaller _05">
 									<div><router-link to="/volby/snemovni-volby/166">Základní přehled</router-link></div>
 									<div><router-link to="/pruvodce">Průvodce</router-link></div>
+									<div><router-link to="/kalkulacka">Kalkulačka</router-link></div>
+									<div><router-link to="/volby/snemovni-volby/166/otazky-a-odpovedi">Odpovědi kandidátů</router-link></div>
 								</p-list>
 								
 									

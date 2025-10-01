@@ -1,38 +1,39 @@
 <div class="snemovni-volby">
 	<template v-if="current.status < 3">
 		<p-box-group :full="true">
+			<p-box to="/jak-volit/snemovni-volby">
+				<p-box-button class="primary">Jak volit?</p-box-button>
+			</p-box>
 			<p-box to="/pruvodce">
-				<p-box-button icon="guide" class="primary">Průvodce</p-box-button>
+				<p-box-button icon="guide">Průvodce</p-box-button>
 			</p-box>
 			<p-box to="/kalkulacka">
-				<p-box-button icon="calc" class="primary">Kalkulačka</p-box-button>
+				<p-box-button icon="calc">Kalkulačka</p-box-button>
 			</p-box>
-			<p-box to="/jak-volit/snemovni-volby">
-				<p-box-button>Jak volit?</p-box-button>
-			</p-box>
-
-				<p-modal class="inline">
-					<template #init>
-						<p-box>
-							<p-box-label>Filtrovat</p-box-label>
-						</p-box>
-					</template>
-					<template #content>
-						<strong>Zobrazte si jen strany, které vás zajímají:</strong>
-						<p-columns class="mt2 _2_4 smaller">
-							<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
-								<button class="inline" @click="toggleItem(party.id, listFilter)" :class="{'strong green': listFilter.indexOf(party.id) > -1}">{{ compactList ? party.ZKRATKA : party.NAZEV }}</button>
-							</div>
-							<div v-if="current.id === 166">
-								<button class="inline strong red" @click="listFilter = [229, 232, 226, 236, 230, 227, 234, 231]">Jen strany z průzkumů</button>
-							</div>
-							<div v-if="current.id === 166">
-								<button class="inline strong red" @click="listFilter = []">Všechny</button>
-							</div>
-						</p-columns>
-					</template>
-				</p-modal>
 			<p-box-gap></p-box-gap>
+
+			<p-modal class="inline">
+				<template #init>
+					<p-box>
+						<p-box-label>Filtrovat</p-box-label>
+					</p-box>
+				</template>
+				<template #content>
+					<strong>Zobrazte si jen strany, které vás zajímají:</strong>
+					<p-columns class="mt2 _2_4 smaller">
+						<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
+							<button class="inline" @click="toggleItem(party.id, listFilter)" :class="{'strong green': listFilter.indexOf(party.id) > -1}">{{ compactList ? party.ZKRATKA : party.NAZEV }}</button>
+						</div>
+						<div v-if="current.id === 166">
+							<button class="inline strong red" @click="listFilter = [229, 232, 226, 236, 230, 227, 234, 231]">Jen strany z průzkumů</button>
+						</div>
+						<div v-if="current.id === 166">
+							<button class="inline strong red" @click="listFilter = []">Všechny</button>
+						</div>
+					</p-columns>
+				</template>
+			</p-modal>
+
 			<p-modal v-if="data && data.list[0].editace === 1">
 				<template #init>
 					<p-box>
@@ -93,43 +94,63 @@
 			<election-compare :current="data" :previous="$store.getters.pdv('elections/fetch/' + current.predchozi)"></election-compare>
 		</p-block-expandable>
 	</template>
-	<p-block headline="Rychlý přehled" :hide="true">
-		<p-area>
+	<template v-if="current.status < 3">
+		<p-area icon="hint" background="var(--blue11)">
+			<p-grid>
+				<div>
+					<router-link to="/volby/snemovni-volby/166/jak-volit#jak-se-voli" class="strong">Co potřebuji s sebou?</router-link>
+					<div class="smaller mt01">Platnou občanku nebo pas. Kdo má, tak i voličský průkaz.</div>
+				</div>
+				<div>
+					<router-link to="/volby/snemovni-volby/166/jak-volit#hlasovaci-listky" class="strong">Jak vyplnit lístek?</router-link>
+					<div class="smaller mt01">Nemusíte dělat nic. Nebo můžete kroužkovat. Podívejte se na příklady.</div>
+				</div>
+				<div>
+					<router-link to="/volby/snemovni-volby/166/jak-volit#jak-funguje-krouzkovani" class="strong">Jak se kroužkuje?</router-link>
+					<div class="smaller mt01">Můžete použít až 4 kroužky. Podívejte se, jaký mají vliv.</div>
+				</div>
+			</p-grid>
+		</p-area>
+		<div class="p-gap _2"></div>
+	</template>
+	<p-block headline="Volební programy" :hide="true" :open="true">
+		<p-area class="primary">
 			<p-columns class="smaller _2_4">
 				<div v-for="party in sortBy(current.$strany.filter(x => listFilter.length === 0 ? true : listFilter.indexOf(x.id) > -1), 'ZKRATKA', null, true)">
 					<div class="p-offset reverse balanced">
 						<div>
 							<p-label :color="colorByItem(party, data)">
-								<router-link :to="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id">{{ party.ZKRATKA }}</router-link>
+								<router-link :to="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id" :class="{strong: party.$program.length > 0}">{{ party.ZKRATKA }}</router-link>
 							</p-label>							
 						</div>
 						<div>
 							<!-- <p-list-linear class="or"> -->
 								<span v-for="program in party.$program">
-									<router-link :to="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id + '/volebni-program/' + program.id" class="strong"><p-icon icon="pdv" size="1em"></p-icon></router-link>
+									<router-link :to="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id + '/volebni-program/' + program.id">program</router-link>
 								</span>
-								<span v-if="party.$priorit">
+								<!-- <span v-if="party.$priorit">
 									<router-link :to="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id + '/priority'"><p-icon icon="list" size="1em"></p-icon></router-link>
 								</span>
 								<span v-if="party.$odpovedi">
 									<router-link :to="'/volby/snemovni-volby/' + current.id + '/strana/' + party.id + '/otazky-a-odpovedi'"><p-icon icon="answers" size="1em"></p-icon></router-link>
-								</span>
+								</span> -->
 							<!-- </p-list-linear> -->
 						</div>
 					</div>
 				</div>
 			</p-columns>
-			<div class="p-line"></div>
+			<!-- <div class="p-line"></div>
 			<div class="smallest dimm">
 				Přehled stran, programů, priorit a odpovědí.
 				<pop-up preClass="green strong" v-if="current.status < 3"><template #init>Doplnit</template><template #content><editable-suggest placeholder="Stačí odkaz" type="program" :part="current.typ + ':' + current.id" link="1"></editable-suggest></template></pop-up>
-			</div>
+			</div> -->
 		</p-area>
 	</p-block>
 	<template v-if="current.status > 1">
 		<component :is="current.status === 2 ? 'p-block' : 'p-block-expandable'" headline="Strany a lídři">
-			<p>Přehled zaregistrovaných stran, hnutí a koalic 
-				&middot; <button class="inline" :class="{'strong green': !compactList}" @click="compactList = !compactList">Podrobněji</button>
+			<p>Zde vidíte seznam zaregistrovaných stran, hnutí a koalic, přehled lídřů v jednotlivých krajích a také rychlé odkazy na program, priority, odpovědi z kalkulačky, volební web a sociální sítě.
+				&middot; <button class="inline" :class="{'strong green': !compactList}" @click="compactList = !compactList">Podrobně</button>
+				&middot; <button class="inline" :class="{'strong green': compactList}" @click="compactList = !compactList">Zkráceně</button>
 			</p>
 			<p-columns>
 				<div v-for="(party, index) in sortBy(current.$strany.filter(x => listFilter.length === 0 ? true : listFilter.indexOf(x.id) > -1), (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
