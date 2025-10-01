@@ -116,12 +116,12 @@
 						</template>
 					</p-modal>
 				</template>	
-				<template v-if="party.$odpovedi && party.$odpovedi > 0">
-					 <router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="strong smallest _pq" title="Otázky a odpovědi"> Z kalkulačky </router-link>	
-				</template>	
 				<template v-if="party.$priorit && party.$priorit > 0">
 					 <router-link :to="link + '/strana/' + party.id + '/priority'" class="strong smallest _ps" title="Priority">priority</router-link>
 				</template>
+				<template v-if="party.$odpovedi && party.$odpovedi > 0">
+					 <router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="strong smallest _pq" title="Otázky a odpovědi"> Z kalkulačky </router-link>	
+				</template>	
 				<div class="p-line _05"></div>
 				<router-link :to="link + '/strana/' + party.id + '/kandidati'" class="strong smallest _pp" title="Priority">kandidáti</router-link>
 				<template v-if="party.$data && party.$data.web">

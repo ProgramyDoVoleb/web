@@ -6,6 +6,7 @@
 	display: inline-block;
 	padding: .5em .85em;
 	color: #fff !important;
+	text-shadow: 0 2px 2px #00000044;
 
 	&.green {
 		color: var(--green) !important;
@@ -19,6 +20,11 @@
 	padding: .5em .85em;
 	background: var(--blue11);
 	color: var(--black);
+
+	.dark & {
+		background: var(--darker);
+		color: var(--white);
+	}
 }
 
 ._pq {
@@ -28,6 +34,10 @@
 	padding: .5em .85em;
 	background: var(--yellow);
 	color: var(--black);
+
+	.dark &, .dark &:hover {
+		color: var(--black);
+	}
 }
 
 ._ps {
@@ -37,6 +47,10 @@
 	padding: .5em .85em;
 	background: var(--greyish);
 	color: var(--black);
+
+	.dark & {
+		color: var(--white);
+	}
 }
 
 ._pgb {
