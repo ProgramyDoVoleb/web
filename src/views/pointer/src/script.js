@@ -25,6 +25,7 @@ import EventItem from '@/components/event-item/do.vue'
 import AnswerTopicPreview from '@/components/answer-topic-preview/do.vue';
 import PartyPolls from '@/components/party-polls/do.vue'
 import PointerHeader from '@/views/pointer/header/do.vue';
+import PointerSummary from '@/views/pointer/summary/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
 import EditableBasic from '@/components/editable/basic/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
@@ -74,7 +75,7 @@ export default {
 	CtaGetAdmin, CtaSupport, CtaSupportShort, CtaQuestions,
 	AnswerTopicPreview,
 	PartyPolls,
-	PointerHeader,
+	PointerHeader, PointerSummary,
 	PopUp,
 	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage
   },
@@ -428,8 +429,10 @@ export default {
 			var result = new Array(n),
 				len = arr.length,
 				taken = new Array(len);
-			if (n > len)
-				throw new RangeError("getRandom: more elements taken than available");
+			if (n > len) {
+				return arr;
+			}
+				// throw new RangeError("getRandom: more elements taken than available");
 			while (n--) {
 				var x = Math.floor(Math.random() * len);
 				result[n] = arr[x in taken ? taken[x] : x];

@@ -6,6 +6,7 @@
 					<div v-if="data">
 						<div v-if="data.list[0]">
 							<pointer-header :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table"></pointer-header>
+							<pointer-summary :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="$volby.id === 166"></pointer-summary>
 							<div class="p-gap _3 _floar-clear"></div>
 							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="current.PRIJMENI">
 								<p-area v-if="current.PLATNOST && current.PLATNOST === 'N'">
@@ -225,27 +226,19 @@
 										<p-area class="primary" :borderColor="colorByItem(current, data)">
 											<component :is="width < 640 ? 'person-preview-column' : 'person-preview-block'" v-if="current.$data.leader[0].label" :cand="current.$kandidati.find(x => x.id === Number(current.$data.leader[0].label))" :data="data" :current="current" :link="$link.split('/strana')[0]"></component>
 											<strong v-else>{{ current.$data.leader[0].value }}</strong>
+											<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.govrole && current.$data.govrole.length > 0">
+												<div class="p-line _05"></div>
+												<p-list class="smallest _05">
+													<div v-for="cand in current.$data.govrole">
+														<component :is="JSON.parse(cand.value || '[1, null]')[1] ? 'router-link' : 'span'" :to="$link.split('/strana')[0] + '/kandidat/' + JSON.parse(cand.value || '[1,1]')[1]" class="strong">{{ JSON.parse(cand.value || "['chybné zadání', null]")[0] }}</component>
+														&middot; 
+														{{ cand.label }}
+														&middot; 
+														<p-link class="smallest dimm" :href="cand.source" v-if="cand.source">zdroj</p-link>
+													</div>
+												</p-list>
+											</template>
 										</p-area>
-									</template>
-									<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.govrole && current.$data.govrole.length > 0">
-										<h2 class="serif mt1">Vládní kandidáti</h2>
-										<!-- <p-area> -->
-											<p-columns class="_4 mt1">
-												<div v-for="cand in current.$data.govrole">
-													<p-area>
-														<div class="p-offset reverse balanced">
-															<div>
-																<component :is="JSON.parse(cand.value || '[1, null]')[1] ? 'router-link' : 'span'" :to="$link.split('/strana')[0] + '/kandidat/' + JSON.parse(cand.value || '[1,1]')[1]" class="strong">{{ JSON.parse(cand.value || "['chybné zadání', null]")[0] }}</component>
-																<div class="smallest">{{ cand.label }}</div>
-															</div>
-															<div v-if="cand.source">
-																<p-link class="smallest dimm" :href="cand.source">zdroj</p-link>
-															</div>
-														</div>
-													</p-area>
-												</div>
-											</p-columns>
-										<!-- </p-area> -->
 									</template>
 									<div v-if="$volby.editace === 1 && table === 'csu_ps_rkl'" class="smallest _edit">
 										<p-icon icon="edit"></p-icon>
@@ -322,12 +315,11 @@
 								</p-area>
 							</p-block>
 
-							<p-block headline="Garanti" :hide="true" :class="{'_empty': !current.$data.garant}">
+							<!-- <p-block headline="Garanti" :hide="true" :class="{'_empty': !current.$data.garant}">
 								<template v-if="current.$data.garant" class="mb1">
 									<h2 class="serif">Garanti</h2>
 									<p-columns>
 										<div v-for="cand in current.$data.garant">
-											<!-- <p-area> -->
 												<div class="p-offset reverse balanced">
 													<div>
 														<component :is="JSON.parse(cand.value || '[1, null]')[1] ? 'router-link' : 'span'" :to="$link.split('/strana')[0] + '/kandidat/' + JSON.parse(cand.value || '[1,1]')[1]" class="strong">{{ JSON.parse(cand.value || "['chybné zadání', null]")[0] }}</component>
@@ -337,7 +329,6 @@
 														<p-link class="smallest dimm" :href="cand.source">zdroj</p-link>
 													</div>
 												</div>
-											<!-- </p-area> -->
 										</div>
 									</p-columns>
 
@@ -347,7 +338,7 @@
 									&nbsp;
 									<pop-up preClass="green strong"><template #init>Doplnit garanty</template><template #content><editable-suggest placeholder="Odkaz na garanta" type="garant" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></pop-up>
 								</div>
-							</p-block>
+							</p-block> -->
 							
 							<p-block headline="Volební priority" v-if="current.$priority.length > 0">
 								<p-list class="_05 smaller">
@@ -408,7 +399,7 @@
 							</p-block>
 
 							<p-block headline="Z kalkulačky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 3).length > 0" :hide="true">
-								<h3 class="">Z kalkulačky <p-icon icon="calc" :border="0"></p-icon></h3>
+								<h3 class="mt0">Z kalkulačky <p-icon icon="calc" :border="0"></p-icon></h3>
 								<p-list class="_05">
 									<div v-for="(question, index) in randonAmount(current.$otazky.filter(x => x.type === 3 && (!x.designated || x.designated === (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 2 : 1))), 5)">
 										<div class="smaller p-offset reverse balanced">
@@ -475,7 +466,7 @@
 														<div v-for="VOLKRAJ in [3,11,5,8,7,14,12,9,4,1,2,6,10,13]">
 															<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 0}"><router-link :to="$link + '/kandidati/' + VOLKRAJ">{{ enums.regionsShort[VOLKRAJ - 1] }}</router-link></span><span class=" dimm"> {{ current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length }}</span>
 														</div>
-														<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === -1).length > 0}"><router-link :to="$link + '/kandidati/-1'">nezařazeni</router-link></span><span class=" dimm"> {{ current.$kandidati.filter(x => x.VOLKRAJ === -1).length }}</span>
+														<template v-if="$volby.status === 1"><span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === -1).length > 0}"><router-link :to="$link + '/kandidati/-1'">nezařazeni</router-link></span><span class=" dimm"> {{ current.$kandidati.filter(x => x.VOLKRAJ === -1).length }}</span></template>														
 														<span :class="{strong: current.$kandidati.filter(x => x.VOLKRAJ === -1).length > 0}"><router-link :to="$link + '/kandidati'">všichni</router-link></span><span class=" dimm"> {{ current.$kandidati.length }}</span>
 													</p-list-linear>
 											</p-area>

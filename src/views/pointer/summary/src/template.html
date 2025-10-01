@@ -1,0 +1,25 @@
+<div class="pointer-summary">
+	<p v-if="party">
+		{{ headline }} je {{ current.POVOLANI }} a kandiduje za 
+		<em><router-link :to="$route.fullPath.split('/kandidat/')[0] + '/strana/' + party.id" class="is-span">{{ party.ZKRATKA }}</router-link></em> 
+		{{ current.PORCISLO === 1 ? 'na pozici lídra' : 'na ' + current.PORCISLO + '. místě' }} v {{ enums.regions6[current.VOLKRAJ - 1] }}. 
+		<template v-if="current.PSTRANA != party.VSTRANA">
+			Je {{ isWoman(current) ? 'členkou' : 'členem' }} <em>{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).ZKRATKA }}</em>.
+		</template>
+		Je {{ isWoman(current) ? 'jí' : 'mu' }} {{ current.VEK }} let, bydlištem <em>{{ current.BYDLISTEN }}</em>.
+		Níže najdete {{ isWoman(current) ? 'její' : 'jeho' }}
+		<p-list-linear class="inline">
+			<span>základní volební údaje</span>
+			<span v-if="current.$priority.length"><router-link :to="$route.path + '/priority'">priority</router-link></span>
+			<span v-if="current.$profil.length">záznamy o <router-link :to="'/lide/profil/' + current.$profil[0].profil">úspěšnosti</router-link> v minulých volbách</span>
+			<span v-if="current.$odpovedi.find(x => !x.$odpoved[0].quick)"><p-lang :value="current.$odpovedi.filter(x => !x.$odpoved[0].quick).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> na <router-link :to="$route.path + '/otazky-a-odpovedi'">volební otázky</router-link></span>
+			<span v-if="current.$odpovedi.find(x => x.$odpoved[0].quick)"><p-lang :value="current.$odpovedi.filter(x => x.$odpoved[0].quick).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> z <router-link :to="$route.path + '/otazky-a-odpovedi'">kalkulačky</router-link></span>
+			<span v-if="current.$data.motto">osobní motto</span>
+			<span v-if="current.$data.graphics">volební materiály</span>
+			<span v-if="current.$data.media || current.$data.pr"><p-lang :value="(current.$data.media || []).length + (current.$data.pr || []).length" :end="['', 'jednu zmínku', '%% zmínky', '%% zmínek']"></p-lang> v médiích</span>
+			<span v-if="current.$data.social"><p-lang :value="current.$data.social.length" :end="['', 'jeden odkaz', '%% odkazy', '%% odkazů']"></p-lang> na sociální sítě</span>
+			<span v-if="current.$data.phone || current.$data.email || current.$data.address">kontaktní údaje</span>
+			<span v-if="current.$data.links || current.$data.wiki || current.$data.web">další odkazy</span>
+		</p-list-linear>.
+	</p>
+</div>
