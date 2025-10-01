@@ -21,13 +21,13 @@
   }
   
   @container (min-width: 800px) {
-    &:not(.p-grid---1-2):not(._2):not(._2_4) ._container {
+    &:not(.p-grid---1-2):not(._2):not(._2_4):not(._1_2_4) ._container {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   
   @container (min-width: 1200px) {
-    &:not(.p-grid---1-2):not(._2):not(._2_4) ._container {
+    &:not(.p-grid---1-2):not(._2):not(._2_4):not(._1_2_4) ._container {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
@@ -64,6 +64,24 @@
 ._2_4 {
   ._container {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @container (min-width: 800px) {
+    & ._container {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }    
+  }
+}
+
+._1_2_4 {
+  ._container {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  @container (min-width: 400px) {
+    & ._container {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }    
   }
 
   @container (min-width: 800px) {

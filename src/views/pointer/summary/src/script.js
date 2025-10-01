@@ -122,6 +122,17 @@ export default {
 			}
 
 			return list;
+		},
+		stavreg: function () {
+			if (this.current.STAVREG === 0) return 0;
+
+			var s = String(this.current.STAVREG);
+
+			console.log(s);
+
+			while (s.length < 14) s = '0' + s;
+
+			return s;
 		}
 	},
   methods: {

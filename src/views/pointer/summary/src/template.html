@@ -1,25 +1,64 @@
 <div class="pointer-summary">
 	<p v-if="party">
-		{{ headline }} je {{ current.POVOLANI }} a kandiduje za 
-		<em><router-link :to="$route.fullPath.split('/kandidat/')[0] + '/strana/' + party.id" class="is-span">{{ party.ZKRATKA }}</router-link></em> 
-		{{ current.PORCISLO === 1 ? 'na pozici lídra' : 'na ' + current.PORCISLO + '. místě' }} v {{ enums.regions6[current.VOLKRAJ - 1] }}. 
-		<template v-if="current.PSTRANA != party.VSTRANA">
-			Je {{ isWoman(current) ? 'členkou' : 'členem' }} <em>{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).ZKRATKA }}</em>.
+		{{ headline }} je <em>{{ current.POVOLANI }}</em> a kandiduje za
+		<em><router-link :to="$route.fullPath.split('/kandidat/')[0] + '/strana/' + party.id">{{ party.ZKRATKA }}</router-link></em> 
+		{{ current.PORCISLO === 1 ? 'na pozici lídra' : 'na ' + current.PORCISLO + '. místě' }} v 
+		<router-link :to="$route.fullPath.split('/kandidat/')[0] + '/strana/' + party.id + '/kandidati/' + current.VOLKRAJ">{{ enums.regions6[current.VOLKRAJ - 1] }}</router-link>. 
+		<template v-if="current.PSTRANA != party.VSTRANA && current.PSTRANA != 99">
+			Je {{ isWoman(current) ? 'členkou' : 'členem' }} 
+			<em><router-link :to="'/volby/snemovni-volby/166/aktivita/' + current.PSTRANA">{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).ZKRATKA }}</router-link></em>.
+		</template>
+		<template v-if="current.PSTRANA === 99">
+			Není {{ isWoman(current) ? 'členkou' : 'členem' }} žádné strany nebo hnutí.
 		</template>
 		Je {{ isWoman(current) ? 'jí' : 'mu' }} {{ current.VEK }} let, bydlištem <em>{{ current.BYDLISTEN }}</em>.
-		Níže najdete {{ isWoman(current) ? 'její' : 'jeho' }}
+		Na této stránce najdete {{ isWoman(current) ? 'její' : 'jeho' }}
 		<p-list-linear class="inline">
 			<span>základní volební údaje</span>
-			<span v-if="current.$priority.length"><router-link :to="$route.path + '/priority'">priority</router-link></span>
+			<span v-if="current.$priority.length"><router-link :to="$route.path + '/priority'"><p-lang :value="current.$priority.length" :end="['', 'jednu prioritu', '%% priority', '%% priorit']"></p-lang></router-link></span>
 			<span v-if="current.$profil.length">záznamy o <router-link :to="'/lide/profil/' + current.$profil[0].profil">úspěšnosti</router-link> v minulých volbách</span>
-			<span v-if="current.$odpovedi.find(x => !x.$odpoved[0].quick)"><p-lang :value="current.$odpovedi.filter(x => !x.$odpoved[0].quick).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> na <router-link :to="$route.path + '/otazky-a-odpovedi'">volební otázky</router-link></span>
-			<span v-if="current.$odpovedi.find(x => x.$odpoved[0].quick)"><p-lang :value="current.$odpovedi.filter(x => x.$odpoved[0].quick).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> z <router-link :to="$route.path + '/otazky-a-odpovedi'">kalkulačky</router-link></span>
+			<span v-if="current.$odpovedi.find(x => !x.$odpoved[0].quick)"><p-lang :value="current.$odpovedi.filter(x => !x.$odpoved[0].quick).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> na <router-link :to="$route.path + '/otazky-a-odpovedi'">volební otázky</router-link></span>
+			<span v-if="current.$odpovedi.find(x => x.$odpoved[0].quick)"><p-lang :value="current.$odpovedi.filter(x => x.$odpoved[0].quick).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> z <router-link :to="$route.path + '/otazky-a-odpovedi#z-kalkulacky'">kalkulačky</router-link></span>
 			<span v-if="current.$data.motto">osobní motto</span>
+			<span v-if="current.$data.values">hodnoty</span>
 			<span v-if="current.$data.graphics">volební materiály</span>
-			<span v-if="current.$data.media || current.$data.pr"><p-lang :value="(current.$data.media || []).length + (current.$data.pr || []).length" :end="['', 'jednu zmínku', '%% zmínky', '%% zmínek']"></p-lang> v médiích</span>
-			<span v-if="current.$data.social"><p-lang :value="current.$data.social.length" :end="['', 'jeden odkaz', '%% odkazy', '%% odkazů']"></p-lang> na sociální sítě</span>
+			<span v-if="current.$data.media || current.$data.pr"><p-lang :value="(current.$data.media || []).length + (current.$data.pr || []).length" :end="['', 'jednu zmínku', '%% zmínky', '%% zmínek']"></p-lang> v médiích</span>
+			<span v-if="current.$data.social"><p-lang :value="current.$data.social.length" :end="['', 'jeden profil', '%% profily', '%% profilů']"></p-lang> na sociálních sítích</span>
 			<span v-if="current.$data.phone || current.$data.email || current.$data.address">kontaktní údaje</span>
-			<span v-if="current.$data.links || current.$data.wiki || current.$data.web">další odkazy</span>
+			<span v-if="current.$data.links || current.$data.wiki || current.$data.web">další užitečné odkazy</span>
 		</p-list-linear>.
+	</p>
+	<p v-if="!party">
+		Kandidátku <em>{{ current.ZKRATKA }}</em> najdete
+		<span v-if="current.STAVREG === 0">ve všech krajích. </span>
+		<span v-else>pouze <p-lang :value="stavreg.split('').filter(x => x === '0').length" :end="['', 'jednom kraji', '%% krajích', '%% krajích']"></p-lang>: 
+			<p-list-linear class="inline">
+				<template v-for="(kraj, index) in stavreg.split('')">
+					<span v-if="kraj === '0'">
+						{{ enums.regions6[index] }}
+					</span>
+				</template>
+			</p-list-linear>.
+		</span>
+		
+		<template v-if="current.$data.leader">Celostátním lídrem je {{ current.$data.leader[0].value }}.</template>
+		Celkem jde do voleb <router-link :to="$route.path + '/kandidati'"><p-lang :value="current.$kandidati.length" :end="['', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></router-link>.
+		<span v-if="current.$program.length > 0">
+			<router-link :to="$route.path + '/volebni-program/' + current.$program[0].id" class="strong">Volební program</router-link> má <p-lang :value="current.$program[0].structure.length" :end="['', 'jednu kapitolu', '%% kapitoly', '%% kapitol']"></p-lang>.
+		</span>
+		<span v-else>Volební program není znám.</span>
+		Na této stránce najdete
+		<p-list-linear class="inline">
+			<span v-if="current.$priority.length"><router-link :to="$route.path + '/priority'"><p-lang :value="current.$priority.length" :end="['', 'jednu prioritu', '%% priority', '%% priorit']"></p-lang></router-link></span>
+			<span v-if="current.$odpovedi.find(x => x.$otazka[0].type === 3)"><p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type === 3).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> z <router-link :to="$route.path + '/otazky-a-odpovedi#z-kalkulacky'">kalkulačky</router-link></span>
+			<span v-if="current.$data.motto">volební motto</span>
+			<span v-if="current.$data.values">hodnoty</span>
+			<span v-if="current.$data.graphics">volební materiály</span>
+			<span v-if="current.$data.media || current.$data.pr"><p-lang :value="(current.$data.media || []).length + (current.$data.pr || []).length" :end="['', 'jednu zmínku', '%% zmínky', '%% zmínek']"></p-lang> v médiích</span>
+			<span v-if="current.$data.social"><p-lang :value="current.$data.social.length" :end="['', 'jeden profil', '%% profily', '%% profilů']"></p-lang> na sociálních sítích</span>
+			<span v-if="current.$data.phone || current.$data.email || current.$data.address">kontaktní údaje</span>
+			<span v-if="current.$data.links || current.$data.wiki || current.$data.web">další užitečné odkazy</span>
+		</p-list-linear>.
+		<span v-if="current.$data.web">Volební web najdete na <p-link :href="current.$data.web[0].value">{{ domain(current.$data.web[0].value) }}</p-link></span>
 	</p>
 </div>

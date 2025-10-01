@@ -5,7 +5,7 @@ export default {
 	name: 'EngagementThanks',
 	data: function () {
 		return {
-			amount: 2025
+			amount: null
 		}
 	},
 	components: {
