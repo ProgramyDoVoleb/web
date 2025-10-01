@@ -6,7 +6,27 @@
     margin-right: .5em;
   }
 }
-
 ._mw {
   justify-content: center;
+  max-width: 68em;
+  margin: auto;
+  padding: 0 2em;
+}
+
+._con {
+  container-type: inline-size;
+}
+
+._responsive {
+  @container (max-width: 200px) {
+    display: block;
+  }
+}
+
+.show-60rem {
+  display: none !important;
+
+  @media (min-width: 60em) {
+    display: inherit !important;
+  }
 }

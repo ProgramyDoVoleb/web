@@ -1,16 +1,108 @@
 <div class="engagement-thanks">
+	
 	<p-box-group class="_mw">
 		<p-box :click="() => click(1)" v-if="!used">
-			<p-box-button icon="star-line.svg">Díky</p-box-button>
+			<p-box-button icon="star-line.svg">Díky za tuhle stránku</p-box-button>
 		</p-box>
 		<p-box v-if="used" :disabled="1">
-			<p-box-button icon="star.svg">Díky</p-box-button>
-		</p-box>
-		<p-box to="/o-projektu/jak-podporit">
-			<p-box-button color="var(--green)">Podpořit</p-box-button>
-		</p-box>
-		<p-box href="https://eshop.programydovoleb.cz">
-			<p-box-button>E-shop</p-box-button>
+			<p-box-button icon="star.svg">Díky za tuhle stránku</p-box-button>
 		</p-box>
 	</p-box-group>
+
+	<div class="p-line _3"></div>
+
+	<h2 class="serif">Podpořte Programy do voleb</h2>
+	<p class="text-center _mw">
+		Tento web je výsledkem celoroční dobrovolnické neplacené práce. 
+	</p>
+
+	<div class="p-gap _2"></div>
+
+	<p-grid class="_2_4 _mw text-left">
+		<div>
+			<p-area class="highlight shadow">
+				<p-image src="https://static.programydovoleb.cz/img/2025/eshop.jpg" width="100%" class="rounded"></p-image>
+			</p-area>
+			<div class="p-gap"></div>
+			<p-box-group class="_ab">
+				<p-box href="https://eshop.programydovoleb.cz">
+					<p-box-button color="var(--green)">E-shop &middot; merch</p-box-button>
+				</p-box>
+			</p-box-group>
+		</div>
+		<div>
+			<p-area class="highlight shadow">
+				<p-image src="https://static.programydovoleb.cz/img/2025/fio.png" width="100%" class="rounded"></p-image>
+			</p-area>
+			<div class="p-gap"></div>					
+			<p-box-group>
+				<p-box href="https://ib.fio.cz/ib/transparent?a=2502004588">
+					<p-box-button>2502004588/2010</p-box-button>
+					<p-box-label class="show-60rem">FIO</p-box-label>
+				</p-box>
+			</p-box-group>
+		</div>
+		<div>
+			<p-area class="highlight shadow _con">
+				<h4>Přes Darujme.cz</h4>
+				<p-box-group>
+					<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100" :full="true">
+						<p-box-button color="var(--green)">100 Kč</p-box-button>
+					</p-box>
+					<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=250" :full="true">
+						<p-box-button color="var(--green)">250 Kč</p-box-button>
+					</p-box>
+				</p-box-group>
+				<div class="p-line _05"></div>
+				<div class="p-offset reverse _responsive">
+					<div>
+						<p-box>
+							<p-box-label class="no-padding">
+								<input type="number" v-model="amount">
+							</p-box-label>
+						</p-box>
+					</div>
+					<div>
+						<p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + amount">
+							<p-box-button>Poslat</p-box-button>
+						</p-box>
+					</div>
+				</div>
+				<div class="p-line _05"></div>
+				<div class="smallest">Vhodné pro platby kartou, Apple Pay, opakované platby apod.</div>
+			</p-area>
+			<div class="p-gap"></div>					
+			<p-box-group>
+				<p-box href="https://darujme.cz/programydovoleb">
+					<p-box-label>Detail projektu</p-box-label>
+				</p-box>
+			</p-box-group>
+		</div>
+		<div>
+			<p-area class="highlight shadow">
+				<h4>Na sítích</h4>
+				<p-list class="_05 smaller">
+					<div><strong>Sledujte</strong> Programy na sítích</div>
+					<div><strong>Sdílejte</strong>, lajkujte, komentujte</div>					
+					<div><strong>Doporučte</strong> přátelům, rodině</div>
+					<div>Sdílejte např. <router-link to="/volby/snemovni-volby/166/muj-tip">tipy na výsledek</router-link></div>
+				</p-list>
+			</p-area>
+			<div class="p-gap"></div>					
+			<p-box-group>
+				<p-box href="https://www.instagram.com/programydovoleb">
+					<p-box-icon type="ig"></p-box-icon>
+				</p-box>
+				<p-box href="https://www.threads.net/@programydovoleb">
+					<p-box-icon type="threads"></p-box-icon>
+				</p-box>
+				<p-box href="https://www.tiktok.com/@programydovoleb">
+					<p-box-icon type="tiktok"></p-box-icon>
+				</p-box>
+				<p-box to="/o-projektu/kontakty">
+					<p-box-label>a další...</p-box-label>
+				</p-box>
+			</p-box-group>
+		</div>
+	</p-grid>
 </div>

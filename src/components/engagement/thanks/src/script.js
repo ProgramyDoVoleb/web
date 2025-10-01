@@ -3,6 +3,11 @@ import ReportForm from '@/components/report-form/do.vue';
 
 export default {
 	name: 'EngagementThanks',
+	data: function () {
+		return {
+			amount: 2025
+		}
+	},
 	components: {
 		ReportForm
 	},

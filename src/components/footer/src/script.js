@@ -1,9 +1,10 @@
 import ReportForm from '@/components/report-form/do.vue';
 import EngagementThanks from '@/components/engagement/thanks/do.vue';
+import SupportShort from '@/components/cta/support-short/do.vue';
 
 export default {
 	name: 'main-footer',
-	components: {ReportForm, EngagementThanks},
+	components: {ReportForm, EngagementThanks, SupportShort},
 	data: function () {
 		return {
 			list: {
