@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, sortBy, unique, slide} from '@/pdv/helpers';
+import {url, date, number, truncate, sortBy, unique, slide, toggleItem} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
 import CtaGetAdmin from '@/components/cta/questions/do.vue';
@@ -22,7 +22,12 @@ export default {
 			hasObvody: this.hash === 'senatni-volby',
 			hasKraje: this.hash === 'krajske-volby',
 			hasObce: this.hash === 'komunalni-volby',
-			hasStrany: false
+			hasStrany: false,
+			filtr: {
+				VOLKRAJ: null,
+				PSPParty: []
+			},
+			razeni: 1
 		}
 	},
 	components: {
@@ -69,10 +74,38 @@ export default {
 			}
 
 			return list;
+		},
+		filteredList: function () {
+			var arr = this.data.list[0].$body;
+
+			if (this.filtr.VOLKRAJ !== null) {
+				arr = arr.filter(x => x.$kandidat.VOLKRAJ === this.filtr.VOLKRAJ);
+			}
+
+			if (this.filtr.PSPParty.length > 0) {
+				arr = arr.filter(x => this.filtr.PSPParty.find(y => y.KSTRANA === x.$kandidat.KSTRANA));
+			}
+
+			return arr;
+		},
+		filteredPartyList: function () {
+			if (!this.data.list[0].$body.find(x => x.$kandidat && x.$kandidat.VOLKRAJ)) return null;
+
+			var arr = [];
+
+			this.data.list[0].$body.forEach(x =>{
+				if (!arr.find(y => y.id === x.$strana.id)) {
+					arr.push(x.$strana);
+				}
+			});
+
+			arr = sortBy(arr, 'ZKRATKA', null, true);
+
+			return arr;
 		}
 	},
 	methods: {
-		date, sortBy, logoByItem, colorByItem, truncate, slide,
+		date, sortBy, logoByItem, colorByItem, truncate, slide, toggleItem,
 		sortByDeepPrijmeni: function (list) {
 			var arr = [];
 

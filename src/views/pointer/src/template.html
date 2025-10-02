@@ -155,10 +155,10 @@
 									<!-- </p-list> -->
 								</p-area>
 							</p-block>
-							<p-block headline="Představení" :class="{'_empty': typeof current.$data.length === 'number' || !((current.$data.about || current.$data.motto || current.$data.values))}">
+							<p-block headline="Představení" :hide="true" :class="{'_empty': typeof current.$data.length === 'number' || !((current.$data.about || current.$data.motto || current.$data.values))}">
 								<div class="p-list _2 _invisible" v-if="typeof current.$data.length === 'undefined'">
 									<div v-if="current.$data.about">
-										<!-- <h2 class="serif mt0">Představení</h2> -->
+										<h2 class="serif mt0">Představení</h2>
 										<div class="serif _mw">
 											<p-truncated :size="60" :content="(current.$data.about.find(x => x.type === 'about').value || '').split('\n').join('<br>')"></p-truncated>
 										</div>	

@@ -46,6 +46,21 @@
 									</p-columns>
 								<!-- </p-area> -->
 							</p-block-expandable>
+							<template v-if="data.list[0].$body.find(x => x.$kandidat && x.$kandidat.VOLKRAJ)">
+								<div class="p-gap"></div>
+								<p-list-linear class="smaller or">
+									<span><button class="inline" @click="filtr.VOLKRAJ = null">Všechny kraje</button></span>
+									<span v-for="(region, index) in enums.regions"><button class="inline" @click="filtr.VOLKRAJ = index + 1" :class="{'strong green': filtr.VOLKRAJ === index + 1}">{{ region }}</button></span>
+								</p-list-linear>
+								<template v-if="filteredPartyList">
+									<div class="p-line"></div>
+									<p-list-linear class="smaller or">
+										<span><button class="inline" @click="filtr.PSPParty = []">Všechny strany</button></span>
+										<span v-for="party in filteredPartyList"><button class="inline" @click="toggleItem(party, filtr.PSPParty)" :class="{'strong green': filtr.PSPParty.find(x => x === party)}">{{ party.ZKRATKA }}</button></span>
+									</p-list-linear>
+								</template>
+							</template>
+							
 						</p-area>
 						<div class="p-gap _2"></div>
 						<template v-if="!data.list[0].$body">
@@ -56,7 +71,7 @@
 						<!-- <p-block :hide="true" headline="Odpovědi"> -->
 							<p-list class="_2" v-if="data.list[0].$body">
 								<template v-if="data.list[0].$body.find(x => x.$kandidat)">
-									<template v-for="(cand, index2) in sortByDeepPrijmeni(data.list[0].$body)">
+									<template v-for="(cand, index2) in sortByDeepPrijmeni(filteredList)">
 										<!-- <p-block :hide="true" :headline="cand.$kandidat.JMENO[0] + '. ' + cand.$kandidat.PRIJMENI"> -->
 											<div :name="'answer_' + cand.csu_id">
 												<div class="p-offset">
@@ -80,6 +95,9 @@
 											</div>
 										<!-- </p-block> -->
 									</template>
+									<span v-if="filteredList.length === 0" class="smallest">
+										<em>Nenalezeny žádné odpovědi</em>
+									</span>
 								</template>
 								<template v-else>
 									<template v-for="(cand, index2) in sortByDeepZkratka(data.list[0].$body)">

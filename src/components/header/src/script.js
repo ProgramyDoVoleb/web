@@ -17,10 +17,10 @@ export default {
 			enums: useEnums(),
 			showMenu3: false,
 			menu166: [
+				{label: 'Jak volit?', route: '/volby/snemovni-volby/166/jak-volit'},
 				{label: 'Průvodce', route: '/volby/snemovni-volby/166/pruvodce'},
 				{label: 'Strany', route: '/volby/snemovni-volby/166/strany'},
 				{label: 'Kandidáti', route: '/volby/snemovni-volby/166/kandidati'},
-				{label: 'Jak volit?', route: '/volby/snemovni-volby/166/jak-volit'},
 				{label: 'Otázky a odpovědi', route: '/volby/snemovni-volby/166/otazky-a-odpovedi'},
 				{label: 'Tip na výsledek', route: '/volby/snemovni-volby/166/muj-tip'},
 				{label: 'Kalkulačka', route: '/volby/snemovni-volby/166/kalkulacka'},
