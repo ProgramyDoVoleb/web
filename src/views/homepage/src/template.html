@@ -16,23 +16,43 @@
 					<router-link to="/novinky" class="is-span">Sedmidění</router-link>
 				</div> -->
 
-				<p-area borderColor="var(--blue)" class="inline highlight shadow mt05">
+				<!-- <p-area borderColor="var(--red)" class="inline highlight shadow mt05">
 					<h2 class="mv0">	
 						Sněmovní volby
 					</h2>
 					<div class="smaller sans">
-						<span class="hide-40rem">&middot; </span>Pátek od 14:00 do 22:00
-						<br class="hide-40rem">
-						&middot; Sobota od 8:00 do 14:00
-					</div>
-					<div class="smaller sans mt05">
-						<router-link to="/volby/snemovni-volby/166" class="strong">Podrobně o volbách</router-link>
-						&middot;
-						<router-link to="/volby/snemovni-volby/166/kandidati" class="is-span">hledat kandidáta</router-link>
+						Již proběhly, čeká se na výsledky.
 					</div>
 				</p-area>
 
-				<promo-block></promo-block>
+				<p>Průběžné výsledky na <em>Programech</em> nenajdete, ale až budou ty úplné, tak zde budou zas v plné parádě, s detaily, grafy, podrobnostmi.</p>
+
+				<p-box-group>
+					<p-box href="https://www.volby.cz/app/ps2025/cs/home">
+						<p-box-button icon="results">Oficiální web sčítání výsledků</p-box-button>
+					</p-box>
+					<p-box to="/o-projektu/jak-podporit">
+						<p-box-label class="green">Podpořit do dalších voleb</p-box-label>
+					</p-box>
+				</p-box-group> -->
+
+				<election-results id="166" :type="{key: 'PS', hash: 'snemovni-volby'}" :election="{'datum_label': '3. a 4. října 2025'}"></election-results>
+
+				<div class="p-gap _2"></div>
+
+				<p-box-group>
+					<p-box to="/volby/snemovni-volby/166">
+						<p-box-button icon="snemovni-volby">Podrobnosti o sněmovních volbách</p-box-button>
+					</p-box>
+					<p-box to="/o-projektu/jak-podporit">
+						<p-box-label class="green">Podpořit Programy do příštích voleb</p-box-label>
+					</p-box>
+				</p-box-group>
+
+				<div class="p-line _2"></div>
+
+				<!-- <promo-block></promo-block> -->
+
 				<!-- <div class="p-gap _1"></div> -->
 				<!-- <promo-block></promo-block> -->
 				<!-- <p class="smaller">
@@ -42,6 +62,7 @@
 				 
 				<!-- <election-results :type="{key: 'SENAT', hash: 'senatni-volby', name: 'Senátní volby'}" :id="171" :election="{typ: 'SENAT', datum_label: '17. a 18. ledna 2025'}" :spec="60" label="obvod 60 · Brno-město"></election-results> -->
 				 
+				<h2 class="serif mt0">Přístí volby</h2>
 
 				<template v-if="elections && elections.list.find(x => x.radne === 0 && x.status < 3 && x.datum <= today)">
 					<div class="p-gap"></div>
@@ -511,7 +532,7 @@
 					<mailchimp-signup></mailchimp-signup>
 				</p-block>
 							
-				<p-block headline="Nejbližší události">
+				<!-- <p-block headline="Nejbližší události">
 					<div v-if="news && news.events && news.events.length > 0">
 						<p-columns>
 							<div v-for="event in sortEvents(news.events, true).filter((x, i) => i < 6)">
@@ -533,7 +554,7 @@
 							</div>
 						</div>
 					</div>
-				</p-block>
+				</p-block> -->
 			</p-block>
 			<p-block headline="Programy do voleb" :level="1" :hide="1">
 				<p-block headline="O projektu">
@@ -546,7 +567,7 @@
 							<p-box-label>Kontakty</p-box-label>
 						</p-box>
 						<p-box to="/o-projektu/jak-podporit">
-							<p-box-label class="green">Chci projekt podpořit</p-box-label>
+							<p-box-label class="green">Podpořit</p-box-label>
 						</p-box>
 					</p-box-group>
 				</p-block>
@@ -773,7 +794,7 @@
 		</template>
 		<template #aside>
 			<p-list height="1.5">
-				<div>
+				<!-- <div>
 							<div class="mb1">
 								<strong class="smaller">Nejbližší události</strong>
 							</div>
@@ -791,7 +812,7 @@
 							</div>
 						</div>
 					</p-list>
-				</div>
+				</div> -->
 				<div>
 					<top-tasks></top-tasks>
 				</div>

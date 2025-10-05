@@ -2,7 +2,7 @@ import {date, number, truncate, color, indicator, con, round} from "@/pdv/helper
 import ElectionSimulationImperiali2021 from '@/components/election-simulation-imperiali-2021/do.vue';
 import GraphMandates from '@/components/results/graph/mandates-apex/do.vue'
 import {useData} from '@/stores/data';
-import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2021";
+import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2025";
 
 export default {
 	name: 'PollsPreview',

@@ -51,8 +51,8 @@
 				</p-area>
 				
 				<p-collapsible label="Jak je rychlý výsledek počítán?">
-					<p>Výpočet podle nového volebního zákona vychází z účasti v jednotlivých krajích podle roku 2021, přičemž podle stejného roku mění míru podpory strany napříč kraji. Zahraniční voliči jsou počítání do Ústeckého kraje. U koalic se tyto koeficienty kalkulují společně. Následně probíhá rozdělení mandátů do krajů a podle toho se počítá zisk pro jednotlivé strany koalice. U nich se vychází ze známých a ohlášených kandidátek.</p>
-					<p>Pokud použijete rozpad koalic na strany, berte prosím v potaz zvýšenou citlivost modelu na rozložení v krajích. Proto je vždy nutné je číst stylem "Pokud by byla účast a rozložení hlasů v krajích jako v roce 2021, pak by podle volebního modelu XYZ byl zisk mandátů stránám ...". Reálný zisk jednotlivým stranám může také ovlivnit preferenční hlasování (kroužkování), což ale není možné do modelu zanést.</p>
+					<p>Výpočet podle nového volebního zákona vychází z účasti v jednotlivých krajích podle roku 2025, přičemž podle stejného roku mění míru podpory strany napříč kraji. Zahraniční voliči jsou počítání do čtyř největších krajů. U koalic se tyto koeficienty kalkulují společně. Následně probíhá rozdělení mandátů do krajů a podle toho se počítá zisk pro jednotlivé strany koalice. U nich se vychází ze známých a ohlášených kandidátek.</p>
+					<p>Pokud použijete rozpad koalic na strany, berte prosím v potaz zvýšenou citlivost modelu na rozložení v krajích. Proto je vždy nutné je číst stylem "Pokud by byla účast a rozložení hlasů v krajích jako v roce 2025, pak by podle volebního modelu XYZ byl zisk mandátů stránám ...". Reálný zisk jednotlivým stranám může také ovlivnit preferenční hlasování (kroužkování), což ale není možné do modelu zanést.</p>
 					
 				</p-collapsible>
 				<div class="p-line"></div>
@@ -95,7 +95,7 @@
 										<!-- <p-box-color></p-box-color> -->
 										<p-box-label>
 											{{ region }}
-											<span v-if="selectedOverseasID === index"> + Zahr.</span>
+											<!-- <span v-if="selectedOverseasID === index"> + Zahr.</span> -->
 										</p-box-label>
 										<p-box-gap></p-box-gap>
 										<p-box-label>

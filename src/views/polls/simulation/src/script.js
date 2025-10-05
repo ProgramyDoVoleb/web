@@ -1,7 +1,7 @@
 import ElectionSimulationImperiali2021 from '@/components/election-simulation-imperiali-2021/do.vue'
 
 import {color, number, round, date, con} from '@/pdv/helpers';
-import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2021";
+import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2025";
 import {useData} from '@/stores/data';
 import { useEnums } from '@/stores/enums';
 import {ga} from '@/pdv/analytics';
@@ -68,12 +68,12 @@ export default {
 			var regions = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 			var total = 0;
 			var att = 0;
-			var max = this.db.votersInRegions.reduce((a, b) => a + b, 0) + this.db.overseasCount;
+			var max = this.db.votersInRegions.reduce((a, b) => a + b, 0) + 0; // this.db.overseasCount;
 
 			for (var i = 0; i < 14; i++) {
 				regions[i] = Math.floor(this.db.votersInRegions[i] * this.complex.attendance[i] * this.complex.valid[i] / 10000);
 			}
-			regions[14] = Math.floor(this.db.overseasCount * this.complex.attendance[14] * this.complex.valid[14] / 10000);
+			regions[14] = 0; // Math.floor(this.db.overseasCount * this.complex.attendance[14] * this.complex.valid[14] / 10000);
 
 			regions.forEach((r, i) => regions[i] = round(r, 4));
 
@@ -211,11 +211,11 @@ export default {
 			if (year) {
 				for (i = 0; i < 15; i++) {
 					if (i === 5) {
-						this.complex.attendance[i] = Math.floor((this.db.voters[i] - this.db.overseasVotes) / this.db.votersInRegions[i] * 10000) / 100
+						this.complex.attendance[i] = Math.floor((this.db.voters[i] - 0) / this.db.votersInRegions[i] * 10000) / 100
 					} else if (i < 14) {
 						this.complex.attendance[i] = Math.floor(this.db.voters[i] / this.db.votersInRegions[i] * 10000) / 100
 					} else {
-						this.complex.attendance[i] = Math.floor(this.db.overseasVoters / this.db.overseasCount * 10000) / 100
+						this.complex.attendance[i] = 0; // Math.floor(this.db.overseasVoters / this.db.overseasCount * 10000) / 100
 					}
 				}
 
@@ -264,7 +264,7 @@ export default {
 
 			for (var i = 0; i < 14; i++) {
 				var att = this.votes.regions[i] + (i === 5 ? this.votes.regions[14] : 0);
-				var voters = this.db.votersInRegions[i]  + (i === 5 ? this.db.overseasCount : 0);
+				var voters = this.db.votersInRegions[i]; //  + (i === 5 ? this.db.overseasCount : 0);
 				var ac = i === 5 ? (10000 * att / voters) / 100 : this.complex.attendance[i];
 				
 				this.defined.data.attendanceVotersInRegister.push(voters);
@@ -272,7 +272,7 @@ export default {
 				this.defined.data.attendanceCount.push(att);
 			}
 
-			this.defined.data.attendance = (10000 * this.votes.total / this.db.votersInRegions.reduce((a, b) => a + b, this.db.overseasCount)) / 100;
+			this.defined.data.attendance = (10000 * this.votes.total / this.db.votersInRegions.reduce((a, b) => a + b, 0)) / 100;
 			this.defined.run.distribution = "basic"
 
 			this.useDefined = true;
@@ -303,7 +303,13 @@ export default {
 					[1227,2.76],
 					[1114,9.56],
 					[5,0.99]
-				]	
+				]
+				
+				list = [];
+
+				results2021.forEach(x => {
+					list.push([x.VSTRANA, x.pct]);
+				})
 			}
 
 			if (type === 2) list = [[768, 29.5], [53, 20], [720, 11], [1114, 8], [166, 5.5], [7, 5], [721, 4], [1245, 3.5], [1, 3], [1265, 3]];
@@ -320,15 +326,15 @@ export default {
 
 			if (type === 1 && complex) {
 
-				[3, 4, 0, 1, 2, 5, 6, 7, 8].forEach((party, pindex) => {
+				[0,1,2,3,4,5,6,7].forEach((party, pindex) => {
 					results2021[party].votes.forEach((votes, index) => {
 						if (index === 5) {
-							this.complex.parties[pindex][index] = (votes - results2021[party].overseas) / this.votes.regions[index] * 100;
+							this.complex.parties[pindex][index] = (votes - 0) / this.votes.regions[index] * 100;
 						} else {
 							this.complex.parties[pindex][index] = votes / this.votes.regions[index] * 100;
 						}						
 					});
-					this.complex.parties[pindex][14] = results2021[party].overseas / this.db.overseasVotes * 100;
+					this.complex.parties[pindex][14] = 0;
 
 					this.complex.parties[pindex].forEach((r, i) => this.complex.parties[pindex][i] = round(r, 4));
 				});
@@ -341,7 +347,7 @@ export default {
 				for (i = 0; i < 14; i++) {
 					this.complex.valid[i] = this.db.votes[i] / this.db.voters[i] * 100;
 				} 
-				this.complex.valid[14] = this.db.overseasVotes / this.db.overseasVoters * 100;
+				this.complex.valid[14] = 0;
 
 				this.complex.valid.forEach((r, i) => this.complex.valid[i] = round(r, 4));
 			}

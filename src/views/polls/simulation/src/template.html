@@ -100,7 +100,7 @@
 					<p-area>
 
 						<h4>
-							Účast / <span class="smallest dimm">Nastavit podle <span class="is-link" @click="complexSet(2021)">voleb 2021</span> / Platné hlasy <span class="is-link" @click="setValid(100)">100 %</span> &middot; podle <span class="is-link" @click="setValid(2021)">voleb 2021</span> &middot; <input type="checkbox" v-model="showValid" class="inline"> <span class="is-link" @click="showValid = !showValid">vlastní</span></span>
+							Účast / <span class="smallest dimm">Nastavit podle <span class="is-link" @click="complexSet(2021)">voleb 2025</span> / Platné hlasy <span class="is-link" @click="setValid(100)">100 %</span> &middot; podle <span class="is-link" @click="setValid(2021)">voleb 2025</span> &middot; <input type="checkbox" v-model="showValid" class="inline"> <span class="is-link" @click="showValid = !showValid">vlastní</span></span>
 						</h4>
 							<div class="columns">
 								<div v-for="(region, index) in enums.regions" :data-tick="complex.tick">
@@ -151,7 +151,7 @@
 										</li>
 									</template>
 									<li>
-										<button class="inline" @click="partiesSet(1, true)">voleb 2021</button>
+										<button class="inline" @click="partiesSet(1, true)">voleb 2025</button>
 									</li>
 								</p-list-linear>
 							</span></h4>

@@ -4,7 +4,7 @@ import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, sortBy, unique, slide, domain, con, round} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
-import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2021";
+import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2025";
 import ResultsPartiesGraphShareable from '@/components/results/parties/graph-shareable/do.vue';
 import ElectionSimulationImperiali2021 from '@/components/election-simulation-imperiali-2021/do.vue';
 
@@ -18,11 +18,12 @@ export default {
 			list: [],
 			mandates: [],
 			mandatesSince: [
-				{hash: 768, value: 72},
-				{hash: 1327, value: 71},
-				{hash: 166, value: 33},
-				{hash: 1114, value: 20},
-				{hash: 720, value: 4}
+				{hash: 768, value: 80},
+				{hash: 1327, value: 52},
+				{hash: 166, value: 22},
+				{hash: 1114, value: 15},
+				{hash: 720, value: 18},
+				{hash: 1178, value: 13}
 			],
 			tick: 0,
 			username: null,
@@ -117,14 +118,23 @@ export default {
 			var o = {
 				data: {
 					"parties":[],
-					"attendanceCustom":[70.15,67.95,66.34,64.72,57.09,57.22226689261457,64.59,67.85,67.89,68.93,66.39,64.68,67.43,60.56],
-					"attendanceVotersInRegister":[903239,1046147,509749,450478,230692,659149,345623,436939,406428,404630,946509,505836,467403,962930],
-					"attendanceCount":[627375,706586,335822,289660,130290,377180,221521,294383,273978,277185,624268,324788,313194,578607],
-					"attendanceSum":5374837,
-					"attendance":64.94681087591798
+					"attendanceCustom": [], // [70.15,67.95,66.34,64.72,57.09,57.22226689261457,64.59,67.85,67.89,68.93,66.39,64.68,67.43,60.56],
+					"attendanceVotersInRegister": [], // [903239,1046147,509749,450478,230692,659149,345623,436939,406428,404630,946509,505836,467403,962930],
+					"attendanceCount": [], // [627375,706586,335822,289660,130290,377180,221521,294383,273978,277185,624268,324788,313194,578607],
+					"attendanceSum":5621717,
+					"attendance":68.95
 				},
 				run: {distribution: 'basic'}
 			}
+
+			db[0].votersInRegions.forEach((x, i) => {
+				o.data.attendanceVotersInRegister.push(x);
+				o.data.attendanceCustom.push(db[0].voters / x);
+			})
+
+			db[0].votes.forEach(x => {
+				o.data.attendanceCount.push(x);
+			})
 
 			this.data.poll.$data.forEach(entry => {
 				var p = {
@@ -200,7 +210,7 @@ export default {
 			this.tick++;
 		},
 		addMainEight: function () {
-			var ids = [229,227,230,231,226,234,232,236];
+			var ids = [229,227,231,226,230,232,234,236];
 			this.list = [];
 
 			ids.forEach(x => {

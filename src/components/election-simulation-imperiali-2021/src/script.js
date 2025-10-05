@@ -1,4 +1,4 @@
-import {elections, attendance, votes, chairs, results2021, scrutinize, turnout, db} from '../helpers/votes-imperiali-2021';
+import {elections, attendance, votes, chairs, results2021, scrutinize, turnout, db} from '../helpers/votes-imperiali-2025';
 import {number, date, con, color, unique} from '@/pdv/helpers';
 
 import GraphMandates from '@/components/results/graph/mandates/do.vue'
@@ -10,11 +10,12 @@ export default {
 	props: ['defined', 'hide', 'tickDefined'],
 	data: function () {
 		return {
+			att: attendance,
 			enums: useEnums(),
 			selectedElectionID: 0,
-			selectedOverseasID: 5,
+			selectedOverseasID: 15,
 			attendanceCustom: [],
-			attendanceCommon: 60,
+			attendanceCommon: 68.95,
 			distribution: 'weighted',
 			results: [],
 			defaults: [],
@@ -861,7 +862,7 @@ export default {
 
 		setTimeout(() => {
 			if (!this.defined) {
-				this.selectedOverseasID = 5;
+				this.selectedOverseasID = 15;
 				// this.selectedElectionID = 0;
 				// this.sourceSelectedID = 1;
 				this.distribution = "weighted";
