@@ -43,6 +43,17 @@
 														</span>
 													</p-list-linear>
 												</div>
+												<div class="smallest mt025 green" v-if="current.$kandidati.find(x => x.KSTRANA === party.KSTRANA && x.MANDAT === 'A')">
+													<strong>Zvoleno: </strong>
+													<p-list-linear class="inline">
+														<span v-for="member in unique(current.$kandidati.filter(x => x.MANDAT === 'A' && x.KSTRANA === party.KSTRANA && x.PSTRANA != 99), 'PSTRANA')">
+															{{ current.$kandidati.filter(x => x.MANDAT === 'A' && x.KSTRANA === party.KSTRANA && x.PSTRANA === member).length }}&times; <router-link :to="link + 'aktivita/' + member" class="green">{{ data.cis.strany.find(x => x.VSTRANA === member).ZKRATKA }}</router-link>
+														</span>
+														<span v-if="current.$kandidati.find(x => x.MANDAT === 'A' && x.KSTRANA === party.KSTRANA && x.PSTRANA === 99)">
+															<p-lang :value="current.$kandidati.filter(x => x.MANDAT === 'A' && x.KSTRANA === party.KSTRANA && x.PSTRANA === 99).length" :end="['', 'jeden nestraník', '%% nestraníci', '%% nestraníků']"></p-lang>
+														</span>
+													</p-list-linear>
+												</div>
 												<div class="p-line _05"></div>
 												<div>
 													<p-list-linear class="or smallest">
@@ -78,19 +89,21 @@
 											<div class="smaller mt05">
 												<div class="p-list _05">
 													<div v-for="member in unique(current.$kandidati.filter(x => x.PSTRANA === party.VSTRANA), 'KSTRANA')">
-														<p-label :color="colorByItem(current.$strany.find(x => x.KSTRANA === member), data)" :after="true">
+														<p-label :color="colorByItem(current.$strany.find(x => x.KSTRANA === member), data)">
 															<template v-if="current.$strany.find(x => x.KSTRANA === member).VSTRANA === party.VSTRANA">
 																<router-link :to="link + 'strana/' + current.$strany.find(x => x.KSTRANA === member).id" class="strong is-span">Samostatně</router-link> 
 															</template>
 															<template v-if="current.$strany.find(x => x.KSTRANA === member).VSTRANA !== party.VSTRANA">
-																<p-lang :value="current.$kandidati.filter(x => x.KSTRANA === member && x.PSTRANA === party.VSTRANA).length" :end="['...', '1 člen', '%% členi', '%% členů']"></p-lang>
+																<p-lang :value="current.$kandidati.filter(x => x.KSTRANA === member && x.PSTRANA === party.VSTRANA).length" :end="['...', '1 člen', '%% členové', '%% členů']"></p-lang>
 																&rarr;
 																<router-link class="is-span" :to="link + 'strana/' + current.$strany.find(x => x.KSTRANA === member).id">{{ current.$strany.find(x => x.KSTRANA === member).ZKRATKA }}</router-link>
+																<p-lang :value="current.$kandidati.filter(x => x.KSTRANA === member && x.PSTRANA === party.VSTRANA && x.MANDAT === 'A').length" class="strong green" :end="['', ' · 1 zvolen', ' · %% zvoleni', ' · %% zvoleno']"></p-lang>
 															</template>
 														</p-label>
 														<template v-if="current.$strany.find(x => x.KSTRANA === member).VSTRANA === party.VSTRANA">
 															<div>
-																<p-lang :value="current.$kandidati.filter(x => x.KSTRANA === member && x.PSTRANA === party.VSTRANA).length" :end="['...', '1 člen', '%% členi', '%% členů']"></p-lang>
+																<p-lang :value="current.$kandidati.filter(x => x.KSTRANA === member && x.PSTRANA === party.VSTRANA).length" :end="['...', '1 člen', '%% členové', '%% členů']"></p-lang>
+																<p-lang :value="current.$kandidati.filter(x => x.KSTRANA === member && x.PSTRANA === party.VSTRANA && x.MANDAT === 'A').length" class="strong green" :end="['', ' · 1 zvolen', ' · %% zvoleni', ' · %% zvoleno']"></p-lang>
 															</div>
 															<div v-for="reg in current.$strany.filter(x => x.VSTRANA === party.VSTRANA)" class="mt05">
 																<div>

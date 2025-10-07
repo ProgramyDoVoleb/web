@@ -11,7 +11,7 @@
 							<p-columns class="smaller _05">
 								<div v-for="cand in searchResults">
 									<p-label :color="colorByItem(current.$strany.find(x => x.KSTRANA === cand.KSTRANA), data)" :block="true">
-										<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+										<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id" :class="{strong: cand.PORCISLO === 1, green: cand.MANDAT === 'A'}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
 										<span class="dimm smallest"> &middot; {{ cand.PORCISLO }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }} &middot; {{ current.$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}</span>
 										<p-icon size="1em" icon="answers-mini" v-if="cand.$odpovedi > 0"></p-icon>
 
@@ -27,21 +27,25 @@
 										<button class="inline" @click="listFilter = 1" :class="{'green strong': listFilter === 1}">jen lídry</button>, 
 										<button class="inline" @click="listFilter = 5" :class="{'green strong': listFilter === 5}">čelo kandidátky</button> nebo
 										<button class="inline" @click="listFilter = 100" :class="{'green strong': listFilter === 100}">všechny</button>
+										<div class="p-line"></div>
+										Zobrazit
+										<button class="inline" @click="filterElected = false" :class="{'green strong': filterElected === false}">všechny</button> nebo
+										<button class="inline" @click="filterElected = true" :class="{'green strong': filterElected === true}">jen zvolené</button>
 									</p-area>
 									<div class="p-gap"></div>
 									<p-columns class="smaller _tighter">
 										<template v-for="(c, i) in 'aábcčdďeéfghiíjklľmnňoópqrřsštťuúvwxyýzž'.split('')">
-											<template v-if="current.$kandidati.filter(x => x.VOLKRAJ === index + 1 && x.PORCISLO <= listFilter).find(x => x.PRIJMENI[0].toLowerCase() === c && x.PORCISLO)">
-												<div class="_mt">
+											<template v-if="current.$kandidati.filter(x => x.VOLKRAJ === index + 1 && x.PORCISLO <= listFilter && (filterElected ? x.MANDAT === 'A' : true)).find(x => x.PRIJMENI[0].toLowerCase() === c && x.PORCISLO)">
+												<div class="_mt" v-if="current.$kandidati.filter(x => x.VOLKRAJ === index + 1 && x.PORCISLO <= listFilter && (filterElected ? x.MANDAT === 'A' : true)).length > 30">
 													<strong class="big">{{ c.toUpperCase() }}</strong>
 												</div>
-												<div v-for="cand in sortBy(sortBy(current.$kandidati.filter(x => x.VOLKRAJ === index + 1 && x.PLATNOST === 'A' && x.PORCISLO <= listFilter).filter(x => x.PRIJMENI[0].toLowerCase() === c && x.PORCISLO), 'JMENO', null, true), 'PRIJMENI', null, true)">
+												<div v-for="cand in sortBy(sortBy(current.$kandidati.filter(x => x.VOLKRAJ === index + 1 && x.PLATNOST === 'A' && x.PORCISLO <= listFilter && (filterElected ? x.MANDAT === 'A' : true)).filter(x => x.PRIJMENI[0].toLowerCase() === c && x.PORCISLO), 'JMENO', null, true), 'PRIJMENI', null, true)">
 													<router-link :to="link + 'kandidat/' + cand.id" :class="{strong: cand.PORCISLO < 4, 'is-span': !cand.PORCISLO, 'green': cand.MANDAT && cand.MANDAT === 'A'}">
 														{{ cand.JMENO }} {{ cand.PRIJMENI }}
 													</router-link>
 													<span class="dimm keep smallest" v-if="cand.VOLKRAJ"> &middot; {{ current.$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}</span>
 													<span class="dimm keep smallest" v-if="cand.PORCISLO && cand.PORCISLO < 6"> &middot; {{ cand.PORCISLO }}</span>
-													<span class="badge yellow" v-if="cand.$odpovedi" :title="'Počet odpovědí: ' + cand.$odpovedi">●<sup class="tiny">{{ cand.$odpovedi }}</sup></span>
+													<p-icon icon="answers-mini" size="1em" v-if="cand.$odpovedi > 0"></p-icon>
 												</div>
 											</template>
 										</template>
@@ -61,6 +65,9 @@
 										<span><button class="inline" @click="filterFunction = 1" :class="{'green strong': filterFunction === 1}">mladí na čele</button></span>
 										<span><button class="inline" @click="filterFunction = 2" :class="{'green strong': filterFunction === 2}">ženy na čele</button></span>
 										<span><button class="inline" @click="filterFunction = 3" :class="{'green strong': filterFunction === 3}">70+ na čele</button></span>
+										<span><button class="inline" @click="filterFunction = 4" :class="{'green strong': filterFunction === 4}">zvolení mladí</button><sup class="tiny dimm">{{ current.$kandidati.filter(x => x.VEK <= 30 && x.MANDAT === "A").length }}</sup></span>
+										<span><button class="inline" @click="filterFunction = 5" :class="{'green strong': filterFunction === 5}">zvolené ženy</button><sup class="tiny dimm">{{ current.$kandidati.filter(x => this.isWoman(x) && x.MANDAT === "A").length }}</sup></span>
+										<span><button class="inline" @click="filterFunction = 6" :class="{'green strong': filterFunction === 6}">zvolení 70+</button><sup class="tiny dimm">{{ current.$kandidati.filter(x => x.VEK >= 70 && x.MANDAT === "A").length }}</sup></span>
 										<span v-if="filterFunction"><button class="inline red" @click="filterFunction = null">vypnout</button></span>
 									</p-list-linear>
 								</div>
@@ -80,25 +87,30 @@
 							<p-columns class="smaller _05">
 								<div v-for="cand in filtered">
 									<p-label :color="colorByItem(current.$strany.find(x => x.KSTRANA === cand.KSTRANA), data)">
-										<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+										<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'" :class="{strong: cand.PORCISLO === 1, green: cand.MANDAT === 'A'}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
 									</p-label>
-									<span class="dimm smallest"> &middot; {{ cand.PORCISLO }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }} &middot; {{ current.$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}</span>
+									<span class="dimm smallest"> &middot; {{ cand.PORCISLO }} &middot; {{ current.$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }}</span>
+									<p-icon icon="answers-mini" size="1em" v-if="cand.$odpovedi > 0"></p-icon>
 								</div>
 							</p-columns>
 						</p-block>
 
 						<p-block headline="Odpověděli na otázky">
-							<p-area class="smaller inline">
+							<p-area class="smallest inline">
 								Zobrazit
 								<button class="inline" @click="answersFilter = 1" :class="{'green strong': answersFilter === 1}">jen lídry</button>, 
 								<button class="inline" @click="answersFilter = 5" :class="{'green strong': answersFilter === 5}">čelo kandidátky</button> nebo
 								<button class="inline" @click="answersFilter = 100" :class="{'green strong': answersFilter === 100}">všechny</button>
+								<div class="p-line _05"></div>
+								Zobrazit
+								<button class="inline" @click="answersElected = false" :class="{'green strong': answersElected === false}">všechny</button> nebo
+								<button class="inline" @click="answersElected = true" :class="{'green strong': answersElected === true}">jen zvolené</button>
 							</p-area>
 							<div class="p-gap _2"></div>
 							<p-columns class="smaller _05">
-								<div v-for="cand in sortBy(current.$kandidati.filter(x => x.PORCISLO <= answersFilter && x.$odpovedi > 0), 'PRIJMENI', null, true)">
+								<div v-for="cand in sortBy(current.$kandidati.filter(x => x.PORCISLO <= answersFilter && x.$odpovedi > 0 && (answersElected ? x.MANDAT === 'A' : true)), 'PRIJMENI', null, true)">
 									<p-label :color="colorByItem(current.$strany.find(x => x.KSTRANA === cand.KSTRANA), data)">
-										<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+										<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'" :class="{strong: cand.PORCISLO === 1, green: cand.MANDAT === 'A'}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
 									</p-label>
 									<span class="dimm smallest"> &middot; {{ cand.PORCISLO }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }} &middot; {{ current.$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}</span>
 								</div>
@@ -107,7 +119,43 @@
 						<p-block headline="Statistiky a zajímavosti">
 							<candidate-stats :data="current.$kandidati" :cis="data.cis" color="var(--blue)" :status="current.status" :simple="1" tag="div"></candidate-stats>
 						</p-block>
-						<p-block headline="Nejmladší a nejstarší">
+						<p-block headline="Nejmladší a nejstarší poslanci" anchor="NEJ poslanci">
+							<p-grid class="_2">
+								<div>
+									<p-area>
+										<h4>Nejmladší poslanci &middot; 25 let</h4>
+										<p-columns class="tighter smaller">
+											<div v-for="cand in sortBy(current.$kandidati.filter(x => x.VEK <= 25 && x.MANDAT === 'A'), 'VEK')">
+												<p-label :color="colorByItem(current.$strany.find(x => x.KSTRANA === cand.KSTRANA), data)" class="block">
+													<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'" :class="{strong: cand.PORCISLO === 1}" class="green">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link> <span class="smallest"> &mdash; {{ cand.VEK }} let</span>
+													<div class="dimm smallest">
+														{{ cand.PORCISLO }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }} &middot; {{ current.$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}
+														<p-icon icon="answers-mini" size="1em" v-if="cand.$odpovedi > 0"></p-icon>
+													</div>
+												</p-label>
+											</div>
+										</p-columns>
+									</p-area>
+								</div>
+								<div>
+									<p-area>
+										<h4>Nejstarší poslanci &middot; 70+ let</h4>
+										<p-columns class="tighter smaller">
+											<div v-for="cand in sortBy(current.$kandidati.filter(x => x.VEK >= 70 && x.MANDAT === 'A'), 'VEK')">
+												<p-label :color="colorByItem(current.$strany.find(x => x.KSTRANA === cand.KSTRANA), data)" class="block">
+													<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'" :class="{strong: cand.PORCISLO === 1}" class="green">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link> <span class="smallest"> &mdash; {{ cand.VEK }} let</span>
+													<div class="dimm smallest">
+														{{ cand.PORCISLO }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }} &middot; {{ current.$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}
+														<p-icon icon="answers-mini" size="1em" v-if="cand.$odpovedi > 0"></p-icon>
+													</div>
+												</p-label>
+											</div>
+										</p-columns>
+									</p-area>
+								</div>
+							</p-grid>
+						</p-block>
+						<p-block headline="Nejmladší a nejstarší kandidáti" anchor="NEJ kandidáti">
 							<p-grid class="_2">
 								<div>
 									<p-area>
@@ -118,6 +166,7 @@
 													<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
 													<div class="dimm smallest">
 														{{ cand.PORCISLO }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }} &middot; {{ current.$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}
+														<p-icon icon="answers-mini" size="1em" v-if="cand.$odpovedi > 0"></p-icon>
 													</div>
 												</p-label>
 											</div>
@@ -133,6 +182,7 @@
 													<router-link :to="'/volby/snemovni-volby/' + current.id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'" :class="{strong: cand.PORCISLO === 1}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
 													<div class="dimm smallest">
 														{{ cand.PORCISLO }} &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }} &middot; {{ current.$strany.find(x => x.KSTRANA === cand.KSTRANA).ZKRATKA }}
+														<p-icon icon="answers-mini" size="1em" v-if="cand.$odpovedi > 0"></p-icon>
 													</div>
 												</p-label>
 											</div>

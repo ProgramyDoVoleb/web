@@ -19,9 +19,11 @@ export default {
 			cdn, today,
 			searchQuery: null,
 			answersFilter: 1,
-			listFilter: 50,
+			answersElected: false,
+			listFilter: 100,
 			filterFunction: null,
-			filterRegion: null
+			filterRegion: null,
+			filterElected: false
 		}
 	},
   components: {
@@ -82,6 +84,18 @@ export default {
 
 			if (this.filterFunction && this.filterFunction === 3) {
 				arr = sortBy(this.current.$kandidati.filter(x => x.VEK >= 70 && x.PORCISLO < 6), 'PRIJMENI', null, true);
+			}
+
+			if (this.filterFunction && this.filterFunction === 4) {
+				arr = sortBy(this.current.$kandidati.filter(x => x.VEK <= 30 && x.MANDAT === "A"), 'PRIJMENI', null, true);
+			}
+
+			if (this.filterFunction && this.filterFunction === 5) {
+				arr = sortBy(this.current.$kandidati.filter(x => this.isWoman(x) && x.MANDAT === "A"), 'PRIJMENI', null, true);
+			}
+
+			if (this.filterFunction && this.filterFunction === 6) {
+				arr = sortBy(this.current.$kandidati.filter(x => x.VEK >= 70 && x.MANDAT === "A"), 'PRIJMENI', null, true);
 			}
 
 			if (this.filterRegion) {
