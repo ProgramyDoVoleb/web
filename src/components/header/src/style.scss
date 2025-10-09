@@ -536,3 +536,8 @@ button:not(.inline) {
   position: relative;
   top: -.05em
 }
+
+.forbidden .row-menu-list,
+.forbidden .row-menu-button {
+  display: none;
+}

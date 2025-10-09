@@ -1,6 +1,20 @@
 <div class="p-layout" :class="{'p-layout---no-aside': !$slots.aside}">
 	<main class="p-layout---main" ref="main">
-		<article class="p-layout---main-limit">
+		<article class="p-layout---main-limit" v-if="core.isBanned && $route.path != '/'">
+			<p-block :level="1" :headline="$route.query.hdl ? decodeURIComponent($route.query.hdl) : 'Stránka je dostupná jen lidem'" anchor="Omezená data">
+				<p>Pokud hledáte ověřené a lidmi zadávané a kontrolované původní údaje a odpovědi k volbám minulým i nadcházejícím, jděte na web <a href="https://programydovoleb.cz">programydovoleb.cz</a></p>
+				<p>Politika je velmi citlivé téma, záleží na každém slovu. Není možné věřit umělé inteligenci, která data ukradne a pak si je nějak náhodně přepíše, aby to vypadalo jako od člověka, ale aniž by za to byl kdokoli zodpovědný.</p>
+				<div class="p-line mt3"></div>
+				<h2 class="pv1">Přístup pouze pro lidi <div class="smaller">a eticky fungující firmy</div></h2>
+				<p>K této stránce je možný přístup pouze lidem a firmám poskytujícím férovou kompenzaci.</p>
+				<p>Roboti, umělá inteligence, slídiči nebo jiní, kteří kradou data, používají je svým jménem, podepisují změněný obsah jménem projektu a ničí tak jeho reputaci, kteří nadbytečně zatěžují systémy, kteří nepřináší žádné výhody, nejsou na této stránce povoleni ani vítáni.</p>
+				<p>Práce na této stránce vyžaduje tisíce hodin práce dobrovolníků, kteří za to nemají nijak zaplaceno. Není etické, aby přišla náhodná firma s milionovými či miliardovámi obraty, vykradla data a prezentovala jejich práci jako vlastní. Nebo aby se firma ani neobtěžovala uvést zdroj.</p>
+				<p>Pokud máte zájem o přístup k datům, kontaktujte správce:</p>
+				<p><a href="mailto:info@programydovoleb.cz" class="strong">info@programydovoleb.cz</a></p>
+				<p>Domluvíme se na férové kompenzaci.</p>
+			</p-block>			
+		</article>
+		<article class="p-layout---main-limit" v-else>
 			<slot name="main" />
 		</article>
 	</main>

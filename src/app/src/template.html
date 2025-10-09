@@ -1,4 +1,4 @@
-<div id="app" :class="{dark: core.dark, 'extended-header': extendedHeader}">
+<div id="app" :class="{dark: core.dark, 'extended-header': extendedHeader, 'forbidden': core.isBanned}">
 	<main class="block">
 		<router-view></router-view>
 	</main>

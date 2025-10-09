@@ -1,4 +1,5 @@
 import ReportForm from '@/components/report-form/do.vue';
+import { useCore } from '@/stores/core';
 
 export default {
 	name: 'LayoutDivided',
@@ -8,8 +9,9 @@ export default {
 	},
 	data: function () {
 		return {
+			core: useCore(),
 			height: {
-        main: 0,
+        		main: 0,
 				aside: 0,
 				nav: 0
 			},

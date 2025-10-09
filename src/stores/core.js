@@ -10,6 +10,7 @@ export const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).t
 export const missing = 'https://static.programydovoleb.cz/missing.png';
 
 export const useCore = defineStore('core', () => {
+  const isBanned = ref(false);
   const dark = ref(false);
   const tick = ref(0);
   const start = ref(new Date().getTime());
@@ -25,7 +26,11 @@ export const useCore = defineStore('core', () => {
     }
   }
 
-  return { dark, tick, start, cache, change }
+  function ban (value) {
+    isBanned.value = value || true;
+  }
+
+  return { dark, tick, start, cache, change, ban, isBanned }
 })
 
 

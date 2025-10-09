@@ -1,4 +1,7 @@
+import axios from 'axios';
+
 import { useCore } from '@/stores/core';
+import { useRoute, useRouter } from 'vue-router'
 import MainHeader from '@/components/header/do.vue';
 import MainFooter from '@/components/footer/do.vue';
 
@@ -6,7 +9,9 @@ export default {
 	name: 'app',
     data: function () {
       return {
-        core: useCore()
+        core: useCore(),
+        $router: useRouter(),
+        $route: useRoute(),
       }
     },
     components: {
@@ -22,7 +27,7 @@ export default {
           'o-projektu'
         ];
 
-        return arr.find(x => this.$route.path.split(x).length > 1) || this.$route.path === '/';
+        return arr.find(x => this.$route.path.split(x).length > 1);
       }
     },
     methods: {
@@ -31,5 +36,20 @@ export default {
 			if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 				this.core.change(true);
 			}
+
+      var _self = this;
+
+      axios.interceptors.response.use(function (response) {
+
+        if (response.data.noaccess) {
+          this.core.ban();
+        }
+
+        return response;
+      }, function (error) {
+        // Any status codes that falls outside the range of 2xx cause this function to trigger
+        // Do something with response error
+        return Promise.reject(error);
+      });
     }
 };

@@ -6,7 +6,7 @@
 					<router-link to="/" class="no-link serif">
 						Programy do voleb
 					</router-link>
-					<router-link class="_btn2" to="/volby/snemovni-volby/166">2025</router-link> 
+					<!-- <router-link class="_btn2" to="/volby/snemovni-volby/166">2025</router-link>  -->
 					<!-- <router-link class="_btn2" to="/volby/senatni-volby/163">Senát</router-link> -->
 					<div class="row-logo---loader"></div>
 				</div>
@@ -116,7 +116,7 @@
 				</p-list-linear>
 			</div>
 		</div>
-		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/snemovni-volby/166').length > 1 || $route.path === '/'">
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/snemovni-volby/166').length > 1">
 			<div class="smaller">
 				<strong><router-link to="/volby/snemovni-volby/166" class="blue">Sněmovní volby</router-link> </strong>
 				&middot;
