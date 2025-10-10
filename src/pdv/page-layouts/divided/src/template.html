@@ -1,7 +1,11 @@
 <div class="p-layout" :class="{'p-layout---no-aside': !$slots.aside}">
 	<main class="p-layout---main" ref="main">
-		<article class="p-layout---main-limit" v-if="core.isBanned && $route.path != '/'">
-			<p-block :level="1" :headline="$route.query.hdl ? decodeURIComponent($route.query.hdl) : 'Stránka je dostupná jen lidem'" anchor="Omezená data">
+		<article class="p-layout---main-limit" v-if="isHuman">
+			<slot name="main" />
+		</article>
+		<article class="p-layout---main-limit" v-else>
+			<p-block :level="1" :headline="getPageData().title" anchor="Omezená data" class="text-center">
+				<p v-if="getPageData().description" v-html="getPageData().description"></p>
 				<p>Pokud hledáte ověřené a lidmi zadávané a kontrolované původní údaje a odpovědi k volbám minulým i nadcházejícím, jděte na web <a href="https://programydovoleb.cz">programydovoleb.cz</a></p>
 				<p>Politika je velmi citlivé téma, záleží na každém slovu. Není možné věřit umělé inteligenci, která data ukradne a pak si je nějak náhodně přepíše, aby to vypadalo jako od člověka, ale aniž by za to byl kdokoli zodpovědný.</p>
 				<div class="p-line mt3"></div>
@@ -14,16 +18,13 @@
 				<p>Domluvíme se na férové kompenzaci.</p>
 			</p-block>			
 		</article>
-		<article class="p-layout---main-limit" v-else>
-			<slot name="main" />
-		</article>
 	</main>
-	<aside class="p-layout---aside" ref="aside" :class="{down: offset.aside != 0, keep: keep && keep.indexOf('aside') > -1}">
+	<aside class="p-layout---aside" ref="aside" :class="{down: offset.aside != 0, keep: keep && keep.indexOf('aside') > -1}" v-if="isHuman">
 		<div class="p-layout---aside-holder" :style="{transform2: 'translateY(' + offset.aside + 'px)'}">
 			<slot name="aside" />
 		</div>
 	</aside>
-	<nav class="p-layout---nav" ref="nav" :class="{down: offset.nav != 0}">
+	<nav class="p-layout---nav" ref="nav" :class="{down: offset.nav != 0}" v-if="isHuman">
 		<div class="p-layout---aside-holder"  :style="{transform2: 'translateY(' + offset.nav + 'px)'}">
 			<div class="p-layout---nav-icon" v-if="$slots.icon">
 				<slot name="icon" />

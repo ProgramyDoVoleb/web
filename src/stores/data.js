@@ -3,12 +3,15 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { api, useCore } from '@/stores/core'
 
+import { useRoute, useRouter } from 'vue-router'
+
 export const useData = defineStore('store', () => {
   const json = ref([]);
   const pdv = ref([]);
   const activity = ref(1);
 
   const core = useCore();
+  const $route = useRoute();
 
   const pdv2 = computed((state) => {
     return (request, delay) => {
@@ -53,10 +56,13 @@ export const useData = defineStore('store', () => {
                     });
                 }
 
-
-                setTimeout(() => {
-                    tryLoadResource(api + request + '?c=' + core.cache);
-                }, delay || 0);
+                if (!core.isBanned || $route.path === '/') {
+                    setTimeout(() => {
+                        tryLoadResource(api + request + '?c=' + core.cache);
+                    }, delay || 0);
+                } else {
+                    console.warn('Excessive FUP detected. No data served. Contact info@programydovoleb.cz to whitelist this source and discuss fair compensation.')
+                }
             }).then((resolver, rejected) => {
                 if (rejected) {
                     return undefined;

@@ -37,11 +37,15 @@ export default {
 				this.core.change(true);
 			}
 
-      var _self = this;
+      var excessiveFUPDetected = document.querySelector('meta[name="excessive-fup"]');
+
+      if (excessiveFUPDetected) {
+        this.core.ban();
+      }
 
       axios.interceptors.response.use(function (response) {
 
-        if (response.data.noaccess) {
+        if (response.data.excessiveFUPDetected) {
           this.core.ban();
         }
 
