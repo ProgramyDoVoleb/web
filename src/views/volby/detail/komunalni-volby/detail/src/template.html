@@ -68,4 +68,7 @@
 			</p-collapsible>
 		</template>
 	</p-block>
+	<p-block headline="Minulé volby">
+		<election-results id="154" :type="{key: 'KV', hash: 'komunalni-volby', name: 'Komunální volby'}" :election="{'datum_label': '23. a 24. září 2022'}" :spec="town" :label="data.list[0].$dotcene[0].NAZEVZAST"></election-results>
+	</p-block>
 </div>

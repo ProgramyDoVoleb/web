@@ -1,0 +1,51 @@
+<div class="homepage-kv">
+	<p>Do voleb je ještě daleko, takže přehledy zejí prázdnotou, ale vždy se můžete podívat na výsledky minulých voleb, včetně porovnání s krajskými nebo celostátními výsledky.</p>
+						<p-area>
+							<div>
+								<div v-for="(town, index) in enums.towns.capital">
+									<div class="p-offset reverse">
+										<div>
+											<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num" :class="{'strong': index === 0}">
+												Hlavní město Praha
+											</router-link>	
+										</div>
+										<div>
+											<router-link :to="'/obec/' + town.num" class="smallest dimm">
+												více
+											</router-link>	
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="p-line"></div>
+							<p-columns class="_small _2 smaller">
+								<div v-for="(town, index) in sortBy([].concat(enums.towns.regional, enums.towns.other), 'name', null, true)">
+									<div class="p-offset reverse">
+										<div>
+											<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num">
+												{{ town.name }}
+											</router-link>	
+										</div>
+										<div>
+											<router-link :to="'/obec/' + town.num" class="smallest dimm">
+												více
+											</router-link>	
+										</div>
+									</div>									
+								</div>
+							</p-columns>
+							<!-- <div class="smallest strong">
+								<router-link to="/obce">Hledat jinou obec nebo městskou část</router-link>
+							</div> -->
+						</p-area>
+						<div class="p-line"></div>
+						<div>
+							<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
+						</div>
+						<div class="p-line"></div>
+	<!-- <p-loader :rule="election">
+		<div v-if="election">
+			
+		</div>
+	</p-loader> -->
+</div>

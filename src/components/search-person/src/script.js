@@ -26,7 +26,7 @@ export default {
 			dia: null,
 			raw: null,
 			progress: false,
-			filter: ['PS', 'UPCOMING'],
+			filter: ['EP', 'KV', 'KZ', 'PREZ', 'SENAT', 'PS'],
 			filterOptions: ['EP', 'KV', 'KZ', 'PREZ', 'SENAT', 'PS'],
 			filterByPerson: null,
 			list: null,

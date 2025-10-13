@@ -155,6 +155,29 @@
 									<!-- </p-list> -->
 								</p-area>
 							</p-block>
+
+							<template v-if="[149,166].indexOf($volby.id) > -1 && $strana">
+								<p-block headline="Preferenční hlasy">
+									<okrsky-stats :elections="$volby" :party="current.$kandidati ? current : $strana" :cand="current.$kandidati ? null: current" :volkraj="current.VOLKRAJ"></okrsky-stats>
+								</p-block>
+							</template>							
+							
+							<template v-if="$volby.id === 162">
+								<p-block :headline="current.$kandidati ? 'Výsledky jednotlivých kandidátů' : 'Preferenční hlasy'">
+									<okrsky-stats :elections="$volby" :party="current.$kandidati ? current : $strana" :cand="current.$kandidati ? null: current"></okrsky-stats>
+								</p-block>
+							</template>
+
+							<template v-if="[149,166].indexOf($volby.id) > -1 && !$strana">
+								<p-block headline="Výsledky podrobně podle kraje" anchor="Podrobně">
+									<template v-for="(reg, index) in enums.regions">
+										<p-collapsible :label="reg">
+											<okrsky-stats :elections="$volby" :party="current.$kandidati ? current : $strana" :cand="current.$kandidati ? null: current" :volkraj="index + 1"></okrsky-stats>
+										</p-collapsible>
+									</template>
+								</p-block>
+							</template>
+
 							<p-block headline="Představení" :hide="true" :class="{'_empty': typeof current.$data.length === 'number' || !((current.$data.about || current.$data.motto || current.$data.values))}">
 								<div class="p-list _2 _invisible" v-if="typeof current.$data.length === 'undefined'">
 									<div v-if="current.$data.about">
@@ -1064,22 +1087,7 @@
 								</p-area>
 							</p-block>
 							<candidate-stats v-if="$volby.status > 1 && current.$kandidati && current.$kandidati.length > 1" :data="current.$kandidati" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="$volby.status"></candidate-stats>
-							
-							<template v-if="$volby.id === 162">
-								<p-block headline="Výsledky jednotlivých kandidátů">
-									<okrsky-stats :elections="$volby" :party="current.$kandidati ? current : $strana" :cand="current.$kandidati ? null: current"></okrsky-stats>
-								</p-block>
-							</template>
-
-							<template v-if="[149,166].indexOf($volby.id) > -1 && !$strana">
-								<p-block headline="Výsledky jednotlivých kandidátů podle kraje" anchor="Podrobně">
-									<template v-for="(reg, index) in enums.regions">
-										<p-collapsible :label="reg">
-											<okrsky-stats :elections="$volby" :party="current.$kandidati ? current : $strana" :cand="current.$kandidati ? null: current" :volkraj="index + 1"></okrsky-stats>
-										</p-collapsible>
-									</template>
-								</p-block>
-							</template>
+						
 
 							<p-block headline="Volby">
 								<p-area :icon="$volby.$about.hash">

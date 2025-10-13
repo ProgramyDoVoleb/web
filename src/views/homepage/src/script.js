@@ -17,6 +17,7 @@ import PartyPreview from '@/components/party-preview/do.vue';
 import PartyPreviewTiny from '@/components/party-preview-tiny/do.vue';
 import HomepageEp from '@/views/homepage/evropske-volby/do.vue';
 import HomepageKz from '@/views/homepage/krajske-volby/do.vue';
+import HomepageKv from '@/views/homepage/komunalni-volby/do.vue';
 import HomepagePs from '@/views/homepage/snemovni-volby/do.vue';
 import HomepageSenat from '@/views/homepage/senatni-volby/do.vue';
 import ElectionResults from '@/views/history/volby/detail/do.vue';
@@ -56,7 +57,7 @@ export default {
 	},
   components: {
 	NewsItem, NewsItemAside, SearchParty, SearchPerson, SearchTown, MailchimpSignup, ReportForm, PollsPreview, SlovakiaBlock, PartyPreview, PartyPreviewTiny,
-	HomepageEp, HomepageKz, HomepagePs, HomepageSenat, ElectionResults, CtaGetAdmin, CtaSupport, PromoBlock, EngagementBlock, EventItem, CtaSupportShort,
+	HomepageEp, HomepageKz, HomepageKv, HomepagePs, HomepageSenat, ElectionResults, CtaGetAdmin, CtaSupport, PromoBlock, EngagementBlock, EventItem, CtaSupportShort,
 	EditableSuggest, PopUp, CtaQuestions,
 	CtaGuide, CtaHowTo, 
 	HomepageSummary

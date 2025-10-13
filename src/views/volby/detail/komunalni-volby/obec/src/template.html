@@ -1,7 +1,7 @@
 <div class="layout-volby">
 	<p-layout-divided>
 		<template #main>
-			<p-block :headline="(about ? about.data.name : 'Volby') + ', ' + (current ? current.$dotcene[0].NAZEVZAST : '')" :level="1" :subheadline="current ? (current.datum ? date(current.datum, 3) : current.cirka) : 'načítám...'" :anchor="current ? current.$dotcene[0].NAZEVZAST : 'Volby'">
+			<p-block :headline="current ? current.$dotcene[0].NAZEVZAST : ''" :level="1" :subheadline="'komunální volby, ' + (current ? (current.datum_label || (current.datum ? date(current.datum, 3) : current.cirka)) : 'načítám...')" :anchor="current ? current.$dotcene[0].NAZEVZAST : 'Volby'">
 				<p-loader :rule="current">
 					<div v-if="current">
 						<p-block headline="O volbách" :hide="true">
@@ -18,56 +18,19 @@
 							<p class="lead" v-if="current.popis" v-html="current.popis"></p>
 						</p-block>
 						<komunalni-volby :data="data" :town="zast"></komunalni-volby>
-						<p-block-expandable headline="Vyhledat jinou obec">
-							<search-town :elections="current.id" :link="'/volby/komunalni-volby/' + current.id + '/obec/'"></search-town>
-						</p-block-expandable>
+						<div class="p-gap"></div>
+						<p-area icon="komunalni-volby" class="inline highlight shadow">
+							<router-link :to="'/obec/' + current.$dotcene[0].KODZASTUP" class="strong">Volební historie</router-link>
+							<div class="smaller">Všechny minulé výsledky a srovnání s krajskými nebo celostátními výsledky.</div>
+
+						</p-area>
 					</div>
 				</p-loader>
 			</p-block>
 			<p-block :level="1" headline="Komunální volby">
-				<p-box-group>
-					<p-box :to="'/volby/komunalni-volby/' + id">
-						<p-box-button class="primary" icon="komunalni-volby.svg">Zpět na volební přehled</p-box-button>
-					</p-box>
-					<p-box-color color="transparent"></p-box-color>
-					<p-box :to="'/obec/' + zast">
-						<p-box-button class="primary">{{ current ? current.$dotcene[0].NAZEVZAST : '' }}</p-box-button>
-					</p-box>
-				</p-box-group>
-				<div class="p-gap_3"></div>
-				<p-block headline="Seznam voleb">
-					<div v-if="elections">
-						<div class="btns">
-							<template v-for="(el, i) in elections.list.filter(x => x.radne === 1 && x.cirka)">
-								<router-link :to="'/volby/' + hash + '/' + el.id" class="button button-primary">
-									{{ el.datum ? el.datum.split('-')[0] : el.cirka }}
-								</router-link>
-							</template>
-							<template v-for="(el, i) in elections.list.filter(x => x.radne === 1 && x.datum)">
-								<router-link :to="'/volby/' + hash + '/' + el.id" class="button">
-									{{ el.datum ? el.datum.split('-')[0] : el.cirka }}
-								</router-link>
-							</template>
-						</div>
-						<div v-if="elections.list.find(x => x.radne === 0)">
-							<div class="p-gap"></div>
-							<p-collapsible label="Mimořádné volby">
-								<div class="columns-4 smaller">
-									<div v-for="(el, i) in elections.list.filter(x => x.radne === 0 && x.cirka)">
-										<router-link :to="'/volby/' + hash + '/' + el.id" class="red strong">
-											{{ el.datum ? date(el.datum) : el.cirka }}
-										</router-link>
-									</div>
-									<div v-for="(el, i) in elections.list.filter(x => x.radne === 0 && x.datum)">
-										<router-link :to="'/volby/' + hash + '/' + el.id">
-											{{ el.datum ? date(el.datum) : el.cirka }}
-										</router-link>
-									</div>
-								</div>
-							</p-collapsible>
-						</div>
-					</div>
-				</p-block>
+				<p-block-expandable headline="Vyhledat jinou obec">
+					<search-town :elections="current.id" :link="'/volby/komunalni-volby/' + current.id + '/obec/'"></search-town>
+				</p-block-expandable>
 			</p-block>
 			
 		</template>

@@ -25,6 +25,9 @@
 			</span>
 		</p-list-linear>
 	</div>
+	<p class="smallest dimm" v-if="filter.length === 6 && !filter.find(x => x === 'UPCOMING')">
+		<p-label color="var(--red)">Vyhledávání v celé databázi může být pomalejší. Mějte prosím trpělivost.</p-label>
+	</p>
 	<div class="p-line"></div>
 	<p-grid class="p-grid">
 		<div><input type="text" v-model="query" placeholder="Napište příjmení"></div>

@@ -3,66 +3,22 @@
 		<template #main>
 			<p-block headline="Volby" :level="1" :hide="true">
 
-				<!-- <div class="smallest mb05">
-					<p-modal class="inline">
-						<template #init>
-							<span class="strong" :class="{green: news && polls}">Rychlý přehled novinek</span>							
-						</template>
-						<template #content>
-							<homepage-summary :news="news" :polls="polls"></homepage-summary>
-						</template>
-					</p-modal>
-					&middot;
-					<router-link to="/novinky" class="is-span">Sedmidění</router-link>
-				</div> -->
-
-				<!-- <p-area borderColor="var(--red)" class="inline highlight shadow mt05">
-					<h2 class="mv0">	
-						Sněmovní volby
-					</h2>
-					<div class="smaller sans">
-						Již proběhly, čeká se na výsledky.
+				<p-grid class="_2_classic">
+					<div>
+						<p-area icon="results" background="var(--blue11)">
+							<router-link class="strong" to="/volby/snemovni-volby/166">Sněmovní volby 2025</router-link>
+							<div class="smaller">Výsledky, preferenční hlasy, přehledy a archiv všech stran a kandidátů.</div>
+						</p-area>
 					</div>
-				</p-area>
-
-				<p>Průběžné výsledky na <em>Programech</em> nenajdete, ale až budou ty úplné, tak zde budou zas v plné parádě, s detaily, grafy, podrobnostmi.</p>
-
-				<p-box-group>
-					<p-box href="https://www.volby.cz/app/ps2025/cs/home">
-						<p-box-button icon="results">Oficiální web sčítání výsledků</p-box-button>
-					</p-box>
-					<p-box to="/o-projektu/jak-podporit">
-						<p-box-label class="green">Podpořit do dalších voleb</p-box-label>
-					</p-box>
-				</p-box-group> -->
-
-				<election-results id="166" :type="{key: 'PS', hash: 'snemovni-volby'}" :election="{'datum_label': '3. a 4. října 2025'}"></election-results>
-
-				<div class="p-gap _2"></div>
-
-				<p-box-group>
-					<p-box to="/volby/snemovni-volby/166">
-						<p-box-button icon="snemovni-volby">Podrobnosti o sněmovních volbách</p-box-button>
-					</p-box>
-					<p-box to="/o-projektu/jak-podporit">
-						<p-box-label class="green">Podpořit Programy do příštích voleb</p-box-label>
-					</p-box>
-				</p-box-group>
+					<div>
+						<p-area icon="pdv" background="var(--green11)">
+							<router-link class="strong" to="/o-projektu/jak-podporit">Podpořit <em>Programy</em> do dalších voleb</router-link>
+							<div class="smaller">Jednorázově, opakovaně, nebo třeba koupí merche.</div>
+						</p-area>
+					</div>
+				</p-grid>
 
 				<div class="p-line _2"></div>
-
-				<!-- <promo-block></promo-block> -->
-
-				<!-- <div class="p-gap _1"></div> -->
-				<!-- <promo-block></promo-block> -->
-				<!-- <p class="smaller">
-					<strong><p-label color="var(--red)">Nominujte <em>Programy</em></p-label> na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou lupu 2024</p-link>.</strong>
-				</p>  -->
-				<!-- <div class="p-gap"></div> -->
-				 
-				<!-- <election-results :type="{key: 'SENAT', hash: 'senatni-volby', name: 'Senátní volby'}" :id="171" :election="{typ: 'SENAT', datum_label: '17. a 18. ledna 2025'}" :spec="60" label="obvod 60 · Brno-město"></election-results> -->
-				 
-				<h2 class="serif mt0">Přístí volby</h2>
 
 				<template v-if="elections && elections.list.find(x => x.radne === 0 && x.status < 3 && x.datum <= today)">
 					<div class="p-gap"></div>
@@ -78,14 +34,21 @@
 					</p-area>
 					<div class="p-gap"></div>
 				</template>
-				<!-- <div class="p-gap"></div> -->
-				<!-- <p-area class="inline">
-					<p-label color="var(--red)" class="smaller strong">Důležité informace Ministerstva vnitra <p-link class="red" href="https://www.mvcr.cz/clanek/ustredni-krizovy-stab-resil-pomoc-oblastem-zasazenym-povodnemi-i-podporu-postizenym-krajum-s-organizaci-voleb.aspx">pro voliče zasažené povodněmi</p-link></p-label>
-				</p-area>				
-				<div class="p-gap _2"></div> -->
-				<!-- <p-block headline="Hlavní přehled" :hide="true"> -->
+
+				<p-block headline="Příští volby">
+					<p>Sněmovní volby jsou za námi, letos nás čekají už jen mimořádné komunální v několika malých obcích. Brzy ale začnou přípravy na volby příští rok, které budou o prvním říjnovém víkendu. Půjde o komunální volby (neboli volby do obecních zastupitelstev) a také proběhne první kolo senátních voleb.</p>
+					<p>Pokud narazíte na nějakou novinku, zprávu o kandidatuře nebo koalici, můžete už dnes dát vědět, klasicky stačí <pop-up class="inline">
+						<template #init>
+							<button class="inline strong">kliknout zde</button>
+						</template>
+						<template #content>
+							<editable-suggest></editable-suggest>
+						</template>
+					</pop-up> a poslat odkaz. Strany brzy dostanou možnost vytvářet kandidátky přímo v <p-link href="https://admin.programydovoleb.cz">Adminu</p-link>.</p>
+				</p-block>				
+				
 					<p-loader :rule="elections">
-						<div v-if="elections">
+						<div v-if="elections" class="mt-2">
 							<div v-for="(election, index) in elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum > '2024-07-01'))">
 								<p-block class="_nmb" :hide="true" :headline="election_types.find(x => x.key === election.typ).name">
 									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.id === 166" :skip="election.id === 166">
@@ -105,6 +68,9 @@
 											<div v-if="election.typ === 'KZ'">
 												<homepage-kz :elections="election"></homepage-kz>
 											</div>
+											<div v-if="election.typ === 'KV'">
+												<homepage-kv :elections="election"></homepage-kv>
+											</div>
 											<div v-if="election.typ === 'SENAT'">
 												<homepage-senat :elections="election"></homepage-senat>
 											</div>
@@ -118,16 +84,7 @@
 												<p-box-button class="primary">
 													{{ election.status === 3 ? 'Výsledky a podrobnosti' : 'Podrobněji' }}
 												</p-box-button>
-											</p-box><!-- 
-											<p-box :href="election.id === 162 ? 'https://www.volebnikalkulacka.cz/volby/krajske-2024/vyber':'https://www.volebnikalkulacka.cz/volby/senatni-2024/vyber' " v-if="[162,163].indexOf(election.id) > -1">
-												<p-box-button icon="link.svg">Kalkulačka</p-box-button>
 											</p-box>
-											<p-box :href="election.id === 162 ? 'https://cs.wikipedia.org/wiki/Volby_do_zastupitelstev_kraj%C5%AF_v_%C4%8Cesku_2024':'https://cs.wikipedia.org/wiki/Volby_do_Sen%C3%A1tu_Parlamentu_%C4%8Cesk%C3%A9_republiky_2024' " v-if="[162,163].indexOf(election.id) > -1">
-												<p-box-button icon="wiki.svg">Wiki</p-box-button>
-											</p-box>
-											<p-box to="/jak-volit/krajske-volby" v-if="election.id === 162">
-												<p-box-button>Jak volit?</p-box-button>
-											</p-box> -->
 											<template v-if="election.status < 3">
 												<p-modal>
 													<template #init>
@@ -185,34 +142,22 @@
 					</p-loader>
 			</p-block>
 			<!-- <p-block headline="Anketa" :hide="true">
-				<engagement-block :hash="'psp-166-strana-' + (new Date().getMonth() + 1)" :data="[{question: 'Koho byste nyní volili?', limit: 3, comment: 'Můžete vybrat až 3 strany.', options: ['ANO', 'Spolu', 'STAN', 'SPD', 'Piráti', 'Motoristé', 'Stačilo', 'SOCDEM', 'Přísaha', 'někoho jiného']}]" :compact="true"></engagement-block>
+				<engagement-block :hash="'psp-166-happy-' + (new Date().getMonth() + 1)" :data="[{question: 'Jste spokojeni s výsledkem voleb?', options: ['spokojenost', 'mohlo to být horší', 'mohlo to být lepší', 'katastrofa']}]" :compact="true"></engagement-block>
 			</p-block> -->
-			<p-block headline="Nejnovější průzkumy">
-				<p class="mb3">Kompletní výpis všech stran, přepočet na mandáty, rozdíl od minulého měření nebo vývoj od minulých voleb u této agentury najdete v detailu průzkumu. Seznam volebních průzkumů <router-link to="/volebni-pruzkumy">od roku 2017 zde</router-link> a můžete si také zkusit <router-link to="/vypocet-mandatu">výpočet mandátů</router-link>.</p>
-				<p-loader :rule="polls">
-					<div v-if="polls">
-						<p-grid>
-							<div v-for="(poll, index) in polls.list.filter((x, i) => i < (width > 960 ? 3 : 2))">
-								<p-area>
-									<polls-preview :poll="poll" :previous="poll.previous ? polls.list.find(x => x.id === poll.previous) : null" :name="'poll_' + poll.id"></polls-preview>
-								</p-area>								
-							</div>
-						</p-grid>
-					</div>
-				</p-loader>
-				<!-- <div class="p-gap"></div> -->
-				<!-- <engagement-block hash="poll-most-trusted" :data="[{question: 'Která agentura má nejlepší průzkumy?', options: ['Data Collect', 'Ipsos', 'Kantar', 'Median', 'NMS Market Research', 'STEM', 'jiná']}]" :autosend="true"></engagement-block> -->
-			</p-block>
+			
 			<p-block headline="Novinky" :level="1">
 
 				<homepage-summary :news="news" :polls="polls"></homepage-summary>
 
-				
-					<div class="smallest _edit mb3">
-						<p-icon icon="edit"></p-icon>
-						&nbsp;
-						<pop-up preClass="green strong"><template #init>Přidat článek, rozhovor nebo tiskovou zprávu</template><template #content><editable-suggest placeholder="Odkaz na článek nebo tiskovou zprávu" type="support" part="HP Novinky" link="1"></editable-suggest></template></pop-up>
-					</div>
+				<p-box-group>
+					<p-box to="/novinky/archiv">
+						<p-box-button icon="pdv">Zprávy od Programů</p-box-button>
+					</p-box>
+					<p-box to="/novinky">
+						<p-box-button icon="sedmideni">Sedmidění</p-box-button>
+					</p-box>
+				</p-box-group>
+
 				<!-- <p-block headline="Významné" :hide="true">
 
 					<p-area class="primary">
@@ -252,11 +197,11 @@
 
 				</p-block> -->
 				
-				<p-block hide="1" headline="Přehled">
+				<p-block hide="1" headline="Přehled" class="mt2">
 					<p-loader :rule="news">
 						<div v-if="news">
 							<p-columns>
-								<template v-for="(item, index) in newsmedia.filter((x, i) => i < (width > 960 ? 100 : 8))">
+								<template v-for="(item, index) in newsmedia.filter((x, i) => i < (width > 960 ? 8 : 4))">
 									<div>
 										<p-area :borderColor="item.label === 'pdv' ? 'var(--blue)' : (item.label === 'comment' ? 'var(--greyish)' : (item.label === 'news' ? 'var(--blue44)' : null))" class="smaller">
 											<div :class="{smaller: item.label === 'comment'}">
@@ -279,14 +224,13 @@
 										</p-area>
 									</div>
 								</template>
-								<p-block hide="1" headline="Sedmidění">
-									<div>
-										<p-area class="highlight shadow" borderColor="var(--red)">
-											<router-link to="/novinky" class="strong red">Sedmidění</router-link>
-											<div class="smaller mt05">Předvolebního dění, články, rozhovory, průzkumy, noví kandidáti, poslední úpravy... přehledně za posledních 7 dní.</div>
-										</p-area>
+								<div>
+									<div class="smallest _edit">
+										<p-icon icon="edit"></p-icon>
+										&nbsp;
+										<pop-up preClass="green strong"><template #init>Přidat článek, rozhovor nebo tiskovou zprávu</template><template #content><editable-suggest placeholder="Odkaz na článek nebo tiskovou zprávu" type="support" part="HP Novinky" link="1"></editable-suggest></template></pop-up>
 									</div>
-								</p-block>
+								</div>
 							</p-columns>
 							<!-- <p-block :open="true" headline="Nově v přehledu"> -->
 								<!-- <p>Přehled nejnověji založených profilů stran, hnutí, koalic a kandidátů pro následující volby. Pokud nemůžete někoho na Programech najít, stačí poslat 
@@ -298,16 +242,14 @@
 										</template>
 									</p-modal>.
 								</p> -->
-								<div class="p-gap _2"></div>
-								<h4>Další nové záznamy na Programech</h4>
-								<div class="p-line _0"></div>
-								<p-collapsible label="Nově přidaní kandidáti" logo="person">
+								<!-- <div class="p-gap _3"></div> -->
+								<p-block headline="Nově v přehledu" v-if="false">
 									<p-area class="primary">
 										<p-loader :rule="news">
 											<div v-if="news">
 												<p-columns v-if="news">
 													<template v-for="(day, index) in newsauto.filter((x, i) => i < (width > 960 ? 8 : 4))">
-														<template v-for="(kz, index) in day.list.kz">
+														<!-- <template v-for="(kz, index) in day.list.kz">
 															<template v-if="kz.list.length < 3">
 																<template v-for="item in kz.list">
 																	<div class="p-offset balanced">
@@ -319,7 +261,7 @@
 																				<div>
 																					<router-link v-if="item.relates.split(',')[1] != 'null'" :to="'/bod/' + item.relates.split(',')[1].split(':').join('/')">{{ item.title }}</router-link>
 																					<router-link class="strong" v-if="item.relates.split(',')[1] === 'null'" :to="'/bod/' + item.relates.split(',')[0].split(':').join('/')">{{ item.title }}</router-link>
-																					<!-- <router-link class="smaller" :to="'/bod/' + item.relates.split(',')[1].split(':').join('/')">{{ item.title }}</router-link> -->
+																					
 																					<div class="dimm smallest" v-if="item.content && item.content != '' && item.content != 'null'">
 																						{{ item.content }}
 																					</div>
@@ -332,7 +274,7 @@
 																				</div>
 																				<div class="smallest show-60rem">
 																					<p-link :href="item.source" class="dimm">zdroj</p-link>
-																					<!-- <p-link :href="item.source" class="dimm">{{ domain(item.source) }} &rarr;</p-link> -->
+																					
 																				</div>
 																			</div>
 																			
@@ -378,15 +320,15 @@
 																			</div>
 																			<div class="smallest show-60rem">
 																				<p-link :href="kz.list[0].source" class="dimm">zdroj</p-link>
-																				<!-- <p-link :href="item.source" class="dimm">{{ domain(item.source) }} &rarr;</p-link> -->
+																				
 																			</div>
 																		</div>
 																		
 																	</div>		
 																</div>
 															</template>
-														</template>
-														<template v-for="(kz, index) in day.list.ps">
+														</template> -->
+														<!-- <template v-for="(kz, index) in day.list.ps">
 															<template v-if="kz.list.length < 3">
 																<template v-for="item in kz.list">
 																	<div class="p-offset balanced">
@@ -398,14 +340,14 @@
 																				<div>
 																					<router-link v-if="item.relates.split(',')[1] != 'null'" :to="'/bod/' + item.relates.split(',')[1].split(':').join('/')">{{ item.title }}</router-link>
 																					<router-link class="strong" v-if="item.relates.split(',')[1] === 'null'" :to="'/bod/' + item.relates.split(',')[0].split(':').join('/')">{{ item.title }}</router-link>
-																					<!-- <router-link class="smaller" :to="'/bod/' + item.relates.split(',')[1].split(':').join('/')">{{ item.title }}</router-link> -->
+																					
 																					<div class="dimm smallest" v-if="item.content && item.content != '' && item.content != 'null'">
 																						{{ item.content }}
 																					</div>
 																				</div>
 																				<div class="smallest show-60rem">
 																					<p-link :href="item.source" class="dimm">zdroj</p-link>
-																					<!-- <p-link :href="item.source" class="dimm">{{ domain(item.source) }} &rarr;</p-link> -->
+																					
 																				</div>
 																			</div>
 																			
@@ -445,7 +387,86 @@
 																			</div>
 																			<div class="smallest show-60rem">
 																				<p-link :href="kz.list[0].source" class="dimm">zdroj</p-link>
-																				<!-- <p-link :href="item.source" class="dimm">{{ domain(item.source) }} &rarr;</p-link> -->
+																				
+																			</div>
+																		</div>
+																		
+																	</div>		
+																</div>
+															</template>
+														</template> -->
+														<template v-for="(kz, index) in day.list.kv">
+															<template v-if="kz.list.length < 3">
+																<template v-for="item in kz.list">
+																	<div class="p-offset balanced">
+																		<div class="text-right _w3">
+																			<span class="strong smallest">{{date(item.datum, 2) }}</span>	
+																		</div>
+																		<div>
+																			<div class="p-offset reverse balanced">
+																				<div>
+																					<router-link v-if="item.relates.split(',')[1] != 'null'" :to="'/bod/' + item.relates.split(',')[1].split(':').join('/')">{{ item.title }}</router-link>
+																					<router-link class="strong" v-if="item.relates.split(',')[1] === 'null'" :to="'/bod/' + item.relates.split(',')[0].split(':').join('/')">{{ item.title }}</router-link>
+																					
+																					<div class="dimm smallest" v-if="item.content && item.content != '' && item.content != 'null'">
+																						{{ item.content }}
+																					</div>
+																					<div class="dimm smallest">
+																						<p-list-linear class="or">
+																							<li>{{ enums.elections.find(x => x.key === news.cis.volby.find(x => x.id === item.volby).typ).name }}</li>
+																							<li v-if="item.focus">{{ news.cis.volby.find(x => x.id === item.volby).typ === 'KZ' ? enums.regions[item.focus - 1] : item.focus + ' - ' + news.cis.obvody.find(x => x.OBVOD === item.focus).NAZEV }}</li>
+																						</p-list-linear>
+																					</div>
+																				</div>
+																				<div class="smallest show-60rem">
+																					<p-link :href="item.source" class="dimm">zdroj</p-link>
+																					
+																				</div>
+																			</div>
+																			
+																		</div>		
+																	</div>
+																</template>
+															</template>
+															<template v-else>
+																<div class="p-offset balanced">
+																	<div class="text-right _w3">
+																		<span class="strong smallest">{{date(day.datum, 2) }}</span>	
+																	</div>
+																	<div>
+																		<div class="p-offset reverse balanced">
+																			<div>
+																				<div v-if="kz.list[0].content && kz.list[0].content != '' && kz.list[0].content != 'null'">
+																					<router-link :to="'/bod/csu_kz_rkl/' + kz.list[0].relates.split(',')[0].split(':')[1]">
+																						{{ kz.list[0].content }}
+																					</router-link>												
+																				</div>
+																				<div v-else>
+																					{{ kz.list.length }} nových kandidátů 
+																				</div>
+																				<div class="dimm smallest">
+																					<p-list-linear class="or">
+																						<li>{{ enums.elections.find(x => x.key === news.cis.volby.find(x => x.id === kz.list[0].volby).typ).name }}</li>
+																						<li v-if="kz.list[0].focus">{{ news.cis.volby.find(x => x.id === kz.list[0].volby).typ === 'KZ' ? enums.regions[kz.list[0].focus - 1] : kz.list[0].focus + ' - ' + news.cis.obvody.find(x => x.OBVOD === kz.list[0].focus).NAZEV }}</li>
+																					</p-list-linear>
+																				</div>
+																				<div class="smallest">
+																					<span>
+																						<p-lang :value="kz.list.length" :end="['', '', '%% kandidáti', '%% kandidátů']"></p-lang>:
+																					</span>
+																					<p-list-linear class="_pll">
+																						<span v-for="item in kz.list">
+																							<router-link v-if="item.relates.split(',')[1] != 'null'" :to="'/bod/' + item.relates.split(',')[1].split(':').join('/')">{{ item.title.trim() }}</router-link>
+																							<router-link class="strong" v-if="item.relates.split(',')[1] === 'null'" :to="'/bod/' + item.relates.split(',')[0].split(':').join('/')">{{ item.title.trim() }}</router-link>
+																						</span>
+																					</p-list-linear>
+																				</div>
+																				
+																				
+																			</div>
+																			<div class="smallest show-60rem">
+																				<p-link :href="kz.list[0].source" class="dimm">zdroj</p-link>
+																				
 																			</div>
 																		</div>
 																		
@@ -488,33 +509,10 @@
 											</div>
 										</p-loader>
 									</p-area>
-								</p-collapsible>
-								<!-- <p-collapsible label="Poslední úpravy profilů" logo="edit">
-									<p-loader :rule="news">
-										<div v-if="news" class="smaller">
-											<p-list>
-												<div v-for="datum in unique(news.log.filter(x => x.node), 'date')">
-													<div class="strong">{{date(datum) }} </div>
-													<p-list-linear class="_pll or">
-														<template v-for="point in ['csu_ps_rkl:', 'csu_ps_rk:', 'csu_senat_rk:']">
-															<template v-if="news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum).length > 0">
-																<span v-if="point === 'csu_ps_rk:'"><br>Kandidáti</span>
-															</template>
-															<span v-for="item in news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum)">
-																<router-link v-if="item.node.JMENO" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.JMENO }} {{ item.node.PRIJMENI }}</router-link>
-																<router-link class="strong" v-if="item.node.NAZEV" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.NAZEV }}</router-link>
-																<span class="badge blue" v-if="item.data.find(x => x.type === 'program')">●</span>
-																<span class="badge yellow" v-if="item.data.find(x => x.type === 'answer')">●</span>
-																<span class="badge red" v-if="item.data.find(x => x.type === 'priority')">●</span>
-															</span>
-														</template>
-													</p-list-linear>
-												</div>
-											</p-list>
-										</div>
-									</p-loader>
-								</p-collapsible> -->
-								<p-collapsible label="Novinky na Programech" logo="program">
+								</p-block>
+								<!-- <p-collapsible label="Strany a kandidáti" logo="person"> -->
+								<!-- </p-collapsible> -->
+								<!-- <p-collapsible label="Novinky na Programech" logo="program">
 									<p-area class="primary">
 										<p-list>
 											<template v-for="(item, index) in news.sys.filter((x, i) => i < 5)">
@@ -522,14 +520,31 @@
 											</template>
 										</p-list>
 									</p-area>
-								</p-collapsible>
+								</p-collapsible> -->
 							<!-- </p-block> -->
 						</div>
 					</p-loader>
 				</p-block>
 
-				<p-block hide="1" headline="Novinky e-mailem">
+				<p-block hide="1" headline="Newsletter">
 					<mailchimp-signup></mailchimp-signup>
+				</p-block>
+				
+				<p-block headline="Průzkumy">
+					<p class="mb3">Seznam volebních průzkumů od roku 2017 <router-link to="/volebni-pruzkumy">najdete zde</router-link> a můžete si také zkusit <router-link to="/vypocet-mandatu">výpočet mandátů</router-link> nebo jeho <router-link to="/volby/snemovni-volby/166/muj-tip">zjenodušenou formu</router-link>.</p>
+					<p-loader :rule="polls">
+						<div v-if="polls">
+							<p-grid>
+								<div v-for="(poll, index) in polls.list.filter((x, i) => i < (width > 960 ? 3 : 2))">
+									<p-area>
+										<polls-preview :poll="poll" :previous="poll.previous ? polls.list.find(x => x.id === poll.previous) : null" :name="'poll_' + poll.id"></polls-preview>
+									</p-area>								
+								</div>
+							</p-grid>
+						</div>
+					</p-loader>
+					<!-- <div class="p-gap"></div> -->
+					<!-- <engagement-block hash="poll-most-trusted" :data="[{question: 'Která agentura má nejlepší průzkumy?', options: ['Data Collect', 'Ipsos', 'Kantar', 'Median', 'NMS Market Research', 'STEM', 'jiná']}]" :autosend="true"></engagement-block> -->
 				</p-block>
 							
 				<!-- <p-block headline="Nejbližší události">
@@ -687,7 +702,7 @@
 												</div>
 												<div class="p-gap"></div>
 												<p-box-group class="_jac">
-													<template v-for="(kc, i) in [50, 100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
+													<template v-for="(kc, i) in [100, 250, 500]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
 													<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
 												</p-box-group>
 											</p-area>
