@@ -54,6 +54,15 @@ export default {
 							})
 						} 
 
+						if (item.copy) {
+							key = 'html';
+							
+							list.push({
+								type: key,
+								content: item[key]
+							})
+						} 
+
 						if (item.list) {
 							key = 'list';
 							

@@ -25,6 +25,9 @@
 		<template v-if="item.type === 'note'">
 			<p v-html="item.content" class="dimm small"></p>
 		</template>
+		<template v-if="item.type === 'html'">
+			<div v-html="item.content"></div>
+		</template>
 		<template v-if="item.type === 'list'">
 			<ul class="program-list">
 				<li v-for="(part, index2) in item.parts">

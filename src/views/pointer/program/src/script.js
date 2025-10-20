@@ -298,7 +298,7 @@ export default {
 		},
 		fullType5: function () {
 			if (!this.current) return;
-			if (this.current.$program[0].type != 5) return;
+			if ([5,6].indexOf(this.current.$program[0].type) === -1) return;
 
 			return this.$store.getters.json(this.current.$program[0].content);
 
