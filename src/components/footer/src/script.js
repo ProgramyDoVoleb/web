@@ -23,7 +23,8 @@ export default {
 				// rss: "https://programydovoleb.cz/rss",
 				// whatsapp: "https://chat.whatsapp.com/HsQIv3iE6Up3Lqnj52ZAlX",
 				// signal: "https://signal.me/#eu/xlLftS8PndqPElvvhbXV6qGoXhyUw4DfPTg7A0U62_yrnWDQpJ5K0pzz6gAw-ue7"
-			}
+			},
+			width: window.innerWidth,
 		}
 	}
 };

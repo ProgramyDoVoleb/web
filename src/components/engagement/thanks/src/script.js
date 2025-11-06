@@ -5,7 +5,8 @@ export default {
 	name: 'EngagementThanks',
 	data: function () {
 		return {
-			amount: null
+			amount: null,
+			width: window.innerWidth,
 		}
 	},
 	components: {
