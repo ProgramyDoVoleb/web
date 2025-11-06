@@ -1,12 +1,14 @@
 <div class="homepage-senat">
-	<p-area :class="{primary: elections.status < 3}">
+	<p>V řádných senátních volbách se obměňuje třetina Senátu, tedy 27 senátorů z 81. Tentokrát se týkají těchto obvodů:</p>
+	<p-area :class="{primary: elections.status === 2}">
 		<p-loader :rule="election" reserve="100px">
 			<template v-if="election">
 				<div :class="{'columns-4': election.list[0].$dotcene.length > 1}">
 					<div v-for="(obvod, index) in election.list[0].$dotcene">
 						<div class="p-offset balanced reverse">
-							<div>
+							<div>								
 								<router-link :to="'/volby/senatni-volby/' + elections.id + '/obvod/' + obvod.OBVOD" class="strong">{{ obvod.NAZEV }}</router-link>
+								<span class="smaller dimm"> &middot; obv. {{ obvod.OBVOD }}</span>
 								<div class="smaller" v-if="election && election.list[0].status === 3">
 									<p-list-linear class="nebo">
 										<span v-for="cand in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD === obvod.OBVOD && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)), 'PRIJMENI', null, true)">
@@ -72,7 +74,7 @@
 											</div>
 										</component>
 										<div v-else>
-											<em class="smallest dimm">žádný kandidát</em>
+											<em class="smallest dimm">žádný známý kandidát</em>
 										</div>
 
 								</div>		

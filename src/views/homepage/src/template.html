@@ -3,23 +3,6 @@
 		<template #main>
 			<p-block headline="Volby" :level="1" :hide="true">
 
-				<p-grid class="_2_classic">
-					<div>
-						<p-area icon="results" background="var(--blue11)">
-							<router-link class="strong" to="/volby/snemovni-volby/166">Sněmovní volby 2025</router-link>
-							<div class="smaller">Výsledky, preferenční hlasy, přehledy a archiv všech stran a kandidátů.</div>
-						</p-area>
-					</div>
-					<div>
-						<p-area icon="pdv" background="var(--green11)">
-							<router-link class="strong" to="/o-projektu/jak-podporit">Podpořit <em>Programy</em> do dalších voleb</router-link>
-							<div class="smaller">Jednorázově, opakovaně, nebo třeba koupí merche.</div>
-						</p-area>
-					</div>
-				</p-grid>
-
-				<div class="p-line _2"></div>
-
 				<template v-if="elections && elections.list.find(x => x.radne === 0 && x.status < 3 && x.datum <= today)">
 					<div class="p-gap"></div>
 					<p-area class="p-area---inline smallest strong" borderColor="var(--red)">
@@ -35,23 +18,23 @@
 					<div class="p-gap"></div>
 				</template>
 
-				<p-block headline="Příští volby">
-					<p>Sněmovní volby jsou za námi, letos nás čekají už jen mimořádné komunální v několika malých obcích. Brzy ale začnou přípravy na volby příští rok, které budou o prvním říjnovém víkendu. Půjde o komunální volby (neboli volby do obecních zastupitelstev) a také proběhne první kolo senátních voleb.</p>
-					<p>Pokud narazíte na nějakou novinku, zprávu o kandidatuře nebo koalici, můžete už dnes dát vědět, klasicky stačí <pop-up class="inline">
+				<p-block headline="Výhled" :hide="true">
+					<p>Letos nás čekají už jen mimořádné komunální v několika malých obcích. Brzy ale začnou přípravy na volby příští rok, kdy proběhnou komunální volby ve všech obcích, tak i senátní volby. Pokud narazíte na nějakou novinku, dejte prosím vědět - stačí <pop-up class="inline">
 						<template #init>
-							<button class="inline strong">kliknout zde</button>
+							<button class="inline strong green">kliknout zde</button>
 						</template>
 						<template #content>
 							<editable-suggest></editable-suggest>
 						</template>
-					</pop-up> a poslat odkaz. Strany brzy dostanou možnost vytvářet kandidátky přímo v <p-link href="https://admin.programydovoleb.cz">Adminu</p-link>.</p>
+						</pop-up>.
+					</p>
 				</p-block>				
 				
 					<p-loader :rule="elections">
 						<div v-if="elections" class="mt-2">
-							<div v-for="(election, index) in elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum > '2024-07-01'))">
+							<div v-for="(election, index) in sortBy(sortBy(elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum > '2024-07-01')), 'typ', null, true), 'datum', null, true)">
 								<p-block class="_nmb" :hide="true" :headline="election_types.find(x => x.key === election.typ).name">
-									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.id === 166" :skip="election.id === 166">
+									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.radne === 1 && width > 640" :skip="election.id === 166">
 										<!-- <p-area :class="election.typ === 'EP' ? '_ep' : null" class="p-area---has-background"> -->
 											<div v-if="election.$dotcene && election.typ === 'KV'">
 												<p class="smaller">Týká se obcí 
@@ -112,7 +95,7 @@
 									</p-collapsible>
 								</p-block>
 							</div>
-							<p-collapsible logo="komunalni-volby" label="Mimořádné komunální volby" v-if="elections.list.filter(x => x.radne === 0 && x.status < 3 && x.typ === 'KV').length > 0" :status="date(elections.list.filter(x => x.radne === 0 && x.status < 3 && x.typ === 'KV')[0].datum)">
+							<p-collapsible logo="komunalni-volby" label="Mimořádné komunální volby" v-if="elections.list.filter(x => x.radne === 0 && x.status < 3 && x.typ === 'KV').length > 0" :status="elections.list.filter(x => x.radne === 0 && x.status < 3 && x.typ === 'KV').length">
 								<p-area padding="0 0 0 1.5em" borderColor="var(--red)" class="primary">
 									<p-loader :rule="elections">
 										<div class="election-timeline">
@@ -526,9 +509,9 @@
 					</p-loader>
 				</p-block>
 
-				<p-block hide="1" headline="Newsletter">
+				<!-- <p-block hide="1" headline="Newsletter">
 					<mailchimp-signup></mailchimp-signup>
-				</p-block>
+				</p-block> -->
 				
 				<p-block headline="Průzkumy">
 					<p class="mb3">Seznam volebních průzkumů od roku 2017 <router-link to="/volebni-pruzkumy">najdete zde</router-link> a můžete si také zkusit <router-link to="/vypocet-mandatu">výpočet mandátů</router-link> nebo jeho <router-link to="/volby/snemovni-volby/166/muj-tip">zjenodušenou formu</router-link>.</p>
@@ -831,8 +814,19 @@
 				<div>
 					<top-tasks></top-tasks>
 				</div>
-				<div class="smallest">
-					<em class="strong">Programy do voleb</em> jsou nestranný předvolební přehled, který se zaměřuje na přehledy stran, kandidátů a jejich volebních programů. <router-link to="/o-projektu" class="">O projektu</router-link> &middot; <router-link to="/novinky/archiv" class="">Novinky</router-link>
+				<div class="smaller">
+					<em class="strong">Programy do voleb</em> jsou nestranný předvolební přehled, který se zaměřuje na přehledy stran, kandidátů a jejich volebních programů.
+					<p-list class="_025 pt1">
+						<div>
+							<router-link to="/novinky/archiv" class="">Novinky</router-link>
+						</div>
+						<div>
+							<router-link to="/o-projektu" class="">O projektu</router-link>
+						</div>
+						<div>
+							<router-link to="/o-projektu/jak-podporit" class="">Podpořit</router-link>
+						</div>
+					</p-list>
 				</div>
 			</p-list>
 		</template>

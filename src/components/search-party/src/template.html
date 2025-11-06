@@ -4,103 +4,105 @@
 
 		<div class="p-gap_2"></div>
 	</div>
-	<p-loader :rule="list">
-		<div v-if="list && query">
-			<p-area>
-				<template v-if="results">
-					<p-list class="smaller">
-						<div v-for="(party, index) in results.filter(x => x.TYP === 'S' && x.active === 1)">
-							<div class="p-offset">
-								<div>
-									<p-image :src="logoByItem(party, list)" :border="true" :rounded="true"></p-image>
+	<div v-if="query && query.length > 1">
+		<p-loader :rule="list">
+			<div v-if="list && query">
+				<p-area>
+					<template v-if="results">
+						<p-list class="smaller">
+							<div v-for="(party, index) in results.filter(x => x.TYP === 'S' && x.active === 1)">
+								<div class="p-offset">
+									<div>
+										<p-image :src="logoByItem(party, list)" :border="true" :rounded="true"></p-image>
+									</div>
+									<div>
+										<strong>
+											<component :is="link ? 'router-link' : 'button'" :to="link + party.VSTRANA" class="strong inline" @click="cb ? $emit('update', party) : null">{{ party.NAZEV }}</component>
+										</strong>
+										<div class="smaller dimm">{{ party.ZKRATKA }}</div>
+	
+										<div v-if="party.$history.length > 1">
+											<div class="p-gap_025"></div>
+											<div class="smallest dimm">Známé také jako:</div>
+	
+											<p-list height="0" class="invisible smallest dimm">
+												<div v-for="(hist, indexHistory) in party.$history">
+													<div class="p-offset reverse balanced">
+														<div>
+															&middot; {{ hist.NAZEV }} ({{ hist.ZKRATKA}})
+														</div>
+														<div>
+															{{ date(hist.datum, 3) }}
+														</div>
+													</div>
+												</div>
+											</p-list>
+										</div>
+									</div>
 								</div>
-								<div>
+							</div>
+							<div class="smallest dimm" v-if="!results.find(x => x.TYP === 'S' && x.active === 1)">Žádná aktivní strana ani hnutí s podobným názvem nebyla nalezena.</div>
+						</p-list>
+						<div class="p-gap"></div>
+						<template v-if="results.filter(x => x.TYP != 'S' && x.TYP != 'H').length > 0">
+							<p-collapsible label="Koalice" :status="results.filter(x => x.TYP != 'S' && x.TYP != 'H').length">
+								<div v-for="(party, index) in results.filter(x => x.TYP != 'S' && x.TYP != 'H')" class="smaller">
 									<strong>
 										<component :is="link ? 'router-link' : 'button'" :to="link + party.VSTRANA" class="strong inline" @click="cb ? $emit('update', party) : null">{{ party.NAZEV }}</component>
 									</strong>
-									<div class="smaller dimm">{{ party.ZKRATKA }}</div>
-
-									<div v-if="party.$history.length > 1">
-										<div class="p-gap_025"></div>
-										<div class="smallest dimm">Známé také jako:</div>
-
-										<p-list height="0" class="invisible smallest dimm">
-											<div v-for="(hist, indexHistory) in party.$history">
-												<div class="p-offset reverse balanced">
-													<div>
-														&middot; {{ hist.NAZEV }} ({{ hist.ZKRATKA}})
-													</div>
-													<div>
-														{{ date(hist.datum, 3) }}
-													</div>
-												</div>
-											</div>
-										</p-list>
-									</div>
 								</div>
-							</div>
-						</div>
-						<div class="smallest dimm" v-if="!results.find(x => x.TYP === 'S' && x.active === 1)">Žádná aktivní strana ani hnutí s podobným názvem nebyla nalezena.</div>
-					</p-list>
-					<div class="p-gap"></div>
-					<template v-if="results.filter(x => x.TYP != 'S' && x.TYP != 'H').length > 0">
-						<p-collapsible label="Koalice" :status="results.filter(x => x.TYP != 'S' && x.TYP != 'H').length">
-							<div v-for="(party, index) in results.filter(x => x.TYP != 'S' && x.TYP != 'H')" class="smaller">
-								<strong>
-									<component :is="link ? 'router-link' : 'button'" :to="link + party.VSTRANA" class="strong inline" @click="cb ? $emit('update', party) : null">{{ party.NAZEV }}</component>
-								</strong>
-							</div>
-						</p-collapsible>
-					</template>
-					<template v-if="results.filter(x => x.TYP === 'H').length > 0">
-						<p-collapsible label="Předběžné a dočasné záznamy" :status="results.filter(x => x.TYP === 'H').length">
-							<div v-for="(party, index) in results.filter(x => x.TYP === 'H')" class="smaller">
-								<strong>
-									<component :is="link ? 'router-link' : 'button'" :to="link + party.VSTRANA" class="strong inline" @click="cb ? $emit('update', party) : null">{{ party.NAZEV }}</component>
-								</strong>
-							</div>
-						</p-collapsible>
-					</template>
-					<template v-if="results.find(x => x.TYP === 'S' && x.active === 0)">
-						<p-collapsible label="Neaktivní strany a hnutí" :status="results.filter(x => x.TYP === 'S' && x.active === 0).length">
-							<p-list class="smaller">
-								<div v-for="(party, index) in results.filter(x => x.TYP === 'S' && x.active === 0)">
-									<div class="p-offset">
-										<div>
-											<p-image :src="logoByItem(party, list)" :border="true" :rounded="true"></p-image>
-										</div>
-										<div>
-											<strong>
-												<component :is="link ? 'router-link' : 'button'" :to="link + party.VSTRANA" class="strong inline" @click="cb ? $emit('update', party) : null">{{ party.NAZEV }}</component>
-											</strong>
-											<div class="smaller dimm">{{ party.ZKRATKA }}</div>
-		
-											<div v-if="party.$history.length > 1">
-												<div class="p-gap_025"></div>
-												<div class="smallest dimm">Známé také jako:</div>
-		
-												<p-list height="0" class="invisible smallest dimm">
-													<div v-for="(hist, indexHistory) in party.$history">
-														<div class="p-offset reverse balanced">
-															<div>
-																&middot; {{ hist.NAZEV }} ({{ hist.ZKRATKA}})
-															</div>
-															<div>
-																{{ date(hist.datum, 3) }}
+							</p-collapsible>
+						</template>
+						<template v-if="results.filter(x => x.TYP === 'H').length > 0">
+							<p-collapsible label="Předběžné a dočasné záznamy" :status="results.filter(x => x.TYP === 'H').length">
+								<div v-for="(party, index) in results.filter(x => x.TYP === 'H')" class="smaller">
+									<strong>
+										<component :is="link ? 'router-link' : 'button'" :to="link + party.VSTRANA" class="strong inline" @click="cb ? $emit('update', party) : null">{{ party.NAZEV }}</component>
+									</strong>
+								</div>
+							</p-collapsible>
+						</template>
+						<template v-if="results.find(x => x.TYP === 'S' && x.active === 0)">
+							<p-collapsible label="Neaktivní strany a hnutí" :status="results.filter(x => x.TYP === 'S' && x.active === 0).length">
+								<p-list class="smaller">
+									<div v-for="(party, index) in results.filter(x => x.TYP === 'S' && x.active === 0)">
+										<div class="p-offset">
+											<div>
+												<p-image :src="logoByItem(party, list)" :border="true" :rounded="true"></p-image>
+											</div>
+											<div>
+												<strong>
+													<component :is="link ? 'router-link' : 'button'" :to="link + party.VSTRANA" class="strong inline" @click="cb ? $emit('update', party) : null">{{ party.NAZEV }}</component>
+												</strong>
+												<div class="smaller dimm">{{ party.ZKRATKA }}</div>
+			
+												<div v-if="party.$history.length > 1">
+													<div class="p-gap_025"></div>
+													<div class="smallest dimm">Známé také jako:</div>
+			
+													<p-list height="0" class="invisible smallest dimm">
+														<div v-for="(hist, indexHistory) in party.$history">
+															<div class="p-offset reverse balanced">
+																<div>
+																	&middot; {{ hist.NAZEV }} ({{ hist.ZKRATKA}})
+																</div>
+																<div>
+																	{{ date(hist.datum, 3) }}
+																</div>
 															</div>
 														</div>
-													</div>
-												</p-list>
+													</p-list>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</p-list>
-						</p-collapsible>
+								</p-list>
+							</p-collapsible>
+						</template>
 					</template>
-				</template>
-				<div class="smallest dimm" v-if="!results || results.length === 0">Upravte prosím své hledání</div>
-			</p-area>
-		</div>
-	</p-loader>
+					<div class="smallest dimm" v-if="!results || results.length === 0">Upravte prosím své hledání</div>
+				</p-area>
+			</div>
+		</p-loader>
+	</div>
 </div>

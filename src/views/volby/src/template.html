@@ -71,7 +71,7 @@
 											<router-link :to="'/volby/' + election.hash" class="b">{{ election.name }}</router-link>
 											<div class="smaller">
 												<p-list-linear class="or">
-													<template v-for="(el, inel) in elections.list.filter(x => x.radne === 1 && x.typ === election.key && x.cirka)">
+													<template v-for="(el, inel) in elections.list.filter(x => x.radne === 1 && x.typ === election.key && (x.cirka && !x.datum))">
 														<template v-if="inel < 3">
 															<li>
 																<router-link :to="'/volby/' + election.hash + '/' + el.id" class="strong red">{{ el.cirka.split(' ')[el.cirka.split(' ').length - 1] }}</router-link>		

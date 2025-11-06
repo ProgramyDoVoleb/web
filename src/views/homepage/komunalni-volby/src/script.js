@@ -33,7 +33,7 @@ export default {
 		searchResults: function () {
 			var results = [];
 
-			if (this.election.list[0] && this.searchQuery && this.searchQuery.length > 2) {
+			if (this.searchQuery && this.searchQuery.length > 2 && this.election && this.election.list[0]) {
 				this.election.list[0].$kandidati.filter(x => x.PORCISLO && url(x.JMENO + ' ' + x.PRIJMENI).includes(url(this.searchQuery))).forEach(x => results.push(x));
 			}
 

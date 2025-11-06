@@ -1,50 +1,52 @@
 <div class="search-town">
-	<div v-if="!list || list.list.length > 100">
+	<div>
 		<input type="text" v-model="query" placeholder="Začněte psát jméno obce">
 
 		<div class="p-gap _075"></div>
 	</div>
-	<p-loader :rule="list">
-		<div v-if="list && query">
-			<p-area :class="{'_empty': results.primary.length === 0 && results.secondary.length === 0}">
-				<p-list>
-					<div v-if="results.primary.length > 0">
-						<p-columns class="p-columns---tight">
-							<div v-for="(item, index) in results.primary">
-								<div>
-									<component :is="link ? 'router-link' : 'button'" :to="link + item.obec" class="strong inline" @click="() =>cb ? click(item) : null">{{ item.NAZEVZAST }}</component>
-									<div class="smallest dimm">okres {{ list.cis.okresy.find(x => x.numnuts === item.OKRES).nazev }}</div>
+	<div v-if="query && query.length > 1">
+		<p-loader :rule="list">
+			<div v-if="list && query">
+				<p-area :class="{'_empty': results.primary.length === 0 && results.secondary.length === 0}">
+					<p-list>
+						<div v-if="results.primary.length > 0">
+							<p-columns class="p-columns---tight">
+								<div v-for="(item, index) in results.primary">
+									<div>
+										<component :is="link ? 'router-link' : 'button'" :to="link + item.obec" class="strong inline" @click="() =>cb ? click(item) : null">{{ item.NAZEVZAST }}</component>
+										<div class="smallest dimm">okres {{ list.cis.okresy.find(x => x.numnuts === item.OKRES).nazev }}</div>
+									</div>
 								</div>
-							</div>
-						</p-columns>
-					</div>
-					<div v-if="results.intown.length > 0">
-						<strong class="smallest">Jako část obce</strong>
-						<p-columns class="p-columns---tight">
-							
-							<div v-for="(item, index) in results.intown">
-								<div>
-									<component :is="link ? 'router-link' : 'button'" :to="link + item.obec" class="strong inline" @click="() =>cb ? click(item) : null">{{ item.NAZEVZAST }}</component>
-									<div class="smallest dimm">okres {{ list.cis.okresy.find(x => x.numnuts === item.OKRES).nazev }}</div>
+							</p-columns>
+						</div>
+						<div v-if="results.intown.length > 0">
+							<strong class="smallest">Jako část obce</strong>
+							<p-columns class="p-columns---tight">
+								
+								<div v-for="(item, index) in results.intown">
+									<div>
+										<component :is="link ? 'router-link' : 'button'" :to="link + item.obec" class="strong inline" @click="() =>cb ? click(item) : null">{{ item.NAZEVZAST }}</component>
+										<div class="smallest dimm">okres {{ list.cis.okresy.find(x => x.numnuts === item.OKRES).nazev }}</div>
+									</div>
 								</div>
-							</div>
-						</p-columns>
-					</div>
-					<div v-if="results.secondary.length > 0">
-						<strong class="smallest">V názvu</strong>
-						<p-columns class="p-columns---tight">
-							
-							<div v-for="(item, index) in results.secondary">
-								<div>
-									<component :is="link ? 'router-link' : 'button'" :to="link + item.obec" class="strong inline" @click="() =>cb ? click(item) : null">{{ item.NAZEVZAST }}</component>
-									<div class="smallest dimm">okres {{ list.cis.okresy.find(x => x.numnuts === item.OKRES).nazev }}</div>
+							</p-columns>
+						</div>
+						<div v-if="results.secondary.length > 0">
+							<strong class="smallest">V názvu</strong>
+							<p-columns class="p-columns---tight">
+								
+								<div v-for="(item, index) in results.secondary">
+									<div>
+										<component :is="link ? 'router-link' : 'button'" :to="link + item.obec" class="strong inline" @click="() =>cb ? click(item) : null">{{ item.NAZEVZAST }}</component>
+										<div class="smallest dimm">okres {{ list.cis.okresy.find(x => x.numnuts === item.OKRES).nazev }}</div>
+									</div>
 								</div>
-							</div>
-						</p-columns>
-					</div>
-				</p-list>
-				<i class="dimm smallest" v-if="results.primary.length === 0 && results.secondary.length === 0">Moc výsledků, upřesněte prosím</i>
-			</p-area>
-		</div>
-	</p-loader>
+							</p-columns>
+						</div>
+					</p-list>
+					<i class="dimm smallest" v-if="results.primary.length === 0 && results.secondary.length === 0">Moc výsledků, upřesněte prosím</i>
+				</p-area>
+			</div>
+		</p-loader>
+	</div>
 </div>
