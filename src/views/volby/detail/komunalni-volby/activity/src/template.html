@@ -52,7 +52,7 @@
 								<div class="smaller strong">{{ data.list.$strany.filter(x => x.VSTRANA == partyID).length }}&times; samostatná kandidatura</div>
 								<div class="smaller">
 									<p-list-linear class="inline">
-										<span v-if="data.list.$obce.find(x => x.DRUHZASTUP === 4)">Na magistrát hlavního města Praha</span>
+										<span v-if="data.list.$strany.find(x => x.KODZASTUP === 554782 && x.VSTRANA == partyID)">Na magistrát hlavního města Praha</span>
 										<span v-for="druh in druhy">
 											<p-modal class="inline">
 												<template #init>{{ data.list.$strany.filter(x => data.list.$obce.find(y => y.obec === x.KODZASTUP && y.DRUHZASTUP === druh.id) && x.VSTRANA == partyID).length }}&times; {{ druh.headline.toLowerCase() }}</template>
