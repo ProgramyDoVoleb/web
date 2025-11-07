@@ -2,7 +2,7 @@ import {url} from '@/pdv/helpers';
 
 export default {
 	name: 'BlockExpandable',
-	props: ['level', 'headline', 'anchor', 'alert', 'subheadline', 'label', 'open', 'anchorLabel'],
+	props: ['level', 'headline', 'anchor', 'alert', 'subheadline', 'label', 'open', 'anchorLabel', 'status', 'suggestions'],
 	data: function () {
 		return {
 			opened: false

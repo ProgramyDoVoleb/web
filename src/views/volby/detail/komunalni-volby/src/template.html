@@ -13,6 +13,36 @@
 		<p-block-expandable headline="Vyhledat konkrétní obec">
 			<search-town :elections="data.list[0].id" :link="'/volby/komunalni-volby/' + data.list[0].id + '/obec/'"></search-town>
 		</p-block-expandable>
+		<p-block headline="Aktivita stran" :hide="true" v-if="parties">
+			<!-- <div class="p-line _2"></div> -->
+			<p-area>
+				<strong>Aktivita stran</strong>
+				<p class="smaller">Někde samostatně, jinde v koalici, někde jen podporují jinou kandidátku, někde ve spolupráci s místními sdruženími a jinde vůbec. Podívejte se na aktivitu stran ve volbách.</p>
+				<!-- <div class="p-gap _05"></div> -->
+				<p-box-group>
+					<template v-for="party in sortBy(parties.list, 'ZKRATKA', null, true)">
+						<p-box :to="'/volby/komunalni-volby/' + data.list[0].id + '/aktivita/' + party.VSTRANA">
+							<p-box-image :src="logoByItem(party, {cis: {strany: parties.list}})" class="_r"></p-box-image>
+						</p-box>
+					</template>
+					<p-modal>
+						<template #init>
+							<p-box>
+								<p-box-button icon="detail.svg">jiná strana</p-box-button>
+							</p-box>
+						</template>
+						<template #content>
+							<search-party :link="'/volby/komunalni-volby/' + data.list[0].id + '/aktivita/'"></search-party>
+						</template>
+					</p-modal>
+				</p-box-group>
+				<!-- <div class="p-gap"></div>
+				<p-collapsible label="Souhrnné výsledky stran" logo="results">
+
+				</p-collapsible> -->
+			<!-- <div class="p-line _2"></div> -->
+			</p-area>
+		</p-block>
 		<div class="p-gap_4"></div>
 	</template>
 </div>

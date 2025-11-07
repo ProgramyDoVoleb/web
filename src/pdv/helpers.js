@@ -275,6 +275,15 @@ export function color (name) {
 export function gradient (arr) {
   var clr = [];
 
+  var ind = arr.indexOf('rgb(249,89,231)');
+
+  if (ind > -1) {
+    var arr2 = ['rgb(249,89,231)'];
+    arr.splice(ind, 1);
+    arr.forEach(x => arr2.push(x));
+    arr = arr2;
+  }
+
   arr.forEach((a, i) => {
     clr.push(a + ' ' + i / (arr.length - 1) * 100 + '%');
   });

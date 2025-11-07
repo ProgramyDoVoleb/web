@@ -1,0 +1,95 @@
+<div class="layout-volby">
+	<p-area :borderColor="data.cis.volby.status === 3 ? (party.MAND_STR > 0 ? 'var(--green)' : 'var(--red)') : null" class="primary">
+																<div class="p-offset reverse balanced">
+																	<div>
+																		<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + obec.obec" class="strong is-span">{{ obec.NAZEVZAST }}</router-link>
+																	</div>
+																	<div class="smaller dimm">{{ obec.MANDATY }} zastupitelů</div>
+																</div>															
+																
+																<!-- <div class="p-line"></div> -->
+																<div class="p-gap _05"></div>
+																	<router-link class="strong" :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id">{{ party.NAZEV }}</router-link>
+																	<div class="mt05 smaller" v-if="data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+																		<template v-for="member in data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+																			<div>- {{ member.NAZEV }}</div>
+																		</template>																	
+																	</div>
+																	<div class="p-gap 05"></div>
+																	<p-box-group>
+																		<template v-for="link in data.list.$program.filter(x => x.csu_id === party.id)">
+																			<p-box :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id + '/volebni-program/' + link.id">
+																				<p-box-button class="primary">Celý program</p-box-button>
+																			</p-box>
+																		</template>
+																		<template v-for="link in data.list.$data.filter(x => x.type === 'program' && x.csu_id === party.id)">
+																			<p-box :href="link.source">
+																				<p-box-button class="primary">{{ link.value }}</p-box-button>
+																			</p-box>
+																		</template>
+																		<template v-if="data.list.$priority.find(x => x.csu_id === party.id)">
+																			<p-box :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id + '/priority/'">
+																				<p-box-button>Priority</p-box-button>
+																			</p-box>
+																		</template>
+																		<template v-if="data.list.$answers.find(x => x.csu_id === party.id)">
+																			<p-box :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id + '/otazky-a-odpovedi/'">
+																				<p-box-icon type="answers-mini"></p-box-icon>
+																			</p-box>
+																		</template>
+																	</p-box-group>
+																	<div class="p-line"></div>
+																	<template v-if="data.cis.volby.status === 1 && data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec).length > 0">
+																		<div class="smaller">Možní kandidáti:
+																			<p-list-linear class="inline">
+																				<span v-for="cand in sortBy(data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec), 'PRIJMENI', null, true)">
+																					<router-link :to="'/volby/komunalni-volby/' + id + '/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+																				</span>
+																			</p-list-linear>
+																		</div>
+																	</template>
+																	<template v-if="data.cis.volby.status === 2 && data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PLATNOST === 'A' && x.NSTRANA == partyID).length > 0">
+																		<div>Nominací: {{ data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PLATNOST === "A" && x.NSTRANA == partyID).length }}</div>
+																		<div>Z toho členů: {{ data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PLATNOST === "A" && x.PSTRANA == partyID).length }}</div>
+																		<div class="smaller">Na čele kandidátky:
+																			<p-list-linear class="inline">
+																				<span v-for="cand in sortBy(data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PORCISLO < 5), 'PRIJMENI', null, true)">
+																					<router-link :to="'/volby/komunalni-volby/' + id + '/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+																				</span>
+																			</p-list-linear>
+																		</div>
+																	</template>
+																	<template v-if="data.cis.volby.status === 3">
+																		<p-grid>
+																			<div>Výsledek: {{ party.PROCHLSTR }} %</div>
+																			<div>Celkem hlasů: {{ number(party.HLASY_STR) }}</div>
+																		</p-grid>
+																		<template v-if="party.MAND_STR > 0">
+																			<div class="p-line"></div>
+																			<p-grid>
+																				<div class="strong green">Zisk mandátů: {{ party.MAND_STR }} <span class="dimm w400 smaller">z {{ obec.MANDATY }}</span></div>
+																				
+																				<div>Síla v zastupitelstvu {{ pct(party.MAND_STR, obec.MANDATY) }} %</div>
+																			</p-grid>
+																			<div v-if="data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.MANDAT === 'A' && x.NSTRANA == partyID).length > 0">
+																				<div class="p-gap _01"></div>
+																				<div class="smaller" v-if="data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+																					Zvolených nominantů: {{ data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.MANDAT === 'A' && x.NSTRANA == partyID).length }} z {{ data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.NSTRANA == partyID).length }}
+																				</div>
+																				<div class="smaller dimm" v-if="data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.MANDAT === 'A' && x.PSTRANA == partyID).length === 0">
+																					Žádný člen nebyl zvolen
+																				</div>
+																				<div class="smaller" v-else>
+																					Zvolení členové: <p-list-linear class="inline">
+																						<span v-for="cand in sortBy(data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.MANDAT === 'A' && x.PSTRANA == partyID), 'PRIJMENI', null, true)">
+																							<router-link :to="'/volby/komunalni-volby/' + id + '/kandidat/' + cand.id" class="green">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+																						</span>
+																					</p-list-linear>
+																				</div>
+																			</div>
+																		</template>		
+																																		
+																	</template>
+															</p-area>
+															
+</div>

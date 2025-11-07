@@ -74,6 +74,8 @@ export default {
 				res = con(s.$data, 'color', color(item.NAZEV));
 			}
 
+			res = res.split('rgb(249,89,231)').join('#f959e722').split('rgb(249, 89, 231)').join('#f959e722');
+
 			return res || '#aaa';
 		},
 		logoByItem: function (item, data) {

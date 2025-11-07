@@ -1,14 +1,17 @@
 import {cdn} from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {date} from '@/pdv/helpers';
+import {useData} from '@/stores/data';
+import {date, sortBy} from '@/pdv/helpers';
+import { colorByItem, logoByItem } from '@/components/results/helpers';
 import TownItem from '@/views/volby/detail/komunalni-volby/item/do.vue'
 import SearchTown from '@/components/search-town/do.vue'
+import SearchParty from '@/components/search-party/do.vue'
 
 export default {
 	name: 'volby-item',
 	props: ['data', 'prev'],
 	components: {
-		TownItem, SearchTown
+		TownItem, SearchTown, SearchParty
 	},
 	data: function () {
 		return {
@@ -16,12 +19,19 @@ export default {
 		}
 	},
 	computed: {
+		$store: function () {
+			return useData()
+		},
 		enums: function () {
 			return useEnums()
-		}
+		},
+		parties: function () {
+			return this.$store.getters.pdv('parties/as-of/' + this.data.list[0].datum + ';1,7,47,53,166,703,720,721,768,1114,714,5,1227,1245,1265,1178,1298');
+		},
 	},
 	methods: {
-		date,
+		date, sortBy,
+		colorByItem, logoByItem,
 		town: function (index) {
 			var o = {}
 

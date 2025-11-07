@@ -124,7 +124,7 @@ const router = createRouter({
       path: '/volby/krajske-volby/:id/aktivita/:party',
       name: 'volby-krajske-aktivity',
       component: () => import('../views/volby/detail/krajske-volby/activity/do.vue'),
-      props: true
+      props: true 
     },
     {
       path: '/volby/senatni-volby/:id/aktivita/:party',
@@ -134,8 +134,14 @@ const router = createRouter({
     },
     {
       path: '/volby/snemovni-volby/:id/aktivita/:party',
-      name: 'volby-senatni-aktivity',
+      name: 'volby-snemovni-aktivity',
       component: () => import('../views/volby/detail/snemovni-volby/activity/do.vue'),
+      props: true
+    },
+    {
+      path: '/volby/komunalni-volby/:id/aktivita/:party',
+      name: 'volby-komunalni-aktivity',
+      component: () => import('../views/volby/detail/komunalni-volby/activity/do.vue'),
       props: true
     },
     {
@@ -223,7 +229,7 @@ const router = createRouter({
     },
     {
       path: '/volby/:volbyType/:volbyID/:page/:tableID',
-      name: 'volby-pointer',
+      name: 'volby-pointer-party',
       component: PointerView,
       props: true
     },

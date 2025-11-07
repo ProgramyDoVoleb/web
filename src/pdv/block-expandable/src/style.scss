@@ -20,17 +20,21 @@
   font-size: 3rem;
   right: 1rem;
   top: .1em;
-  color: #066ed2;
+  
   font-family: Arial, Helvetica, sans-serif;
 
   transform: rotate(45deg);
   transition: .4s all;
 
   pointer-events: none;
+
+  &:not(.red) {
+    color: #066ed2;
+  }
 }
 
 .p-block-indicator---opened {
-  color: #d72027;
+  color: #d72027 !important;
   transform: rotate(360deg);
   // top: 2rem;
 }
@@ -63,4 +67,28 @@
       border-top-color: #d72027;
     }
   }
+}
+
+._status {
+  right: 2.5em;
+  top: .8em; 
+  color: var(--blue);
+  position: absolute;
+
+  &:not(:last-child) {
+    right: 4em;
+  }
+}
+
+._content {
+  margin-top: 1em;
+}
+
+._nmr {
+  margin-right: 0 !important;
+}
+
+._suggestion {
+  color: var(--red);
+  font-weight: bold;
 }

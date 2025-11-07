@@ -37,7 +37,11 @@ export function colorByItem (item, data, _key, _flat) {
         }
     }
 
-    return res || ((_key || 'VSTRANA').split(',').length > 1 ? colorByItem(item, date, (_key || 'VSTRANA').split(',').splice(1,5)) : 'var(--greyish)');
+    res = res || ((_key || 'VSTRANA').split(',').length > 1 ? colorByItem(item, date, (_key || 'VSTRANA').split(',').splice(1,5)) : 'var(--greyish)');
+
+    res = res.split('rgb(249,89,231)').join('#f959e722').split('rgb(249, 89, 231)').join('#f959e722');
+
+    return res;
 }
 
 export function logoByItem (item, data, _key, _canBeNull) {
