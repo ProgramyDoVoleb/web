@@ -52,6 +52,8 @@
   backface-visibility: hidden;
   z-index: 2;
   display: none;
+  will-change: transform;
+  transition: transform .1s;
 
   // &:not(.keep) {
   //   display: none;
@@ -69,8 +71,8 @@
 
   @media (min-width: 1440px) {
     display: block;
-    position: fixed;
-    top: 10rem;
+    position: absolute;
+    top: 0;
     right: 2.5rem;
     width: 17rem;
     padding: 0 0 0 0;
@@ -94,14 +96,16 @@
 .p-layout---nav {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  will-change: transform;
+  transition: transform .1s;
 
   @media (max-width: 959px) {
     display: none;
   }
 
   @media (min-width: 640px) {
-    position: fixed;
-    top: 8rem;
+    position: absolute;
+    top: 0;
     left: 3.5rem;
     width: 16rem;
   }

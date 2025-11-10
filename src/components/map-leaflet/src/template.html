@@ -5,9 +5,9 @@
 		  layer-type="base"
 		  name="OpenStreetMap"
 		  class="_tile"
-		  :opacity="0.2"
+		  :opacity="0.25"
 		></l-tile-layer>
 		<l-geo-json :geojson="geojson" :options="{filter: map_filter, style: map_style, onEachFeature: map_onEachFeature}" :optionsStyle="map_style" :onEachFeature="map_onEachFeature"></l-geo-json>
 	  </l-map>	
 </div>
-<p class="tiny dimm">Mapy OpenStreetMaps, GeoJSON ze zdrojů data.gov.cz, okrsková data ČSÚ</p>  
+<p class="tiny dimm _info">Mapy OpenStreetMaps, GeoJSON ze zdrojů data.gov.cz, okrsková data ČSÚ</p>  

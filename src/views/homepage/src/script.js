@@ -34,6 +34,7 @@ import EngagementBlock from '@/components/engagement/block/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
 import HomepageSummary from '@/views/homepage/summary/do.vue';
+import HeroMap from '@/components/hero-map/main/do.vue';
 
 export default {
 	name: 'layout-homepage',
@@ -60,7 +61,8 @@ export default {
 	HomepageEp, HomepageKz, HomepageKv, HomepagePs, HomepageSenat, ElectionResults, CtaGetAdmin, CtaSupport, PromoBlock, EngagementBlock, EventItem, CtaSupportShort,
 	EditableSuggest, PopUp, CtaQuestions,
 	CtaGuide, CtaHowTo, 
-	HomepageSummary
+	HomepageSummary,
+	HeroMap
   },
 	computed: {
 		$store: function () {

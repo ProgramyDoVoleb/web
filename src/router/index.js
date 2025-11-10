@@ -198,6 +198,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/volby/komunalni-volby/:id/okres/:district',
+      name: 'volby-komunalni-okres',
+      component: () => import('../views/volby/detail/komunalni-volby/okres/do.vue'),
+      props: true
+    },
+    {
       path: '/volby/:volbyType/:volbyID/:page/:tableID/volebni-program/:programID',
       name: 'volby-pointer-program',
       component: PointerProgramView,

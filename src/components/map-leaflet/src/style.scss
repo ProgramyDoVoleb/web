@@ -2,6 +2,10 @@
   height: min(70vh, 50em);
 }
 
+.kv-hero-map .map-leaflet {
+  height: 100%;
+}
+
 path {
   fill: var(--blue);
   stroke: var(--blue);
@@ -9,4 +13,10 @@ path {
 
 ._tile {
   opacity: 0.2;
+}
+
+.kv-hero-map ._info {
+  position: absolute;
+  bottom: 0;
+  left: 1em;
 }

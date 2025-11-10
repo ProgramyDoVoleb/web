@@ -39,9 +39,31 @@
 	}
 }
 
+.p-leaflet-path-main {
+	stroke: var(--blue);
+	stroke-width: 1;
+	fill-opacity: .5;
+    fill: var(--blue);
+}
+
+.p-leaflet-path-all {
+	stroke: var(--blue);
+	stroke-width: .5;
+	// fill-opacity: .05;
+    fill: var(--blue);
+}
+
 .p-leaflet-map-popup {
 	font-size: 1.4rem;
 	bottom: 1em !important;
+
+	.kv-hero-map & {
+		bottom: 0 !important;
+	}
+}
+
+.kv-hero-map .columns-2 div {
+	padding: .25em 0;
 }
 
 .indicator.green:before {

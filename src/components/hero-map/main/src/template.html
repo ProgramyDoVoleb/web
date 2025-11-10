@@ -1,0 +1,7 @@
+<div class="kv-hero-map">
+	<p-loader :rule="towns">
+		<div v-if="towns" class="_map">
+			<map-leaflet ref="map" :options="{detail: 'okresy', zoom: width > 1024 ? 8 : 7}" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
+		</div>
+	</p-loader>	
+</div>

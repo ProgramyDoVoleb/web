@@ -1,0 +1,13 @@
+.kv-hero-map {
+	width: 100%;
+	height: 80vh;
+	display: block;
+	position: relative;
+	background: #ccc;
+}
+
+._map {
+	height: 80vh;
+	border-bottom: 1px solid var(--blue);
+}
+

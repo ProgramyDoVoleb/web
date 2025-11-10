@@ -33,29 +33,29 @@ export default {
 			if (this.$refs['main']) this.height.main = this.$refs['main'].getBoundingClientRect().height;
 			if (this.$refs['aside']) this.height.aside = this.$refs['aside'].getBoundingClientRect().height;
 			if (this.$refs['nav']) this.height.nav = this.$refs['nav'].getBoundingClientRect().height;
-			
-			this.scrollTop = document.documentElement.scrollTop;
 
-			var pageTopOffset = 0;
+			var start = this.$el.getBoundingClientRect().y;
+			var end = start + this.$el.getBoundingClientRect().height;
+			var header = document.querySelector('header').getBoundingClientRect().height;
+			var offset = 20;
 
-			this.offset.aside = pageTopOffset;
-			this.offset.nav = pageTopOffset;
+			// console.log(end, this.offset.aside, this.height.aside);
 
-			if (this.height.main - this.scrollTop < this.height.aside) {
-				this.offset.aside = this.height.main - this.scrollTop - this.height.aside + pageTopOffset;
+			if (start < header) {
+				this.offset.aside = header + offset - start;
+				this.offset.nav = header + offset - start;
+
+				if (this.height.aside > end - header) {
+					this.offset.aside = this.height.main - this.height.aside + header + offset;
+				}
+
+				if (this.height.nav > end - header) {
+					this.offset.nav = this.height.main - this.height.nav + header + offset;
+				}
+			} else {
+				this.offset.aside = offset;
+				this.offset.nav = offset;
 			}
-
-			if (this.height.main - this.scrollTop < this.height.nav) {
-				this.offset.nav = this.height.main - this.scrollTop - this.height.nav + pageTopOffset;
-			}
-
-			// if (this.offset.nav + this.height.nav > this.height.main) {
-			// 	this.offset.nav = this.height.main - this.height.nav;
-			// }
-			//
-			// if (this.offset.aside + this.height.aside > this.height.main) {
-			// 	this.offset.aside = this.height.main - this.height.aside;
-			// }
 		},
 		resize: function () {
 			if (this.$refs['main']) this.height.main = this.$refs['main'].getBoundingClientRect().height;
@@ -79,6 +79,6 @@ export default {
 		this.resize();
 		this.scroll();
 
-		setInterval(() => this.resize(), 1000);
+		// setInterval(() => this.resize(), 1000);
 	}
 };

@@ -1,0 +1,20 @@
+<div class="layout-volby">
+	<hero-map :district="district"></hero-map>
+	<p-layout-divided>
+		<template #main>
+
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/komunalni-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+				<div>
+					<top-tasks></top-tasks>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

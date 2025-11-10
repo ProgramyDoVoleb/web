@@ -454,6 +454,12 @@ a.is-span:not(.dimm) {
 	}
 }
 
+.columns-2 {
+	columns: 2;
+	column-gap: 20px;
+	column-rule: var(--border);
+}
+
 .columns-4 {
 	columns: 2;
 	column-gap: 20px;
