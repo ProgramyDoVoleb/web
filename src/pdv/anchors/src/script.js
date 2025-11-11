@@ -15,17 +15,19 @@ export default {
 
 			if (blocks.length > 0) {
 				blocks.forEach(el => {
-					var obj = {
-						el,
-						label: el.querySelector('.p-headline---label').getAttribute('data-label'),
-						level: Number(el.querySelector('.p-headline---component').nodeName.split('H')[1]),
-						rect: el.getBoundingClientRect(),
-						visible: false
+					if (el.querySelector('.p-headline---label')) {
+						var obj = {
+							el,
+							label: el.querySelector('.p-headline---label').getAttribute('data-label'),
+							level: Number(el.querySelector('.p-headline---component').nodeName.split('H')[1]),
+							rect: el.getBoundingClientRect(),
+							visible: false
+						}
+
+						obj.hash = '#' + url(obj.label);
+
+						this.list.push(obj);
 					}
-
-					obj.hash = '#' + url(obj.label);
-
-					this.list.push(obj);
 				});
 			}
 

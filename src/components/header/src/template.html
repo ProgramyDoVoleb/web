@@ -55,7 +55,7 @@
 								</p-list-linear>
 							</div>
 						</div>
-						<div v-if="$route.fullPath.split('/volby/snemovni-volby/166').length > 1 || $route.path === '/'">
+						<div v-if="$route.fullPath.split('/volby/snemovni-volby/166').length > 1">
 							<div class="p-line"></div>
 							<div class="smaller">
 								<strong class="blue">Sněmovní volby</strong>
@@ -64,6 +64,20 @@
 							<div class="columns" @click="showMenu = false">
 								<div v-for="item in menu166">
 									<router-link :to="item.route" @click="showMenu = false">{{ item.label }}</router-link>
+								</div>
+							</div>
+						</div>
+						<div v-if="$route.fullPath.split('/volby/komunalni-volby/176').length > 1 || $route.path === '/'">
+							<div class="p-line"></div>
+							<div class="smaller">
+								<strong class="blue">Komunální volby</strong>
+							</div>
+							<div class="mv05">
+								<search-town link="/volby/komunalni-volby/176/obec/" :cb="true" @update="() => {showMenu = false; $refs.searchTown2.clear()}" ref="searchTown2"></search-town>
+							</div>
+							<div class="columns" @click="showMenu = false">
+								<div v-for="item in menu176">
+									<router-link :to="item.route" @click="showMenu = false">{{ item.full || item.label }}</router-link>
 								</div>
 							</div>
 						</div>
@@ -123,6 +137,25 @@
 				<p-list-linear class="or linear" >
 					<span class="strong" v-for="item in menu166"><router-link class="is-span" :to="item.route" @click="showMenu = false">{{ item.label }}</router-link></span>
 				</p-list-linear>
+			</div>
+		</div>
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/komunalni-volby/176').length > 1 || $route.path === '/'">
+			<div class="smaller">
+				<div class="p-offset reverse balanced">
+					<div>
+						<strong><router-link to="/volby/komunalni-volby/176" class="blue">Komunální volby</router-link> </strong>
+						&middot;
+						<p-list-linear class="or linear" >
+							<span class="strong" v-for="item in menu176"><router-link class="is-span" :to="item.route" @click="showMenu = false">{{ item.label }}</router-link></span>
+							
+						</p-list-linear>
+					</div>
+					<div>
+						<span class="_st">
+							<search-town ref="searchTown" link="/volby/komunalni-volby/176/obec/" unstyle="1" :cb="true" @update="() => $refs.searchTown.clear()"></search-town>
+						</span>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/o-projektu').length > 1">

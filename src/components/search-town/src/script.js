@@ -4,7 +4,7 @@ import { url } from '@/pdv/helpers';
 
 export default {
 	name: 'search-town',
-	props: ['elections', 'cb', 'link', 'date', 'prefill', 'num'],
+	props: ['elections', 'cb', 'link', 'date', 'prefill', 'num', 'unstyle'],
 	data: function () {
 		return {
 			query: null,
@@ -63,6 +63,9 @@ export default {
 	methods: {
 		click: function (item) {
 			this.$emit('update', item);
+		},
+		clear: function () {
+			this.query = null;
 		}
 	},
 	mounted: function () {

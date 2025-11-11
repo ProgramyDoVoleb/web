@@ -1,0 +1,15 @@
+.unstyle input{
+    background: none !important;
+    color: var(--blue);
+    // max-width: 14em;
+    border-radius: 0 !important;
+
+    &:focus, &:hover {
+        border-color: transparent !important;
+        border-bottom-color: var(--blue) !important;
+    }
+
+    .dark & {
+        color: var(--blue) !important;
+    }
+}

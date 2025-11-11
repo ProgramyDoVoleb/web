@@ -19,12 +19,26 @@
     margin-bottom: inherit;
   }
 
+  .unstyle & {
+    background: var(--white) !important;
+  }
+
   .dark &,
   .dark &[style] {
     &:not([style*="background-image"]),
     &[style*="missing"] {
       &:not(.p-area---has-background) {
         background: rgba(255,255,255,.07) !important;
+        box-shadow: 0 1em 2em #00000022;
+      }      
+    }
+  }
+
+  .dark .unstyle & {
+    &:not([style*="background-image"]),
+    &[style*="missing"] {
+      &:not(.p-area---has-background) {
+        background: var(--black) !important;
         box-shadow: 0 1em 2em #00000022;
       }      
     }

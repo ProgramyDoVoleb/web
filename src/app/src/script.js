@@ -12,6 +12,7 @@ export default {
         core: useCore(),
         $router: useRouter(),
         $route: useRoute(),
+        headerHeight: 0
       }
     },
     components: {
@@ -27,10 +28,13 @@ export default {
           'o-projektu'
         ];
 
-        return arr.find(x => this.$route.path.split(x).length > 1);
+        return arr.find(x => this.$route.path.split(x).length > 1) || this.$route.path === '/';
       }
     },
     methods: {
+      setHeight: function () {
+        this.headerHeight = document.querySelector('header').getBoundingClientRect().height + 8;
+      }
     },
     mounted: function () {
 			if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -55,5 +59,19 @@ export default {
         // Do something with response error
         return Promise.reject(error);
       });
+
+      this.$nextTick(() => {
+        this.setHeight();
+      })
+
+      window.addEventListener('resize', () => this.setHeight());
+    },
+    watch: {
+      $route: function () {
+        this.$nextTick(() => {
+           this.setHeight();
+        })
+       
+      }
     }
 };

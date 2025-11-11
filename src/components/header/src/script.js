@@ -1,6 +1,7 @@
 import { useCore } from '@/stores/core'
 import { useEnums } from '@/stores/enums';
 import { useNotifications } from '@/stores/notifications'
+import SearchTown from '@/components/search-town/do.vue';
 
 export default {
 	name: 'main-header',
@@ -25,8 +26,25 @@ export default {
 				{label: 'Tip na výsledek', route: '/volby/snemovni-volby/166/muj-tip'},
 				{label: 'Kalkulačka', route: '/volby/snemovni-volby/166/kalkulacka'},
 				{label: 'Kvíz', route: '/volby/snemovni-volby/166/kviz'},
+			],
+			menu176: [
+				// {label: 'Jak volit?', route: '/volby/snemovni-volby/166/jak-volit'},
+				{label: 'Praha', route: '/volby/komunalni-volby/176/obec/554782'},
+				{label: 'Brno', route: '/volby/komunalni-volby/176/obec/582786'},
+				{label: 'Ostrava', route: '/volby/komunalni-volby/176/obec/554821'},
+				{label: 'Plzeň', route: '/volby/komunalni-volby/176/obec/554791'},
+				{label: 'Liberec', full: 'Liberec', route: '/volby/komunalni-volby/176/obec/563889'},
+				{label: 'Olomouc', full: 'Olomouc', route: '/volby/komunalni-volby/176/obec/500496'},
+				{label: 'ČB', full: 'České Budějovice', route: '/volby/komunalni-volby/176/obec/544256'},
+				{label: 'HK', full: 'Hradec Králové', route: '/volby/komunalni-volby/176/obec/569810'},
+				{label: 'Pardubice', full: 'Pardubice', route: '/volby/komunalni-volby/176/obec/555134'},
+				{label: 'Ústí', full: 'Ústí nad Labem', route: '/volby/komunalni-volby/176/obec/554804'},
+				{label: 'Zlín', route: '/volby/komunalni-volby/176/obec/585068'}
 			]
 		}
+	},
+	components: {
+		SearchTown
 	},
 	computed: {
 		loaded: function () {

@@ -1,10 +1,8 @@
-<div class="search-town">
+<div class="search-town" :class="{unstyle}">
 	<div>
 		<input type="text" v-model="query" placeholder="Začněte psát jméno obce">
-
-		<div class="p-gap _075"></div>
 	</div>
-	<div v-if="query && query.length > 1">
+	<div v-if="query && query.length > 1" class="mt075 _res">
 		<p-loader :rule="list">
 			<div v-if="list && query">
 				<p-area :class="{'_empty': results.primary.length === 0 && results.secondary.length === 0}">
@@ -43,8 +41,13 @@
 								</div>
 							</p-columns>
 						</div>
+						<div v-if="results.primary.length === 0 && results.secondary.length === 0 && query.length < 3">
+							<i class="dimm smallest">Moc výsledků, upřesněte prosím</i>
+						</div>
+						<div v-if="results.primary.length === 0 && results.secondary.length === 0 && query.length > 2">
+							<i class="dimm smallest">Nic nenalezeno</i>
+						</div>
 					</p-list>
-					<i class="dimm smallest" v-if="results.primary.length === 0 && results.secondary.length === 0">Moc výsledků, upřesněte prosím</i>
 				</p-area>
 			</div>
 		</p-loader>

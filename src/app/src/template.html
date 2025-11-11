@@ -1,5 +1,5 @@
-<div id="app" :class="{dark: core.dark, 'extended-header': extendedHeader, 'forbidden': core.isBanned}">
-	<main class="block">
+<div id="app" :class="{dark: core.dark, 'forbidden': core.isBanned}">
+	<main class="block" :style="{'padding-top': headerHeight + 'px'}">
 		<router-view></router-view>
 	</main>
 	<main-header />

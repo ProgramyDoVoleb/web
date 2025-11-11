@@ -541,3 +541,19 @@ button:not(.inline) {
 // .forbidden .row-menu-button {
 //   display: none;
 // }
+
+._st {
+  position: relative;
+  width: 30vw;
+  display: inline-block;
+  z-index: 500;
+}
+
+._st .search-town {
+  display: inline-block;
+  position: absolute;
+  top: -2.5rem;
+  left: 0.5em;
+  right: 0;
+  z-index: 500;
+}
