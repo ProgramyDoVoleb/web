@@ -1,7 +1,10 @@
 <div class="kv-hero-map">
 	<p-loader :rule="towns">
 		<div v-if="towns" class="_map">
-			<map-leaflet ref="map" :options="map_options" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
+			<map-leaflet ref="map" :options="map_options" :map_style="map_style" :map_onEachFeature="map_onEachFeature" :map_filter="map_filter"></map-leaflet>
+			<p-box :click="() => map_reset()" class="_reset" v-if="all > -1">
+				<p-box-button icon="snemovni-volby">Celá republika</p-box-button>
+			</p-box>
 		</div>
 	</p-loader>	
 </div>

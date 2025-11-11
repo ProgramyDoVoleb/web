@@ -4,6 +4,7 @@
 	display: block;
 	position: relative;
 	background: #ccc;
+	margin-top: -1rem;
 
 	@media (min-width: 1024px) {
 		height: 80vh;
@@ -19,3 +20,9 @@
 	}
 }
 
+._reset {
+	position: absolute;
+	z-index: 402;
+	top: 1rem;
+	right: 1rem;
+}

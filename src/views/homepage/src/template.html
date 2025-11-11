@@ -185,14 +185,31 @@
 					<p-loader :rule="news">
 						<div v-if="news">
 							<p-columns>
-								<template v-for="(item, index) in newsmedia.filter((x, i) => i < (width > 960 ? 8 : 4))">
+								<div>
+									<p-area class="highlight shadow smaller" borderColor="var(--red)">
+										<strong>Za poslední týden</strong>
+										<div class="p-gap"></div>
+										<p-list class="invisible">
+											<div>XXX novinek</div>
+											<div>XXX nových profilů</div>
+											<div>XXX úprav</div>
+											<div>XXX programů</div>
+											<div>XXX odpovědí</div>
+										</p-list>
+										<div class="p-line"></div>
+										<div class="smallest">
+											<router-link to="/sedmideni" class="strong">Přehledně v Sedmidění</router-link> &rarr;
+										</div>										
+									</p-area>
+								</div>
+								<template v-for="(item, index) in newsmedia.filter((x, i) => i < (width > 960 ? 10 : 4))">
 									<div>
 										<p-area :borderColor="item.label === 'pdv' ? 'var(--blue)' : (item.label === 'comment' ? 'var(--greyish)' : (item.label === 'news' ? 'var(--blue44)' : null))" class="smaller">
 											<div :class="{smaller: item.label === 'comment'}">
 												<p-link class="strong" :href="item.source" :class="{'is-span mono': item.label === 'comment'}">{{ item.value.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link>
 											</div>
 											<div class="p-gap _05"></div>
-											<template v-if="item.csu_table">
+											<template v-if="item.csu_table && item.csu_table != 'csu_volby'">
 												<div class="smallest dimm">
 													<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id" class="is-span dimm">{{ item.$node[0].NAZEV || item.$node[0].JMENO + ' ' + item.$node[0].PRIJMENI }}</router-link>
 												</div>

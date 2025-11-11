@@ -44,21 +44,54 @@
 	stroke-width: 1;
 	fill-opacity: .5;
     fill: var(--blue);
+
+	@media (hover: hover) {
+		&:hover {
+			fill: var(--blue);
+			fill-opacity: .5;
+			stroke-width: 2;
+			position: relative;
+			z-index: 100;
+		}
+	}
 }
 
 .p-leaflet-path-all {
 	stroke: var(--blue);
-	stroke-width: .5;
+	stroke-width: 1;
 	// fill-opacity: .05;
     fill: var(--blue);
+
+	@media (hover: hover) {
+		&:hover {
+			fill: var(--blue);
+			fill-opacity: .5;
+			stroke-width: 2;
+			position: relative;
+			z-index: 100;
+		}
+	}
 }
 
 .p-leaflet-map-popup {
 	font-size: 1.4rem;
 	bottom: 1em !important;
+	
+	.dark & {
 
-	.kv-hero-map & {
-		bottom: 0 !important;
+		.p-line:after {
+			border-bottom-color: var(--greyish);
+		}
+
+		.p-list > div:not(:first-child) {
+			border-top-color: var(--greyish);
+		}
+
+		@media (hover: hover) {
+			a:hover {
+				color: #000;
+			}
+		}
 	}
 }
 
@@ -68,4 +101,14 @@
 
 .indicator.green:before {
   content: '+';
+}
+
+.mapleaflet-popup-list {
+	line-height: 1.75;
+
+	span:not(:last-child) {
+		&:after {
+			content: ", ";
+		}
+	}
 }

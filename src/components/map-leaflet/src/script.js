@@ -1,4 +1,5 @@
 import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from '@vue-leaflet/vue-leaflet';
+import { useNotifications } from '@/stores/notifications'
 
 export default {
 	name: 'map-leaflet',
@@ -43,14 +44,19 @@ export default {
 		},
 		load: async function (id, skipCenter) {
 
-			if (this.$refs.geojson) {
-				console.log(this.$refs.geojson);
-			}
+			console.log (this.listOfGeoJSON.selected, id);
+
+			if (this.listOfGeoJSON.selected === id) return;
 
 			this.listOfGeoJSON.selected = id || this.listOfGeoJSON.selected;
 
+			const notify = useNotifications();
+			var note = notify.add('Načítám mapu');
+
 			const response = await fetch(this.listOfGeoJSON.list[this.listOfGeoJSON.selected]);
 			this.geojson = await response.json();
+
+			notify.update(note, 'Mapa připravena', 'green');
 			
 			if (!skipCenter) this.centerAfterLoad();
 		},
@@ -79,8 +85,8 @@ export default {
 		setTimeout(() => this.processOptions(), 100);
 	},
 	watch: {
-		options: function () {
-			setTimeout(() => this.processOptions(), 100);
-		}
+		// options: function () {
+		// 	setTimeout(() => this.processOptions(), 100);
+		// }
 	}
 };
