@@ -87,7 +87,7 @@ export default {
 		},
 		map_popup: function (feature, layer, ev) {
 			var content = [];
-				content.push(feature.properties.NAZEV);
+				content.push('<a href="/volby/komunalni-volby/176/obec/' + feature.id + '">' + feature.properties.NAZEV + '</a>');
 
 			this.$refs.map.popup(
 				layer.getCenter(), 
@@ -98,10 +98,10 @@ export default {
 			);
 		},
 		map_click: function (feature, layer, ev) {
-			// this.$router.push('/volby/komunalni-volby/176/okres/' + (this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4) || {NUMNUTS: 1100}).NUMNUTS);
+			this.$router.push('/volby/komunalni-volby/176/obec/' + feature.id);
 		},
 		map_onEachFeature: function (feature, layer) {
-			layer.addEventListener('click', (ev) => this.map_popup(feature, layer, ev));
+			layer.addEventListener('click', (ev) => this.map_click(feature, layer, ev));
 			layer.addEventListener('mouseover', (ev) => this.map_popup(feature, layer, ev));
 		},
 		recenter: function () {

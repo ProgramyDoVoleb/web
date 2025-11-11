@@ -9,6 +9,7 @@ export default {
 	data: function () {
 		return {
 			width: 0,
+			all: -1,
 			$router: useRouter()
 		}
 	},
@@ -27,6 +28,23 @@ export default {
 			}
 
 			return d;
+		},
+		map_options: function () {
+			
+				return this.all ? {detail: 'okresy', zoom: width > 1024 ? 8 : 7} : {detail: 'obce'}
+			
+		},
+		list: function () {
+			var res = [];
+
+			if (this.towns) {
+				res = this.towns.obce.filter(x => x.OKRES == this.all);
+			}
+
+			return res;
+		},
+		uniques: function () {
+			return unique(this.list, 'obec').map(x => String(x));
 		}
 	},
 	methods: {
@@ -34,12 +52,33 @@ export default {
 			this.width = this.$el.getBoundingClientRect().width
 		},
 		map_style: function (feature, layer, ev) {
-			return {
-				className: ['CZ0100', 'CZ0323', 'CZ0642', 'CZ0806'].indexOf(feature.properties.NUTS4) > -1 ? 'p-leaflet-path-main' : 'p-leaflet-path-all',
+			if (this.all === -1) {
+				return {
+					className: ['CZ0100', 'CZ0323', 'CZ0642', 'CZ0806'].indexOf(feature.properties.NUTS4) > -1 ? 'p-leaflet-path-main' : 'p-leaflet-path-all',
+				}
+			} else {
+				var item = this.list.find(x => x.obec == feature.id && x.OKRES == this.all);
+
+				if (item) {
+					return {
+						fillOpacity: ((item || {}).MANDATY || 0) / 80 - .1,
+						className: 'p-leaflet-path-all',
+						color: item ? 'var(--blue)' : 'var(--red)'
+					}
+				}
+			}
+		},
+		map_filter: function (feature, layer, ev) {
+			if (this.all === -1) {
+				return true;
+			} else {
+				return this.towns.obce.find(x => x.OKRES == this.all);				
 			}
 		},
 		map_popup: function (feature, layer, ev) {
 			var content = [];
+
+			if (this.all === -1) {
 				content.push('okres ' + feature.properties.name);
 				content.push('<div class="p-line"></div>');
 				content.push('<div class="p-list smaller">');
@@ -82,6 +121,10 @@ export default {
 
 				content.push('</div>');
 
+			} else {
+				content.push('<a href="/volby/komunalni-volby/176/obec/' + feature.id + '">' + feature.properties.NAZEV + '</a>');
+			}
+
 			this.$refs.map.popup(
 				layer.getCenter(), 
 				content.join(''),
@@ -91,12 +134,18 @@ export default {
 			);
 		},
 		map_click: function (feature, layer, ev) {
-			this.$router.push('/volby/komunalni-volby/176/okres/' + (this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4) || {NUMNUTS: 1100}).NUMNUTS);
+			if (this.all === -1) {
+				this.$refs.map.fitBounds(layer._bounds);
+				this.$refs.map.load('obce', true);
+				this.all = this.towns.okresy.find(x => x.NUTS === feature.properties.NUTS4).NUMNUTS;	
+			} else {
+				this.$router.push('/volby/komunalni-volby/176/obec/' + feature.id);
+			}
+			
 		},
 		map_onEachFeature: function (feature, layer) {
 			layer.addEventListener('click', (ev) => this.map_click(feature, layer, ev));
 			layer.addEventListener('mouseover', (ev) => this.map_popup(feature, layer, ev));
-			layer.addEventListener('wheel', (ev) => ev.preventDefault());
 		},
 	},
 	mounted: function () {

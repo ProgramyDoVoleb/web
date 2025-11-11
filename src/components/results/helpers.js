@@ -39,7 +39,7 @@ export function colorByItem (item, data, _key, _flat) {
 
     res = res || ((_key || 'VSTRANA').split(',').length > 1 ? colorByItem(item, date, (_key || 'VSTRANA').split(',').splice(1,5)) : 'var(--greyish)');
 
-    res = res.split('rgb(249,89,231)').join('#f959e722').split('rgb(249, 89, 231)').join('#f959e722');
+    res = res ? res.split('rgb(249,89,231)').join('#f959e722').split('rgb(249, 89, 231)').join('#f959e722') : res;
 
     return res;
 }

@@ -41,13 +41,18 @@ export default {
 				}, 1000);
 			}
 		},
-		load: async function (id) {
+		load: async function (id, skipCenter) {
+
+			if (this.$refs.geojson) {
+				console.log(this.$refs.geojson);
+			}
+
 			this.listOfGeoJSON.selected = id || this.listOfGeoJSON.selected;
 
 			const response = await fetch(this.listOfGeoJSON.list[this.listOfGeoJSON.selected]);
 			this.geojson = await response.json();
 			
-			this.centerAfterLoad();
+			if (!skipCenter) this.centerAfterLoad();
 		},
 		processOptions: function () {
 			this.load(this.options.detail);
