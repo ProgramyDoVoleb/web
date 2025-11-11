@@ -44,8 +44,6 @@ export default {
 		},
 		load: async function (id, skipCenter) {
 
-			console.log (this.listOfGeoJSON.selected, id);
-
 			if (this.listOfGeoJSON.selected === id) return;
 
 			this.listOfGeoJSON.selected = id || this.listOfGeoJSON.selected;

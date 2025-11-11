@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { useCore, cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, domain, con, sortBy, sortEvents, unique, shuffle} from '@/pdv/helpers';
+import {url, date, number, truncate, domain, con, sortBy, sortEvents, unique, shuffle, untag} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/components/results/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
@@ -78,97 +78,20 @@ export default {
 			return this.enums.elections;
 		},
 		news: function () {
-			return this.enableNewsLoad ? this.$store.getters.pdv('news/last50') : null;
-		},
-		newsauto: function () {
-			var list = [];
-
-			// this.news.auto.push({
-			// 	id: 4319,
-			// 	volby: 162,
-			// 	focus: 5,
-			// 	datum: "2024-07-18",
-			// 	title: "DSZ",
-			// 	content: null,
-			// 	label: null,
-			// 	source: "https://karlovarsky.denik.cz/zpravy_region/volby-kraj-karlovarsky-kandidati-karlovy-vary.html",
-			// 	relates: "csu_kz_rkl:1505,null,csu_cvs:715",
-			// 	priority: 2,
-			// 	user: 1
-			// })
-
-			if (this.news) {
-				var dates = unique(this.news.auto, 'datum');
-
-				dates.forEach(datum => {
-					var o = {
-						datum,
-						list: {
-							senat: this.news.auto.filter(x => x.datum === datum && x.relates.includes('csu_senat_rk')),
-							ps: [],
-							kz: []
-						},
-						pre: {
-							kz: this.news.auto.filter(x => x.datum === datum && x.relates.includes('csu_kz_rkl')),
-							ps: this.news.auto.filter(x => x.datum === datum && x.relates.includes('csu_ps_rkl'))
-						}
-					}
-
-					unique(o.pre.kz, 'focus').forEach((focus, i1) => {
-						unique(o.pre.kz.filter(x => x.focus === focus), 'content').forEach((content, i2) => {
-							var k = {
-								focus,
-								content,
-								list: o.pre.kz.filter(x => x.focus === focus && x.content === content).sort((a, b) => a.title.split(' ')[1].localeCompare(b.title.split(' ')[1], 'cs'))
-							}
-
-							o.list.kz.push(k);
-						});
-					})
-
-
-					unique(o.pre.ps, 'content').forEach((content, i2) => {
-						var k = {
-							focus: null,
-							content,
-							list: o.pre.ps.filter(x => x.content === content).sort((a, b) => (a.title.includes(' ') ? a.title.split(' ')[1] : a.title).localeCompare((b.title.includes(' ') ? b.title.split(' ')[1] : b.title), 'cs'))
-						}
-
-						o.list.ps.push(k);
-					});
-
-					list.push(o);
-				});
-			} 
-
-			return list;
+			return this.enableNewsLoad ? this.$store.getters.pdv('news/weekly/' + this.today) : null;
 		},
 		newsmedia: function () {
-			var list = [];
+			var res = [];
 
 			if (this.news) {
-				// sortBy([].concat(this.news.list, this.news.sys), 'datum', null, true, true).forEach(item => {
-				sortBy([].concat(this.news.sys, this.news.list, this.news.comm), 'datum', null, true, true).forEach(item => {
-					list.push({
-						source_label: item.source,
-						source: item.priority === 9 ? 'https://programydovoleb.cz/novinky/' + item.id : item.source,
-						value: item.title,
-						updated: item.datum + (item.priority === 3 ? ' 00:00:00' : ' 23:59:59'),
-						label: [0, 'news', 'auto', 'comment',0,0,0,0,0,'pdv'][item.priority],
-						content: item.priority === 3 ? item.content : null
-					})
-				});
-
-				this.news.media.forEach(item => {
-					if (!list.find(x => x.csu_id && x.csu_id === item.csu_id)) {
-						list.push(item);
-					}
-				});
-
-				list = sortBy(list, 'updated', null, true, true);
+				this.news.list.forEach(day => {
+					day.sys.forEach(item => res.push(item));
+					day.main.forEach(item => res.push(item));
+					day.media.forEach(item => res.push(item));
+				})
 			}
 
-			return list.filter((x,i) => i < 12);
+			return res;
 		},
 		elections: function () {
 			var d = this.$store.getters.pdv('elections/quicklist');
@@ -210,7 +133,7 @@ export default {
 		colorByItem,
 		logoByItem,
 		sortBy, sortEvents,
-		unique, shuffle,
+		unique, shuffle, untag,
 		$getParty: function (hash) {
 			var item = this.parties.list.find(x => x.hash === hash);
 

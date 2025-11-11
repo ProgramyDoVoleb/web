@@ -34,14 +34,38 @@
 		<p-area borderColor="var(--red)" class="strong">Volby neproběhly, nebyla registrovaná ani jedna kandidátní listina.</p-area>
 		<div class="p-gap_3"></div>
 	</template>
+	
 	<template v-if="current.status === 1">
-		<p-block headline="Předběžný přehled">
-			<p>Zde najdete přehled stran a kandidátů, kteří už nějakou formou oznámili záměr nebo odhodlání kandidovat.</p>
-			<component :is="people(parties(current.$strany, current.$strany), current.$kandidati, true).length > 100 ? 'election-list' : 'election-grid'" :list="people(parties(current.$strany, current.$strany), current.$kandidati, true)"></component>
-			<div class="p-line"></div>
-			<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'KV:' + current.id + ':' + town">
-				<button>Přidat či upravit</button>
-			</report-modal>
+		<p-block headline="Předběžný přehled" :hide="true">
+			<div class="p-offset reverse balanced">
+				<div>
+					<h2><button class="inline" @click="compactList = true" :class="{'active': compactList}">Seznam</button> / <button class="inline" @click="compactList = false" :class="{'active': !compactList}">Přehled</button></h2>
+				</div>
+				<div v-if="current.status === 1">
+					<p-modal>
+						<template #init>
+							<p-label color="var(--red)" class="smaller strong red">Předběžný přehled</p-label>
+						</template>
+						<template #content>
+							<p>Zde najdete přehled stran a kandidátů, kteří už nějakou formou oznámili záměr nebo odhodlání kandidovat. Kandidáti uvedeni s číslem již byli oznámeni na té pozici kandidátky, ostatní jsou řazeni dle abecedy a nemusí být součástí finální podoby kandidátky. Pořadí a složení se může měnit. Tento přehled bude nahrazen za oficiální přehled, který vydává Český statistický úřad, cca 45 dní před volbami.</p>
+						</template>
+					</p-modal>
+				</div>
+			</div>	
+			<div class="p-gap"></div>
+			<p-columns>
+				<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
+					<component :is="compactList ? 'party-preview' : 'party-preview-large'" :link="'/volby/komunalni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.OSTRANA === party.OSTRANA)" :election="null" :elections="data"></component>
+				</div>
+			</p-columns>
+			<!-- <election-grid :leaders="true" :list="people(parties(current.$strany, current.$strany), current.$kandidati, true)"></election-grid> -->
+			<template v-if="current.status < 3">
+				<div class="p-line"></div>
+				<p class="">Pokud vám nějaká strana nebo jméno v přehledu chybí, nebo přebývá, dejte prosím vědět. Stačí kliknout níže a zaslat odkaz.</p>
+				<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'KV:' + current.id + ':' + town">
+					<p-box-button icon="plus-green" class="green">Přidat či upravit</p-box-button>
+				</report-modal>
+			</template>
 		</p-block>
 	</template>
 	<p-block v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0" headline="Otázky a odpovědi">

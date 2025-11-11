@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, gradient, color, pct} from '@/pdv/helpers';
+import {url, date, number, truncate, con, gradient, color, pct, sortBy} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
@@ -9,6 +9,9 @@ import ElectionList from '@/components/results/parties/list/do.vue';
 import ElectionGrid from '@/components/results/parties/grid/do.vue';
 import ElectionStats from '@/components/results/stats/do.vue';
 import ElectionResults from '@/views/history/volby/detail/do.vue';
+import PartyPreview from '@/components/party-preview/do.vue'
+import PartyPreviewLarge from '@/components/party-preview-large/do.vue'
+import PersonPreviewBlock from '@/components/person-preview-block/do.vue'
 
 export default {
 	name: 'layout-volby-detail-komunalni-obec-detail',
@@ -20,7 +23,8 @@ export default {
 				{type: 2, label: 'Volební témata', hash: 'tema'},
 				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka'},
 				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka'}
-			]
+			],
+			compactList: window.width < 1240
 		}
 	},
   components: {
@@ -30,7 +34,10 @@ export default {
 	ElectionStats, 
 	ElectionList,
 	ElectionGrid,
-	ElectionResults
+	ElectionResults,
+	PartyPreview,
+	PartyPreviewLarge,
+	PersonPreviewBlock
   },
 	computed: {
 		$store: function () {
@@ -55,6 +62,7 @@ export default {
 		number,
 		truncate,
 		pct,
+		sortBy,
 		colorByItem: function (item, data) {
 
 			var res = con(item.$data, 'color');

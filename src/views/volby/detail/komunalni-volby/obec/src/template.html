@@ -4,7 +4,7 @@
 			<p-block :headline="current ? current.$dotcene[0].NAZEVZAST : ''" :level="1" :subheadline="'komunální volby, ' + (current ? (current.datum_label || (current.datum ? date(current.datum, 3) : current.cirka)) : 'načítám...')" :anchor="current ? current.$dotcene[0].NAZEVZAST : 'Volby'">
 				<p-loader :rule="current">
 					<div v-if="current">
-						<p-block headline="O volbách" :hide="true">
+						<!-- <p-block headline="O volbách" :hide="true">
 							<div class="smaller">
 								<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][current.status]) + ')'">{{ current.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[current.status] }}</p-label></div>
 								<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][current.editace]) + ')'">administrace {{ enums.editace[current.editace] }}</p-label></div>
@@ -16,7 +16,7 @@
 								</p-box>
 							</template>
 							<p class="lead" v-if="current.popis" v-html="current.popis"></p>
-						</p-block>
+						</p-block> -->
 						<komunalni-volby :data="data" :town="zast"></komunalni-volby>
 						<div class="p-gap"></div>
 						<p-area icon="komunalni-volby" class="inline highlight shadow">
@@ -27,10 +27,8 @@
 					</div>
 				</p-loader>
 			</p-block>
-			<p-block :level="1" headline="Komunální volby">
-				<p-block-expandable headline="Vyhledat jinou obec">
-					<search-town :elections="current.id" :link="'/volby/komunalni-volby/' + current.id + '/obec/'"></search-town>
-				</p-block-expandable>
+			<p-block :level="1" headline="Jiné zastupitelstvo">
+				<search-town :link="'/volby/komunalni-volby/' + id + '/obec/'"></search-town>
 			</p-block>
 			
 		</template>
