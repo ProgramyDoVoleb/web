@@ -53,7 +53,7 @@
   z-index: 2;
   display: none;
   will-change: transform;
-  transition: transform .1s;
+  transition: transform .1s .25s;
 
   // &:not(.keep) {
   //   display: none;
@@ -97,7 +97,7 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   will-change: transform;
-  transition: transform .1s;
+  transition: transform .1s .25s;
 
   @media (max-width: 959px) {
     display: none;

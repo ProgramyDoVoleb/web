@@ -10,6 +10,7 @@ export default {
 		return {
 			width: 0,
 			all: -1,
+			mapClass: null,
 			$router: useRouter()
 		}
 	},
@@ -49,7 +50,16 @@ export default {
 	},
 	methods: {
 		resize: function () {
-			this.width = this.$el.getBoundingClientRect().width
+			this.width = this.$el.getBoundingClientRect().width;
+			this.$nextTick(() => {
+				setTimeout(() => {
+					if (this.$refs.map) this.$refs.map.invalidateSize();
+				}, 250);
+			})
+		},
+		resizeMap: function (c) {
+			this.mapClass = c;
+			this.resize();
 		},
 		map_style: function (feature, layer, ev) {
 			if (this.all === -1) {
@@ -79,7 +89,7 @@ export default {
 		map_popup: function (feature, layer, ev) {
 			var content = [];
 
-			if (this.all === -1) {
+			if (this.all === -1 && this.width > 1024 && this.mapClass != '_map-mid') {
 				content.push('<strong>okres ' + feature.properties.name + '</strong>');
 				content.push('<div class="p-line"></div>');
 				content.push('<div class="p-list smaller">');
@@ -156,19 +166,25 @@ export default {
 				content.push('</div>');
 				content.push('</div>');
 
+			} else if (this.all === -1) {
+				var list = this.towns.obce.filter(x => x.OKRES === this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4).NUMNUTS);
+				content.push('<div class="smaller"><a href="/volby/komunalni-volby/176/okres/' + list[0].OKRES + '" class="strong">okres ' + feature.properties.name + '</a></div>')
 			} else {
 				content.push('<a href="/volby/komunalni-volby/176/obec/' + feature.id + '" class="strong">' + feature.properties.NAZEV + '</a>');
 				
 				var obj = this.towns.obce.find(x => x.obec == feature.id);
-				content.push('<div class="smallest dimm mt05">Volí ' + obj.MANDATY + ' zastupitelů</div>');
 
-				if (this.towns.obce.find(x => x.NADRZASTUP == feature.id)) {
-					content.push('<div class="p-line"></div>');
-					content.push('<div class="mapleaflet-popup-list smaller">Části: ');
-					sortBy(this.towns.obce.filter(x => x.NADRZASTUP == feature.id), 'NAZEVZAST', null, true).forEach(town => {
-						content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
-					});
-					content.push('</div>');
+				if (obj) {
+					content.push('<div class="smallest dimm mt05">Volí ' + obj.MANDATY + ' zastupitelů</div>');
+
+					if (this.towns.obce.find(x => x.NADRZASTUP == feature.id)) {
+						content.push('<div class="p-line"></div>');
+						content.push('<div class="mapleaflet-popup-list smaller">Části: ');
+						sortBy(this.towns.obce.filter(x => x.NADRZASTUP == feature.id), 'NAZEVZAST', null, true).forEach(town => {
+							content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
+						});
+						content.push('</div>');
+					}
 				}
 			}
 

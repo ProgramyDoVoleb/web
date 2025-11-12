@@ -9,6 +9,35 @@
 	@media (min-width: 1024px) {
 		height: 80vh;
 	}
+
+	&._map-max {
+		&, & ._map {
+			height: 80vh !important;
+			max-height: 80vh !important;
+		}
+	}
+
+	&._map-mid {
+		&, & ._map {
+			height: 40vh !important;
+			max-height: 40vh !important;
+		}
+	}
+
+	&._map-none {
+		&, & ._map {
+			height: 84px !important;
+			max-height: 84px !important;
+
+			._reset {
+				display: none;
+			}
+		}
+
+		._map {
+			pointer-events: none;
+		}
+	}
 }
 
 ._map {
@@ -25,4 +54,9 @@
 	z-index: 402;
 	top: 1rem;
 	right: 1rem;
+}
+
+._map-control {
+	position: relative;
+	z-index: 10;
 }

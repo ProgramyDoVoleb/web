@@ -134,6 +134,9 @@ export default {
 		},
 		setView: function (center, zoom) {
 			this.$refs.map.leafletObject.setView(center, zoom);
+		},
+		invalidateSize: function (center, zoom) {
+			this.$refs.map.leafletObject.invalidateSize();
 		}
 	},
 	mounted: function () {

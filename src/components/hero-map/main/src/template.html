@@ -1,10 +1,19 @@
-<div class="kv-hero-map" :style="options ? options.style : null">
+<div class="kv-hero-map" :style="options ? options.style : null" :class="mapClass">
 	<!-- <p-loader :rule="towns"> -->
 		<div v-if="towns" class="_map" :style="options ? options.style : null">
 			<map-leaflet ref="map" :options="map_options" :map_style="map_style" :map_onEachFeature="map_onEachFeature" :map_filter="map_filter"></map-leaflet>
-			<p-box :click="() => map_reset()" class="_reset" v-if="all > -1">
-				<p-box-button icon="snemovni-volby">Celá republika</p-box-button>
-			</p-box>
+			<p-box-group>
+				<p-box :click="() => map_reset()" class="_reset" v-if="all > -1">
+					<p-box-icon type="search">Celá republika</p-box-icon>
+				</p-box>
+			</p-box-group>
+		</div>
+		<div class="text-center smallest _map-control">
+			<p-list-linear class="or">
+				<span><button @click="resizeMap('_map-max')" class="inline" :class="{'green strong': mapClass === '_map-max'}">velká mapa</button></span>
+				<span><button @click="resizeMap('_map-mid')" class="inline" :class="{'green strong': mapClass === '_map-mid'}">malá mapa</button></span>
+				<span><button @click="resizeMap('_map-none')" class="inline" :class="{'green strong': mapClass === '_map-none'}">náhled</button></span>
+			</p-list-linear>
 		</div>
 	<!-- </p-loader>	 -->
 </div>
