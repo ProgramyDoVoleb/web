@@ -1,5 +1,5 @@
 <div class="komunalni-volby">
-	<p-block :headline="current.$obce[0].NAZEVZAST" :hide="true">
+	<!-- <p-block :headline="current.$obce[0].NAZEVZAST" :hide="true"> -->
 		<p-area>
 			<div class="p-offset reverse">
 				<div>
@@ -49,23 +49,30 @@
 					<i class="red smaller">Volby zde neproběhly!</i>
 				</template>
 				<div v-if="current.status < 3" :class="{'smallest dimm': data.list[0].$strany.length === 0}">
-					<p-lang :value="data.list[0].$strany.length" :end="['zatím žádná strana', 'jedna strana', '%% strany', '%% stran']"></p-lang>
-				</div>
-				<div v-if="current.status === 1" :class="{'smallest dimm': data.list[0].$kandidati.length === 0}">
-					<p-lang :value="data.list[0].$kandidati.length" :end="['zatím žádný známý kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>
+					<p-list-linear class="invisible">
+						<span v-for="party in sortBy(data.list[0].$strany, 'NAZEV', null, true)">
+							<router-link :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id" :class="{'is-span': current.status === 1}">{{ party.NAZEV }}</router-link>
+							<sup class="dimm tiny _candCount">
+								{{ data.list[0].$kandidati.filter(x => x.OSTRANA === party.OSTRANA).length }}
+							</sup>
+						</span>
+						<span v-if="data.list[0].$strany.length === 0" class="smallest dimm">
+							<em>Zatím žádné známé strany</em>
+						</span>
+					</p-list-linear>
 				</div>
 				<div class="p-gap_05"></div>
 				<div class="smallest strong">
 					<div class="p-gap_075"></div>
 					<template v-if="current.status < 3">
 						<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'KV:' + id + ', obec ' + town">
-							<button class="inline">Přidat nebo doplnit</button>
+							<button class="inline green">Přidat nebo doplnit</button>
 						</report-modal>
-						&middot;
+						<!-- &middot; -->
 					</template>
-					<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town">Podrobněji</router-link> &rarr;
+					<!-- <router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town">Podrobněji</router-link> &rarr; -->
 				</div>
 			</div>
 		</p-area>
-	</p-block>
+	<!-- </p-block> -->
 </div>

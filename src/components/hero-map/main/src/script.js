@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 export default {
 	name: 'kv-hero-map',
-	props: [],
+	props: ['district'],
 	data: function () {
 		return {
 			width: 0,
@@ -110,7 +110,7 @@ export default {
 					if (list.find(x => x.DRUHZASTUP === type)) {
 						content.push('<div class="mapleaflet-popup-list">Části: ');
 						sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
-							content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
+							content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
 						});
 						content.push('</div>');
 					}
@@ -141,7 +141,19 @@ export default {
 				content.push('</div>');
 
 			} else {
-				content.push('<a href="/volby/komunalni-volby/176/obec/' + feature.id + '">' + feature.properties.NAZEV + '</a>');
+				content.push('<a href="/volby/komunalni-volby/176/obec/' + feature.id + '" class="strong">' + feature.properties.NAZEV + '</a>');
+				
+				var obj = this.towns.obce.find(x => x.obec == feature.id);
+				content.push('<div class="smallest dimm mt05">Volí ' + obj.MANDATY + ' zastupitelů</div>');
+
+				if (this.towns.obce.find(x => x.NADRZASTUP == feature.id)) {
+					content.push('<div class="p-line"></div>');
+					content.push('<div class="mapleaflet-popup-list smaller">Části: ');
+					sortBy(this.towns.obce.filter(x => x.NADRZASTUP == feature.id), 'NAZEVZAST', null, true).forEach(town => {
+						content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
+					});
+					content.push('</div>');
+				}
 			}
 
 			this.$refs.map.popup(
@@ -156,7 +168,7 @@ export default {
 			if (this.all === -1) {
 				this.all = this.towns.okresy.find(x => x.NUTS === feature.properties.NUTS4).NUMNUTS;	
 				this.$refs.map.fitBounds(layer._bounds);
-				this.$refs.map.load('obce', true, true, this.map_filter, this.map_style);
+				this.$refs.map.load('obce', true);
 			} else {
 				this.$router.push('/volby/komunalni-volby/176/obec/' + feature.id);
 			}
@@ -169,9 +181,24 @@ export default {
 		map_reset: function () {
 			this.all = -1;
 			this.$refs.map.load('okresy');
+		},
+		waitAndLoad: function (id) {
+			setTimeout(() => {
+				if (this.$refs.map) {
+					this.$refs.map.load('obce');
+				} else {
+					this.waitAndLoad(id);
+				}
+			}, 150);
 		}
 	},
 	mounted: function () {
+
+		if (this.district) {
+			this.all = this.district;
+			this.waitAndLoad('obce');		
+		}
+
 		this.resize();
 		window.addEventListener('resize', () => this.resize());
 	}

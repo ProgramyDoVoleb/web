@@ -1,8 +1,69 @@
 <div class="layout-volby">
-	<hero-map :district="district"></hero-map>
+	<!-- <hero-map :district="district"></hero-map> -->
 	<p-layout-divided>
 		<template #main>
-
+			<p-block headline="Zastupitelstva" :level="1" :subheadline="'v okrese ' + (towns ? towns.okresy.find(x => x.NUMNUTS == district).NAZEV : '')">
+				<p-loader :rule="towns">
+					<div v-if="towns">
+						<p-block headline="Statutární města" v-if="towns.obce.find(x => [4,3].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district)">
+							<p-list>
+								<div v-for="town in towns.obce.filter(x => [4,3].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district)">
+									<p-area class="primary">
+										<h3>
+											<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town.obec" class="strong">
+												{{ town.NAZEVZAST }}
+											</router-link>	
+										</h3>
+										<p class="dimm smallest mt-1">Volí {{ town.MANDATY }} zastupitelů</p>	
+										<template v-if="towns.obce.find(x => x.NADRZASTUP == town.obec)">
+											<div class="p-line"></div>
+											<strong>Městské části:</strong>
+											<div class="p-gap"></div>
+											<p-columns>
+												<div v-for="mem in towns.obce.filter(x => x.NADRZASTUP == town.obec)">
+													<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + mem.obec">
+														{{ mem.NAZEVZAST }}
+													</router-link>		
+													<p class="dimm smallest">Volí {{ mem.MANDATY }} zastupitelů</p>
+												</div>
+											</p-columns>
+										</template>
+									</p-area>
+								</div>
+							</p-list> 
+						</p-block>
+						<p-block headline="Města a městyse">
+							<p-area>
+								<p-columns class="_2_4">
+									<div v-for="town in sortBy(towns.obce.filter(x => [2,6].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district), 'NAZEVZAST', null, true)">
+										<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town.obec" class="strong">
+											{{ town.NAZEVZAST }}
+										</router-link>		
+										<p class="dimm smallest">Volí {{ town.MANDATY }} zastupitelů</p>							
+									</div>
+								</p-columns> 
+							</p-area>	
+						</p-block>
+						<p-block headline="Další obce">		
+							<p-columns class="_tight smaller">
+								<div v-for="town in sortBy(towns.obce.filter(x => [1].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district), 'NAZEVZAST', null, true)">
+									<div class="p-offset reverse">
+										<div>
+											<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town.obec" :class="{strong: town.MANDATY > 10}">
+												{{ town.NAZEVZAST }}
+											</router-link>									
+										</div>
+										<div>
+											<div class="smallest dimm">{{ town.MANDATY }}</div>
+										</div>
+									</div>
+									
+								</div>
+							</p-columns> 
+						</p-block>
+					</div>
+				</p-loader>
+			</p-block>
 		</template>
 		<template #anchors>
 			<p-logo :data="{logo: cdn + 'icon/komunalni-volby.svg'}" :size="'12rem'"></p-logo>

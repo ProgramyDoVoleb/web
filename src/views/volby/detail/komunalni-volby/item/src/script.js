@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, gradient, color, pct} from '@/pdv/helpers';
+import {url, date, number, truncate, con, gradient, color, pct, sortBy} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
@@ -49,6 +49,7 @@ export default {
 		number,
 		truncate,
 		pct,
+		sortBy,
 		colorByItem: function (item, data) {
 
 			var res = con(item.$data, 'color');

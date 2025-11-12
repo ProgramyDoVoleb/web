@@ -1,4 +1,4 @@
-import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from '@vue-leaflet/vue-leaflet';
+	import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from '@vue-leaflet/vue-leaflet';
 import { useNotifications } from '@/stores/notifications'
 
 export default {
@@ -42,7 +42,7 @@ export default {
 				}, 1000);
 			}
 		},
-		load: async function (id, skipCenter) {
+		load: async function (id, skipCenter, prefilter) {
 
 			if (this.listOfGeoJSON.selected === id) return;
 
@@ -52,11 +52,60 @@ export default {
 			var note = notify.add('Načítám mapu');
 
 			const response = await fetch(this.listOfGeoJSON.list[this.listOfGeoJSON.selected]);
-			this.geojson = await response.json();
+			const data = await response.json();
+
+			if (this.prefilter) {
+				var obj = {
+					type: "FeatureCollection",
+					features: []
+				}
+
+				data.features.filter(x => x.properties[this.prefilter.key] == this.prefilter.val).forEach(x => obj.features.push(x));
+
+				this.geojson = obj;
+			} else {
+				this.geojson = data;
+			}
 
 			notify.update(note, 'Mapa připravena', 'green');
 			
-			if (!skipCenter) this.centerAfterLoad();
+			if (!skipCenter) this.$nextTick(() => {
+				// console.log(this.$refs.map);
+
+				var list = [];
+
+				if (this.$refs.map.leafletObject._targets) {
+				
+					Object.keys(this.$refs.map.leafletObject._targets).forEach(key => {
+						var obj = this.$refs.map.leafletObject._targets[key];
+	
+						if (obj._bounds) {
+							list.push(obj._bounds);	
+						}
+					})
+				}
+
+				if (list.length > 0) {
+				
+					var bounds = {
+						_northEast: {
+							lat: Math.max(...list.map(x => x._northEast.lat)), 
+							lng: Math.max(...list.map(x => x._northEast.lng))
+						},
+						_southWest: {
+							lat: Math.min(...list.map(x => x._southWest.lat)), 
+							lng: Math.min(...list.map(x => x._southWest.lng))
+						},
+					};
+
+					// console.log(bounds);
+
+					this.fitBounds(bounds);
+				} else {
+					this.centerAfterLoad();
+				}
+				
+			});
 		},
 		processOptions: function () {
 			this.load(this.options.detail);
@@ -73,7 +122,9 @@ export default {
 			)
 		},
 		fitBounds: function (list) {
-			this.$refs.map.leafletObject.fitBounds(list);
+			setTimeout(() => {
+				this.$refs.map.leafletObject.fitBounds([[list._northEast.lat, list._northEast.lng], [list._southWest.lat, list._southWest.lng]]);
+			}, 250);			
 		},
 		setView: function (center, zoom) {
 			this.$refs.map.leafletObject.setView(center, zoom);

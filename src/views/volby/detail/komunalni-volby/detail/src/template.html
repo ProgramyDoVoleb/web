@@ -57,14 +57,28 @@
 				<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
 					<component :is="compactList ? 'party-preview' : 'party-preview-large'" :link="'/volby/komunalni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.OSTRANA === party.OSTRANA)" :election="null" :elections="data"></component>
 				</div>
+				<div v-if="current.$strany.length === 0">
+					<p-area icon="icon-none" class="smaller">
+						<strong>Zatím zde není žádná strana</strong>
+						<div class="smallest">Víte o nějaké? Dejte vědět</div>
+					</p-area>
+				</div>
 			</p-columns>
 			<!-- <election-grid :leaders="true" :list="people(parties(current.$strany, current.$strany), current.$kandidati, true)"></election-grid> -->
-			<template v-if="current.status < 3">
+			<template v-if="current.status < 2">
 				<div class="p-line"></div>
-				<p class="">Pokud vám nějaká strana nebo jméno v přehledu chybí, nebo přebývá, dejte prosím vědět. Stačí kliknout níže a zaslat odkaz.</p>
-				<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'KV:' + current.id + ':' + town">
-					<p-box-button icon="plus-green" class="green">Přidat či upravit</p-box-button>
-				</report-modal>
+				<div class="smallest dimm">
+					<div class="p-offset">
+						<div>
+							<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'KV:' + current.id + ':' + town">
+								<strong class="green">Přidat či upravit</strong>
+							</report-modal>
+						</div>
+						<div>
+							Kompletní seznam registrovaných stran a hnutí bude znám koncem srpna 2026
+						</div>
+					</div>					
+				</div>
 			</template>
 		</p-block>
 	</template>

@@ -1,21 +1,32 @@
 <div class="election-item">
-		<p-grid>
-			<template v-for="(item, index) in data.list[0].$dotcene.filter(x => !x.OBVODY || x.OBVODY < 2)">
-				<!-- <template v-if="index != 0"> -->
-					<div>
-						<town-item :data="town(item.obec)" :town="item.obec" :id="data.list[0].id"></town-item>
-					</div>
-				<!-- </template> -->
-			</template>
-		</p-grid>
-	<div class="p-gap_4"></div>
 	<template v-if="data.list[0].radne === 1">
-		<p-block-expandable headline="Vyhledat konkrétní obec">
-			<search-town :elections="data.list[0].id" :link="'/volby/komunalni-volby/' + data.list[0].id + '/obec/'"></search-town>
-		</p-block-expandable>
+		<p-block headline="Rozcestník" :hide="true">
+			<search-town :elections="data.list[0].status > 1 ? data.list[0].id : null" :link="'/volby/komunalni-volby/' + data.list[0].id + '/obec/'"></search-town>
+
+			<p-area borderColor="var(--blue)" class="mt1">
+				<strong class="smaller">Rychlý rozcestník</strong>				
+				<div class="smaller mt1">
+					<p-list-linear class="nebo">
+						<span v-for="(town, index) in [].concat(enums.towns.capital, enums.towns.regional)">
+							<router-link :to="'/volby/komunalni-volby/' + data.list[0].id + '/obec/' + town.num" class="is-span">{{ town.name }}</router-link>
+						</span>
+					</p-list-linear>
+				</div>
+				<p-collapsible label="Okresy" class="smaller">
+					<p-columns class="_tight">
+						<div v-for="okres in sortBy(data.cis.okresy.filter(x => x.numnuts % 10 !== 0 && x.datum === '2025-10-15'), 'nazev', null, true)">
+							<router-link :to="'/volby/komunalni-volby/' + data.list[0].id + '/okres/' + (okres.numnuts === 1199 ? 1100 : okres.numnuts)">
+								{{ okres.nazev }}
+							</router-link>							
+						</div>
+					</p-columns>
+				</p-collapsible>
+			</p-area>
+			
+		</p-block>
 		<p-block headline="Aktivita stran" :hide="true" v-if="parties">
 			<!-- <div class="p-line _2"></div> -->
-			<p-area>
+			<!-- <p-area> -->
 				<strong>Aktivita stran</strong>
 				<p class="smaller">Někde samostatně, jinde v koalici, někde jen podporují jinou kandidátku, někde ve spolupráci s místními sdruženími a jinde vůbec. Podívejte se na aktivitu stran ve volbách.</p>
 				<!-- <div class="p-gap _05"></div> -->
@@ -41,8 +52,19 @@
 
 				</p-collapsible> -->
 			<!-- <div class="p-line _2"></div> -->
-			</p-area>
+			<!-- </p-area> -->
 		</p-block>
-		<div class="p-gap_4"></div>
 	</template>
+	<p-block headline="Přehledně">
+		<p-grid>
+			<template v-for="(item, index) in data.list[0].$dotcene.filter(x => !x.OBVODY || x.OBVODY < 2)">
+				<!-- <template v-if="index != 0"> -->
+					<div>
+						<town-item :data="town(item.obec)" :town="item.obec" :id="data.list[0].id"></town-item>
+					</div>
+				<!-- </template> -->
+			</template>
+		</p-grid>
+	</p-block>
+	<div class="p-gap"></div>
 </div>
