@@ -19,8 +19,8 @@
 											<div class="p-line"></div>
 											<strong>Městské části:</strong>
 											<div class="p-gap"></div>
-											<p-columns>
-												<div v-for="mem in towns.obce.filter(x => x.NADRZASTUP == town.obec)">
+											<p-columns class="_2_4">
+												<div v-for="mem in sortBy(towns.obce.filter(x => x.NADRZASTUP == town.obec), 'NAZEVZAST', null, true)">
 													<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + mem.obec">
 														{{ mem.NAZEVZAST }}
 													</router-link>		
@@ -32,19 +32,21 @@
 								</div>
 							</p-list> 
 						</p-block>
-						<p-block headline="Města a městyse">
-							<p-area>
-								<p-columns class="_2_4">
+						<p-block headline="Města a městyse" v-if="towns.obce.find(x => [2,6].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district)">
+							<!-- <p-area> -->
+								<p-columns class="_2_4 _noRule _noGap">
 									<div v-for="town in sortBy(towns.obce.filter(x => [2,6].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district), 'NAZEVZAST', null, true)">
-										<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town.obec" class="strong">
-											{{ town.NAZEVZAST }}
-										</router-link>		
-										<p class="dimm smallest">Volí {{ town.MANDATY }} zastupitelů</p>							
+										<p-area>
+											<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town.obec" class="strong">
+												{{ town.NAZEVZAST }}
+											</router-link>		
+											<p class="dimm smallest">Volí {{ town.MANDATY }} zastupitelů</p>
+										</p-area>							
 									</div>
 								</p-columns> 
-							</p-area>	
+							<!-- </p-area>	 -->
 						</p-block>
-						<p-block headline="Další obce">		
+						<p-block headline="Další obce" v-if="towns.obce.find(x => [1].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district)">		
 							<p-columns class="_tight smaller">
 								<div v-for="town in sortBy(towns.obce.filter(x => [1].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district), 'NAZEVZAST', null, true)">
 									<div class="p-offset reverse">
@@ -57,9 +59,13 @@
 											<div class="smallest dimm">{{ town.MANDATY }}</div>
 										</div>
 									</div>
-									
 								</div>
 							</p-columns> 
+						</p-block>
+						<p-block headline="Mapa" v-if="district != 1100">
+							<div class="_map" v-if="options">
+								<hero-map :options="options" :district="district"></hero-map>
+							</div>	
 						</p-block>
 					</div>
 				</p-loader>

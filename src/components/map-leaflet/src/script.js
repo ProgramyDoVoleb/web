@@ -48,26 +48,32 @@ export default {
 
 			this.listOfGeoJSON.selected = id || this.listOfGeoJSON.selected;
 
-			const notify = useNotifications();
-			var note = notify.add('Načítám mapu');
-
-			const response = await fetch(this.listOfGeoJSON.list[this.listOfGeoJSON.selected]);
-			const data = await response.json();
-
-			if (this.prefilter) {
-				var obj = {
-					type: "FeatureCollection",
-					features: []
-				}
-
-				data.features.filter(x => x.properties[this.prefilter.key] == this.prefilter.val).forEach(x => obj.features.push(x));
-
-				this.geojson = obj;
+			if (this.options && this.options.geojson) {
+				this.geojson = this.options.geojson;
 			} else {
-				this.geojson = data;
-			}
 
-			notify.update(note, 'Mapa připravena', 'green');
+				const notify = useNotifications();
+				var note = notify.add('Načítám mapu');
+	
+				const response = await fetch(this.listOfGeoJSON.list[this.listOfGeoJSON.selected]);
+				const data = await response.json();
+	
+				if (this.prefilter) {
+					var obj = {
+						type: "FeatureCollection",
+						features: []
+					}
+	
+					data.features.filter(x => x.properties[this.prefilter.key] == this.prefilter.val).forEach(x => obj.features.push(x));
+	
+					this.geojson = obj;
+				} else {
+					this.geojson = data;
+				}
+	
+				notify.update(note, 'Mapa připravena', 'green');
+				
+			}
 			
 			if (!skipCenter) this.$nextTick(() => {
 				// console.log(this.$refs.map);

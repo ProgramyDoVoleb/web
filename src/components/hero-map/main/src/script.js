@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 export default {
 	name: 'kv-hero-map',
-	props: ['district'],
+	props: ['district', 'options'],
 	data: function () {
 		return {
 			width: 0,
@@ -31,7 +31,7 @@ export default {
 		},
 		map_options: function () {
 			
-				return this.all ? {detail: 'okresy', zoom: this.width > 1024 ? 8 : 7} : {detail: 'obce'}
+				return this.all === -1 ? {detail: 'okresy', zoom: this.width > 1024 ? 8 : 7} : {detail: 'obce', geojson: this.options ? this.options.geojson : null}
 			
 		},
 		list: function () {
@@ -80,7 +80,7 @@ export default {
 			var content = [];
 
 			if (this.all === -1) {
-				content.push('okres ' + feature.properties.name);
+				content.push('<strong>okres ' + feature.properties.name + '</strong>');
 				content.push('<div class="p-line"></div>');
 				content.push('<div class="p-list smaller">');
 
@@ -124,20 +124,36 @@ export default {
 				// 	content.push('<div>' + list.filter(x => x.DRUHZASTUP === 5).length + ' městských částí</div>');
 				// }
 
-				[2,6].forEach(type => {
+				[2].forEach(type => {
 					if (list.find(x => x.DRUHZASTUP === type)) {
+						content.push('<div>');
+						content.push('<div class="smallest strong mb05">Města</div>');
 						content.push('<div class="columns-2">');
 						sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
 							content.push('<div><a href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + town.NAZEVZAST + '</a></div>')
 						});
 						content.push('</div>');
+						content.push('</div>');
 					}
 				});
 
-				if (list.filter(x => x.DRUHZASTUP === 1).length > 0) {
-					content.push('<div>' + list.filter(x => x.DRUHZASTUP === 1).length + ' dalších obcí</div>');
+				if (list.find(x => x.DRUHZASTUP === 6 || (x.DRUHZASTUP === 1 && x.MANDATY > 14))) {
+					content.push('<div>');
+					content.push('<div class="smallest strong mb05">Další větší obce</div>');
+					content.push('<div class="mapleaflet-popup-list">');
+					sortBy(list.filter(x => x.DRUHZASTUP === 6 || (x.DRUHZASTUP === 1 && x.MANDATY > 14)), 'NAZEVZAST', null, true).forEach(town => {
+						content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
+					});
+					content.push('</div>');
+					content.push('</div>');
 				}
 
+				content.push('<div class="p-offset reverse">');
+				if (list.filter(x => x.DRUHZASTUP === 1 && x.MANDATY < 15).length > 0) {
+					content.push('<div>' + list.filter(x => x.DRUHZASTUP === 1 && x.MANDATY < 15).length + ' dalších obcí</div>');
+				}
+				content.push('<div><a href="/volby/komunalni-volby/176/okres/' + list[0].OKRES + '" class="strong">Přehledně o okresu</a></div>')
+				content.push('</div>');
 				content.push('</div>');
 
 			} else {
@@ -165,7 +181,9 @@ export default {
 			);
 		},
 		map_click: function (feature, layer, ev) {
-			if (this.all === -1) {
+			if (this.all === -1 && feature.properties.NUTS4 === 'CZ0100') {
+				this.$router.push('/volby/komunalni-volby/176/okres/1100');
+			} else if (this.all === -1) {
 				this.all = this.towns.okresy.find(x => x.NUTS === feature.properties.NUTS4).NUMNUTS;	
 				this.$refs.map.fitBounds(layer._bounds);
 				this.$refs.map.load('obce', true);
@@ -181,22 +199,12 @@ export default {
 		map_reset: function () {
 			this.all = -1;
 			this.$refs.map.load('okresy');
-		},
-		waitAndLoad: function (id) {
-			setTimeout(() => {
-				if (this.$refs.map) {
-					this.$refs.map.load('obce');
-				} else {
-					this.waitAndLoad(id);
-				}
-			}, 150);
 		}
 	},
 	mounted: function () {
 
-		if (this.district) {
-			this.all = this.district;
-			this.waitAndLoad('obce');		
+		if (this.options && this.district) {
+			this.all = this.district;	
 		}
 
 		this.resize();
