@@ -5,7 +5,7 @@
   right: 0;
   background: rgba(255,255,255,.9);
   backdrop-filter: blur(6px);
-  z-index: 401;
+  z-index: 1001;
 
   .dark & {
     background: rgba(0,0,0,.8);
@@ -547,7 +547,7 @@ button:not(.inline) {
   width: 30vw;
   max-width: 400px;
   display: inline-block;
-  z-index: 500;
+  z-index: 1000;
 }
 
 ._st .search-town {
@@ -556,5 +556,5 @@ button:not(.inline) {
   top: -2.5rem;
   left: 0.5em;
   right: 0;
-  z-index: 500;
+  z-index: 1000;
 }

@@ -127,16 +127,18 @@ export default {
 				_options
 			)
 		},
-		fitBounds: function (list) {
+		fitBounds: function (item) {
 			setTimeout(() => {
-				this.$refs.map.leafletObject.fitBounds([[list._northEast.lat, list._northEast.lng], [list._southWest.lat, list._southWest.lng]]);
+				if (this.$refs.map) this.$refs.map.leafletObject.fitBounds([[item._northEast.lat, item._northEast.lng], [item._southWest.lat, item._southWest.lng]]);
 			}, 250);			
 		},
 		setView: function (center, zoom) {
 			this.$refs.map.leafletObject.setView(center, zoom);
 		},
 		invalidateSize: function (center, zoom) {
-			this.$refs.map.leafletObject.invalidateSize();
+			this.$nextTick(() => {
+				if (this.$refs.map && this.$refs.map.leafletObject) this.$refs.map.leafletObject.invalidateSize();
+			})			
 		}
 	},
 	mounted: function () {

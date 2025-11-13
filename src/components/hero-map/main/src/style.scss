@@ -6,21 +6,21 @@
 	background: #ccc;
 	margin-top: -1rem;
 
-	@media (min-width: 1024px) {
-		height: 80vh;
+	@media (min-width: 800px) {
+		height: 70vh;
 	}
 
 	&._map-max {
 		&, & ._map {
-			height: 80vh !important;
-			max-height: 80vh !important;
+			height: 70vh !important;
+			max-height: 70vh !important;
 		}
 	}
 
 	&._map-mid {
 		&, & ._map {
-			height: 40vh !important;
-			max-height: 40vh !important;
+			height: 35vh !important;
+			max-height: 35vh !important;
 		}
 	}
 
@@ -44,8 +44,8 @@
 	height: 30vh;
 	border-bottom: 1px solid var(--blue);
 
-	@media (min-width: 1024px) {
-		height: 80vh;
+	@media (min-width: 800px) {
+		height: 70vh;
 	}
 }
 
@@ -58,5 +58,11 @@
 
 ._map-control {
 	position: relative;
-	z-index: 10;
+	z-index: 401;
+	padding: .5em 1em;
+	border-radius: 1em;
+	background: var(--bg);
+	border-top: 1px solid var(--blue);
+	margin: -1.5rem auto;
+	width: 18em;
 }

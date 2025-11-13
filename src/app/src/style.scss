@@ -25,3 +25,8 @@
     display: none;
   }
 }
+
+#modal {
+  position: relative;
+  z-index: 10000;
+}

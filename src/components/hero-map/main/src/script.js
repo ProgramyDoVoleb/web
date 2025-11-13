@@ -5,7 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 export default {
 	name: 'kv-hero-map',
-	props: ['district', 'options'],
+	props: ['district', 'options', 'size'],
 	data: function () {
 		return {
 			width: 0,
@@ -32,7 +32,7 @@ export default {
 		},
 		map_options: function () {
 			
-				return this.all === -1 ? {detail: 'okresy', zoom: this.width > 1024 ? 8 : 7} : {detail: 'obce', geojson: this.options ? this.options.geojson : null}
+				return this.all === -1 ? {detail: 'okresy', zoom: this.width > 800 ? 8 : 6} : {detail: 'obce', geojson: this.options ? this.options.geojson : null}
 			
 		},
 		list: function () {
@@ -49,17 +49,18 @@ export default {
 		}
 	},
 	methods: {
-		resize: function () {
+		resize: function (keepZoom) {
 			this.width = this.$el.getBoundingClientRect().width;
+			
 			this.$nextTick(() => {
 				setTimeout(() => {
-					if (this.$refs.map) this.$refs.map.invalidateSize();
+					if (this.$refs.map) this.$refs.map.invalidateSize(keepZoom);
 				}, 250);
 			})
 		},
-		resizeMap: function (c) {
-			this.mapClass = c;
-			this.resize();
+		resizeMap: function (newClass, keepZoom) {
+			this.mapClass = newClass;
+			this.resize(keepZoom);
 		},
 		map_style: function (feature, layer, ev) {
 			if (this.all === -1) {
@@ -89,7 +90,7 @@ export default {
 		map_popup: function (feature, layer, ev) {
 			var content = [];
 
-			if (this.all === -1 && this.width > 1024 && this.mapClass != '_map-mid') {
+			if (this.all === -1 && this.width > 800 && this.mapClass != '_map-mid') {
 				content.push('<strong>okres ' + feature.properties.name + '</strong>');
 				content.push('<div class="p-line"></div>');
 				content.push('<div class="p-list smaller">');
@@ -108,9 +109,9 @@ export default {
 
 				[3].forEach(type => {
 					if (list.find(x => x.DRUHZASTUP === type)) {
-						content.push('<div class="columns-2 strong">');
+						content.push('<div class="mapleaflet-popup-list strong">');
 						sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
-							content.push('<div><a href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + town.NAZEVZAST + '</a></div>')
+							content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + town.NAZEVZAST + '</a></span>')
 						});
 						content.push('</div>');
 					}
@@ -118,7 +119,7 @@ export default {
 
 				[5].forEach(type => {
 					if (list.find(x => x.DRUHZASTUP === type)) {
-						content.push('<div class="mapleaflet-popup-list">Části: ');
+						content.push('<div class="mapleaflet-popup-list mt05">Části: ');
 						sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
 							content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
 						});
@@ -138,9 +139,9 @@ export default {
 					if (list.find(x => x.DRUHZASTUP === type)) {
 						content.push('<div>');
 						content.push('<div class="smallest strong mb05">Města</div>');
-						content.push('<div class="columns-2">');
+						content.push('<div class="mapleaflet-popup-list strong">');
 						sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
-							content.push('<div><a href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + town.NAZEVZAST + '</a></div>')
+							content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + town.NAZEVZAST + '</a></span>')
 						});
 						content.push('</div>');
 						content.push('</div>');
@@ -168,7 +169,23 @@ export default {
 
 			} else if (this.all === -1) {
 				var list = this.towns.obce.filter(x => x.OKRES === this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4).NUMNUTS);
-				content.push('<div class="smaller"><a href="/volby/komunalni-volby/176/okres/' + list[0].OKRES + '" class="strong">okres ' + feature.properties.name + '</a></div>')
+				
+
+				if (feature.properties.NUTS4 === 'CZ0100') {
+					content.push('<div class="strong"><a href="/volby/komunalni-volby/176/obec/554782">Praha</a></div>');
+
+					list = this.towns.obce.filter(x => x.OKRES === 1100);
+				} else {
+					content.push('<div class="smaller"><a href="/volby/komunalni-volby/176/okres/' + list[0].OKRES + '" class="strong">okres ' + feature.properties.name + '</a></div>')
+				}	
+
+				content.push('<div class="mapleaflet-popup-list smallest mt05">');
+				sortBy(list.filter(x => [4,3,2].indexOf(x.DRUHZASTUP) > -1), 'NAZEVZAST', null, true).forEach(town => {
+					content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '" class="keep ' + (town.DRUHZASTUP == 3 ? 'strong' : '') + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
+				});
+				content.push('<span>a dalších ' + list.filter(x => [1,5,6].indexOf(x.DRUHZASTUP) > -1).length + ' zastupitelstev</span>');
+				content.push('</div>');
+
 			} else {
 				content.push('<a href="/volby/komunalni-volby/176/obec/' + feature.id + '" class="strong">' + feature.properties.NAZEV + '</a>');
 				
@@ -181,7 +198,7 @@ export default {
 						content.push('<div class="p-line"></div>');
 						content.push('<div class="mapleaflet-popup-list smaller">Části: ');
 						sortBy(this.towns.obce.filter(x => x.NADRZASTUP == feature.id), 'NAZEVZAST', null, true).forEach(town => {
-							content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
+							content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '" class="keep">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
 						});
 						content.push('</div>');
 					}
@@ -223,7 +240,12 @@ export default {
 			this.all = this.district;	
 		}
 
-		this.resize();
+		if (this.size) {
+			this.resizeMap('_map-' + this.size, true);
+		} else {
+			this.resizeMap('_map-max', true);
+		}
+		
 		window.addEventListener('resize', () => this.resize());
 	}
 };

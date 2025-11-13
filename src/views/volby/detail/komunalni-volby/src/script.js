@@ -6,12 +6,13 @@ import { colorByItem, logoByItem } from '@/components/results/helpers';
 import TownItem from '@/views/volby/detail/komunalni-volby/item/do.vue'
 import SearchTown from '@/components/search-town/do.vue'
 import SearchParty from '@/components/search-party/do.vue'
+import HeroMap from '@/components/hero-map/main/do.vue';
 
 export default {
 	name: 'volby-item',
 	props: ['data', 'prev'],
 	components: {
-		TownItem, SearchTown, SearchParty
+		TownItem, SearchTown, SearchParty, HeroMap
 	},
 	data: function () {
 		return {

@@ -26,7 +26,7 @@
 							</p-block>
 						</template>
 						<template v-for="day in news.list">
-							<p-block :headline="date(day.datum)">
+							<p-block :headline="date(day.datum)" v-if="Object.keys(day).reduce((a, b) => a + (typeof day[b] === 'string' ? 0 : day[b].length), 0) > 0">
 								<p-list class="">
 									<template v-if="day.sys.length > 0">
 										<div class="smallest dimm strong">Novinky na Programech do voleb</div>
@@ -285,6 +285,11 @@
 									</div>
 								</p-list>
 								<div class="p-gap _2"></div>
+							</p-block>
+							<p-block v-else class="smallest" :headline="date(day.datum)" :hide="true">
+								<p-area class="inline">
+									<em class="dimm">{{ date(day.datum) }} — žádné záznamy</em>
+								</p-area>								
 							</p-block>
 						</template>
 					</div>

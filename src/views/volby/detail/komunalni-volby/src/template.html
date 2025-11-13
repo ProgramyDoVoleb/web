@@ -12,17 +12,21 @@
 						</span>
 					</p-list-linear>
 				</div>
-				<p-collapsible label="Okresy" class="smaller">
-					<p-columns class="_tight">
-						<div v-for="okres in sortBy(data.cis.okresy.filter(x => x.numnuts % 10 !== 0 && x.datum === '2025-10-15'), 'nazev', null, true)">
-							<router-link :to="'/volby/komunalni-volby/' + data.list[0].id + '/okres/' + (okres.numnuts === 1199 ? 1100 : okres.numnuts)">
-								{{ okres.nazev }}
-							</router-link>							
-						</div>
-					</p-columns>
-				</p-collapsible>
-			</p-area>
-			
+				<template v-if="data.list[0].id === 176">
+					<p-collapsible label="Okresy" class="smaller" logo="party">
+						<p-columns class="_tight">
+							<div v-for="okres in sortBy(data.cis.okresy.filter(x => x.numnuts % 10 !== 0 && x.datum === '2025-10-15'), 'nazev', null, true)">
+								<router-link :to="'/volby/komunalni-volby/' + data.list[0].id + '/okres/' + (okres.numnuts === 1199 ? 1100 : okres.numnuts)">
+									{{ okres.nazev }}
+								</router-link>							
+							</div>
+						</p-columns>
+					</p-collapsible>
+					<p-collapsible label="Na mapě" logo="map" class="smaller">
+						<hero-map size="mid"></hero-map>
+					</p-collapsible>
+				</template>
+			</p-area>			
 		</p-block>
 		<p-block headline="Aktivita stran" :hide="true" v-if="parties">
 			<!-- <div class="p-line _2"></div> -->
