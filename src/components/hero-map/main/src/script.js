@@ -243,7 +243,7 @@ export default {
 		if (this.size) {
 			this.resizeMap('_map-' + this.size, true);
 		} else {
-			this.resizeMap('_map-max', true);
+			this.resizeMap('_map-' + (this.$el.getBoundingClientRect().width > 800 ? 'max' : 'mid'), true);
 		}
 		
 		window.addEventListener('resize', () => this.resize());
