@@ -67,9 +67,9 @@ export default {
 		},
 		map_style: function (feature, layer, ev) {
 			if (this.all === -1) {
-				var list = this.towns.obce.filter(x => x.OKRES === (feature.properties.NUTS4 === 'CZ0100' ? 1100 : this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4).NUMNUTS));
+				var okr = this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4);
 
-				var color = this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES) ? 'var(--red)' : 'var(--blue)';
+				var color = this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === okr.NUMNUTS) ? 'var(--red)' : 'var(--blue)';
 
 				return {
 					color,
