@@ -1,6 +1,6 @@
 <div class="layout-homepage">
-	<hero-map></hero-map>
-	<p-layout-divided>
+	<hero-map @resize="() => $nextTick(() => $refs.page.scroll())"></hero-map>
+	<p-layout-divided ref="page">
 		<template #main>
 			<p-block headline="Volby" :level="1" :hide="true">
 

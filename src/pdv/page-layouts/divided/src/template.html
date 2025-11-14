@@ -20,12 +20,12 @@
 		</article>
 	</main>
 	<aside class="p-layout---aside" ref="aside" :class="{keep: keep && keep.indexOf('aside') > -1}" v-if="isHuman">
-		<div class="p-layout---aside-holder" :style="{transform: 'translateY(' + offset.aside + 'px)'}">
+		<div class="p-layout---aside-holder" ref="asideHolder">
 			<slot name="aside" />
 		</div>
 	</aside>
 	<nav class="p-layout---nav" ref="nav" :class="{}" v-if="isHuman">
-		<div class="p-layout---aside-holder"  :style="{transform: 'translateY(' + offset.nav + 'px)'}">
+		<div class="p-layout---aside-holder" ref="navHolder">
 			<div class="p-layout---nav-icon" v-if="$slots.icon">
 				<slot name="icon" />
 				<div class="p-gap"></div>

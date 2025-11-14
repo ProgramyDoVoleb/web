@@ -2,6 +2,8 @@ import { useCore } from '@/stores/core'
 import { useEnums } from '@/stores/enums';
 import { useNotifications } from '@/stores/notifications'
 import SearchTown from '@/components/search-town/do.vue';
+import PopUp from '@/components/pop-up/do.vue';
+import {truncate, sortBy} from '@/pdv/helpers';
 
 export default {
 	name: 'main-header',
@@ -44,7 +46,7 @@ export default {
 		}
 	},
 	components: {
-		SearchTown
+		SearchTown, PopUp
 	},
 	computed: {
 		loaded: function () {
@@ -63,6 +65,7 @@ export default {
 		}
 	},
 	methods: {
+		sortBy, truncate,
 		remove: function (item) {
 			this.notifications.update(item, 'Akce zrušena', 'red')
 		}

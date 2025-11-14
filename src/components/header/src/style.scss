@@ -558,3 +558,9 @@ button:not(.inline) {
   right: 0;
   z-index: 1000;
 }
+
+._st .p-icon {
+  position: absolute;
+  left: -1em;
+  top: -.9em;
+}

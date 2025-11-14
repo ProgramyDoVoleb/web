@@ -40,14 +40,14 @@
 }
 
 .p-leaflet-path-main {
-	stroke: var(--blue);
+	stroke: var(--red);
 	stroke-width: 1;
-	fill-opacity: .5;
-    fill: var(--blue);
+	fill-opacity: .75;
+    fill: var(--red);
 
 	@media (hover: hover) {
 		&:hover {
-			fill: var(--blue);
+			fill: var(--red);
 			fill-opacity: .5;
 			stroke-width: 2;
 			position: relative;
@@ -65,6 +65,23 @@
 	@media (hover: hover) {
 		&:hover {
 			fill: var(--blue);
+			fill-opacity: .5;
+			stroke-width: 2;
+			position: relative;
+			z-index: 100;
+		}
+	}
+}
+
+.p-leaflet-path-others {
+	stroke: var(--blue);
+	stroke-width: 1;
+	// fill-opacity: .05;
+    // fill: var(--blue);
+
+	@media (hover: hover) {
+		&:hover {
+			// fill: var(--blue);
 			fill-opacity: .5;
 			stroke-width: 2;
 			position: relative;

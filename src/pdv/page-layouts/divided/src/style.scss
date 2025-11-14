@@ -52,8 +52,6 @@
   backface-visibility: hidden;
   z-index: 2;
   display: none;
-  will-change: transform;
-  transition: all .1s 1s ease-in-out;
 
   // &:not(.keep) {
   //   display: none;
@@ -74,8 +72,11 @@
     position: absolute;
     top: 0;
     right: 2.5rem;
-    width: 17rem;
     padding: 0 0 0 0;
+
+    &, & > div {
+      width: 17rem;
+    }
   }
 
   // @media (min-width: 1140px) {
@@ -87,9 +88,12 @@
   }
 
   @media (min-width: 1600px) {
-    width: 16.5rem;
-    right: 50%;
-    transform: translateX(75rem);
+    
+    left: calc(50% + 58.55rem);
+
+    &, & > div {
+      width: 16.5rem;
+    }
   }
 }
 
@@ -114,22 +118,20 @@
   }
 
   @media (min-width: 1440px) {
-    left: 5rem;
+    left: 3.5rem;
     width: 14.5rem;
   }
 
   @media (min-width: 1600px) {
-    left: 50%;
-    width: 16.5rem;
-    transform: translateX(-75rem);
+    left: calc(50% - 76.5rem);
+    width: 14.5rem;
   }
 }
 
 .p-layout---aside-holder {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  will-change: transform;
-  transition: all .05s .0005s ease-in-out;
+  // transition: all .025s ease-in-out;
 }
 
 .p-layout---main-limit {

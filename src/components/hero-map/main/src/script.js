@@ -2,6 +2,7 @@ import MapLeaflet from '@/components/map-leaflet/do.vue'
 import {useData} from '@/stores/data';
 import {url, date, number, truncate, sortBy, domain, pct, unique} from '@/pdv/helpers';
 import { useRoute, useRouter } from 'vue-router'
+import { useEnums } from '@/stores/enums';
 
 export default {
 	name: 'kv-hero-map',
@@ -11,7 +12,8 @@ export default {
 			width: 0,
 			all: -1,
 			mapClass: null,
-			$router: useRouter()
+			$router: useRouter(),
+			enums: useEnums()
 		}
 	},
 	components: {
@@ -61,12 +63,18 @@ export default {
 		resizeMap: function (newClass, keepZoom) {
 			this.mapClass = newClass;
 			this.resize(keepZoom);
+			this.$emit('resize');
 		},
 		map_style: function (feature, layer, ev) {
 			if (this.all === -1) {
+				var list = this.towns.obce.filter(x => x.OKRES === (feature.properties.NUTS4 === 'CZ0100' ? 1100 : this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4).NUMNUTS));
+
+				var color = this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES) ? 'var(--red)' : 'var(--blue)';
+
 				return {
+					color,
 					fillOpacity: ['CZ0100', 'CZ0323', 'CZ0642', 'CZ0806'].indexOf(feature.properties.NUTS4) > -1 ? null : Math.random() / 4 + 0.1,
-					className: ['CZ0100', 'CZ0323', 'CZ0642', 'CZ0806'].indexOf(feature.properties.NUTS4) > -1 ? 'p-leaflet-path-main' : 'p-leaflet-path-all',
+					className: ['CZ0100', 'CZ0323', 'CZ0642', 'CZ0806'].indexOf(feature.properties.NUTS4) > -1 ? 'p-leaflet-path-main' : 'p-leaflet-path-others',
 				}
 			} else {
 				var item = this.list.find(x => x.obec == feature.id && x.OKRES == this.all);
@@ -92,10 +100,19 @@ export default {
 
 			if (this.all === -1 && this.width > 800 && this.mapClass != '_map-mid') {
 				content.push('<strong>okres ' + feature.properties.name + '</strong>');
+
+				var list = this.towns.obce.filter(x => x.OKRES === (feature.properties.NUTS4 === 'CZ0100' ? 1100 : this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4).NUMNUTS));
+
+				if (this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES)) {
+					content.push('<div class="mapleaflet-popup-list smallest strong"><span class="red">+ volby do Senátu</span>: obv. ');
+					this.enums.obvody.filter(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES).forEach(obvod => {
+						content.push('<span><a class="keep is-span" href="/volby/senatni-volby/173/obvod/' + obvod.id + '">' + obvod.id + ' · ' + obvod.name + '</a></span>')
+					});
+					content.push('</div>');
+				}
+
 				content.push('<div class="p-line"></div>');
 				content.push('<div class="p-list smaller">');
-
-				var list = this.towns.obce.filter(x => x.OKRES === this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4).NUMNUTS);
 
 				if (feature.properties.NUTS4 === 'CZ0100') {
 					content.push('<div class="strong"><a href="/volby/komunalni-volby/176/obec/554782">Praha</a></div>');
@@ -185,6 +202,14 @@ export default {
 				});
 				content.push('<span>a dalších ' + list.filter(x => [1,5,6].indexOf(x.DRUHZASTUP) > -1).length + ' zastupitelstev</span>');
 				content.push('</div>');
+
+				if (this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES)) {
+					content.push('<div class="mapleaflet-popup-list smallest strong"><span class="red">+ volby do Senátu</span>: obv. ');
+					this.enums.obvody.filter(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES).forEach(obvod => {
+						content.push('<span><a class="keep is-span" href="/volby/senatni-volby/173/obvod/' + obvod.id + '">' + obvod.name + '</a></span>')
+					});
+					content.push('</div>');
+				}
 
 			} else {
 				content.push('<a href="/volby/komunalni-volby/176/obec/' + feature.id + '" class="strong">' + feature.properties.NAZEV + '</a>');

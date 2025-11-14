@@ -6,7 +6,7 @@
   padding: .5em;
   border-radius: 6px;
   border: 1px solid var(--blue);
-  z-index: 1000;
+  z-index: 10000;
   box-shadow: 0 .3em 1em rgba(0,0,0,.2);
 
   .dark & {
@@ -30,7 +30,7 @@
   background: var(--blue);
   position: fixed;
   transform: rotate(45deg) translate(-.1em, .8em);
-  z-index: 999;
+  z-index: 9999;
 }
 
 ._close {

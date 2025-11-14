@@ -50,6 +50,10 @@
 						<div v-if="$route.fullPath.split('/volby/senatni-volby/163').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1">
 							<div class="p-line"></div>
 							<div class="smaller">
+								<strong class="red">Senátní volby</strong>
+							</div>
+							<div class="p-gap _05"></div>
+							<div class="smaller">
 								<strong>Obvod</strong> <p-list-linear class="or" >
 									<span class="strong" v-for="(obvod, index) in [2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59,62,65,68,71,74,77,80]"><router-link :to="'/volby/senatni-volby/163/obvod/' + obvod" @click="showMenu3 = false">{{ obvod }}</router-link></span>
 								</p-list-linear>
@@ -72,13 +76,25 @@
 							<div class="smaller">
 								<strong class="blue">Komunální volby</strong>
 							</div>
-							<div class="mv05">
+							<div class="mb1 mt05">
 								<search-town link="/volby/komunalni-volby/176/obec/" :cb="true" @update="() => {showMenu = false; $refs.searchTown2.clear()}" ref="searchTown2"></search-town>
 							</div>
 							<div class="columns" @click="showMenu = false">
 								<div v-for="item in menu176">
 									<router-link :to="item.route" @click="showMenu = false">{{ item.full || item.label }}</router-link>
 								</div>
+							</div>
+						</div>
+						<div v-if="$route.fullPath.split('/volby/senatni-volby/173').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1 || $route.path === '/'">
+							<div class="p-line"></div>
+							<div class="smaller">
+								<strong class="red">Senátní volby</strong>
+							</div>
+							<div class="p-gap _05"></div>
+							<div class="smaller">
+								<strong>Obvod</strong> <p-list-linear class="or" >
+									<span class="strong" v-for="(obvod, index) in [3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60,63,66,69,72,75,78,81]"><router-link :to="'/volby/senatni-volby/173/obvod/' + obvod" @click="showMenu3 = false">{{ obvod }}</router-link></span>
+								</p-list-linear>
 							</div>
 						</div>
 
@@ -139,7 +155,7 @@
 				</p-list-linear>
 			</div>
 		</div>
-		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/komunalni-volby/176').length > 1 || $route.path === '/'">
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/komunalni-volby/176').length > 1">
 			<div class="smaller">
 				<div class="p-offset reverse balanced">
 					<div>
@@ -148,12 +164,82 @@
 						<p-list-linear class="or linear" >
 							<span class="strong" v-for="item in menu176"><router-link class="is-span" :to="item.route" @click="showMenu = false">{{ item.label }}</router-link></span>
 						</p-list-linear>
+						&middot;
+						<pop-up class="down">
+							<template #init>Více</template>
+							<template #content>
+								<div class="smaller">
+									<p-columns class="_2">
+										<div v-for="town in sortBy([].concat(enums.towns.regional, enums.towns.other), 'name', null, true)">
+											<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num">{{ town.name }}</router-link>
+										</div>
+									</p-columns>
+									<div class="p-line"></div>
+									<router-link to="/volby/komunalni-volby/176" class="strong">Více o volbách</router-link>
+								</div>
+							</template>
+						</pop-up>
 					</div>
 					<div>
 						<span class="_st">
+							<p-icon icon="search"></p-icon>
 							<search-town ref="searchTown" link="/volby/komunalni-volby/176/obec/" unstyle="1" :cb="true" @update="() => $refs.searchTown.clear()"></search-town>
 						</span>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/senatni-volby/173').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1">
+			<div class="smaller">
+				<strong><router-link to="/volby/senatni-volby/173" class="red">Senátní volby</router-link> </strong><strong> &middot; obvod </strong><p-list-linear class="or" >
+					<span class="strong" v-for="(obvod, index) in enums.obvody.filter(x => x.id % 3 === 0).map(x => x.id)"><router-link class="is-span" :to="'/volby/senatni-volby/173/obvod/' + obvod" @click="showMenu3 = false">{{ obvod }}</router-link></span>
+				</p-list-linear>
+			</div>
+		</div>
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.path === '/'">
+			<div class="smaller p-offset reverse balanced">
+				<div>
+					<strong><router-link to="/volby/komunalni-volby/176" class="blue">Komunální volby</router-link> </strong>
+					&middot;
+					<p-list-linear class="or linear" >
+						<span class="strong" v-for="item in menu176.filter((x, i) => i < 4)"><router-link class="is-span" :to="item.route" @click="showMenu = false">{{ item.label }}</router-link></span>
+					</p-list-linear>
+					&middot;
+					<pop-up class="down">
+						<template #init>další města</template>
+						<template #content>
+							<div class="smaller">
+								<p-columns class="_2">
+									<div v-for="town in sortBy([].concat(enums.towns.regional, enums.towns.other), 'name', null, true)">
+										<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num">{{ town.name }}</router-link>
+									</div>
+								</p-columns>
+								<div class="p-line"></div>
+								<router-link to="/volby/komunalni-volby/176" class="strong">Více o volbách</router-link>
+							</div>
+						</template>
+					</pop-up>
+					   /   
+					<strong><router-link to="/volby/senatni-volby/173" class="red">Senátní volby</router-link> </strong>
+					&middot;
+					<pop-up class="down">
+						<template #init>
+							<span>vybrat obvod</span>
+						</template>
+						<template #content>
+							<p-columns class="_2 smaller">
+								<div v-for="obvod in enums.obvody.filter(x => x.id % 3 === 0)">
+									{{ obvod.id }} &middot; <router-link class="is-span" :to="'/volby/senatni-volby/173/obvod/' + obvod.id" @click="showMenu3 = false">{{ truncate(obvod.name, 12, true) }}</router-link>
+								</div>
+							</p-columns>
+						</template>
+					</pop-up>
+				</div>
+				<div>
+					<span class="_st">
+						<p-icon icon="search"></p-icon>
+						<search-town ref="searchTown" link="/volby/komunalni-volby/176/obec/" unstyle="1" :cb="true" @update="() => $refs.searchTown.clear()"></search-town>
+					</span>
 				</div>
 			</div>
 		</div>

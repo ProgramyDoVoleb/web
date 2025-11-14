@@ -31,31 +31,41 @@ export default {
 		scroll: function () {
 
 			if (this.$refs['main']) this.height.main = this.$refs['main'].getBoundingClientRect().height;
-			if (this.$refs['aside']) this.height.aside = this.$refs['aside'].getBoundingClientRect().height;
-			if (this.$refs['nav']) this.height.nav = this.$refs['nav'].getBoundingClientRect().height;
+			if (this.$refs['asideHolder']) this.height.aside = this.$refs['asideHolder'].getBoundingClientRect().height;
+			if (this.$refs['navHolder']) this.height.nav = this.$refs['navHolder'].getBoundingClientRect().height;
 
 			var start = this.$el.getBoundingClientRect().y;
 			var end = start + this.$el.getBoundingClientRect().height;
 			var header = document.querySelector('header').getBoundingClientRect().height;
 			var offset = 20;
 
-			// console.log(end, this.offset.aside, this.height.aside);
-
-			if (start < header) {
-				this.offset.aside = header + offset - start;
-				this.offset.nav = header + offset - start;
-
-				if (this.height.aside > end - header) {
-					this.offset.aside = this.height.main - this.height.aside + header + offset;
-				}
-
-				if (this.height.nav > end - header) {
-					this.offset.nav = this.height.main - this.height.nav + header + offset;
-				}
-			} else {
-				this.offset.aside = offset;
-				this.offset.nav = offset;
+			var aside = {
+				position: 'fixed',
+				height: this.height.aside,
+				top: header
 			}
+
+			var nav = {
+				position: 'fixed',
+				height: this.height.nav,
+				top: header
+			}
+
+			if (start > header) {
+				aside.top = start;
+				nav.top = start;
+			}
+
+			if (aside.height > end - header) {
+				aside.top = aside.top + (end - aside.height - header);
+			}
+
+			if (nav.height > end - header) {
+				nav.top = nav.top + (end - nav.height - header);
+			}
+
+			if (this.$refs['asideHolder']) this.$refs.asideHolder.style = 'position: ' + aside.position + '; top: ' + (aside.top + offset) + 'px';
+			if (this.$refs['navHolder']) this.$refs.navHolder.style = 'position: ' + nav.position + '; top: ' + (nav.top + offset) + 'px';
 		},
 		resize: function () {
 			if (this.$refs['main']) this.height.main = this.$refs['main'].getBoundingClientRect().height;

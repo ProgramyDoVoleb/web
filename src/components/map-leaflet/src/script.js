@@ -80,7 +80,7 @@ export default {
 
 				var list = [];
 
-				if (this.$refs.map.leafletObject._targets) {
+				if (this.$refs.map && this.$refs.map.leafletObject && this.$refs.map.leafletObject._targets) {
 				
 					Object.keys(this.$refs.map.leafletObject._targets).forEach(key => {
 						var obj = this.$refs.map.leafletObject._targets[key];

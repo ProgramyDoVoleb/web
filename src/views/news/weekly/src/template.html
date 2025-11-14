@@ -289,6 +289,18 @@
 							<p-block v-else class="smallest" :headline="date(day.datum)" :hide="true">
 								<p-area class="inline">
 									<em class="dimm">{{ date(day.datum) }} — žádné záznamy</em>
+									<template v-if="day.datum === today">
+										 &middot;
+										<p-modal class="inline">
+											<template #init>
+												<span class="green strong">přidat</span>
+											</template>
+											<template #content>
+												<h4>Stačí poslat odkat, případně připojit poznámku.</h4>
+												<report-form part="Sedmidenní přehled"></report-form>
+											</template>
+										</p-modal>
+									</template>
 								</p-area>								
 							</p-block>
 						</template>
