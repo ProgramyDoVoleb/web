@@ -34,7 +34,21 @@ export default {
 		},
 		map_options: function () {
 			
-				return this.all === -1 ? {detail: 'okresy', zoom: this.width > 800 ? 8 : 6} : {detail: 'obce', geojson: this.options ? this.options.geojson : null}
+			var options;
+
+			if (this.all === -1) {
+				options = {detail: 'okresy', zoom: this.width > 800 ? 8 : 6}
+			}
+
+			if (this.all === -2) {
+				options = {detail: 'senat', zoon: this.width > 800 ? 8 : 6}
+			}
+
+			if (this.all > 0) {
+				options = {detail: 'obce', geojson: this.options ? this.options.geojson : null}
+			}
+
+			return options;
 			
 		},
 		list: function () {
@@ -67,14 +81,19 @@ export default {
 		},
 		map_style: function (feature, layer, ev) {
 			if (this.all === -1) {
-				var okr = this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4);
+				// var okr = this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4);
 
-				var color = this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === okr.NUMNUTS) ? 'var(--red)' : 'var(--blue)';
+				// var color = this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === okr.NUMNUTS) ? 'var(--red)' : 'var(--blue)';
 
 				return {
-					color,
+					// color,
 					fillOpacity: ['CZ0100', 'CZ0323', 'CZ0642', 'CZ0806'].indexOf(feature.properties.NUTS4) > -1 ? null : Math.random() / 4 + 0.1,
 					className: ['CZ0100', 'CZ0323', 'CZ0642', 'CZ0806'].indexOf(feature.properties.NUTS4) > -1 ? 'p-leaflet-path-main' : 'p-leaflet-path-others',
+				}
+			} else if (this.all === -2) {
+				return {
+					color: 'var(--red)',
+					className: 'p-leaflet-path-others'
 				}
 			} else {
 				var item = this.list.find(x => x.obec == feature.id && x.OKRES == this.all);
@@ -91,6 +110,8 @@ export default {
 		map_filter: function (feature, layer, ev) {
 			if (this.all === -1) {
 				return true;
+			} else if (this.all === -2) {
+				return Number(feature.properties.OBVOD) % 3 === 0
 			} else {
 				return this.uniques.indexOf(feature.id) > -1;		
 			}
@@ -103,13 +124,13 @@ export default {
 
 				var list = this.towns.obce.filter(x => x.OKRES === (feature.properties.NUTS4 === 'CZ0100' ? 1100 : this.towns.okresy.find(y => y.NUTS === feature.properties.NUTS4).NUMNUTS));
 
-				if (this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES)) {
-					content.push('<div class="mapleaflet-popup-list smallest strong"><span class="red">+ volby do Senátu</span>: obv. ');
-					this.enums.obvody.filter(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES).forEach(obvod => {
-						content.push('<span><a class="keep is-span" href="/volby/senatni-volby/173/obvod/' + obvod.id + '">' + obvod.id + ' · ' + obvod.name + '</a></span>')
-					});
-					content.push('</div>');
-				}
+				// if (this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES)) {
+				// 	content.push('<div class="mapleaflet-popup-list smallest strong"><span class="red">+ volby do Senátu</span>: obv. ');
+				// 	this.enums.obvody.filter(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES).forEach(obvod => {
+				// 		content.push('<span><a class="keep is-span" href="/volby/senatni-volby/173/obvod/' + obvod.id + '">' + obvod.id + ' · ' + obvod.name + '</a></span>')
+				// 	});
+				// 	content.push('</div>');
+				// }
 
 				content.push('<div class="p-line"></div>');
 				content.push('<div class="p-list smaller">');
@@ -203,14 +224,17 @@ export default {
 				content.push('<span>a dalších ' + list.filter(x => [1,5,6].indexOf(x.DRUHZASTUP) > -1).length + ' zastupitelstev</span>');
 				content.push('</div>');
 
-				if (this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES)) {
-					content.push('<div class="mapleaflet-popup-list smallest strong"><span class="red">+ volby do Senátu</span>: obv. ');
-					this.enums.obvody.filter(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES).forEach(obvod => {
-						content.push('<span><a class="keep is-span" href="/volby/senatni-volby/173/obvod/' + obvod.id + '">' + obvod.name + '</a></span>')
-					});
-					content.push('</div>');
-				}
+				// if (this.enums.obvody.find(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES)) {
+				// 	content.push('<div class="mapleaflet-popup-list smallest strong"><span class="red">+ volby do Senátu</span>: obv. ');
+				// 	this.enums.obvody.filter(x => x.id % 3 === 0 && x.OKRES === list[0].OKRES).forEach(obvod => {
+				// 		content.push('<span><a class="keep is-span" href="/volby/senatni-volby/173/obvod/' + obvod.id + '">' + obvod.name + '</a></span>')
+				// 	});
+				// 	content.push('</div>');
+				// }
 
+			} else if (this.all === -2) {
+				content.push('<div class="strong">obvod ' + Number(feature.properties.OBVOD) + ' · ' + feature.properties.SIDLO + '</div>');
+				content.push('<div class="smaller mt025"><a href="/volby/senatni-volby/173/obvod/' + Number(feature.properties.OBVOD) + '" class="strong">podrobně o tomto obvodu</a></div>')
 			} else {
 				content.push('<a href="/volby/komunalni-volby/176/obec/' + feature.id + '" class="strong">' + feature.properties.NAZEV + '</a>');
 				
@@ -245,6 +269,8 @@ export default {
 				this.all = this.towns.okresy.find(x => x.NUTS === feature.properties.NUTS4).NUMNUTS;	
 				this.$refs.map.fitBounds(layer._bounds);
 				this.$refs.map.load('obce', true);
+			} else if (this.all === -2) {
+				this.$router.push('/volby/senatni-volby/173/obvod/' + Number(feature.properties.OBVOD));
 			} else {
 				this.$router.push('/volby/komunalni-volby/176/obec/' + feature.id);
 			}
@@ -257,6 +283,10 @@ export default {
 		map_reset: function () {
 			this.all = -1;
 			this.$refs.map.load('okresy');
+		},
+		map_senate: function () {
+			this.all = -2;
+			this.$refs.map.load('senat');
 		}
 	},
 	mounted: function () {

@@ -40,14 +40,14 @@
 }
 
 .p-leaflet-path-main {
-	stroke: var(--red);
+	stroke: var(--blue);
 	stroke-width: 1;
 	fill-opacity: .75;
-    fill: var(--red);
+    fill: var(--blue);
 
 	@media (hover: hover) {
 		&:hover {
-			fill: var(--red);
+			fill: var(--blue);
 			fill-opacity: .5;
 			stroke-width: 2;
 			position: relative;
