@@ -131,6 +131,13 @@
 .p-layout---aside-holder {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  width: 16.5rem;
+
+  @media (min-width: 1600px) {
+    width: 18.5rem;
+  }
+
+
   // transition: all .025s ease-in-out;
 }
 
