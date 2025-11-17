@@ -19,6 +19,10 @@
 					<div class="p-gap"></div>
 				</template>
 
+				<p-block headline="Hledat obec" v-if="width < 1024" :hide="true" class="pb0">
+					<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
+				</p-block>
+
 				<p-block headline="Výhled" :hide="true">
 					<p>Letos nás čekají už jen mimořádné komunální v několika malých obcích. Brzy ale začnou přípravy na volby příští rok, kdy proběhnou komunální volby ve všech obcích, tak i senátní volby. Pokud narazíte na nějakou novinku, dejte prosím vědět - stačí <pop-up class="inline">
 						<template #init>
@@ -237,12 +241,12 @@
 											<polls-preview :poll="poll" :previous="poll.previous ? polls.list.find(x => x.id === poll.previous) : null" :name="'poll_' + poll.id"></polls-preview>
 										</p-area>
 									</div>
-									<template v-if="width > 1024">
+									<template v-if="width > 1">
 										<div v-for="(item, index) in day.main.filter((x, i) => i < 3)">
 												<p-area class="smaller" borderColor="var(--blue44)">
 													<p-link :href="item.source" class="strong">{{ item.title }}</p-link>
-													<p>{{ truncate(untag(item.content.split('Původní text: ').join('')), 20) }}</p>
-													<div class="smallest strong">
+													<!-- <p>{{ truncate(untag(item.content.split('Původní text: ').join('')), 20) }}</p> -->
+													<div class="smallest mt05 dimm">
 														{{ date(day.datum) }} &middot; {{ domain(item.source) }}
 													</div>
 												</p-area>

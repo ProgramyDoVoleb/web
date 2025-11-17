@@ -35,7 +35,7 @@
 								
 								<div v-for="(item, index) in results.secondary">
 									<div>
-										<component :is="link ? 'router-link' : 'button'" :to="link + item.obec" class="strong inline" @click="() =>cb ? click(item) : null">{{ item.NAZEVZAST }}</component>
+										<component :is="link ? 'router-link' : 'button'" :to="link + item.obec" class="strong inline" @click="() =>cb ? click(item) : null">{{ item.NAZEVZAST }}</component>										
 										<div class="smallest dimm">okres {{ list.cis.okresy.find(x => x.numnuts === item.OKRES).nazev }}</div>
 									</div>
 								</div>

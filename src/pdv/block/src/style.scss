@@ -1,12 +1,12 @@
-.p-block---1:not(:last-child) {
+.p-block---1:not(:last-child):not(.pb0) {
   padding-bottom: 4em;
 }
 
-.p-block---2:not(:last-child) {
+.p-block---2:not(:last-child):not(.pb0) {
   padding-bottom: 4em;
 }
 
-.p-block---3:not(:last-child) {
+.p-block---3:not(:last-child):not(.pb0) {
   padding-bottom: 2em;
 }
 

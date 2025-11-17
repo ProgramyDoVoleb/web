@@ -564,3 +564,16 @@ button:not(.inline) {
   left: -1em;
   top: -.9em;
 }
+
+.hide-1024 {
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.show-1024 {
+  display: none;
+  @media (min-width: 1024px) {
+    display: block;
+  }
+}
