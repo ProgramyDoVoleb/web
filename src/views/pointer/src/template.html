@@ -1105,7 +1105,7 @@
 									</div>
 									<div>
 										<p-label :color="[null, 'var(--green)', 'var(--blue)', 'var(--red)'][$volby.status]" class="smaller strong">
-											<span v-if="false && $volby.editace === 1"> <p-link href="https://admin.programydovoleb.cz">Admin otevřen</p-link>, údaje lze doplňovat</span>
+											<span v-if="$volby.editace === 1"> <p-link href="https://admin.programydovoleb.cz">Admin otevřen</p-link>, údaje lze doplňovat</span>
 											<span v-if="$volby.editace === 2">Údaje jsou zaarchivovány</span>
 											<span v-if="$volby.editace === 3">Admin ještě nebyl spuštěn</span>
 										</p-label>
