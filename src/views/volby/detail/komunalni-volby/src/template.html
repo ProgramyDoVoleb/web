@@ -13,6 +13,7 @@
 					</p-list-linear>
 				</div>
 				<template v-if="data.list[0].id === 176">
+					<div class="p-gap _05"></div>
 					<p-collapsible label="Okresy" class="smaller" logo="party">
 						<p-columns class="_tight">
 							<div v-for="okres in sortBy(data.cis.okresy.filter(x => x.numnuts % 10 !== 0 && x.datum === '2025-10-15'), 'nazev', null, true)">
@@ -25,6 +26,12 @@
 					<p-collapsible label="Na mapě" logo="map" class="smaller">
 						<hero-map size="mid"></hero-map>
 					</p-collapsible>
+					<div class="p-gap _1"></div>
+					<p-box-group>
+						<p-box to="/jak-volit/komunalni-volby">
+							<p-box-button class="primary">Jak volit?</p-box-button>
+						</p-box>
+					</p-box-group>
 				</template>
 			</p-area>			
 		</p-block>

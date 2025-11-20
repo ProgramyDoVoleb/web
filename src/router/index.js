@@ -389,6 +389,17 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/jak-volit/komunalni-volby',
+      name: 'LayoutHowKomunalniAlias',
+      redirect: '/volby/komunalni-volby/176/jak-volit'
+    },
+    {
+      path: '/volby/komunalni-volby/:id/jak-volit',
+      name: 'LayoutHowKomunalni',
+      component: () => import('../views/jak-volit/komunalni-volby/do.vue'),
+      props: true
+    },
+    {
       path: '/o-projektu',
       name: 'LayoutAbout',
       component: () => import('../views/about/do.vue'),

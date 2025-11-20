@@ -1,0 +1,27 @@
+._check {
+	width: 20px;
+	height: 20px;
+	margin: auto .5em;
+
+	.p-box-icon {
+		transform: scale(.5, .5) translate(-50%, -50%);
+		background: #fff;
+		border: var(--border);
+	}
+}
+
+._w2 {
+	width: 2em;
+	text-align: right;
+	display: inline-block;
+	margin-right: .25em;
+	
+	._check {
+		overflow: hidden;
+		transform: translateY(.25em);
+	}
+}
+
+ol {
+	list-style: decimal inside;
+}
