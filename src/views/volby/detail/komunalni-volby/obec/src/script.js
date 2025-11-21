@@ -48,13 +48,16 @@ export default {
 			return d;
 		},
 		news: function () {
-			return this.$store.getters.pdv('news/only/' + this.id);
+			return this.$store.getters.pdv('news/town/' + this.zast + ':' + this.id);
 		},
 		previous: function () {
 			return this.current.predchozi;
 
 			// return this.$store.getters.pdv("elections/fetch/" + this.current.predchozi);
-		}
+		},
+		core: function () {
+			return this.$store.getters.pdv('town/core/' + this.zast);
+		},
 	},
   methods: {
 		url,

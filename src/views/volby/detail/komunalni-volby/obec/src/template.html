@@ -4,30 +4,14 @@
 			<p-block :headline="current ? current.$dotcene[0].NAZEVZAST : ''" :level="1" :subheadline="'komunální volby, ' + (current ? (current.datum_label || (current.datum ? date(current.datum, 3) : current.cirka)) : 'načítám...')" :anchor="current ? current.$dotcene[0].NAZEVZAST : 'Volby'">
 				<p-loader :rule="current">
 					<div v-if="current">
-						<!-- <p-block headline="O volbách" :hide="true">
-							<div class="smaller">
-								<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][current.status]) + ')'">{{ current.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[current.status] }}</p-label></div>
-								<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][current.editace]) + ')'">administrace {{ enums.editace[current.editace] }}</p-label></div>
-							</div>
-							<template v-if="current.web">
-								<div class="p-gap"></div>
-								<p-box :href="current.web">
-									<p-box-button icon="link.svg" color="var(--blue)">Webové stránky k volbám</p-box-button>
-								</p-box>
-							</template>
-							<p class="lead" v-if="current.popis" v-html="current.popis"></p>
-						</p-block> -->
 						<komunalni-volby :data="data" :town="zast"></komunalni-volby>
-						<div class="p-gap"></div>
-						<p-area icon="komunalni-volby" class="inline highlight shadow">
-							<router-link :to="'/obec/' + current.$dotcene[0].KODZASTUP" class="strong">Volební historie</router-link>
-							<div class="smaller">Všechny minulé výsledky a srovnání s krajskými nebo celostátními výsledky.</div>
-
-						</p-area>
 					</div>
 				</p-loader>
 			</p-block>
-			<p-block :level="1" headline="Jiné zastupitelstvo">
+			<p-block headline="Novinky">
+				...
+			</p-block>
+			<p-block :level="1" headline="Přejít na jiné zastupitelstvo" anchor="Přejít jinam">
 				<search-town :link="'/volby/komunalni-volby/' + id + '/obec/'"></search-town>
 			</p-block>
 			

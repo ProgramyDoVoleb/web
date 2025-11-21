@@ -67,17 +67,22 @@
 			<!-- <election-grid :leaders="true" :list="people(parties(current.$strany, current.$strany), current.$kandidati, true)"></election-grid> -->
 			<template v-if="current.status < 2">
 				<div class="p-line"></div>
+
 				<div class="smallest dimm">
-					<div class="p-offset">
-						<div>
-							<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'KV:' + current.id + ':' + town">
-								<strong class="green">Přidat či upravit</strong>
-							</report-modal>
-						</div>
-						<div>
-							Kompletní seznam registrovaných stran a hnutí bude znám koncem srpna 2026
-						</div>
-					</div>					
+					Kompletní seznam registrovaných stran a hnutí bude znám koncem srpna 2026
+				</div>
+
+				<div class="_edit smallest mt1">
+					<p-icon icon="edit"></p-icon>
+					 
+					<pop-up>
+						<template #init>
+							<span class="green strong">Doplnit nebo upravit</span>
+						</template>
+						<template #content>
+							<editable-suggest :part="'KV:' + data.list[0].id + ':' + town" type="seznam"></editable-suggest>
+						</template>
+					</pop-up>
 				</div>
 			</template>
 		</p-block>
@@ -106,7 +111,173 @@
 			</p-collapsible>
 		</template>
 	</p-block>
+	<p-block headline="Stav před volbami">
+		<p-area v-if="leadership && (leadership.mayor != -1 || leadership.coalition != -1)" class="highlight shadow">
+			<p-grid class="_2_classic">
+				<div v-if="leadership.mayor != -1">
+					<div class="smallest mb1 strong">{{ [3,4].indexOf(leadership.cis.obec[0].DRUHZASTUP) === -1 ? 'Starosta' : 'Primátor' }}</div>
+					<person-preview-block :link="'/volby/komunalni-volby/' + leadership.mayor.volby" :cand="leadership.mayor" :current="{$kandidati: []}" :data="leadership" class="_noBG"></person-preview-block>
+				</div>
+				<div v-if="leadership.coalition != -1">
+					<div class="smallest mb1 strong">
+						<div class="p-offset reverse balanced">
+							<div>
+								Koalice
+							</div>
+							<div>
+								{{ leadership.coalition.reduce((a, b) => a + b.MAND_STR, 0) }} mandátů z {{ leadership.cis.obec[0].MANDATY }}
+							</div>
+						</div>						
+					</div>
+					<p-list class="invisible smaller">
+						<div v-for="member in sortBy(leadership.coalition, 'MAND_STR', null, null, true)">
+							<div class="p-offset reverse balanced">
+								<div>
+									<p-label :color="colorByItem(member, leadership)">
+										<router-link :to="'/volby/komunalni-volby/' + member.volby + '/strana/' + member.id">
+											{{ member.NAZEV }}
+										</router-link>								
+									</p-label>
+								</div>
+								<div class="smaller dimm">
+									{{ member.MAND_STR }}
+								</div>
+							</div>
+						</div>
+					</p-list>
+				</div>
+			</p-grid>
+			<div class="p-line"></div>
+			<div class="smallest dimm">Poslední aktualizace {{ date(sortBy(leadership.list, 'updated', null, true, true)[0].updated, 3) }}</div>
+		</p-area>
+		<div class="_edit smallest mt1">
+			<p-icon icon="edit"></p-icon>
+			 
+			<pop-up>
+				<template #init>
+					<span class="green strong">Doplnit nebo upravit</span>
+				</template>
+				<template #content>
+					<editable-suggest part="Oprava starosty" type="leadership"></editable-suggest>
+				</template>
+			</pop-up>
+			 &middot; 
+			<router-link :to="'/obec/' + town" class="dimm">více zde</router-link>
+		</div>
+	</p-block>
 	<p-block headline="Minulé volby">
-		<election-results id="154" :type="{key: 'KV', hash: 'komunalni-volby', name: 'Komunální volby'}" :election="{'datum_label': '23. a 24. září 2022'}" :spec="town" :label="data.list[0].$dotcene[0].NAZEVZAST"></election-results>
+		<election-results :id="current.predchozi" :type="{key: 'KV', hash: 'komunalni-volby', name: 'Komunální volby'}" :election="{'datum_label': null}" :spec="town" :label="data.list[0].$dotcene[0].NAZEVZAST"></election-results>
+	</p-block>
+	<p-block headline="Zajímavosti">
+		<p-area icon="komunalni-volby" class="inline highlight shadow">
+			<router-link :to="'/obec/' + town" class="strong">Seznam voleb v obci <em>{{ current.$dotcene[0].NAZEVZAST }}</em></router-link>
+			<div class="smaller">Všechny minulé výsledky a srovnání s krajskými nebo celostátními výsledky.</div>
+		</p-area>
+		<div class="p-gap"></div>
+		<p-collapsible label="Adresy a kontakty" logo="address">
+			<p-list class="smaller _05" v-if="core">
+				<div class="p-offset"><div class="_w8">Kontakty</div><div>
+					<div v-for="item in core.list[0].$data.filter(x => x.type === 'address')">
+						{{ item.value }}
+					</div>
+					<div v-for="item in core.list[0].$data.filter(x => x.type === 'phone')">
+						+420 {{ number(item.value) }}
+					</div>
+					<div v-for="item in core.list[0].$data.filter(x => x.type === 'email')">
+						<p-link :href="'mailto:' + item.value">{{ item.value }}</p-link>
+					</div>
+				</div></div>
+				<div class="p-offset"><div class="_w8">Webové stránky</div><div>
+					<div v-for="item in core.list[0].$data.filter(x => x.type === 'link')">
+						<p-link :href="item.value"></p-link>
+					</div>
+				</div></div>
+				<div class="p-offset"><div class="_w8">Sociální sítě</div><div>
+					<div v-for="item in core.list[0].$data.filter(x => x.type === 'social')">
+						<p-link :href="item.value"></p-link>
+					</div>
+				</div></div>
+				<div class="p-offset"><div class="_w8">PSČ</div><div>
+					<div v-for="item in core.list[0].$data.filter(x => x.type === 'psc')">
+						<p-link :href="'https://www.psc.cz/' + item.value">{{ item.value }}</p-link>
+					</div>
+				</div></div>
+				<div class="p-offset"><div class="_w8">Datovka</div><div>
+					<div v-for="item in core.list[0].$data.filter(x => x.type === 'datovka')">
+						<p-link :href="'https://www.mojedatovaschranka.cz/sds/detail?dbid=' + item.value">{{ item.value }}</p-link>
+					</div>
+				</div></div>
+				<div class="p-offset"><div class="_w8">IČO obce</div><div>
+					<div v-for="item in core.list[0].$data.filter(x => x.type === 'ico')">
+						<p-link :href="'https://monitor.statnipokladna.gov.cz/ucetni-jednotka/' + ico(item.value)">{{ item.value }}</p-link>
+					</div>
+				</div></div>
+				<div class="smallest dimm">
+					Některé starší údaje již nemusí být aktuální.
+				</div>
+				<div>
+					<div class="_edit smallest mt1">
+						<p-icon icon="edit"></p-icon>
+						 
+						<pop-up>
+							<template #init>
+								<span class="green strong">Opravit</span>
+							</template>
+							<template #content>
+								<editable-suggest part="Kontaktní údaje" type="meta"></editable-suggest>
+							</template>
+						</pop-up>
+					</div>
+				</div>
+			</p-list>
+		</p-collapsible>
+		<!-- <p-collapsible label="Mapa obce" logo="map">
+
+		</p-collapsible> -->
+		<p-collapsible label="Rozpočet obce" logo="results">
+			<p>Pokud vás zajímá, jak hlavní město hospodaří, může se podívat na rozklikávací rozpočet. Službu Mon1tor poskytuje Ministerstvo financí pod touto <p-link href="https://monitor.statnipokladna.gov.cz/datovy-katalog/licence">licencí</p-link> .</p>
+			<object :data="'https://monitor.statnipokladna.cz/api/i-view/' + ico(core.list[0].$data.find(x => x.type === 'ico').value)" width="100%" height="410" type="text/html"></object>
+		</p-collapsible>
+		<p-collapsible label="Statistiky a zajímavosti" logo="hint">
+			<p>Zajímají vás podrobnější informace o <em>{{ current.$dotcene[0].NAZEVZAST }}</em>? Například údaje o složení obyvatel, nezaměstnanosti, ke kterému úřadu či soudu patří? Navštivte web RIS (regionální informační servis), který provozuje Ministerstvo pro místní rozvoj.</p>
+			<p-box-group>
+				<p-box :href="'https://vdp.cuzk.gov.cz/vdp/ruian/obce/' + town">
+					<p-box-button>RÚIAN</p-box-button>
+				</p-box>
+				<p-box :href="'https://www.risy.cz/cs/vyhledavace/obce/detail?Zuj=' + town">
+					<p-box-button>RIS - Regionální informační servis</p-box-button>
+				</p-box>
+			</p-box-group>
+		</p-collapsible>
+		<p-collapsible label="Historie kandidátů" logo="person">
+			<history-candidates :num="town"></history-candidates>
+		</p-collapsible>
+	</p-block>
+	<p-block headline="Nepřehlédněte" v-if="data && core && (core.list[0].$core[0].$part || core.list[0].$core[0].$parts.length > 0)">
+
+		<div v-if="core && core.list[0].$core[0].$parts.length > 0" class="mb1">
+			<p>Voliči v městě <em>{{ current.$dotcene[0].NAZEVZAST }}</em> volí také do zastupitelstva své městské části. U voleb tak dostávají dvě volební obálky a dva volební listy. V případě, že se zde konají také senátní volby nebo místní referendum, dostanou voliči ještě více lístků.</p>
+
+			<p-collapsible label="Seznam městských částí">
+				<p-columns class="smaller _4">
+					<div v-for="part in core.list[0].$core[0].$parts">
+						<router-link :to="'/volby/komunalni-volby/' + current.id + '/obec/' + part.NUM">{{ part.NAZEV }}</router-link>
+					</div>
+				</p-columns>
+			</p-collapsible>
+		</div>
+
+		<div v-if="core && core.list[0].$core[0].$part && core.list[0].$core[0].$part.length > 0" class="mb1">
+			<p-area icon="warning" class="inline">
+				<div>
+					Voliči z městské části <em>{{ current.$dotcene[0].NAZEVZAST }}</em> volí také na 
+
+					<span v-for="part in core.list[0].$core[0].$part">
+						<router-link :to="'/volby/komunalni-volby/' + current.id + '/obec/' + part.NUM" class="strong">magistrát města {{ part.NAZEV }}</router-link>
+					</span>
+				</div>
+				<div class="smallest">U voleb by měli dostat dva volební listy a dvě obálky.</div>
+			</p-area>
+		</div>
 	</p-block>
 </div>

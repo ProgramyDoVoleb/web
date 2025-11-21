@@ -12,6 +12,9 @@ import ElectionResults from '@/views/history/volby/detail/do.vue';
 import PartyPreview from '@/components/party-preview/do.vue'
 import PartyPreviewLarge from '@/components/party-preview-large/do.vue'
 import PersonPreviewBlock from '@/components/person-preview-block/do.vue'
+import PopUp from '@/components/pop-up/do.vue';
+import EditableSuggest from '@/components/editable/suggest/do.vue';
+import HistoryCandidates from '@/components/history/town/do.vue';
 
 export default {
 	name: 'layout-volby-detail-komunalni-obec-detail',
@@ -37,7 +40,10 @@ export default {
 	ElectionResults,
 	PartyPreview,
 	PartyPreviewLarge,
-	PersonPreviewBlock
+	PersonPreviewBlock,
+	PopUp,
+	EditableSuggest,
+	HistoryCandidates
   },
 	computed: {
 		$store: function () {
@@ -54,6 +60,12 @@ export default {
 		},
 		obvody: function () {
 			return this.current.$dotcene.find(x => x.OBVODY === 2) ? this.current.$dotcene.filter(x => x.OBVODY === 2 && x.COBVODU) : this.current.$dotcene
+		},
+		core: function () {
+			return this.$store.getters.pdv('town/core/' + this.town);
+		},
+		leadership: function () {
+			return this.$store.getters.pdv('town/mayor/' + this.town + ':' + this.data.list[0].id);
 		}
 	},
   methods: {
@@ -277,6 +289,13 @@ export default {
 			// console.log(list, parties);
 
 			return parties;
+		},
+		ico: function (val) {
+			var s = String(val);
+
+			while (s.length < 8) s = '0' + s;
+
+			return s;
 		}
   },
   mounted: function () {

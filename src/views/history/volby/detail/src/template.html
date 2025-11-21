@@ -16,7 +16,7 @@
 				</template>
 			</span>
 			&middot;
-			{{ election.datum_label || date(election.datum) }}
+			{{ data ? data.list[0].datum_label || date(data.list[0].datum) : '' }}
 		</div>
 	</p-area>	
 </div>
