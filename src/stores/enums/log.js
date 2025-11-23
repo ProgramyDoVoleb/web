@@ -28,5 +28,16 @@ export default {
     'priority': 'Priorita',
     'leader': 'Volební lídr',
     'govrole': 'Vládní kandidát',
-    'garant': 'Garant'
+    'garant': 'Garant',
+    'mayor': 'Starosta',
+    'coalition': 'Koalice',
+    'population': 'Počet obyvatel',
+    'gps': 'GPS',
+    'datovka': 'Datová schránka',
+    'ico': 'IČO',
+    'psc': 'PSČ',
+    'ruian': 'RÚIAN',
+    'orp': 'Obec s rozšířenou působností',
+    'candidate': 'Přidán kandidát',
+    'party': 'Přidána strana'
 }

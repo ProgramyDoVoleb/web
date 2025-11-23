@@ -1,5 +1,14 @@
 // @import url('https://fonts.googleapis.com/css2?family=Quando&display=swap');
 
+@font-face {
+  font-family: "Quando";
+  src:
+    // local("Quando"),
+    // url("trickster-COLRv1.otf") format("opentype") tech(color-COLRv1),
+    // url("trickster-outline.otf") format("opentype"),
+    url("https://static.programydovoleb.cz/fonts/quando.woff2") format("woff");
+}
+
 html, body, .sans {
   font-family: Helvetica, Arial, sans-serif;
 }
@@ -14,10 +23,10 @@ p {
   }
 }
 
-h1, h2, .serif {
-  font-family: 'Palatino Linotype', Georgia, serif;
+h1, h2, .serif, h2 button {
+  font-family: Quando, 'Palatino Linotype', Georgia, serif;
   font-weight: 400;
-  letter-spacing: -.01em;
+  letter-spacing: -.03em;
 }
 
 .mono {

@@ -16,7 +16,7 @@
 					</p-area>
 				</p-block>
 				<div class="p-gap_2"></div>
-				<p-block headline="Statistiky" v-if="current.$ucast">
+				<p-block headline="Volební statistiky" v-if="current.$ucast">
 					<p-area>
 						<election-stats :data="current.$ucast.find(x => obvod.OBVODY === 2 ? x.OBVOD === obvod.COBVODU : true)" :results="current.$vysledky"></election-stats>
 					</p-area>
@@ -87,6 +87,52 @@
 			</template>
 		</p-block>
 	</template>
+	<p-block v-if="current.status < 3" headline="Jak volit?" :hide="true">
+		<p-area icon2="hint">
+			<h2 class="pt025 mt0 mb05">Jak se volí?</h2>
+			<p>Oproti jiným volbám máme tolik hlasů, kolik se volí zastupitelů. {{ current.$dotcene[0].NAZEVZAST }} volí {{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů. Zároveň jsou všechny strany a kandidáti vytištění na jeden jediný list papíru. Je pouze na nás, jak s hlasy naložíme:</p>
+			<p-collapsible label="Chci dát všechny hlasy jedné straně">
+				<div class="p-offset">
+					<div>
+						<p-image src="https://2022.programydovoleb.cz/static/ticket/valid-1.png" width="12rem" :rounded="true"></p-image>
+					</div>
+					<div>
+						<p>Tohle je jednoduché. Nahoře dáte křížek k názvu strany a hotovo. Strana získá plný počet vašich hlasů, tedy {{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }}.</p>
+					</div>
+				</div>
+			</p-collapsible>
+			<p-collapsible label="Chci zvolit jednu stranu, ale mám ještě oblíbeného kandidáta z jiné strany">
+				<div class="p-offset">
+					<div>
+						<p-image src="https://2022.programydovoleb.cz/static/ticket/valid-2.png" width="12rem" :rounded="true"></p-image>
+					</div>
+					<div>
+						<p>V tomhle případě dáte křížek k názvu strany a pak dáte křížky k těm kandidátům z jiných stran, které chcete podpořit.</p>
+						<p>Pokud vyznačíte 4 kandidáty z jiných stran, tak dostanou jeden hlas oni (a jejich strany) a vámi zakřížkovaná strana získá zbylých {{ (current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY) - 4 }} hlasů.</p>
+						<p>Důležité: nedávejte více křížků, než máte hlasů. Lístek by byl neplatný. Navíc, malé křížky u strany, které jste dali velký křížek, se nepočítají.</p>
+					</div>
+				</div>
+			</p-collapsible>
+			<p-collapsible label="Chci si jen vybrat kandidáty napříč stranami">
+				<div class="p-offset">
+					<div>
+						<p-image src="https://2022.programydovoleb.cz/static/ticket/valid-3.png" width="12rem" :rounded="true"></p-image>
+					</div>
+					<div>
+						<p>V tomhle případě dáte křížky k těm kandidátům, které chcete podpořit. Nedáváte ale křížek k názvu strany.</p>
+						<p>Důležité: nedávejte více křížků, než máte hlasů. Lístek by byl neplatný.</p>
+						<p>Pokud ale použijete méně křížků, lístek bude platný. Jen nevyužijete všechny své hlasy.</p>
+					</div>
+				</div>
+			</p-collapsible>
+			<div class="p-gap"></div>
+			<p-box-group>
+				<p-box to="/jak-volit/komunalni-volby">
+					<p-box-button class="primary">Více o tom, jak volit</p-box-button>
+				</p-box>
+			</p-box-group>
+		</p-area>
+	</p-block>
 	<p-block v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0" headline="Otázky a odpovědi">
 		<template v-for="(qitem, qindex) in qenum">
 			<p-collapsible :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0">
@@ -110,6 +156,17 @@
 				</p-area>
 			</p-collapsible>
 		</template>
+	</p-block>
+	<p-block headline="Může se hodit" v-if="false">
+		<p-collapsible label="Aktivita stran">
+			
+		</p-collapsible>
+		<p-collapsible label="Přepočet na mandáty">
+
+		</p-collapsible>
+		<p-collapsible label="Statistiky" v-if="current.status > 1">
+
+		</p-collapsible>
 	</p-block>
 	<p-block headline="Stav před volbami">
 		<p-area v-if="leadership && (leadership.mayor != -1 || leadership.coalition != -1)" class="highlight shadow">
@@ -253,31 +310,35 @@
 			<history-candidates :num="town"></history-candidates>
 		</p-collapsible>
 	</p-block>
-	<p-block headline="Nepřehlédněte" v-if="data && core && (core.list[0].$core[0].$part || core.list[0].$core[0].$parts.length > 0)">
+	<p-block headline="Nepřehlédněte" v-if="data && core && (core.list[0].$core[0].$part || core.list[0].$core[0].$parts.length > 0)" :hide="true">
+		<p-area class="primary" borderColor="var(--red)">
 
-		<div v-if="core && core.list[0].$core[0].$parts.length > 0" class="mb1">
-			<p>Voliči v městě <em>{{ current.$dotcene[0].NAZEVZAST }}</em> volí také do zastupitelstva své městské části. U voleb tak dostávají dvě volební obálky a dva volební listy. V případě, že se zde konají také senátní volby nebo místní referendum, dostanou voliči ještě více lístků.</p>
+			<h2 class="serif mt0 mb05">Nepřehlédněte</h2>
 
-			<p-collapsible label="Seznam městských částí">
-				<p-columns class="smaller _4">
-					<div v-for="part in core.list[0].$core[0].$parts">
-						<router-link :to="'/volby/komunalni-volby/' + current.id + '/obec/' + part.NUM">{{ part.NAZEV }}</router-link>
+			<div v-if="core && core.list[0].$core[0].$parts.length > 0" class="mb1">
+				<p>Voliči v městě <em>{{ current.$dotcene[0].NAZEVZAST }}</em> volí také do zastupitelstva své městské části. U voleb tak dostávají dvě volební obálky a dva volební listy. V případě, že se zde konají také senátní volby nebo místní referendum, dostanou voliči ještě více lístků.</p>
+
+				<p-collapsible label="Seznam městských částí">
+					<p-columns class="smaller _4">
+						<div v-for="part in core.list[0].$core[0].$parts">
+							<router-link :to="'/volby/komunalni-volby/' + current.id + '/obec/' + part.NUM">{{ part.NAZEV }}</router-link>
+						</div>
+					</p-columns>
+				</p-collapsible>
+			</div>
+
+			<div v-if="core && core.list[0].$core[0].$part && core.list[0].$core[0].$part.length > 0" class="mb1">
+				<p-area icon="warning" class="inline">
+					<div>
+						Voliči z městské části <em>{{ current.$dotcene[0].NAZEVZAST }}</em> volí také na 
+
+						<span v-for="part in core.list[0].$core[0].$part">
+							<router-link :to="'/volby/komunalni-volby/' + current.id + '/obec/' + part.NUM" class="strong">magistrát města {{ part.NAZEV }}</router-link>
+						</span>
 					</div>
-				</p-columns>
-			</p-collapsible>
-		</div>
-
-		<div v-if="core && core.list[0].$core[0].$part && core.list[0].$core[0].$part.length > 0" class="mb1">
-			<p-area icon="warning" class="inline">
-				<div>
-					Voliči z městské části <em>{{ current.$dotcene[0].NAZEVZAST }}</em> volí také na 
-
-					<span v-for="part in core.list[0].$core[0].$part">
-						<router-link :to="'/volby/komunalni-volby/' + current.id + '/obec/' + part.NUM" class="strong">magistrát města {{ part.NAZEV }}</router-link>
-					</span>
-				</div>
-				<div class="smallest">U voleb by měli dostat dva volební listy a dvě obálky.</div>
-			</p-area>
-		</div>
+					<div class="smallest">U voleb by měli dostat dva volební listy a dvě obálky.</div>
+				</p-area>
+			</div>
+		</p-area>
 	</p-block>
 </div>

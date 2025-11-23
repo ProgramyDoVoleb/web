@@ -10,7 +10,7 @@
 			<div class="strong smallest mobile">
 				{{date(data.datum, 2) }}
 			</div>	
-			<div class="strong smallest desktop text-center _w3">
+			<div class="strong smallest desktop text-center _w3 serif">
 				<div class="big">
 					{{ Number(data.datum.split('-')[2]) }}.
 				</div>
@@ -20,7 +20,7 @@
 		<div>
 			<!-- <p-link v-if="data.source && !data.content" :href="data.source">{{ data.title }}</p-link> -->
 			<router-link :to="'/novinky/' + data.id">{{ data.title }}</router-link>	
-			<div class="smallest dimm desktop" v-if="data.content" v-html="data.content.includes('<') ? 'Zobrazit celou novinku' : truncate(data.content, 20)"></div>
+			<div class="smallest dimm desktop" v-if="data.content" v-html="data.content.includes('<') ? 'Zobrazit celou novinku' : truncate(data.content.split('Původní text: ').join(''), 20)"></div>
 		</div>		
 	</div>
 	

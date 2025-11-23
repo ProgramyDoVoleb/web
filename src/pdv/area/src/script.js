@@ -1,4 +1,4 @@
 export default {
 	name: 'Area',
-	props: ['padding', 'background', 'color', 'border', 'borderColor', 'icon']
+	props: ['padding', 'background', 'color', 'border', 'borderColor', 'icon', 'icon2']
 };

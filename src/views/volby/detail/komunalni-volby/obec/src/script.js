@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate} from '@/pdv/helpers';
+import {url, date, number, truncate, sortBy} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import KomunalniVolby from '@/views/volby/detail/komunalni-volby/detail/do.vue'
@@ -63,7 +63,8 @@ export default {
 		url,
 		date,
 		number,
-		truncate
+		truncate,
+		sortBy
   },
   mounted: function () {
     window.scrollTo(0, 1);

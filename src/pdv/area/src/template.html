@@ -1,7 +1,9 @@
-<div class="p-area" :style="{padding, background, color, border}" :class="{'p-area---has-icon': !!icon, 'p-area---has-border': !!borderColor, 'p-area---has-background': !!background}">
+<div class="p-area" :style="{padding, background, color, border}" :class="{'p-area---has-icon': !!icon, 'p-area---has-icon-2': !!icon2, 'p-area---has-border': !!borderColor, 'p-area---has-background': !!background}">
 	<div class="p-area---content _content">
-		<p-box-icon :type="icon" v-if="icon && !icon.includes('http')"></p-box-icon>
-		<p-box-image :src="icon" v-if="icon && icon.includes('http')"></p-box-image>
+		<p-box-icon :type="icon" v-if="icon && !icon.includes('http')" class="_icon"></p-box-icon>
+		<p-box-image :src="icon" v-if="icon && icon.includes('http')" class="_icon"></p-box-image>
+		<p-box-icon :type="icon2" v-if="icon2 && !icon2.includes('http')" class="_icon2"></p-box-icon>
+		<p-box-image :src="icon2" v-if="icon2 && icon2.includes('http')" class="_icon2"></p-box-image>
 		<slot />
 	</div>
 	<div class="border-color" v-show="borderColor" :style="{background: borderColor}"></div>

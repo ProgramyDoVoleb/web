@@ -8,11 +8,18 @@
 					</div>
 				</p-loader>
 			</p-block>
-			<p-block headline="Novinky">
-				...
+			<p-block headline="Novinky" v-if="news && news.news.length > 0">
+							<p-list>
+								<div v-for="item in news.news">
+									<news-item :data="item"></news-item>
+								</div>
+							</p-list>
 			</p-block>
-			<p-block :level="1" headline="Přejít na jiné zastupitelstvo" anchor="Přejít jinam">
-				<search-town :link="'/volby/komunalni-volby/' + id + '/obec/'"></search-town>
+			<p-block :level="1" headline="Přejít na jiné zastupitelstvo" anchor="Přejít jinam" :hide="true">
+				<p-area icon="search">
+					<h3 class="serif mt0 mb025">Najít jiné zastupitelstvo</h3>
+					<search-town :link="'/volby/komunalni-volby/' + id + '/obec/'"></search-town>
+				</p-area>
 			</p-block>
 			
 		</template>
