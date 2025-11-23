@@ -76,6 +76,13 @@
 					</template>
 				</div>
 			</div>
+			<div class="smallest strong" v-if="party">
+				<p-label :color="colorByItem(party, data, 'VSTRANA')" class="block">kandidátka
+					<router-link :to="link + '/strana/' + party.id" class="is-span keep">
+						{{ party.NAZEV }}
+					</router-link>
+				</p-label>
+			</div>
 			<div class="smallest strong" v-if="cand.VSTRANA && !current.VSTRANA && cand.VSTRANA != current.VSTRANA && (cand.VSTRANA < 997 || cand.VSTRANA > 999)">
 				
 				<p-label :color="colorByItem(cand, data, 'VSTRANA')" class="block">volební strana 

@@ -4,7 +4,7 @@ import { cdn, missing } from '@/stores/core';
 
 export default {
 	name: 'person-preview-block',
-	props: ['cand', 'data', 'current', 'link'],
+	props: ['cand', 'data', 'current', 'link', 'party'],
 	data: function () {
 		return {
 			cdn,

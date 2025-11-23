@@ -27,7 +27,8 @@ export default {
 				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka'},
 				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka'}
 			],
-			compactList: window.width < 1240
+			compactList: window.width < 1240,
+			dhondt: []
 		}
 	},
   components: {
@@ -66,6 +67,9 @@ export default {
 		},
 		leadership: function () {
 			return this.$store.getters.pdv('town/mayor/' + this.town + ':' + this.data.list[0].id);
+		},
+		partyList: function () {
+			return this.$store.getters.pdv('parties/as-of/' + this.data.list[0].datum + ';1,7,47,53,166,703,720,721,768,1114,714,5,1227,1245,1265,1178,1298');
 		}
 	},
   methods: {
@@ -296,8 +300,37 @@ export default {
 			while (s.length < 8) s = '0' + s;
 
 			return s;
+		},
+		dhondtCalculate: function () {
+
+			var arr = [];
+			var mandates = this.current.$dotcene[0].MANDATY || this.current.$dotceneMinule[0].MANDATY;
+
+			this.dhondt.forEach(item => {
+				for (var i = 1; i < mandates + 1; i++) {
+					arr.push({
+						value: 100 * item.value / i,
+						item
+					});
+				}
+			})
+
+			arr.sort((a, b) => b.value - a.value);
+			arr.splice(mandates, arr.length - mandates);
+
+			this.dhondt.forEach(item => {
+				item.mandates = arr.filter(x => x.item.id === item.id).length;
+			});
 		}
   },
   mounted: function () {
+	sortBy(this.data.list[0].$strany, 'NAZEV', null, true).forEach(party => {
+		this.dhondt.push({
+			id: party.id,
+			NAZEV: party.NAZEV,
+			value: 0,
+			mandates: 0
+		});
+	});
   }
 };

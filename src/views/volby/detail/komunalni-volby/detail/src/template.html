@@ -35,8 +35,8 @@
 		<div class="p-gap_3"></div>
 	</template>
 	
-	<template v-if="current.status === 1">
-		<p-block headline="Předběžný přehled" :hide="true">
+	<template v-if="current.status < 3">
+		<p-block :headline="current.status === 1 ? 'Předběžný přehled' : 'Přehled stran'" :hide="true">
 			<div class="p-offset reverse balanced">
 				<div>
 					<h2><button class="inline" @click="compactList = true" :class="{'active': compactList}">Seznam</button> / <button class="inline" @click="compactList = false" :class="{'active': !compactList}">Přehled</button></h2>
@@ -130,6 +130,9 @@
 				<p-box to="/jak-volit/komunalni-volby">
 					<p-box-button class="primary">Více o tom, jak volit</p-box-button>
 				</p-box>
+				<p-box :to="$route.path.split('/obec')[0]">
+					<p-box-label>Obecně o volbách</p-box-label>
+				</p-box>
 			</p-box-group>
 		</p-area>
 	</p-block>
@@ -157,12 +160,65 @@
 			</p-collapsible>
 		</template>
 	</p-block>
-	<p-block headline="Může se hodit" v-if="false">
+	<p-block headline="Může se hodit" v-if="!false">
 		<p-collapsible label="Aktivita stran">
-			
+			<p-loader :rule="current && partyList">
+				<div v-if="current && partyList">
+
+					<p-area>
+						<p-columns class="_4 smaller">
+							<div v-for="party in sortBy(partyList.list, 'ZKRATKA', null, true)">
+								<div class="p-offset reverse">
+									<div>
+										<p-label :color="colorByItem(party, {cis: {strany: partyList.list}})">
+											{{ party.ZKRATKA }}
+										</p-label>
+									</div>
+									<div>
+										<p-icon :icon="current.$strany.find(x => x.VSTRANA === party.VSTRANA) || current.$kandidati.find(x => x.NSTRANA === party.VSTRANA || x.PSTRANA === party.VSTRANA) ? 'icon-check' : 'icon-against'"></p-icon>
+									</div>
+								</div>
+							</div>
+						</p-columns>
+						<div class="smallest" v-if="current.status === 1">
+							<div class="p-line"></div>
+							<p-label color="var(--red)" class="strong">Pozor: </p-label>
+							Toto je předběžný seznam, finální data budou dostupná až 45 dní před volbami
+						</div>
+					</p-area>
+				</div>
+			</p-loader>
 		</p-collapsible>
 		<p-collapsible label="Přepočet na mandáty">
-
+			<p-area>
+				<table>
+					<thead>
+						<tr>
+							<th>Strana</th>
+							<th>%</th>
+							<th>M</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="party in dhondt">
+							<td>
+								{{ truncate(party.NAZEV, width < 800 ? 16 : 42, true) }}
+							</td>
+							<td>
+								<input type="number" min="0" max="100" v-model="party.value" @change="dhondtCalculate">
+							</td>
+							<td :class="{strong: party.mandates > 0, dimm: party.mandates === 0}">
+								{{ party.mandates }}
+							</td>
+						</tr>
+						<tr v-if="current.status === 1">
+							<td colspan="3" class="smallest">
+								Do vo výpočtu jsou zařazeny pouze známé strany. Jejich počet i forma spolupráce se může měnit. Jasněji bude 66 dní před volbami, oficiální data pak budou až 45 dní před volbami.
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</p-area>
 		</p-collapsible>
 		<p-collapsible label="Statistiky" v-if="current.status > 1">
 
@@ -173,7 +229,7 @@
 			<p-grid class="_2_classic">
 				<div v-if="leadership.mayor != -1">
 					<div class="smallest mb1 strong">{{ [3,4].indexOf(leadership.cis.obec[0].DRUHZASTUP) === -1 ? 'Starosta' : 'Primátor' }}</div>
-					<person-preview-block :link="'/volby/komunalni-volby/' + leadership.mayor.volby" :cand="leadership.mayor" :current="{$kandidati: []}" :data="leadership" class="_noBG"></person-preview-block>
+					<person-preview-block :link="'/volby/komunalni-volby/' + leadership.mayor.volby" :cand="leadership.mayor" :current="{$kandidati: []}" :data="leadership" :party="leadership.party" class="_noBG"></person-preview-block>
 				</div>
 				<div v-if="leadership.coalition != -1">
 					<div class="smallest mb1 strong">

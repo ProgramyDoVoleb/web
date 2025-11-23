@@ -9,6 +9,21 @@
 				</p-loader>
 			</p-block>
 			<p-block headline="Novinky" v-if="news && news.news.length > 0">
+				<div class="mt-1 mb2">
+					<div class="_edit smallest">
+						<p-icon icon="edit"></p-icon>
+						 
+						<pop-up>
+							<template #init>
+								<span class="green strong">Doplnit nebo upravit</span>
+							</template>
+							<template #content>
+								<editable-suggest :part="'KV:' + current.id + ':' + zast" type="media"></editable-suggest>
+							</template>
+						</pop-up>
+					</div>	
+				</div>
+
 							<p-list>
 								<div v-for="item in news.news">
 									<news-item :data="item"></news-item>

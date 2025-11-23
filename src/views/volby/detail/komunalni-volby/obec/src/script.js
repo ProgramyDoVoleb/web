@@ -6,6 +6,8 @@ import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import KomunalniVolby from '@/views/volby/detail/komunalni-volby/detail/do.vue'
 import SearchTown from '@/components/search-town/do.vue'
+import PopUp from '@/components/pop-up/do.vue';
+import EditableSuggest from '@/components/editable/suggest/do.vue';
 
 export default {
 	name: 'layout-volby-detail-komunalni-kraj',
@@ -19,7 +21,9 @@ export default {
   components: {
 	NewsItem,
 	KomunalniVolby,
-	SearchTown
+	SearchTown,
+	PopUp,
+	EditableSuggest
   },
 	computed: {
 		$store: function () {
