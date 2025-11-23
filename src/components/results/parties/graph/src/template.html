@@ -33,7 +33,7 @@
 					<p-logo :data="item"></p-logo>
 				</div>
 				<div class="_short smallest">
-					<component :is="item.link ? 'router-link' : 'span'" :to="item.link">{{ truncate(item.short, 8, true) }}</component>
+					<component :is="item.link ? 'router-link' : 'span'" :to="item.link">{{ !item.coal && [80,90].indexOf(item.VSTRANA) === -1 ? truncate(item.short, 8, true) : truncate(item.label, 8, true) }}</component>
 				</div>
 				<div class="_coal" v-if="item.coal">
 					<template v-for="(member, im) in item.coal">
