@@ -1,4 +1,56 @@
 <div class="komunalni-volby">
+	<p-box-group v-if="core">
+		<p-box bg="rgba(0, 0, 0, 0.03)">
+			<p-box-label>{{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů</p-box-label>
+		</p-box>
+		<template v-for="item in core.list[0].$data.filter(x => x.type === 'link')">
+			<p-box :href="item.value">
+				<p-box-label>Web</p-box-label>
+			</p-box>
+		</template>
+		<p-box :to="'/obec/' + town">
+			<p-box-label>Volební historie</p-box-label>
+		</p-box>
+		<p-box-gap></p-box-gap>
+		<template v-for="item in core.list[0].$data.filter(x => x.type === 'social')">
+			<p-box :href="item.value">
+				<p-box-icon :type="type(item.value)"></p-box-icon>
+			</p-box>
+		</template>
+	</p-box-group>
+	<p v-if="core && current">
+		{{ current.$dotcene[0].NAZEVZAST }}
+		je
+		<template v-if="core.cis.druh[0].id === 4">
+			{{ core.cis.druh[0].ZKRATKA }}.
+		</template>
+		<template v-else-if="core.cis.druh[0].id === 5">
+			{{ core.cis.druh[0].ZKRATKA }}, součástí města {{ core.list[0].$core[0].$part[0].NAZEV }}. Lidé tak volí zastupitele dvakrát.
+		</template>
+		<template v-else>
+			{{ core.cis.druh[0].ZKRATKA }} v okrese {{ core.cis.okres.find(x => x.NUMNUTS === current.$dotcene[0].OKRES).NAZEV }}.
+		</template>
+		<template v-for="pop in core.list[0].$data.filter(x => x.type === 'population' && x.updated < current.datum).filter((x, i) => i === 0)">
+			Podle údaje z {{ date(pop.updated) }} zde žilo {{ number(pop.value) }} obyvatel.
+		</template>
+		Volí se zde {{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů. 
+		<template v-if="leadership">
+			Posledním {{ [4,3].indexOf(core.cis.druh[0].id) > -1 ? 'primátorem' : 'starostou' }} před volbami byl{{ isWoman(leadership.mayor) ? 'a' : '' }}
+			{{ leadership.mayor.JMENO + ' ' + leadership.mayor.PRIJMENI }} z <em>{{ leadership.party.NAZEV }}</em>.
+			<template v-if="leadership.coalition && leadership.coalition.length > 1">
+				Součástí koalice byli také <p-list-linear class="nebo inline">
+					<span v-for="member in leadership.coalition.filter(x => x.id != leadership.party.id)">
+						<em>{{ member.NAZEV }}</em>
+					</span>
+					se souhrnou silou 
+					{{ leadership.coalition.reduce((a, b) => a + b.MAND_STR, 0) }} z {{ current.$dotceneMinule[0].MANDATY }} mandátů.
+				</p-list-linear>
+			</template>
+		</template>
+		<template v-if="current.status === 1">Zatím <p-lang :value="current.$strany.length" :end="['není známá žádná strana, která by se hlásila', 'je známa jedna strana, která se hlásí', 'jsou známy %% strany, které se hlásí', 'je známo %% stran, které se hlásí']"></p-lang> do voleb.</template>	
+		<template v-if="current.status === 2">Do voleb<p-lang :value="current.$strany.length" :end="['není registrována žádná strana nebo kandidát', 'je registrována jedna strana', 'jsou registrovány %% strany', 'je registrováno %% stran']"></p-lang>.</template>
+		<template v-if="current.status === 2">Voleb se<p-lang :value="current.$strany.length" :end="['neúčastnila žádná strana nebo kandidát', 'se účastnila jen jedna strana', 'se účastnily %% strany', 'se účastnilo %% stran']"></p-lang>.</template>	
+	</p>
 	<template v-if="current.status === 3 && current.$ucast.length > 0">
 		<template v-for="(obvod, index) in obvody">
 			<component :is="obvod.OBVODY === 2 ? 'p-block-expandable' : 'div'" :headline="'Obvod ' + (index + 1)">
@@ -23,7 +75,7 @@
 				</p-block>
 			</component>
 		</template>
-		<p-block headline="Zvolení zastupitelé">
+		<p-block headline="Zvolení zastupitelé" class="mt4">
 			<component :is="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni)).length > 100 ? 'election-list' : 'election-grid'" :list="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni))"></component>
 		</p-block>
 		<p-block headline="Kandidáti">
