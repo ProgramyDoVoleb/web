@@ -72,7 +72,6 @@
 
 img {
   display: inline-block;
-  margin-right: .5em;
   height: 3rem;
   width: 3rem;
 }
@@ -89,4 +88,8 @@ img {
 
 [disabled] .p-box-button {
   filter: saturate(0) opacity(.2);
+}
+
+span:not(:empty) {
+  margin-left: .5em;
 }

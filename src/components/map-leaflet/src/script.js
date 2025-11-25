@@ -12,6 +12,7 @@ export default {
 			center: [50, 15],
 			zoom: 7,
 			geojson: null,
+			showOSM: true,
 			listOfGeoJSON: {
 				selected: 'republika',
 				list: {

@@ -5,9 +5,16 @@
 		  layer-type="base"
 		  name="OpenStreetMap"
 		  class="_tile"
-		  :opacity="0.5"
+		  :opacity="0.25"
+		  v-if="showOSM"
 		></l-tile-layer>
 		<l-geo-json ref="geojson" :geojson="geojson" :options="{filter: map_filter, style: map_style, onEachFeature: map_onEachFeature}" :optionsStyle="map_style" :onEachFeature="map_onEachFeature"></l-geo-json>
 	  </l-map>	
+	<p-box-group>
+		<slot />
+		<p-box :click="() => showOSM = !showOSM">
+			<p-box-button icon="map"></p-box-button>
+		</p-box>
+	</p-box-group>
 </div>
 <p class="tiny dimm _info">Mapy OpenStreetMaps, GeoJSON ze zdrojů data.gov.cz, okrsková data ČSÚ</p>  

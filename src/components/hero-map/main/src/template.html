@@ -1,16 +1,7 @@
 <div class="kv-hero-map" :style="options ? options.style : null" :class="mapClass">
 	<!-- <p-loader :rule="towns"> -->
 		<div v-if="towns" class="_map" :style="options ? options.style : null">
-			<map-leaflet ref="map" :options="map_options" :map_style="map_style" :map_onEachFeature="map_onEachFeature" :map_filter="map_filter"></map-leaflet>
-			<p-box-group class="_reset">
-				<!-- <p-box v-if="all === -1">
-					<p-box-color color="var(--red)"></p-box-color>
-					<p-box-button background="var(--white)">
-						<span>
-							<span class="red">červeně</span> okresy, kde jsou také <strong class="red">senátní</strong> volby
-						</span>						
-					</p-box-button>
-				</p-box> -->
+			<map-leaflet ref="map" :options="map_options" :map_style="map_style" :map_onEachFeature="map_onEachFeature" :map_filter="map_filter">
 				<p-box :to="'/volby/komunalni-volby/176/okres/' + all" v-if="all > -1">
 					<p-box-button>okres {{ towns.okresy.find(x => x.NUMNUTS == all).NAZEV }}</p-box-button>
 				</p-box>
@@ -20,7 +11,7 @@
 				<p-box :click="() => map_reset()" v-if="all != -1">
 					<p-box-button icon="snemovni-volby">Celá republika</p-box-button>
 				</p-box>
-			</p-box-group>
+			</map-leaflet>
 		</div>
 		<div class="text-center smallest _map-control">
 			<p-list-linear class="or">

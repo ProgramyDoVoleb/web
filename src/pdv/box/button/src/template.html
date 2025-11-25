@@ -1,5 +1,7 @@
 <div class="p-box-button" :style="{color, background, 'border-color': color}" :class="{'p-box-button---full': full, 'p-box---icon': icon}">
   <img loading="lazy" :src="cdn + 'icon/' + icon + (!icon.includes('.') ? '.svg' : '')" v-if="icon" class="_icon">
   <img loading="lazy" :src="cdn + 'logo/' + logo" v-if="logo" class="_logo">
-  <slot />
+  <span>
+    <slot />
+  </span>
 </div>

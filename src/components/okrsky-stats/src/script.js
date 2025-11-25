@@ -140,9 +140,9 @@ export default {
 					if (this.highlight) {
 						var f = this.fetch(town.obec, (this.highlight), 0);
 	
-						town.level = f > 0 ? (Math.round((((f * 2 / (town.HLASU || 0)) - min) / (max - min)) * 80)) + 10 : 0;
+						town.level = f > 0 ? (Math.round((((f * 2 / (town.HLASU || 0)) - min) / (max - min)) * 99)) + 1 : 0;
 					} else {
-						town.level = town.PROCENT > 0 ? (Math.round(((town.PROCENT - min) / (max - min)) * 80) + 10) : 0;
+						town.level = town.PROCENT > 0 ? (Math.round(((town.PROCENT - min) / (max - min)) * 99) + 1) : 0;
 					}				
 				})
 			} else {
@@ -159,9 +159,9 @@ export default {
 					if (this.highlight) {
 						var f = this.fetch(town.obec, (this.highlight), 0);
 	
-						town.level = f > 0 ? (Math.round(((f - min) / (max - min)) * 80)) + 10 : 0;
+						town.level = f > 0 ? (Math.round(((f - min) / (max - min)) * 99)) + 1 : 0;
 					} else {
-						town.level = (town.HLASU || 0) > 0 ? (Math.round((((town.HLASU || 0) - min) / (max - min)) * 80) + 10) : 0;
+						town.level = (town.HLASU || 0) > 0 ? (Math.round((((town.HLASU || 0) - min) / (max - min)) * 99) + 1) : 0;
 					}				
 				})
 			}

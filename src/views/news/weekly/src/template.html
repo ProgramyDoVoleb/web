@@ -224,6 +224,7 @@
 												<div v-for="cand in day.auto.filter(x => !x.content)">
 													<!-- <p-area> -->
 														<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')" class="strong">{{ cand.title }}</router-link>
+														<span class="dimm" v-if="cand.focus"> &middot; obvod {{ cand.focus }}</span>
 													<!-- </p-area> -->
 												</div>
 											</p-grid>

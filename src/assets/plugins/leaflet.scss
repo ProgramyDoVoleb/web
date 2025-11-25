@@ -8,10 +8,11 @@
 
 .p-leaflet-path {
 	stroke: var(--blue88);
-	stroke-width: .15;
+	stroke-width: .5;
 
 	.dark & {
-		stroke: #00000088;
+		stroke: var(--blue88);
+		stroke-width: 1;
 	}
 
 	@media (hover: hover) {
@@ -19,7 +20,7 @@
 		transition: all .3s;
 
 		&:hover {
-			stroke: #fff;
+			stroke: var(--blue);
 			stroke-width: 2;
 			position: relative;
 			z-index: 2;
@@ -28,14 +29,28 @@
 }
 
 .p-leaflet-path---empty {
-	stroke: var(--blue88);
-	stroke-width: .15;
-	fill-opacity: .25;
+	stroke: var(--red88);
+	stroke-width: .25;
+	fill-opacity: .025;
     fill: var(--red);
 
 	.dark & {
-		fill-opacity: .33;
-		stroke: #00000088;
+		fill-opacity: .025;
+		stroke: var(--red88);
+		stroke-width: .15;
+		fill: var(--black);
+	}
+
+	@media (hover: hover) {
+
+		transition: all .3s;
+
+		&:hover {
+			stroke: var(--red);
+			stroke-width: .5;
+			position: relative;
+			z-index: 2;
+		}
 	}
 }
 
