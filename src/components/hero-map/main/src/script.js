@@ -136,71 +136,95 @@ export default {
 				content.push('<div class="p-list smaller">');
 
 				if (feature.properties.NUTS4 === 'CZ0100') {
-					content.push('<div class="strong"><a href="/volby/komunalni-volby/176/obec/554782">Praha</a></div>');
+					// content.push('<div class="strong"><a href="/volby/komunalni-volby/176/obec/554782">Praha</a></div>');
 
 					list = this.towns.obce.filter(x => x.OKRES === 1100);
 				}
 
-				if (list.find(x => x.DRUHZASTUP === 3)) {
-					content.push('<div>');
-				}
+				// if (list.find(x => x.DRUHZASTUP === 3)) {
+				// 	content.push('<div>');
+				// }
 
-				[3].forEach(type => {
-					if (list.find(x => x.DRUHZASTUP === type)) {
-						content.push('<div class="mapleaflet-popup-list strong">');
-						sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
-							content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + town.NAZEVZAST + '</a></span>')
-						});
-						content.push('</div>');
-					}
-				});
+				content.push('<div class="mapleaflet-popup-list">');
+					[4,3,2].forEach(type => {
+						if (list.find(x => x.DRUHZASTUP === type)) {
+							sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
+								content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '" class="' + ([3,4].indexOf(type) > -1 ? 'strong' : '') + '">' + town.NAZEVZAST + '</a>')
+								
+								var subs = list.filter(x => x.NADRZASTUP == town.obec);
 
-				[5].forEach(type => {
-					if (list.find(x => x.DRUHZASTUP === type)) {
-						content.push('<div class="mapleaflet-popup-list mt05">Části: ');
-						sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
-							content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
-						});
-						content.push('</div>');
-					}
-				});
+								if (subs.length > 0 && subs.find(x => x.MANDATY > 20)) {
+									content.push('<span class="mapleaflet-popup-list smallest"> (části ');
 
-				if (list.find(x => x.DRUHZASTUP === 3)) {
-					content.push('</div>');
-				}
+									sortBy(subs.filter(x => x.MANDATY > 20), 'NAZEVZAST', null, true).forEach(town => {
+										content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '" class="is-span">' + town.NAZEVZAST + '</a></span>')
+									});
+
+									if (subs.find(x => x.MANDATY < 21)) {
+										content.push('<span>a další části)</span>')
+									}
+
+									content.push('</span>');
+								}
+
+								content.push('</span>');
+							});
+							
+						}
+					});
+					sortBy(list.filter(x => x.DRUHZASTUP === 1 && x.MANDATY > 16), 'NAZEVZAST', null, true).forEach(town => {
+						content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '" class="is-span dimm">' + town.NAZEVZAST + '</a></span>')
+					});
+				content.push('</div>');
+
+				
+
+				// [5].forEach(type => {
+				// 	if (list.find(x => x.DRUHZASTUP === type)) {
+				// 		content.push('<div class="mapleaflet-popup-list mt05">Části: ');
+				// 		sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
+				// 			content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
+				// 		});
+				// 		content.push('</div>');
+				// 	}
+				// });
+
+				// if (list.find(x => x.DRUHZASTUP === 3)) {
+				// 	content.push('</div>');
+				// }
 
 				// if (list.filter(x => x.DRUHZASTUP === 5).length > 0) {
 				// 	content.push('<div>' + list.filter(x => x.DRUHZASTUP === 5).length + ' městských částí</div>');
 				// }
 
-				[2].forEach(type => {
-					if (list.find(x => x.DRUHZASTUP === type)) {
-						content.push('<div>');
-						content.push('<div class="smallest strong mb05">Města</div>');
-						content.push('<div class="mapleaflet-popup-list strong">');
-						sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
-							content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + town.NAZEVZAST + '</a></span>')
-						});
-						content.push('</div>');
-						content.push('</div>');
-					}
-				});
+				// [2].forEach(type => {
+				// 	if (list.find(x => x.DRUHZASTUP === type)) {
+				// 		content.push('<div>');
+				// 		content.push('<div class="smallest strong mb05">Města</div>');
+				// 		content.push('<div class="mapleaflet-popup-list strong">');
+				// 		sortBy(list.filter(x => x.DRUHZASTUP === type), 'NAZEVZAST', null, true).forEach(town => {
+				// 			content.push('<span><a href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + town.NAZEVZAST + '</a></span>')
+				// 		});
+				// 		content.push('</div>');
+				// 		content.push('</div>');
+				// 	}
+				// });
 
-				if (list.find(x => x.DRUHZASTUP === 6 || (x.DRUHZASTUP === 1 && x.MANDATY > 14))) {
-					content.push('<div>');
-					content.push('<div class="smallest strong mb05">Další větší obce</div>');
-					content.push('<div class="mapleaflet-popup-list">');
-					sortBy(list.filter(x => x.DRUHZASTUP === 6 || (x.DRUHZASTUP === 1 && x.MANDATY > 14)), 'NAZEVZAST', null, true).forEach(town => {
-						content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
-					});
-					content.push('</div>');
-					content.push('</div>');
-				}
+				// if (list.find(x => x.DRUHZASTUP === 6 || (x.DRUHZASTUP === 1 && x.MANDATY > 14))) {
+				// 	content.push('<div>');
+				// 	content.push('<div class="smallest strong mb05">Další větší obce</div>');
+				// 	content.push('<div class="mapleaflet-popup-list">');
+				// 	sortBy(list.filter(x => x.DRUHZASTUP === 6 || (x.DRUHZASTUP === 1 && x.MANDATY > 14)), 'NAZEVZAST', null, true).forEach(town => {
+				// 		content.push('<span><a class="keep" href="/volby/komunalni-volby/176/obec/' + town.obec + '">' + (town.NAZEVZAST.includes('-') && !town.NAZEVZAST.includes('Plzeň') ? town.NAZEVZAST.split('-')[1] : town.NAZEVZAST) + '</a></span>')
+				// 	});
+				// 	content.push('</div>');
+				// 	content.push('</div>');
+				// }
 
 				content.push('<div class="p-offset reverse">');
-				if (list.filter(x => x.DRUHZASTUP === 1 && x.MANDATY < 15).length > 0) {
-					content.push('<div>' + list.filter(x => x.DRUHZASTUP === 1 && x.MANDATY < 15).length + ' dalších obcí</div>');
-				}
+				// if (list.filter(x => x.DRUHZASTUP === 1 && x.MANDATY < 15).length > 0) {
+					content.push('<div>' + list.length + ' zastupitelstev</div>');
+				// }
 				content.push('<div><a href="/volby/komunalni-volby/176/okres/' + list[0].OKRES + '" class="strong">Přehledně o okresu</a></div>')
 				content.push('</div>');
 				content.push('</div>');

@@ -23,17 +23,36 @@
 					<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
 				</p-block>
 
-				<p-block headline="Výhled" :hide="true">
-					<p>Letos nás čekají už jen mimořádné komunální v několika malých obcích. Brzy ale začnou přípravy na volby příští rok, kdy proběhnou komunální volby ve všech obcích, tak i senátní volby. Pokud narazíte na nějakou novinku, dejte prosím vědět - stačí <pop-up class="inline">
+				<p-block headline="Výhled" :hide="true" class="pb0 mb3">
+					<p>9. a 10. října 2026 proběhnou komunální volby ve všech obcích, souběžně s nimi i první kolo senátních voleb. Pokud narazíte na nějakou novinku, 
+				 	<pop-up class="inline">
 						<template #init>
-							<button class="inline strong green">kliknout zde</button>
+							<button class="inline strong green">dejte prosím vědět</button>
 						</template>
 						<template #content>
 							<editable-suggest></editable-suggest>
 						</template>
 						</pop-up>.
 					</p>
-				</p-block>				
+				</p-block>	
+				
+				<p-block headline="Pro kandidáty" :hide="true" class="mt-1">
+					<p-area icon2="admin" class="primary">
+						<h3 class="serif mv0 mr3">Kandidujete?</h3>
+						<p>Ať jste registrovanou stranou nebo místním sdružením, obhajujete nebo jdete do voleb poprvé, můžete své údaje na <em>Programech</em> přidávat nebo upravovat přímo v aplikaci pro kandidáty – <strong>v Adminu</strong>.</p> 
+						<p-box-group>
+							<p-box to="/pro-kandidaty">
+								<p-box-button class="primary">Pro kandidáty</p-box-button>
+							</p-box>
+							<p-box href="https://admin.programydovoleb.cz/seznam">
+								<p-box-button>Chci přístup</p-box-button>
+							</p-box>
+							<p-box href="https://admin.programydovoleb.cz">
+								<p-box-label>Více o Adminu</p-box-label>
+							</p-box>
+						</p-box-group>
+					</p-area>
+				</p-block>
 				
 					<p-loader :rule="elections">
 						<div v-if="elections" class="mt-2">

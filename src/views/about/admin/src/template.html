@@ -1,0 +1,180 @@
+<div class="layout-about">
+	<p-layout-divided>
+		<template #main>
+			<p-block :level="1" headline="Pro kandidáty · Admin" subheadline="aneb správa informací na Programech" anchor="Admin">
+				<p>Ať jste registrovanou stranou nebo místním sdružením, obhajujete nebo jdete do voleb poprvé, můžete své údaje na <em>Programech</em> přidávat nebo upravovat přímo v aplikaci pro kandidáty – <p-link href="https://admin.programydovoleb.cz" class="strong">v Adminu</p-link>.</p> 
+				<p>Doplňovat lze například <strong>celý volební program</strong> nebo odkaz na něj, volební priority, představení, fotky, logo, volební materiály, odkazy na sociální sítě, kontakty a mnoho dalšího, včetně odpovědi na volební otázky nebo do kalkulačky.</p>
+				<p-box-group>
+					<p-box href="https://admin.programydovoleb.cz/seznam">
+						<p-box-button icon="admin" class="primary">Chci získat přístup</p-box-button>
+					</p-box>
+				</p-box-group>
+				<p-block headline="Jak to funguje?" class="mt3">
+					<p><em>Programy do voleb</em> používají údaje o stranách a kandidátech od Českého statistického úřadu. Jenže ty jsou dostupné až 45 dní před volbami, poté, co proběhne registrace. Do té doby kandidátní listiny neexistují. </p>
+					<p> Proto je možné <em>kandidátní listinu</em> uvést na <em>Programech</em> kdykoli předem a pracovat s ní jako s reálnou registrovanou kandidátní listinou. Jakmile proběhne registrace oficiálně, tak jsou tyto <em>předběžné</em> kandidátní listiny propojené s oficiálními daty. Existující jsou zachované a aktualizované, odmítnuté jsou skryté, chybějící jsou doplněné.</p>
+					<div class="p-gap"></div>
+					<p-area icon2="warning" class="inline mw30 smaller highlight shadow" borderColor="var(--red)">
+						<strong class="red">Důležité</strong>: <em>Programy do voleb</em> přebírají data od ČSÚ, ale nezasílají je úřadům ani ČSÚ.
+					</p-area>
+					<div class="p-gap"></div>
+					<p><em>Programy</em> nijak nenahrazují klasický volební registrační proces, který musí strany absolvovat. Existence na <em>Programech</em> neznamená, že strana či kandidáti tak opravdu kandidovat budou. To může určit pouze registrační úřad, jehož výsledky ČSÚ zveřejňuje.</p>
+					<p>Informace o tom, v jaké fázi registrací se nacházíme, je na <em>Programech</em> jasně uvedena. Stejně tak informace, které pochází od ČSÚ.</p>
+
+					<p>Snahou <em>Programů</em> je ukázat volební informace včetně přehledu kandidátů dříve, než jsou oficiálně registrované. Díky tomu je možné lépe sledovat vývoj jednání, přidávat novinky, volební program i údaje k jednotlivcům před horkou fází.</p>
+					<div class="p-gap"></div>
+					<p-area class="shadow highlight inline" icon2="hint" borderColor="var(--blue)">
+						<h4 class="mt025 strong">Kdo přidává kandidátní listiny?</h4>
+						<ul class="smaller">
+							<li>správce webu nebo jím pověření dobrovolníci na základě informací z médií nebo na sociálních sítich</li>
+							<li>registrované strany či hnutí přímo, bez nutnosti uvádět další zdroje</li>
+							<!-- <li>po oficiální registraci, cca 45 dní před volbami, se seznamy doplní z otevřených dat ČSÚ</li> -->
+						</ul>
+					</p-area>
+					<div class="p-gap"></div>
+					<p>Jakmile je <em>kandidátní listina</em> založena, lze na ní přidávat jednotlivé kandidáty a další informace. Zároveň mohou o přístup ke správě žádat další lidé, nebo jim je může správce webu nebo strany přidělit - buď přímo, nebo pomocí speciální pozvánky.</p>
+					<p>Pokud o přístup žádá kdokoli nový, je nutné, aby došlo k alespoň základní formě ověření. Většinou to znamena, že dotyčný uvede v žádosti o přístup svůj stranický e-mail, na který je pak přístup zaslán. Jsou i jiné formy ověření, například skrze sociální sítě.</p>
+				
+				</p-block>
+				<p-block headline="Základní druhy přístupů" anchor="Druhy přístupů">
+					<p>Strany mohou v průběhu voleb řešit tisíce kandidátů ve stovkách obcí. Proto je vhodné, aby mohly pracovat s různou úrovní správy dat, jinak řečeno, aby neměl úplně každý přístup ke všemu.</p>
+					<p-grid>
+						<div>
+							<p-area class="highlight shadow" icon2="party" borderColor="var(--blue)">
+								<h4 class="mt025">Admin strany či hnutí</h4>
+								<ul class="smaller">
+									<li>spravuje přístupy</li>
+									<li>spravuje oblasti</li>
+									<li>spravuje logo a barvu strany</li>
+									<li>spravuje odkazy a soc.sítě</li>
+									<li>spravuje stanovy či hodnoty</li>
+								</ul>
+								<h5>U voleb pak:</h5>
+								<ul class="smaller">
+									<li>vytváří a ruší kandidátní listiny</li>
+									<li>vytváří koalice a sdružení</li>
+									<li>duplikuje záznamy z minulých voleb</li>
+									<li>přidává či odebírá kandidáty</li>
+								</ul>
+								<p>Navíc má práva Admina kandidátních listin a Admina kandidátů</p>
+								<div class="p-line _05"></div>
+								<p class="smallest strong">Tento přístup je trvalý. Informace k volbám ale lze upravovat jen do jejich začátku.</p>
+								<p class="smallest"><strong class="blue">Bonus:</strong> Přístup lze omezit jen na vybrané kraje, okresy, obce a/nebo senátní obvody.</p>
+							</p-area>
+						</div>
+						<div>
+							<p-area class="highlight shadow" icon2="list" borderColor="var(--red)">
+								<h4 class="mt025">Admin kandidátní listiny</h4>
+								<ul class="smaller">
+									<li>přidává nebo odebírá kandidáty</li>
+									<li>spravuje volební program a priority</li>
+									<li>spravuje volební profil strany</li>
+									<li>spravuje volební logo</li>
+									<li>spravuje přístupy</li>
+								</ul>
+								<h5>Za celou kandidátku:</h5>
+								<ul class="smaller">
+									<li>odpovídá do volební otázky</li>
+									<li>odpovídá do kalkulačky</li>
+								</ul>
+								<p>Navíc má práva Admina kandidátů</p>
+								<div class="p-line _05"></div>
+								<p class="smallest strong">Tento přístup je aktivní pouze před volbami, ke kterým se vztahuje. Po volbách již není možné se přihlásit a cokoli dál upravovat.</p>
+								<p class="smallest"><strong class="red">Bonus:</strong> Přístup lze omezit podle nominující strany nebo členství kandidátů.</p>
+							</p-area>
+						</div>
+						<div>
+							<p-area class="highlight shadow" icon2="person" borderColor="var(--green)">
+								<h4 class="mt025">Admin kandidáta</h4>
+								<ul class="smaller">
+									<li>spravuje výhradně svůj profil</li>
+									<li>spravuje svou fotku</li>
+									<li>spravuje osobní priority</li>
+									<li>spravuje odkazy a soc.sítě</li>
+									<li>duplikuje informace z minulých voleb</li>
+								</ul>
+								<h5>Sám za sebe:</h5>
+								<ul class="smaller">
+									<li>odpovídá do volební otázky</li>
+									<li>odpovídá do kalkulačky</li>
+								</ul>
+								<div class="p-line _05"></div>
+								<p class="smallest strong">Tento přístup je aktivní pouze před volbami, ke kterým se vztahuje. Po volbách již není možné se přihlásit a cokoli dál upravovat.</p>
+								<p class="smallest"><strong class="green">Bonus:</strong> Lze vytvořit přístup pro více konkrétních kandidátů.</p>
+							</p-area>
+						</div>
+					</p-grid>
+					<p>Důležitý je rozdíl mezi <em>správcem strany</em> a <em>správcem kandidátní listiny</em>. Vychází z reality, kdy jedna strana se může účastnit více voleb, nebo voleb v různých krajích či obcích, zatímco kandidátní listina je vázána vždy na konkrétní volby a místo.</p>
+					
+				</p-block>
+							
+								<!-- <p-block logo="party" headline="Pro registrované strany a hnutí" anchor="Strany">
+									<p>Zde je důležité, zda chcete přidávat a odebírat kandidátky, např v nějakém kraji, okrese nebo jen vybraných obcích, nebo jen chcete přístup k nějaké již existující. </p>
+									<p-collapsible logo="list" label="Chceme spravovat víc kandidátek">
+										<p-area class="highlight" borderColor="var(--blue)">
+											<p>Každá registrovaná strana nebo hnutí může získat plný přístup ke svým informacím a vytvářet kandidátky v libovolném zastupitelstvu, a to jak samostatné, tak ve formě koalic nebo sdružení. Pro snadnější správu pak lze vytvářet další přístupy, jen pro vybrané kraje, okresy nebo konkrétní zastupitelstva. O přístup mohou požádat centrální orgány strany, tak krajské či místní buňky. Jedinou nutnou podmínkou je <strong>stranický e-mail</strong>, který je uveden na libovolném stranickém webu.</p>
+										
+											<p-area class="smaller" icon="admin">
+												<strong>Pořádejte o přístup přímo</strong>
+												<div class="smaller strong">Napište na <a href="mailto:admin@programydovoleb.cz">admin@programydovoleb.cz</a></div>
+												<div class="smaller">Případně uveďte, pro jakou oblast, kraj, okres, obce chcete přístup získat.</div>
+												<div class="smaller mt05">Navíc můžete získat uvést i <strong>senátní obvody</strong>.</div>
+											</p-area>
+											
+											<h6 class="mb0">Poznámka:</h6>
+											<p class="mt05">Pokud už v nějaké obci bude založena kandidátní listina, jejíž součástí je vaše strana/hnutí, tak po získání přístupu do Adminu ji budete moct upravovat také.</p>
+											
+										</p-area>
+									</p-collapsible>
+									<p-collapsible logo="edit" label="Chceme spravovat jen tu naši">
+										<p-area class="highlight" borderColor="var(--blue)">
+
+											<p>V případě, že vidíte na <em>Programech</em> ve vaší obci "vaši" kandidátku, mohla být přidána někým ze strany nebo správcem na základě zpráv v médiích. Abyste k ní získali přístup, můžete:</p>
+			
+											<p-area class="smaller">
+												<p-list class="_025">
+													<div>- napsat na <a href="mailto:admin@programydovoleb.cz">admin@programydovoleb.cz</a></div>
+													<div>- vyplnit formulář s kontaktem v detailu kandidátní listiny</div>
+													<div>- vyplnit formulář v seznamu na <p-link href="https://admin.programydovoleb.cz">Adminu</p-link></div>
+												</p-list>
+											</p-area>
+											<p>I v tomto případě je preferovaný stranický e-mail, nejlépe pokud je také uveden na webových stránkách, volebním webu nebo sociální síti.</p>
+										</p-area>
+									</p-collapsible>
+								</p-block>
+								<p-block logo="komunalni-volby" headline="Pro místní sdružení a nezávislé" anchor="SNK">
+	
+								</p-block>
+								<p-block logo="person" headline="Pro jednotlivé kandidáty" anchor="Kandidáti">
+	
+								</p-block>
+								<p-block logo="senatni-volby" headline="Senátní volby">
+	
+								</p-block> -->
+							
+			</p-block>
+		</template>
+		<template #aside>
+			<h3 class="serif w400">Programy do voleb</h3>
+			<p>Nestranný neziskový projekt, díky kterému si můžete snadno, pohodlně a bez hledání přečíst a
+				porovnat volební programy všech stran či kandidátů.</p>
+			<div class="smaller">
+				<p-stats :vertical="true" label="Adresa">
+					Jana Palacha 1413<br>
+					511 01 Turnov
+				</p-stats>
+				<p-stats :vertical="true" label="IČO">
+					10906380 &middot; <p-link class="as-span"
+						href="https://or.justice.cz/ias/ui/rejstrik-firma.vysledky?subjektId=1126297&typ=PLATNY">rejstřík</p-link>
+				</p-stats>
+				<p-stats :vertical="true" label="Datovka">
+					vhwmpce
+				</p-stats>
+			</div>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/admin.svg'}" :size="'12rem'" class="bare invertable"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+	</p-layout-divided>
+</div>

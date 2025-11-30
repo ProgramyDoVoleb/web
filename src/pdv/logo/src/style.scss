@@ -51,3 +51,12 @@
     border-radius: 4px;
   }
 }
+
+.p-logo.bare .logo-outer {
+  background: none;
+  border: none;
+}
+
+.dark .p-logo.invertable img {
+  filter: invert(1) brightness(2) opacity(.9);
+}

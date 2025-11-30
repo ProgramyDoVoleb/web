@@ -15,8 +15,9 @@
 			<component :is="empty ? 'span' : 'button'" class="inline" :class="{red: opened, smaller: !empty}">{{ label }}</component>
 		</div>
 		<div v-if="status" class="collapsible-element---status smaller"><strong>{{ status }}</strong></div>
-		<span class="icon red" v-if="!empty && opened">&times;</span>
-		<span class="icon blue" v-if="!empty && !opened">&plus;</span>
+		<!-- <span class="icon red" v-if="!empty && opened">&times;</span> -->
+		<!-- <span class="icon blue" v-if="!empty && !opened">&plus;</span> -->
+		<p-icon class="icon" :icon="!empty && !opened ? 'down' : 'icon-against'" size="1em"></p-icon>
 	</div>
 	<div class="collapsible-element-content" v-if="opened || seo" :class="{seohide: seo && !opened}">
 		<slot></slot>

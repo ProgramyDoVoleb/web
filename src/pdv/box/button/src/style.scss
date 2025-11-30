@@ -90,6 +90,6 @@ img {
   filter: saturate(0) opacity(.2);
 }
 
-span:not(:empty) {
+span:not(:empty):not(:first-child) {
   margin-left: .5em;
 }

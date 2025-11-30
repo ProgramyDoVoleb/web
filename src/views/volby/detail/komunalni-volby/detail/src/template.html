@@ -34,7 +34,7 @@
 			Podle údaje z {{ date(pop.updated) }} zde žilo {{ number(pop.value) }} obyvatel.
 		</template>
 		Volí se zde {{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů. 
-		<template v-if="leadership">
+		<template v-if="leadership && leadership.mayor != -1">
 			Posledním {{ [4,3].indexOf(core.cis.druh[0].id) > -1 ? 'primátorem' : 'starostou' }} před volbami byl{{ isWoman(leadership.mayor) ? 'a' : '' }}
 			{{ leadership.mayor.JMENO + ' ' + leadership.mayor.PRIJMENI }} z <em>{{ leadership.party.NAZEV }}</em>.
 			<template v-if="leadership.coalition && leadership.coalition.length > 1">

@@ -288,6 +288,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/pro-kandidaty',
+      name: 'pro-kandidaty',
+      component: () => import('../views/about/admin/do.vue'),
+      props: true
+    },
+    {
       path: '/rejstrik',
       name: 'parties',
       component: () => import('../views/rejstrik/do.vue'),
