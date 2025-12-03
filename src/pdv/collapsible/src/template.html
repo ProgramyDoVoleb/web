@@ -1,18 +1,17 @@
 <div class="collapsible-element p-collapsible" :class="{opened, skip, borderless, empty}">
 	<div class="collapsible-element-header" @click="toggleVisible" v-if="!skip" :class="{'collapsible-element-header---has-status': status, 'collapsible-element-header---has-logo': logo, 'collapsible-element-header---has-color': color}">
 		<div class="_color" :style="{background: color}" v-if="color"></div>
-		<div class="logo-holder" v-if="logo && logo.split('https://').length === 1">
-			<img loading="lazy"  v-if="logo.split('.png').length > 1" :src="cdn + 'icon/' + logo" :alt="label" class="logo">
-			<img loading="lazy"  v-if="logo.split('.png').length === 1" :src="cdn + 'icon/' + logo + '.svg'" :alt="label" class="logo">
+		<div class="logo-holder" v-if="_logo && logo.split('https://').length === 1">
+			<img loading="lazy" :src="cdn + 'icon/' + _logo + (_logo.includes('.png') ? '' : '.svg')" :alt="label" class="logo">
 		</div>
-		<div class="logo-holder" v-if="logo && logo.split('https://').length > 1">
-			<img  loading="lazy" :src="logo" :alt="label" class="logo">
+		<div class="logo-holder" v-if="_logo && _logo.split('https://').length > 1">
+			<img  loading="lazy" :src="_logo" :alt="label" class="logo">
 		</div>
 		<div class="logo-holder" v-if="party">
 			<img  loading="lazy" :src="'https://data.programydovoleb.cz/' + party.logo" :alt="label" class="logo">
 		</div>
 		<div class="collapsible-element-button">
-			<component :is="empty ? 'span' : 'button'" class="inline" :class="{red: opened, smaller: !empty}">{{ label }}</component>
+			<component :is="empty ? 'span' : 'button'" class="inline" :class="{red: opened, smaller: !empty}">{{ headline || label }}</component>
 		</div>
 		<div v-if="status" class="collapsible-element---status smaller"><strong>{{ status }}</strong></div>
 		<!-- <span class="icon red" v-if="!empty && opened">&times;</span> -->

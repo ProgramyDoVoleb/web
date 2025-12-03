@@ -1,5 +1,5 @@
 <div class="homepage-kv">
-	<p>Zde najdete vybrané největší obce, případně ji můžete vyhledat. </p>
+	<p>Komunální volby se týkají všech 6200+ obcí i městských částí. Zde najdete největší města, ostatní obce si můžete rychle vyhledat. </p>
 						<p-area>
 							<div>
 								<div v-for="(town, index) in enums.towns.capital">
@@ -17,24 +17,19 @@
 									</div>
 								</div>
 							</div>
-							<div class="p-line"></div>
+							<div class="p-line _15"></div>
 							<p-columns class="_small _2 smaller">
 								<div v-for="(town, index) in sortBy([].concat(enums.towns.regional, enums.towns.other), 'name', null, true)">
-									<div class="p-offset reverse">
-										<div>
+									<!-- <div class="p-offset reverse"> -->
+										<!-- <div> -->
 											<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num">
 												{{ town.name }}
 											</router-link>	
-										</div>
-										<div>
-											<router-link :to="'/obec/' + town.num" class="smallest dimm">
-												více
-											</router-link>	
-										</div>
-									</div>									
+										<!-- </div> -->
+									<!-- </div>									 -->
 								</div>
 							</p-columns>
-							<div class="p-line"></div>
+							<div class="p-line _15"></div>
 							<p-collapsible label="Vybrat okres" class="mt-1 mb1" logo="search" borderless="1">
 								<p-columns class="_small smaller">
 									<div v-for="okres in enums.okresy">

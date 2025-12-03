@@ -95,20 +95,21 @@
 												</p-box-button>
 											</p-box>
 											<template v-if="election.status < 3">
-												<p-modal>
+												<p-popup>
 													<template #init>
 														<p-box :click="() => null">
 															<p-box-label class="green">Doplnit či upravit</p-box-label>
 														</p-box>
 													</template>
 													<template #content>
-														<p v-if="election.status === 1">Chcete doplnit stranu? Kandidáta? Novou koalici? Nebo jste naopak našli chybu? Stačí poslat odkaz, kde se o tom píše.</p>
+														<p v-if="election.status === 1 && election.typ !== 'SENAT'">Chcete doplnit stranu? Kandidáta? Novou koalici? Nebo jste naopak našli chybu? Stačí poslat odkaz, kde se o tom píše.</p>
+														<p v-if="election.status === 1 && election.typ === 'SENAT'">Chcete doplnit kandidáta? Nebo naopak někdo z voleb odstoupil? Stačí odkaz:</p>
 														<p v-if="election.status === 2">Chcete doplnit program? Důležitý odkaz? Zmínku v médiích? Stačí poslat odkaz:</p>
 														<report-form :part="'Homepage - ' + election.id"></report-form>
 													</template>
-												</p-modal>
+												</p-popup>
 												<template v-if="election.status < 3">
-													<p-box href="https://admin.programydovoleb.cz">
+													<p-box to="/pro-kandidaty">
 														<p-box-label class="dimm">
 															Pro kandidáty
 														</p-box-label>

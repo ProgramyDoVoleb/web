@@ -1,11 +1,11 @@
 export default {
 	name: 'BoxLine',
-	props: ['height', 'color'],
+	props: ['height', 'size', 'color'],
 	computed: {
 		_height: function () {
 			var value = '1em';
 
-			if (this.height || this.height === 0) {
+			if (this.size || this.height || this.height === 0) {
 				value = this.height
 			} // else if (this.$slots.default) {
 				// value = this.$slots.default

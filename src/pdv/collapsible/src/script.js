@@ -2,7 +2,7 @@ import { cdn, today } from '@/stores/core';
 
 export default {
 	name: 'p-collapsible',
-	props: ['label', 'logo', 'open', 'tick', 'seo', 'skip', 'borderless', 'status', 'party', 'color', 'empty'],
+	props: ['label', 'logo', 'open', 'tick', 'seo', 'skip', 'borderless', 'status', 'party', 'color', 'empty', 'headline', 'icon'],
 	data: function () {
 		return {
 			opened: false,
@@ -22,6 +22,11 @@ export default {
 		},
 		hide: function () {
 			this.opened = false;
+		}
+	},
+	computed: {
+		_logo: function () {
+			return this.icon || this.logo
 		}
 	},
 	mounted: function () {
