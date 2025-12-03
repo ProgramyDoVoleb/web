@@ -7,7 +7,7 @@ import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
 import KrajskeVolby from '@/views/volby/detail/krajske-volby/detail/do.vue'
 import ReportForm from '@/components/report-form/do.vue'
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import KrajskeVolbyResults from '@/views/history/volby/krajske-volby/do.vue';

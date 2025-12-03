@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, con, gradient, color, pct} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
 import ElectionList from '@/components/results/parties/list/do.vue';

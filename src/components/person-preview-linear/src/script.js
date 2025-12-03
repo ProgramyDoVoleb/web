@@ -1,4 +1,4 @@
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import { con, type } from '@/pdv/helpers';
 import { cdn } from '@/stores/core';
 

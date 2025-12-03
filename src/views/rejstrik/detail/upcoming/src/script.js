@@ -2,7 +2,7 @@ import { useData } from '@/stores/data';
 import { useEnums } from '@/stores/enums';
 import { cdn } from '@/stores/core';
 import {date} from '@/pdv/helpers';
-import {colorByItem, logoByItem} from '@/components/results/helpers';
+import {colorByItem, logoByItem} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 
 export default {

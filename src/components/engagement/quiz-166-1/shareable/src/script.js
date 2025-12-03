@@ -1,7 +1,7 @@
 import { number, pct, round, truncate, indicator, date, url, con, czechify } from '@/pdv/helpers';
 import html2canvas from 'html2canvas'
 import { useEnums } from '@/stores/enums';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import { ge } from '@/pdv/analytics'
 
 export default {

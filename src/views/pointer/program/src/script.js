@@ -3,7 +3,7 @@ import { useCore, cdn } from '@/stores/core';
 import { useRoute } from 'vue-router';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, con, type, domain, sortByPorCislo} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import ElectionResults from '@/views/history/volby/detail/do.vue';

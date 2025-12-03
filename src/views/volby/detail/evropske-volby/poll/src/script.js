@@ -1,7 +1,7 @@
 import {cdn} from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {number, pct, reverse, round, date} from '@/pdv/helpers';
-import { colorByItem } from '@/components/results/helpers';
+import { colorByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'volby-poll',

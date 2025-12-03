@@ -1,5 +1,5 @@
 import {number, round, sortBy, lang} from '@/pdv/helpers';
-import {colorByItem} from '@/components/results/helpers';
+import {colorByItem} from '@/pdv/helpers';
 import { useEnums } from '@/stores/enums';
 import MapLeaflet from '@/components/map-leaflet/do.vue'
 

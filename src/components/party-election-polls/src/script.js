@@ -1,5 +1,5 @@
 import {useData} from '@/stores/data';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import { type, date, number, color } from '@/pdv/helpers';
 import { useCore, cdn } from '@/stores/core';
 import { defineAsyncComponent } from 'vue';

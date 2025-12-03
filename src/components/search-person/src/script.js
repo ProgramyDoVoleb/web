@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { api } from '@/stores/core'
 import { date, url } from '@/pdv/helpers';
 import { useEnums } from '@/stores/enums';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import axios from 'axios';
 
 function dia (str) {

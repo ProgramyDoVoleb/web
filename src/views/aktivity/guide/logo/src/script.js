@@ -1,5 +1,5 @@
 
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'ActivityLogo',

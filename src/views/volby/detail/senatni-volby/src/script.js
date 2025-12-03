@@ -2,7 +2,7 @@ import {cdn} from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {useData} from '@/stores/data';
 import {date, sortBy, number} from '@/pdv/helpers';
-import {colorByItem, logoByItem} from '@/components/results/helpers';
+import {colorByItem, logoByItem} from '@/pdv/helpers';
 import RegionItem from '@/views/volby/detail/senatni-volby/item/do.vue'
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';

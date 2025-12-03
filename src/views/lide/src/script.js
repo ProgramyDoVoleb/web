@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { useCore, cdn } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import SearchPerson from '@/components/search-person/do.vue';
 import ProfilePreview from '@/components/profile-preview/do.vue';

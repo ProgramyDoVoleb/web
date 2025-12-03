@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import PartyPreview from '@/components/party-preview/do.vue';
 import PartyPreviewTiny from '@/components/party-preview-tiny/do.vue';
 import {url, date, number, truncate, domain, con, sortBy} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'HomepageSenat',

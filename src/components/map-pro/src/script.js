@@ -1,6 +1,6 @@
 // import MapElement from '@/components/map/do.vue';
 import SearchTown from "@/components/search-town/do.vue";
-import {colorByItem} from '@/components/results/helpers';
+import {colorByItem} from '@/pdv/helpers';
 import {useData} from '@/stores/data';
 import {pct, round} from '@/pdv/helpers';
 import { defineAsyncComponent } from 'vue';

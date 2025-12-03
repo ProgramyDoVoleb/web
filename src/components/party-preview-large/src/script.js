@@ -1,6 +1,6 @@
 import {useData} from '@/stores/data';
 import {useEnums} from '@/stores/enums';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import { type, domain, date, truncate, sortBy } from '@/pdv/helpers';
 import { useCore, cdn } from '@/stores/core';
 import ReportForm from '@/components/report-form/do.vue';

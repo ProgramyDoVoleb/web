@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import PartyPreviewLeader from '@/components/party-preview-leader/do.vue';
 import PartyPreviewTiny from '@/components/party-preview-tiny/do.vue';
 import {url, date, number, truncate, domain, con, sortBy, shuffle} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import PopUp from '@/components/pop-up/do.vue';
 import PromoBlock from '@/components/cta/promo-block/do.vue';
 import { useEnums } from '@/stores/enums';

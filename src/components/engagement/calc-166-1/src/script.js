@@ -1,6 +1,6 @@
 import {useEngagement} from '@/stores/engagement';
 import {useData} from '@/stores/data';
-import {logoByItem} from '@/components/results/helpers';
+import {logoByItem} from '@/pdv/helpers';
 import {processParty} from '@/components/engagement/calc-166-1/calc';
 
 export default {

@@ -3,7 +3,7 @@ import { useEnums } from '@/stores/enums';
 import {useData} from '@/stores/data';
 import { date, sortBy } from '@/pdv/helpers';
 import RegionItem from '@/views/volby/detail/krajske-volby/item/do.vue'
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import SearchParty from '@/components/search-party/do.vue'

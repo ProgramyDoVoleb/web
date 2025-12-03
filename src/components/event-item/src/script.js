@@ -1,5 +1,5 @@
 import {url, date, domain} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import enums from '@/stores/enums/elections.js'
 
 export default {

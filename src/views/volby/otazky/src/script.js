@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { cdn } from '@/stores/core';
 import {ga} from '@/pdv/analytics';
 import {shuffle, sortBy, number, unique, slide} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'volby-qa-overview',

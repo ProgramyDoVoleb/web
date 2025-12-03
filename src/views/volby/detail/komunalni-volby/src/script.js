@@ -2,7 +2,7 @@ import {cdn} from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {useData} from '@/stores/data';
 import {date, sortBy} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import TownItem from '@/views/volby/detail/komunalni-volby/item/do.vue'
 import SearchTown from '@/components/search-town/do.vue'
 import SearchParty from '@/components/search-party/do.vue'

@@ -1,5 +1,5 @@
 import {url, date, number, truncate, sortBy, domain, pct, unique} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'layout-volby-aktivity-detail',

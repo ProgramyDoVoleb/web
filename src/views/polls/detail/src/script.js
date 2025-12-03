@@ -2,7 +2,7 @@ import {date, number, truncate, color, indicator, con, domain, sortBy, round} fr
 import {useData} from '@/stores/data';
 import ResultsPartiesGraph from '@/components/results/parties/graph/do.vue';
 import ResultsPartiesGraphShareable from '@/components/results/parties/graph-shareable/do.vue';
-import {colorByItem, logoByItem} from '@/components/results/helpers';
+import {colorByItem, logoByItem} from '@/pdv/helpers';
 
 import GraphMandatesApex from '@/components/results/graph/mandates-apex/do.vue'
 import ElectionSimulationImperiali2021 from '@/components/election-simulation-imperiali-2021/do.vue';

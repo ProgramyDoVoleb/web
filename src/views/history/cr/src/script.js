@@ -10,7 +10,7 @@ import StatsTiny from '@/components/stats/stats-tiny/do.vue';
 import StatsTimeline from '@/views/history/cr/timeline/do.vue';
 import axios from 'axios';
 
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'layout-history-cr',

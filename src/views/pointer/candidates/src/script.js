@@ -3,7 +3,7 @@ import { useCore, cdn, today } from '@/stores/core';
 import { useRoute } from 'vue-router';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, sortBy} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsBlock from '@/components/news-block/do.vue'
 import NewsItem from '@/components/news-item/do.vue'

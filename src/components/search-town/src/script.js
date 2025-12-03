@@ -1,6 +1,6 @@
 import {useData} from '@/stores/data';
 import { url } from '@/pdv/helpers';
-// import { colorByItem, logoByItem } from '@/components/results/helpers';
+// import { colorByItem, logoByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'search-town',

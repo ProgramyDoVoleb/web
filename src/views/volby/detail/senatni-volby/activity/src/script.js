@@ -8,7 +8,7 @@ import NewsBlock from '@/components/news-block/do.vue'
 import KrajskeVolby from '@/views/volby/detail/krajske-volby/detail/do.vue'
 import ReportForm from '@/components/report-form/do.vue'
 import PersonPreviewBlock from '@/components/person-preview-block/do.vue';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'layout-senatni-volby-aktivity-strany',

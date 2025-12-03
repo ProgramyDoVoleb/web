@@ -1,7 +1,7 @@
 import {ga} from '@/pdv/analytics';
 import { cdn } from '@/stores/core';
 import { useData } from '@/stores/data';
-import {logoByItem, colorByItem} from '@/components/results/helpers';
+import {logoByItem, colorByItem} from '@/pdv/helpers';
 import {number, sortBy, date, round, unique} from '@/pdv/helpers';
 import PartyPreview from '@/components/party-preview/do.vue';
 

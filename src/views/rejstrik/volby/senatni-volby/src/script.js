@@ -1,5 +1,5 @@
 import ElectionResults from '@/views/history/volby/detail/do.vue';
-import {colorByItem, logoByItem} from '@/components/results/helpers';
+import {colorByItem, logoByItem} from '@/pdv/helpers';
 import {number, pct, con} from '@/pdv/helpers';
 import { cdn } from '@/stores/core';
 

@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { api, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, sortBy, unique, slide, domain, con} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import axios from 'axios';
 

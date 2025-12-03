@@ -15,7 +15,7 @@ import PartyPreviewLarge from '@/components/party-preview-large/do.vue'
 import PersonPreviewBlock from '@/components/person-preview-block/do.vue'
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
-import {colorByItem as cbi, logoByItem as lbi} from '@/components/results/helpers';
+import {colorByItem as cbi, logoByItem as lbi} from '@/pdv/helpers';
 
 export default {
 	name: 'layout-volby-detail-krajske-kraj-detail',

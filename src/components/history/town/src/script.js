@@ -1,7 +1,7 @@
 import {color, url, truncate, date} from '@/pdv/helpers';
 // import {history} from '@/components/history/helpers';
 import {useData} from '@/stores/data';
-import {colorByItem} from '@/components/results/helpers';
+import {colorByItem} from '@/pdv/helpers';
 
 function reg (party) {
 	var r = party.reg;

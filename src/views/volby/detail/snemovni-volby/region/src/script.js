@@ -6,7 +6,7 @@ import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
 import ReportModal from '@/components/report-modal/do.vue'
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import PartyPreview from '@/components/party-preview/do.vue'

@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { useCore, cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, unique, sortBy} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import ReportForm from '@/components/report-form/do.vue';
 
 export default {

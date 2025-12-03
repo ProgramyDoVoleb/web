@@ -7,7 +7,7 @@ import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
 import ReportForm from '@/components/report-form/do.vue'
 import PartyPreview from '@/components/party-preview/do.vue';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import CandidateStats from '@/components/candidate-stats/do.vue';
 import SearchParty from '@/components/search-party/do.vue'
 

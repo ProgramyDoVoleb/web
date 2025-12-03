@@ -12,7 +12,7 @@ import StatsTimeline from '@/views/history/obce/detail/timeline/do.vue';
 import HistoryCandidates from '@/components/history/town/do.vue';
 import axios from 'axios';
 
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'layout-town',

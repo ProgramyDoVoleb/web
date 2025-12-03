@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { api, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, sortBy, unique, slide, domain, con, round} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2025";
 import ResultsPartiesGraphShareable from '@/components/results/parties/graph-shareable/do.vue';

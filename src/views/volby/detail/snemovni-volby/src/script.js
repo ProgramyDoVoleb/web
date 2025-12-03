@@ -19,7 +19,7 @@ import EngagementBlock1 from '@/components/engagement/poll-166-1/do.vue';
 import EngagementBlock from '@/components/engagement/block/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import SearchParty from '@/components/search-party/do.vue'
 
 export default {

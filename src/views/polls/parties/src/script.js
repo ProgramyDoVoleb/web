@@ -3,7 +3,7 @@ import {date, number, truncate, color, indicator, con} from "@/pdv/helpers";
 // import GraphMandates from '@/components/results/graphs/graph-mandates/do'
 // import {date, number, truncate, color, indicator, con} from "@/pdv/helpers";
 import {useData} from '@/stores/data';
-import {colorByItem} from '@/components/results/helpers';
+import {colorByItem} from '@/pdv/helpers';
 
 export default {
 	name: 'GraphPollsParties',

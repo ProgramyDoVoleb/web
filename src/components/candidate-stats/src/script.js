@@ -1,5 +1,5 @@
 import {number, round, sortBy} from '@/pdv/helpers';
-import {colorByItem} from '@/components/results/helpers';
+import {colorByItem} from '@/pdv/helpers';
 import { useEnums } from '@/stores/enums';
 
 export default {

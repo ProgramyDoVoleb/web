@@ -1,5 +1,5 @@
 import {date, number, truncate, indicator, untag, domain, sortBy, sortEvents, unique} from "@/pdv/helpers";
-import { colorByItem, logoByItem } from '@/components/results/helpers';
+import { colorByItem, logoByItem } from '@/pdv/helpers';
 import NewsItem from '@/components/news-item/do.vue'
 import PollsPreview from '@/components/polls-preview/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';

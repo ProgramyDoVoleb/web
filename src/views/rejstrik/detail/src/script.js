@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { useCore, cdn } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, con, type, domain} from '@/pdv/helpers';
-import {colorByItem, logoByItem} from '@/components/results/helpers';
+import {colorByItem, logoByItem} from '@/pdv/helpers';
 import {ga, ge} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
