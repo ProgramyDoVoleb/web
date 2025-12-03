@@ -13,14 +13,14 @@
 					<div class="_edit smallest">
 						<p-icon icon="edit"></p-icon>
 						 
-						<pop-up>
+						<p-popup>
 							<template #init>
 								<span class="green strong">Doplnit nebo upravit</span>
 							</template>
 							<template #content>
 								<editable-suggest :part="'KV:' + current.id + ':' + zast" type="media"></editable-suggest>
 							</template>
-						</pop-up>
+						</p-popup>
 					</div>	
 				</div>
 

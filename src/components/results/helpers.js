@@ -3,7 +3,8 @@ import { cdn } from '@/stores/core';
 
 export function colorByItem (item, data, _key, _flat) {
 
-    var key = (_key || 'VSTRANA').split(',')[0];
+    var keys = typeof _key === 'object' ? _key : (_key || 'VSTRANA').split(',');
+    var key = keys[0];
 
     if (item) {
 
@@ -37,7 +38,7 @@ export function colorByItem (item, data, _key, _flat) {
         }
     }
 
-    res = res || ((_key || 'VSTRANA').split(',').length > 1 ? colorByItem(item, date, (_key || 'VSTRANA').split(',').splice(1,5)) : 'var(--greyish)');
+    res = res || (keys.length > 1 ? colorByItem(item, data, keys.splice(1,5)) : 'var(--greyish)');
 
     res = res ? res.split('rgb(249,89,231)').join('#f959e722').split('rgb(249, 89, 231)').join('#f959e722') : res;
 
@@ -49,7 +50,9 @@ export function logoByItem (item, data, _key, _canBeNull) {
     var res = null;
 
     if (item) {
-        var key = (_key || 'VSTRANA').split(',')[0];
+
+        var keys = typeof _key === 'object' ? _key : (_key || 'VSTRANA').split(',');
+        var key = keys[0];
 
         res = item.$data ? con(item.$data, 'logo') : null;
         var s = data.cis.strany.find(x => x.VSTRANA === item[key]);
@@ -60,7 +63,7 @@ export function logoByItem (item, data, _key, _canBeNull) {
 
         if (!res && !_canBeNull) {
             if ((_key || 'VSTRANA').split(',').length > 1) {
-                res = logoByItem(item, data, (_key || 'VSTRANA').split(',').splice(1,5));
+                res = logoByItem(item, data, keys.splice(1,5));
             } else {
                 res = cdn + 'empty.png';
             }

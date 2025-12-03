@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import elections from './enums/elections'
 import towns from './enums/towns'
 import obvody from './enums/obvody'
+import okresy from './enums/okresy'
 import log from './enums/log'
 
 export const useEnums = defineStore('enums', () => {
@@ -14,5 +15,5 @@ export const useEnums = defineStore('enums', () => {
   const status = ['neznámé', 'v přípravě', 'již brzy', 'ukončeny'];
   const editace = ['není dostupná', 'otevřena', 'uzavřena', 'nespuštěna'];
 
-  return { elections, towns, regions, regions6, regionsShort, status, editace, obvody, log }
+  return { elections, towns, regions, regions6, regionsShort, status, editace, obvody, okresy, log }
 })

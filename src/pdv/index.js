@@ -31,6 +31,7 @@ import Flex from './flex/do.vue';
 import Grid from './grid/do.vue';
 import Lang from './lang/do.vue';
 import Offset from './offset/do.vue';
+import PopUp from './pop-up/do.vue';
 // import LineGraph from './line-graph/do.vue';
 
 import './box';
@@ -62,4 +63,5 @@ app.component('p-stats', Stats);
 app.component('p-split', Split);
 app.component('p-lang', Lang);
 app.component('p-offset', Offset);
+app.component('p-popup', PopUp);
 // app.component('p-line-graph', LineGraph);

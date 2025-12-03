@@ -54,6 +54,7 @@ import LogoItem from './pdv/logo/do.vue';
 import CollapsibleElement from './pdv/collapsible/do.vue';
 import IconElement from './pdv/icon/do.vue';
 import LabelWithDot from './pdv/label/do.vue';
+import PopUp from './pdv/pop-up/do.vue';
 
 app.component('p-page', Page);
 app.component('p-page-header', PageHeader);
@@ -95,6 +96,7 @@ app.component('p-logo', LogoItem);
 app.component('p-collapsible', CollapsibleElement);
 app.component('p-icon', IconElement);
 app.component('p-label', LabelWithDot);
+app.component('p-popup', PopUp);
 
 // PDV BOX library
 

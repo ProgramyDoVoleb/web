@@ -84,7 +84,7 @@
 							<div v-if="current.editace === 1" class="smallest _edit mt3">
 								<p-icon icon="edit"></p-icon>
 								&nbsp;
-								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="'csu_volby:' + id" :elections="id"></editable-event></template></pop-up>
+								<p-popup preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="'csu_volby:' + id" :elections="id"></editable-event></template></p-popup>
 							</div>
 						</p-block-expandable>
 						<p-block-expandable headline="Poznámky" :open="current.status < 3">
@@ -102,7 +102,7 @@
 							<div v-if="current.editace === 1" class="smallest _edit mt3">
 								<p-icon icon="edit"></p-icon>
 								&nbsp;
-								<pop-up preClass="green strong"><template #init>Přidat poznámku</template><template #content><editable-basic :pointer="'csu_volby:' + id" :elections="id" type="note" showSource="1" showLabel="1"></editable-basic></template></pop-up>
+								<p-popup preClass="green strong"><template #init>Přidat poznámku</template><template #content><editable-basic :pointer="'csu_volby:' + id" :elections="id" type="note" showSource="1" showLabel="1"></editable-basic></template></p-popup>
 							</div>
 						</p-block-expandable>
 
@@ -139,11 +139,11 @@
 								<div v-if="current.editace === 1" class="smallest _edit mt3">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
-									<pop-up preClass="green strong"><template #init>Navrhnout web</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="web" ></editable-basic></template></pop-up>
+									<p-popup preClass="green strong"><template #init>Navrhnout web</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="web" ></editable-basic></template></p-popup>
 									&middot;
-									<pop-up preClass="green strong"><template #init>wiki</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="wiki" ></editable-basic></template></pop-up>
+									<p-popup preClass="green strong"><template #init>wiki</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="wiki" ></editable-basic></template></p-popup>
 									&middot;
-									<pop-up preClass="green strong"><template #init>další odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="link"  :showLabel="1"></editable-basic></template></pop-up>
+									<p-popup preClass="green strong"><template #init>další odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="link"  :showLabel="1"></editable-basic></template></p-popup>
 								</div>
 							</p-block-expandable>
 							<p-block-expandable headline="Volební materiály">
@@ -180,9 +180,9 @@
 								<div v-if="current.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
-									<pop-up preClass="green strong"><template #init>Nahrát leták, plakát</template><template #content><editable-image type="graphics" :pointer="'csu_volby:' + id" :elections="id"></editable-image></template></pop-up>
+									<p-popup preClass="green strong"><template #init>Nahrát leták, plakát</template><template #content><editable-image type="graphics" :pointer="'csu_volby:' + id" :elections="id"></editable-image></template></p-popup>
 									&middot;
-									<pop-up preClass="green strong"><template #init>zaslat odkaz</template><template #content><editable-suggest type="graphics" :part="current.typ + ':' + current.id"></editable-suggest></template></pop-up>
+									<p-popup preClass="green strong"><template #init>zaslat odkaz</template><template #content><editable-suggest type="graphics" :part="current.typ + ':' + current.id"></editable-suggest></template></p-popup>
 								</div>
 							</p-block-expandable>
 							<p-block-expandable headline="Dokumenty">
@@ -202,7 +202,7 @@
 								<div v-if="current.editace === 1" class="smallest _edit mt3">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
-									<pop-up preClass="green strong"><template #init>Přidat dokument</template><template #content><editable-suggest placeholder="Odkaz na dokument" type="document" :part="current.typ + ':' + current.id"></editable-suggest></template></pop-up>
+									<p-popup preClass="green strong"><template #init>Přidat dokument</template><template #content><editable-suggest placeholder="Odkaz na dokument" type="document" :part="current.typ + ':' + current.id"></editable-suggest></template></p-popup>
 								</div>
 							</p-block-expandable>
 						<p-block v-if="current && current.predchozi && ['evropske-volby', 'snemovni-volby'].indexOf(hash) > -1" headline="Minulé volby">
@@ -295,7 +295,7 @@
 							<div class="smallest _edit">
 								<p-icon icon="edit"></p-icon>
 								&nbsp;
-								<pop-up preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="current.id"></editable-event></template></pop-up>
+								<p-popup preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="current.id"></editable-event></template></p-popup>
 							</div>
 						</div>
 					</p-list>

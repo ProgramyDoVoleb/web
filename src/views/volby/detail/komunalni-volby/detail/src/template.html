@@ -127,14 +127,14 @@
 				<div class="_edit smallest mt1">
 					<p-icon icon="edit"></p-icon>
 					 
-					<pop-up>
+					<p-popup>
 						<template #init>
 							<span class="green strong">Doplnit nebo upravit</span>
 						</template>
 						<template #content>
 							<editable-suggest :part="'KV:' + data.list[0].id + ':' + town" type="seznam"></editable-suggest>
 						</template>
-					</pop-up>
+					</p-popup>
 				</div>
 			</template>
 		</p-block>
@@ -318,14 +318,14 @@
 		<div class="_edit smallest mt1">
 			<p-icon icon="edit"></p-icon>
 			 
-			<pop-up>
+			<p-popup>
 				<template #init>
 					<span class="green strong">Doplnit nebo upravit</span>
 				</template>
 				<template #content>
 					<editable-suggest part="Oprava starosty" type="leadership"></editable-suggest>
 				</template>
-			</pop-up>
+			</p-popup>
 			 &middot; 
 			<router-link :to="'/obec/' + town" class="dimm">více zde</router-link>
 		</div>
@@ -384,14 +384,14 @@
 					<div class="_edit smallest mt1">
 						<p-icon icon="edit"></p-icon>
 						 
-						<pop-up>
+						<p-popup>
 							<template #init>
 								<span class="green strong">Opravit</span>
 							</template>
 							<template #content>
 								<editable-suggest part="Kontaktní údaje" type="meta"></editable-suggest>
 							</template>
-						</pop-up>
+						</p-popup>
 					</div>
 				</div>
 			</p-list>

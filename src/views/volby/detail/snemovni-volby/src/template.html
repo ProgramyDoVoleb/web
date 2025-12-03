@@ -142,7 +142,7 @@
 			<!-- <div class="p-line"></div>
 			<div class="smallest dimm">
 				Přehled stran, programů, priorit a odpovědí.
-				<pop-up preClass="green strong" v-if="current.status < 3"><template #init>Doplnit</template><template #content><editable-suggest placeholder="Stačí odkaz" type="program" :part="current.typ + ':' + current.id" link="1"></editable-suggest></template></pop-up>
+				<p-popup preClass="green strong" v-if="current.status < 3"><template #init>Doplnit</template><template #content><editable-suggest placeholder="Stačí odkaz" type="program" :part="current.typ + ':' + current.id" link="1"></editable-suggest></template></p-popup>
 			</div> -->
 		</p-area>
 	</p-block>
@@ -208,7 +208,7 @@
 		<p-area class="smaller">
 			<p-columns class="_2_4">
 				<div>
-					<pop-up class="down">
+					<p-popup class="down">
 						<template #init>
 							<strong class="red">Hledat kandidáta</strong>
 						</template>
@@ -223,7 +223,7 @@
 								</div>
 							</p-list>
 						</template>
-					</pop-up>
+					</p-popup>
 					
 				</div>
 				<div v-for="(region, index) in enums.regions">

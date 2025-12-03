@@ -5,10 +5,11 @@
 			<template v-if="election">
 				<div :class="{'columns-4': election.list[0].$dotcene.length > 1}">
 					<div v-for="(obvod, index) in election.list[0].$dotcene">
-						<div class="p-offset balanced reverse">
-							<div>								
+						<!-- <div class="p-offset balanced reverse"> -->
+							<!-- <div>								 -->
+								<span class="smallest dimm wib w25 pr05 text-right keep">{{ obvod.OBVOD }} &middot; </span>
 								<router-link :to="'/volby/senatni-volby/' + elections.id + '/obvod/' + obvod.OBVOD" class="strong">{{ obvod.NAZEV }}</router-link>
-								<span class="smaller dimm"> &middot; obv. {{ obvod.OBVOD }}</span>
+								
 								<div class="smaller" v-if="election && election.list[0].status === 3">
 									<p-list-linear class="nebo">
 										<span v-for="cand in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD === obvod.OBVOD && (x.ZVOLEN_K1 === 1 || x.ZVOLEN_K2 === 1)), 'PRIJMENI', null, true)">
@@ -64,11 +65,11 @@
 											</p-list-linear>
 										</div>
 								</div>	
-								<div v-if="election && election.list[0].status < 3 && election.list[0].radne === 1">
+								<div v-if="election && election.list[0].status < 3 && election.list[0].radne === 1" class="ml175">
 
 										<component :is="election.list[0].dotcene ? 'div' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod.OBVOD).length > 0" :class="{'columns-4': election.list[0].$dotcene.length === 1}">
 											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod.OBVOD), 'PRIJMENI', '', true)">
-												<p-label :color="colorByItem(cand, election, 'NSTRANA')" class="smaller">
+												<p-label :color="colorByItem(cand, election, 'NSTRANA,PSTRANA')" class="smaller">
 													<router-link :to="'/volby/senatni-volby/' + elections.id + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
 												</p-label>
 											</div>
@@ -78,8 +79,8 @@
 										</div>
 
 								</div>		
-							</div>
-						</div>
+							<!-- </div> -->
+						<!-- </div> -->
 					</div>
 				</div>
 			</template>

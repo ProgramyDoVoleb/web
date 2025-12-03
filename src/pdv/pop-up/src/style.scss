@@ -1,0 +1,46 @@
+._popup {
+  position: fixed;
+  left: 5vw;
+  right: 5vw;
+  background: var(--white);
+  padding: .5em;
+  border-radius: 6px;
+  border: 1px solid var(--blue);
+  z-index: 10000;
+  box-shadow: 0 .3em 1em rgba(0,0,0,.2);
+
+  .dark & {
+    background: var(--black);
+  }
+
+  @media (min-width: 640px) {
+    left: auto;
+    right: auto;
+    width: 300px;
+  }
+}
+
+._btn {
+  position: relative;
+}
+
+._arrow {
+  width: 1em;
+  height: 1em;
+  background: var(--blue);
+  position: fixed;
+  transform: rotate(45deg) translate(-.1em, .8em);
+  z-index: 9999;
+}
+
+._close {
+  border-radius: 1em;
+  padding: .25em;
+  background: var(--red);
+  color: var(--white);
+  display: inline-block;
+  width: 4.75em;
+  position: absolute;
+  top: -2.75em;
+  right: -.5em;
+}

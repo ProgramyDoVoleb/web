@@ -166,7 +166,7 @@
 							<span class="strong" v-for="item in menu176"><router-link class="is-span" :to="item.route" @click="showMenu = false">{{ item.label }}</router-link></span>
 						</p-list-linear>
 						&middot;
-						<pop-up class="down">
+						<p-popup class="down">
 							<template #init>Více</template>
 							<template #content>
 								<div class="smaller">
@@ -179,7 +179,7 @@
 									<router-link to="/volby/komunalni-volby/176" class="strong">Více o volbách</router-link>
 								</div>
 							</template>
-						</pop-up>
+						</p-popup>
 					</div>
 					<div>
 						<span class="_st">
@@ -207,7 +207,7 @@
 						<span class="strong" v-for="item in menu176.filter((x, i) => i < 4)"><router-link class="is-span" :to="item.route" @click="showMenu = false">{{ item.label }}</router-link></span>
 					</p-list-linear>
 					&middot;
-					<pop-up class="down">
+					<p-popup class="down">
 						<template #init>další města</template>
 						<template #content>
 							<div class="smaller">
@@ -220,11 +220,11 @@
 								<router-link to="/volby/komunalni-volby/176" class="strong">Více o volbách</router-link>
 							</div>
 						</template>
-					</pop-up>
+					</p-popup>
 					   /   
 					<strong><router-link to="/volby/senatni-volby/173" class="red">Senátní volby</router-link> </strong>
 					&middot;
-					<pop-up class="down">
+					<p-popup class="down">
 						<template #init>
 							<span>vybrat obvod</span>
 						</template>
@@ -235,7 +235,7 @@
 								</div>
 							</p-columns>
 						</template>
-					</pop-up>
+					</p-popup>
 				</div>
 				<div>
 					<span class="_st">

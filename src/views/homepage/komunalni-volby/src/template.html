@@ -1,5 +1,5 @@
 <div class="homepage-kv">
-	<p>Komunální volby představují více jak 6000 souběžných voleb, není jednoduché je shrnout na jednu stránku ani sledovat ve všech obcích. Zde najdete vybrané největší obce, případně ji můžete vyhledat. Pod odkazem <span class="dimm">více</span> najdete historické výsledky a další zajímavosti o obci.</p>
+	<p>Zde najdete vybrané největší obce, případně ji můžete vyhledat. </p>
 						<p-area>
 							<div>
 								<div v-for="(town, index) in enums.towns.capital">
@@ -34,14 +34,16 @@
 									</div>									
 								</div>
 							</p-columns>
-							<!-- <div class="smallest strong">
-								<router-link to="/obce">Hledat jinou obec nebo městskou část</router-link>
-							</div> -->
+							<div class="p-line"></div>
+							<p-collapsible label="Vybrat okres" class="mt-1 mb1" logo="search" borderless="1">
+								<p-columns class="_small smaller">
+									<div v-for="okres in enums.okresy">
+										<router-link :to="'/volby/komunalni-volby/176/okres/' + okres.id">{{ okres.name }}</router-link>
+									</div>
+								</p-columns>
+							</p-collapsible>
 						</p-area>
-						<div class="p-line"></div>
-						<div>
-							<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
-						</div>
+						<search-town link="/volby/komunalni-volby/176/obec/" class="mt1"></search-town>
 						<div class="p-line"></div>
 	<!-- <p-loader :rule="election">
 		<div v-if="election">

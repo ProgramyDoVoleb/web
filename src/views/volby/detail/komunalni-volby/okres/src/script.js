@@ -1,7 +1,9 @@
 import {useData} from '@/stores/data';
+import {useEnums} from '@/stores/enums';
 import HeroMap from '@/components/hero-map/main/do.vue';
 import { cdn, today } from '@/stores/core';
 import {sortBy} from '@/pdv/helpers';
+import {ga} from '@/pdv/analytics';
 
 export default {
 	name: 'layout-volby-okres',
@@ -9,6 +11,7 @@ export default {
 	data: function () {
 		return {
 			cdn,
+			enums: useEnums(),
 			options: null,
 			showMap: false,
 			mapPrep: false,
@@ -73,5 +76,8 @@ export default {
 		}
 	}
   },
-  mounted: function () {}
+  mounted: function () {
+    window.scrollTo(0, 1);
+	ga("Zastupitelstva v okrese " + this.enums.okresy.find(x => x.id == this.district).name);
+  }
 };

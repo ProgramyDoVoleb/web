@@ -2,10 +2,10 @@
 	<!-- <hero-map :district="district"></hero-map> -->
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Zastupitelstva" :level="1" :subheadline="'v okrese ' + (towns ? towns.okresy.find(x => x.NUMNUTS == district).NAZEV : '')">
+			<p-block headline="Zastupitelstva" :level="1" :subheadline="'v okrese ' + enums.okresy.find(x => x.id == district).name">
 				<p-loader :rule="towns">
 					<div v-if="towns">
-						<p-block headline="Statutární města" v-if="towns.obce.find(x => [4,3].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district)">
+						<p-block headline="Statutární města" v-if="towns.obce.find(x => [4,3].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district)" :hide="true">
 							<p-list>
 								<div v-for="town in towns.obce.filter(x => [4,3].indexOf(x.DRUHZASTUP) > -1 && x.OKRES == district)">
 									<p-area class="primary">
