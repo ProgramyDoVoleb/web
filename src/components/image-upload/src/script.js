@@ -77,7 +77,7 @@ export default {
 				ctx.fillStyle = "blue";
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-				console.log(canvas.width, canvas.height);
+				// console.log(canvas.width, canvas.height);
 
 				ctx.drawImage(img, 0, 0);
 

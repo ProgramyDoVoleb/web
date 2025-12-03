@@ -8,7 +8,22 @@
 					<p-box href="https://admin.programydovoleb.cz/seznam">
 						<p-box-button icon="admin" class="primary">Chci získat přístup</p-box-button>
 					</p-box>
+					<p-popup>
+						<template #init>
+							<p-box>
+								<p-box-button class="green" icon="plus-green">Chci přidat stranu nebo kandidáta</p-box-button>
+							</p-box>
+						</template>
+						<template #content>
+							<p class="p05 m0">Narazili jste na zprávu nebo status, že někdo bude kandidovat? Dejte vědět:</p>
+							<div class="p-line _05"></div>
+							<editable-suggest></editable-suggest>
+						</template>
+					</p-popup>
 				</p-box-group>
+				<p>
+					<button class="inline" @click="slide('male-upravy')">Chci jen nějakou drobnost</button>
+				</p>
 				<p-block headline="Jak to funguje?" class="mt3">
 					<p><em>Programy do voleb</em> používají údaje o stranách a kandidátech od Českého statistického úřadu. Jenže ty jsou dostupné až 45 dní před volbami, poté, co proběhne registrace. Do té doby kandidátní listiny neexistují. </p>
 					<p> Proto je možné <em>kandidátní listinu</em> uvést na <em>Programech</em> kdykoli předem a pracovat s ní jako s reálnou registrovanou kandidátní listinou. Jakmile proběhne registrace oficiálně, tak jsou tyto <em>předběžné</em> kandidátní listiny propojené s oficiálními daty. Existující jsou zachované a aktualizované, odmítnuté jsou skryté, chybějící jsou doplněné.</p>
@@ -104,52 +119,247 @@
 						</div>
 					</p-grid>
 					<p>Důležitý je rozdíl mezi <em>správcem strany</em> a <em>správcem kandidátní listiny</em>. Vychází z reality, kdy jedna strana se může účastnit více voleb, nebo voleb v různých krajích či obcích, zatímco kandidátní listina je vázána vždy na konkrétní volby a místo.</p>
-					
+					<h3 class="serif mt2">Orientační schema</h3>
+					<p-area class="inline highlight shadow smaller">
+						<div>
+							<strong>Správce webu</strong>
+							<p-area class="mv025" background="var(--blue11)" borderColor="var(--blue)">
+								<div>
+									<strong class="blue">Strana</strong>
+									<ul class="mv01">
+										<li>Logo a barva</li>
+										<li>Sociální sítě</li>
+										<li>Kontakty a odkazy</li>
+										<li>Dlouhodobý program</li>
+										<li>Stanovy, dokumenty</li>
+										<li>...</li>
+									</ul>
+									<p-area class="mv025 highlight">
+										<div>
+											Aktivní volby
+											<p-area class="mv025" background="var(--blue11)">
+												<div>
+													Stranický podvýběr
+													<p-area class="mv025 highlight">
+														<div>
+															Zastupitelstvo
+															<p-area class="mv025" background="var(--red11)" borderColor="var(--red)">
+																<div>
+																	<strong class="red">Kandidátní listina</strong>
+																	<ul class="mv01">
+																		<li>Volební program</li>
+																		<li>Odpovědi, kalkulačka</li>
+																		<li>Volební materiály</li>
+																		<li>...</li>
+																	</ul>
+																	<p-area class="mv025 highlight" background="var(--green22)" borderColor="var(--green)">
+																		<strong>Kandidát</strong>
+																		<ul class="mv01">
+																			<li>Představení</li>
+																			<li>Priority</li>
+																			<li>Fotky</li>
+																			<li>...</li>
+																		</ul>
+																	</p-area>
+																	<div class="italic mt05 dimm">Další kandidát...</div>
+																</div>
+															</p-area>
+														</div>
+													</p-area>
+													<div class="italic mt05 dimm">Další zastupitelstvo...</div>
+												</div>
+											</p-area>
+											<div class="italic mt05 dimm">Další kraj...</div>
+										</div>
+									</p-area>
+									<div class="italic mt05 dimm">Další volby...</div>
+								</div>
+							</p-area>
+							<div class="italic mt05 dimm">Další strana...</div>
+						</div>
+					</p-area>
 				</p-block>
-							
-								<!-- <p-block logo="party" headline="Pro registrované strany a hnutí" anchor="Strany">
-									<p>Zde je důležité, zda chcete přidávat a odebírat kandidátky, např v nějakém kraji, okrese nebo jen vybraných obcích, nebo jen chcete přístup k nějaké již existující. </p>
-									<p-collapsible logo="list" label="Chceme spravovat víc kandidátek">
-										<p-area class="highlight" borderColor="var(--blue)">
-											<p>Každá registrovaná strana nebo hnutí může získat plný přístup ke svým informacím a vytvářet kandidátky v libovolném zastupitelstvu, a to jak samostatné, tak ve formě koalic nebo sdružení. Pro snadnější správu pak lze vytvářet další přístupy, jen pro vybrané kraje, okresy nebo konkrétní zastupitelstva. O přístup mohou požádat centrální orgány strany, tak krajské či místní buňky. Jedinou nutnou podmínkou je <strong>stranický e-mail</strong>, který je uveden na libovolném stranickém webu.</p>
-										
-											<p-area class="smaller" icon="admin">
-												<strong>Pořádejte o přístup přímo</strong>
-												<div class="smaller strong">Napište na <a href="mailto:admin@programydovoleb.cz">admin@programydovoleb.cz</a></div>
-												<div class="smaller">Případně uveďte, pro jakou oblast, kraj, okres, obce chcete přístup získat.</div>
-												<div class="smaller mt05">Navíc můžete získat uvést i <strong>senátní obvody</strong>.</div>
-											</p-area>
-											
-											<h6 class="mb0">Poznámka:</h6>
-											<p class="mt05">Pokud už v nějaké obci bude založena kandidátní listina, jejíž součástí je vaše strana/hnutí, tak po získání přístupu do Adminu ji budete moct upravovat také.</p>
-											
-										</p-area>
-									</p-collapsible>
-									<p-collapsible logo="edit" label="Chceme spravovat jen tu naši">
-										<p-area class="highlight" borderColor="var(--blue)">
-
-											<p>V případě, že vidíte na <em>Programech</em> ve vaší obci "vaši" kandidátku, mohla být přidána někým ze strany nebo správcem na základě zpráv v médiích. Abyste k ní získali přístup, můžete:</p>
-			
-											<p-area class="smaller">
-												<p-list class="_025">
-													<div>- napsat na <a href="mailto:admin@programydovoleb.cz">admin@programydovoleb.cz</a></div>
-													<div>- vyplnit formulář s kontaktem v detailu kandidátní listiny</div>
-													<div>- vyplnit formulář v seznamu na <p-link href="https://admin.programydovoleb.cz">Adminu</p-link></div>
-												</p-list>
-											</p-area>
-											<p>I v tomto případě je preferovaný stranický e-mail, nejlépe pokud je také uveden na webových stránkách, volebním webu nebo sociální síti.</p>
-										</p-area>
-									</p-collapsible>
-								</p-block>
-								<p-block logo="komunalni-volby" headline="Pro místní sdružení a nezávislé" anchor="SNK">
-	
-								</p-block>
-								<p-block logo="person" headline="Pro jednotlivé kandidáty" anchor="Kandidáti">
-	
-								</p-block>
-								<p-block logo="senatni-volby" headline="Senátní volby">
-	
-								</p-block> -->
+				<p-block headline="Kdo může získat přístup?">
+					<p>Přístup do Adminu mohou získat představitelé stran, hnutí či SNK, jednotliví kandidáti, členové jejich týmů nebo další pověření osoby. Může to být PR tým, kamarád a další. Není požadováno nějaké vzdělání nebo specifická role. <em>Správce webu</em> ale u přístupů, které zřizuje přímo, zjišťuje, zda je míra pravomocí adekvátní postavení.</p>
+					<p>Dalšího uživatele může přidat <em>správce webu</em> na základě žádosti a následného ověření, nebo <strong>uživatelé s aktivním Adminem</strong>. To znamená, že například správce strany XY může vytvořit nový přístup pro svou místní buňku v Turnově. Ta si pak může založit svou kandidátní listinu a přidat na ni kandidáty. A navíc vytvoří extra přístup lídrovi, který chce mít přístup ke svému profilu.</p>
+					<h3 class="serif mt2">Nejčastější příklady</h3>
+					<p-list class="strong invisible smaller">
+						<div>
+							<p-area class="inline highlight shadow" borderColor="blue">strana spravuje své základní údaje</p-area>
+						</div>
+						<div>
+							<p-area class="inline highlight shadow" borderColor="blue">strana pověří člověka, který spravuje údaje v rámci kraje nebo okresu</p-area>
+						</div>
+						<div>
+							<p-area class="inline highlight shadow" borderColor="red">pověřený člověk, který spravuje kandidátní listinu i kandidáty</p-area>
+						</div>
+						<div>
+							<p-area class="inline highlight shadow" borderColor="green">kandidát, který si chce údaje spravovat sám</p-area>
+						</div>
+						<div>
+							<p-area class="inline highlight shadow" borderColor="green">kandidát pověří svého asistenta nebo PR agenturu</p-area>
+						</div>
+						<div>
+							<p-area class="inline highlight shadow" borderColor="yellow">zastupitelé mládežnické organizace, kteří chtějí spravovat údaje vybraných (mladých) kandidátů</p-area>
+						</div>
+					</p-list>
+					<h3 class="serif mt2">Co to je aktivní Admin?</h3>
+					<p><strong>Přístup do Adminu</strong> se většinou přiděluje ke konkrétním volbám. Všechny údaje lze upravovat od jejich vložení do systému až do začátku voleb - běžně do středy večer ve volební týden. Údaje tak lze přidávat a upravovat před registrací stran a kandidátů, ale i před samotným vyhlášením voleb prezidentem.</p>
+					<p>Strany a hnutí mají sice přístup do Adminu aktivní i mimo volby, ale krom základních údajů o straně samotné mohou přidávat či upravovat údaje také jen k vyhlášeným neproběhlým volbám.</p>
+					<p-area class="mt2 inline highlight" icon="warning" borderColor="var(--red)">
+						<strong>Poslední úpravy lze dělat ve středu před volbami, do půlnoci</strong>
+						<div class="smaller">Odkaz s přístupem pak přestane být aktivní. Už se nepůjde přihlásit.</div>
+					</p-area>
+					<p>Strany se sice mohou v době voleb přihlásit, ale mohou upravovat pouze základní informace nebo údaje týkající se jiných voleb.</p>
+				</p-block>
+				<p-block headline="Jak lze získat přístup?">
+					<p>Na <em>Programech</em> jsou tři obvyklé způsoby:</p>
+					<p-grid class="invisible">
+						<div>
+							<p-area class="highlight shadow inline" borderColor="var(--blue)" icon2="pdv">
+								<strong>Žádost o přístup</strong>
+								<p class="mt05 mb0 smaller">Běžně probíhá skrze web <em>Programů do voleb</em>. Člověk najde svůj profil nebo strany ( <p-link class="green strong" href="https://admin.programydovoleb.cz/seznam">seznam</p-link> ), který by chtěl upravovat, klikne na odkaz a vyplní formulář. Vyplněnou žádost posoudí <em>správce webu</em> a kontaktuje žadatele s přístupem. </p>
+								<p>Požádat o přístup lze také e-mailem nebo skrze sociální sítě.</p>
+								<div class="p-line"></div>
+								<p class="mt05 mb0 smallest strong">Přístup je obecně přidělen, pokud:</p>
+								<ul class="mv01 smaller">
+									<li class="strong blue">žadatel používá stranický e-mail</li>
+									<li>žadatel odkazuje na aktivní profil na sociální síti</li>
+									<li>žadatel uvádí e-mail, která lze veřejně dohledat</li>
+								</ul>
+								<div class="p-gap _01"></div>
+								<p class="mt05 mb0 smallest strong red">Přístup ke správě strany vyžaduje hlubší ověření.</p>
+								<div class="p-line"></div>
+								<p-box-group>
+									<p-box href="https://admin.programydovoleb.cz/seznam">
+										<p-box-button icon="search">Najít</p-box-button>
+									</p-box>
+									<p-popup>
+										<template #init>
+											<p-box>
+												<p-box-button icon="email">Žádost e-mailem</p-box-button>
+											</p-box>
+										</template>
+										<template #content>
+											<div class="smaller text-center mt1">napište na admin@programydovoleb.cz</div>
+											<div class="p-line"></div>
+											<p-box-group>
+												<p-box-gap></p-box-gap>
+												<p-box href="mailto:admin@programydovoleb.cz">
+													<p-box-button icon="email">Otevřít e-mail</p-box-button>
+												</p-box>
+												<p-box-gap></p-box-gap>
+											</p-box-group>
+										</template>
+									</p-popup>
+								</p-box-group>
+							</p-area>
+						</div>
+						<div>
+							<p-area class="inline highlight shadow" borderColor="var(--red)" icon2="address">
+								<strong>Na základě pozvánky</strong>
+								<p class="mt05">
+									Aby správce kandidátní listiny nemusel generovat desítky odkazů a odesílat je ručně na desítky odkazů, může využít tzv pozvánku.	
+								</p>
+								<p>Je to jednoduchý odkaz, po kliknutí na něj se zobrazí seznam kandidátů a člověk si vybere "sebe" - tím vygeneruje si svůj vlastní přístup ke svému profilu. </p>
+								<p>Předpokládá se opatrnost a diskrétnost správců při sdílení. Správce, který pozvánku vytváří, může čelo chránit heslem.</p>
+							</p-area>
+						</div>
+						<div>
+							<p-area class="inline highlight shadow" borderColor="var(--green)" icon2="admin">
+								<strong>Vygenerování přístupu <br>správcem kandidátní listiny</strong>
+								<p class="mt05">Přístupy může přímo vytvářet také příslušný <em>správce strany</em> nebo <em>správce kandidátní listiny</em>. </p>
+								<p>Ve svém Adminu mají možnost vytvořit přístup na stejné nebo nižší úrovni, než mají oni sami. Tohle se hodí také tehdy, když se o nějaká data stará více správců.
+								</p>
+							</p-area>
+						</div>
+					</p-grid>
+					<h3 class="serif mt2">Co když ještě nejsem/nejsme v přehledu?</h3>
+					<p>O Admin lze žádat pouze tehdy, když daná strana nebo kandidát již existují v systému. Pokud je nemůžete najít, nejprve požádejte o vytvoření a do poznámky napište, že byste zároveň chtěli získat přístup.</p>
+					<p>Pro založení nového kandidáta nebo strany je nutný odkaz na veřejně dostupný status na sociální síti nebo zprávu na webu (stranickém nebo např. zpravodajském), ze které je dostatečně jasně partné, že dotyčný má zájem kandidovat.</p>
+					<p-box-group>
+						<p-popup>
+							<template #init>
+								<p-box>
+									<p-box-button icon="plus-green" class="green">Přidat do přehledu</p-box-button>
+								</p-box>
+							</template>
+							<template #content>
+								<editable-suggest></editable-suggest>
+							</template>
+						</p-popup>
+					</p-box-group>
+				</p-block>
+				<p-block headline="Chci jen něco malé doplnit" anchor="Malé úpravy">
+					<p>Pokud už je strana nebo kandidát v přehledu, možná jste to dokonce vy sami, ale nechcete bojovat s dalším systémem, jen chcete něco malé upravit, můžete dát vědět i jinak. Důležité je, aby bylo možné vás nějak ověřit, nebo aspoň zdroj informace.</p>
+					<p-grid>
+						<div>
+							<p-area icon="link" borderColor="var(--green)" class="highlight shadow">
+								<h4 class="mt0 mb0">Stačí sdílet odkaz</h4>
+								<p class="mt0">a připsat, co z něj by se mělo převzít.</p>
+								<p-box-group>
+									<p-popup>
+										<template #init>
+											<p-box>
+												<p-box-button class="green">Zaslat odkaz</p-box-button>
+											</p-box>
+										</template>
+										<template #content>
+											<editable-suggest></editable-suggest>
+										</template>
+									</p-popup>
+								</p-box-group>
+								<div class="p-line _0 mt1"></div>
+								<p>
+									Vhodné pro odkazy na weby, wiki, sociální sítě, blogy, zmínky v médiích, tiskové zprávy, stručný přehled priorit, volební materiály apod.
+								</p>
+							</p-area>
+						</div>
+						<div>
+							<p-area icon="icon-against" borderColor="var(--red)" class="highlight shadow">
+								<h4 class="mv0">Není to nikde napsané</h4>
+								<p class="mt0">V takovém případě napište e-mail nebo pošlete vzkaz na sociální síti. Aby bylo možné informaci přidat, musí být e-mail ověřitelný, případně profil by měl vykazovat jasné znaky politického kandidáta.</p>
+								<div class="p-line _0"></div>
+								<p><p-link href="mailto:tip@programydovoleb.cz">tip@programydovoleb.cz</p-link></p>								
+							</p-area>
+						</div>
+						<div>
+							<p-area icon="ig" borderColor="var(--blue)" class="highlight shadow">
+								<h4 class="mv0">Mám to jen vyfocené</h4>
+								<p class="mt0">Pokud se to týká vás nebo vaší strany, je lepší poslat e-mail nebo zprávu na sociálních sítích a fotku přiložit. Dojde tak k ověření a materiál bude spíš použit.</p>
+								<div class="p-line _0"></div>
+								<p><p-link href="mailto:tip@programydovoleb.cz">tip@programydovoleb.cz</p-link></p>	
+								<div class="p-line _0"></div>
+								<p>V ostatních případech pošlete fotku přímo:</p>
+								<p-box-group>
+									<p-popup>
+										<template #init>
+											<p-box>
+												<p-box-button icon="share">Poslat fotku</p-box-button>
+											</p-box>
+										</template>
+										<template #content>
+											<editable-image type="graphics" pointer="dump" :election="176"></editable-image>
+										</template>
+									</p-popup>
+								</p-box-group>																
+							</p-area>
+						</div>
+					</p-grid>
+				</p-block>
+				<div class="p-line"></div>
+				<p-block headline="Pár poznámek pod čarou" anchor="Pod čarou" class="mt4">
+					<p-list class="smaller _05">
+						<div><em>Admin</em> i <em>Programy</em> jsou všem poskytován zdarma</div>
+						<div>Přidávání údajů na <em>Programy</em> je dobrovolné</div>
+						<div>Všechny údaje nesou informace o autorovi a času vložení</div>
+						<div>Používání údajů je na vlastní riziko. Platí v době vložení</div>
+						<div><em>Programy</em> nenesou zodpovědnost za vložené údaje</div>
+						<div><em>Programy</em> se neztotožňují s žádnou stranou ani kandidátem</div>
+						<div><em>Programy</em> nesuplují oficiální volby, proces, registraci atd.</div>
+						<div><em>Programy</em> nejsou aktivitou státu, úřadu, mediálního domu ani politické strany</div>
+					</p-list>
+				</p-block>
 							
 			</p-block>
 		</template>

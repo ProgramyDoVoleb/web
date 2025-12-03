@@ -4,6 +4,8 @@ import {truncate, slide} from '@/pdv/helpers';
 import ReportForm from '@/components/report-form/do.vue';
 import {useData} from '@/stores/data';
 import NewsItem from '@/components/news-item/do.vue'
+import EditableSuggest from '@/components/editable/suggest/do.vue';
+import EditableImage from '@/components/editable/image/do.vue';
 // import { computed } from 'vue';
 
 export default {
@@ -28,7 +30,9 @@ export default {
 	},
 	components: {
 		ReportForm,
-		NewsItem
+		NewsItem,
+		EditableSuggest,
+		EditableImage
 	},
 	methods: {
 		truncate, slide

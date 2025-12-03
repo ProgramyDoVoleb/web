@@ -1193,13 +1193,15 @@
 										</p-area>
 										<p-area background="var(--blue11)" borderColor="var(--blue)">
 											<div class="mb05"><strong class="blue">Pro strany a kandidáty</strong></div>
-											<p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin">
+											<p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin" :open="$volby.status === 1">
 												<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
 
 												<div class="strong smaller">
 													<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link" class="blue">Chci přístup do Adminu</p-link>
 													&middot;
-													<p-link href="https://admin.programydovoleb.cz">Více o adminu</p-link>
+													<p-link href="https://admin.programydovoleb.cz">Více o Adminu</p-link>
+													&middot;
+													<router-link to="/pro-kandidaty">Obecné informace pro strany a kandidáty</router-link>
 												</div>
 											</p-collapsible>
 											<p-collapsible label="Volební otázky" logo="answers-mini" v-if="$volby.id === 166 && current.JMENO">

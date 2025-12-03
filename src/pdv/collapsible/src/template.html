@@ -1,7 +1,7 @@
 <div class="collapsible-element p-collapsible" :class="{opened, skip, borderless, empty}">
 	<div class="collapsible-element-header" @click="toggleVisible" v-if="!skip" :class="{'collapsible-element-header---has-status': status, 'collapsible-element-header---has-logo': logo, 'collapsible-element-header---has-color': color}">
 		<div class="_color" :style="{background: color}" v-if="color"></div>
-		<div class="logo-holder" v-if="_logo && logo.split('https://').length === 1">
+		<div class="logo-holder" v-if="_logo && _logo.split('https://').length === 1">
 			<img loading="lazy" :src="cdn + 'icon/' + _logo + (_logo.includes('.png') ? '' : '.svg')" :alt="label" class="logo">
 		</div>
 		<div class="logo-holder" v-if="_logo && _logo.split('https://').length > 1">
