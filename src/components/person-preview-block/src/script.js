@@ -49,6 +49,12 @@ export default {
 			list.splice(list.findIndex(x => x.VSTRANA === this.cand.NSTRANA), 1);
 
 			return list;
+		},
+		elected: function () {
+			return (this.cand.MANDAT === 'A' || (this.cand.ZVOLEN_K1 && this.cand.ZVOLEN_K1 === 1) || (this.cand.ZVOLEN_K2 && this.cand.ZVOLEN_K2 === 1))
+		},
+		rnd2: function () {
+			return (this.cand.ZVOLEN_K1 && this.cand.ZVOLEN_K1 === 2 && (!this.cand.ZVOLEN_K2 || this.cand.ZVOLEN_K2 === 3));
 		}
 	},
 	methods: {

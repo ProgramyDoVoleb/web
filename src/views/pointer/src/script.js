@@ -21,6 +21,7 @@ import OkrskyStats from '@/components/okrsky-stats/do.vue';
 import PersonPreviewLinear from '@/components/person-preview-linear/do.vue';
 import PersonPreviewBlock from '@/components/person-preview-block/do.vue';
 import PersonPreviewColumn from '@/components/person-preview-column/do.vue';
+import PartyPreviewTiny from '@/components/party-preview-large/do.vue';
 import EventItem from '@/components/event-item/do.vue'
 import AnswerTopicPreview from '@/components/answer-topic-preview/do.vue';
 import PartyPolls from '@/components/party-polls/do.vue'
@@ -75,7 +76,7 @@ export default {
 	CtaGetAdmin, CtaSupport, CtaSupportShort, CtaQuestions,
 	AnswerTopicPreview,
 	PartyPolls,
-	PointerHeader, PointerSummary,
+	PointerHeader, PointerSummary, PartyPreviewTiny,
 	PopUp,
 	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage
   },
@@ -394,6 +395,15 @@ export default {
 			}
 
 			return list;
+		},
+		prev: function () {
+			var res = null;
+
+			if (this.current && this.current.$data.previous && this.current.$data.previous.length > 0) {
+				res = this.$store.getters.pdv('pointers/full/' + this.current.$data.previous[0].value);
+			}
+
+			return res;
 		}
 	},
   methods: {

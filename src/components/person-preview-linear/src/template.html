@@ -1,4 +1,4 @@
-<div class="person-preview-linear"  :class="{'_cand-bg-mandat': (cand.MANDAT === 'A' || (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 1) || (cand.ZVOLEN_K2 && cand.ZVOLEN_K2 === 1)), '_cand-bg-2rnd': (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 2 && (!cand.ZVOLEN_K2 || cand.ZVOLEN_K2 === 3)), '_unconfirmed': (typeof cand.CKAND != 'undefined' && !cand.CKAND) || (typeof cand.PORCISLO != 'undefined' && !cand.PORCISLO)}">
+<div class="person-preview-linear"  :class="{'_unconfirmed': (typeof cand.CKAND != 'undefined' && !cand.CKAND) || (typeof cand.PORCISLO != 'undefined' && !cand.PORCISLO)}">
 	<div class="_cand">
 		<!-- <div class="_cand-mandat" v-if="cand.MANDAT === 'A' || (cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 1) || (cand.ZVOLEN_K2 && cand.ZVOLEN_K2 === 1)"></div> -->
 		<!-- <div class="_cand-2rnd" v-if="(cand.ZVOLEN_K1 && cand.ZVOLEN_K1 === 2 && (!cand.ZVOLEN_K2 || cand.ZVOLEN_K2 === 3))"></div> -->
@@ -32,9 +32,15 @@
 				</div>
 				<div>
 					<!-- <p-label :after="true" :color="cand.MANDAT === 'A' ? 'var(--green)' : null"> -->
-						<router-link class="strong" :to="link + '/kandidat/' + cand.id">
+						<router-link class="strong" :to="link + '/kandidat/' + cand.id" :class="{green: elected}">
 							{{ cand.JMENO }} {{ cand.PRIJMENI }}
 						</router-link>
+						<span v-if="elected" class="ml05 mr025">
+							<p-badge background="var(--green)">zvolen{{ isWoman(cand) ? 'a' : '' }}</p-badge>
+						</span>
+						<span v-if="rnd2" class="ml05 mr025">
+							<p-badge background="var(--yellow)" color="var(--black)">druhé kolo</p-badge>
+						</span>
 						<span class="dimm tiny" v-if="cand.TITULPRED"> &middot; {{ cand.TITULPRED }}</span>
 						<span class="dimm tiny" v-if="cand.TITULZA"> &middot; {{ cand.TITULZA }}</span>
 					<!-- </p-label> -->

@@ -41,8 +41,8 @@
 												<span class="dimm" v-if="election.typ === 'SENAT'">
 													obvod {{ cand.OBVOD }} &middot; {{ cand.$obvod ? cand.$obvod[0].NAZEV : '' }}
 												</span>
-												<span class="dimm" v-if="election.typ === 'KV'">
-													zast. {{ cand.$obec ? cand.$obec[0].NAZEVZAST : '' }}
+												<span class="dimm" v-if="election.typ === 'KV' && cand.$obec && cand.$obec[0]">
+													zast. {{ cand.$obec[0].NAZEVZAST || '' }}
 												</span>
 												<span class="dimm" v-if="election.typ === 'KZ'">
 													{{ cand.$kraj[0] ? cand.$kraj[0].NAZEV : enums.regions[cand.KRZAST - 1] }}

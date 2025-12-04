@@ -5,7 +5,7 @@
 		</div>
 		<div class="_f smaller">
 			<!-- <p-label :color="colorByItem(party, elections)"> -->
-				<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :to="link + '/strana/' + party.id" :href="link + '/strana/' + party.id" class="strong">{{ party.ZKRATKA }}</component>
+				<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :to="link + '/strana/' + party.id" :href="link + '/strana/' + party.id" class="strong">{{ party.NAZEV }}</component>
 			<!-- </p-label> -->
 			<template v-if="party.$odpovedi && party.$odpovedi > 0"> <component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" :href="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="_icon"> <img src="https://static.programydovoleb.cz/icon/answers.svg" alt="Odpovědi"  loading="lazy" class="_icon"> </component> </template>
 		</div>

@@ -444,7 +444,7 @@ export function czechify (txt) {
 
 export function colorByItem (item, data, _key, _flat) {
 
-  var keys = typeof _key === 'object' ? _key : (_key || 'VSTRANA').split(',');
+  var keys = typeof _key === 'object' && _key != null ? _key : (_key || 'VSTRANA').split(',');
   var key = keys[0];
 
   if (item) {
@@ -492,7 +492,7 @@ export function logoByItem (item, data, _key, _canBeNull) {
 
   if (item) {
 
-      var keys = typeof _key === 'object' ? _key : (_key || 'VSTRANA').split(',');
+      var keys = typeof _key === 'object' && _key != null ? _key : (_key || 'VSTRANA').split(',');
       var key = keys[0];
 
       res = item.$data ? con(item.$data, 'logo') : null;

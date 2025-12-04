@@ -46,12 +46,12 @@
 							<div class="dimm smallest _md">
 								Zdroj: 
 								<p-list-linear>
-									<template v-for="(src, index) in unique(item.auto, 'source').filter(x => x.split('admin.programydovoleb.cz').length === 1)">
+									<template v-for="(src, index) in unique(item.auto, 'source').filter(x => x && x.split('admin.programydovoleb.cz').length === 1)">
 										<li>
 											<p-link :href="src" class="dimm">{{ domain(src) }}</p-link>
 										</li>
 									</template>
-										<li v-if="item.auto.find(x => x.source.split('admin.programydovoleb.cz').length > 1)">
+										<li v-if="item.auto.find(x => !x.source || x.source.split('admin.programydovoleb.cz').length > 1)">
 											<span class="dimm">přímé zadání</span>
 										</li>
 								</p-list-linear>

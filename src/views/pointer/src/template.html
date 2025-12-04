@@ -1168,74 +1168,94 @@
 									</div>
 								</p-loader>
 							</p-block>
-							<div class="_split" v-if="$volby.status < 3">
-								<div>
-									<!-- <p-block headline="Doplnění" :hide="true"> -->
-										<p-area background="var(--green11)" borderColor="var(--green)">
-											<strong class="green">Pomozte doplnit další údaje</strong>
-											<p>Přidejte se k lidem, kteří pomáhají doplňovat informace na <em>Programy do voleb</em>. Stačí, když zašlete odkaz na článek, status nebo web, když na něm narazíte na hodnotné informace.</p>
-		
-											<div class="mv1">
-												<p-box-group>
-													<p-popup>
-														<template #init>
-															<p-box>
-																<p-box-button color="var(--green)">Poslat odkaz</p-box-button>
-															</p-box>
-														</template>
-														<template #content><editable-suggest placeholder="Sem vložte odkaz" type="generic" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template>
-													</p-popup>
-													<p-box href="mailto:doplnit@programydovoleb.cz">
-														<p-box-label class="green">doplnit@programydovoleb.cz</p-box-label>
-													</p-box>
-												</p-box-group>
-											</div>
+							<p-block headline="V minulých volbách" v-if="prev && prev.list[0].$strana">
+								<p-grid class="_2_classic">
+									<div>
+										<p-area>
+											<person-preview-block :cand="prev.list[0]" :data="prev" :current="{$kandidati: []}" :party="prev.list[0].$strana[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby"></person-preview-block>
 										</p-area>
-										<p-area background="var(--blue11)" borderColor="var(--blue)">
-											<div class="mb05"><strong class="blue">Pro strany a kandidáty</strong></div>
-											<p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin" :open="$volby.status === 1">
-												<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
+									</div>
+									<div>
+										<!-- <p-area> -->
+											<party-preview-tiny :elections="prev" :party="prev.list[0].$strana[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="[]"></party-preview-tiny>
+										<!-- </p-area> -->
+									</div>
+								</p-grid>								
+							</p-block>
+							<p-block headline="V minulých volbách" v-if="prev && !prev.list[0].$strana">
+								<party-preview-tiny :elections="prev" :party="prev.list[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="prev.list[0].$kandidati"></party-preview-tiny>								
+							</p-block>
+							<p-block headline="Údaje na této stránce">
 
-												<div class="strong smaller">
-													<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link" class="blue">Chci přístup do Adminu</p-link>
-													&middot;
-													<p-link href="https://admin.programydovoleb.cz">Více o Adminu</p-link>
-													&middot;
-													<router-link to="/pro-kandidaty">Obecné informace pro strany a kandidáty</router-link>
+								<div class="_split" v-if="$volby.status < 3">
+									<div>
+										<!-- <p-block headline="Doplnění" :hide="true"> -->
+											<p-area background="var(--green11)" borderColor="var(--green)">
+												<strong class="green">Pomozte doplnit další údaje</strong>
+												<p>Přidejte se k lidem, kteří pomáhají doplňovat informace na <em>Programy do voleb</em>. Stačí, když zašlete odkaz na článek, status nebo web, když na něm narazíte na hodnotné informace.</p>
+			
+												<div class="mv1">
+													<p-box-group>
+														<p-popup>
+															<template #init>
+																<p-box>
+																	<p-box-button color="var(--green)">Poslat odkaz</p-box-button>
+																</p-box>
+															</template>
+															<template #content><editable-suggest placeholder="Sem vložte odkaz" type="generic" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template>
+														</p-popup>
+														<p-box href="mailto:doplnit@programydovoleb.cz">
+															<p-box-label class="green">doplnit@programydovoleb.cz</p-box-label>
+														</p-box>
+													</p-box-group>
 												</div>
-											</p-collapsible>
-											<p-collapsible label="Volební otázky" logo="answers-mini" v-if="$volby.id === 166 && current.JMENO">
-												<template v-if="$store.getters.pdv('elections/specific/166/questions')">
-													<p-list class="smaller _05">
-														<div v-for="item in $store.getters.pdv('elections/specific/166/questions').questions.filter(x => x.volby === current.volby && x.type === 1 && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
-															{{ item.question }}
-														</div>
-														<div class="strong">
-															Podrobnosti k otázkám, termín a jak odpovědět <router-link to="/novinky/6343">najdete zde</router-link>	
-														</div>
-													</p-list>
-												</template>
-											</p-collapsible>
-											<p-collapsible label="Otázky do kalkulačky" logo="calc" borderless="1" v-if="$volby.id === 166">
-												<template v-if="$store.getters.pdv('elections/specific/166/questions')">
-													<p-list class="smaller _05">
-														<div v-for="item in $store.getters.pdv('elections/specific/166/questions').questions.filter(x => x.volby === current.volby && x.type === 3 && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
-															{{ item.question }}
-														</div>
-														<div class="strong">
-															Podrobnosti k otázkám, termín a jak odpovědět <router-link to="/novinky/7684">najdete zde</router-link>	
-														</div>
-													</p-list>
-												</template>
-											</p-collapsible>
-
-										</p-area>
-									<!-- </p-block> -->
+											</p-area>
+											<p-area background="var(--blue11)" borderColor="var(--blue)">
+												<div class="mb05"><strong class="blue">Pro strany a kandidáty</strong></div>
+												<p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin" :open="$volby.status === 1">
+													<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
+	
+													<div class="strong smaller">
+														<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link" class="blue">Chci přístup do Adminu</p-link>
+														&middot;
+														<p-link href="https://admin.programydovoleb.cz">Více o Adminu</p-link>
+														&middot;
+														<router-link to="/pro-kandidaty">Obecné informace pro strany a kandidáty</router-link>
+													</div>
+												</p-collapsible>
+												<p-collapsible label="Volební otázky" logo="answers-mini" v-if="$volby.id === 166 && current.JMENO">
+													<template v-if="$store.getters.pdv('elections/specific/166/questions')">
+														<p-list class="smaller _05">
+															<div v-for="item in $store.getters.pdv('elections/specific/166/questions').questions.filter(x => x.volby === current.volby && x.type === 1 && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
+																{{ item.question }}
+															</div>
+															<div class="strong">
+																Podrobnosti k otázkám, termín a jak odpovědět <router-link to="/novinky/6343">najdete zde</router-link>	
+															</div>
+														</p-list>
+													</template>
+												</p-collapsible>
+												<p-collapsible label="Otázky do kalkulačky" logo="calc" borderless="1" v-if="$volby.id === 166">
+													<template v-if="$store.getters.pdv('elections/specific/166/questions')">
+														<p-list class="smaller _05">
+															<div v-for="item in $store.getters.pdv('elections/specific/166/questions').questions.filter(x => x.volby === current.volby && x.type === 3 && (!x.designated || x.designated === (current.NAZEV ? 1 : 2)))">
+																{{ item.question }}
+															</div>
+															<div class="strong">
+																Podrobnosti k otázkám, termín a jak odpovědět <router-link to="/novinky/7684">najdete zde</router-link>	
+															</div>
+														</p-list>
+													</template>
+												</p-collapsible>
+	
+											</p-area>
+										<!-- </p-block> -->
+									</div>
+									<div>
+										<cta-support :hide="true"></cta-support>
+									</div>
 								</div>
-								<div>
-									<cta-support :hide="true"></cta-support>
-								</div>
-							</div>
+							</p-block>
 						</div>
 					</div>
 				</p-loader>
