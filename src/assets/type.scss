@@ -23,10 +23,23 @@ p {
   }
 }
 
-h1, h2, .serif, h2 button {
+h1, h2, h3.serif, h4.serif, h2 button {
   font-family: Quando, 'Palatino Linotype', Georgia, serif;
   font-weight: 400;
   letter-spacing: -.03em;
+}
+
+h2, h3, h4, .p-block---expandable h1 .p-headline---label {
+  letter-spacing: -.01em;
+}
+
+h2 .p-headline---label {
+  letter-spacing: -.03em;
+}
+
+.serif {
+  font-family: 'Palatino Linotype', Georgia, serif;
+  font-weight: 400;
 }
 
 .mono {
