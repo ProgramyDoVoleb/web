@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, gradient, color, pct} from '@/pdv/helpers';
+import {url, date, number, truncate, con, gradient, color, pct, sortBy} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
@@ -9,6 +9,7 @@ import ElectionList from '@/components/results/parties/list/do.vue';
 import ElectionGrid from '@/components/results/parties/grid/do.vue';
 import ElectionStats from '@/components/results/stats/do.vue';
 import ReportModal from '@/components/report-modal/do.vue';
+import PartyPreview from '@/components/party-preview-large/do.vue'
 
 export default {
 	name: 'layout-volby-detail-evropske',
@@ -24,7 +25,8 @@ export default {
 	ElectionStats,
 	ElectionList,
 	ElectionGrid,
-	ReportModal
+	ReportModal,
+	PartyPreview
   },
 	computed: {
 		$store: function () {
@@ -46,6 +48,7 @@ export default {
 		number,
 		truncate,
 		pct,
+		sortBy,
 		sortByVotes: function (list, parties) {
 			var arr = [];
 			var arr2 = [];

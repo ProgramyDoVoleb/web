@@ -41,53 +41,62 @@
 								</div>
 							</p-grid>
 						</p-block>
-						<p-loader :rule="current">
-							<div v-if="current">
-								<p-block :headline="([3, 4].indexOf($elected.$obec[0].DRUHZASTUP) > -1 ? 'Primátor' : 'Starosta')">
-									<!-- <template> -->
-										<div class="smaller">
-											<p-list>
+
+						<p-block headline="Vedení zastupitelstva">
+							<p-area v-if="current && leadership && (leadership.mayor != -1 || leadership.coalition != -1)" class="highlight shadow">
+								<p-grid class="_2_classic">
+									<div v-if="leadership.mayor != -1">
+										<div class="smallest mb1 strong">{{ [3,4].indexOf(leadership.cis.obec[0].DRUHZASTUP) === -1 ? 'Starosta' : 'Primátor' }}</div>
+										<person-preview-block :link="'/volby/komunalni-volby/' + leadership.mayor.volby" :cand="leadership.mayor" :current="{$kandidati: []}" :data="leadership" :party="leadership.party" class="_noBG"></person-preview-block>
+									</div>
+									<div v-if="leadership.coalition != -1">
+										<div class="smallest mb1 strong">
+											<div class="p-offset reverse balanced">
 												<div>
-													<div class="p-offset reverse">
-														<div>
-															<!-- <template> -->
-																<template v-for="(person, index) in $meta.filter(x => x.type === 'mayor' && x.updated > _lastKV.$volby.datum).slice(0,1)">
-																	<template v-for="(p, ip) in $elected.$kandidati.filter(x => x.JMENO + ' ' + x.PRIJMENI === person.value || x.id === person.meta)">
-		
-																		<div class="p-offset">
-																			<div v-if="p.$data.photo.length > 0">
-																				<p-image :src="p.$data.photo[0].value" width="6em" :rounded="true"></p-image>
-																			</div>
-																			<div>
-																				<p-label :color="colorByItem(p, current, 'NSTRANA')">
-																					<router-link :to="'/volby/komunalni-volby/' + _lastKV.$volby.id + '/kandidat/' + p.id">
-																						{{ p.JMENO }} {{ p.PRIJMENI }}
-																					</router-link>
-																					<span class="dimm smallest">
-																						 &middot;
-																						{{ current.cis.strany.find(x => x.VSTRANA === p.NSTRANA).ZKRATKA }}
-																					</span>
-																				</p-label>
-																				<div class="smaller">
-																					<p-label :color="colorByItem($elected.$strany.find(x => x.POR_STR_HL == p.POR_STR_HL), current)">{{ $elected.$strany.find(x => x.POR_STR_HL == p.POR_STR_HL).NAZEV }}</p-label>
-																				</div>																		
-																				<div class="p-gap_05"></div>
-																				<div class="smallest dimm">platné {{ date(person.updated) }}</div>
-																			</div>
-																		</div>
-																	</template>
-																</template>
-															<!-- </template> -->
-															<div class="smaller red" v-if="$meta.filter(x => x.type === 'mayor' && x.updated > _lastKV.$volby.datum).length === 0"><i>údaj chybí</i></div>
-															<div class="coalition-edit">
-																<p-modal ref="suggest_mayor">
-																	<template #init>
-																		<div class="green smallest">Upravit</div>
-																	</template>
-																	<template #content>
+													Koalice
+												</div>
+												<div>
+													{{ leadership.coalition.reduce((a, b) => a + b.MAND_STR, 0) }} mandátů z {{ leadership.cis.obec[0].MANDATY }}
+												</div>
+											</div>						
+										</div>
+										<p-list class="invisible smaller">
+											<div v-for="member in sortBy(leadership.coalition, 'MAND_STR', null, null, true)">
+												<div class="p-offset reverse balanced">
+													<div>
+														<p-label :color="colorByItem(member, leadership)">
+															<router-link :to="'/volby/komunalni-volby/' + member.volby + '/strana/' + member.id">
+																{{ member.NAZEV }}
+															</router-link>								
+														</p-label>
+													</div>
+													<div class="smaller dimm">
+														{{ member.MAND_STR }}
+													</div>
+												</div>
+											</div>
+										</p-list>
+									</div>
+								</p-grid>
+								<div class="p-line"></div>
+								<div class="smaller" v-for="memo in leadership.list.filter(x => x.guest_comment)">
+									<div v-html="memo.guest_comment"></div>
+								</div>
+								<div class="smallest dimm">Poslední aktualizace {{ date(sortBy(leadership.list, 'updated', null, true, true)[0].updated, 3) }}</div>
+							</p-area>
+							<div class="_edit smallest mt1">
+								<p-icon icon="edit"></p-icon>
+								 
+								Upravit
+								<p-popup>
+									<template #init>
+										<span class="green strong" v-if="$elected">{{ ([3, 4].indexOf($elected.$obec[0].DRUHZASTUP) > -1 ? 'primátora' : 'starostu') }}</span>
+									</template>
+									<template #content>
+										<div v-if="current && $elected" class="smaller">
 																		<strong>Vyberte starostu ze zvolených zastupitelů a doplňte zdroj:</strong>
 																		<div class="p-gap"></div>
-																		<p-list height=".5">
+																		<p-list class="_025">
 																			<div>
 																				<select ref="mayor_person">
 																					<option value="-1">Vyberte zastupitele</option>
@@ -116,41 +125,20 @@
 																				<button @click="send_mayor">Odeslat</button>
 																			</div>
 																		</p-list>
-																	</template>
-																</p-modal>
-		
-															</div>
-														</div>
-													</div>
-												</div>
-												<div>
-													<div class="p-offset reverse">
-														<div>
-															<strong>Koaliční většina</strong>
-															<div class="p-gap_05"></div>
-															<p-list class="invisible">
-																<template v-for="(coal, index) in $meta.filter(x => x.type === 'coalition' && x.updated > _lastKV.$volby.datum).slice(0,1)">
-																	<div v-for="(member, indexM) in String(coal.value).split(',')">
-																		<p-label :color="colorByItem($elected.$strany.find(x => x.POR_STR_HL == member), current)">
-																			<router-link :to="'/volby/komunalni-volby/' + _lastKV.$volby.id + '/strana/' + $elected.$strany.find(x => x.POR_STR_HL == member).id">
-																				{{ $elected.$strany.find(x => x.POR_STR_HL == member).NAZEV }}
-																			</router-link>
-																		</p-label>
-																	</div>
-																	<div class="p-gap_05"></div>
-																	<div class="smallest dimm">platné {{ date(coal.updated) }}</div>
-																</template>
-															</p-list>
-															<div class="smaller red" v-if="!$meta.find(x => x.type === 'coalition' && x.updated > _lastKV.$volby.datum)"><i>údaj chybí</i></div>
-															<div class="coalition-edit">
-																<p-modal ref="suggest_coalition">
-																	<template #init>
-																		<div class="green smallest">Upravit</div>
-																	</template>
-																	<template #content>
+										</div>
+										
+									</template>
+								</p-popup>
+								nebo
+								<p-popup>
+									<template #init>
+										<span class="green strong">vládnoucí koalici</span>
+									</template>
+									<template #content>
+										<div v-if="current" class="smaller">
 																		<strong>Vyberte strany a doplňte zdroj:</strong>
 																		<div class="p-gap"></div>
-																		<p-list height=".5">
+																		<p-list class="_025">
 																			<div v-for="(item, index) in _listElected.list[0].$strany.filter(x => x.MAND_STR > 0)">
 																				<label>
 																					<input type="checkbox" :ref="'coal_party_' + item.POR_STR_HL + ':' + item.id">
@@ -173,30 +161,16 @@
 																				<button @click="send_coalition">Odeslat</button>
 																			</div>
 																		</p-list>
-																	</template>
-																</p-modal>
-		
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="dimm smallest">
-														Poslední komunální volby proběhly dne 
-														<router-link :to="'/volby/komunalni-volby/' + _lastKV.$volby.id + '/obec/' + num">
-															{{ date(_lastKV.$volby.datum)}}
-														</router-link>.
-												</div>
-											</p-list>
-											<strong></strong>
 										</div>
-								</p-block>
-								<p-block :headline="_lastKV.$data.MANDATY + ' zvolených zastupitelů'" anchor="Zastupitelé">
+									</template>
+								</p-popup>
+							</div>
+						</p-block>
+								<p-block :headline="_lastKV.$data.MANDATY + ' zvolených zastupitelů'" anchor="Zastupitelé" v-if="$elected">
 									<p>V posledních komunálních volbách {{ date(_lastKV.$volby.datum) }} bylo zvoleno {{ _lastKV.$data.MANDATY }} zastupitelů. O hlasy občanů se ucházelo {{ $elected.$kandidati.length }} kandidátů na <p-lang :value="$elected.$strany.length" :end="['', 'jedné kandidátní listině', '%% kandidátních listinách', '%% kandidátních listinách']"></p-lang>. Současné složení zastupitelstva se může lišit z důvodu odstoupení, zániku mandátu kandidáta apod.</p>
 									<div class="p-gap"></div>
 									<list-elected :data="_listElected"></list-elected>
 								</p-block>
-							</div>
-						</p-loader>
 						<template v-if="!showHistory">							
 							<p-area borderColor="var(--blue)" class="mt2">
 								<strong>Zajímá vás volební historie?</strong>
@@ -433,7 +407,7 @@
 			<p-loader :rule="town">
 				<div v-if="town">
 					<h4>{{ $core.NAZEV }}</h4>
-					<p-list class="smaller" height=".33">
+					<p-list class="smaller _025">
 						<div v-if="$meta.find(x => ['social', 'link'].indexOf(x.type) > -1)">
 							<p-box-group>
 
@@ -476,7 +450,7 @@
 						</div>
 					</p-list>
 					<h4>Kontakty</h4>
-					<p-list class="smaller" height=".33">
+					<p-list class="smaller _025">
 						<div v-if="$meta.find(x => x.type === 'email')">
 							<p-link :href="'mailto:' + $meta.find(x => x.type === 'email').value">{{ $meta.find(x => x.type === 'email').value }}</p-link>							
 						</div>

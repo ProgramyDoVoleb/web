@@ -21,12 +21,12 @@ export default {
     },
     computed: {
       extendedHeader: function () {
-        var arr = [
-          'krajske-volby/162',
-          'senatni-volby/163',
-          'snemovni-volby/166',
-          'o-projektu'
-        ];
+        // var arr = [
+        //   'krajske-volby/162',
+        //   'senatni-volby/163',
+        //   'snemovni-volby/166',
+        //   'o-projektu'
+        // ];
 
         return arr.find(x => this.$route.path.split(x).length > 1) || this.$route.path === '/';
       }
@@ -62,6 +62,7 @@ export default {
 
       this.$nextTick(() => {
         this.setHeight();
+        window.scrollTo(0,1);
       })
 
       window.addEventListener('resize', () => this.setHeight());

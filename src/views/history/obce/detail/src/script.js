@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { useCore, cdn, api } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, type} from '@/pdv/helpers';
+import {url, date, number, truncate, type, sortBy} from '@/pdv/helpers';
 import {ga, ge} from '@/pdv/analytics';
 import SearchTown from '@/components/search-town/do.vue';
 import ReportModal from '@/components/report-modal/do.vue';
@@ -10,6 +10,7 @@ import ElectionDetail from '@/views/history/volby/detail/do.vue';
 import StatsTiny from '@/components/stats/stats-tiny/do.vue';
 import StatsTimeline from '@/views/history/obce/detail/timeline/do.vue';
 import HistoryCandidates from '@/components/history/town/do.vue';
+import PersonPreviewBlock from '@/components/person-preview-block/do.vue'
 import axios from 'axios';
 
 import { colorByItem, logoByItem } from '@/pdv/helpers';
@@ -33,7 +34,8 @@ export default {
 	ElectionDetail,
 	StatsTiny,
 	StatsTimeline,
-	HistoryCandidates
+	HistoryCandidates,
+	PersonPreviewBlock
   },
 	computed: {
 		$store: function () {
@@ -146,6 +148,9 @@ export default {
 		cis: function () {
 			return this.town ? this.town.cis : null
 		},
+		leadership: function () {
+			return this.$store.getters.pdv('town/mayor/' + this.num + ':' + 176);
+		},
 		_lastKV: function () {
 			return this.town ? this.$elections.past.find(x => x.$volby.typ === "KV") : null;
 		},
@@ -177,6 +182,7 @@ export default {
 		colorByItem,
 		logoByItem,
 		type,
+		sortBy,
 		gps: function (val) {
 			var s = val.split(',');
 			return 'https://mapy.cz/zakladni?source=coor&x=' + s[1] + '&y=' + s[0] + '&z=14';

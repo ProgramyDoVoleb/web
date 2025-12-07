@@ -15,6 +15,11 @@
 		<!-- </p-block> -->
 		<p-collapsible label="Zvolení europoslanci">
 			<component :is="people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni).length > 100 ? 'election-list' : 'election-grid'" :list="people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni)"></component>
+			<!-- <p-columns class="_noGap _noRule">
+				<div v-for="party in sortBy(current.$strany.filter(x => current.$kandidati.find(y => y.MANDAT === 'A' && y.ESTRANA === x.ESTRANA)), 'NAZEV', null, true)">
+					<party-preview :party="party" :elections="data" :candidates="current.$kandidati.filter(x => x.MANDAT === 'A' && x.ESTRANA === party.ESTRANA)" :link="'/volby/evropske-volby/' + current.id" :amount="200"></party-preview>
+				</div>
+			</p-columns> -->
 		</p-collapsible>
 		<p-collapsible label="Statistiky" v-if="current.$ucast">
 			<!-- <p-area> -->

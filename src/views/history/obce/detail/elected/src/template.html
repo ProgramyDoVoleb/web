@@ -1,3 +1,10 @@
 <div class="komunalni-volby">
-	<component :is="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni)).reduce((a, b) => a + b.list.length, 0) > 32 ? 'election-list' : 'election-grid'" :list="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni))"></component>
+	<!-- <component :is="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni)).reduce((a, b) => a + b.list.length, 0) > 32 ? 'election-list' : 'election-grid'" :list="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni))"></component> -->
+
+
+			<p-columns class="_noGap _noRule">
+				<div v-for="party in sortBy(current.$strany.filter(x => x.MAND_STR), 'MAND_STR', null, null, true)">
+					<party-preview :party="party" :elections="data" :candidates="current.$zvoleni.filter(x => x.MANDAT === 'A' && x.OSTRANA === party.OSTRANA)" :link="'/volby/komunalni-volby/' + current.id" :amount="200"></party-preview>
+				</div>
+			</p-columns>
 </div>

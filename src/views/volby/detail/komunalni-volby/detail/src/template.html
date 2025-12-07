@@ -89,7 +89,7 @@
 	
 	<template v-if="current.status < 3">
 		<p-block :headline="current.status === 1 ? 'Předběžný přehled' : 'Přehled stran'" :hide="true">
-			<div class="p-offset reverse balanced">
+			<div class="p-offset reverse balanced" v-if="current.$strany.length > 0">
 				<div>
 					<h2><button class="inline" @click="compactList = true" :class="{'active': compactList}">Seznam</button> / <button class="inline" @click="compactList = false" :class="{'active': !compactList}">Přehled</button></h2>
 				</div>

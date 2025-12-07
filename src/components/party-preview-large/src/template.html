@@ -56,9 +56,9 @@
 							</span>	
 						</div>
 					</template>
-					<div v-if="snemovni ? candidates.find(x => !x.PORCISLO || x.PORCISLO > 1) : candidates.length > 5">
+					<div v-if="snemovni ? candidates.find(x => !x.PORCISLO || x.PORCISLO > 1) : candidates.length > (amount || 5)">
 						+  <router-link :to="more || link + '/strana/' + party.id + '/kandidati'" class="dimm">
-							<p-lang :value="candidates.length - (snemovni ? candidates.filter(x => x.PORCISLO === 1).length : 5)" :end="['', 'jeden další', 'další %%', 'dalších %%']"></p-lang>
+							<p-lang :value="candidates.length - (snemovni ? candidates.filter(x => x.PORCISLO === 1).length : (amount || 5))" :end="['', 'jeden další', 'další %%', 'dalších %%']"></p-lang>
 						</router-link>
 					</div>
 				</p-list>
