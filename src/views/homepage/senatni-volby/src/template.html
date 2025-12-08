@@ -4,7 +4,7 @@
 		<p-loader :rule="election" reserve="100px">
 			<template v-if="election">
 				<div :class="{'columns-4': election.list[0].$dotcene.length > 1}">
-					<div v-for="(obvod, index) in election.list[0].$dotcene">
+					<div v-for="(obvod, index) in [].concat(election.list[0].$dotcene, {OBVOD: null, NAZEV: '- obvod neznámý'})">
 						<!-- <div class="p-offset balanced reverse"> -->
 							<!-- <div>								 -->
 								<span class="smallest dimm wib w2 pr075 text-right keep">{{ obvod.OBVOD }} </span>

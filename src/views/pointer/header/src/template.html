@@ -42,8 +42,11 @@
 				<template v-if="$volby.typ === 'KZ'">
 					&middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/kraj/' + current.KRZAST">{{ data.cis.kraje.find(x => x.KRAJ === current.KRZAST).NAZEV }}</router-link>
 				</template>
-				<template v-if="$volby.typ === 'SENAT'">
+				<template v-if="$volby.typ === 'SENAT' && current.OBVOD">
 					&middot; obvod {{ current.OBVOD }} &middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/obvod/' + current.OBVOD">{{ data.cis.obvody.find(x => x.OBVOD === current.OBVOD).NAZEV }}</router-link>
+				</template>
+				<template v-if="$volby.typ === 'SENAT' && !current.OBVOD">
+					&middot; obvod neznámý
 				</template>
 			</div>
 			<div class="p-gap"></div>
