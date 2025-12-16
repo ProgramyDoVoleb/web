@@ -39,9 +39,12 @@
 							<!-- <div class="p-gap _1"></div> -->
 							<div class="smallest _mw">
 								<div>
-									<p-list-linear class="or" v-if="cand.VEK || cand.BYDLISTEN || (cand.$profil && cand.$profil.length > 0)">
+									<p-list-linear class="or" v-if="cand.MANDAT || cand.VEK || cand.BYDLISTEN || (cand.$profil && cand.$profil.length > 0)">
 										<li v-if="cand.VEK">{{ cand.VEK }} let</li>
 										<li v-if="cand.BYDLISTEN">{{ cand.BYDLISTEN }}</li>
+										<li v-if="cand.MANDAT && !cand.VEK">&#9617;&#9617; let</li>
+										<li v-if="cand.MANDAT && !cand.POVOLANI">&#9617;&#9617;&#9617;&#9617;&#9617;</li>
+										<li v-if="cand.MANDAT && !cand.BYDLISTEN">&#9617;&#9617;&#9617;&#9617;&#9617;</li>
 										<li v-if="cand.$profil && cand.$profil.length > 0">
 											<router-link class="strong green" :to="'/lide/profil/' + cand.$profil[0].profil">historie</router-link>
 										</li>

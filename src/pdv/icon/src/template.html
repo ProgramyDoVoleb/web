@@ -1,3 +1,4 @@
-<span class="icon-element p-icon">
+<span class="icon-element p-icon" :class="{'_noSize': !size}">
+	{{ !size ? ' ' : '' }}
 	<img  loading="lazy" :src="_src" :style="{width: size, height: size, border, background}" :class="{full: _src.split('answers').length > 1}">
 </span>

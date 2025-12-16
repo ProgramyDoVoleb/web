@@ -1,5 +1,6 @@
 .map-leaflet {
   height: min(70vh, 50em);
+  position: relative;
 }
 
 .kv-hero-map .map-leaflet {
@@ -23,7 +24,7 @@ path {
 
 .p-box-group {
   position: absolute;
-  right: 1em;
-  top: 1em;
+  right: .5em;
+  top: .5em;
   z-index: 402;
 }

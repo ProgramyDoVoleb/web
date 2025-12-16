@@ -123,11 +123,11 @@
 							</td>
 							<td>
 								<!-- <p-list-linear class="or"> -->
-									<span v-if="data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA).$coalition">K</span>
+									<span v-if="data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA) && data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA).$coalition">K</span>
 									<span v-if="item.cand.VSTRANA === item.party.VSTRANA">V</span>
 									<span v-if="item.cand.NSTRANA === item.party.VSTRANA">N</span>
 									<span v-if="item.cand.PSTRANA === item.party.VSTRANA">Č</span>
-									<span v-if="!data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA).$coalition && item.cand.VSTRANA !== item.party.VSTRANA && item.cand.NSTRANA !== item.party.VSTRANA && item.cand.PSTRANA !== item.party.VSTRANA">P</span>
+									<span v-if="data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA) && !data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA).$coalition && item.cand.VSTRANA !== item.party.VSTRANA && item.cand.NSTRANA !== item.party.VSTRANA && item.cand.PSTRANA !== item.party.VSTRANA">P</span>
 								<!-- </p-list-linear> -->
 							</td>
 						</tr>

@@ -515,3 +515,12 @@ export function logoByItem (item, data, _key, _canBeNull) {
 
   return res;
 }
+
+export function townInRegularElectionsAlsoVotesInSenat (year, obvod) {
+  var y = Number(year) - 2020;
+  var o = Number(obvod) % 3;
+
+  var m = (y / 2) % 3;
+
+  return obvod && o == m;
+}

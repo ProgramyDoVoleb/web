@@ -52,6 +52,9 @@
 									<li v-if="cand.VEK">{{ cand.VEK }} let</li>
 									<li v-if="cand.POVOLANI">{{ cand.POVOLANI }}</li>
 									<li v-if="cand.BYDLISTEN">{{ cand.BYDLISTEN }}</li>
+									<li v-if="cand.MANDAT && !cand.VEK">&#9617;&#9617; let</li>
+									<li v-if="cand.MANDAT && !cand.POVOLANI">&#9617;&#9617;&#9617;&#9617;&#9617;</li>
+									<li v-if="cand.MANDAT && !cand.BYDLISTEN">&#9617;&#9617;&#9617;&#9617;&#9617;</li>
 									<li v-if="cand.PSTRANA && cand.PSTRANA === 99">nestraník</li>
 									<li v-if="cand.NSTRANA && !current.PSTRANA && cand.NSTRANA != current.VSTRANA">
 										nominace <template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>

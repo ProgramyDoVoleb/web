@@ -20,18 +20,6 @@
 												<div>
 													<div class="smallest strong">Základní údaje</div>
 												</div>
-												<p-stats label="Upozornění" v-if="$volby.status === 1">
-													<p-modal>
-														<template #init><button class="inline red strong">Předběžné informace</button></template>
-														<template #content>
-															<div class="reset">
-																<h2>Předběžné informace</h2>
-																<p>Ještě nedošlo k registraci k volbám. Informace se mohou měnit. Strany a kandidáti jsou povinni podat registraci příslušnému úřadu v termínu 66 dní před začátkem voleb. O registraci je rozhodnuto během 3 týdnů. Jakmile příslušné údaje získá Český statistický úřad, jsou dostupné i zde.</p>
-																<p><em>Programy do voleb</em> do registrace uvádí předběžné informace, které vychází z médií, tiskových zpráv, sociálních sítí či ohlášení od stran nebo samotných kandidátů. Snahou je již před samotnou registrací přinést přehled o možných kandidátech a stranách. Některé strany v průběhu předvolebního jednání mohou uzavřít koalici, někteří kandidáti odstoupit nebo se nakonec na finální kandidátní listinu nedostanou.</p>
-															</div>
-														</template>
-													</p-modal>
-												</p-stats>
 												<template v-if="current.JMENO">
 													<p-stats label="Celé jméno" class="_horizontal">
 														<div>
@@ -47,16 +35,33 @@
 															<!-- </p-list-linear>															 -->
 														</div>
 													</p-stats>
+													<p-stats label="Povolání" class="_horizontal" v-if="current.MANDAT && !current.POVOLANI">
+														&#9617;&#9617;&#9617;&#9617;&#9617;
+													</p-stats>
 													<p-stats label="Bydliště" class="_horizontal" v-if="current.BYDLISTEN">
 														{{ current.BYDLISTEN }}
 														<span v-if="current.BYDLISTEK" class="dimm">
 															&middot; <p-link :href="'https://programydovoleb.cz/obec/' + (current.BYDLISTEK > 100 ? current.BYDLISTEK : data.cis.obce.find(x => x.QUICKNUM === current.BYDLISTEK).NUM)" class="smallest dimm">historie voleb</p-link>
 														</span>
 													</p-stats>
-													<p-stats label="Bio" class="_horizontal" v-if="current.VEK || (current.$data.mfo && current.$data.mfo.length > 0)">
+													<p-stats label="Bydliště" class="_horizontal" v-if="current.MANDAT && !current.BYDLISTEN">
+														&#9617;&#9617;&#9617;&#9617;&#9617;
+													</p-stats>
+													<p-stats label="Bio" class="_horizontal" v-if="current.MANDAT || current.VEK || (current.$data.mfo && current.$data.mfo.length > 0)">
 														<p-list-linear class="or">
-															<li v-if="current.$data.mfo && current.$data.mfo[0]">{{ ['neuvedeno', 'muž', 'žena', 'jinak', 'nechci uvést'][current.$data.mfo[0].value] }}</li>
 															<li v-if="current.VEK">{{ current.VEK }} let</li>
+															<li v-if="current.MANDAT && !current.VEK">&#9617;&#9617; let</li>
+															<li v-if="current.$data.mfo && current.$data.mfo[0]">{{ ['neuvedeno', 'muž', 'žena', 'jinak', 'nechci uvést'][current.$data.mfo[0].value] }}</li>
+															<li v-else>{{ isWoman(current) ? 'žena' : 'muž' }}
+																<p-popup>
+																	<template #init>
+																		<p-icon icon="hint"></p-icon>
+																	</template>
+																	<template #content>
+																		<div class="smaller">Informace o pohlaví ČSÚ nezveřejňuje, takže je odhadováno na základě podoby jména. Kandidáti mohou informaci ručně nastavit.</div>																		
+																	</template>
+																</p-popup>	
+															</li>
 														</p-list-linear>
 													</p-stats>
 												</template>
@@ -127,8 +132,18 @@
 										Základní údaje poskytuje Český statistický úřad ve formě otevřených dat &middot;
 										<p-link href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu" class="dimm">licence</p-link>
 									</div>
-									<div v-else class="tiny">
-										Uvedené údaje jsou předběžné a mohou se v průběhu času měnit či doplňovat.
+									<div v-else class="smallest">
+										<p-modal class="inline">
+											<template #init><button class="inline red strong">Uvedené údaje jsou  předběžné</button></template>
+											<template #content>
+												<div class="reset">
+													<p>Ještě nedošlo k registraci k volbám. Informace se mohou měnit. Strany a kandidáti jsou povinni podat registraci příslušnému úřadu v termínu 66 dní před začátkem voleb. O registraci je rozhodnuto během 3 týdnů. Jakmile příslušné údaje získá Český statistický úřad, jsou dostupné i zde.</p>
+													<p><em>Programy do voleb</em> do registrace uvádí předběžné informace, které vychází z médií, tiskových zpráv, sociálních sítí či ohlášení od stran nebo samotných kandidátů. Snahou je již před samotnou registrací přinést přehled o možných kandidátech a stranách. Některé strany v průběhu předvolebního jednání mohou uzavřít koalici, někteří kandidáti odstoupit nebo se nakonec na finální kandidátní listinu nedostanou.</p>
+												</div>
+											</template>
+										</p-modal>
+
+										a mohou se v průběhu času výrazně měnit nebo z kandidatury sejde. Berte je jako orientační.
 									</div>
 								</p-area>
 							</p-block>
@@ -230,7 +245,7 @@
 										</div>
 									</template>
 								</div>		
-								<div class="mt1" v-if="false && $volby.editace === 1">
+								<div class="mt1" v-if="true && $volby.editace === 1">
 									<div class="smallest _edit">
 										<p-icon icon="edit"></p-icon>
 										&nbsp;
@@ -263,7 +278,7 @@
 											</template>
 										</p-area>
 									</template>
-									<div v-if="false && $volby.editace === 1 && table === 'csu_ps_rkl'" class="smallest _edit">
+									<div v-if="true && $volby.editace === 1 && table === 'csu_ps_rkl'" class="smallest _edit">
 										<p-icon icon="edit"></p-icon>
 										&nbsp;
 										<p-popup preClass="green strong"><template #init>Upravit lídra</template><template #content><editable-suggest placeholder="Odkaz na oznámení o lídrovi" type="leader" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup>
@@ -271,7 +286,7 @@
 										<p-popup preClass="green strong"><template #init>vládní kandidáty</template><template #content><editable-suggest placeholder="Odkaz na vládního kandidáta" type="govrole" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup>
 									</div>
 									<div class="_mb-1"></div>
-									<div v-if="false && $volby.editace === 1" class="smallest _edit">
+									<div v-if="true && $volby.editace === 1" class="smallest _edit">
 										<p-icon icon="edit"></p-icon>
 										&nbsp;
 										<template v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">
@@ -356,7 +371,7 @@
 									</p-columns>
 
 								</template>
-								<div v-if="false && $volby.editace === 1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Doplnit garanty</template><template #content><editable-suggest placeholder="Odkaz na garanta" type="garant" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup>
@@ -691,7 +706,7 @@
 										</div>
 									</template>
 								</p-list>
-								<div v-if="false && $volby.editace === 1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Navrhnout volební web</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="web" ></editable-basic></template></p-popup>
@@ -717,7 +732,7 @@
 										</p-box-group>										
 									</div>
 								</p-list>
-								<div v-if="false && $volby.editace === 1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Navrhnout e-mail</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="email"  showSource="1" showLabel="1"></editable-basic></template></p-popup>
@@ -755,7 +770,7 @@
 										</div>
 									</div>
 								</template>
-								<div v-if="false && $volby.editace === 1 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Přidat podporu od strany/hnutí</template><template #content><editable-suggest placeholder="Odkaz, kde strana vyjadřuje podporu" type="support" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup>
@@ -780,7 +795,7 @@
 								<div class="smallest mv1" v-if="(current.$data.video || []).length > 0">
 									<p-label color="var(--red)" class="strong red">Cookies:</p-label> videa jsou vkládána ze zdrojů třetích stran, jako je Youtube nebo Facebook. Při načtení mohou využívat soubory cookies.
 								</div>
-								<div v-if="false && $volby.editace === 1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Zaslat odkaz na volební video</template><template #content><editable-suggest placeholder="Odkaz, např na youtube, facebook..." type="video" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup>
@@ -828,7 +843,7 @@
 										</p-list>
 									</p-collapsible>
 								</template>
-								<div v-if="false && $volby.editace === 1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Doplnit článek</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Článek" showSource="1"></editable-basic></template></p-popup>
@@ -886,7 +901,7 @@
 										</p-area>
 									</div>
 								</p-grid>
-								<div v-if="false && $volby.editace === 1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Nahrát leták, plakát nebo billboard</template><template #content><editable-image type="graphics" :pointer="table + ':' + tableID" :elections="$volby.id"></editable-image></template></p-popup>
@@ -931,7 +946,7 @@
 										</p-area>
 									</div>
 								</p-grid>
-								<div v-if="false && $volby.editace === 1 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Přidat dokument, smlouvu nebo memorandum</template><template #content><editable-suggest placeholder="Odkaz na dokument" type="document" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template></p-popup>
@@ -947,7 +962,7 @@
 										<button @click="eventsOff = !eventsOff">{{ eventsOff ? 'Zobrazit méně' : 'Zobrazit vše' }}</button>
 									</div>
 								</p-list>
-								<div v-if="false && $volby.editace === 1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="$volby.id"></editable-event></template></p-popup>
@@ -965,7 +980,7 @@
 										<div class="smallest dimm">Vloženo {{ date(item.updated)}}<template v-if="item.source">, zdroj <p-link :href="item.source" class="dimm">{{ domain(item.source) }}</p-link></template></div>
 									</div>
 								</p-list>
-								<div v-if="false && $volby.editace === 1" class="smallest _edit">
+								<div v-if="true && $volby.editace === 1" class="smallest _edit">
 									<p-icon icon="edit"></p-icon>
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Přidat poznámku</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="note" showSource="1" showLabel="1"></editable-basic></template></p-popup>
@@ -1116,7 +1131,7 @@
 									</div>
 								</p-area>
 							</p-block>
-							<p-block headline="Více o straně či hnutí" v-if="current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
+							<p-block headline="Více o straně či hnutí" v-if="current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition && current.VSTRANA != 90">
 								<party-quicklook :VSTRANA="current.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
 							</p-block>
 							<p-block headline="Zmíněné strany a hnutí" v-if="current.PRIJMENI && !current.VSTRANA" anchor="Detaily">
@@ -1212,7 +1227,7 @@
 											</p-area>
 											<p-area background="var(--blue11)" borderColor="var(--blue)">
 												<div class="mb05"><strong class="blue">Pro strany a kandidáty</strong></div>
-												<p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin" :open="$volby.status === 1">
+												<p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin">
 													<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
 	
 													<div class="strong smaller">
@@ -1259,7 +1274,7 @@
 						</div>
 					</div>
 				</p-loader>
-				<!-- <p-block headline="Data" :hide="true" class="mt3" v-if="$volby && false && $volby.editace === 1">
+				<!-- <p-block headline="Data" :hide="true" class="mt3" v-if="$volby && true && $volby.editace === 1">
 					<p-grid>
 						<div>
 							<p-area icon="link">
@@ -1329,7 +1344,7 @@
 								<event-item :item="event" :party="current" :data="data" bod="1" short="1" class="aside" noTag="1"></event-item>
 							</div>
 						</template>
-						<div v-if="data && false && $volby.editace === 1">
+						<div v-if="data && true && $volby.editace === 1">
 							<div class="smallest _edit">
 								<p-icon icon="edit"></p-icon>
 								&nbsp;

@@ -196,36 +196,45 @@
 							</p-box>
 						</template>
 				</template>
-				<template v-if="$volby.editace === 1">
-					<p-modal>
-						<template #init>
-							<p-box>
-								<p-box-button icon="warning">Kandidujete?</p-box-button>
-							</p-box>
-						</template>
-						<template #content>
-							<strong>Pro všechny strany a kandidáty</strong>
-							<p-list class="smaller _05 pt2">
-								<div>
-									Každá strana i kandidát může využít <strong>Admin</strong> pro správu svého profilu. <p-link href="https://admin.programydovoleb.cz" class="strong">Získejte přístup</p-link>
-								</div>
-								<div>
-									Všichni mohou vyplnit bohatý profil: představení, fotku, priority, hodnoty, zmínky v médiích, volební materiály, události...
-								</div>
-								<div>
-									Strany i kandidáti mohou odpovídat na otázky do kalkulačky. Spuštění je naplánováno na 16. září. <router-link to="/novinky/7684">Více informací</router-link>
-								</div>
-								<div>
-									Kandidáti mohou odpovědět na čtyři otázky a lépe tak představit sebe a svůj pohled. <router-link to="/novinky/6343">Více informací</router-link>
-								</div>
-								<div>
-									Všechny úpravy lze dělat až <strong>do středy 1. října</strong>.
-								</div>
-							</p-list>
-						</template>
-					</p-modal>
-				</template>
 			</p-box-group>
+			<template v-if="$volby.editace === 1">
+				<div class="p-line _05"></div>
+				<div class="smallest dimm">
+					<div class="p-offset reverse">
+						<div>
+							<p-list-linear class="or">
+								<li>
+									<p-icon icon="admin"></p-icon>
+								</li>
+								<li>
+									<router-link to="/pro-kandidaty">informace pro kandidáty</router-link>
+								</li>
+								<li>
+									<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + current.id + '?source=https://programydovoleb.cz' + $route.path">chci upravovat informace</p-link>
+								</li>
+							</p-list-linear>
+						</div>
+						<div>
+							<p-popup class="down">
+								<template #init>
+									<button class="inline red">chyba</button>
+								</template>
+								<template #content>
+									<report-form noLink="1"></report-form>
+								</template>
+							</p-popup>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template v-if="$volby.status === 1">
+				<div class="p-line _05"></div>
+				<div class="smallest">
+					<p-icon icon="warning"></p-icon>
+					&middot;
+					Oficiální registrace ještě neproběhla
+				</div>
+			</template>
 		</div>
 	</div>
 </div>

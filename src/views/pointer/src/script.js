@@ -3,7 +3,7 @@ import { useCore, cdn, today } from '@/stores/core';
 import { useRoute } from 'vue-router';
 import { useEnums } from '@/stores/enums';
 import types from '@/stores/enums/log';
-import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, unique, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, unique, sortBy, isWoman} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsBlock from '@/components/news-block/do.vue'
@@ -421,6 +421,7 @@ export default {
 		sortEvents,
 		unique,
 		sortBy,
+		isWoman,
 		checkDuplicates: function (list) {
 			var arr = [];
 
