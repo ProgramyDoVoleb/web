@@ -58,9 +58,9 @@
 				
 					<p-loader :rule="elections">
 						<div v-if="elections" class="mt-2">
-							<div v-for="(election, index) in sortBy(sortBy(elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum > '2024-07-01')), 'typ', null, true), 'datum', null, true)">
+							<div v-for="(election, index) in sortBy(sortBy(elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum && x.datum > '2024-07-01')), 'typ', null, true), 'datum', '2099-12-31', true)">
 								<p-block class="_nmb" :hide="true" :headline="election_types.find(x => x.key === election.typ).name">
-									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.radne === 1 && width > 640" :skip="election.id === 166">
+									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.datum && election.radne === 1 && width > 640" :skip="election.id === 166">
 										<!-- <p-area :class="election.typ === 'EP' ? '_ep' : null" class="p-area---has-background"> -->
 											<div v-if="election.$dotcene && election.typ === 'KV'">
 												<p class="smaller">Týká se obcí 

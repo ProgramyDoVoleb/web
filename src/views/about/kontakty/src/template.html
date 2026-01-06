@@ -47,11 +47,14 @@
 								<p-icon :src="cdn + '/icon/' + item.icon + '.svg'" size="4em"></p-icon>
 							</div>
 							<p-link class="strong" :href="item.link">{{ item.label }}</p-link>
-							<div class="smallest" :class="{red: item.sub}">{{ item.count || item.sub }}</div>
+							<div class="smallest" :class="{red: item.sub}">
+								{{ item.count[0] }}
+								<sup class="green small">+{{ item.count[0] - item.count[1] }}</sup>
+							</div>
 						</p-area>
 					</div>
 				</p-grid>
-				<p class="dimm smallest">Údaje o sledovanosti k 30. prosinci 2024</p>
+				<p class="dimm smallest">Údaje o sledovanosti k 31. prosinci 2025 a změna za poslední rok</p>
 			</p-block>
 			<p-block headline="Přímé zprávy">
 				<p-grid>
