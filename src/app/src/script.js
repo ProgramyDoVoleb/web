@@ -37,6 +37,8 @@ export default {
       }
     },
     mounted: function () {
+      window.scrollTo(0,1);
+      
 			if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 				this.core.change(true);
 			}

@@ -629,7 +629,7 @@
 																<component :is="OBVOD > 0 ? 'p-collapsible' : 'div'" :label="OBVOD > 0 ? 'Obvod ' + OBVOD : null">
 																	<div>
 																		<p-list>
-																			<template v-for="(cand, index3) in sortByPorCislo(current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).filter(x => OBVOD > 0 ? x.COBVODU === OBVOD : true))">
+																			<template v-for="(cand, index3) in sortByPorCislo(sortBy(current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).filter(x => OBVOD > 0 ? x.COBVODU === OBVOD : true), 'PRIJMENI', null, true))">
 																				<template v-if="(index3 < limit) || limitOff || (cand.MANDAT && cand.MANDAT === 'A')">
 																					<component :is="index3 < 3 ? 'person-preview-block' : 'person-preview-linear'" :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id"></component>
 																				</template>
