@@ -22,9 +22,18 @@ export default {
 				{hash: 768, value: 80},
 				{hash: 1327, value: 52},
 				{hash: 166, value: 22},
-				{hash: 1114, value: 15},
-				{hash: 720, value: 18},
-				{hash: 1178, value: 13}
+				// {hash: 1114, value: 15},
+				{hash: 1114, value: 10},
+				// {hash: 720, value: 18},
+				{hash: 720, value: 16},
+				{hash: 5, value: 2},
+				{hash: 1178, value: 13},
+				{hash: 53, value: 27},
+				{hash: 1, value: 16},
+				{hash: 721, value: 9},
+				{hash: 1227, value: 2},
+				{hash: 714, value: 2},
+				{hash: 1265, value: 1}
 			],
 			selected: [],
 			chartOptions: {
