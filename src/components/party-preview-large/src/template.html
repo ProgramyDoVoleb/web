@@ -10,9 +10,10 @@
 								<div class="_g2"></div>
 								koalice 
 								<p-list-linear>
-									<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
-										<li>{{ coal.ZKRATKA }}</li>
+									<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.filter(x => x.VSTRANA != 80)">
+										<li><em>{{ coal.ZKRATKA }}</em></li>
 									</template>
+									<li v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80)">nezávislých kandidátů</li>
 								</p-list-linear>
 							</div>
 							<div v-if="candidates.length === 0" class="dimm smallest">				
@@ -28,9 +29,10 @@
 					</template>
 					<div v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET > 1" class="_ba2">
 						<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET > 1">
-							<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+							<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.filter(x => x.VSTRANA != 80)">
 								<img loading="lazy" :src="logoByItem(coal, elections)" :alt="'logo ' + coal.NAZEV" class="_logo" :style="{'z-index': 10 - indexC}">
 							</template>
+							<!-- <img loading="lazy" :src="logoByItem({VSTRANA: 80}, elections)" class="_logo" :style="{'z-index': 0}" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80)"> -->
 						</div>
 						<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET === 1">
 							<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV + ' chybí'" class="_logo">
