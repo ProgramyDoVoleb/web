@@ -322,9 +322,11 @@ export default {
 		if (this.size) {
 			this.resizeMap('_map-' + this.size, true);
 		} else {
-			this.resizeMap('_map-' + (this.$el.getBoundingClientRect().width > 800 ? 'max' : 'mid'), true);
+			this.resizeMap('_map-' + (this.$el.getBoundingClientRect().width > 800 ? 'mid' : 'none'), true);
 		}
 		
 		window.addEventListener('resize', () => this.resize());
+
+		this.$emit('resize');
 	}
 };

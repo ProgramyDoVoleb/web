@@ -25,19 +25,19 @@
 
 				<p-block headline="Výhled" :hide="true" class="pb0 mb3">
 					<p>
-						<strong>9. a 10. října 2026</strong> proběhnou komunální volby ve všech obcích, souběžně s nimi i první kolo senátních voleb. Oficiální přehledy stran a kandidátů sice budou až koncem srpna, ale už dnes lze na <em>Programy</em> přidávat strany a kandidáty ve všech obcích a obvodech.
+						<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="strong">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="strong">senátních voleb</router-link>. Oficiální přehledy stran a kandidátů sice budou až koncem srpna, ale už dnes lze na <em>Programy</em> přidávat strany a kandidáty ve všech obcích a obvodech.
 					</p>
 				</p-block>	
 				
-				<p-block headline="Pro kandidáty" :hide="true" class="mt-1">
-					<p-area icon2="admin" class="primary">
-						<h3 class="serif mv0 mr3">Kandidujete?</h3>
-						<p>Ať jste registrovanou stranou nebo místním sdružením, obhajujete nebo jdete do voleb poprvé, můžete své údaje na <em>Programech</em> přidávat nebo upravovat <strong>už dnes</strong> přímo v aplikaci pro kandidáty – <strong>v Adminu</strong>.</p> 
+				<p-block headline="Pro kandidáty" :hide="true" class="mt-2">
+					<!-- <p-area class="highlight shadow inline" borderColor="var(--green)"> -->
+						<!-- <h3 class="serif mv0 mr3">Kandidujete?</h3> -->
+						<!-- <p>Ať jste registrovanou stranou nebo místním sdružením, obhajujete nebo jdete do voleb poprvé, můžete své údaje na <em>Programech</em> přidávat nebo upravovat <strong>už dnes</strong> přímo v aplikaci pro kandidáty – <strong>v Adminu</strong>.</p>  -->
 						<p-box-group>
 							<p-popup>
 								<template #init>
 									<p-box>
-										<p-box-button class="green">Přidat stranu nebo kandidáta</p-box-button>
+										<p-box-button class="green" icon="plus-green">Přidat stranu nebo kandidáta</p-box-button>
 									</p-box>
 								</template>
 								<template #content>
@@ -47,17 +47,19 @@
 								</template>
 							</p-popup>	
 							<p-box href="https://admin.programydovoleb.cz/seznam">
-								<p-box-button class="primary">Získat přístup</p-box-button>
+								<p-box-button class="primary" icon="admin">Získat přístup</p-box-button>
 							</p-box>						
 							<p-box to="/pro-kandidaty">
-								<p-box-label>Info pro kandidáty &rarr;</p-box-label>
+								<p-box-label>Pro kandidáty &rarr;</p-box-label>
 							</p-box>
 						</p-box-group>
-					</p-area>
+					<!-- </p-area> -->
 				</p-block>
 				
+				<div class="p-line mt-2"></div>
+				
 					<p-loader :rule="elections">
-						<div v-if="elections" class="mt-2">
+						<div v-if="elections" class="mt-1">
 							<div v-for="(election, index) in sortBy(sortBy(elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum && x.datum > '2024-07-01')), 'typ', null, true), 'datum', '2099-12-31', true)">
 								<p-block class="_nmb" :hide="true" :headline="election_types.find(x => x.key === election.typ).name">
 									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.datum && election.radne === 1 && width > 640" :skip="election.id === 166">
@@ -85,6 +87,18 @@
 											</div>
 											<div v-if="election.typ === 'PS'">
 												<homepage-ps :elections="election" :answers="news ? news.answers : null"></homepage-ps>
+											</div>
+											<div v-if="election.typ === 'PREZ'">
+												<p-grid>
+													<div v-for="cand in election.$kandidati">
+														<p-area class="highlight shadow">
+															<router-link :to="'/volby/prezidentske-volby/' + cand.volby + '/kandidat/' + cand.id" class="strong">
+																{{ cand.JMENO }} {{ cand.PRIJMENI }}
+															</router-link>
+															<div class="smallest dimm">{{ cand.POVOLANI}}</div>
+														</p-area>
+													</div>
+												</p-grid>
 											</div>
 										<!-- </p-area> -->
 										<div class="p-gap_075"></div>

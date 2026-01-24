@@ -73,6 +73,9 @@
 	</p>
 	<div class="p-gap"></div> -->
 	<h2 class="serif">Obvody přehledně</h2>
+	<div v-if="data.list[0].status == 1" class="mv1">
+		<p-area borderColor="var(--red)" class="strong smallest red inline">Předběžné informace</p-area>
+	</div>
 	<div class="smallest" v-if="data.list[0].status < 3">
 		<p-label color="var(--blue)">Zveřejněný program</p-label>
 		<br>

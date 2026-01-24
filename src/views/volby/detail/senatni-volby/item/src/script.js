@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, gradient, color, pct, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, con, gradient, color, pct, sortBy, logoByItem, colorByItem} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
@@ -50,7 +50,8 @@ export default {
 		truncate,
 		pct,
 		sortBy,
-		colorByItem: function (item, data) {
+		colorByItem,
+		colorByItem2: function (item, data) {
 
 			var key = (data, this.data).list[0].status === 1 ? 'NSTRANA' : 'VSTRANA';
 
@@ -73,7 +74,8 @@ export default {
 
 			return res || '#aaa';
 		},
-		logoByItem: function (item, data) {
+		logoByItem,
+		logoByItem2: function (item, data) {
 
 			var res = con(item.$data, 'logo');
 			var s = (data || this.data).cis.strany.find(x => x.VSTRANA === item.VSTRANA);
@@ -112,7 +114,7 @@ export default {
 		parties: function (list) {
 
 			var res = [];
-			var key = this.data.list[0].status === 1 ? 'NSTRANA' : 'VSTRANA';
+			// var key = this.data.list[0].status === 1 ? 'PSTRANA' : 'VSTRANA';
 
 			list.forEach(item => {
 
@@ -121,11 +123,11 @@ export default {
 					label: item.JMENO + ' ' + item.PRIJMENI,
 					short: item.PRIJMENI,
 					initials: (item.JMENO + ' ' + item.PRIJMENI).split('-').join(' ').split(' ').map(x => x.substring(0, 1)).join(''),
-					party: item[key] ? this.data.cis.strany.find(x => x.VSTRANA === item[key]).NAZEV : null,
+					// party: item[key] ? this.data.cis.strany.find(x => x.VSTRANA === item[key]).NAZEV : null,
 					link: '/volby/senatni-volby/' + item.volby + '/kandidat/' + item.id,
-					color: this.colorByItem(item),
-					logo: this.logoByItem(item),
-					photo: this.photoByItem(item),
+					color: this.colorByItem(item, this.data, 'PSTRANA,NSTRANA'),
+					logo: this.logoByItem(item, this.data, 'PSTRANA,NSTRANA', true),
+					photo: this.photoByItem(item, this.data, 'PSTRANA,NSTRANA'),
 					round1: {
 						pct: item.PROC_K1,
 						votes: item.HLASY_K1,
@@ -145,6 +147,27 @@ export default {
 					hasProgram: item.$data.program && item.$data.program.length > 0,
 				}
 
+				if (this.data.list[0].status === 1) {
+					var info = [];
+
+					if (item.NSTRANA === item.PSTRANA && item.PSTRANA != 99) {
+						info.push('nominace a členství ' +  this.data.cis.strany.find(x => x.VSTRANA === item.NSTRANA).ZKRATKA);
+					} else {
+						if ((!item.NSTRANA || item.NSTRANA == 99) && item.PSTRANA) info.push('nominace neuvedena');
+						if (item.NSTRANA && item.NSTRANA != 99) info.push('nominace ' + this.data.cis.strany.find(x => x.VSTRANA === item.NSTRANA).ZKRATKA);
+						if (item.PSTRANA && item.PSTRANA != 99) info.push('členství ' + this.data.cis.strany.find(x => x.VSTRANA === item.PSTRANA).ZKRATKA);
+						if (item.PSTRANA && item.PSTRANA == 99) info.push('nestraník');
+						if (!item.PSTRANA && item.NSTRANA) info.push('členství neuvedeno');
+						if ((!item.NSTRANA || item.NSTRANA == 99) && (!item.PSTRANA)) info.push('údaje o nominaci a členství chybí')
+					}
+
+					o.party = info.join(', '); // this.data.cis.strany.find(x => x.VSTRANA === item.PSTRANA).NAZEV;
+				} else if (item.NAZEV_VS) {
+					o.party = item.NAZEV_VS
+				} else if (item.VSTRANA) {
+					o.party = this.data.cis.strany.find(x => x.VSTRANA === item.VSTRANA).ZKRATKA;
+				}
+
 				var p = this.data.cis.strany.find(x => x.VSTRANA === item.VSTRANA);
 
 				if (p && p.$coalition) {
@@ -152,8 +175,8 @@ export default {
 
 					p.$coalition.forEach(x => {
 						var m = {
-							logo: this.logoByItem(x),
-							color: this.colorByItem(x),
+							logo: this.logoByItem(x, this.data, 'PSTRANA,NSTRANA', true),
+							color: this.colorByItem(x, this.data, 'PSTRANA,NSTRANA'),
 							short: x.ZKRATKA,
 							VSTRANA: x.VSTRANA
 						}

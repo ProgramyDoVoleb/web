@@ -37,7 +37,7 @@
 							</div>
 							<component :is="hasSecondRound ? 'p-collapsible' : 'div'" :label="'1. kolo, kandidátů: ' + current.$kandidati.length">
 								<strong v-if="current.status === 3">1. kolo</strong><span v-if="current.status === 3">, účast {{ current.$ucast[0].UCAST }} %</span>
-								<template v-for="(party, index) in sortByVotes(current.$kandidati).filter((x,i) => i < (current.status === 3 ? 3 : 99))">
+								<template v-for="(party, index) in sortByVotes(current.$kandidati).filter((x,i) => i < (current.status === 3 && !current.$kandidati.find(x => x.HLASY_K2) ? 3 : 99))">
 									<div :class="{passed: party.passed}" class="_space graph-line-space" :style="{background: (current.$zvoleni && current.$zvoleni.find(x => x.id === party.id) ? 'var(--green11)' : (party.passed ? 'var(--blue11)' : null))}">
 										<div class="p-offset reverse _nl" :class="{'_pt': index > 0 || current.status === 3}">
 											<div>

@@ -502,9 +502,11 @@ export function logoByItem (item, data, _key, _canBeNull) {
           res = con(s.$data, 'logo');
       }
 
-      if (!res && !_canBeNull) {
+      // console.log(item, res, data, _key, keys, key, _canBeNull);
+
+      if ((!res || res.includes('missing.png')) && (keys.length > 1 || !_canBeNull)) {
           if ((_key || 'VSTRANA').split(',').length > 1) {
-              res = logoByItem(item, data, keys.splice(1,5));
+              res = logoByItem(item, data, keys.splice(1,5), _canBeNull);
           } else {
               res = cdn + 'empty.png';
           }
@@ -512,6 +514,8 @@ export function logoByItem (item, data, _key, _canBeNull) {
   } else {
       res = cdn + 'empty.png';   
   }
+
+  // console.log(res);
 
   return res;
 }
