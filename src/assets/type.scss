@@ -14,12 +14,20 @@ html, body, .sans {
 }
 
 p {
-  font-size: .85em;;
+  // font-size: .85em;
   line-height: 1.7;
   max-width: 70em;
 
   &.lead {
     font-size: 1em;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 

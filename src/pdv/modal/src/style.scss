@@ -81,3 +81,14 @@
 .modal-span {
   display: inline-block;
 }
+
+.extended {
+  // padding: 0;
+
+  .modal-content {
+    width: calc(100vw - 3em);
+    height: calc(100vh - 3em);
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+}

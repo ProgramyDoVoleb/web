@@ -379,13 +379,13 @@
 							</p-block> -->
 							
 							<p-block headline="Volební priority" v-if="current.$priority.length > 0">
-								<p-list class="_05 smaller">
+								<p-list class="_05">
 									<div v-for="(priority, indexP) in current.$priority">
 										<p-label class="_block _mw2" :color="colorByItem(current, data, current.PSTRANA && current.PSTRANA != 99 ? 'PSTRANA' : (current.NSTRANA ? 'NSTRANA' : null))">
 											<strong v-if="priority.headline">{{ truncate(priority.headline, 8) }}</strong>
 											<span v-if="priority.headline && priority.content && priority.content.charAt(0) != '['"> &middot; </span>
 											<span v-if="priority.content && priority.content.charAt(0) != '['">
-												<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="12" :compact="$link + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
+												<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="current.$priority.length === 1 ? 120 : 12" :compact="$link + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
 											</span>
 										</p-label>
 									</div>								
@@ -971,13 +971,15 @@
 							<p-block headline="Poznámky" :class="{'_empty': !current.$data.note}" :hide="!current.$data.note">
 								<p-list height="1">
 									<div v-for="(item, index) in (current.$data.note || [])">
-										<div class="serif">
-											{{ item.value }}
-											<div class="smaller mt1" v-if="item.label" v-html="item.label"></div>
-										</div>
-										<div class="p-gap_05"></div>
-										<!-- <div class="smallest dimm">Vloženo {{ date(item.updated)}}</div> -->
-										<div class="smallest dimm">Vloženo {{ date(item.updated)}}<template v-if="item.source">, zdroj <p-link :href="item.source" class="dimm">{{ domain(item.source) }}</p-link></template></div>
+										<p-label :color="colorByItem(current, data)" class="block">
+											<div class="serif">											
+												{{ item.value }}
+												<div class="mt025" v-if="item.label" v-html="item.label"></div>											
+											</div>
+											<div class="p-gap_05"></div>
+											<!-- <div class="smallest dimm">Vloženo {{ date(item.updated)}}</div> -->
+											<div class="smallest dimm">Vloženo {{ date(item.updated)}}<template v-if="item.source">, zdroj <p-link :href="item.source" class="dimm">{{ domain(item.source) }}</p-link></template></div>
+										</p-label>
 									</div>
 								</p-list>
 								<div v-if="true && $volby.editace === 1" class="smallest _edit">

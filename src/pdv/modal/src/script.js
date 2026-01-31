@@ -1,6 +1,6 @@
 export default {
 	name: 'modal-element',
-	props: ['inline', 'aria'],
+	props: ['inline', 'extended', 'aria'],
 	data: function () {
 		return {
 			opened: false

@@ -33,7 +33,7 @@ export default {
     },
     methods: {
       setHeight: function () {
-        this.headerHeight = document.querySelector('header').getBoundingClientRect().height + 8;
+        this.headerHeight = Math.floor(document.querySelector('header').getBoundingClientRect().height + 8);
       }
     },
     mounted: function () {

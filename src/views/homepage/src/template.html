@@ -1,5 +1,5 @@
 <div class="layout-homepage">
-	<hero-map @resize="() => $nextTick(() => $refs.page.scroll())"></hero-map>
+	
 	<p-layout-divided ref="page">
 		<template #main>
 			<p-block headline="Volby" :level="1" :hide="true">
@@ -19,8 +19,25 @@
 					<div class="p-gap"></div>
 				</template>
 
-				<p-block headline="Hledat obec" v-if="width < 1024" :hide="true" class="pb0">
-					<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
+				<p-block headline="Hledat obec" :hide="true" class="pb0">
+					<div class="_searchMap">
+						<div>
+							<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
+						</div>
+						<div class="_searchMap_modal">
+							<p-modal :extended="1">
+								<template #init>
+									<p-box>
+										<p-box-button icon="map">Mapa</p-box-button>
+									</p-box>
+								</template>
+								<template #content>
+									<hero-map @resize="() => $nextTick(() => $refs.page.scroll())" size="max"></hero-map>
+								</template>
+							</p-modal>
+						</div>
+					</div>
+					
 				</p-block>
 
 				<p-block headline="Výhled" :hide="true" class="pb0 mb3">
@@ -29,7 +46,7 @@
 					</p>
 				</p-block>	
 				
-				<p-block headline="Pro kandidáty" :hide="true" class="mt-2">
+				<p-block headline="Pro kandidáty" :hide="true" class="mt-2 pb0">
 					<!-- <p-area class="highlight shadow inline" borderColor="var(--green)"> -->
 						<!-- <h3 class="serif mv0 mr3">Kandidujete?</h3> -->
 						<!-- <p>Ať jste registrovanou stranou nebo místním sdružením, obhajujete nebo jdete do voleb poprvé, můžete své údaje na <em>Programech</em> přidávat nebo upravovat <strong>už dnes</strong> přímo v aplikaci pro kandidáty – <strong>v Adminu</strong>.</p>  -->
@@ -55,8 +72,12 @@
 						</p-box-group>
 					<!-- </p-area> -->
 				</p-block>
+
+				<p-area class="inline mv1 smaller" icon="hint">
+					<p class="mv0 smallest">Všechny údaje k nadcházejícím volbám jsou ručně zadávané, kontrolované a vyžadují zdroj. Tím mohou být články v médiích nebo statusy na sociálních sítích. Údaje mohou přímo zadávat kandidáti či strany, pak jsou oni sami zdrojem informace a zárukou pravdivosti a důvěryhodnosti. Projekt záměrně nepoužívá AI ani ji neposkytuje data.</p>					
+				</p-area>
 				
-				<div class="p-line mt-2"></div>
+				<div class="p-line"></div>
 				
 					<p-loader :rule="elections">
 						<div v-if="elections" class="mt-1">
@@ -540,7 +561,7 @@
 			</p-block>
 		</template>
 		<template #anchors>
-			<!-- <p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo> -->
+			<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'"></p-logo>
 			<div class="p-gap"></div>
 			<p-anchors></p-anchors>
 		</template>

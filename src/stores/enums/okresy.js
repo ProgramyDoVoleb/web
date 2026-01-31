@@ -50,6 +50,7 @@ export default [
   {id: 3205, name: "Plzeň-sever"},
   {id: 1100, name: "Praha"},
   {id: 2109, name: "Praha-východ"},
+  {id: 2110, name: "Praha-západ"},
   {id: 3105, name: "Prachatice"},
   {id: 7103, name: "Prostějov"},
   {id: 7104, name: "Přerov"},

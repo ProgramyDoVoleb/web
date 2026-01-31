@@ -1,4 +1,4 @@
-import ReportForm from '@/components/report-form/do.vue';
+	import ReportForm from '@/components/report-form/do.vue';
 import { useCore } from '@/stores/core';
 
 export default {
@@ -86,8 +86,11 @@ export default {
 		window.addEventListener("scroll", () => this.scroll());
 		window.addEventListener("resize", () => this.resize());
 
-		this.resize();
-		this.scroll();
+		this.$nextTick(() => {
+			this.resize();
+		});
+		
+		// this.scroll();
 
 		// setInterval(() => this.resize(), 1000);
 	}
