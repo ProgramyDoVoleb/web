@@ -23,7 +23,7 @@
 						</div>
 					</p-loader>
 				</p-block>
-				<p-block headline="Sběr dat">
+				<!-- <p-block headline="Sběr dat">
 					<p-area>
 						<div id="chart" v-if="series.length > 0">
 							<vue-apex-charts type="rangeBar" :height="chartOptions.chart.height" :options="chartOptions" :series="getSeries()"></vue-apex-charts>
@@ -37,13 +37,9 @@
 							<p-area>
 								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 1)"></poll-of-polls>
 							</p-area>
-							<h3 class="serif">Vážený průměr pro sněmovní volby 2025</h3>
-							<p-area>
-								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 166)" :remap="[[47,1298]]"></poll-of-polls>
-							</p-area>
 						</div>
 					</p-loader>
-				</p-block-expandable>
+				</p-block-expandable> -->
 			</p-block>
 			<p-block headline="Od roku 2017" :level="1">
 				<p-area class="inline smallest">
@@ -54,7 +50,7 @@
 					</p-list-linear>
 				</p-area>	
 				<div class="p-gap"></div>					
-				<template v-for="(year, index) in [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017]">
+				<template v-for="(year, index) in [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017]">
 					<p-block-expandable :headline="'Rok ' + year">
 							<p-loader :rule="polls">
 								<div v-if="polls">

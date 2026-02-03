@@ -104,7 +104,7 @@ export default {
 			return this.$store.getters.pdv('elections/fetch/161');
 		},
 		polls: function () {
-			var p = this.$store.getters.pdv('polls/last-6');
+			var p = this.$store.getters.pdv('polls/last-8');
 
 			if (!p) return null;
 
@@ -164,6 +164,7 @@ export default {
 		this.width = this.$el.getBoundingClientRect().width;
 		window.addEventListener('resize', () => this.width = this.$el.getBoundingClientRect().width);
 		this.enableNewsLoad = true;
+		window.scrollTo(0, 1);
 	}, 500);
   }
 };

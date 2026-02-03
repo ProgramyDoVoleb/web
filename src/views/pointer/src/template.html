@@ -742,10 +742,15 @@
 									<p-popup preClass="green strong"><template #init>adresu</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="address"  showSource="1" showLabel="1"></editable-basic></template></p-popup>
 								</div>
 							</p-block>
-							<p-block headline="Koalice" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
+							<p-block :headline="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení stran a místních hnutí' : 'Koalice registrovaných stran a hnutí'" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
 								<div class="columns _c">
-									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
+									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
 										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
+									</div>
+									<div v-if="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80)">
+										<p-area class="smaller dimm">
+											Neregistrované sdružení nezávislých kandidátů nebo nezávislí kandidáti.
+										</p-area>
 									</div>
 								</div>
 							</p-block>
@@ -1311,7 +1316,7 @@
 				<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'" v-if="!data"></p-logo>
 				<p-logo v-if="data && logoByItem(current, data, null, true)" :data="{logo: logoByItem(current, data)}" :size="'12rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
 				<div class="logos" v-if="data && $coalition">
-					<template v-for="(coal, index) in $coalition">
+					<template v-for="(coal, index) in $coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
 						<p-logo :data="logoByItem(coal, data)" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
 					</template>
 				</div>
