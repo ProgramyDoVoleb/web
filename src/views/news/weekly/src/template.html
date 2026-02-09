@@ -92,9 +92,10 @@
 												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.question <= 389)">
 													<div>
 														<p-area class="white shadow" borderColor="var(--yellow)" icon="answers-mini">
+															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
 															<strong>
 																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/otazky-a-odpovedi'">
-																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																	{{ itemparty.pointer.includes('ros') ? itemparty.node.NAZEV : itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
 																</router-link>
 															</strong>
 															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.question <= 389).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
@@ -104,9 +105,10 @@
 												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.question > 389)">
 													<div>
 														<p-area class="white shadow" borderColor="var(--greyish)" icon="calc">
+															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
 															<strong>
 																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/otazky-a-odpovedi'">
-																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																	{{ itemparty.pointer.includes('ros') ? itemparty.node.NAZEV : itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
 																</router-link>
 															</strong>
 															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.question > 389).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
@@ -116,9 +118,10 @@
 												<template v-if="itemparty.data.find(x => x.type === 'priority')">
 													<div>
 														<p-area class="white shadow" borderColor="var(--green)" icon="priority">
+															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
 															<strong>
 																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/priority'">
-																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																	{{ itemparty.pointer.includes('ros') ? itemparty.node.NAZEV : itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
 																</router-link>
 															</strong>
 															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'priority' && x.node && x.node.status === 1 ).length" :end="['', '1 priorita', '%% priority', '%% priorit']"></p-lang></div>
@@ -140,7 +143,7 @@
 													<p-list-linear class="or inline">
 														<span v-for="(relates, index) in item.$relates">
 															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
-																{{ relates.ZKRATKA || relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
+																{{ (item.relates.split(',')[index].includes('ros') ? relates.NAZEV : relates.ZKRATKA) || relates.JMENO + ' ' + relates.PRIJMENI }}
 															</router-link>
 														</span>
 													</p-list-linear>
@@ -173,11 +176,17 @@
 										<p-columns class="_noRule _noGap">
 											<div v-for="item in day.media">
 												<p-area class="smaller">
+													<div class="smallest dimm mb05" v-if="item.node.OBVOD">obvod {{ item.node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === item.node.OBVOD).name }}</div>
+													<div class="smallest dimm mb05" v-if="item.node.NAZEVZAST">{{ item.node.NAZEVZAST }}</div>
 													<p-link :href="item.source" class="strong">{{ item.value.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link>
 													<p class="smallest dimm">
 														<template v-if="item.node">
-															<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">{{ item.node.ZKRATKA || item.node.NAZEV || item.node.JMENO + ' ' + item.node.PRIJMENI }}</router-link>
-															<br>
+															<!-- <div> -->
+																<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">
+																	{{ item.csu_table === 'csu_kv_ros' ? item.node.NAZEV : item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}
+																</router-link>
+																<br>
+															<!-- </div> -->
 														</template>
 														{{ item.label }} &middot; {{ domain(item.source || '') }}
 													</p>
@@ -216,7 +225,7 @@
 														<div class="p-gap _05"></div>
 														<p-list-linear class="invisible">
 															<div v-for="cand in day.auto.filter(x => x.content === party)">
-																<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')" class="keep">{{ cand.title }}</router-link>
+																<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')">{{ cand.title }}</router-link>
 															</div>
 														</p-list-linear>
 													<!-- </p-area> -->

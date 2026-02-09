@@ -112,6 +112,7 @@ import BoxTicker from './pdv/box/ticker/do.vue';
 import BoxColor from './pdv/box/color/do.vue';
 import BoxGraph from './pdv/box/graph/do.vue';
 import BoxInput from './pdv/box/input/do.vue';
+import BoxBadge from './pdv/box/badge/do.vue';
 
 app.component('p-box', Box);
 app.component('p-box-gap', BoxGap);
@@ -125,6 +126,7 @@ app.component('p-box-ticker', BoxTicker);
 app.component('p-box-color', BoxColor);
 app.component('p-box-graph', BoxGraph);
 app.component('p-box-input', BoxInput);
+app.component('p-box-badge', BoxBadge);
 
 // import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from '@vue-leaflet/vue-leaflet';
 import 'leaflet/dist/leaflet.css';

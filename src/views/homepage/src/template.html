@@ -19,6 +19,33 @@
 					<div class="p-gap"></div>
 				</template>
 
+				<div class="mb1">
+					<p-box-group>
+						<p-box>
+							<p-box-badge icon="check" class="green">Ověřené</p-box-badge>
+						</p-box>
+						<p-box>
+							<p-box-badge icon="link" class="green">Zdroje</p-box-badge>
+						</p-box>
+						<p-box>
+							<p-box-badge icon="icon-against" class="red">Bez AI</p-box-badge>
+						</p-box>
+						<p-modal>
+							<template #init>
+								<p-box>
+									<p-box-label>?</p-box-label>
+								</p-box>
+							</template>
+							<template #content>
+								<!-- <p-area class="inline mv1 smaller" icon="hint"> -->
+									<h4>Informace na <em>Programech</em></h4>
+									<p class="smaller">Všechny údaje k nadcházejícím volbám jsou ručně zadávané, kontrolované a vyžadují zdroj. Tím mohou být články v médiích nebo statusy na sociálních sítích. Údaje mohou přímo zadávat kandidáti či strany, pak jsou oni sami zdrojem informace a zárukou pravdivosti a důvěryhodnosti. Projekt záměrně nepoužívá AI ani ji neposkytuje data.</p>					
+								<!-- </p-area> -->
+							</template>
+						</p-modal>
+					</p-box-group>
+				</div>
+
 				<p-block headline="Hledat obec" :hide="true" class="pb0">
 					<div class="_searchMap">
 						<div>
@@ -46,7 +73,7 @@
 					</p>
 				</p-block>	
 				
-				<p-block headline="Pro kandidáty" :hide="true" class="mt-2 pb0">
+				<p-block headline="Pro kandidáty" :hide="true" class="mt-2 pb0 mb1">
 					<!-- <p-area class="highlight shadow inline" borderColor="var(--green)"> -->
 						<!-- <h3 class="serif mv0 mr3">Kandidujete?</h3> -->
 						<!-- <p>Ať jste registrovanou stranou nebo místním sdružením, obhajujete nebo jdete do voleb poprvé, můžete své údaje na <em>Programech</em> přidávat nebo upravovat <strong>už dnes</strong> přímo v aplikaci pro kandidáty – <strong>v Adminu</strong>.</p>  -->
@@ -72,10 +99,6 @@
 						</p-box-group>
 					<!-- </p-area> -->
 				</p-block>
-
-				<p-area class="inline mv1 smaller" icon="hint">
-					<p class="mv0 smallest">Všechny údaje k nadcházejícím volbám jsou ručně zadávané, kontrolované a vyžadují zdroj. Tím mohou být články v médiích nebo statusy na sociálních sítích. Údaje mohou přímo zadávat kandidáti či strany, pak jsou oni sami zdrojem informace a zárukou pravdivosti a důvěryhodnosti. Projekt záměrně nepoužívá AI ani ji neposkytuje data.</p>					
-				</p-area>
 				
 				<div class="p-line"></div>
 				

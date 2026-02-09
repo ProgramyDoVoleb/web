@@ -1,0 +1,41 @@
+.p-box-button {
+  width: auto;
+  height: 4rem;
+  display: flex;
+  padding: 0 1.2rem;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 2rem;
+  position: relative;
+  background: var(--blue11);
+
+  &.red {background: var(--red11);}
+  &.green {background: var(--green22);}
+}
+
+.dark .p-box-button {
+  background: var(--darker);
+  color: #aaa;
+
+  &.red {background: var(--red11);}
+  &.green {background: var(--green11);}
+}
+
+img {
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+
+.dark ._icon:not([src*="volby"]):not([src*="answers-mini"]):not([src*="green"]):not([src*="blue"]):not([src*="icon-check"]):not([src*="icon-against"]) {
+  filter: invert(1) brightness(2) opacity(.8);
+  background: none;
+}
+
+span:not(:empty):not(:first-child) {
+  margin-left: .5em;
+}

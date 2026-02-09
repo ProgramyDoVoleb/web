@@ -13,6 +13,7 @@ import logtypes from '@/stores/enums/log';
 import {useData} from '@/stores/data';
 import {today, cdn} from '@/stores/core';
 import {ga} from '@/pdv/analytics';
+import { useEnums } from '@/stores/enums';
 
 export default {
 	name: 'NewsWeekly',
@@ -22,6 +23,7 @@ export default {
 			cdn,
 			logtypes,
 			today,
+			enums: useEnums(),
 			medialist: [
 				{name: 'CNN Prima News', source: 'https://cnn.iprima.cz/domaci'},
 				{name: 'iDnes', source: 'https://www.idnes.cz/zpravy/domaci'},
