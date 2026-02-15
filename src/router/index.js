@@ -348,14 +348,14 @@ const router = createRouter({
       props: true
     },
     {
-      path: '/novinky',
+      path: '/sedmideni',
       name: 'LayoutNewsSedmideni',
       redirect: to => {
-        return { path: '/sedmideni'}
+        return { path: '/novinky'}
       }
     },
     {
-      path: '/sedmideni',
+      path: '/novinky',
       name: 'LayoutNewsWeekly',
       component: () => import('../views/news/weekly/do.vue'),
       props: true

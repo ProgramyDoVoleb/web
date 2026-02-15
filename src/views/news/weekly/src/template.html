@@ -2,15 +2,18 @@
 	<p-layout-divided>
 		<template #main>
 			<p-block headline="Sedmidění" :level="1" :hide="true">
-				<div class="p-offset reverse">
+				<div class="p-offset reverse mb1">
 					<div>
 						<p-headline :level="1">Sedmidění</p-headline>
+						<div class="mt-1 mb1 serif">
+							Předvolební novinky, týdenní přehled
+						</div>
 					</div>
 					<div>
 						<input type="date" v-model="datum" min="2021-10-01" :max="today">
 					</div>
 				</div>
-				<p class="lead mt0">Souhrn článků z 24 různých médií, které se týkají voleb, stran nebo kandidátů, volební průzkumy a přehled novinek a úprav na webu <em>Programy do voleb</em> za uplynulých sedm dní.</p>
+				<!-- <p class="lead mt0">Souhrn článků z 24 různých médií, které se týkají voleb, stran nebo kandidátů, volební průzkumy a přehled novinek a úprav na webu <em>Programy do voleb</em> za uplynulých sedm dní.</p> -->
 				<!-- <div class="p-gap _2"></div> -->
 				<p-loader :rule="news">
 					<div v-if="news">
@@ -200,8 +203,8 @@
 											<h4 class="mv0 smaller">
 												<p-link :href="item.source" class="is-span strong mono">{{ item.title }}</p-link>
 											</h4>
-											<p class="smallest">
-												<strong>{{ item.content }}</strong> &middot; {{ domain(item.source) }}
+											<p class="smaller">
+												<em>{{ item.content }}</em> &middot; {{ domain(item.source) }}
 												<div v-if="item.$relates.length > 0" class="dimm">
 													Týká se
 													<p-list-linear class="or inline">
@@ -218,8 +221,8 @@
 									<template v-if="day.auto.length > 0">
 										<div class="smallest green strong">Nově v přehledu</div>
 										<div>
-											<p-grid class="smaller">
-												<div v-for="party in unique(day.auto.filter(x => x.content), 'content')">
+											<p-columns class="smaller">
+												<div v-for="party in unique(day.auto.filter(x => x.content && (!x.focus || x.focus < 500000)), 'content')">
 													<!-- <p-area> -->
 														<strong>{{ party }}</strong>
 														<div class="p-gap _05"></div>
@@ -230,13 +233,39 @@
 														</p-list-linear>
 													<!-- </p-area> -->
 												</div>
-												<div v-for="cand in day.auto.filter(x => !x.content)">
-													<!-- <p-area> -->
+												<div v-for="cand in sortBy(day.auto.filter(x => !x.content), 'focus')">
+													<p-area :icon="cand.focus ? 'senatni-volby' : 'prezidentske-volby'" class="highlight shadow">
+														<div class="dimm" v-if="cand.focus">obvod {{ cand.focus }} &middot; {{ enums.obvody.find(x => x.id === cand.focus).name }}</div>
 														<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')" class="strong">{{ cand.title }}</router-link>
-														<span class="dimm" v-if="cand.focus"> &middot; obvod {{ cand.focus }}</span>
-													<!-- </p-area> -->
+													</p-area>
 												</div>
-											</p-grid>
+												<div v-for="town in sortBy(unique(day.auto.filter(x => x.focus && x.focus >= 500000), 'focus').map(x => [x, day.auto.find(y => y.focus === x).content.includes(' · ') ? day.auto.find(y => y.focus === x).content.split(' · ')[1] : day.auto.find(y => y.focus === x).content]), 1, null, true)">
+													<p-area>
+														<router-link :to="'/volby/komunalni-volby/' + day.auto.find(x => x.focus === town[0]).volby + '/obec/' + town[0]" class="strong is-span">
+															{{ town[1] }}
+														</router-link>
+														<div class="p-gap _05"></div>
+														<p-list class="_075">
+															<div v-for="party in sortBy(unique(day.auto.filter(x => x.focus === town[0]).map(x => x.relates.split(',')[0].split(':')), 1).map(y => [y, day.auto.find(x => x.focus === town[0] && x.$relates[0].id == y).$relates[0].NAZEV]), 1, null, true)">
+																<router-link :to="'/volby/komunalni-volby/' + day.auto.find(x => x.focus === town[0]).volby + '/strana/' + party[0]" class="strong">
+																	{{ party[1] }}
+																</router-link>
+																<div v-if="day.auto.find(x => x.focus === town[0] && x.$relates[0].id == party[0] && x.$relates[0].id != x.$relates[1].id)" class="pt05 smaller">
+																	<p-label class="block" color="var(--greyish)">
+																		<p-list-linear>
+																			<span v-for="cand in sortBy(day.auto.filter(x => x.focus === town[0] && x.$relates[0].id == party[0] && x.$relates[0].id != x.$relates[1].id).map(x => [x.$relates[1].id, x.$relates[1].volby, x.$relates[1].JMENO, x.$relates[1].PRIJMENI, x.$relates[1].PORCISLO]), 3, null, true)">
+																				<router-link :to="'/volby/komunalni-volby/' + cand[1] + '/kandidat/' + cand[0]" :class="{'dimm': !cand[4]}">
+																					{{ cand[2] + ' ' + cand[3] }}
+																				</router-link>
+																			</span>
+																		</p-list-linear>
+																	</p-label>
+																</div>
+															</div>
+														</p-list>
+													</p-area>
+												</div>
+											</p-columns>
 										</div>
 									</template>
 									<template v-if="day.log.length > 0 && day.log.find(x => x.data.filter(y => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(y.type) === -1).length > 0)">
@@ -272,6 +301,15 @@
 											</p-list>
 										</div>
 									</template>
+									<div v-if="day.auto.length > 0 || day.media.length > 0 || day.comm.length > 0 || day.main.length > 0">
+										<p-collapsible borderless="1" label="Zdroje" logo="link">
+											<p-list class="_05 smaller">
+												<div v-for="link in unique([].concat(day.main.map(x => x.source), day.auto.map(x => x.source), day.comm.map(x => x.source), day.media.map(x => x.source)).map(x => [x]), 0)">
+													<p-link :href="link"></p-link>
+												</div>
+											</p-list>
+										</p-collapsible>
+									</div>
 									<template v-if="day.main.length === 0 && day.sys.length === 0 && day.polls.length === 0 && day.log.length === 0 && day.media.length === 0">
 										<div class="smallest dimm strong">Ticho po pěšině</div>
 										<div class="smaller">
@@ -404,7 +442,7 @@
 			<div class="p-gap"></div>
 			<top-tasks></top-tasks>
 			<div class="p-gap"></div>
-			<h4>Monitor médií</h4>
+			<h4>Čerpáno nejen z těchto médií:</h4>
 			<p class="small">
 				<p-list-linear class="or">
 					<span v-for="media in medialist">

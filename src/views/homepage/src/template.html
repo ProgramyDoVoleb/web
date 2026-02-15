@@ -27,13 +27,10 @@
 						<p-box>
 							<p-box-badge icon="link" class="green">Zdroje</p-box-badge>
 						</p-box>
-						<p-box>
-							<p-box-badge icon="icon-against" class="red">Bez AI</p-box-badge>
-						</p-box>
 						<p-modal>
 							<template #init>
 								<p-box>
-									<p-box-label>?</p-box-label>
+									<p-box-badge icon="icon-against" class="red">Bez AI</p-box-badge>
 								</p-box>
 							</template>
 							<template #content>
@@ -89,10 +86,21 @@
 									<div class="p-line _05"></div>
 									<editable-suggest></editable-suggest>
 								</template>
-							</p-popup>	
+							</p-popup>		
+							<pop-up>
+								<template #init>
+									<p-box>
+										<p-box-button icon="ig">Nahrát</p-box-button>
+									</p-box>
+								</template>
+								<template #content>
+									<p class="smaller">Viděli jste leták, plakát nebo brožurku s programem? Vyfoťte, nahrajte, poté přidejte do popisu obec a pošlete.</p>
+									<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
+								</template>
+							</pop-up>	
 							<p-box href="https://admin.programydovoleb.cz/seznam">
-								<p-box-button class="primary" icon="admin">Získat přístup</p-box-button>
-							</p-box>						
+								<p-box-button icon="admin">Získat přístup</p-box-button>
+							</p-box>				
 							<p-box to="/pro-kandidaty">
 								<p-box-label>Pro kandidáty &rarr;</p-box-label>
 							</p-box>
@@ -351,6 +359,7 @@
 						</div>
 					</p-loader>
 				</p-block>
+				<mailchimp-signup></mailchimp-signup>
 			</p-block>
 			<p-block headline="Programy do voleb" :level="1" :hide="1">
 				<p-block headline="O projektu">
