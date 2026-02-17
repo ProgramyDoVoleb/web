@@ -39,5 +39,6 @@ export default {
     'ruian': 'RÚIAN',
     'orp': 'Obec s rozšířenou působností',
     'candidate': 'Přidán kandidát',
-    'party': 'Přidána strana'
+    'party': 'Přidána strana',
+    'snk': 'Místní nezávislá sdružení'
 }

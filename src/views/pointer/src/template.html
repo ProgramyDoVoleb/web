@@ -747,9 +747,49 @@
 									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
 										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
 									</div>
-									<div v-if="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80)">
+									<div v-if="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) && current.$data.snk.length === 0">
 										<p-area class="smaller dimm">
 											Neregistrované sdružení nezávislých kandidátů nebo nezávislí kandidáti.
+										</p-area>
+									</div>
+									<div v-for="snk in current.$data.snk">
+										<p-area borderColor="var(--greyish)">
+											<div class="p-offset reverse">
+												<div>
+													<strong>{{ snk.value }}</strong>
+													<div class="smallest">
+														<p-link :href="snk.source">
+															{{ domain(snk.source) }}
+														</p-link>
+													</div>
+													<div class="smallest dimm">místní sdružení</div>
+												</div>
+												<div v-if="snk.label">
+													<p-image :rounded="true" size="4em" :src="snk.label"></p-image>
+												</div>
+											</div>
+										</p-area>
+									</div>
+								</div>
+							</p-block>
+							<p-block headline="Spolupráce vícero SNK" v-if="Number(current.SLOZENI) === 80 && current.$data.snk && current.$data.snk.length > 1">
+								<div class="columns _c">
+									<div v-for="snk in current.$data.snk">
+										<p-area borderColor="var(--greyish)">
+											<div class="p-offset reverse">
+												<div>
+													<strong>{{ snk.value }}</strong>
+													<div class="smallest">
+														<p-link :href="snk.source">
+															{{ domain(snk.source) }}
+														</p-link>
+													</div>
+													<div class="smallest dimm">místní sdružení</div>
+												</div>
+												<div v-if="snk.label">
+													<p-image :rounded="true" size="4em" :src="snk.label"></p-image>
+												</div>
+											</div>
 										</p-area>
 									</div>
 								</div>
@@ -1318,6 +1358,11 @@
 				<div class="logos" v-if="data && $coalition">
 					<template v-for="(coal, index) in $coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
 						<p-logo :data="logoByItem(coal, data)" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
+					</template>
+					<template v-if="current.$data.snk && current.$data.snk.filter(x => x.label).length > 0">
+						<template v-for="snk in current.$data.snk.filter(x => x.label)">
+							<p-logo :data="snk.label" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + snk.value"></p-logo>
+						</template>
 					</template>
 				</div>
 			</template>

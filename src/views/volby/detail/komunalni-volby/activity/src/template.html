@@ -1,7 +1,7 @@
 <div class="layout-volby">
 	<p-layout-divided>
 		<template #main>
-			<p-block :headline="(data ? data.strana.NAZEV + ' v komunálních volbách ' + data.cis.volby.datum.split('-')[0] : 'Načítám...')" :level="1" :anchor="data ? data.strana.NAZEV : 'Načítám...'">
+			<p-block :headline="(data ? data.strana.NAZEV : 'Načítám...')" :level="1" :anchor="data ? data.strana.NAZEV : 'Načítám...'" :subheadline="data ? 'v komunálních volbách ' + data.cis.volby.datum.split('-')[0] : null">
 				<p-loader :rule="data">
 					<div v-if="data">
 						<p-block headline="Shrnutí" :hide="true" v-if="data.cis.volby.status === 3" class="_mv0">

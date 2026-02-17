@@ -62,6 +62,13 @@
 							<p-box-image :src="logoByItem(party, data)" class="_bw"></p-box-image>
 						</p-box>
 					</template>
+					<template v-if="current.$data.snk && current.$data.snk.filter(x => x.label).length > 0">
+						<template v-for="snk in current.$data.snk.filter(x => x.label)">
+							<p-box :href="snk.source">
+								<p-box-image :src="snk.label" :alt="'Logo nezávislého sdružení kandidátů ' + snk.value"></p-box-image>
+							</p-box>
+						</template>
+					</template>
 				</template>
 				<template v-if="current.$program.length > 0">
 					<p-box :to="'/volby/' + $volby.$about.hash + '/' + current.$program[0].volby + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.$program[0].csu_id + '/volebni-program/' + current.$program[0].id + '#plne-zneni'">
