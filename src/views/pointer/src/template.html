@@ -635,7 +635,7 @@
 																				</template>
 																			</template>
 																			<div v-if="current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).length > limit">
-																				<router-link :to="$link + '/kandidati' + (VOLKRAJ > 0 ? '/' + VOLKRAJ : '')" class="btn">Zobrazit celý seznam: {{ current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).length }}</router-link>
+																				<router-link :to="$link + '/kandidati' + (VOLKRAJ > 0 ? '/' + VOLKRAJ : '')" class="smaller strong">Zobrazit celý seznam: {{ current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).length }}</router-link>
 																				<!-- <button @click="limitOff = !limitOff">{{ limitOff ? 'Zkrátit seznam' : 'Zobrazit celý seznam : ' + current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).length }}</button> -->
 																			</div>
 																		</p-list>
@@ -747,7 +747,7 @@
 									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
 										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
 									</div>
-									<div v-if="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) && current.$data.snk.length === 0">
+									<div v-if="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) && (!current.$data.snk || current.$data.snk.length === 0)">
 										<p-area class="smaller dimm">
 											Neregistrované sdružení nezávislých kandidátů nebo nezávislí kandidáti.
 										</p-area>
@@ -1247,27 +1247,103 @@
 							<p-block headline="V minulých volbách" v-if="prev && !prev.list[0].$strana">
 								<party-preview-tiny :elections="prev" :party="prev.list[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="prev.list[0].$kandidati"></party-preview-tiny>								
 							</p-block>
-							<p-block headline="Údaje na této stránce">
+							<p-block headline="Upravit nebo doplnit" :level="1" :hide="true">
 
 								<div class="_split" v-if="$volby.status < 3">
 									<div>
 										<!-- <p-block headline="Doplnění" :hide="true"> -->
-											<p-area background="var(--green11)" borderColor="var(--green)">
+											<p-area icon2="edit" class="highlight shadow" borderColor="var(--greyish)">
 												<strong class="green">Pomozte doplnit další údaje</strong>
-												<p>Přidejte se k lidem, kteří pomáhají doplňovat informace na <em>Programy do voleb</em>. Stačí, když zašlete odkaz na článek, status nebo web, když na něm narazíte na hodnotné informace.</p>
-			
+												<p class="smaller">Přidejte se k lidem, kteří pomáhají doplňovat informace na <em>Programy</em>. Stačí odkaz.</p>
+												<p-list class="smaller _05">
+													<div>
+														<p-list-linear class="or">
+															<strong>To hlavní</strong>
+															<template v-if="['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1">
+																<span><p-popup preClass="strong"><template #init>Volební program</template><template #content><editable-basic type="program" :pointer="table + ':' + tableID" :elections="$volby.id" showSource="1"></editable-basic></template></p-popup></span>
+															</template>
+															<span><p-popup preClass="strong"><template #init>Priority</template><template #content><editable-suggest placeholder="Odkaz na priority" type="priority" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup></span>									
+														</p-list-linear>
+													</div>
+													<div>
+														<p-list-linear class="or">
+															<strong>Medailonek</strong>
+															<span><p-popup preClass="strong"><template #init>Představení</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="about"  showSource="1"></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Hodnoty</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="values" showSource="1" showLabel="1"></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Motto</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="motto" showSource="1" ></editable-basic></template></p-popup></span>
+															
+														</p-list-linear>
+													</div>
+													<div>
+														<p-list-linear class="or">
+															<strong>Kampaň</strong>
+															<template v-if="table === 'csu_ps_rkl'" class="smallest _edit">
+																<span><p-popup preClass="strong"><template #init>Lídr</template><template #content><editable-suggest placeholder="Odkaz na oznámení o lídrovi" type="leader" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup></span>
+																<span><p-popup preClass="strong"><template #init>Vládní kandidáti</template><template #content><editable-suggest placeholder="Odkaz na vládního kandidáta" type="govrole" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup></span>
+															</template>
+															<span><p-popup preClass="strong"><template #init>Událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="$volby.id"></editable-event></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Leták, plakát nebo billboard</template><template #content><editable-image type="graphics" :pointer="table + ':' + tableID" :elections="$volby.id"></editable-image></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Volební video</template><template #content><editable-suggest placeholder="Odkaz, např na youtube, facebook..." type="video" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup></span>														
+															<span><p-popup preClass="strong"><template #init>Poznámka</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="note" showSource="1" showLabel="1"></editable-basic></template></p-popup></span>
+														</p-list-linear>
+													</div>
+													<div>
+														<p-list-linear class="or">
+															<strong>Podpora</strong>
+															<span><p-popup preClass="strong"><template #init>Strany či hnutí</template><template #content><editable-suggest placeholder="Odkaz, kde strana vyjadřuje podporu" type="support" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Spolku či sdružení</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="support"  showSource="1"></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Osobnosti</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="support"  showSource="1"></editable-basic></template></p-popup></span>
+														</p-list-linear>
+													</div>
+													<div>
+														<p-list-linear class="or">
+															<strong>Odkazy</strong>
+															<span><p-popup preClass="strong"><template #init>Volební web</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="web" ></editable-basic></template></p-popup></span>															
+															<span><p-popup preClass="strong"><template #init>Sociální síť</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="social" ></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Wiki</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="wiki" ></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Jiný odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="link"  :showLabel="1"></editable-basic></template></p-popup></span>															
+															<span><p-popup preClass="strong"><template #init>E-mail</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="email"  showSource="1" showLabel="1"></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Telefon</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="phone"  showSource="1" showLabel="1"></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Adresa</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="address"  showSource="1" showLabel="1"></editable-basic></template></p-popup></span>
+														</p-list-linear>
+													</div>
+													<div>
+														<p-list-linear class="or">
+															<strong>Média</strong>
+															<span><p-popup preClass="strong"><template #init>Článek</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Článek" showSource="1"></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Rozhovor</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Rozhovor" showSource="1"></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Profil</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Profil" showSource="1"></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Status</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="pr" preLabel="Status" showSource="1"></editable-basic></template></p-popup></span>
+															<span><p-popup preClass="strong"><template #init>Tisková zpráva</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="pr" preLabel="Tisková zpráva" showSource="1"></editable-basic></template></p-popup></span>														
+															<span><p-popup preClass="strong"><template #init>Placený článek</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="pr" preLabel="Placený článek" showSource="1"></editable-basic></template></p-popup></span>
+														</p-list-linear>
+													</div>
+
+												</p-list>
+												<div class="p-line _05"></div>
 												<div class="mv1">
 													<p-box-group>
 														<p-popup>
 															<template #init>
 																<p-box>
-																	<p-box-button color="var(--green)">Poslat odkaz</p-box-button>
+																	<p-box-button class="red">Nahlásit chybu</p-box-button>
+																</p-box>
+															</template>
+															<template #content>
+																<report-form noLink="1"></report-form>
+															</template>
+														</p-popup>
+														<p-popup>
+															<template #init>
+																<p-box>
+																	<p-box-button class="green">Poslat odkaz</p-box-button>
 																</p-box>
 															</template>
 															<template #content><editable-suggest placeholder="Sem vložte odkaz" type="generic" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template>
 														</p-popup>
+														<p-box-gap></p-box-gap>
 														<p-box href="mailto:doplnit@programydovoleb.cz">
-															<p-box-label class="green">doplnit@programydovoleb.cz</p-box-label>
+															<p-box-label class="dimm w400">doplnit@programydovoleb.cz</p-box-label>
 														</p-box>
 													</p-box-group>
 												</div>

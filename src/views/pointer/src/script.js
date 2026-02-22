@@ -46,7 +46,7 @@ export default {
 			today,
 			cdn,
 			width: window.innerWidth,
-			limit: 5,
+			limit: 6,
 			limitOff: false,
 			questionLimit: 5,
 			questionLimitOff: false,

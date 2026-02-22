@@ -13,7 +13,7 @@
 		</p-box>
 		<p-box-gap></p-box-gap>
 		<p-box v-if="townInRegularElectionsAlsoVotesInSenat(data.list[0].datum.split('-')[0], core.list[0].$core[0].OBVOD)" :to="'/obvod/' + core.list[0].$core[0].OBVOD">
-			<p-box-button icon="senatni-volby">volí i do Senátu</p-box-button>
+			<p-box-badge icon="senatni-volby" class="green">volí i do Senátu</p-box-badge>
 		</p-box>
 		<template v-for="item in core.list[0].$data.filter(x => x.type === 'social')">
 			<p-box :href="item.value">
