@@ -221,7 +221,7 @@
 				<engagement-block :hash="'psp-166-happy-' + (new Date().getMonth() + 1)" :data="[{question: 'Jste spokojeni s výsledkem voleb?', options: ['spokojenost', 'mohlo to být horší', 'mohlo to být lepší', 'katastrofa']}]" :compact="true"></engagement-block>
 			</p-block> -->
 			
-			<p-block headline="Sedmidění" subheadline="aneb novinky za poslední týden" :level="1">
+			<p-block headline="Předvolební novinky" anchor="Sedmidění" subheadline="Sedmidění - přehled za minulý týden" :level="1">
 
 				<homepage-summary :news="news" :polls="polls"></homepage-summary>
 
@@ -290,7 +290,7 @@
 										</p-list>
 										<div class="p-line"></div>
 										<div class="smallest">
-											<router-link to="/sedmideni" class="strong">Přehledně v Sedmidění</router-link> &rarr;
+											<router-link to="/sedmideni" class="strong">Přehledně</router-link> &rarr;
 										</div>										
 									</p-area>
 								</div>
@@ -332,16 +332,25 @@
 									<template v-if="width > 1">
 										<div v-for="(item, index) in day.main.filter((x, i) => i < 3)">
 												<p-area class="smaller" borderColor="var(--blue44)">
-													<p-link :href="item.source" class="strong">{{ item.title }}</p-link>
+													<p-link :href="item.source" class="strong">{{ item.title.split(' | ')[0].split(' – ')[0].split(' — ')[0].split(' - ')[0] }}</p-link>
 													<!-- <p>{{ truncate(untag(item.content.split('Původní text: ').join('')), 20) }}</p> -->
 													<div class="smallest mt05 dimm">
 														{{ date(day.datum) }} &middot; {{ domain(item.source) }}
 													</div>
 												</p-area>
 										</div>
-										<div v-if="day.main.length > 3" class="smallest dimm pb2">
+										<div v-for="(item, index) in day.media.filter((x, i) => i < 3)">
+											<p-area class="smaller">
+													<p-link :href="item.source" class="">{{ item.value.split(' | ')[0].split(' – ')[0].split(' — ')[0].split(' - ')[0] }}</p-link>
+													<!-- <p>{{ truncate(untag(item.content.split('Původní text: ').join('')), 20) }}</p> -->
+													<div class="smallest mt05 dimm">
+														{{ date(day.datum) }} &middot; {{ domain(item.source) }}
+													</div>
+												</p-area>
+										</div>
+										<div v-if="day.main.length + day.media.length > 3" class="smallest dimm pb2">
 											<!-- <p-area class="smallest highlight dimm"> -->
-												... <p-lang :value="day.main.length - 3" :end="['', 'a ještě jedna zpráva', 'a ještě %% další zprávy', 'a ještě %% dalších zpráv']"></p-lang>
+												... <p-lang :value="day.main.length + day.media.length - 3" :end="['', 'a ještě jedna zpráva', 'a ještě %% další zprávy', 'a ještě %% dalších zpráv']"></p-lang>
 											<!-- </p-area> -->
 										</div>
 									</template>
@@ -349,7 +358,7 @@
 
 								<div>
 									<p-area icon="sedmideni" class="smaller shadow highlight">
-										<router-link to="/sedmideni" class="strong">Vše přehledně v Sedmidění</router-link>
+										<router-link to="/sedmideni" class="strong">Přehledně v Sedmidění</router-link> <span class="dimm">&rarr;</span>
 										<div class="smallest mt01">
 											<router-link to="/novinky/archiv" class="is-span">Novinky z projektu</router-link>
 										</div>
