@@ -33,7 +33,7 @@ export default {
 		results: function () {
 			var arr = null;
 
-			if (this.query.length > 2) {
+			if (this.query.length > 1) {
 				var q = url(this.query);
 				arr = this.list.list.filter(x => x.indexNAZEV.split(q).length > 1 || x.indexZKRATKA.split(q).length > 1);
 				arr.sort((a, b) => a.NAZEV.localeCompare(b.NAZEV, 'cs'));

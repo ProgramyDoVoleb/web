@@ -354,15 +354,78 @@
 						</template>
 					</div>
 				</p-loader>
+				<p-area class="inline" background="var(--blue11)">
+					<div>
+						<p-box-group>
+							<template v-if="datum != today">							
+									<p-box :to="'/novinky?datum=' + today" :click="() => changeDate(today)">
+										<p-box-button class="red" icon="revert">
+											Zpět na dnešní den
+										</p-box-button>
+									</p-box>							
+							</template>
+							<p-box>
+								<p-box-label>Zobrazit starší</p-box-label>
+							</p-box>
+							<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 7)" :click="() => changeDate( dayAfterDiffFrom(today, 7))">
+								<p-box-button>
+									{{ date(dayAfterDiffFrom(today, 7)) }}
+								</p-box-button>
+							</p-box>
+							<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 14)" :click="() => changeDate(dayAfterDiffFrom(today, 14))">
+								<p-box-button>
+									{{ date(dayAfterDiffFrom(today, 14)) }}
+								</p-box-button>
+							</p-box>
+							<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 21)" :click="() => changeDate(dayAfterDiffFrom(today, 21))">
+								<p-box-button>
+									{{ date(dayAfterDiffFrom(today, 21)) }}
+								</p-box-button>
+							</p-box>
+							<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 28)" :click="() => changeDate(dayAfterDiffFrom(today, 28))">
+								<p-box-button>
+									{{ date(dayAfterDiffFrom(today, 28)) }}
+								</p-box-button>
+							</p-box>
+						</p-box-group>
+					</div>
+				</p-area>
 			</p-block>
 			<p-block headline="Může vás zajímat" :hide="true" :level="1">
-				<p-block headline="O projektu" :hide="true">
-					<div class="_split">
+				<!-- <p-block headline="Novinky e-mailem" anchor="Newsletter">
+					<mailchimp-signup></mailchimp-signup>
+				</p-block> -->
+				<p-block headline="Kde najdu Programy na sociálních sítích?" anchor="Na sociálních sítích">
+					<p>Vybrané novinky najdete také na těchto sociálních sítích:</p>
+					<p-box-group>
+						<template v-for="soc in social">
+							<p-box :href="soc.link">
+								<p-box-icon :type="soc.icon"></p-box-icon>
+								<p-box-label>{{ soc.label }}</p-box-label>
+							</p-box>
+						</template>
+					</p-box-group>
+					<div class="p-line"></div>
+					<div class="smallest"><strong>Proč už nejsou Programy na Twitteru (nyní X)?</strong> Publikování na Twitteru bylo ukončeno 20. ledna 2025 po sérii nedemokratických kroků, gest a prohlášení majitele sítě Elona Muska. Zásahy do algoritmu, potlačování svobody slova, protežování vybraných účtů a politických směrů směřujících k potlačení demokracie a politické soutěže, potlačování opozice i zpravodajství, zneužívání sítě k vydírání a poštvávání proti názorovým oponentům, dramatické snížení relevance a dosahu, vysoká míra toxicity i falešných účtů...</div>
+				</p-block>
+				<p-block headline="Chcete se podívat na starší zprávy?" anchor="Archiv zpráv">
+					<p>Historii zpráv najdete v Archivu. Najdete tam vše od počátku projektu v roce 2018.</p>
+					<p-box-group>
+						<p-box to="/novinky/archiv">
+							<p-box-button icon="pdv">Zobrazit archiv</p-box-button>
+						</p-box>
+						<p-box href="https://programydovoleb.cz/rss">
+							<p-box-button icon="rss.svg">RSS</p-box-button>
+						</p-box>
+					</p-box-group>
+				</p-block>
+				<p-block headline="O projektu" subheadline="Programy do voleb">
+					<!-- <div class="_split"> -->
 						<div>
-							<h2 class="serif mt0">
+							<!-- <h2 class="serif mt0">
 								O projektu
 								<div class="small">Programy do voleb</div>
-							</h2>
+							</h2> -->
 							<!-- <h4 class="serif">Programy do voleb</h4> -->
 							<p>Cílem je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. Nenajdete zde ani komentáře či názory, do textů se nezasahuje.</p>
 							<p-box-group>
@@ -377,40 +440,10 @@
 								</p-box>
 							</p-box-group>
 						</div>
-						<div>
+						<!-- <div>
 							<cta-support :hide="true"></cta-support>
-						</div>
-					</div>
-				</p-block>
-				<p-block headline="Novinky e-mailem" anchor="Newsletter">
-					<mailchimp-signup></mailchimp-signup>
-				</p-block>
-				<p-block headline="Na sociálních sítích">
-					<p><strong>Nechcete čekat?</strong> Vybrané novinky najdete také na vybraných sociálních sítích:</p>
-					<p-box-group>
-						<template v-for="soc in social">
-							<p-box :href="soc.link">
-								<p-box-icon :type="soc.icon"></p-box-icon>
-								<p-box-label>{{ soc.label }}</p-box-label>
-							</p-box>
-						</template>
-					</p-box-group>
-					<div class="p-line"></div>
-					<div class="smallest"><strong>Proč už nejsou Programy na Twitteru (nyní X)?</strong> Publikování na Twitteru bylo ukončeno 20. ledna 2025 po sérii nedemokratických kroků, gest a prohlášení majitele sítě Elona Muska. Zásahy do algoritmu, potlačování svobody slova, protežování vybraných účtů a politických směrů směřujících k potlačení demokracie a politické soutěže, potlačování opozice i zpravodajství, zneužívání sítě k vydírání a poštvávání proti názorovým oponentům, dramatické snížení relevance a dosahu, vysoká míra toxicity i falešných účtů...</div>
-				</p-block>
-				<p-block headline="Programy do voleb">
-					<p>Zajímají vás jen zprávy a novinky, které se týkají samotného projektu Programy do voleb?</p>
-					<p-box-group>
-						<p-box to="/novinky/archiv">
-							<p-box-button icon="list.svg">Zprávy o projektu</p-box-button>
-						</p-box>
-						<p-box href="https://github.com/programydovoleb/web">
-							<p-box-button icon="link.svg">Zdrojový kód</p-box-button>
-						</p-box>
-						<p-box href="https://programydovoleb.cz/rss">
-							<p-box-button icon="rss.svg">RSS</p-box-button>
-						</p-box>
-					</p-box-group>
+						</div> -->
+					<!-- </div> -->
 				</p-block>
 			</p-block>
 		</template>

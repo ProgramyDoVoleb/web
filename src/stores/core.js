@@ -9,6 +9,10 @@ export const yesterday = new Date(new Date().setDate(new Date().getDate() - 1)).
 export const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
 export const missing = 'https://static.programydovoleb.cz/missing.png';
 
+export function dayAfterDiffFrom(today, diff) {
+    return new Date(new Date(today).setDate(new Date().getDate() - diff)).toISOString().split('T')[0];
+} 
+
 export const useCore = defineStore('core', () => {
   const isBanned = ref(false);
   const dark = ref(false);

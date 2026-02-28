@@ -11,7 +11,7 @@ import PopUp from '@/components/pop-up/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
 import logtypes from '@/stores/enums/log';
 import {useData} from '@/stores/data';
-import {today, cdn} from '@/stores/core';
+import {today, dayAfterDiffFrom, cdn} from '@/stores/core';
 import {ga} from '@/pdv/analytics';
 import { useEnums } from '@/stores/enums';
 
@@ -73,6 +73,7 @@ export default {
 	methods: {
 		date, number, truncate, indicator, untag, domain, sortBy, unique, sortEvents,
 		colorByItem, logoByItem,
+		dayAfterDiffFrom,
 		sortByPrijmeni: function (list, desc) {
 			var arr = [];
 			list.forEach(x => arr.push(x));
@@ -80,6 +81,10 @@ export default {
 			arr.sort((a, b) => (a.node['PRIJMENI'] || '').localeCompare((b.node['PRIJMENI'] || ''), 'cs'));
 
 			return arr;
+		},
+		changeDate: function (toDate) {
+			this.datum = toDate;
+			window.scrollTo(0, 1);
 		}
 	},
 	computed: {
@@ -87,7 +92,7 @@ export default {
 			return useData()
 		},
 		news: function () {
-			return this.$store.getters.pdv('news/weekly/' + this.datum)
+			return this.$store.getters.pdv('news/weekly/' + (this.datum <= this.today ? this.datum : this.today))
 		},
 		nearEvents: function () {
 			var arr = [];

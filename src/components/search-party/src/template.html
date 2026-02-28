@@ -45,7 +45,7 @@
 						</p-list>
 						<div class="p-gap"></div>
 						<template v-if="results.filter(x => x.TYP != 'S' && x.TYP != 'H').length > 0">
-							<p-collapsible label="Koalice" :status="results.filter(x => x.TYP != 'S' && x.TYP != 'H').length">
+							<p-collapsible label="Koalice" :status="results.filter(x => x.TYP != 'S' && x.TYP != 'H' && x.TYP != 'A').length">
 								<div v-for="(party, index) in results.filter(x => x.TYP != 'S' && x.TYP != 'H')" class="smaller">
 									<strong>
 										<component :is="link ? 'router-link' : 'button'" :to="link + party.VSTRANA" class="strong inline" @click="cb ? $emit('update', party) : null">{{ party.NAZEV }}</component>
@@ -53,9 +53,9 @@
 								</div>
 							</p-collapsible>
 						</template>
-						<template v-if="results.filter(x => x.TYP === 'H').length > 0">
+						<template v-if="results.filter(x => x.TYP === 'H' || x.TYP === 'A').length > 0">
 							<p-collapsible label="Předběžné a dočasné záznamy" :status="results.filter(x => x.TYP === 'H').length">
-								<div v-for="(party, index) in results.filter(x => x.TYP === 'H')" class="smaller">
+								<div v-for="(party, index) in results.filter(x => x.TYP === 'H' || x.TYP === 'A')" class="smaller">
 									<strong>
 										<component :is="link ? 'router-link' : 'button'" :to="link + party.VSTRANA" class="strong inline" @click="cb ? $emit('update', party) : null">{{ party.NAZEV }}</component>
 									</strong>

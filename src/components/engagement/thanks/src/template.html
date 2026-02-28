@@ -11,7 +11,7 @@
 
 	<div class="p-line _3"></div>
 
-	<template v-if="width > 640">
+	<template v-if="false && width > 640">
 
 		<h2 class="serif">Podpořte Programy do voleb</h2>
 		<!-- <p class="text-center _mw">
@@ -90,19 +90,22 @@
 		<div class="p-line p-line__3"></div>
 	</template>
 	<template v-else>
-		<h3 class="serif mt0">Podpořte <em>Programy do voleb</em></h3>
+		<h3 class="serif mt0">Podpořte tento projekt</h3>
 		<p-box-group class="_mw">
-			<p-box href="https://ib.fio.cz/ib/transparent?a=2502004588">
-				<p-box-button class="primary">FIO 2502004588/2010</p-box-button>
+			<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100">
+				<p-box-button class="green">100 Kč</p-box-button>
 			</p-box>
-			<p-box href="https://darujme.cz/programydovoleb">
-				<p-box-button class="green">Darujme.cz</p-box-button>
+			<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=250">
+				<p-box-button class="green">250 Kč</p-box-button>
 			</p-box>
-			<p-box href="https://eshop.programydovoleb.cz/">
+			<p-box href="https://eshop.programydovoleb.cz">
 				<p-box-button class="green">Merch</p-box-button>
 			</p-box>
+			<p-box to="/o-projektu/jak-podporit">
+				<p-box-button>Jinak...</p-box-button>
+			</p-box>
 		</p-box-group>
-		<p class="smaller dimm mb0">Sledujte, sdílejte, doporučujte. Díky</p>
+		<div class="smaller dimm mt1 text-center">Sledujte, sdílejte, doporučujte. Díky</div>
 		<div class="p-line p-line__3"></div>
 	</template>
 </div>

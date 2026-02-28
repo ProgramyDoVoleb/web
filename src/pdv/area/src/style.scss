@@ -60,6 +60,13 @@
       }
     }
   }
+
+  &.p-area---has-icon.p-area---has-border {
+    .p-box-icon,
+    .p-box-image {
+      left: -3em;
+    }
+  }
 }
 
 // .p-layout---aside .p-area {

@@ -28,7 +28,7 @@ export default {
 			return useEnums()
 		},
 		parties: function () {
-			return this.$store.getters.pdv('parties/1,5,7,47,53,166,1245,720,721,768,1114,1178,1227,1265,714,1327,1298');
+			return this.$store.getters.pdv('parties/1,5,7,47,53,166,1245,720,721,768,1114,1178,1227,1265,714,1327,1298,2026005');
 		}
 	},
   methods: {

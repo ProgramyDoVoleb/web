@@ -22,21 +22,19 @@
 				<div class="mb1">
 					<p-box-group>
 						<p-box>
-							<p-box-badge icon="check" class="green">Ověřené</p-box-badge>
-						</p-box>
-						<p-box>
-							<p-box-badge icon="link" class="green">Zdroje</p-box-badge>
+							<p-box-badge icon="icon-check" class="green">Všechny informace jsou ověřené a zdrojované</p-box-badge>
 						</p-box>
 						<p-modal>
 							<template #init>
 								<p-box>
-									<p-box-badge icon="icon-against" class="red">Bez AI</p-box-badge>
+									<p-box-badge icon="icon-against" class="red">Tento projekt nepoužívá AI</p-box-badge>
 								</p-box>
 							</template>
 							<template #content>
 								<!-- <p-area class="inline mv1 smaller" icon="hint"> -->
-									<h4>Informace na <em>Programech</em></h4>
-									<p class="smaller">Všechny údaje k nadcházejícím volbám jsou ručně zadávané, kontrolované a vyžadují zdroj. Tím mohou být články v médiích nebo statusy na sociálních sítích. Údaje mohou přímo zadávat kandidáti či strany, pak jsou oni sami zdrojem informace a zárukou pravdivosti a důvěryhodnosti. Projekt záměrně nepoužívá AI ani ji neposkytuje data.</p>					
+									<!-- <h4>Informace na <em>Programech</em></h4> -->
+									<p class="smaller">Všechny údaje k nadcházejícím volbám jsou ručně zadávané, kontrolované a vyžadují zdroj. Tím mohou být články v médiích nebo statusy na sociálních sítích. Údaje mohou přímo zadávat kandidáti či strany, pak jsou oni sami zdrojem informace a zárukou pravdivosti a důvěryhodnosti. </p>
+									<p class="smaller">Projekt záměrně nepoužívá AI ani ji neposkytuje data. V rámci průběžných testů není umělá inteligence schopná poskytovat data v neupravené, čisté podobě tak, aby je bylo možné považovat za důvěryhodné. Zároveň neexistuje cesta, jak byste si to mohli ověřit.</p>					
 								<!-- </p-area> -->
 							</template>
 						</p-modal>
@@ -368,7 +366,7 @@
 						</div>
 					</p-loader>
 				</p-block>
-				<mailchimp-signup></mailchimp-signup>
+				<!-- <mailchimp-signup></mailchimp-signup> -->
 			</p-block>
 			<p-block headline="Programy do voleb" :level="1" :hide="1">
 				<p-block headline="O projektu">

@@ -89,6 +89,10 @@ export default {
 		this.$nextTick(() => {
 			this.resize();
 		});
+
+		for (var i = 0; i < 5; i++) {
+			setTimeout(() => this.resize(), 1000 * (i + 1));
+		}
 		
 		// this.scroll();
 
