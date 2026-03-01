@@ -10,7 +10,7 @@ export const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).t
 export const missing = 'https://static.programydovoleb.cz/missing.png';
 
 export function dayAfterDiffFrom(today, diff) {
-    return new Date(new Date(today).setDate(new Date().getDate() - diff)).toISOString().split('T')[0];
+    return new Date(new Date(today).setDate(new Date(today).getDate() - diff)).toISOString().split('T')[0];
 } 
 
 export const useCore = defineStore('core', () => {

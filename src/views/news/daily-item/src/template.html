@@ -1,0 +1,341 @@
+<section class="layout-news-daily-item">
+				<p-loader :rule="news">
+					<div v-if="news">
+						<!-- <template v-if="nearEvents.length > 0">
+							<p-block headline="Blízké události" :hide="true" class="pb2">
+								<p-collapsible label="Blízké události" v-if="nearEvents.length > 3" :status="nearEvents.length" logo="event">
+									<p-columns>
+										<div v-for="event in nearEvents">
+											<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="pb1"></event-item>
+										</div>
+									</p-columns>
+								</p-collapsible>
+							</p-block>
+						</template> -->
+						<template v-for="day in news.list">
+							<p-block :headline="date(day.datum)" v-if="Object.keys(day).reduce((a, b) => a + (typeof day[b] === 'string' ? 0 : day[b].length), 0) > 0">
+								<p-list class="">
+									<template v-if="day.sys.length > 0">
+										<div class="smallest dimm strong">Novinky na Programech do voleb</div>
+										<div v-for="item in day.sys">
+											<p-area class="primary inline">
+												<h4><router-link :to="'/novinky/' + item.id">{{ item.title }}</router-link></h4>
+												<p v-html="truncate(untag(item.content), 40)"></p>
+												<p-box-group>
+													<p-box :to="'/novinky/' + item.id">
+														<p-box-button class="primary">Celý článek</p-box-button>
+													</p-box>
+												</p-box-group>
+											</p-area>
+										</div>
+									</template>
+									<template v-if="(day.log.length > 0 && day.log.find(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1 && y.action != 'ignore'))) || (day.fullprogram && day.fullprogram.length > 0)">
+										<div class="smallest red strong">Nepřehlédněte</div>
+										<p-grid>
+											<template v-for="item in day.fullprogram">
+												<div>
+													<p-area class="shadow highlight" :borderColor="colorByItem(item.$node, item)">
+														<div class="p-offset">
+															<div>
+																<p-image :src="logoByItem(item.$node, item)" width="2.5em" :rounded="true"></p-image>
+															</div>
+															<div>
+																<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id" class="strong">Volební program</router-link>
+																<div class="smallest">
+																	{{ 'Plná verze' }}
+																	<span class="dimm" v-if="item.backup">
+																		&middot;
+																		<p-link :href="item.backup" class="dimm">
+																			záloha
+																		</p-link>
+																	</span>
+																</div>
+															</div>
+														</div>
+													</p-area>
+												</div>
+											</template>
+											<template v-for="itemparty in day.log.filter(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1 && y.action != 'ignore'))">
+												<template v-for="item in itemparty.data.filter(y => y.type === 'program')">
+													<div>
+														<p-area class="shadow white" borderColor="var(--blue)" icon="program">
+															<strong>
+																<p-link :href="item.node.source">
+																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																</p-link>
+															</strong>
+															<div class="smallest">
+																{{ item.node.value || 'Volební program' }}
+																<span class="dimm" v-if="item.node.label">
+																	&middot;
+																	<p-link :href="item.node.label" class="dimm">
+																		záloha
+																	</p-link>
+																</span>
+															</div>
+														</p-area>
+													</div>
+												</template>
+												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.question <= 389)">
+													<div>
+														<p-area class="white shadow" borderColor="var(--yellow)" icon="answers-mini">
+															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
+															<strong>
+																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/otazky-a-odpovedi'">
+																	{{ itemparty.pointer.includes('ros') ? itemparty.node.NAZEV : itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																</router-link>
+															</strong>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.question <= 389).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
+														</p-area>
+													</div>
+												</template>
+												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.question > 389)">
+													<div>
+														<p-area class="white shadow" borderColor="var(--greyish)" icon="calc">
+															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
+															<strong>
+																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/otazky-a-odpovedi'">
+																	{{ itemparty.pointer.includes('ros') ? itemparty.node.NAZEV : itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																</router-link>
+															</strong>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'answer' && x.node.question > 389).length" :end="['', '1 odpověď', '%% odpovědi', '%% odpovědí']"></p-lang></div>
+														</p-area>
+													</div>
+												</template>
+												<template v-if="itemparty.data.find(x => x.type === 'priority')">
+													<div>
+														<p-area class="white shadow" borderColor="var(--green)" icon="priority">
+															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
+															<strong>
+																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/priority'">
+																	{{ itemparty.pointer.includes('ros') ? itemparty.node.NAZEV : itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																</router-link>
+															</strong>
+															<div class="smallest"><p-lang :value="itemparty.data.filter(x => x.type === 'priority' && x.node && x.node.status === 1 ).length" :end="['', '1 priorita', '%% priority', '%% priorit']"></p-lang></div>
+														</p-area>
+													</div>
+												</template>
+											</template>
+										</p-grid>
+									</template>
+									<template v-if="day.main.length > 0">
+										<div class="smallest dimm strong">Významné zprávy z médií</div>
+										<div v-for="item in day.main">
+											<h4><p-link :href="item.source">{{ item.title.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link></h4>
+											<p v-if="item.content" v-html="(item.content || '').split('Původní text: ').join('')"></p>
+											<p class="smallest">
+												<span class="blue">{{ domain(item.source) }}</span>												
+												<template v-if="item.$relates.length > 0">
+													&middot; týká se
+													<p-list-linear class="or inline">
+														<span v-for="(relates, index) in item.$relates">
+															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
+																{{ (item.relates.split(',')[index].includes('ros') ? relates.NAZEV : relates.ZKRATKA) || relates.JMENO + ' ' + relates.PRIJMENI }}
+															</router-link>
+														</span>
+													</p-list-linear>
+												</template>
+											</p>
+										</div>
+									</template>
+									<template v-if="day.polls.length > 0">
+										<div class="smallest dimm strong">Volební průzkumy</div>
+										<div>
+											<p-grid>
+												<div v-for="poll in day.polls">
+													<p-area>
+														<polls-preview :poll="poll" :previous="poll.$previous"></polls-preview>
+													</p-area>
+												</div>
+											</p-grid>
+										</div>
+									</template>
+									<template v-if="day.events.length > 0">
+										<div class="smallest dimm strong">Události a akce</div>
+										<p-columns class="">
+											<div v-for="event in day.events" class="pb05">
+												<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="column short"></event-item>
+											</div>
+										</p-columns>
+									</template>
+									<template v-if="day.media.length > 0">
+										<div class="smallest dimm strong">Články a rozhovory</div>
+										<p-columns class="_noRule _noGap">
+											<div v-for="item in day.media">
+												<p-area class="smaller">
+													<div class="smallest dimm mb05" v-if="item.node.OBVOD">obvod {{ item.node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === item.node.OBVOD).name }}</div>
+													<div class="smallest dimm mb05" v-if="item.node.NAZEVZAST">{{ item.node.NAZEVZAST }}</div>
+													<p-link :href="item.source" class="strong">{{ item.value.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link>
+													<p class="smallest dimm">
+														<template v-if="item.node">
+															<!-- <div> -->
+																<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">
+																	{{ item.csu_table === 'csu_kv_ros' ? item.node.NAZEV : item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}
+																</router-link>
+																<br>
+															<!-- </div> -->
+														</template>
+														{{ item.label }} &middot; {{ domain(item.source || '') }}
+													</p>
+												</p-area>
+											</div>
+										</p-columns>
+									</template>
+									<template v-if="day.comm.length > 0">
+										<div class="smallest dimm strong">Komentáře</div>
+										<div v-for="item in day.comm">
+											<h4 class="mv0 smaller">
+												<p-link :href="item.source" class="is-span strong mono">{{ item.title }}</p-link>
+											</h4>
+											<p class="smaller">
+												<em>{{ item.content }}</em> &middot; {{ domain(item.source) }}
+												<div v-if="item.$relates.length > 0" class="dimm">
+													Týká se
+													<p-list-linear class="or inline">
+														<span v-for="(relates, index) in item.$relates">
+															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')" class="is-span dimm">
+																{{ relates.ZKRATKA || relates.NAZEV || relates.JMENO + ' ' + relates.PRIJMENI }}
+															</router-link>
+														</span>
+													</p-list-linear>
+												</div>
+											</p>
+										</div>
+									</template>
+									<template v-if="day.auto.length > 0">
+										<div class="smallest green strong">Nově v přehledu</div>
+										<div>
+											<p-columns class="smaller">
+												<div v-for="party in unique(day.auto.filter(x => x.content && (!x.focus || x.focus < 500000)), 'content')">
+													<!-- <p-area> -->
+														<strong>{{ party }}</strong>
+														<div class="p-gap _05"></div>
+														<p-list-linear class="invisible">
+															<div v-for="cand in day.auto.filter(x => x.content === party)">
+																<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')">{{ cand.title }}</router-link>
+															</div>
+														</p-list-linear>
+													<!-- </p-area> -->
+												</div>
+												<div v-for="cand in sortBy(day.auto.filter(x => !x.content), 'focus')">
+													<p-area :icon="cand.focus ? 'senatni-volby' : 'prezidentske-volby'" class="highlight shadow">
+														<div class="dimm" v-if="cand.focus">obvod {{ cand.focus }} &middot; {{ enums.obvody.find(x => x.id === cand.focus).name }}</div>
+														<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')" class="strong">{{ cand.title }}</router-link>
+													</p-area>
+												</div>
+												<div v-for="town in sortBy(unique(day.auto.filter(x => x.focus && x.focus >= 500000), 'focus').map(x => [x, day.auto.find(y => y.focus === x).content.includes(' · ') ? day.auto.find(y => y.focus === x).content.split(' · ')[1] : day.auto.find(y => y.focus === x).content]), 1, null, true)">
+													<p-area>
+														<router-link :to="'/volby/komunalni-volby/' + day.auto.find(x => x.focus === town[0]).volby + '/obec/' + town[0]" class="strong is-span">
+															{{ town[1] }}
+														</router-link>
+														<div class="p-gap _05"></div>
+														<p-list class="_075">
+															<div v-for="party in sortBy(unique(day.auto.filter(x => x.focus === town[0]).map(x => x.relates.split(',')[0].split(':')), 1).map(y => [y, day.auto.find(x => x.focus === town[0] && x.$relates[0].id == y).$relates[0].NAZEV]), 1, null, true)">
+																<router-link :to="'/volby/komunalni-volby/' + day.auto.find(x => x.focus === town[0]).volby + '/strana/' + party[0]" class="strong">
+																	{{ party[1] }}
+																</router-link>
+																<div v-if="day.auto.find(x => x.focus === town[0] && x.$relates[0].id == party[0] && x.$relates[0].id != x.$relates[1].id)" class="pt05 smaller">
+																	<p-label class="block" color="var(--greyish)">
+																		<p-list-linear>
+																			<span v-for="cand in sortBy(day.auto.filter(x => x.focus === town[0] && x.$relates[0].id == party[0] && x.$relates[0].id != x.$relates[1].id).map(x => [x.$relates[1].id, x.$relates[1].volby, x.$relates[1].JMENO, x.$relates[1].PRIJMENI, x.$relates[1].PORCISLO]), 3, null, true)">
+																				<router-link :to="'/volby/komunalni-volby/' + cand[1] + '/kandidat/' + cand[0]" :class="{'dimm': !cand[4]}">
+																					{{ cand[2] + ' ' + cand[3] }}
+																				</router-link>
+																			</span>
+																		</p-list-linear>
+																	</p-label>
+																</div>
+															</div>
+														</p-list>
+													</p-area>
+												</div>
+											</p-columns>
+										</div>
+									</template>
+									<template v-if="day.log.length > 0 && day.log.find(x => x.data.filter(y => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(y.type) === -1).length > 0)">
+										<div class="smallest dimm strong">Další upravené záznamy</div>
+										<div>
+											<p-list class="invisible smaller">
+												<div v-for="item in sortBy(day.log.filter(x => x.node && x.node.NAZEV && x.data.filter(y => ['media', 'pr'].indexOf(y.type) === -1).length > 0 ) || [], 'title', null, true)">
+													<router-link :to="'/bod/' + item.pointer.split(':').join('/')" class="strong">{{ item.title }}</router-link>
+													<span class="smallest dimm">
+														&mdash;
+														<p-list-linear class="or inline">
+															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(x) === -1)">
+																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
+																	{{ logtypes[entity] }}
+																</component>
+															</span>
+														</p-list-linear>
+													</span>
+												</div>
+												<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node && x.node.PRIJMENI && x.data.filter(y => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(y.type) === -1).length > 0 ) || [], 'title', null, true)">
+													<router-link :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.title }}</router-link>
+													<span class="smallest dimm">
+														&mdash;
+														<p-list-linear class="or inline">
+															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(x) === -1)">
+																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
+																	{{ logtypes[entity] }}
+																</component>
+															</span>
+														</p-list-linear>
+													</span>
+												</div>
+											</p-list>
+										</div>
+									</template>
+									<div v-if="day.auto.length > 0 || day.media.length > 0 || day.comm.length > 0 || day.main.length > 0">
+										<p-collapsible borderless="1" label="Zdroje" logo="link">
+											<p-list class="_05 smaller">
+												<div v-for="link in unique([].concat(day.main.map(x => x.source), day.auto.map(x => x.source), day.comm.map(x => x.source), day.media.map(x => x.source)).map(x => [x]), 0)">
+													<p-link :href="link"></p-link>
+												</div>
+											</p-list>
+										</p-collapsible>
+									</div>
+									<template v-if="day.main.length === 0 && day.sys.length === 0 && day.polls.length === 0 && day.log.length === 0 && day.media.length === 0">
+										<div class="smallest dimm strong">Ticho po pěšině</div>
+										<div class="smaller">
+											<em>K tomuto dni nejsou doplněné žádné novinky z médií, žádné nové průzkumy, ani žádné nové záznamy či úpravy na Programech.</em>
+										</div>
+									</template>
+									<div v-if="day.datum === today">
+										<p-box-group>
+											<p-modal class="inline">
+												<template #init>
+													<p-box>
+														<p-box-button color="var(--green)" icon="plus-green.svg">Chci něco doplnit</p-box-button>
+													</p-box>
+												</template>
+												<template #content>
+													<h4>Stačí poslat odkat, případně připojit poznámku.</h4>
+													<report-form part="Sedmidenní přehled"></report-form>
+												</template>
+											</p-modal>
+										</p-box-group>
+									</div>
+								</p-list>
+								<div class="p-gap _2"></div>
+							</p-block>
+							<p-block v-else class="smallest" :headline="date(day.datum)" :hide="true">
+								<p-area class="inline">
+									<em class="dimm">{{ date(day.datum) }} — žádné záznamy</em>
+									<template v-if="day.datum === today">
+										 &middot;
+										<p-modal class="inline">
+											<template #init>
+												<span class="green strong">přidat</span>
+											</template>
+											<template #content>
+												<h4>Stačí poslat odkat, případně připojit poznámku.</h4>
+												<report-form part="Sedmidenní přehled"></report-form>
+											</template>
+										</p-modal>
+									</template>
+								</p-area>								
+							</p-block>
+						</template>
+					</div>
+				</p-loader>
+</section>

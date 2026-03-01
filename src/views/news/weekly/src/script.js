@@ -9,6 +9,7 @@ import ReportForm from '@/components/report-form/do.vue';
 import EventItem from '@/components/event-item/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
+import DailyItem from '@/views/news/daily-item/do.vue'
 import logtypes from '@/stores/enums/log';
 import {useData} from '@/stores/data';
 import {today, dayAfterDiffFrom, cdn} from '@/stores/core';
@@ -20,6 +21,7 @@ export default {
 	data: function () {
 		return {
 			datum: today,
+			days: 7,
 			cdn,
 			logtypes,
 			today,
@@ -68,7 +70,8 @@ export default {
 		ReportForm,
 		EditableSuggest,
 		EventItem,
-		PopUp
+		PopUp,
+		DailyItem
 	},
 	methods: {
 		date, number, truncate, indicator, untag, domain, sortBy, unique, sortEvents,
@@ -84,6 +87,7 @@ export default {
 		},
 		changeDate: function (toDate) {
 			this.datum = toDate;
+			this.days = 7;
 			window.scrollTo(0, 1);
 		}
 	},
@@ -110,6 +114,17 @@ export default {
 					}
 				});
 			}
+
+			return arr;
+		},
+		datumy: function () {
+			var arr = [this.datum];
+
+			for (var i = 1; i < this.days; i++) {
+				arr.push(dayAfterDiffFrom(this.datum, i));
+			}
+
+			console.log(arr);
 
 			return arr;
 		}
