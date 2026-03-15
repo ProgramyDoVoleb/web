@@ -6,6 +6,7 @@
 		<article class="p-layout---main-limit" v-else>
 			<p-block :level="1" :headline="getPageData().title" anchor="Omezená data" class="text-center">
 				<p v-if="getPageData().description" v-html="getPageData().description"></p>
+				<section v-if="getPageData().body" v-html="getPageData().body"></section>
 				<p>Pokud hledáte ověřené a lidmi zadávané a kontrolované původní údaje a odpovědi k volbám minulým i nadcházejícím, jděte na web <a href="https://programydovoleb.cz">programydovoleb.cz</a></p>
 				<p>Politika je velmi citlivé téma, záleží na každém slovu. Není možné věřit umělé inteligenci, která data ukradne a pak si je nějak náhodně přepíše, aby to vypadalo jako od člověka, ale aniž by za to byl kdokoli zodpovědný.</p>
 				<div class="p-line mt3"></div>

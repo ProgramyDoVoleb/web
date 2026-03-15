@@ -51,13 +51,14 @@ export const useData = defineStore('store', () => {
                         tries++;
 
                         if (tries < 5) {
-                            setTimeout(() => tryLoadResource(link), 50 * tries);
+                            setTimeout(() => tryLoadResource(link), 1000 * tries);
                         }                        
                     });
                 }
 
                 if (!core.isBanned || $route.path === '/') {
                     setTimeout(() => {
+                        console.log(core.cache);
                         tryLoadResource(api + request + '?c=' + core.cache);
                     }, delay || 0);
                 } else {

@@ -18,7 +18,7 @@ export const useCore = defineStore('core', () => {
   const dark = ref(false);
   const tick = ref(0);
   const start = ref(new Date().getTime());
-  const cache = ref(Math.floor(new Date().getTime() / 1000 / 5));
+  const cache = ref(new Date().toISOString().split('T')[0].split('-').splice(0,2).join('') + '_' + (window.appVersion || 'dev_' + 1));
 
   function change (value) {
     dark.value = value || !dark.value;

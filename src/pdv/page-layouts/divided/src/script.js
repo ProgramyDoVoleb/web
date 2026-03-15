@@ -79,7 +79,7 @@ export default {
 			var description = document.querySelector('meta[name="description"]');
 			description = description ? description.getAttribute('content') : 'Nestranný přehled pro české volby. Strany, koalice, kandidáti, volební programy. Průzkumy, mandáty, výsledky.';
 
-			return {title, description};
+			return {title, description, body: window.appSEO && window.appSEO.body ? window.appSEO.body : null};
 		}
 	},
 	mounted: function () {
