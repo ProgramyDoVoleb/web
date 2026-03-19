@@ -58,7 +58,7 @@ export const useData = defineStore('store', () => {
 
                 if (!core.isBanned || $route.path === '/') {
                     setTimeout(() => {
-                        console.log(core.cache);
+                        // console.log(core.cache);
                         tryLoadResource(api + request + '?c=' + core.cache);
                     }, delay || 0);
                 } else {

@@ -1,13 +1,13 @@
-<div class="pointer-summary">
-	<p v-if="party">
+<div class="pointer-summary pt1">
+	<p v-if="party && current.PLATNOST">
 		{{ headline }} {{ isWoman(current) ? 'uvedla' : 'uvedl' }} jako své povolání <em>{{ current.POVOLANI }}</em> a {{ isWoman(current) ? 'kandidovala' : 'kandidoval' }} za
 		<em><router-link :to="$route.fullPath.split('/kandidat/')[0] + '/strana/' + party.id">{{ party.ZKRATKA }}</router-link></em> 
 		{{ current.PORCISLO === 1 ? 'na pozici lídra' : 'na ' + current.PORCISLO + '. místě' }} v 
 		<router-link :to="$route.fullPath.split('/kandidat/')[0] + '/strana/' + party.id + '/kandidati/' + current.VOLKRAJ">{{ enums.regions6[current.VOLKRAJ - 1] }}</router-link>. 
-		<template v-if="current.PSTRANA != party.VSTRANA && current.PSTRANA != 99">
+		<!-- <template v-if="current.PSTRANA != party.VSTRANA && current.PSTRANA != 99">
 			V době voleb {{ isWoman(current) ? 'byla členkou' : 'byl členem' }} 
 			<em><router-link :to="'/volby/snemovni-volby/166/aktivita/' + current.PSTRANA">{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).ZKRATKA }}</router-link></em>.
-		</template>
+		</template> -->
 		<template v-if="current.PSTRANA === 99">
 			V době voleb {{ isWoman(current) ? 'nebyla členkou' : 'nebyl členem' }} žádné strany nebo hnutí.
 		</template>
@@ -28,6 +28,9 @@
 			<span v-if="current.$data.phone || current.$data.email || current.$data.address">kontaktní údaje</span>
 			<span v-if="current.$data.links || current.$data.wiki || current.$data.web">další užitečné odkazy</span>
 		</p-list-linear>.
+	</p>
+	<p v-if="party && !current.PLATNOST">
+		Z možné či zvažované kandidatury nakonec sešlo a kandidát se voleb nezúčastnil.
 	</p>
 	<p v-if="!party">
 		Kandidátku <em>{{ current.ZKRATKA }}</em> mohli voliči najít

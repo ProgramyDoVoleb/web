@@ -3,6 +3,7 @@
 		<p-loader :rule="data">
 			<div v-if="data">
 				<div class="p-offset" v-if="compact">
+					
 					<div>
 						<p-image :src="photo" :rounded="true" :border="true" width="7rem"></p-image>
 					</div>
@@ -26,7 +27,7 @@
 				<template v-if="!compact">
 					<p-list class="smaller" height=".5">
 						<div v-for="(election, index) in sortBy(data.cis.volby, 'datum', '2099-12-31', true, true).filter((x, i) => limit ? i < limitLength : true)">
-							<div v-for="(cand, index2) in data.list.filter(x => x.volby === election.id)">
+							<div v-for="(cand, index2) in data.list.filter(x => x.volby === election.id && ((election.status === 3 && x.PLATNOST) || (election.status === 1)))">
 								<div class="reverse _do" :class="{'p-offset': [].concat(cand.$data.web, cand.$data.social, cand.$data.photo).length > 0}">
 									<div class="p-offset">
 										<div>
@@ -75,6 +76,15 @@
 										</p-box-group>										
 									</div>
 								</div>
+							</div>
+							<div v-for="(cand, index2) in data.list.filter(x => x.volby === election.id && ((election.status > 1 && !x.PLATNOST)))">
+								<p-label color="var(--greyish)" class="block">
+									<strong>
+										<router-link :to="'/volby/' + electionList.find(x => x.key === election.typ).hash + '/' + election.id + '/kandidat/' + cand.id" class="dimm">{{ electionList.find(x => x.key === election.typ).name }} &middot; {{ election.cirka || election.datum.split('-')[0] }}</router-link>
+									</strong>
+									<br>
+									<em class="smallest dimm">z možné či zvažované kandidatury nakonec sešlo</em>
+								</p-label>								
 							</div>
 						</div>
 						<div>
