@@ -220,7 +220,7 @@
 				<engagement-block :hash="'psp-166-happy-' + (new Date().getMonth() + 1)" :data="[{question: 'Jste spokojeni s výsledkem voleb?', options: ['spokojenost', 'mohlo to být horší', 'mohlo to být lepší', 'katastrofa']}]" :compact="true"></engagement-block>
 			</p-block> -->
 			
-			<p-block headline="Předvolební novinky" anchor="Sedmidění" subheadline="Sedmidění - přehled za minulý týden" :level="1">
+			<p-block headline="Novinky nejen z médií" anchor="Z médií" subheadline="Přehled za minulý týden" :level="1">
 
 				<homepage-summary :news="news" :polls="polls"></homepage-summary>
 
@@ -315,10 +315,12 @@
 														<p-image :src="logoByItem(item.$node, item)" :rounded="true"></p-image>
 													</div>
 													<div>
-														<p-link :href="item.source" class="strong">{{ item.headline || 'Volební program' }}</p-link>
+														<!-- <p-link :href="item.source" class="strong">{{ item.headline || 'Volební program' }}</p-link> -->
+														<router-link class="strong" :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id">{{ item.headline || 'Volební program' }}</router-link>
 														<div class="smallest strong">
 															{{ item.$node.NAZEV }}
 														</div>
+														<div class="smallest" v-if="item.$node.NAZEVZAST">{{ item.$node.NAZEVZAST }}</div>
 													</div>
 												</div>
 											</p-area>

@@ -52,11 +52,13 @@
 												<template #init> <span class="smallest dimm">vybrat</span>		</template>
 												<template #content>
 													<h4>Strany</h4>
-													<div class="columns" v-if="parties">
+													<!-- <div class="columns" v-if="parties">
 														<div v-for="(party, index) in parties.list">
 															<span class="dimm">{{ party.VSTRANA }} </span>: <a class="is-link" @click="() => {form.hash = party.VSTRANA; form.short = party.ZKRATKA; form.logo = con(party.$data, 'logo'); form.color = con(party.$data, 'color', '#aaaaaa'); $refs.partylist.opened = false;}">{{ party.ZKRATKA }}</a>
 														</div>
-													</div>
+													</div> -->
+
+													<search-party :cb="true" @update="(item) => {form.hash = item.VSTRANA; form.short = item.ZKRATKA; form.logo = con(item.$data, 'logo'); form.color = con(item.$data, 'color', '#aaaaaa'); $refs.partylist.opened = false;}"></search-party>
 												</template>
 											</p-modal>
 										</p-box-label>
@@ -190,21 +192,23 @@
 											<p-modal ref="partylist">
 												<template #init> <span class="smallest dimm">vybrat</span>		</template>
 												<template #content>
-													<h4>Strany</h4>
+													<!-- <h4>Strany</h4>
 													<div class="columns" v-if="parties">
 														<div v-for="(party, index) in parties.list">
 															<span class="dimm">{{ party.VSTRANA }} </span>: <a class="is-link" @click="() => {form.hash = party.VSTRANA; form.short = party.ZKRATKA; form.logo = con(party.$data, 'logo'); form.color = con(party.$data, 'color', '#aaaaaa'); $refs.partylist.opened = false;}">{{ party.ZKRATKA }}</a>
 														</div>
-													</div>
+													</div> -->
+													<search-party :cb="true" @update="(item) => {form.hash = item.VSTRANA; form.short = item.ZKRATKA; form.logo = con(item.$data, 'logo'); form.color = con(item.$data, 'color', '#aaaaaa'); $refs.partylist.opened = false;}"></search-party>
 												</template>
+
 											</p-modal>
 										</p-box-label>
 										<p-box-label>
 											<input class="input-short" type="text" v-model="form.short" placeholder="jméno">
 										</p-box-label>
-										<p-box-label>
+										<!-- <p-box-label>
 											<input class="input-short" type="color" v-model="form.color" placeholder="barva">
-										</p-box-label>
+										</p-box-label> -->
 										<p-box-label>
 											<input class="input-short" type="number" v-model.number="form.rs" placeholder="hodnota">
 										</p-box-label>

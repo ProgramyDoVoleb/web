@@ -5,6 +5,7 @@ import {db, results2021, coefs} from "@/components/election-simulation-imperiali
 import {useData} from '@/stores/data';
 import { useEnums } from '@/stores/enums';
 import {ga} from '@/pdv/analytics';
+import SearchParty from '@/components/search-party/do.vue'
 
 export default {
 	name: 'layout-election-simulation',
@@ -42,7 +43,8 @@ export default {
 		}
 	},
 	components: {
-		ElectionSimulationImperiali2021
+		ElectionSimulationImperiali2021,
+		SearchParty
 	},
 	computed: {
 		$store: function () {
@@ -52,7 +54,7 @@ export default {
 			return db[0]
 		},
 		parties: function () {
-			return this.$store.getters.pdv('parties/1,5,7,47,53,166,714,720,721,768,1114,1227,1245,1298,1350,1327,1265,1487,1178');
+			return this.$store.getters.pdv('parties/' + this.defined.data.parties.map(x => x.hash).join(','));
 		},
 		polls: function () {
 			var res = this.$store.getters.pdv('polls/all');
@@ -129,28 +131,28 @@ export default {
 		},
 		formAdd: function (complex) {
 			var o = {
-				hash: this.form.hash ? this.$getParty(this.form.hash).VSTRANA : null,
+				hash: this.form.hash, // ? this.$getParty(this.form.hash).VSTRANA : null,
 				short: this.form.short,
 				// color: color(this.form.short || 'aaa') : this.form.color,
 				rs: this.form.rs,
 				preRS: this.form.rs
 			};
 
-			if (this.form.color) {
-				o.color = this.form.color
-			} else {
-				o.color = color(o.short);
+			// if (this.form.color) {
+			// 	o.color = this.form.color
+			// } else {
+			// 	o.color = color(o.short);
 
-				if (o.hash) o.color = con(this.$getParty(this.form.hash).$data, 'color', '#aaaaaa');
-			}
+			// 	if (o.hash) o.color = con(this.$getParty(this.form.hash).$data, 'color', '#aaaaaa');
+			// }
 
-			if (this.form.coal) {
-				o.coalition = [];
+			// if (this.form.coal) {
+			// 	o.coalition = [];
 
-				for (var i = 0; i < this.form.coal; i++) {
-					o.coalition.push(this.$getParty(1).VSTRANA);
-				}
-			}
+			// 	for (var i = 0; i < this.form.coal; i++) {
+			// 		o.coalition.push(this.$getParty(1).VSTRANA);
+			// 	}
+			// }
 
 			this.defined.data.parties.push(o);
 
