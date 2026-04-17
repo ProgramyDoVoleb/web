@@ -15,7 +15,24 @@
 					</div>
 				</div>
 				<div class="_f">
-					<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/strana/' + party.id" :to="link + '/strana/' + party.id" class="strong">{{ party.ZKRATKA }}</component>
+					<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/strana/' + party.id" :to="link + '/strana/' + party.id" class="strong">{{ party.NAZEV || party.ZKRATKA }}</component>
+							<div class="dimm smallest" v-if="(elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) || {POCET: 1}).POCET > 1">
+								<div class="_g2"></div>
+								{{ elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80) ? 'sdružení' : 'koalice' }} 
+								<p-list-linear>
+									<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.filter(x => x.VSTRANA != 80)">
+										<li><em>{{ coal.ZKRATKA }}</em></li>
+									</template>
+									<li v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80)">nezávislých kandidátů<template v-if="party.$data.snk && party.$data.snk.length > 0">:
+											<p-list-linear>
+													<em v-for="snk in party.$data.snk">
+														{{ snk.value }}
+													</em>
+												</p-list-linear>
+										</template>
+									</li>
+								</p-list-linear>
+							</div>
 					<template v-if="candidates">
 						<div class="p-gap _025"></div>
 						<div v-if="candidates.length > 0 && typeof candidates[0].VOLKRAJ === 'undefined'" class="smaller">
