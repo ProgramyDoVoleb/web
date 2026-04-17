@@ -37,6 +37,7 @@ import CtaSupportShort from '@/components/cta/support-short/do.vue';
 import CtaQuestions from '@/components/cta/questions/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
+import CandidateHistory from '@/components/candidate-history/kv/do.vue';
 
 export default {
 	name: 'layout-pointer',
@@ -78,7 +79,8 @@ export default {
 	PartyPolls,
 	PointerHeader, PointerSummary, PartyPreviewTiny,
 	PopUp,
-	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage
+	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage,
+	CandidateHistory
   },
 	computed: {
 		$store: function () {

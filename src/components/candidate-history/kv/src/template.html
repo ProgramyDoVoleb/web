@@ -1,0 +1,97 @@
+<div class="history-kv">	
+	<p class="smaller">V téhle části najdete, zda v minulosti někdo stejného jména kandidoval. Protože ale v oficiálních datech neexistuje spojení mezi kandidáty, mohou se ve výpisu vyskytnout chyby. Berte ho spíš jako orientační.</p>
+	<p-loader :rule="data">
+		<div v-if="data">
+			<p-list>
+				<template v-if="data.list.filter(x => x.status > (showUpcoming ? 0 : 2)).length > 0">
+					<div v-for="election in sortBy(data.list.filter(x => x.status  > (showUpcoming ? 0 : 2)), 'datum', null, true, true)">
+						<p-area :class="{'highlight shadow': election.status < 3}">
+							<template v-if="election.radne === 1"><strong class="smaller">{{ election.datum_label || election.datum.split('-')[0] }}</strong><span class="smallest dimm"> &middot; řádné volby</span></template>
+							<template v-else><strong class="smaller">{{ date(election.datum) }}</strong><span class="smallest dimm"> &middot; mimořádné volby</span></template>
+							<div class="p-gap _05"></div>
+							<p-list class="invisible smaller">
+								<div v-for="party in sortBy(election.$strany, 'NAZEV', null, true)">
+									<p-label :color="colorByItem(party, election)" class="block">
+										<router-link :to="'/volby/komunalni-volby/' + election.id + '/strana/' + party.id" class="strong">{{ party.NAZEV }}</router-link>
+										<template v-if="election.status === 3">
+											&middot;
+											{{ party.PROCHLSTR }} %
+											&middot;
+											<strong :class="party.MAND_STR > 0 ? 'green' : 'red'">
+												<p-lang :value="party.MAND_STR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>
+											</strong>
+										</template>
+										<div v-for="cand in election.$kandidati.filter(x => x.COBVODU === party.COBVODU && x.OSTRANA === party.OSTRANA)">
+											<router-link :to="'/volby/komunalni-volby/' + election.id + '/kandidat/' + cand.id" class="strong is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link> <template v-if="cand.PORCISLO">&middot; č. {{ cand.PORCISLO }}</template>
+											<div class="smallest" v-if="cand.VEK && cand.POVOLANI">
+												{{ cand.VEK }} let, {{ cand.POVOLANI }} 
+												<!-- &middot;  -->
+												<!-- <router-link :to="'/volby/komunalni-volby/' + election.id + '/kandidat/' + cand.id" class="strong">profil</router-link> -->
+											</div>
+											<div class="p-gap _025"></div>
+											<div class="smallest" v-if="cand.PLATNOST === 'A'">
+												<template v-if="cand.NSTRANA === cand.PSTRANA">
+													<p-label :color="colorByItem(election.cis.strany.find(x => x.VSTRANA === cand.NSTRANA), election)">
+														nominace a členství 
+														<router-link :to="'/rejstrik/' + cand.NSTRANA" class="is-span">{{ election.cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}</router-link>
+													</p-label>											
+												</template>
+												<template v-else>
+													<div>
+
+														<template v-if="cand.NSTRANA != 90 && cand.NSTRANA != 80">
+															<p-label :color="colorByItem(election.cis.strany.find(x => x.VSTRANA === cand.NSTRANA), election)">
+																nominace
+																<router-link :to="'/rejstrik/' + cand.NSTRANA" class="is-span">{{ election.cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}</router-link>
+																
+															</p-label>
+														</template>
+														<template v-else>
+															<p-label color="var(--greyish)">
+																nezávislá kandidátní listina
+															</p-label>												
+														</template>
+													</div>
+													<div>
+														<template v-if="cand.PSTRANA != 99">
+															<p-label :color="colorByItem(election.cis.strany.find(x => x.VSTRANA === cand.PSTRANA), election)">
+																členství
+																<router-link :to="'/rejstrik/' + cand.PSTRANA" class="is-span">{{ election.cis.strany.find(x => x.VSTRANA === cand.PSTRANA).NAZEV }}</router-link>
+																
+															</p-label>
+														</template>
+														<template v-else>
+															<p-label color="var(--greyish)">
+																nestraník
+															</p-label>												
+														</template>
+													</div>
+													
+												</template>
+												<div class="p-gap _05"></div>
+												<p-badge :background="cand.MANDAT === 'A' ? 'var(--green)' : 'var(--red)'">
+													mandát {{ cand.MANDAT === 'N' ? 'ne' : '' }}získán
+												</p-badge>
+											</div>
+											<div v-else-if="cand.PLATNOST === 'N'">
+												<em class="smallest dimm">nebyl registrován do voleb</em>
+											</div>
+											<div v-else>
+												<em class="smallest red strong">předběžné údaje</em>
+											</div>
+										</div>
+									</p-label>
+								</div>
+							</p-list>
+						</p-area>
+					</div>
+				</template>
+				<div v-else>
+					<p-area class="inline smallest dimm">
+						<em>žádné záznamy z minulých voleb nenalezeny</em>
+					</p-area>
+				</div>
+			</p-list>
+		</div>
+	</p-loader>
+</div>

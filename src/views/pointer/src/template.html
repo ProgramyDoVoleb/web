@@ -1247,6 +1247,9 @@
 							<p-block headline="V minulých volbách" v-if="prev && !prev.list[0].$strana">
 								<party-preview-tiny :elections="prev" :party="prev.list[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="prev.list[0].$kandidati"></party-preview-tiny>								
 							</p-block>
+							<p-block :headline="current.JMENO + ' ' + current.PRIJMENI + ' v komunálních volbách'" v-if="table === 'csu_kv_rk' && current" anchor="Historie voleb">
+								<candidate-history :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :showUpcoming="$volby.status === 3"></candidate-history>
+							</p-block>
 							<p-block headline="Upravit nebo doplnit" :level="1" :hide="true">
 
 								<div class="_split" v-if="$volby.status < 3">

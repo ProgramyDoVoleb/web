@@ -6,7 +6,7 @@ i {
   border-radius: 50%;
   transform: translateY(.5em);
 
-  &:last-child {
+  &:last-child:not(:first-child) {
     margin-left: 6px;
   }
 }
