@@ -23,7 +23,7 @@
 									</li>
 								</p-list-linear>
 							</div>
-							<div v-if="candidates.length === 0" class="dimm smallest">				
+							<div v-if="candidates.length === 0 && elections && elections.cis && elections.cis.volby && elections.cis.volby[0].status < 3" class="dimm smallest">				
 								<div class="_g2"></div>
 								<em>zatím bez dalších informací</em>
 							</div>
@@ -137,13 +137,20 @@
 					 <router-link :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'" class="strong smallest _pq" title="Otázky a odpovědi"> Z kalkulačky </router-link>	
 				</template>	
 				<div class="p-line _05"></div>
-				<router-link :to="link + '/strana/' + party.id + '/kandidati'" class="strong smallest _pp" title="Priority">kandidáti</router-link>
+				<router-link :to="link + '/strana/' + party.id + '/kandidati'" class="strong smallest _pp" title="Seznam kandidátů">kandidáti</router-link>
 				<template v-if="party.$data && party.$data.web">
 					<template v-if="party.$data.web && party.$data.web.length > 0"> <p-link :href="party.$data.web[0].value" class="smallest strong _pp">web</p-link></template>										
 				</template>
 				<template v-if="party.$data && party.$data.social">
 					<template v-for="(soc, index) in party.$data.social.filter(x => ['tw', 'fb', 'threads', 'ig', 'tiktok'].indexOf(type(x.value)) > -1)"> <p-link :href="soc.value" class="_icon"> <img :src="'https://static.programydovoleb.cz/icon/' + type(soc.value) + '.svg'"  loading="lazy" :alt="type(soc.value).toUpperCase() + ' ' + party.ZKRATKA"></p-link></template>
 				</template>
+							<template v-if="candidates.length === 0 && party.MAND_STR">				
+								<div class="p-line _05"></div>
+								<!-- <div class="_g2"></div> -->
+								<p-badge background="var(--blue)">{{ number(party.PROCHLSTR, 2) }} %</p-badge>
+								&rarr;
+								<p-badge :background="party.MAND_STR > 0 ? 'var(--green)' : 'var(--red)'">{{ party.MAND_STR + ' mandát' + lang(party.MAND_STR, ['', '', 'y', 'ů']) || 'bez zisku mandátů' }}</p-badge>
+							</template>
 			</div>
 			<div class="smallest dimm _br" v-if="party.ESTRANA > 0">
 				<span class="tiny">#</span>{{ party.ESTRANA }}

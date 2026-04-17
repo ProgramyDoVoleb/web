@@ -5,7 +5,7 @@ import { useCore, cdn } from '@/stores/core';
 import ReportForm from '@/components/report-form/do.vue';
 
 export default {
-	name: 'party-preview',
+	name: 'party-preview-tiny',
 	props: ['party', 'candidates', 'elections', 'election', 'link'],
 	data: function () {
 		return {

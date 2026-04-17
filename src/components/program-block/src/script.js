@@ -108,5 +108,10 @@ export default {
 
 			return list;
 		}
+	},
+	methods: {
+		purify: function (html) {
+			return html.split('="').join('-original="').split('href-original="').join('href="').split('target-original="').join('target="');
+		}
 	}
 };

@@ -1,12 +1,12 @@
 import {useData} from '@/stores/data';
 import {useEnums} from '@/stores/enums';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
-import { type, domain, date, truncate, sortBy } from '@/pdv/helpers';
+import { type, domain, date, truncate, sortBy, lang, number } from '@/pdv/helpers';
 import { useCore, cdn } from '@/stores/core';
 import ReportForm from '@/components/report-form/do.vue';
 
 export default {
-	name: 'party-preview',
+	name: 'party-preview-large',
 	props: ['party', 'candidates', 'elections', 'election', 'link', 'amount', 'more'],
 	data: function () {
 		return {
@@ -26,7 +26,7 @@ export default {
 		ReportForm
 	},
 	methods: {
-		colorByItem, logoByItem, date, truncate, type, sortBy,
+		colorByItem, logoByItem, date, truncate, type, sortBy, lang, number,
 		sortByPorCislo: function (list) {
 			var arr = [];
 

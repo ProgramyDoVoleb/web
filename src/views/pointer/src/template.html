@@ -385,7 +385,7 @@
 											<strong v-if="priority.headline">{{ truncate(priority.headline, 8) }}</strong>
 											<span v-if="priority.headline && priority.content && priority.content.charAt(0) != '['"> &middot; </span>
 											<span v-if="priority.content && priority.content.charAt(0) != '['">
-												<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="current.$priority.length === 1 ? 120 : 12" :compact="$link + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
+												<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="current.$priority.length === 1 ? 120 : 24" :compact="$link + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
 											</span>
 										</p-label>
 									</div>								
@@ -1034,6 +1034,9 @@
 								</div>
 							</p-block>
 							<p-block headline="Kandidátní listina" v-if="current.$strana && $strana">
+								<party-preview :link="'/volby/' + volbyType + '/' + volbyID" :party="$strana" :election="null" :elections="data"></party-preview>
+							</p-block>
+							<p-block headline="Kandidátní listina" v-if="false && current.$strana && $strana">
 								<p-area :borderColor="colorByItem($strana, data)" class="primary">
 									<div class="">
 										<div class="_float-right">
@@ -1151,7 +1154,7 @@
 							<candidate-stats v-if="$volby.status > 1 && current.$kandidati && current.$kandidati.length > 1" :data="current.$kandidati" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="$volby.status"></candidate-stats>
 						
 
-							<p-block headline="Volby">
+							<p-block headline="Volby" v-if="false">
 								<p-area :icon="$volby.$about.hash">
 									<strong>{{ $volby.$about.name }}</strong>
 									<div class="smaller">{{ $volby.datum ? ($volby.datum_label || date($volby.datum, 3)) : $volby.cirka }}</div>
@@ -1178,10 +1181,10 @@
 									</div>
 								</p-area>
 							</p-block>
-							<p-block headline="Více o straně či hnutí" v-if="current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition && current.VSTRANA != 90">
+							<p-block headline="Více o straně či hnutí" v-if="false && current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition && current.VSTRANA != 90">
 								<party-quicklook :VSTRANA="current.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
 							</p-block>
-							<p-block headline="Zmíněné strany a hnutí" v-if="current.PRIJMENI && !current.VSTRANA" anchor="Detaily">
+							<p-block headline="Zmíněné strany a hnutí" v-if="false && current.PRIJMENI && !current.VSTRANA" anchor="Detaily">
 								<div class="columns _c">
 									<party-quicklook v-if="current.NSTRANA" :VSTRANA="current.NSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
 									<party-quicklook v-if="current.PSTRANA && current.NSTRANA != current.PSTRANA && current.PSTRANA != 99" :VSTRANA="current.PSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
@@ -1189,6 +1192,26 @@
 							</p-block>
 							<p-block headline="Výsledky" v-if="$volby.status === 3">
 								<election-results :type="$volby.$about" :id="$volby.id" :election="$volby" :spec="specs" :label="label"></election-results>
+							</p-block>
+							<p-block headline="V minulých volbách" v-if="prev && prev.list[0].$strana">
+								<p-grid class="_2_classic">
+									<div>
+										<p-area>
+											<person-preview-block :cand="prev.list[0]" :data="prev" :current="{$kandidati: []}" :party="prev.list[0].$strana[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby"></person-preview-block>
+										</p-area>
+									</div>
+									<div>
+										<!-- <p-area> -->
+											<party-preview-tiny :elections="prev" :party="prev.list[0].$strana[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="[]"></party-preview-tiny>
+										<!-- </p-area> -->
+									</div>
+								</p-grid>								
+							</p-block>
+							<p-block headline="V minulých volbách" v-if="prev && !prev.list[0].$strana">
+								<party-preview-tiny :elections="prev" :party="prev.list[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="prev.list[0].$kandidati"></party-preview-tiny>								
+							</p-block>
+							<p-block :headline="current.JMENO + ' ' + current.PRIJMENI + ' v komunálních volbách'" v-if="table === 'csu_kv_rk' && current" anchor="Historie voleb">
+								<candidate-history :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :showUpcoming="$volby.status === 3"></candidate-history>
 							</p-block>
 							<p-block headline="Zdroje a podklady">
 								<p-loader :rule="news">
@@ -1230,32 +1253,12 @@
 									</div>
 								</p-loader>
 							</p-block>
-							<p-block headline="V minulých volbách" v-if="prev && prev.list[0].$strana">
-								<p-grid class="_2_classic">
-									<div>
-										<p-area>
-											<person-preview-block :cand="prev.list[0]" :data="prev" :current="{$kandidati: []}" :party="prev.list[0].$strana[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby"></person-preview-block>
-										</p-area>
-									</div>
-									<div>
-										<!-- <p-area> -->
-											<party-preview-tiny :elections="prev" :party="prev.list[0].$strana[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="[]"></party-preview-tiny>
-										<!-- </p-area> -->
-									</div>
-								</p-grid>								
-							</p-block>
-							<p-block headline="V minulých volbách" v-if="prev && !prev.list[0].$strana">
-								<party-preview-tiny :elections="prev" :party="prev.list[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="prev.list[0].$kandidati"></party-preview-tiny>								
-							</p-block>
-							<p-block :headline="current.JMENO + ' ' + current.PRIJMENI + ' v komunálních volbách'" v-if="table === 'csu_kv_rk' && current" anchor="Historie voleb">
-								<candidate-history :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :showUpcoming="$volby.status === 3"></candidate-history>
-							</p-block>
 							<p-block headline="Upravit nebo doplnit" :level="1" :hide="true">
 
 								<div class="_split" v-if="$volby.status < 3">
 									<div>
 										<!-- <p-block headline="Doplnění" :hide="true"> -->
-											<p-area icon2="edit" class="highlight shadow" borderColor="var(--greyish)">
+											<p-area icon2="edit" class="highlight shadow" borderColor="var(--green)">
 												<strong class="green">Pomozte doplnit další údaje</strong>
 												<p class="smaller">Přidejte se k lidem, kteří pomáhají doplňovat informace na <em>Programy</em>. Stačí odkaz.</p>
 												<p-list class="smaller _05">
@@ -1351,19 +1354,23 @@
 													</p-box-group>
 												</div>
 											</p-area>
-											<p-area background="var(--blue11)" borderColor="var(--blue)">
-												<div class="mb05"><strong class="blue">Pro strany a kandidáty</strong></div>
-												<p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin">
-													<p>Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají. Můžete poté doplňovat i další informace, jako např <strong>odpovědi na volební otázky, doplňovat fotografie</strong>, loga, nastavovat barvu atd</p>
-	
-													<div class="strong smaller">
-														<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link" class="blue">Chci přístup do Adminu</p-link>
-														&middot;
-														<p-link href="https://admin.programydovoleb.cz">Více o Adminu</p-link>
-														&middot;
-														<router-link to="/pro-kandidaty">Obecné informace pro strany a kandidáty</router-link>
+										<!-- </p-block> -->
+									</div>
+									<div>
+										<!-- <cta-support :hide="true"></cta-support> -->
+											<p-area borderColor="var(--blue)" icon2="admin" class="highlight shadow">
+												<div class="mb05"><strong class="blue">Pro strany<br>a kandidáty</strong></div>
+												<!-- <p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin"> -->
+													<p class="smaller">Týká se tato stránka vás a máte zájem spravovat své informace přímo online? Požádejte o přístup do <strong>Adminu</strong>.</p>
+													<div class="p-list">
+														<div class="smaller">
+															<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link" class="btn">Klikněte zde</p-link>
+														</div>
+														<div class="strong smaller">
+															<router-link to="/pro-kandidaty">Více informací</router-link>
+														</div>
 													</div>
-												</p-collapsible>
+												<!-- </p-collapsible> -->
 												<p-collapsible label="Volební otázky" logo="answers-mini" v-if="$volby.id === 166 && current.JMENO">
 													<template v-if="$store.getters.pdv('elections/specific/166/questions')">
 														<p-list class="smaller _05">
@@ -1390,10 +1397,6 @@
 												</p-collapsible>
 	
 											</p-area>
-										<!-- </p-block> -->
-									</div>
-									<div>
-										<cta-support :hide="true"></cta-support>
 									</div>
 								</div>
 							</p-block>

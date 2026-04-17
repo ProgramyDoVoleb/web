@@ -22,6 +22,7 @@ import PersonPreviewLinear from '@/components/person-preview-linear/do.vue';
 import PersonPreviewBlock from '@/components/person-preview-block/do.vue';
 import PersonPreviewColumn from '@/components/person-preview-column/do.vue';
 import PartyPreviewTiny from '@/components/party-preview-large/do.vue';
+import PartyPreview from '@/components/party-preview/do.vue';
 import EventItem from '@/components/event-item/do.vue'
 import AnswerTopicPreview from '@/components/answer-topic-preview/do.vue';
 import PartyPolls from '@/components/party-polls/do.vue'
@@ -66,7 +67,7 @@ export default {
 	ProfilePreview,
 	ReportModal, ReportForm,
 	LogItem,
-	PartyQuicklook,
+	PartyQuicklook, PartyPreview,
 	CandidateStats,
 	OkrskyStats,
 	NewsBlock,

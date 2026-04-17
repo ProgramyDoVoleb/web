@@ -35,8 +35,12 @@
 					&middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/obec/' + current.KODZASTUP">{{ current.NAZEVZAST }}</router-link>
 					<template v-if="current.$zastupitelstvo[0].DRUHZASTUP === 1 || current.$zastupitelstvo[0].DRUHZASTUP > 4"> &middot; okres {{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</template>
 				</template>
-				<template v-if="$volby.typ === 'KV' && !current.$zastupitelstvo">
+				<template v-if="$volby.typ === 'KV' && !current.$zastupitelstvo && !party">
 					&middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/obec/' + current.KODZASTUP">{{ current.NAZEVZAST }}</router-link>
+					<!-- <template v-if="$strana.$zastupitelstvo[0].DRUHZASTUP === 1 || $strana.$zastupitelstvo[0].DRUHZASTUP > 4"> &middot; okres {{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</template> -->
+				</template>
+				<template v-if="$volby.typ === 'KV' && !current.$zastupitelstvo && party">
+					&middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/obec/' + party.KODZASTUP">{{ party.NAZEVZAST }}</router-link>
 					<!-- <template v-if="$strana.$zastupitelstvo[0].DRUHZASTUP === 1 || $strana.$zastupitelstvo[0].DRUHZASTUP > 4"> &middot; okres {{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</template> -->
 				</template>
 				<template v-if="$volby.typ === 'KZ'">
