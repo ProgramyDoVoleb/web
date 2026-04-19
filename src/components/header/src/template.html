@@ -39,7 +39,7 @@
 									<div><router-link to="/o-projektu/jak-podporit" class="strong green">Podpořit</router-link></div>
 						</div>
 						
-						<div v-if="$route.fullPath.split('/volby/krajske-volby/162').length > 1 || $route.fullPath.split('/bod/csu_kz').length > 1">
+						<div v-if="$route.fullPath.split('/volby/krajske-volby/162').length > 1">
 							<div class="p-line"></div>
 							<div class="smaller">
 								<div class="columns">
@@ -47,7 +47,7 @@
 								</div>
 							</div>
 						</div>
-						<div v-if="$route.fullPath.split('/volby/senatni-volby/163').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1">
+						<div v-if="$route.fullPath.split('/volby/senatni-volby/163').length > 1">
 							<div class="p-line"></div>
 							<div class="smaller">
 								<strong class="red">Senátní volby</strong>
@@ -85,7 +85,7 @@
 								</div>
 							</div>
 						</div>
-						<div v-if="$route.fullPath.split('/volby/senatni-volby/173').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1 || $route.path === '/'">
+						<div v-if="$route.fullPath.split('/volby/senatni-volby/173').length > 1 || $route.path === '/'">
 							<div class="p-line"></div>
 							<div class="smaller">
 								<strong class="red">Senátní volby</strong>

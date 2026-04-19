@@ -1,9 +1,33 @@
 .wsw {
+
+    h1, h2, h3, h4 {
+        max-width: 30em;
+    }
+
+    p {
+        line-height: 1.5;
+    }
+
     ol {
         list-style: decimal inside;
     }
 
     ul {
-        list-style: circle inside;
+        list-style: circle outside;
+        margin-left: 1em;
+        max-width: 40em;
     }
+
+    li {
+        padding-left: .75em;
+        line-height: 1.5;
+    }
+
+    li:not(:first-child) {
+        margin-top: .5em;
+    }
+}
+
+.program-block-dynamic h2 {
+    max-width: 20em;
 }
