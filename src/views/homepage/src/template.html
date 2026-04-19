@@ -372,22 +372,45 @@
 				<!-- <mailchimp-signup></mailchimp-signup> -->
 			</p-block>
 			<p-block headline="Programy do voleb" :level="1" :hide="1">
-				<p-block headline="O projektu">
-					<p><em class="strong">Programy do voleb</em> jsou nestranný předvolební přehled, který se zaměřuje na přehledy kandidátů a volebních programů. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. <em>Programy do voleb</em> jsou nezávislý, neziskový, dobrovolnický projekt. Nejsou oficiálním státním webem.</p>
-					<p-box-group>
-						<p-box to="/o-projektu">
-							<p-box-button class="primary">Více o Programech</p-box-button>
-						</p-box>
-						<p-box to="/o-projektu/kontakty">
-							<p-box-label>Kontakty</p-box-label>
-						</p-box>
-						<p-box to="/o-projektu/jak-podporit">
-							<p-box-label class="green">Podpořit</p-box-label>
-						</p-box>
-					</p-box-group>
+				<p-block headline="O projektu" class="_pb0 mb2">
+					<p>
+						<em class="strong">Programy do voleb</em> jsou nestranný předvolební přehled, který se zaměřuje na přehledy kandidátů a volebních programů. 
+						Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. 
+						<em>Programy do voleb</em> jsou nezávislý, neziskový, dobrovolnický projekt. 
+						Nejsou oficiálním státním webem.
+						<router-link to="/o-projektu" class="strong smaller">Více o projektu</router-link>
+					</p>
 				</p-block>
-				<p-block hide="1" headline="Může vás zajímat" class="_pb0">
-					<p-collapsible logo="list" label="Rejstřík stran">
+				<p-block headline="Může vás zajímat" class="_pb0" :hide="true">
+					<p-area class="inline shadow highlight" borderColor="var(--blue)">
+						<h4 class="mb075">Může vás také zajímat</h4>
+						<p-box-group>
+							<p-box to="/rejstrik">
+								<p-box-button icon="search">Hledání strany</p-box-button>
+							</p-box>
+							<p-box to="/lide">
+								<p-box-label>kandidáta</p-box-label>
+							</p-box>
+							<p-box to="/obce">
+								<p-box-label>obce</p-box-label>
+							</p-box>
+							<p-box to="/volby">
+								<p-box-label>voleb</p-box-label>
+							</p-box>
+						</p-box-group>
+						<div class="p-line _05"></div>
+						<p-box-group>
+							<p-box to="/volebni-pruzkumy">
+								<p-box-button icon="results">Volební průzkumy</p-box-button>
+							</p-box>
+							<p-box to="/vypocet-mandatu">
+								<p-box-label>Výpočet mandátů</p-box-label>
+							</p-box>
+						</p-box-group>
+					</p-area>
+					<!-- <div class="p-line"></div> -->
+					<div class="p-gap _2"></div>
+					<p-collapsible logo="list" label="Rejstřík stran" v-if="false">
 						<p>Pokud byste se chtěli podívat na zapojení strany v následujících volbách, minulé výsledky, přehled koalic, zjistit důležité odkazy nebo přehled krajských organizací.</p>
 						<p-loader :rule="parties">
 							<div v-if="parties">
@@ -424,7 +447,7 @@
 							</div>
 						</p-loader>
 					</p-collapsible>
-					<p-collapsible logo="results" label="Výsledky v obcích">
+					<p-collapsible logo="results" label="Výsledky v obcích" v-if="false">
 						<p>Přehled všech voleb, které se konaly v&nbsp;libovolném městě či obci. Najdete zde také zvolené zastupitele, aktuálního starostu a další zajímavosti.</p>
 						<p-area>
 							<div>
@@ -450,8 +473,9 @@
 					</p-collapsible>
 				</p-block>
 					<p-block headline="Časté otázky" :hide="1">
-						<p-collapsible label="Časté otázky" logo="question">
-							<p-area class="primary">
+						<!-- <p-collapsible label="Časté otázky" logo="question"> -->
+							<!-- <p-area class="primary"> -->
+								<h3 class="serif">Časté otázky</h3>
 								<p-collapsible label="Jak vzniká obsah webu?">
 									<p>Obří porce toho, co na webu najdete, je díky práci dobrovolníků, běžných lidí. Často stačilo 
 										<p-modal class="inline">
@@ -464,8 +488,8 @@
 									<p>Strany a kandidáti mohou také využívat <p-link href="https://admin.programydovoleb.cz" class="strong">Admin</p-link>, ve kterém lze doplňovat a upravovat informace svépomocí.</p>
 								</p-collapsible>
 								<p-collapsible label="Jak dlouho projektu existuje?">
-									<p>Projekt vznikl v roce 2018 a od té doby pokrývá všechny české volby s&nbsp;výjimkou některých mimořádných komunálních voleb. Od roku 2021 mají <em>Programy do voleb</em> formu zapsaného spolku a byly 3x nominovány na Cenu českého internetu.</p>
-									<p class="strong"><p-link href="https://kristalova.lupa.cz/2023/vysledky/">Křišťálová lupa 2023</p-link> &middot; <p-link href="https://kristalova.lupa.cz/2022/vysledky/">2022</p-link></p>
+									<p>Projekt vznikl v roce 2018 a od té doby pokrývá všechny české volby s&nbsp;výjimkou některých mimořádných komunálních voleb. Od roku 2021 mají <em>Programy do voleb</em> formu zapsaného spolku a byly 4x nominovány na Cenu českého internetu.</p>
+									<p class="strong"><p-link href="https://kristalova.lupa.cz/2025/vysledky/">Křišťálová lupa 2025</p-link> &middot; <p-link href="https://kristalova.lupa.cz/2023/vysledky/">2023</p-link> &middot; <p-link href="https://kristalova.lupa.cz/2022/vysledky/">2022</p-link></p>
 								</p-collapsible>
 								<p-collapsible label="Jak moc je projekt nestranný?">
 									<p><em>Programy do voleb</em> jsou nestranný neziskový nezávislý dobrovolnický projekt. Mají formu zapsaného spolku. Autor projektu ani další členové spolku nejsou členy ani registrovaní příznivci jakékoli politické strany, hnutí nebo lobbistické skupiny. Nejsou součástí žádného zpravodajského serveru, ani projektem politické strany nebo jejího příznivce. Nezřizuje je žádná státní organizace a nežádá o dotace z veřejných rozpočtů.</p>
@@ -591,13 +615,13 @@
 									<h3 class="serif mt2">Co když nejsem v seznamu?</h3>
 									<p>Napiště prosím na <a href="mailto:doplnit@programydovoleb.cz" class="strong">doplnit@programydovoleb.cz</a> s odkazem na status na sociální síti nebo na článek. Strany a hnutí s přístupem do Adminu mohou nové kandidáty přidávat přímo. Zároveň vám ihned mohou dát přístup.</p>
 									<p-box-group>
-										<p-box href="https://admin.programydovoleb.cz">
-											<p-box-button class="primary">Více na webu Adminu</p-box-button>
+										<p-box to="/pro-kandidaty">
+											<p-box-button class="primary">Více informací</p-box-button>
 										</p-box>
 									</p-box-group>
 								</p-collapsible>
-							</p-area>
-						</p-collapsible>
+							<!-- </p-area> -->
+						<!-- </p-collapsible> -->
 	
 					</p-block>
 			</p-block>
