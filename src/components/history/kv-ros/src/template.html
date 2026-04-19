@@ -24,15 +24,15 @@
 										<template v-else>
 											<!-- <template v-if="[80,90].indexOf(String(party.SLOZENI).split(',').map(x => Number(x))) > -1"> -->
 												<div class="smallest">
-													{{ [80,90].indexOf(String(party.SLOZENI).split(',').map(x => Number(x))) > -1 ? 'sdružení' : 'koalice' }} 
+													{{ String(party.SLOZENI).split(',').map(x => Number(x)).find(x => [80,90].indexOf(x) > -1) ? 'sdružení' : 'koalice' }} 
 													<p-list-linear>
 														<span v-for="member in String(party.SLOZENI).split(',').map(x => Number(x)).filter(x => [80, 90].indexOf(x) === -1)">
 															<router-link :to="'/rejstrik/' + member">{{ partyInCis(member, election.cis).ZKRATKA }}</router-link>
 														</span>
-														<span>nezávislých kandidátů</span>
+														<span v-if="String(party.SLOZENI).split(',').map(x => Number(x)).find(x => [80,90].indexOf(x) > -1)">nezávislých kandidátů</span>
 													</p-list-linear>
 												</div>
-												<template v-if="String(party.SLOZENI).split(',').map(x => Number(x)).filter(x => [80, 90].indexOf(x) === -1).length > 1">
+												<template v-if="String(party.SLOZENI).split(',').map(x => Number(x)).filter(x => [80,90].indexOf(x) === -1).length > 1">
 													<div class="p-gap _05"></div>
 													<p-box-group>
 														<template v-for="member in String(party.SLOZENI).split(',').map(x => Number(x)).filter(x => [80, 90].indexOf(x) === -1)">
