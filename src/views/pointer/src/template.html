@@ -1218,7 +1218,13 @@
 									</p-collapsible>
 								</template>
 							</p-block>
-							<p-block headline="V minulých volbách" v-if="table === 'csu_kv_rk' && current" anchor="Historie voleb">
+							<p-block headline="V minulých volbách" v-if="table === 'csu_kv_rk' && current">
+								<template v-if="prev && prev.list[0].$strana">
+									<p-area>
+										<person-preview-block :cand="prev.list[0]" :data="prev" :current="{$kandidati: []}" :party="prev.list[0].$strana[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby"></person-preview-block>
+									</p-area>
+									<h3 class="serif mb05 mt2">Přehled dřívějších zapojení ve volbách</h3>
+								</template>
 								<history-kv-rk :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :showUpcoming="$volby.status === 3"></history-kv-rk>
 							</p-block>
 							<p-block headline="Zdroje a podklady">
