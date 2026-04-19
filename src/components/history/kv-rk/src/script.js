@@ -3,7 +3,7 @@ import {useData} from '@/stores/data';
 import {colorByItem, sortBy} from '@/pdv/helpers';
 
 export default {
-	name: 'candidate-history',
+	name: 'history-kv-rk',
 	props: ['JMENO', 'PRIJMENI', 'KODZASTUP', 'showUpcoming'],
 	data: function () {
 		return {
@@ -15,7 +15,7 @@ export default {
 			return useData()
 		},
 		data: function () {
-			return this.$store.getters.pdv('person/history-in-kv/' + this.KODZASTUP + ':' + encodeURIComponent(this.PRIJMENI) + ':' + encodeURIComponent(this.JMENO));
+			return this.$store.getters.pdv('history/kv-rk/' + this.KODZASTUP + ':' + encodeURIComponent(this.PRIJMENI) + ':' + encodeURIComponent(this.JMENO));
 		}
 	},
 	methods: {

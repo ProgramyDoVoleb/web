@@ -141,6 +141,7 @@
   height: 2.5rem;
   top: -1.2em;
   left: -.1em;
+  border-radius: 4px;
   // border: var(--border);
 
   .dark &[src*="icon/"]:not([src*="volby"]) {

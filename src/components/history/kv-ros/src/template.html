@@ -1,0 +1,61 @@
+<div class="history-kv">	
+	<p-loader :rule="data">
+		<div v-if="data">
+			<p-list>
+				<template v-if="data.list.filter(x => x.status > (showUpcoming ? 0 : 2)).length > 0">
+					<div v-for="election in sortBy(data.list.filter(x => x.status  > (showUpcoming ? 0 : 2)), 'datum', null, true, true)">
+						<p-area :class="{'highlight shadow': election.status < 3}">
+							<template v-if="election.radne === 1"><strong class="smaller">{{ election.datum_label || election.datum.split('-')[0] }}</strong><span class="smallest dimm"> &middot; řádné volby</span></template>
+							<template v-else><strong class="smaller">{{ date(election.datum) }}</strong><span class="smallest dimm"> &middot; mimořádné volby</span></template>
+							<div class="p-gap _05"></div>
+							<p-list class="invisible smaller">
+								<div v-for="party in sortBy(election.$strany, 'NAZEV', null, true)">
+									<p-label :color="colorByItem(party, election)" class="block">
+										<router-link :to="'/volby/komunalni-volby/' + election.id + '/strana/' + party.id" class="strong">{{ party.NAZEV }}</router-link>
+										<template v-if="election.status === 3">
+											&middot;
+											{{ party.PROCHLSTR }} %
+											&middot;
+											<strong :class="party.MAND_STR > 0 ? 'green' : 'red'">
+												<p-lang :value="party.MAND_STR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>
+											</strong>
+										</template>
+										<div v-if="typeof party.SLOZENI === 'number'" class="smallest dimm">samostatná kandidátka</div>
+										<template v-else>
+											<!-- <template v-if="[80,90].indexOf(String(party.SLOZENI).split(',').map(x => Number(x))) > -1"> -->
+												<div class="smallest">
+													{{ [80,90].indexOf(String(party.SLOZENI).split(',').map(x => Number(x))) > -1 ? 'sdružení' : 'koalice' }} 
+													<p-list-linear>
+														<span v-for="member in String(party.SLOZENI).split(',').map(x => Number(x)).filter(x => [80, 90].indexOf(x) === -1)">
+															<router-link :to="'/rejstrik/' + member">{{ partyInCis(member, election.cis).ZKRATKA }}</router-link>
+														</span>
+														<span>nezávislých kandidátů</span>
+													</p-list-linear>
+												</div>
+												<template v-if="String(party.SLOZENI).split(',').map(x => Number(x)).filter(x => [80, 90].indexOf(x) === -1).length > 1">
+													<div class="p-gap _05"></div>
+													<p-box-group>
+														<template v-for="member in String(party.SLOZENI).split(',').map(x => Number(x)).filter(x => [80, 90].indexOf(x) === -1)">
+															<p-box :to="'/rejstrik/' + member">
+																<p-box-image class="roundedSlightly" :src="logoByItem(partyInCis(member, election.cis), election)"></p-box-image>
+															</p-box>
+														</template>
+													</p-box-group>
+												</template>
+											<!-- </template> -->
+										</template>
+									</p-label>
+								</div>
+							</p-list>
+						</p-area>
+					</div>
+				</template>
+				<div v-else>
+					<p-area class="inline smallest dimm">
+						<em>žádné záznamy z minulých voleb nenalezeny</em>
+					</p-area>
+				</div>
+			</p-list>
+		</div>
+	</p-loader>
+</div>

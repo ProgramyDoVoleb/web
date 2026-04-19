@@ -528,3 +528,22 @@ export function townInRegularElectionsAlsoVotesInSenat (year, obvod) {
 
   return obvod && o == m;
 }
+
+export function partyInCis (VSTRANA, CIS) {
+			var party = {};
+
+			CIS.strany.forEach(p => {
+				if (p.VSTRANA === VSTRANA) {
+					party = p;
+				}
+				if (p.$coalition) {
+					p.$coalition.forEach(m => {
+						if (m.VSTRANA === VSTRANA) {
+							party = m;
+						}
+					});
+				}
+			});
+
+			return party;
+		}

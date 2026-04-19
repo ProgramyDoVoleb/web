@@ -144,7 +144,7 @@
 				<template v-if="party.$data && party.$data.social">
 					<template v-for="(soc, index) in party.$data.social.filter(x => ['tw', 'fb', 'threads', 'ig', 'tiktok'].indexOf(type(x.value)) > -1)"> <p-link :href="soc.value" class="_icon"> <img :src="'https://static.programydovoleb.cz/icon/' + type(soc.value) + '.svg'"  loading="lazy" :alt="type(soc.value).toUpperCase() + ' ' + party.ZKRATKA"></p-link></template>
 				</template>
-							<template v-if="candidates.length === 0 && party.MAND_STR">				
+							<template v-if="party.MAND_STR">				
 								<div class="p-line _05"></div>
 								<!-- <div class="_g2"></div> -->
 								<p-badge background="var(--blue)">{{ number(party.PROCHLSTR, 2) }} %</p-badge>
@@ -157,6 +157,9 @@
 			</div>
 			<div class="smallest dimm _br" v-if="party.KSTRANA > 0">
 				<span class="tiny">č. </span>{{ party.KSTRANA }}
+			</div>
+			<div class="smallest dimm _br" v-if="party.POR_STR_HL > 0">
+				<span class="tiny">č. </span>{{ party.POR_STR_HL }}
 			</div>
 		<!-- </div> -->
 	</p-area>

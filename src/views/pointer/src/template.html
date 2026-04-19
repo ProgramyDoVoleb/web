@@ -1193,7 +1193,7 @@
 							<p-block headline="Výsledky" v-if="$volby.status === 3">
 								<election-results :type="$volby.$about" :id="$volby.id" :election="$volby" :spec="specs" :label="label"></election-results>
 							</p-block>
-							<p-block headline="V minulých volbách" v-if="prev && prev.list[0].$strana">
+							<p-block headline="V minulých volbách" v-if="false && prev && prev.list[0].$strana">
 								<p-grid class="_2_classic">
 									<div>
 										<p-area>
@@ -1207,11 +1207,19 @@
 									</div>
 								</p-grid>								
 							</p-block>
-							<p-block headline="V minulých volbách" v-if="prev && !prev.list[0].$strana">
-								<party-preview-tiny :elections="prev" :party="prev.list[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="prev.list[0].$kandidati"></party-preview-tiny>								
+							<p-block headline="V minulých volbách" v-if="table === 'csu_kv_ros' && current && [80,90].indexOf(String(current.SLOZENI).split(',').map(x => Number(x)) === -1)">
+								<template v-if="prev && !prev.list[0].$strana">
+									<party-preview-tiny :elections="prev" :party="prev.list[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="prev.list[0].$kandidati"></party-preview-tiny>								
+									<h3 class="serif mb05 mt2">Zapojení stran v historii</h3>
+								</template>
+								<template v-for="VSTRANA in String(current.SLOZENI).split(',').map(x => Number(x)).filter(x => x != 80 && x != 90)">
+									<p-collapsible :label="partyInCis(VSTRANA, data.cis).NAZEV" :logo="logoByItem(partyInCis(VSTRANA, data.cis), data)">
+										<history-kv-ros :KODZASTUP="current.KODZASTUP" :NAZEVZAST="current.NAZEVZAST" :VSTRANA="VSTRANA" :showUpcoming="$volby.status === 3"></history-kv-ros>
+									</p-collapsible>
+								</template>
 							</p-block>
-							<p-block :headline="current.JMENO + ' ' + current.PRIJMENI + ' v komunálních volbách'" v-if="table === 'csu_kv_rk' && current" anchor="Historie voleb">
-								<candidate-history :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :showUpcoming="$volby.status === 3"></candidate-history>
+							<p-block headline="V minulých volbách" v-if="table === 'csu_kv_rk' && current" anchor="Historie voleb">
+								<history-kv-rk :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :showUpcoming="$volby.status === 3"></history-kv-rk>
 							</p-block>
 							<p-block headline="Zdroje a podklady">
 								<p-loader :rule="news">

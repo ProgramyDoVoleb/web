@@ -3,7 +3,7 @@ import { useCore, cdn, today } from '@/stores/core';
 import { useRoute } from 'vue-router';
 import { useEnums } from '@/stores/enums';
 import types from '@/stores/enums/log';
-import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, unique, sortBy, isWoman} from '@/pdv/helpers';
+import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, unique, sortBy, isWoman, partyInCis} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsBlock from '@/components/news-block/do.vue'
@@ -38,7 +38,8 @@ import CtaSupportShort from '@/components/cta/support-short/do.vue';
 import CtaQuestions from '@/components/cta/questions/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
-import CandidateHistory from '@/components/candidate-history/kv/do.vue';
+import HistoryKvRk from '@/components/history/kv-rk/do.vue';
+import HistoryKvRos from '@/components/history/kv-ros/do.vue';
 
 export default {
 	name: 'layout-pointer',
@@ -81,7 +82,7 @@ export default {
 	PointerHeader, PointerSummary, PartyPreviewTiny,
 	PopUp,
 	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage,
-	CandidateHistory
+	HistoryKvRk, HistoryKvRos
   },
 	computed: {
 		$store: function () {
@@ -501,7 +502,8 @@ export default {
 			arr.sort((a, b) => b.updated.localeCompare(a.updated, 'cs'));
 
 			return arr;
-		}
+		},
+		partyInCis
   },
   mounted: function () {
     window.scrollTo(0, 1);
