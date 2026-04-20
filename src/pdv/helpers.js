@@ -302,6 +302,7 @@ export function type (link) {
   if (link.split('x.com').length > 1) return 'tw';
   if (link.split('instagram.com').length > 1) return 'ig';
   if (link.split('threads.net').length > 1) return 'threads';
+  if (link.split('threads.com').length > 1) return 'threads';
   if (link.split('wikipedia').length > 1) return 'wiki';
   if (link.split('linkedin').length > 1) return 'linkedin';
   if (link.split('t.me').length > 1) return 'telegram';

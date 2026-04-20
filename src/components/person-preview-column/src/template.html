@@ -109,7 +109,8 @@
 						</template>
 						<template v-if="cand.$program">
 							<template v-for="program in cand.$program">
-								<p-box :href="program.source">
+								<!-- <p-box :href="program.source"> -->
+								<p-box :href="program.type === 1 ? program.source : null" :to="program.type > 1 ? link + '/kandidat/' + cand.id + '/volebni-program/' + program.id : null">
 									<p-box-button class="blue">{{ width > 1024 ? program.value : 'Program' }}</p-box-button>
 								</p-box>
 							</template>

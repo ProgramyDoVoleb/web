@@ -19,26 +19,10 @@
 					<div class="p-gap"></div>
 				</template>
 
-				<div class="mb1">
-					<p-box-group>
-						<p-box>
-							<p-box-badge icon="icon-check" class="green">Všechny informace jsou ověřené a zdrojované</p-box-badge>
-						</p-box>
-						<p-modal>
-							<template #init>
-								<p-box>
-									<p-box-badge icon="icon-against" class="red">Tento projekt nepoužívá AI</p-box-badge>
-								</p-box>
-							</template>
-							<template #content>
-								<!-- <p-area class="inline mv1 smaller" icon="hint"> -->
-									<!-- <h4>Informace na <em>Programech</em></h4> -->
-									<p class="smaller">Všechny údaje k nadcházejícím volbám jsou ručně zadávané, kontrolované a vyžadují zdroj. Tím mohou být články v médiích nebo statusy na sociálních sítích. Údaje mohou přímo zadávat kandidáti či strany, pak jsou oni sami zdrojem informace a zárukou pravdivosti a důvěryhodnosti. </p>
-									<p class="smaller">Projekt záměrně nepoužívá AI ani ji neposkytuje data. V rámci průběžných testů není umělá inteligence schopná poskytovat data v neupravené, čisté podobě tak, aby je bylo možné považovat za důvěryhodné. Zároveň neexistuje cesta, jak byste si to mohli ověřit.</p>					
-								<!-- </p-area> -->
-							</template>
-						</p-modal>
-					</p-box-group>
+				<div class="mb025">
+					<div class="smallest dimm">
+						Všechny informace jsou ověřené a zdrojované, vychází z článků v médiích nebo na sociálních sítích. Jedinou výjimkou jsou údaje zadané přímo kandidáty. <em>Programy do voleb</em> fungují bez AI.
+					</div>
 				</div>
 
 				<p-block headline="Hledat obec" :hide="true" class="pb0">
@@ -308,23 +292,41 @@
 												</div>
 											</p-area>
 									</div>
-									<div v-for="(item, index) in day.fullprogram">
-											<p-area class="smaller highlight shadow">
+
+									<template v-for="item in day.fullprogram">
+										<div>
+											<p-area class="shadow highlight" :borderColor="colorByItem(item.$node, item)">
 												<div class="p-offset">
-													<div>
-														<p-image :src="logoByItem(item.$node, item)" :rounded="true"></p-image>
+													<div v-if="logoByItem(item.$node, item, null, true)">
+														<p-image :src="logoByItem(item.$node, item)" width="2.5em" :rounded="true"></p-image>
+													</div>
+													<div v-else>
+														<p-image src="https://static.programydovoleb.cz/icon/program.svg" size="2.5em" width="2.5em"></p-image>
 													</div>
 													<div>
-														<!-- <p-link :href="item.source" class="strong">{{ item.headline || 'Volební program' }}</p-link> -->
-														<router-link class="strong" :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id">{{ item.headline || 'Volební program' }}</router-link>
-														<div class="smallest strong">
-															{{ item.$node.NAZEV }}
+														<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id" class="strong">
+															{{ item.$node.ZKRATKA || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}
+														</router-link>
+														<div class="smallest">
+															Volební program
+															<span class="dimm" v-if="item.backup">
+																&middot;
+																<p-link :href="item.backup" class="dimm">
+																	záloha
+																</p-link>
+															</span>
+															<span class="dimm" v-if="item.source">
+																&middot;
+																<p-link :href="item.source" class="dimm">
+																	originál
+																</p-link>
+															</span>
 														</div>
-														<div class="smallest" v-if="item.$node.NAZEVZAST">{{ item.$node.NAZEVZAST }}</div>
 													</div>
 												</div>
 											</p-area>
-									</div>
+										</div>
+									</template>
 									<div v-for="(poll, index) in day.polls">
 										<p-area>
 											<polls-preview :poll="poll" :previous="poll.previous ? polls.list.find(x => x.id === poll.previous) : null" :name="'poll_' + poll.id"></polls-preview>
@@ -386,16 +388,16 @@
 						<h4 class="mb075">Může vás také zajímat</h4>
 						<p-box-group>
 							<p-box to="/rejstrik">
-								<p-box-button icon="search">Hledání strany</p-box-button>
+								<p-box-button icon="search">Strany</p-box-button>
 							</p-box>
 							<p-box to="/lide">
-								<p-box-label>kandidáta</p-box-label>
+								<p-box-label>kandidáti</p-box-label>
 							</p-box>
 							<p-box to="/obce">
 								<p-box-label>obce</p-box-label>
 							</p-box>
 							<p-box to="/volby">
-								<p-box-label>voleb</p-box-label>
+								<p-box-label>volby</p-box-label>
 							</p-box>
 						</p-box-group>
 						<div class="p-line _05"></div>
