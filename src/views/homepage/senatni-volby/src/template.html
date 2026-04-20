@@ -3,7 +3,7 @@
 	<p-area :class="{primary: elections.status === 2}">
 		<p-loader :rule="election" reserve="100px">
 			<template v-if="election">
-				<div :class="{'columns-4': election.list[0].$dotcene.length > 1}">
+				<p-columns :class="{'_2_4': election.list[0].$dotcene.length > 1}">
 					<div v-for="(obvod, index) in [].concat(election.list[0].$dotcene, {OBVOD: null, NAZEV: '- obvod neznámý'})">
 						<!-- <div class="p-offset balanced reverse"> -->
 							<!-- <div>								 -->
@@ -82,7 +82,7 @@
 							<!-- </div> -->
 						<!-- </div> -->
 					</div>
-				</div>
+				</p-columns>
 			</template>
 		</p-loader>
 	</p-area>
