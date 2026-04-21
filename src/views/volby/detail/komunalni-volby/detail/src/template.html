@@ -238,7 +238,7 @@
 										</p-label>
 									</div>
 									<div>
-										<p-icon :icon="current.$strany.find(x => x.VSTRANA === party.VSTRANA) || current.$kandidati.find(x => x.NSTRANA === party.VSTRANA || x.PSTRANA === party.VSTRANA) ? 'icon-check' : 'icon-against'"></p-icon>
+										<p-icon :icon="current.$strany.find(x => x.VSTRANA === party.VSTRANA) || current.$kandidati.find(x => x.NSTRANA === party.VSTRANA || x.PSTRANA === party.VSTRANA) || Boolean(partyInCis(party.VSTRANA, data.cis).VSTRANA) ? 'icon-check' : 'icon-against'"></p-icon>
 									</div>
 								</div>
 							</div>
