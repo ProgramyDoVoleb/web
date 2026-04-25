@@ -361,7 +361,7 @@ export default {
 			this.complex.tick++;
 		},
 		$getParty: function (id) {
-			return this.parties ? this.parties.list.find(x => x.VSTRANA === id) : {VSTRANA: 0, NAZEV: "---", ZKRATKA: "-", $data: {color: [], logo: []}};
+			return this.parties ? (this.parties.list.find(x => x.VSTRANA === id) || {VSTRANA: id, NAZEV: "---", ZKRATKA: "-", $data: {color: [], logo: []}}) : {VSTRANA: 0, NAZEV: "---", ZKRATKA: "-", $data: {color: [], logo: []}};
 		},
 		balanceBasic: function () {
 			this.complex.parties.forEach((res, index) => {

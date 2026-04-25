@@ -257,7 +257,7 @@
 									</div>
 								</div>					
 							</p-block>
-							<p-block headline="Lídr a vládní kandidáti" anchor="Lídr a tým" :class="{'_empty': !(!current.$data.length && (current.$data.leader || current.$data.govrole))}" :hide="true">
+							<p-block headline="Lídr a vládní kandidáti" anchor="Lídr a tým" :class="{'_empty': !(!current.$data.length && (current.$data.leader || current.$data.govrole))}" :hide="true" v-if="['csu_kz_rkl', 'csu_ps_rkl'].indexOf(table) > -1">
 									<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.leader && current.$data.leader.length > 0">
 										<h2 class="serif mt0">Volební lídr <span v-if="current.$data.govrole && current.$data.govrole.length > 0">a vládní kandidáti</span>
 										</h2>
@@ -1148,7 +1148,7 @@
 								</p-area>
 							</p-block>
 							<candidate-stats v-if="$volby.status > 1 && current.$kandidati && current.$kandidati.length > 1" :data="current.$kandidati" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="$volby.status"></candidate-stats>
-						
+							
 
 							<p-block headline="Volby" v-if="false">
 								<p-area :icon="$volby.$about.hash">
@@ -1265,6 +1265,20 @@
 										</p-collapsible>
 									</div>
 								</p-loader>
+							</p-block>
+							<p-block :hide="true" headline="Zadavatel a zpracovatel" v-if="$volby && $volby.datum > '2025-10-10'">
+								<p-area icon="legal">
+									<p class="smaller strong pv0">Poznámka k zadavateli, zpracovateli a legislativě voleb v EU a České republice</p>
+									<p class="smallest">Informace na této stránce jsou kombinací volně dostupných údajů v médiích, otevřených a volně dostupných dat státních úřadů (ČSÚ, Vnitro...), údajů z webových stránek stran a kandidátů, sociálních sítí, a také mohou být přímo vložené samotnými kandidáty nebo jejich zástupci.</p>
+									<p class="smallest"><em>Programy do voleb</em> jsou neziskový projekt, který nabízí všem stranám a kandidátům bez rozdílu možnost zdarma a bez jakéhokoli protiplnění doplňovat a spravovat svůj volební profil, aby si je mohli lidé snadno porovnat. Z pohledu legislativy tak nejde o placenou službu v rámci volebního zákona, kde by bylo nutné uvádět a evidovat smluvní strany, detaily plnění apod., protože nevzniká žádný smluvní vztah mezi <em>Programy</em> a kandidáty či jejich zástupci, kteří se rozhodli data vyplňovat.</p>
+									
+									<template v-if="current.$data.zz">
+										<div class="p-line"></div>
+										<strong class="smallest">Vlastní poznámka o zadavateli či zpracovateli</strong>
+										<div v-html="current.$data.zz[0].value" class="serif"></div>
+										<p-link :href="current.$data.zz[0].source" v-if="current.$data.zz[0].source" class="smallest strong">Více informací</p-link>
+									</template>
+								</p-area>
 							</p-block>
 							<p-block headline="Upravit nebo doplnit" :level="1" :hide="true">
 

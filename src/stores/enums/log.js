@@ -40,5 +40,6 @@ export default {
     'orp': 'Obec s rozšířenou působností',
     'candidate': 'Přidán kandidát',
     'party': 'Přidána strana',
-    'snk': 'Místní nezávislá sdružení'
+    'snk': 'Místní nezávislá sdružení',
+    'zz': 'Zadavatel/zpracovatel'
 }

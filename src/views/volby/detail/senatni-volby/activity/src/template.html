@@ -6,6 +6,7 @@
 					<div v-if="data">
 						<p-area class=" smallest strong">
 							<p-list-linear class="or">
+								<span class="strong pv0 red" v-if="data.cis.volby.status === 1">Předběžné statistiky</span>
 								<span>Aktivní <p-lang :value="list.filter(x => x.cand).length" :end="['není v ani jednom obvodě', 'v jednom obvodě', 've %% obvodech', 'v %% obvodech']"></p-lang>.</span>
 								<template v-if="list.filter(x => x.cand).length > 0">
 									<span><p-lang :value="list.filter(x => x.type.member).length" :end="['Žádný člen se neúčastní', 'Jeden člen se účastní voleb', '%% členové se účastní', '%% členů se účastní']"></p-lang>.</span>
@@ -25,7 +26,8 @@
 											</div>
 											<div class="smallest">
 												<template v-if="!item.cand">
-													<span class="red">neúčastní se</span>
+													<span class="red" v-if="data.cis.volby.status > 1">neúčastní se</span>
+													<span class="dimm" v-else>zatím neznámé</span>
 												</template>
 												<template v-else>
 													<p-list-linear class="or">
