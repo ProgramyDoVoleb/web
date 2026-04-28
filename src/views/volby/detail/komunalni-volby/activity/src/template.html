@@ -75,7 +75,10 @@
 					<div class="p-gap"></div>
 					<p v-if="data.cis.volby.status === 3">Následující přehled ukazuje, s jakými dalšími stranami nebo hnutími se ve volbách spolupracovalo, v jakých volbách/obcích, s jakým názvem kandidátní listiny a s jakým výsledkem: celkovým ziskem mandátů a ziskem mandátů pro členy strany/hnutí.</p>
 					<template v-for="party in colabParties">
-						<template v-for="listUnique in [unique(data.list.$kandidati.filter(x => x.NSTRANA === party.VSTRANA), 'KODZASTUP')]">
+						<!-- <br> -->
+						<!-- {{ party.NAZEV }} -->
+						<template v-for="listUnique in [unique(relatedWithParty(party.VSTRANA), 'KODZASTUP')]">
+							<!-- {{ listUnique }} -->
 							<template v-if="listUnique.length > 0">
 								<p-block :headline="party.NAZEV" :hide="true" class="_mv0" :anchor="truncate(party.NAZEV, 16, true)">
 									<p-collapsible :label="party.NAZEV" :logo="logoByItem(party, data)" :status="listUnique.length">
@@ -106,6 +109,11 @@
 					</template>
 				</p-block>
 			</template>
+			<!-- <p-area class="inline"> -->
+				<p-box :to="$route.path.split('/aktivita')[0]">
+					<p-box-button icon="komunalni-volby">Zpět na detail voleb</p-box-button>
+				</p-box>
+			<!-- </p-area> -->
 		</template>
 		<template #anchors>
 			<p-logo v-if="data && logoByItem(data.strana, data, null, true)" :data="{logo: logoByItem(data.strana, data)}" :size="'12rem'" :alt="'Logo ' + data.strana.NAZEV"></p-logo>

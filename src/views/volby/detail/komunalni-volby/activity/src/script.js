@@ -212,6 +212,17 @@ export default {
 			layer.addEventListener('click', (ev) => this.map_popup(feature, layer, ev));
 			layer.addEventListener('mouseover', (ev) => this.map_popup(feature, layer, ev));
 		},
+		relatedWithParty: function (VSTRANA) {
+			var res = [];
+
+			this.data.list.$kandidati.filter(x => x.NSTRANA === VSTRANA).forEach(x => res.push(x));
+
+			// console.log(VSTRANA, this.data.list.$strany.filter(x => String(x.SLOZENI).split(',').map(y => Number(y)).indexOf(VSTRANA) > -1));
+
+			this.data.list.$strany.filter(x => String(x.SLOZENI).split(',').map(y => Number(y)).indexOf(VSTRANA) > -1).forEach(x => res.push(x));
+
+			return res;
+		}
   },
   mounted: function () {
     window.scrollTo(0, 1);
