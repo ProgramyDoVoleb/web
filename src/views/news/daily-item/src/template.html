@@ -34,7 +34,7 @@
 										<p-grid>
 											<template v-for="item in day.fullprogram">
 												<div>
-													<p-area class="shadow highlight" :borderColor="colorByItem(item.$node, item)">
+													<p-area class="shadow highlight" :borderColor="colorByItem(item.$node, item)">														
 														<div class="p-offset">
 															<div v-if="logoByItem(item.$node, item, null, true)">
 																<p-image :src="logoByItem(item.$node, item)" width="2.5em" :rounded="true"></p-image>
@@ -43,6 +43,9 @@
 																<p-image src="https://static.programydovoleb.cz/icon/program.svg" size="2.5em" width="2.5em"></p-image>
 															</div>
 															<div>
+																<div class="smallest dimm" v-if="item.$node && item.$node.NAZEVZAST">
+																	{{ item.$node.NAZEVZAST }}
+																</div>
 																<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id" class="strong">
 																	{{ item.$node.ZKRATKA || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}
 																</router-link>
