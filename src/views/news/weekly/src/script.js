@@ -124,7 +124,7 @@ export default {
 				arr.push(dayAfterDiffFrom(this.datum, i));
 			}
 
-			console.log(arr);
+			// console.log(arr);
 
 			return arr;
 		}

@@ -19,12 +19,6 @@
 					<div class="p-gap"></div>
 				</template>
 
-				<div class="mb025">
-					<div class="smallest dimm">
-						Všechny informace jsou ověřené a zdrojované, vychází z článků v médiích nebo na sociálních sítích. Jedinou výjimkou jsou údaje zadané přímo kandidáty. <em>Programy do voleb</em> fungují bez AI.
-					</div>
-				</div>
-
 				<p-block headline="Hledat obec" :hide="true" class="pb0">
 					<div class="_searchMap">
 						<div>
@@ -204,7 +198,7 @@
 				<engagement-block :hash="'psp-166-happy-' + (new Date().getMonth() + 1)" :data="[{question: 'Jste spokojeni s výsledkem voleb?', options: ['spokojenost', 'mohlo to být horší', 'mohlo to být lepší', 'katastrofa']}]" :compact="true"></engagement-block>
 			</p-block> -->
 			
-			<p-block headline="Novinky" anchor="Z médií" subheadline="nejen z médií" :level="1">
+			<p-block headline="Předvolební deník" anchor="Novinky" subheadline="novinky nejen z médií" :level="1">
 
 				<homepage-summary :news="news" :polls="polls"></homepage-summary>
 
@@ -273,7 +267,7 @@
 										</p-list>
 										<div class="p-line"></div>
 										<div class="smallest">
-											<router-link to="/novinky" class="strong">Novinky podrobně</router-link> &rarr;
+											<router-link to="/novinky" class="strong">Podrobně den po dni</router-link> &rarr;
 										</div>										
 									</p-area>
 								</div>
@@ -304,6 +298,9 @@
 														<p-image src="https://static.programydovoleb.cz/icon/program.svg" size="2.5em" width="2.5em"></p-image>
 													</div>
 													<div>
+														<div class="smallest dimm" v-if="item.$node && item.$node.NAZEVZAST">
+															{{ item.$node.NAZEVZAST }}
+														</div>
 														<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id" class="strong">
 															{{ item.$node.ZKRATKA || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}
 														</router-link>
@@ -361,7 +358,7 @@
 
 								<div>
 									<p-area icon="sedmideni" class="smaller shadow highlight">
-										<router-link to="/novinky" class="strong">Novinky podrobně</router-link> <span class="dimm">&rarr;</span>
+										<router-link to="/novinky" class="strong">Podrobně den po dni</router-link> <span class="dimm">&rarr;</span>
 										<div class="smallest mt01">
 											<router-link to="/novinky/archiv" class="is-span">Informace o projektu</router-link>
 										</div>

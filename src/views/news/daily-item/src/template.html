@@ -73,9 +73,12 @@
 												<template v-for="item in itemparty.data.filter(y => y.type === 'program' && !itemparty.data.find(y => y.impact.includes('pdv_program')))">
 													<div>
 														<p-area class="shadow white" borderColor="var(--blue)" icon="program">
+															<div class="smallest dimm" v-if="itemparty.node && itemparty.node.NAZEVZAST">
+																{{ itemparty.node.NAZEVZAST }}
+															</div>
 															<strong>
 																<p-link :href="item.node.source">
-																	{{ itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
+																	{{ itemparty.node.NAZEV || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
 																</p-link>
 															</strong>
 															<div class="smallest">
