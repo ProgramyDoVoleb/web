@@ -8,7 +8,7 @@
 							<pointer-header :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" subheadline="Priority"></pointer-header>
 							<div class="p-gap _3 _floar-clear"></div>
 
-							<section class="program">
+							<section class="program wsw">
 
 								<template v-if="current.$priority.find(x => x.headline && x.content)">
 									<template v-for="(priority, indexP) in current.$priority">
@@ -31,7 +31,7 @@
 												<div v-if="priority.headline" v-html="priority.headline" class="smaller strong">
 	
 												</div>
-												<div class="_mw serif" v-if="priority.content && priority.content.charAt(0) != '['" v-html="priority.content.split('\n').join('<br>')">
+												<div class="_mw serif wsw" v-if="priority.content && priority.content.charAt(0) != '['" v-html="priority.content.split('\n').join('<br>')">
 													
 												</div>
 												<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
