@@ -10,11 +10,12 @@
 																<!-- <div class="p-line"></div> -->
 																<div class="p-gap _05"></div>
 																	<router-link class="strong" :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id">{{ party.NAZEV }}</router-link>
-																	<div class="mt05 smaller" v-if="data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
+																	<div class="mt05 smaller" v-if="data.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
 																		<template v-for="member in data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
 																			<div>- {{ member.NAZEV }}</div>
 																		</template>																	
 																	</div>
+																	<div class="smallest strong red" v-if="!(data.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition) && (data.list.$support && data.list.$support.find(x => x.KODZASTUP === obec.obec))">pouze podpora</div>
 																	<div class="p-gap 05"></div>
 																	<p-box-group>
 																		<template v-for="link in data.list.$program.filter(x => x.csu_id === party.id)">

@@ -150,14 +150,20 @@ export default {
 				content.push('<div class="smallest dimm">' + obec.MANDATY + ' mandátů</div>');
 				content.push('<div class="p-line"></div>');
 				content.push('<strong><a href="/volby/komunalni-volby/' + party.volby + '/strana/' + party.id + '">' + party.NAZEV + '</a></strong>');
+			
+			if (this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA)) {
+				if (this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition) {
+					content.push('<div class="p-gap _05"></div>');
+				}
 
-			if (this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition) {
-				content.push('<div class="p-gap _05"></div>');
+				(this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition || []).forEach(member => {
+					content.push('<div class="smaller">- ' + member.NAZEV + '</div>');
+				});
 			}
 
-			(this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition || []).forEach(member => {
-				content.push('<div class="smaller">- ' + member.NAZEV + '</div>');
-			});
+			if (!this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && (this.data.list.$support && this.data.list.$support.find(x => x.KODZASTUP == obec.obec))) {
+				content.push('<div class="smallest strong red">- pouze podpora</div>');
+			}
 
 			if (this.data && this.data.cis.volby.status === 3) {
 				content.push('<div class="p-line"></div>');
