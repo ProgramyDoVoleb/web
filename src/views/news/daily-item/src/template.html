@@ -46,6 +46,9 @@
 																<div class="smallest dimm" v-if="item.$node && item.$node.NAZEVZAST">
 																	{{ item.$node.NAZEVZAST }}
 																</div>
+																<div class="smallest dimm" v-if="item.$node && item.$node.OBVOD">
+																	obvod {{ item.$node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === item.$node.OBVOD).name }}
+																</div>
 																<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id" class="strong">
 																	{{ item.$node.ZKRATKA || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}
 																</router-link>
@@ -76,6 +79,9 @@
 															<div class="smallest dimm" v-if="itemparty.node && itemparty.node.NAZEVZAST">
 																{{ itemparty.node.NAZEVZAST }}
 															</div>
+																<div class="smallest dimm" v-if="itemparty.node && itemparty.node.OBVOD">
+																	obvod {{ itemparty.node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === itemparty.node.OBVOD).name }}
+																</div>
 															<strong>
 																<p-link :href="item.node.source">
 																	{{ itemparty.node.NAZEV || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
@@ -97,6 +103,9 @@
 													<div>
 														<p-area class="white shadow" borderColor="var(--yellow)" icon="answers-mini">
 															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
+																<div class="smallest dimm" v-if="itemparty.node && itemparty.node.OBVOD">
+																	obvod {{ itemparty.node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === itemparty.node.OBVOD).name }}
+																</div>
 															<strong>
 																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/otazky-a-odpovedi'">
 																	{{ itemparty.pointer.includes('ros') ? itemparty.node.NAZEV : itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
@@ -110,6 +119,9 @@
 													<div>
 														<p-area class="white shadow" borderColor="var(--greyish)" icon="calc">
 															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
+																<div class="smallest dimm" v-if="itemparty.node && itemparty.node.OBVOD">
+																	obvod {{ itemparty.node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === itemparty.node.OBVOD).name }}
+																</div>
 															<strong>
 																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/otazky-a-odpovedi'">
 																	{{ itemparty.pointer.includes('ros') ? itemparty.node.NAZEV : itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
@@ -123,6 +135,9 @@
 													<div>
 														<p-area class="white shadow" borderColor="var(--green)" icon="priority">
 															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
+																<div class="smallest dimm" v-if="itemparty.node && itemparty.node.OBVOD">
+																	obvod {{ itemparty.node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === itemparty.node.OBVOD).name }}
+																</div>
 															<strong>
 																<router-link :to="'/bod/' + itemparty.pointer.split(':').join('/') + '/priority'">
 																	{{ itemparty.pointer.includes('ros') ? itemparty.node.NAZEV : itemparty.node.ZKRATKA || itemparty.node.JMENO + ' ' + itemparty.node.PRIJMENI }}
@@ -234,9 +249,9 @@
 														</p-list-linear>
 													<!-- </p-area> -->
 												</div>
-												<div v-for="cand in sortBy(day.auto.filter(x => !x.content), 'focus')">
+												<div v-for="cand in sortBy(day.auto.filter(x => !x.content && x.focus && enums.obvody.find(y => y.id === x.focus)), 'focus')">
 													<p-area :icon="cand.focus ? 'senatni-volby' : 'prezidentske-volby'" class="highlight shadow">
-														<div class="dimm" v-if="cand.focus">obvod {{ cand.focus }} &middot; {{ enums.obvody.find(x => x.id === cand.focus).name }}</div>
+														<div class="dimm" v-if="cand.focus && enums.obvody.find(x => x.id === cand.focus)">obvod {{ cand.focus }} &middot; {{ enums.obvody.find(x => x.id === cand.focus).name }}</div>
 														<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')" class="strong">{{ cand.title }}</router-link>
 														
 													</p-area>
