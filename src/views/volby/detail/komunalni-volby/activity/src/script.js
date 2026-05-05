@@ -10,6 +10,7 @@ import ReportForm from '@/components/report-form/do.vue'
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import MapLeaflet from '@/components/map-leaflet/do.vue'
 import ActivityDetail from '@/views/volby/detail/komunalni-volby/activity-detail/do.vue'
+import ProgramBlock from '@/components/program-block-dynamic/do.vue';
 
 export default {
 	name: 'layout-volby-aktivity-strany',
@@ -31,7 +32,8 @@ export default {
 	KrajskeVolby,
 	ReportForm,
 	MapLeaflet,
-	ActivityDetail
+	ActivityDetail,
+	ProgramBlock
   },
 	computed: {
 		$store: function () {
@@ -49,6 +51,12 @@ export default {
 
 			if (d) {
 				ga(d.strana.ZKRATKA + ' v komunálních volbách ' + d.cis.volby.datum.split('-')[0]);
+		
+				setTimeout(() => {
+					if (location.hash != '') {
+						this.$el.querySelector("a[name=" + location.hash.split('#')[1] + "]").scrollIntoView({behavior: "smooth", block: "center"});
+					}
+				}, 500);
 			}
 
 			return d;

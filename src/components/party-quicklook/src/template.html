@@ -32,6 +32,40 @@
 							</template>
 						</p-list>
 					</template>
+					<template v-if="volby && volby > 172">
+						<div class="p-line p-line__0"></div>
+						<div class="p-gap _05"></div>
+						<p-list class="smallest invisible" height=".5">
+							<div>
+								<router-link :to="'/volby/' + volbyType + '/' + volby + '/aktivita/' + VSTRANA" class="strong">Kde všude kandidují?</router-link>
+							</div>
+							<template v-for="item in globs.$data.program">
+								<div>
+									<p-link :href="item.source" class="_ws">{{ item.value || 'Obecný program' }}</p-link>
+								</div>
+							</template>
+							<template v-for="item in globs.$data.web">
+								<div>
+									<p-link :href="item.value" class="_ws">{{ item.label || 'Hlavní volební web' }}</p-link>
+								</div>
+							</template>
+							<template v-for="item in globs.$data.link">
+								<div>
+									<p-link :href="item.value" class="_ws">{{ item.label || domain(item.value) }}</p-link>
+								</div>
+							</template>
+							<template v-if="globs.$priority.length > 0">
+								<div>
+									<p-label :color="colorByItem(data, {cis: {strany: []}})" >
+										<router-link :to="'/volby/' + volbyType + '/' + volby + '/aktivita/' + VSTRANA + '#priority'" class="strong">
+											<p-lang :value="globs.$priority.length" :end="['', '1 priorita', '%% priority', '%% priorit']"></p-lang>
+										</router-link>
+									</p-label>
+									
+								</div>
+							</template>
+						</p-list>
+					</template>
 				</p-area>
 			</div>
 		</p-loader>

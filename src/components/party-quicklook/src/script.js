@@ -5,7 +5,7 @@ import { useCore, cdn } from '@/stores/core';
 
 export default {
 	name: 'party-quicklook',
-	props: ['VSTRANA', 'datum', 'region', 'prefetch'],
+	props: ['VSTRANA', 'datum', 'region', 'prefetch', 'volby', 'volbyType'],
 	data: function () {
 		return {
 			cdn
@@ -16,12 +16,15 @@ export default {
 			return useData()
 		},
 		data: function () {
-			var d = this.prefetch || this.$store.getters.pdv('party/meta/' + this.VSTRANA + ';' + (this.datum || '') + ';social,web' + (this.region ? ';' + this.region : ''));
+			var d = this.prefetch || this.$store.getters.pdv('party/meta/' + this.VSTRANA + ';' + (this.datum || '') + ';social,web;' + (this.region || '') + ';' + ((this.volby || '')));
 
 			return this.prefetch || (d ? d.list[0] : null);
 		},
 		meta: function () {
 			return this.data ? this.data.$data : null;
+		},
+		globs: function () {
+			return this.data ? this.data.$globs : null;
 		}
 	},
 	methods: {

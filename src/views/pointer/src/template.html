@@ -406,7 +406,7 @@
 														<span class="smaller">{{ question.question }}</span>
 													</template>
 													<template #content>
-														<answer-topic-preview :question="question.id" :table="table" :id="tableID" :link="$link"></answer-topic-preview>
+														<answer-topic-preview :question="question.id" :table="table" :id="tableID" :volbyType="volbyType"></answer-topic-preview>
 													</template>
 												</p-modal>
 											</span>
@@ -741,7 +741,7 @@
 							<p-block :headline="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení stran a místních hnutí' : 'Koalice registrovaných stran a hnutí'" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
 								<div class="columns _c">
 									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
-										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
+										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 									</div>
 									<div v-if="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) && (!current.$data.snk || current.$data.snk.length === 0)">
 										<p-area class="smaller dimm">
@@ -795,7 +795,7 @@
 									<!-- <p-area> -->
 										<p-grid class="smaller">
 											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
-												<party-quicklook :VSTRANA="sup.value" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
+												<party-quicklook :VSTRANA="sup.value" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 												<div v-if="sup.source" class="dimm tiny">
 													<p-link :href="sup.source" class="dimm">zdroj</p-link>
 												</div>
@@ -1177,13 +1177,13 @@
 									</div>
 								</p-area>
 							</p-block>
-							<p-block headline="Více o straně či hnutí" v-if="false && current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition && current.VSTRANA != 90">
-								<party-quicklook :VSTRANA="current.VSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
+							<p-block headline="Více o straně či hnutí" v-if="current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition && current.VSTRANA != 90">
+								<party-quicklook :VSTRANA="current.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id"></party-quicklook>
 							</p-block>
-							<p-block headline="Zmíněné strany a hnutí" v-if="false && current.PRIJMENI && !current.VSTRANA" anchor="Detaily">
+							<p-block headline="Zmíněné strany a hnutí" v-if="current.PRIJMENI && !current.VSTRANA" anchor="Detaily">
 								<div class="columns _c">
-									<party-quicklook v-if="current.NSTRANA" :VSTRANA="current.NSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
-									<party-quicklook v-if="current.PSTRANA && current.NSTRANA != current.PSTRANA && current.PSTRANA != 99" :VSTRANA="current.PSTRANA" :datum="$volby.datum" :region="current.KRZAST"></party-quicklook>
+									<party-quicklook v-if="current.NSTRANA" :VSTRANA="current.NSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
+									<party-quicklook v-if="current.PSTRANA && current.NSTRANA != current.PSTRANA && current.PSTRANA != 99" :VSTRANA="current.PSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 								</div>								
 							</p-block>
 							<p-block headline="Výsledky" v-if="$volby.status === 3">

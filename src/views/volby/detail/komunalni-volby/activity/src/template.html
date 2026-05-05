@@ -41,6 +41,81 @@
 				</p-loader>
 			</p-block>
 			<template v-if="data">
+				<p-block headline="Obecné informace" v-if="data.list.$globs" :level="1">
+					<p-block headline="Úvodem" :hide="true" v-if="data.list.$globs.$data.about.length > 0">
+						<div class="serif wsw" v-html="data.list.$globs.$data.about[0].value"></div>
+					</p-block>
+					<p-block headline="Odkazy" :hide="true" v-if="data.list.$globs.$data.link.length + data.list.$globs.$data.web.length + data.list.$globs.$data.program.length > 0">
+						<p-grid>
+							<div v-for="item in data.list.$globs.$data.program">
+								<p-area icon="program">
+									<p-link :href="item.source" class="strong smaller">{{ item.value || 'Obecný program'}}</p-link>
+									<div class="smallest dimm">{{ domain(item.source) }}</div>
+								</p-area>
+							</div>
+							<div v-for="item in data.list.$globs.$data.web">
+								<p-area icon="link">
+									<p-link :href="item.value" class="strong smaller">{{ item.label || 'Web k volbám'}}</p-link>
+									<div class="smallest dimm">{{ domain(item.value) }}</div>
+								</p-area>
+							</div>
+							<div v-for="item in data.list.$globs.$data.link">
+								<p-area icon="link">
+									<p-link :href="item.value" class="strong smaller">{{ item.label || 'Odkaz'}}</p-link>
+									<div class="smallest dimm">{{ domain(item.value) }}</div>
+								</p-area>
+							</div>
+						</p-grid>
+					</p-block>
+					<p-block headline="Priority" v-if="data.list.$globs.$priority.length > 0">
+						<p-area class="primary" :borderColor="colorByItem(data.strana, data)">
+							<section class="program">
+
+								<template v-if="data.list.$globs.$priority.find(x => x.headline && x.content)">
+									<p-list>
+										<template v-for="(priority, indexP) in data.list.$globs.$priority">
+											<div>
+												<h3 class="serif mt05" v-html="priority.headline"></h3>
+												<template v-if="priority.content && priority.content.charAt(0) != '['">
+													<div class="_mw serif"  v-html="priority.content.split('\n').join('<br>')"></div>
+												</template>
+												<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
+													<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)"></program-block>
+												</div>
+												<div class="smallest dimm mt1" v-if="priority.source">
+													vloženo {{ date(priority.updated) }}, <p-link :href="priority.source" class="dimm">zdroj</p-link>
+												</div>
+											</div>
+										</template>
+									</p-list>
+								</template>
+								<template v-else>
+									<p-list class="_05">
+										<div v-for="(priority, indexP) in data.list.$globs.$priority">
+												<div v-if="priority.headline" v-html="priority.headline" class="smaller strong">
+	
+												</div>
+												<div class="_mw serif" v-if="priority.content && priority.content.charAt(0) != '['" v-html="priority.content.split('\n').join('<br>')">
+													
+												</div>
+												<div class="_mw" v-if="priority.content && priority.content.charAt(0) === '['">
+													<program-block class="serif smaller" :parts="{parts: JSON.parse(priority.content)}" :hash="url(priority.headline)" :headline="priority.headline" :color="colorByItem(current, data)" :anchor="truncate(priority.headline, 3)"></program-block>
+												</div>
+											
+										</div>
+									</p-list>
+									<div class="p-gap _2"></div>
+									<template v-for="priority in [data.list.$globs.$priority.find(x => x.source)]">
+										<div class="smallest dimm mt1" v-if="priority && priority.source">
+											vloženo {{ date(priority.updated) }}, <p-link :href="priority.source" class="dimm">zdroj</p-link>
+										</div>
+									</template>
+								</template>
+
+							</section>
+						</p-area>
+					</p-block>
+				</p-block>
 				<p-block headline="Spolupráce" :level="1">
 					<p-area class="primary" :borderColor="colorByItem(data.cis.strany.find(x => x.VSTRANA == partyID), data)">
 						<div class="p-offset">
