@@ -9,7 +9,17 @@
 							<div class="p-gap"></div>
 						</p-block>
 						<p-block headline="Na mapě">
+							<div class="nebo smaller strong">
+								<span>
+									<p-label :color="colorByItem(data.strana, data)">samostatně</p-label>
+								</span>
+								<span class="dimm">    </span>
+								<span>
+									<p-label color="var(--blue)">v koalici</p-label>
+								</span>
+							</div>
 							<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
+							
 						</p-block>
 						<p-block-expandable headline="V Praze" :status="data.list.$obce.find(x => x.DRUHZASTUP === 4) ? 'Ano' : 'Ne'">
 							<div v-for="obec in data.list.$obce.filter(x => x.DRUHZASTUP === 4)">
@@ -42,6 +52,7 @@
 			</p-block>
 			<template v-if="data">
 				<p-block headline="Obecné informace" v-if="data.list.$globs" :level="1">
+					<party-quicklook :VSTRANA="party"></party-quicklook>
 					<p-block headline="Úvodem" :hide="true" v-if="data.list.$globs.$data.about.length > 0">
 						<div class="serif wsw" v-html="data.list.$globs.$data.about[0].value"></div>
 					</p-block>
@@ -115,8 +126,18 @@
 							</section>
 						</p-area>
 					</p-block>
+					<p-block headline="Významné zprávy" v-if="data.list.$globs.$data.media.length + data.list.$globs.$data.pr.length > 0">
+						<p-grid class="smaller">
+							<div v-for="item in sortBy([].concat(data.list.$globs.$data.media, data.list.$globs.$data.pr), 'updated', null, true, true)">
+								<p-area>
+									<p-link :href="item.source">{{ item.value }}</p-link>
+									<div class="mt05 smallest dimm">{{ date(item.updated) }} &middot; {{ item.label }} &middot; {{ domain(item.source) }}</div>
+								</p-area>
+							</div>
+						</p-grid>
+					</p-block>
 				</p-block>
-				<p-block headline="Spolupráce" :level="1">
+				<p-block headline="Jak jdou do voleb?" :level="1">
 					<p-area class="primary" :borderColor="colorByItem(data.cis.strany.find(x => x.VSTRANA == partyID), data)">
 						<div class="p-offset">
 							<div>
@@ -148,6 +169,7 @@
 						</div>
 					</p-area>
 					<div class="p-gap"></div>
+					<h3 class="serif" v-if="colabParties.length > 0">Spolupráce</h3>
 					<p v-if="data.cis.volby.status === 3">Následující přehled ukazuje, s jakými dalšími stranami nebo hnutími se ve volbách spolupracovalo, v jakých volbách/obcích, s jakým názvem kandidátní listiny a s jakým výsledkem: celkovým ziskem mandátů a ziskem mandátů pro členy strany/hnutí.</p>
 					<template v-for="party in colabParties">
 						<!-- <br> -->

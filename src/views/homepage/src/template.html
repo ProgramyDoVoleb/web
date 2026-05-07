@@ -134,7 +134,7 @@
 										<p-box-group>
 											<p-box :to="'/volby/' + election_types.find(x => x.key === election.typ).hash + '/' + election.id + (election.id === 171 ? '/obvod/60' : '')">
 												<p-box-button class="primary">
-													{{ election.status === 3 ? 'Výsledky a podrobnosti' : 'Podrobněji' }}
+													{{ election.status === 3 ? 'Výsledky a podrobnosti' : 'Více o volbách' }}
 												</p-box-button>
 											</p-box>
 											<template v-if="election.status < 3">
@@ -324,11 +324,13 @@
 											</p-area>
 										</div>
 									</template>
-									<div v-for="(poll, index) in day.polls">
-										<p-area>
-											<polls-preview :poll="poll" :previous="poll.previous ? polls.list.find(x => x.id === poll.previous) : null" :name="'poll_' + poll.id"></polls-preview>
-										</p-area>
-									</div>
+									<template v-if="polls">
+										<div v-for="(poll, index) in day.polls">
+											<p-area>
+												<polls-preview :poll="poll" :previous="poll.previous ? polls.list.find(x => x.id === poll.previous) : null" :name="'poll_' + poll.id"></polls-preview>
+											</p-area>
+										</div>
+									</template>
 									<template v-if="width > 1">
 										<div v-for="(item, index) in day.main.filter((x, i) => i < 3)">
 												<p-area class="smaller" borderColor="var(--blue44)">

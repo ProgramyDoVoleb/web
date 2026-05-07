@@ -11,6 +11,7 @@ import { colorByItem, logoByItem } from '@/pdv/helpers';
 import MapLeaflet from '@/components/map-leaflet/do.vue'
 import ActivityDetail from '@/views/volby/detail/komunalni-volby/activity-detail/do.vue'
 import ProgramBlock from '@/components/program-block-dynamic/do.vue';
+import PartyQuicklook from '@/components/party-quicklook/do.vue';
 
 export default {
 	name: 'layout-volby-aktivity-strany',
@@ -33,7 +34,8 @@ export default {
 	ReportForm,
 	MapLeaflet,
 	ActivityDetail,
-	ProgramBlock
+	ProgramBlock,
+	PartyQuicklook
   },
 	computed: {
 		$store: function () {
@@ -138,6 +140,8 @@ export default {
 				}
 			} else {
 				color = colorByItem(party, this.data);
+
+				if (color.includes('linear')) color = 'var(--blue)';
 			}
 
 			return {

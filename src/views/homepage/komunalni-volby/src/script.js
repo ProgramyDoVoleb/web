@@ -38,6 +38,9 @@ export default {
 			}
 
 			return sortBy(sortBy(results, 'JMENO', null, true), 'PRIJMENI', null, true);
+		},
+		parties: function () {
+			return this.$store.getters.pdv('parties/as-of/' + this.elections.datum + ';1,7,47,53,166,703,720,721,768,1114,714,5,1227,1245,1265,1178,1298,2026005');
 		}
 	},
 	methods: {

@@ -30,7 +30,7 @@
 								</div>
 							</p-columns>
 							<div class="p-line _15"></div>
-							<p-collapsible label="Vybrat okres" class="mt-1 mb1" logo="search" borderless="1">
+							<p-collapsible label="Vybrat okres" class="mt-1 mb1" logo="search">
 								<p-columns class="_small smaller">
 									<div v-for="okres in enums.okresy">
 										<router-link :to="'/volby/komunalni-volby/176/okres/' + okres.id">{{ okres.name }}</router-link>
@@ -39,6 +39,15 @@
 							</p-collapsible>
 						</p-area>
 						<search-town link="/volby/komunalni-volby/176/obec/" class="mt1"></search-town>
+						<div class="p-line"></div>
+						<p class="smaller">Pokud vás zajímá, kde všude nějaká strana kandiduje, dozvíte se to na stránce <em>Aktivita</em>. Níže jsou uvedené hlavní strany, které se objevují v médiích nebo průzkumech.</p>
+						<p-box-group v-if="parties">
+							<template v-for="party in sortBy(parties.list, 'ZKRATKA', null, true)">
+								<p-box :to="'/volby/komunalni-volby/' + elections.id + '/aktivita/' + party.VSTRANA">
+									<p-box-image :src="logoByItem(party, {cis: {strany: parties.list}})" class="_r"></p-box-image>
+								</p-box>
+							</template>
+						</p-box-group>
 						<div class="p-line"></div>
 	<!-- <p-loader :rule="election">
 		<div v-if="election">
