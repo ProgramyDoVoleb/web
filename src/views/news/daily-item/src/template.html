@@ -322,7 +322,7 @@
 									<div v-if="day.auto.length > 0 || day.media.length > 0 || day.comm.length > 0 || day.main.length > 0">
 										<p-collapsible borderless="1" label="Zdroje" logo="link">
 											<p-list class="_05 smaller">
-												<div v-for="link in unique([].concat(day.main.map(x => x.source), day.auto.map(x => x.source), day.comm.map(x => x.source), day.media.map(x => x.source)).map(x => [x]), 0)">
+												<div v-for="link in unique([].concat(day.main.map(x => x.source), day.auto.map(x => x.source), day.comm.map(x => x.source), day.media.map(x => x.source)).map(x => [x].map(x => x.includes('https://admin.programydovoleb.cz/vlastni-zaznam') ? 'https://admin.programydovoleb.cz/vlastni-zaznam' : x)), 0)">
 													<p-link :href="link"></p-link>
 												</div>
 											</p-list>
