@@ -1,5 +1,9 @@
 <div class="homepage-senat">
-	<p>V řádných senátních volbách se obměňuje třetina Senátu, tedy 27 senátorů z 81. Tentokrát se týkají těchto obvodů:</p>
+	<div class="p-divider red"></div>
+	<h1 class="quando mt05 mb075">
+		Senátní volby
+	</h1>
+	<p>V řádných senátních volbách se obměňuje třetina Senátu, tedy 27 senátorů z 81. První kolo se koná souběžně s komunálními volbami. Případné druhé kolo o týden později. Tentokrát se týkají těchto obvodů:</p>
 	<p-area :class="{primary: elections.status === 2}">
 		<p-loader :rule="election" reserve="100px">
 			<template v-if="election">

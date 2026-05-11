@@ -1,7 +1,7 @@
 <div class="layout-homepage">
 	
-	<p-layout-divided ref="page">
-		<template #main>
+	<p-layout-simple ref="page">
+		<!-- <template #main> -->
 			<p-block headline="Volby" :level="1" :hide="true">
 
 				<template v-if="elections && elections.list.find(x => x.radne === 0 && x.status < 3 && x.datum <= today)">
@@ -20,45 +20,25 @@
 				</template>
 
 				<!-- <p-block headline="Hledat obec" :hide="true" class="pb0">
-					<div class="_searchMap">
-						<div>
-							<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
-						</div>
-						<div class="_searchMap_modal">
-							<p-modal :extended="1">
-								<template #init>
-									<p-box>
-										<p-box-button icon="map">Mapa</p-box-button>
-									</p-box>
-								</template>
-								<template #content>
-									<hero-map size="max"></hero-map>
-								</template>
-							</p-modal>
-						</div>
-					</div>
-					
+					<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
 				</p-block> -->
 
-				<p-block headline="Výhled" :hide="true" class="pb0 mb3">
-					<p>
+				<p-block headline="Výhled" :hide="true" class="pb0 mb3 text-center">
+					<p class="lead">
 						<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="strong">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="strong">senátních voleb</router-link>. Oficiální přehledy stran a kandidátů sice budou až koncem srpna, ale už dnes lze na <em>Programy</em> přidávat strany a kandidáty ve všech obcích a obvodech.
 					</p>
 				</p-block>	
 				
-				<p-block headline="Pro kandidáty" :hide="true" class="mt-2 pb0 mb1">
-					<!-- <p-area class="highlight shadow inline" borderColor="var(--green)"> -->
-						<!-- <h3 class="serif mv0 mr3">Kandidujete?</h3> -->
-						<!-- <p>Ať jste registrovanou stranou nebo místním sdružením, obhajujete nebo jdete do voleb poprvé, můžete své údaje na <em>Programech</em> přidávat nebo upravovat <strong>už dnes</strong> přímo v aplikaci pro kandidáty – <strong>v Adminu</strong>.</p>  -->
+				<!-- <p-block headline="Pro kandidáty" :hide="true" class="mt-2 pb0 mb1">
 						<p-box-group>
 							<p-popup>
 								<template #init>
 									<p-box>
-										<p-box-button class="green" icon="plus-green">Chci přidat...</p-box-button>
+										<p-box-button class="green" icon="plus-green">Přidat stranu nebo kandidáta</p-box-button>
 									</p-box>
 								</template>
 								<template #content>
-									<div class="smaller strong p05">Chcete přidat stranu, kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
+									<div class="smaller strong p05">Narazili jste na zprávu nebo status, že někdo bude kandidovat? Dejte vědět:</div>
 									<div class="p-line _05"></div>
 									<editable-suggest></editable-suggest>
 								</template>
@@ -81,17 +61,116 @@
 								<p-box-label>Pro kandidáty &rarr;</p-box-label>
 							</p-box>
 						</p-box-group>
-					<!-- </p-area> -->
-				</p-block>
+				</p-block> -->
+
+				<p-grid class="_ma _3">
+					<div>
+						<p-area class="highlight shadow">
+							<div class="p-offset reverse">
+								<div>
+									<h2 class="quando blue mv0 pt01">Komunální volby</h2>
+									<div class="smaller">9. a 10. října 2026</div>
+								</div>
+								<div><p-icon icon="komunalni-volby" size="3em"></p-icon></div>
+							</div>
+							<div class="p-line"></div>
+							<p-list class="_025 smaller strong">
+								<div>
+									<p-link>Jak se volí v komunálkách?</p-link>
+								</div>
+								<div>
+									<p-link>Vyhledat zastupitelstvo</p-link>
+								</div>
+								<div>
+									<p-link>Aktivita stran</p-link>
+								</div>
+								<div>
+									<p-link>Více o volbách</p-link>
+								</div>
+							</p-list>
+						</p-area>
+					</div>
+					<div>
+						<p-area class="highlight shadow">
+							<div class="p-offset reverse">
+								<div>
+									<h2 class="quando red mv0 pt01">Senátní volby</h2>
+									<div class="smaller">první kolo 9. a 10. října 2026</div>
+									<div class="smaller">případné 2. kolo o týden později</div>
+								</div>
+								<div><p-icon icon="senatni-volby" size="3em"></p-icon></div>
+							</div>
+							<div class="p-line"></div>
+							<p-list class="_025 smaller strong">
+								<!-- <div>
+									<p-link>Jak se volí do Senátu?</p-link>
+								</div> -->
+								<div>
+									<p-link>Kde se volí a kdo kandiduje?</p-link>
+								</div>
+								<div>
+									<p-link>Aktivita stran</p-link>
+								</div>
+								<div>
+									<p-link>Více o volbách</p-link>
+								</div>
+							</p-list>
+						</p-area>
+					</div>
+					<div>
+						<p-area>
+							<div class="p-offset reverse">
+								<div>
+									<h2 class="quando mv0 pt01">Admin</h2>
+									<div class="smaller">správa údajů pro kandidáty</div>
+								</div>
+								<div><p-icon icon="admin" size="3em"></p-icon></div>
+							</div>
+							<div class="p-line"></div>
+							<p-list class="_025 smaller strong">
+								<div>
+									<router-link to="/pro-kandidaty">Informace pro strany a kandidáty</router-link>
+								</div>
+								<div>
+									<p-link href="https://admin.programydovoleb.cz/seznam">Chci získat přístup do Adminu</p-link>
+								</div>
+								<div>
+									<p-popup>
+										<template #init>
+											<strong class="as-link">Přidat stranu nebo kandidáta</strong>
+										</template>
+										<template #content>
+											<div class="smaller strong p05">Narazili jste na zprávu nebo status, že někdo bude kandidovat? Dejte vědět:</div>
+											<div class="p-line _05"></div>
+											<editable-suggest></editable-suggest>
+										</template>
+									</p-popup>
+								</div>
+								<div>
+									<pop-up>
+										<template #init>
+											<strong class="as-link">Chci nahrát volební leták</strong>
+										</template>
+										<template #content>
+											<p class="smaller">Viděli jste leták, plakát nebo brožurku s programem? Vyfoťte, nahrajte, poté přidejte do popisu obec a pošlete.</p>
+											<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
+										</template>
+									</pop-up>
+								</div>
+							</p-list>
+						</p-area>
+					</div>
+				</p-grid>
 				
 				<!-- <div class="p-line"></div> -->
-				 <div class="p-gap _15"></div>
+
+				<h3 class="quando mt4 mb2">Rychlý přehled</h3>
 				
 					<p-loader :rule="elections">
 						<div v-if="elections" class="mt-1">
 							<div v-for="(election, index) in sortBy(sortBy(elections.list.filter(x => (x.radne === 1 || x.typ === 'SENAT') && (x.datum === null || x.datum && x.datum > '2024-07-01')), 'typ', null, true), 'datum', '2099-12-31', true)">
 								<p-block class="_nmb" :hide="true" :headline="election_types.find(x => x.key === election.typ).name">
-									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open="election.datum && election.radne === 1 && width > 640 " :skip="[173,176].indexOf(election.id) > -1 && width > 640"  :borderless="[173,176].indexOf(election.id) > -1 && width > 640">
+									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))" :open2="election.datum && election.radne === 1 && width > 640" :skip="election.id === 166">
 										<!-- <p-area :class="election.typ === 'EP' ? '_ep' : null" class="p-area---has-background"> -->
 											<div v-if="election.$dotcene && election.typ === 'KV'">
 												<p class="smaller">Týká se obcí 
@@ -626,7 +705,7 @@
 	
 					</p-block>
 			</p-block>
-		</template>
+		<!-- </template> -->
 		<template #anchors>
 			<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'"></p-logo>
 			<div class="p-gap"></div>
@@ -672,5 +751,5 @@
 				</div>
 			</p-list>
 		</template>
-	</p-layout-divided>
+	</p-layout-simple>
 </div>

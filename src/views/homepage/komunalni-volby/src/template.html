@@ -1,24 +1,18 @@
 <div class="homepage-kv">
-	<p>Komunální volby se týkají všech obcí i městských částí. Zde najdete největší města, ostatní obce si můžete rychle vyhledat. </p>
-						<p-area>
-							<div>
-								<div v-for="(town, index) in enums.towns.capital">
-									<div class="p-offset reverse">
-										<div>
-											<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num" :class="{'strong': index === 0}">
-												Hlavní město Praha
-											</router-link>	
-										</div>
-										<div>
-											<router-link :to="'/obec/' + town.num" class="smallest dimm">
-												více
-											</router-link>	
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="p-line _15"></div>
+	<div class="p-divider"></div>
+	<h1 class="quando mt05 mb075">
+		Komunální volby
+	</h1>
+	<p>Letošní řádné komunální volby se týkají všech měst, obcí i městských částí v celé republice. O hlasy voličů se utká přes 150 000 kandidátů. V několika městech se volí na radnici místní části a zároveň na magistrát města. <router-link to="/volby/komunalni-volby/176" class="strong smaller">Více o volbách</router-link></p>
+
+						<h2 class="quando mt15">Vybraná zastupitelstva</h2>
+						<p-area class="primary">
 							<p-columns class="_small _2 smaller">
+								<div v-for="(town, index) in enums.towns.capital">
+									<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num" :class="{'strong': index === 0}">
+										Hlavní město Praha
+									</router-link>
+								</div>
 								<div v-for="(town, index) in sortBy([].concat(enums.towns.regional, enums.towns.other), 'name', null, true)">
 									<!-- <div class="p-offset reverse"> -->
 										<!-- <div> -->
@@ -29,18 +23,24 @@
 									<!-- </div>									 -->
 								</div>
 							</p-columns>
-							<div class="p-line _15"></div>
-							<p-collapsible label="Vybrat okres" class="mt-1 mb1" logo="search">
-								<p-columns class="_small smaller">
+						</p-area>
+						<h2 class="quando mt2">Vyhledat jiné</h2>
+						<search-town link="/volby/komunalni-volby/176/obec/" class="mt1"></search-town>
+
+						<div class="p-gap _1"></div>
+							<p-collapsible label="Vybrat okres" class="mt-1 smaller" logo="search">
+								<p-columns class="_small">
 									<div v-for="okres in enums.okresy">
 										<router-link :to="'/volby/komunalni-volby/176/okres/' + okres.id">{{ okres.name }}</router-link>
 									</div>
 								</p-columns>
 							</p-collapsible>
-						</p-area>
-						<search-town link="/volby/komunalni-volby/176/obec/" class="mt1"></search-town>
-						<div class="p-line"></div>
-						<p class="smaller">Pokud vás zajímá, kde všude nějaká strana kandiduje, dozvíte se to na stránce <em>Aktivita</em>. Níže jsou uvedené hlavní strany, které se objevují v médiích nebo průzkumech.</p>
+							<p-collapsible label="Na mapě" logo="map" :borderless="1" class="smaller">
+								<hero-map size="mid"></hero-map>
+							</p-collapsible>
+						
+						<h2 class="quando mt2">Aktivita stran</h2>
+						<p class="">Pokud vás zajímá, kde všude nějaká strana kandiduje, dozvíte se to na stránce <em>Aktivita</em>. Níže jsou uvedené hlavní strany, které se objevují v médiích nebo průzkumech.</p>
 						<p-box-group v-if="parties">
 							<template v-for="party in sortBy(parties.list, 'ZKRATKA', null, true)">
 								<p-box :to="'/volby/komunalni-volby/' + elections.id + '/aktivita/' + party.VSTRANA">
@@ -48,7 +48,7 @@
 								</p-box>
 							</template>
 						</p-box-group>
-						<div class="p-line"></div>
+						<div class="p-line mt1"></div>
 	<!-- <p-loader :rule="election">
 		<div v-if="election">
 			

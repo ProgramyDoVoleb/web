@@ -7,6 +7,7 @@ import PopUp from '@/components/pop-up/do.vue';
 import PromoBlock from '@/components/cta/promo-block/do.vue';
 import SearchTown from '@/components/search-town/do.vue';
 import { useEnums } from '@/stores/enums';
+import HeroMap from '@/components/hero-map/main/do.vue';
 
 export default {
 	name: 'HomepageKV',
@@ -18,7 +19,7 @@ export default {
 		}
 	},
 	components: {
-	  PartyPreviewLeader, PartyPreviewTiny, PopUp, PromoBlock, SearchTown
+	  PartyPreviewLeader, PartyPreviewTiny, PopUp, PromoBlock, SearchTown, HeroMap
 	},
 	computed: {
 		$store: function () {

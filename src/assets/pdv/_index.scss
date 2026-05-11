@@ -28,3 +28,22 @@
 		filter: none !important
 	}
 }
+
+.p-divider {
+	height: 2em;
+	position: relative;
+
+	&:after {
+		content: "";
+		width: 6em;
+		height: .25em;
+		background: var(--blue);
+		position: absolute;
+		top: calc(1em - .125em);
+		border-radius: .125em;
+	}
+
+	&.red:after {
+		background: var(--red);
+	}
+}

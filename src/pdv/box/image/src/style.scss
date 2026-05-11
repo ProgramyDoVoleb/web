@@ -24,6 +24,15 @@
   .dark & {
     background-color: transparent;
   }
+
+  &:first-child:last-child {
+    border-radius: .5em;
+    border: none;
+
+    &:after {
+      content: none;
+    }
+  }
 }
 
 .rounded {
