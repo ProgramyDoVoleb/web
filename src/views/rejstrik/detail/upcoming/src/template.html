@@ -93,6 +93,33 @@
 										</div>
 									</div>
 								</template>
+								<template v-if="election.$volby.typ === 'KV'">
+									<p-list class="smaller" v-if="election.$obce.length > 0">
+										<template v-for="DRUH in [4,3,2,6,1,5]">
+											<div v-if="election.$obce.find(x => x.DRUHZASTUP == DRUH)">
+												<strong>{{ ['', 'Ostatní obce', 'Města', 'Statutární města', 'Hlavní město', 'Městské části', 'Městysy'][DRUH] }}: </strong>
+												<p-list-linear class="inline">
+													<span v-for="obec in sortBy(election.$obce.filter(x => x.DRUHZASTUP == DRUH), 'NAZEVZAST', null, true)">
+														<router-link :to="'/volby/komunalni-volby/' + election.$volby.id + '/obec/' + obec.obec" :class="{strong: election.$strany.find(x => x.KODZASTUP === obec.obec).VSTRANA == id}">{{ obec.NAZEVZAST }}</router-link>
+													</span>
+												</p-list-linear>
+											</div>
+										</template>
+										<div class="smallest dimm">
+											<strong>Zvýrazněné názvy</strong> znamenají samostatnou kandidátku. Ostatní jsou koaliční nebo formou podpory.
+										</div>
+										<div>
+											<p-box-group>
+												<p-box :to="'/volby/komunalni-volby/' + election.$volby.id + '/aktivita/' + id">
+													<p-box-button class="primary">Podrobnosti o volební aktivitě</p-box-button>
+												</p-box>
+											</p-box-group>
+										</div>
+									</p-list>
+									<div v-else>
+										<em class="dimm smaller">Zatím není známá informace, že by šli do komunálních voleb.</em>
+									</div>
+								</template>
 								<!-- <party-in-elections :elections="election.$volby.id" :party="[id].concat($main.$coalitions.filter(x => x.$elections[election.$volby.typ].find(y => y.volby === election.$volby.id)).map(x => x.VSTRANA))" :hash="enums.elections.find(x => x.key === election.$volby.typ).hash" :focus="Number(id)"></party-in-elections> -->
 							</p-area>
 							<div class="p-gap"></div>
@@ -107,6 +134,9 @@
 						</p-collapsible>
 				</template>
 			</p-block>
+			<template v-if="!data.list">
+				<em class="dimm smaller">Zatím není známá informace, že by šli do některých následujících voleb.</em>
+			</template>
 		</div>
 	</p-loader>
 </div>

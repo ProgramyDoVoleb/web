@@ -8,7 +8,7 @@
 							<p>Do voleb do {{ data.list.$obce.length }} zastupitelstev vyslali {{ data.list.$kandidati.length }} kandidátů, z toho {{ data.list.$kandidati.filter(x => x.PSTRANA == partyID ).length }} členů a členek. V {{ data.list.$strany.filter(x => x.VSTRANA == partyID).length }} případech šli do voleb samostatně. Uspěli v {{ data.list.$strany.filter(x => x.MAND_STR > 0).length }} případech a získali {{ data.list.$kandidati.filter(x => x.MANDAT === 'A' ).length }} mandátů, z toho {{ data.list.$kandidati.filter(x => x.MANDAT === 'A' && x.PSTRANA == partyID).length }} křesel získali členové.</p>
 							<div class="p-gap"></div>
 						</p-block>
-						<p-block headline="Na mapě">
+						<p-block headline="Na mapě" :hide="true">
 							<div class="nebo smaller strong">
 								<span>
 									<p-label :color="colorByItem(data.strana, data)">samostatně</p-label>
@@ -52,7 +52,7 @@
 			</p-block>
 			<template v-if="data">
 				<p-block headline="Obecné informace" v-if="data.list.$globs" :level="1">
-					<party-quicklook :VSTRANA="party"></party-quicklook>
+					<party-quicklook :VSTRANA="party" class="mb1"></party-quicklook>
 					<p-block headline="Úvodem" :hide="true" v-if="data.list.$globs.$data.about.length > 0">
 						<div class="serif wsw" v-html="data.list.$globs.$data.about[0].value"></div>
 					</p-block>

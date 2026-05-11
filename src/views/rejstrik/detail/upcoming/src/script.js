@@ -1,7 +1,7 @@
 import { useData } from '@/stores/data';
 import { useEnums } from '@/stores/enums';
 import { cdn } from '@/stores/core';
-import {date} from '@/pdv/helpers';
+import {date, sortBy} from '@/pdv/helpers';
 import {colorByItem, logoByItem} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 
@@ -62,7 +62,7 @@ export default {
 		}
 	},
 	methods: {
-		date, colorByItem, logoByItem,
+		date, colorByItem, logoByItem, sortBy,
 		sortByPorCislo: function (list) {
 			list.sort((a, b) => (a.PORCISLO || 1000) - (b.PORCISLO || 1000));
 
