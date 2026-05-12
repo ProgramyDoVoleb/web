@@ -2,7 +2,7 @@
 	
 	<p-layout-divided ref="page">
 		<template #main>
-			<p-block headline="Volby" :level="1" :hide="true">
+			<p-block :headline="daysUntil('2026-10-09 14:00:00') + ' dní do voleb'" anchor="Volby" :level="1">
 
 				<template v-if="elections && elections.list.find(x => x.radne === 0 && x.status < 3 && x.datum <= today)">
 					<div class="p-gap"></div>
@@ -20,7 +20,7 @@
 				</template>
 
 				<p-block headline="Výhled" :hide="true" class="pb0 mb3">
-					<h1 class="quando">{{ Math.round((new Date(new Date('2026-10-09 14:00:00') - new Date()).getTime()) / (1000 * 60 * 60 * 24)) }} dní do voleb</h1>
+					<!-- <h1 class="quando">{{ Math.round((new Date(new Date('2026-10-09 14:00:00') - new Date()).getTime()) / (1000 * 60 * 60 * 24)) }} dní do voleb</h1> -->
 					<p-grid>
 						<div>
 							<p-area class="highlight shadow" icon="komunalni-volby">

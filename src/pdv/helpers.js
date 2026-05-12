@@ -548,3 +548,7 @@ export function partyInCis (VSTRANA, CIS) {
 
 			return party;
 		}
+
+    export function daysUntil (day, until) {
+      return Math.round((new Date(new Date(day) - (until ? new Date(until) : new Date())).getTime()) / (1000 * 60 * 60 * 24))
+    }

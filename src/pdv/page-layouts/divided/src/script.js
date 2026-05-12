@@ -37,7 +37,7 @@ export default {
 			var start = this.$el.getBoundingClientRect().y;
 			var end = start + this.$el.getBoundingClientRect().height;
 			var header = document.querySelector('header').getBoundingClientRect().height;
-			var offset = 50;
+			var offset = 32;
 
 			var aside = {
 				position: 'fixed',
