@@ -15,6 +15,7 @@
   margin: 0 auto;
   max-width: 160rem;
   position: relative;
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   box-shadow: none; // 0 10px 25px rgba(0,0,0,.06);
   // background: #ffffffaa;

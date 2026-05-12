@@ -18,7 +18,7 @@ function dia (str) {
 
 export default {
 	name: 'search-person',
-	props: ['elections', 'cb', 'link', 'datum', 'area', 'profiles'],
+	props: ['elections', 'cb', 'link', 'datum', 'area', 'profiles', 'options'],
 	data: function () {
 		return {
 			query: null,
@@ -26,7 +26,7 @@ export default {
 			dia: null,
 			raw: null,
 			progress: false,
-			filter: ['EP', 'KV', 'KZ', 'PREZ', 'SENAT', 'PS'],
+			filterTypes: ['EP', 'KV', 'KZ', 'PREZ', 'SENAT', 'PS'],
 			filterOptions: ['EP', 'KV', 'KZ', 'PREZ', 'SENAT', 'PS'],
 			filterByPerson: null,
 			list: null,
@@ -56,7 +56,7 @@ export default {
 
 			// var spl = this.dia.split('-');
 
-			// var link = 'person/list/' + spl[spl.length - 1] + (this.filter.length > 0 ? ';' + this.filter.join(',') : '');
+			// var link = 'person/list/' + spl[spl.length - 1] + (this.filterTypes.length > 0 ? ';' + this.filterTypes.join(',') : '');
 
 			// // if (this.datum) link += ':' + this.datum;
 			// // if (this.elections && !this.datum) link += ':' + this.elections;
@@ -154,7 +154,7 @@ export default {
 				axios.post(api + 'person/list-indexed', {
 					query,
 					hash,
-					limit: this.filter
+					limit: this.filterTypes
 				}).then(response => {
 					this.progress = false;
 
@@ -200,10 +200,10 @@ export default {
 			});
 		},
 		toggleUpcoming: function () {
-			if (this.filter.find(x => x === 'UPCOMING')) {
-				this.filter.splice(this.filter.indexOf('UPCOMING'), 1)
+			if (this.filterTypes.find(x => x === 'UPCOMING')) {
+				this.filterTypes.splice(this.filterTypes.indexOf('UPCOMING'), 1)
 			} else {
-				this.filter.push('UPCOMING')	
+				this.filterTypes.push('UPCOMING')	
 			}
 			console.log(this.filter);
 		},
@@ -225,6 +225,12 @@ export default {
 			}
 
 			return relevant;
+		}
+	},
+	mounted: function () {
+		if (this.options) {
+			this.filterTypes = [];
+			this.options.split(',').forEach(x => this.filterTypes.push(x));
 		}
 	}
 };

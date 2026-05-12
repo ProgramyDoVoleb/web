@@ -2,30 +2,30 @@
 	<div class="smaller _lh">
 		<p-list-linear class="inline nebo">
 			<span>
-				<button class="inline" @click="toggleUpcoming" :class="{'green strong': filter.find(x => x === 'UPCOMING')}">
+				<button class="inline" @click="toggleUpcoming" :class="{'green strong': filterTypes.find(x => x === 'UPCOMING')}">
 					Pouze nadcházející volby
 				</button>
 			</span>
 			<span>
-				<button class="inline" @click="toggleUpcoming" :class="{'green strong': !filter.find(x => x === 'UPCOMING')}">
+				<button class="inline" @click="toggleUpcoming" :class="{'green strong': !filterTypes.find(x => x === 'UPCOMING')}">
 					hledat i v minulosti
 				</button>
 			</span>
 		</p-list-linear>
 	</div>
-	<div class="smaller _lh" v-if="!filter.find(x => x === 'UPCOMING')">
+	<div class="smaller _lh" v-if="!filterTypes.find(x => x === 'UPCOMING')">
 		<p-list-linear class="or">
 			<span>
 				<button class="inline" @click="filter = ['EP', 'KV', 'KZ', 'PS', 'PREZ', 'SENAT']">Všechny</button>
 			</span>
 			<span v-for="(item, index) in filterOptions">
-				<button class="inline" @click="(filter.find(x => x === item) ? filter.splice(filter.indexOf(item), 1) : filter.push(item))" :class="{'green strong': filter.find(x => x === item), dimm: filter.find(x => x === 'UPCOMING')}">
+				<button class="inline" @click="(filterTypes.find(x => x === item) ? filterTypes.splice(filterTypes.indexOf(item), 1) : filterTypes.push(item))" :class="{'green strong': filterTypes.find(x => x === item), dimm: filterTypes.find(x => x === 'UPCOMING')}">
 					{{ enums.elections.find(x => x.key === item).name }}
 				</button>
 			</span>
 		</p-list-linear>
 	</div>
-	<p class="smallest dimm" v-if="filter.length === 6 && !filter.find(x => x === 'UPCOMING')">
+	<p class="smallest dimm" v-if="filterTypes.length === 6 && !filterTypes.find(x => x === 'UPCOMING')">
 		<p-label color="var(--red)">Vyhledávání v celé databázi může být pomalejší. Mějte prosím trpělivost.</p-label>
 	</p>
 	<div class="p-line"></div>
@@ -78,7 +78,7 @@
 													<span class="dimm" v-if="person.KODZASTUP && list.cis.obce.find(x => x.NUM === person.KODZASTUP)"> &middot; {{ list.cis.obce.find(x => x.NUM === person.KODZASTUP).NAZEV }}</span>
 													<span class="dimm" v-if="person.OBVOD"> &middot; obvod {{ person.OBVOD }}</span>
 												</div>
-												<div v-if="!filterByPerson && !filter.find(x => x === 'UPCOMING')">
+												<div v-if="!filterByPerson && !filterTypes.find(x => x === 'UPCOMING')">
 													
 													<button class="inline" @click="filterByPerson = person" title="filtrovat podle kandidáta"><span class="smallest dimm">filtrovat</span><p-icon icon="filtr" size="1em"></p-icon></button>
 												</div>
@@ -116,7 +116,7 @@
 					</p-block>
 				</template>
 			</component>
-			<template v-if="!area && !filter.find(x => x === 'UPCOMING')">
+			<template v-if="!area && !filterTypes.find(x => x === 'UPCOMING')">
 				<div class="p-line"></div>
 				<div class="smallest">
 					<button class="inline" @click="profile.show = !profile.show">Tvorba profilu</button>

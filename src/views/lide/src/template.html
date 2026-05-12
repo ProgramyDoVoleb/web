@@ -2,7 +2,7 @@
 	<p-layout-divided>
 		<template #main>
 			<p-block headline="Vyhledávání kandidátů" :level="1">
-				<search-person :profiles="data ? data.list : null"></search-person>
+				<search-person :profiles="data ? data.list : null" :options="$route && $route.query && $route.query.f ? $route.query.f : null"></search-person>
 				<div class="p-gap_3"></div>
 				<!-- <p-block-expandable headline="Vybrané osobnosti">
 					<p-loader :rule="data">

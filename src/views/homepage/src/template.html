@@ -19,73 +19,118 @@
 					<div class="p-gap"></div>
 				</template>
 
-				<!-- <p-block headline="Hledat obec" :hide="true" class="pb0">
-					<div class="_searchMap">
-						<div>
-							<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
-						</div>
-						<div class="_searchMap_modal">
-							<p-modal :extended="1">
-								<template #init>
-									<p-box>
-										<p-box-button icon="map">Mapa</p-box-button>
-									</p-box>
-								</template>
-								<template #content>
-									<hero-map size="max"></hero-map>
-								</template>
-							</p-modal>
-						</div>
-					</div>
-					
-				</p-block> -->
-
 				<p-block headline="Výhled" :hide="true" class="pb0 mb3">
+					<h1 class="quando">{{ Math.round((new Date(new Date('2026-10-09 14:00:00') - new Date()).getTime()) / (1000 * 60 * 60 * 24)) }} dní do voleb</h1>
+					<p-grid>
+						<div>
+							<p-area class="highlight shadow" icon="komunalni-volby">
+								<h4 class="mt0 mb0 blue">
+									<router-link to="/volby/komunalni-volby/176">Komunální volby</router-link>
+								</h4>
+								<div class="smallest">
+									<p-list-linear class="or">
+										<span>
+											<p-popup>
+												<template #init>
+													<span class="is-span strong">Přidat</span>
+												</template>
+												<template #content>
+													<div class="smaller strong p05">Chcete přidat stranu, kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
+													<div class="p-line _05"></div>
+													<editable-suggest></editable-suggest>
+												</template>
+											</p-popup>	
+										</span>
+										<span>
+											<router-link class="is-span" to="/jak-volit/komunalni-volby">Jak volit?</router-link>
+										</span>
+										<!-- <span>
+											<router-link class="is-span" to="/volby/komunalni-volby/176/aktivita">Aktivita stran</router-link>
+										</span> -->
+										<span>
+											<router-link class="is-span" to="/lide?f=KV,UPCOMING">Hledat</router-link>
+										</span>
+									</p-list-linear>
+								</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area class="highlight shadow" icon="senatni-volby">
+								<h4 class="mt0 mb0">
+									<router-link to="/volby/senatni-volby/173" class="red">Senátní volby</router-link>
+								</h4>
+								<div class="smallest">
+									<p-list-linear class="or">
+										<!-- <span>
+											<router-link class="is-span" to="/jak-volit/senatni-volby">Jak volit?</router-link>
+										</span> -->
+										<!-- <span>
+											<router-link class="is-span" to="/volby/senatni-volby/173/aktivita">Aktivita stran</router-link>
+										</span> -->
+										<span>
+											<p-popup>
+												<template #init>
+													<span class="is-span strong">Přidat kandidáta</span>
+												</template>
+												<template #content>
+													<div class="smaller strong p05">Chcete přidat kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
+													<div class="p-line _05"></div>
+													<editable-suggest></editable-suggest>
+												</template>
+											</p-popup>	
+										</span>
+										<span>
+											<router-link class="is-span" to="/lide?f=SENAT,UPCOMING">Hledat</router-link>
+										</span>
+									</p-list-linear>
+								</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area icon="admin">
+								<h4 class="mt0 mb0">
+									<router-link to="/pro-kandidaty" class="is-span">Pro kandidáty</router-link>
+								</h4>
+								<div class="smallest">
+									<p-list-linear class="or">
+										<span>
+											<p-link href="https://admin.programydovoleb.cz/seznam" class="is-span strong">Chci přístup</p-link>
+										</span>
+										<span>
+											<router-link to="/pro-kandidaty" class="is-span">Informace</router-link>
+										</span>
+										<!-- <span>
+											<p-popup>
+												<template #init>
+													<span class="is-span strong">Přidat</span>
+												</template>
+												<template #content>
+													<div class="smaller strong p05">Chcete přidat stranu, kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
+													<div class="p-line _05"></div>
+													<editable-suggest></editable-suggest>
+												</template>
+											</p-popup>	
+										</span> -->
+										<span>
+											<p-popup>
+												<template #init>
+													<span class="is-span">Nahrát leták</span>
+												</template>
+												<template #content>
+													<p class="smaller">Viděli jste leták, plakát nebo brožurku s programem? Vyfoťte, nahrajte, poté přidejte do popisu obec a pošlete.</p>
+													<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
+												</template>
+											</p-popup>
+										</span>
+									</p-list-linear>
+								</div>
+							</p-area>
+						</div>
+					</p-grid>
 					<p>
-						<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="strong">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="strong">senátních voleb</router-link>. Oficiální přehledy stran a kandidátů sice budou až koncem srpna, ale už dnes lze na <em>Programy</em> přidávat strany a kandidáty ve všech obcích a obvodech.
+						<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="is-span">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link>. Oficiální přehledy stran a kandidátů sice budou až koncem srpna, ale už dnes lze na <em>Programy</em> přidávat strany a kandidáty ve všech obcích a obvodech.
 					</p>
 				</p-block>	
-				
-				<p-block headline="Pro kandidáty" :hide="true" class="mt-2 pb0 mb1">
-					<!-- <p-area class="highlight shadow inline" borderColor="var(--green)"> -->
-						<!-- <h3 class="serif mv0 mr3">Kandidujete?</h3> -->
-						<!-- <p>Ať jste registrovanou stranou nebo místním sdružením, obhajujete nebo jdete do voleb poprvé, můžete své údaje na <em>Programech</em> přidávat nebo upravovat <strong>už dnes</strong> přímo v aplikaci pro kandidáty – <strong>v Adminu</strong>.</p>  -->
-						<p-box-group>
-							<p-popup>
-								<template #init>
-									<p-box>
-										<p-box-button class="green" icon="plus-green">Chci přidat...</p-box-button>
-									</p-box>
-								</template>
-								<template #content>
-									<div class="smaller strong p05">Chcete přidat stranu, kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
-									<div class="p-line _05"></div>
-									<editable-suggest></editable-suggest>
-								</template>
-							</p-popup>		
-							<pop-up>
-								<template #init>
-									<p-box>
-										<p-box-button icon="ig">Nahrát</p-box-button>
-									</p-box>
-								</template>
-								<template #content>
-									<p class="smaller">Viděli jste leták, plakát nebo brožurku s programem? Vyfoťte, nahrajte, poté přidejte do popisu obec a pošlete.</p>
-									<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
-								</template>
-							</pop-up>	
-							<p-box href="https://admin.programydovoleb.cz/seznam">
-								<p-box-button icon="admin">Získat přístup</p-box-button>
-							</p-box>				
-							<p-box to="/pro-kandidaty">
-								<p-box-label>Pro kandidáty &rarr;</p-box-label>
-							</p-box>
-						</p-box-group>
-					<!-- </p-area> -->
-				</p-block>
-				
-				<!-- <div class="p-line"></div> -->
-				 <div class="p-gap _15"></div>
 				
 					<p-loader :rule="elections">
 						<div v-if="elections" class="mt-1">
