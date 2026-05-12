@@ -11,7 +11,8 @@ export default {
 	name: 'layout-people',
 	data: function () {
 		return {
-			cdn
+			cdn,
+			skipProfiles: false
 		}
 	},
   components: {
@@ -60,5 +61,6 @@ export default {
   mounted: function () {
     window.scrollTo(0, 1);
     ga("Lidé");
+	if (this.$route && this.$route.query && this.$route.query.f) this.skipProfiles = true;
   }
 };

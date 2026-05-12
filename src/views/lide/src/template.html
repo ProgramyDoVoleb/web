@@ -2,7 +2,7 @@
 	<p-layout-divided>
 		<template #main>
 			<p-block headline="Vyhledávání kandidátů" :level="1">
-				<search-person :profiles="data ? data.list : null" :options="$route && $route.query && $route.query.f ? $route.query.f : null"></search-person>
+				<search-person :profiles="!skipProfiles && data ? data.list : null" :options="$route && $route.query && $route.query.f ? $route.query.f : null"></search-person>
 				<div class="p-gap_3"></div>
 				<!-- <p-block-expandable headline="Vybrané osobnosti">
 					<p-loader :rule="data">
@@ -15,7 +15,7 @@
 						</div>
 					</p-loader>
 				</p-block-expandable> -->
-				<p-block headline="Historie" :level="1" :hide="true">
+				<p-block headline="Historie" :level="1" :hide="true" v-if="!skipProfiles">
 					<h2 class="serif">Volební historie kandidátů</h2>
 					<p>Pro každého kandidáta lze dohledat a uložit jeho historickou pouť volbami. Nezáleží na tom, zda se jedná o premiéra nebo komunálního politika, matadora nebo nováčka. Profily lze navrhovat ve vyhledávání výše, kandidáti je mohou tvořit přímo v Adminu. Aktuální seznam všech uložených profilů najdete níže, nebo můžete použít hledání výše - našeptávač je zobrazí okamžitě a přednostně.</p>
 					<p-block :hide="true" headline="Seznam profilů">
@@ -39,11 +39,17 @@
 						</p-collapsible>
 					</p-block>
 				</p-block>
+				<!-- <template v-else>
+					<div class="p-line"></div>
+					<p-box :click="() => skipProfiles = false">
+						<p-box-button icon="person">Hledat i v historických profilech</p-box-button>
+					</p-box>
+				</template> -->
 			</p-block>
 			
 		</template>
 		<template #anchors>
-			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'"></p-logo>
 			<div class="p-gap"></div>
 			<p-anchors></p-anchors>
 		</template>

@@ -34,7 +34,7 @@
 .row {
   margin: 0;
   padding: 1rem 2rem;
-  // border-bottom: var(--border);
+  border-bottom: var(--border);
   position: relative;
   font-size: 16px;
 
@@ -52,14 +52,6 @@
 
   a {
     text-decoration: none;
-  }
-
-  &.cmenu {
-    border-top: var(--border);
-
-    .dark & {
-      border-top-color: #000;
-    }
   }
 }
 
