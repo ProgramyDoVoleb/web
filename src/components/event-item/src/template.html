@@ -10,12 +10,14 @@
 			<template v-if="item.csu_table != 'csu_volby'">
 				<template v-if="item.csu_id && !noTag && link">
 					<div class="tiny">
-						<router-link :to="link + '/strana/' + item.csu_id" class="dimm">{{ party.ZKRATKA || party.JMENO + ' ' + party.PRIJMENI }}</router-link>
+						<router-link :to="link + '/strana/' + item.csu_id" class="dimm">{{ party.NAZEV || party.JMENO + ' ' + party.PRIJMENI }}</router-link>
+						<span v-if="item.$node && item.$node.NAZEVZAST" class="dimm"> &middot; {{ item.$node.NAZEVZAST }}</span>
 					</div>
 				</template>
 				<template v-if="item.csu_id && !noTag && bod">
 					<div class="tiny">
-						<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id" class="dimm">{{ party.ZKRATKA || party.JMENO + ' ' + party.PRIJMENI }}</router-link>
+						<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id" class="dimm">{{ party.NAZEV || party.JMENO + ' ' + party.PRIJMENI }}</router-link>
+						<span v-if="item.$node && item.$node.NAZEVZAST" class="dimm"> &middot; {{ item.$node.NAZEVZAST }}</span>
 					</div>
 				</template>
 			</template>

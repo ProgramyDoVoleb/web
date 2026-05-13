@@ -50,7 +50,7 @@
 																	obvod {{ item.$node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === item.$node.OBVOD).name }}
 																</div>
 																<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id" class="strong">
-																	{{ item.$node.ZKRATKA || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}
+																	{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}
 																</router-link>
 																<div class="smallest">
 																	Volební program
