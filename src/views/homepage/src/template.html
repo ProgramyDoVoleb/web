@@ -323,10 +323,17 @@
 												<router-link :to="'/novinky/' + item.id" class="strong">{{ item.title }}</router-link>
 												<p>{{ truncate(untag(item.content), 20) }}</p>
 												<div class="smallest strong">
-													{{ date(day.datum) }}
-													<span v-if="item.source">
-														&middot; <p-link :href="item.source">{{ item.label || 'Více zde'}}</p-link>
-													</span>
+													<!-- <div class="p-offset center"> -->
+														<!-- <div> -->
+															<!-- <p-image :src="getMedia(item.source)" width="2em" class="rounded shadow" :rounded="1"></p-image> -->
+														<!-- </div> -->
+														<!-- <div> -->
+															{{ date(day.datum) }}
+															<span v-if="item.source">
+																&middot; <p-link :href="item.source">{{ item.label || 'Více zde'}}</p-link>
+															</span>
+														<!-- </div> -->
+													<!-- </div> -->
 														
 												</div>
 											</p-area>
@@ -381,8 +388,16 @@
 												<p-area class="smaller" borderColor="var(--blue44)">
 													<p-link :href="item.source" class="strong">{{ item.title.split(' | ')[0].split(' – ')[0].split(' — ')[0].split(' - ')[0] }}</p-link>
 													<!-- <p>{{ truncate(untag(item.content.split('Původní text: ').join('')), 20) }}</p> -->
-													<div class="smallest mt05 dimm">
+													<!-- <div class="smallest mt05 dimm">
 														{{ date(day.datum) }} &middot; {{ domain(item.source) }}
+													</div> -->
+													<div class="p-offset center mt05">
+														<div>
+															<p-image :src="getMedia(item.source)" width="2em" class="rounded shadow" :rounded="1"></p-image>
+														</div>
+														<div class="smallest dimm">
+															{{ date(day.datum) }} &middot; {{ domain(item.source) }}
+														</div>
 													</div>
 												</p-area>
 										</div>
@@ -390,8 +405,16 @@
 											<p-area class="smaller">
 													<p-link :href="item.source" class="">{{ item.value.split(' | ')[0].split(' – ')[0].split(' — ')[0].split(' - ')[0] }}</p-link>
 													<!-- <p>{{ truncate(untag(item.content.split('Původní text: ').join('')), 20) }}</p> -->
-													<div class="smallest mt05 dimm">
-														{{ date(day.datum) }} &middot; {{ domain(item.source) }}
+													<!-- <div class="smallest mt05 dimm"> -->
+														<!-- {{ date(day.datum) }} &middot; {{ domain(item.source) }} -->
+													<!-- </div> -->
+													<div class="p-offset center mt05">
+														<div>
+															<p-image :src="getMedia(item.source)" width="2em" class="rounded shadow" :rounded="1"></p-image>
+														</div>
+														<div class="smallest dimm">
+															{{ date(day.datum) }} &middot; {{ domain(item.source) }}
+														</div>
 													</div>
 												</p-area>
 										</div>

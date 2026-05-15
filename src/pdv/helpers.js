@@ -552,3 +552,35 @@ export function partyInCis (VSTRANA, CIS) {
     export function daysUntil (day, until) {
       return Math.round((new Date(new Date(day) - (until ? new Date(until) : new Date())).getTime()) / (1000 * 60 * 60 * 24))
     }
+
+export function getMedia (url, nullIfNotFound) {
+			url = url.split('.cz')[0].split('.').pop();
+
+			var s = 'https://static.programydovoleb.cz/';
+
+			if (url === 'aktualne') return s + 'media/aktualne.jpg';
+			if (url === 'blesk') return s + 'media/blesk.jpg';
+			if (url === 'ceskenoviny') return s + 'media/ceskenoviny.png';
+			if (url === 'iprima') return s + 'media/cnnprimanews.png';
+			if (url === 'ceskatelevize') return s + 'media/ct24.jpg';
+			if (url === 'denik') return s + 'media/denik.jpg';
+			if (url === 'denikn') return s + 'media/denikn.jpg';
+			if (url === 'drbna') return s + 'media/drbna.jpg';
+			if (url === 'e15') return s + 'media/e15.png';
+			if (url === 'echo24') return s + 'media/echo24.jpeg';
+			if (url === 'forum24') return s + 'media/forum24.jpg';
+			if (url === 'hn') return s + 'media/hn.jpg';
+			if (url === 'idnes') return s + 'media/idnes.jpg';
+			if (url === 'info') return s + 'media/info.jpg';
+			if (url === 'irozhlas') return s + 'media/irozhlas.jpg';
+			if (url === 'lidovky') return s + 'media/lidovky.jpg';
+			if (url === 'metro') return s + 'media/metro.png';
+			if (url === 'nova') return s + 'media/nova.png';
+			if (url === 'novinky') return s + 'media/novinky.jpg';
+			if (url === 'parlamentnilisty') return s + 'media/parlamentni-listy.jpg';
+			if (url === 'reflex') return s + 'media/reflex.jpg';
+			if (url === 'respekt') return s + 'media/respekt.jpg';
+			if (url === 'seznamzpravy') return s + 'media/seznamzpravy.jpg';
+
+			return nullIfNotFound ? null : s + 'icon/link.svg'
+}

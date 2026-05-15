@@ -848,8 +848,15 @@
 										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue11)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :class="{'highlight shadow': item.label != 'Zpráva'}">
 											<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
 											<div class="p-gap_075"></div>
-											<div class="smallest dimm">{{ item.label || 'Článek' }} &middot; {{ domain(item.source) }}</div>
-											<div class="smallest dimm"> Přidáno {{ date(item.updated) }}</div>
+											<div class="p-offset">
+												<div>
+													<p-image :src="getMedia(item.source)" width="2em" class="rounded shadow" :rounded="1"></p-image>
+												</div>
+												<div>
+													<div class="smallest dimm">{{ item.label || 'Článek' }} &middot; {{ domain(item.source) }}</div>
+													<div class="smallest dimm"> Přidáno {{ date(item.updated) }}</div>
+												</div>
+											</div>
 										</p-area>
 									</div>
 								</p-columns>

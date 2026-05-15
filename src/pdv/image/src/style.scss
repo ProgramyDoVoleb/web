@@ -28,8 +28,19 @@
   box-shadow: 1.6rem 1.6rem 4.8rem rgba(0,0,0,.1);
 }
 
+.p-image.ib img,
+.p-image.ib {
+  display: inline-block;
+}
+
 .dark img[src*="missing.png"] {
   opacity: .03;
+}
+
+.dark img[src*="link.svg"],
+.dark img[src*="icon-party.svg"] {
+  filter: invert(1) brightness(2) opacity(.66);
+  border: none;
 }
 
 .p-image.ma img {

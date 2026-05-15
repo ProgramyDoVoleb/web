@@ -156,17 +156,24 @@
 											<h4><p-link :href="item.source">{{ item.title.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link></h4>
 											<p v-if="item.content" v-html="(item.content || '').split('Původní text: ').join('')"></p>
 											<p class="smallest">
-												<span class="blue">{{ domain(item.source) }}</span>												
-												<template v-if="item.$relates.length > 0">
-													&middot; týká se
-													<p-list-linear class="or inline">
-														<span v-for="(relates, index) in item.$relates">
-															<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
-																{{ (item.relates.split(',')[index].includes('ros') ? relates.NAZEV : relates.ZKRATKA) || relates.JMENO + ' ' + relates.PRIJMENI }}
-															</router-link>
-														</span>
-													</p-list-linear>
-												</template>
+												<div class="p-offset center">
+													<div>
+														<p-image :src="getMedia(item.source)" width="3em" class="rounded shadow" :rounded="1"></p-image>
+													</div>
+													<div>
+														<span class="strong">{{ domain(item.source) }}</span>												
+														<template v-if="item.$relates.length > 0">
+															<br>Týká se
+															<p-list-linear class="or inline">
+																<span v-for="(relates, index) in item.$relates">
+																	<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
+																		{{ (item.relates.split(',')[index].includes('ros') ? relates.NAZEV : relates.ZKRATKA) || relates.JMENO + ' ' + relates.PRIJMENI }}
+																	</router-link>
+																</span>
+															</p-list-linear>
+														</template>
+													</div>
+												</div>
 											</p>
 										</div>
 									</template>
@@ -199,15 +206,22 @@
 													<div class="smallest dimm mb05" v-if="item.node.NAZEVZAST">{{ item.node.NAZEVZAST }}</div>
 													<p-link :href="item.source" class="strong">{{ item.value.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link>
 													<p class="smallest dimm">
-														<template v-if="item.node">
-															<!-- <div> -->
-																<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">
-																	{{ item.csu_table === 'csu_kv_ros' ? item.node.NAZEV : item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}
-																</router-link>
-																<br>
-															<!-- </div> -->
-														</template>
-														{{ item.label }} &middot; {{ domain(item.source || '') }}
+														<div class="p-offset">
+															<div>
+																<p-image :src="getMedia(item.source)" width="3em" class="rounded shadow" :rounded="1"></p-image>
+															</div>
+															<div>
+																<template v-if="item.node">
+																	<!-- <div> -->
+																		<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">
+																			{{ item.csu_table === 'csu_kv_ros' ? item.node.NAZEV : item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}
+																		</router-link>
+																		<br>
+																	<!-- </div> -->
+																</template>
+																{{ item.label }} &middot; {{ domain(item.source || '') }}
+															</div>
+														</div>
 													</p>
 												</p-area>
 											</div>

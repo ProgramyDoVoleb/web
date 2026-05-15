@@ -12,7 +12,7 @@ export default {
 		}
 	},
 	methods: {
-		url, date, domain, colorByItem
+		url, date, domain, colorByItem, logoByItem
 	},
 	computed: {
 		color: function () {

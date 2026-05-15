@@ -1,4 +1,4 @@
-import {date, number, truncate, indicator, untag, domain, sortBy, sortEvents, unique} from "@/pdv/helpers";
+import {date, number, truncate, indicator, untag, domain, sortBy, sortEvents, unique, getMedia} from "@/pdv/helpers";
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import NewsItem from '@/components/news-item/do.vue'
 import PollsPreview from '@/components/polls-preview/do.vue';
@@ -37,7 +37,7 @@ export default {
 		PopUp
 	},
 	methods: {
-		date, number, truncate, indicator, untag, domain, sortBy, unique, sortEvents,
+		date, number, truncate, indicator, untag, domain, sortBy, unique, sortEvents, getMedia,
 		colorByItem, logoByItem,
 		dayAfterDiffFrom,
 		sortByPrijmeni: function (list, desc) {
