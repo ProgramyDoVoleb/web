@@ -30,7 +30,7 @@ export default {
 			// setTimeout(() => this.e = null, 2500);
 		},
 		uploadFile: function () {
-			axios.post("https://api.programydovoleb.cz/admin/file/upload", {
+			axios.post("https://programydovoleb.cz/api.php?action=//admin/file/upload", {
 				data: this.srcData,
 				pointer: this.pointer,
 				name: url(this.name),

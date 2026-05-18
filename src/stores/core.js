@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const api = 'https://api.programydovoleb.cz/';
+export const api = 'https://programydovoleb.cz/api.php?action=/';
 export const cdn = 'https://static.programydovoleb.cz/';
 export const data = 'https://data.programydovoleb.cz/';
 export const today = new Date().toISOString().split('T')[0];
