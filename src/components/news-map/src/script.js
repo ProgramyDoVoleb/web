@@ -1,5 +1,5 @@
 import MapLeaflet from '@/components/map-leaflet/do.vue'
-import { LMarker } from '@vue-leaflet/vue-leaflet';
+import { LMarker, LIcon } from '@vue-leaflet/vue-leaflet';
 import { useRoute, useRouter } from 'vue-router'
 
 export default {
@@ -31,7 +31,7 @@ export default {
 		},
 	},
 	components: {
-		MapLeaflet, LMarker
+		MapLeaflet, LMarker, LIcon
 	},
 	computed: {
 		map_options: function () {

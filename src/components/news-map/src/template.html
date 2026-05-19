@@ -2,8 +2,10 @@
 	<div class="_map">
 		<map-leaflet ref="map" :options="map_options" :map_style="map_style" :map_onEachFeature="map_onEachFeature" :map_filter="map_filter">
 			<template #markers>
-				<template v-for="marker in data.gps.coord.filter(x => data.gps.data.find(y => x.obec === y.obec && !y.NADRZASTUP))">
-					<l-marker :lat-lng="marker.value.split(',')" @click="$router.push('/volby/komunalni-volby/176/obec/' + marker.obec)"></l-marker>
+				<template v-for="marker in data.gps.coord.filter(x => data.gps.data.find(y => x.obec === y.obec && !y.NADRZASTUP)).map(x => [x.obec, x.value, [0,6,5,2.75,2,5,5.5][Number(data.gps.data.find(y => x.obec === y.obec).DRUHZASTUP)]])">
+					<l-marker :lat-lng="marker[1].split(',')" @click="$router.push('/volby/komunalni-volby/176/obec/' + marker[0])">
+						<l-icon icon-url="https://static.programydovoleb.cz/img/map-icon.png" :icon-size="[68/marker[2],96/marker[2]]" :icon-anchor="[68/marker[2]/2,96/marker[2]]"></l-icon>
+					</l-marker>
 				</template>
 			</template>
 		</map-leaflet>
