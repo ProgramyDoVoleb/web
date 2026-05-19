@@ -8,6 +8,7 @@
 		  :opacity="0.25"
 		  v-if="showOSM"
 		></l-tile-layer>
+		<slot name="markers" />
 		<l-geo-json ref="geojson" :geojson="geojson" :options="{filter: map_filter, style: map_style, onEachFeature: map_onEachFeature}" :optionsStyle="map_style" :onEachFeature="map_onEachFeature"></l-geo-json>
 	  </l-map>	
 	<p-box-group>

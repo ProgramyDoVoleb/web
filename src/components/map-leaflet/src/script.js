@@ -14,7 +14,7 @@ export default {
 			geojson: null,
 			showOSM: true,
 			listOfGeoJSON: {
-				selected: 'republika',
+				selected: 'republika2',
 				list: {
 					republika: 'https://data.gov.cz/p%C5%99%C3%ADlohy/%C4%8Dl%C3%A1nky/kartogram-choropleth/data/cr-simple.json',
 					kraje: 'https://data.gov.cz/p%C5%99%C3%ADlohy/%C4%8Dl%C3%A1nky/kartogram-choropleth/data/kraje-simple.json',

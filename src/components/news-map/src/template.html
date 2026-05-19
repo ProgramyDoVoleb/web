@@ -1,0 +1,11 @@
+<div class="news-map">
+	<div class="_map">
+		<map-leaflet ref="map" :options="map_options" :map_style="map_style" :map_onEachFeature="map_onEachFeature" :map_filter="map_filter">
+			<template #markers>
+				<template v-for="marker in data.gps.coord.filter(x => data.gps.data.find(y => x.obec === y.obec && !y.NADRZASTUP))">
+					<l-marker :lat-lng="marker.value.split(',')" @click="$router.push('/volby/komunalni-volby/176/obec/' + marker.obec)"></l-marker>
+				</template>
+			</template>
+		</map-leaflet>
+	</div>
+</div>
