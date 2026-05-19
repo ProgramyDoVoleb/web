@@ -1,6 +1,6 @@
 .news-map {
 	width: 100%;
-	height: min(30vh, 50em);
+  	height: min(70vh, 50em);
 	display: block;
 	position: relative;
 	background: #ccc;
@@ -12,7 +12,7 @@
 }
 
 ._map {
-	height: min(30vh, 50em);
+  	height: min(70vh, 50em);
 	border-bottom: 1px solid var(--blue);
 
 	@media (min-width: 800px) {
