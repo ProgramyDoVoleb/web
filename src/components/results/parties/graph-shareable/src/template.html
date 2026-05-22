@@ -79,6 +79,8 @@
 			<div class="_header-agency _quando">{{ about.poll.agency }}</div>
 			<div class="_header-agency_paid _quando _header-agency-STEMCNN" v-if="about.poll.agency === 'STEM'">pro CNN Prima News</div>
 			<div class="_header-agency_paid _quando _header-agency-KANTAR" v-if="about.poll.agency === 'Kantar'">pro Českou televizi</div>
+			<div class="_header-agency_paid _quando _header-agency-IPSOS" v-if="about.poll.agency === 'Ipsos'">pro Moravec.cz</div>
+			<div class="_header-agency_paid _quando _header-agency-NMS" v-if="about.poll.agency === 'NMS'">pro Novinky.cz</div>
 			<div class="_header-fromto _blue _quando" v-if="about.poll.from">sběr od {{ date(about.poll.from, 2) }} do {{ date(about.poll.to, 2) }}</div>
 			<div class="_header-fromto _blue _quando" v-if="username">{{ username }}</div>
 			<div class="_header-attendance" v-if="about.poll.attendance">

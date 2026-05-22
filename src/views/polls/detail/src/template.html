@@ -143,7 +143,7 @@
 								</p-box>
 							</template>
 							<template #content>
-								<election-simulation-imperiali-2021 :defined="definedPrevious" :hide="true" :tickDefined="1" @update="(data) => setMandates(data, 'mandatesPrevious')"></election-simulation-imperiali-2021>
+								<election-simulation-imperiali-2021 :defined="defined" :hide="true" :tickDefined="1" @update="(data) => setMandates(data, 'mandatesPrevious')"></election-simulation-imperiali-2021>
 								<results-parties-graph-shareable :list="list" v-if="list.length > 0" :diff="list.find(x => x.ref)" :mandates="mandates" :mandatesPrevious="mandatesPrevious" :mandatesSince="mandatesSince" :about="data" ></results-parties-graph-shareable>
 							</template>
 						</p-modal>
