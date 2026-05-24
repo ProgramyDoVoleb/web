@@ -130,6 +130,17 @@
 					<p>
 						<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="is-span">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link>. Oficiální přehledy stran a kandidátů sice budou až koncem srpna, ale už dnes lze na <em>Programy</em> přidávat strany a kandidáty ve všech obcích a obvodech.
 					</p>
+					<div v-if="news && news.summary && width > 640">
+
+									<p-area icon="spotify" borderColor="var(--green)" background="var(--green11)" class="inline">
+										<h4 class="mt0 pt025 mb0 smallest">
+											<router-link :to="'/novinky/' + news.summary.id" class="is-span" :title="news.summary.title">{{ news.summary.title }}</router-link>
+										</h4>
+										<div class="smallest">
+											Shrnutí novinek od {{ date(new Date(new Date(news.summary.datum).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(), 2) }} do {{ date(news.summary.datum, 2) }}
+										</div>
+									</p-area>
+					</div>
 				</p-block>	
 				
 					<p-loader :rule="elections">
@@ -317,6 +328,17 @@
 									</p-area>
 								</div>
 
+								<div>
+									<p-area icon="spotify" borderColor="var(--green)" background="var(--green11)">
+										<h4 class="mt0 pt025 mb0 smallest">
+											<router-link :to="'/novinky/' + news.summary.id" class="is-span" :title="news.summary.title">{{ news.summary.title }}</router-link>
+										</h4>
+										<div class="smallest">
+											Shrnutí novinek od {{ date(new Date(new Date(news.summary.datum).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(), 2) }} do {{ date(news.summary.datum, 2) }}
+										</div>
+									</p-area>
+								</div>
+
 								<template v-for="day in news.list">
 									<div v-for="(item, index) in day.sys">
 											<p-area class="shadow highlight smaller" borderColor="var(--blue)">
@@ -420,7 +442,7 @@
 										</div>
 										<div v-if="day.main.length + day.media.length > 3" class="smallest dimm pb2">
 											<!-- <p-area class="smallest highlight dimm"> -->
-												... <p-lang :value="day.main.length + day.media.length - 3" :end="['', 'a ještě jedna zpráva', 'a ještě %% další zprávy', 'a ještě %% dalších zpráv']"></p-lang>
+												... <p-lang :value="day.main.length + day.media.length - 3" :end="['', 'a ještě jedna zpráva', 'a ještě %% další zprávy', 'a ještě %% dalších zpráv']"></p-lang> ze dne {{ date(day.datum) }}
 											<!-- </p-area> -->
 										</div>
 									</template>

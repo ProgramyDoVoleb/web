@@ -15,6 +15,19 @@
 				</div>
 				<!-- <p class="lead mt0">Souhrn článků z 24 různých médií, které se týkají voleb, stran nebo kandidátů, volební průzkumy a přehled novinek a úprav na webu <em>Programy do voleb</em> za uplynulých sedm dní.</p> -->
 				<!-- <div class="p-gap _2"></div> -->
+
+					<div v-if="news && news.summary" class="mb1">
+
+									<p-area icon="spotify" borderColor="var(--green)" background="var(--green11)" class="inline">
+										<h4 class="mt0 pt025 mb0 smallest">
+											<router-link :to="'/novinky/' + news.summary.id" class="is-span" :title="news.summary.title">{{ news.summary.title }}</router-link>
+										</h4>
+										<div class="smallest">
+											Shrnutí novinek od {{ date(new Date(new Date(news.summary.datum).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(), 2) }} do {{ date(news.summary.datum, 2) }}
+										</div>
+									</p-area>
+					</div>
+
 				<p-list class="invisible">
 					<div v-for="datum in datumy">
 						<daily-item :datum="datum" class="mv05"></daily-item>

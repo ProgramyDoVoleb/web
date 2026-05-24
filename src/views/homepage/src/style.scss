@@ -243,3 +243,12 @@
 	top: 0;
 	right: 0;
 }
+
+._ptr {
+	@media (min-width: 1083px) {
+		position: absolute;
+		top: -4.5em;
+		right: -.8em;
+		transform: scale(.9, .9);
+	}
+}
