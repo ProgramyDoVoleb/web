@@ -1189,8 +1189,13 @@
 							</p-block>
 							<p-block headline="Zmíněné strany a hnutí" v-if="current.PRIJMENI && !current.VSTRANA" anchor="Detaily">
 								<div class="columns _c">
-									<party-quicklook v-if="current.NSTRANA" :VSTRANA="current.NSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
-									<party-quicklook v-if="current.PSTRANA && current.NSTRANA != current.PSTRANA && current.PSTRANA != 99" :VSTRANA="current.PSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
+									<party-quicklook v-if="current.NSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition" :VSTRANA="current.NSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
+									<template v-if="current.NSTRANA && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition">
+										<template v-for="member in data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition">
+											<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
+										</template>
+									</template>
+									<party-quicklook v-if="current.PSTRANA && current.NSTRANA != current.PSTRANA && current.PSTRANA != 99 && !(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition.find(x => x.VSTRANA === current.PSTRANA))" :VSTRANA="current.PSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 								</div>								
 							</p-block>
 							<p-block headline="Výsledky" v-if="$volby.status === 3">

@@ -16,6 +16,9 @@ export default {
 		},
 		data: function () {
 			return this.$store.getters.pdv('history/kv-rk/' + this.KODZASTUP + ':' + encodeURIComponent(this.PRIJMENI) + ':' + encodeURIComponent(this.JMENO));
+		},
+		sorted: function () {
+			return sortBy(this.data.list.filter(x => x.status  > (this.showUpcoming ? 0 : 2)), 'datum', null, true, true)
 		}
 	},
 	methods: {
