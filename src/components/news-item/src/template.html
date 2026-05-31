@@ -17,10 +17,11 @@
 				{{date(data.datum, 0).split(' ')[1] }}
 			</div>	
 		</div>
-		<div>
-			<!-- <p-link v-if="data.source && !data.content" :href="data.source">{{ data.title }}</p-link> -->
-			<router-link :to="'/novinky/' + data.id">{{ data.title }}</router-link>	
-			<div class="smallest dimm desktop" v-if="data.content" v-html="data.content.includes('<') ? 'Zobrazit celou novinku' : truncate(data.content.split('Původní text: ').join(''), 20)"></div>
+		<div class="smaller">
+			<p-link :href="data.source" class="strong " v-if="!data.priority || data.priority != 9">{{ data.title }}</p-link>
+			<router-link :to="'/novinky/' + data.id" v-if="data.priority && data.priority === 9" class="strong">{{ data.title }}</router-link>	
+			<div class="" v-if="data.content" v-html="data.content.includes('<') ? 'Zobrazit celou novinku' : truncate(data.content.split('Původní text: ').join(''), 20)"></div>
+			<div class="smallest dimm" v-if="data.source">{{ domain(data.source) }}</div>
 		</div>		
 	</div>
 	
