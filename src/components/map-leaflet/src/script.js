@@ -45,7 +45,7 @@ export default {
 		},
 		load: async function (id, skipCenter, prefilter) {
 
-			if (this.listOfGeoJSON.selected === id) return;
+			// if (this.listOfGeoJSON.selected === id) return;
 
 			this.listOfGeoJSON.selected = id || this.listOfGeoJSON.selected;
 
@@ -146,8 +146,8 @@ export default {
 		setTimeout(() => this.processOptions(), 100);
 	},
 	watch: {
-		// options: function () {
-		// 	setTimeout(() => this.processOptions(), 100);
-		// }
+		options: function () {
+			setTimeout(() => this.processOptions(), 100);
+		}
 	}
 };

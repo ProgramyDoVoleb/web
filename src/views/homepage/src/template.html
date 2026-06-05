@@ -24,65 +24,114 @@
 					<p-grid>
 						<div>
 							<p-area class="highlight shadow" icon="komunalni-volby">
-								<h4 class="mt0 mb0 blue">
-									<router-link to="/volby/komunalni-volby/176">Komunální volby</router-link>
-								</h4>
-								<div class="smallest">
-									<p-list-linear class="or">
-										<span>
+								<div class="p-offset reverse">
+									<div>
+										<h4 class="mt0 mb0 blue">
+											<router-link to="/volby/komunalni-volby/176">Komunální volby</router-link>
+										</h4>
+										<div class="smallest">
+											<p-list-linear class="or">
+												<span>
+													<p-popup class="down">
+														<template #init>
+															<span class="is-span strong">Přidat</span>
+														</template>
+														<template #content>
+															<div class="smaller strong p05">Chcete přidat stranu, kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
+															<div class="p-line _05"></div>
+															<editable-suggest></editable-suggest>
+														</template>
+													</p-popup>	
+												</span>
+												<span>
+													<router-link class="is-span" to="/jak-volit/komunalni-volby">Jak volit?</router-link>
+												</span>
+												<!-- <span>
+													<router-link class="is-span" to="/volby/komunalni-volby/176/aktivita">Aktivita stran</router-link>
+												</span> -->
+												<span>
+													<router-link class="is-span" to="/lide?f=KV,UPCOMING">Hledat</router-link>
+												</span>
+											</p-list-linear>
+										</div>
+									</div>
+									<div v-if="width < 10240">
 											<p-popup class="down">
 												<template #init>
-													<span class="is-span strong">Přidat</span>
+													<p-box>
+														<p-box-button icon="search"></p-box-button>
+													</p-box>
 												</template>
 												<template #content>
-													<div class="smaller strong p05">Chcete přidat stranu, kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
-													<div class="p-line _05"></div>
-													<editable-suggest></editable-suggest>
+													<strong>Vyhledat obec</strong>
+													<div class="mt1">
+														<search-town></search-town>
+													</div>
 												</template>
-											</p-popup>	
-										</span>
-										<span>
-											<router-link class="is-span" to="/jak-volit/komunalni-volby">Jak volit?</router-link>
-										</span>
-										<!-- <span>
-											<router-link class="is-span" to="/volby/komunalni-volby/176/aktivita">Aktivita stran</router-link>
-										</span> -->
-										<span>
-											<router-link class="is-span" to="/lide?f=KV,UPCOMING">Hledat</router-link>
-										</span>
-									</p-list-linear>
+											</p-popup>
+									</div>
 								</div>
 							</p-area>
 						</div>
 						<div>
 							<p-area class="highlight shadow" icon="senatni-volby">
-								<h4 class="mt0 mb0">
-									<router-link to="/volby/senatni-volby/173" class="red">Senátní volby</router-link>
-								</h4>
-								<div class="smallest">
-									<p-list-linear class="or">
-										<!-- <span>
-											<router-link class="is-span" to="/jak-volit/senatni-volby">Jak volit?</router-link>
-										</span> -->
-										<!-- <span>
-											<router-link class="is-span" to="/volby/senatni-volby/173/aktivita">Aktivita stran</router-link>
-										</span> -->
-										<span>
-											<p-popup class="down">
-												<template #init>
-													<span class="is-span strong">Přidat kandidáta</span>
-												</template>
-												<template #content>
-													<div class="smaller strong p05">Chcete přidat kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
-													<div class="p-line _05"></div>
-													<editable-suggest></editable-suggest>
-												</template>
-											</p-popup>	
-										</span>
-										<span>
-											<router-link class="is-span" to="/lide?f=SENAT,UPCOMING">Hledat</router-link>
-										</span>
-									</p-list-linear>
+								<div class="p-offset reverse">
+									<div>
+										<h4 class="mt0 mb0">
+											<router-link to="/volby/senatni-volby/173" class="red">Senátní volby</router-link>
+										</h4>
+										<div class="smallest">
+											<p-list-linear class="or">
+												<!-- <span>
+													<router-link class="is-span" to="/jak-volit/senatni-volby">Jak volit?</router-link>
+												</span> -->
+												<!-- <span>
+													<router-link class="is-span" to="/volby/senatni-volby/173/aktivita">Aktivita stran</router-link>
+												</span> -->
+												<span>
+													<p-popup class="down">
+														<template #init>
+															<span class="is-span strong">Přidat kandidáta</span>
+														</template>
+														<template #content>
+															<div class="smaller strong p05">Chcete přidat kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
+															<div class="p-line _05"></div>
+															<editable-suggest></editable-suggest>
+														</template>
+													</p-popup>	
+												</span>
+												<span>
+													<router-link class="is-span" to="/lide?f=SENAT,UPCOMING">Hledat</router-link>
+												</span>
+											</p-list-linear>
+										</div>
+									</div>
+									<div v-if="width < 10240">
+										<p-popup class="down">
+											<template #init>
+												<p-box>
+													<p-box-button>Obvod</p-box-button>
+												</p-box>
+											</template>
+											<template #content>
+												<strong>Vyberte obvod</strong>
+												<div class="mt1">
+													<p-columns class="squeeze smaller">
+														<div v-for="obvod in enums.obvody.filter(x => x.id % 3 === 0)">
+															<div class="p-offset balanced">
+																<div class="smallest dimm">
+																	{{ obvod.id }}
+																</div>
+																<div>
+																	<router-link :to="'/volby/senatni-volby/173/obvod/' + obvod.id" class="strong">{{ obvod.name }}</router-link>
+																</div>
+															</div>
+														</div>
+													</p-columns>
+												</div>
+											</template>
+										</p-popup>
+									</div>
 								</div>
 							</p-area>
 						</div>

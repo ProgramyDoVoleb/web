@@ -25,7 +25,8 @@ export default {
 			showType: 'ucast',
 			showDiff: -1,
 			showParty: null,
-			showRegion: null
+			showRegion: null,
+			tick: 0
 		}
 	},
 	computed: {
@@ -93,7 +94,8 @@ export default {
 				diff: this.showDiff,
 				party: this.showParty,
 				region: this.showRegion,
-				zoom: 7
+				zoom: 7,
+				tick: this.tick
 			}
 			
 			return obj;
@@ -119,6 +121,7 @@ export default {
 			this.showDiff = diff || this.showDiff;
 			this.showParty = party || null;
 			this.showRegion = region || null;
+			this.tick++;
 
 			if (this.$refs.partyPicker) this.$refs.partyPicker.opened = false;
 			if (this.$refs.regionPicker) this.$refs.regionPicker.opened = false;
@@ -491,6 +494,9 @@ export default {
 					return this.$ucast.list[0].$ucast.find(x => x[0] == props.KOD)[2];
 				}
 			}
+
+			this.tick++;
+
 			return 0;
 		},
 		fetchUcast: function (props, detail, prev) {
@@ -539,6 +545,8 @@ export default {
 				})
 			});
 
+			this.tick++;
+
 			return arr;
 		},
 		fetchParty: function (props, detail, party) {
@@ -572,6 +580,8 @@ export default {
 					pct: party.PROCENT || party[3]
 				})
 			});
+
+			this.tick++;
 
 			return arr;
 		},

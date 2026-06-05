@@ -234,7 +234,6 @@
 												<p-link :href="item.source" class="is-span strong mono">{{ item.title }}</p-link>
 											</h4>
 											<p class="smaller">
-												<em>{{ item.content }}</em> &middot; {{ domain(item.source) }}
 												<div v-if="item.$relates.length > 0" class="dimm">
 													Týká se
 													<p-list-linear class="or inline">
@@ -246,6 +245,25 @@
 													</p-list-linear>
 												</div>
 											</p>
+											<p class="smaller">
+												<em>{{ item.content.split('Původní text: ').join('') }}</em> &middot; {{ domain(item.source) }}
+														<div class="p-offset center strong mt05">
+															<div>
+																<p-image :src="getMedia(item.source)" width="3em" class="rounded shadow" :rounded="1"></p-image>
+															</div>
+															<div class="smallest">
+																<template v-if="item.node">
+																	<!-- <div> -->
+																		<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id">
+																			{{ item.csu_table === 'csu_kv_ros' ? item.node.NAZEV : item.node.ZKRATKA || item.node.JMENO + ' ' + item.node.PRIJMENI }}
+																		</router-link>
+																		<br>
+																	<!-- </div> -->
+																</template>
+																komentář &middot; {{ domain(item.source || '') }}
+															</div>
+														</div>
+													</p>
 										</div>
 									</template>
 									<template v-if="day.auto.length > 0">
