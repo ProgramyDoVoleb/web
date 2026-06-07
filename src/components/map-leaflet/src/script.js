@@ -13,6 +13,8 @@ export default {
 			zoom: 7,
 			geojson: null,
 			showOSM: true,
+			loads: 0,
+			lastOptions: null,
 			listOfGeoJSON: {
 				selected: 'republika2',
 				list: {
@@ -115,7 +117,21 @@ export default {
 			});
 		},
 		processOptions: function () {
-			this.load(this.options.detail);
+			if (this.loads === 0) {
+				this.load(this.options.detail);
+				this.loads++;
+				this.lastOptions = this.options;
+			} else if (this.listOfGeoJSON.selected != this.options.detail) {
+				this.load(this.options.detail);
+				this.loads++;
+				this.lastOptions = this.options;
+			} else if (this.lastOptions != this.options) {
+				this.load(this.options.detail);
+				this.loads++;
+				this.lastOptions = this.options;
+
+				console.log(this.options);
+			}
 		},
 		popup: function (markerLatLng, content, options) {
 

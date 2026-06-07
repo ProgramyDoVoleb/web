@@ -16,56 +16,61 @@
 
 <script setup>
     
-    import { useSlots, useAttrs, h } from 'vue'
-
+    import { useSlots, useAttrs, h, computed } from 'vue'
+    
     const slots = useSlots()
     const attrs = useAttrs()
 
-    var delimiters = [', ', ' a '];
+    const listnode = () => {
 
-    if (attrs.class && attrs.class.includes('nebo')) {
-        delimiters = [', ', ' nebo '];
-    }
+        var delimiters = [', ', ' a '];
 
-    if (attrs.class && attrs.class.includes('or')) {
-        delimiters = [' · ', ' · '];
-    }
-
-    const sloted = slots.default();
-    const list = [];
-
-    function addToList (item) {
-        if (list.length > 0 && list[list.length - 1] !== delimiters[0]) {
-            list.push(h('span', {class: 'dvd'}, delimiters[0]));
+        if (attrs.class && attrs.class.includes('nebo')) {
+            delimiters = [', ', ' nebo '];
         }
-        list.push(item);
+
+        if (attrs.class && attrs.class.includes('or')) {
+            delimiters = [' · ', ' · '];
+        }
+
+        const sloted = slots.default();
+        const list = [];
+
+        function addToList (item) {
+            if (list.length > 0 && list[list.length - 1] !== delimiters[0]) {
+                list.push(h('span', {class: 'dvd'}, delimiters[0]));
+            }
+            list.push(item);
+        }
+
+        // console.log(sloted.map(x => typeof x.type));
+
+        sloted.forEach(vnode => {
+            if (typeof vnode.children === 'string' || vnode.patchFlag === -2) {
+                // nothing
+            } else if (typeof vnode.type === 'string') {
+                addToList(vnode); 
+        } else {
+                // console.log(vnode.children);
+                vnode.children.forEach(cnode => {
+                    addToList(cnode);
+                })
+        } 
+        });
+
+        if (list.length > 1) {
+            list[list.length - 2] = h('span', {class: 'dvd'}, delimiters[1]);
+        }
+
+        return h('ul', {class: 'p-list-linear'}, list);
     }
 
-    // console.log(sloted.map(x => typeof x.type));
-
-    sloted.forEach(vnode => {
-        if (typeof vnode.children === 'string' || vnode.patchFlag === -2) {
-            // nothing
-        } else if (typeof vnode.type === 'string') {
-            addToList(h(vnode)); 
-       } else {
-            console.log(vnode.children);
-            vnode.children.forEach(cnode => {
-                addToList(h(cnode));
-            })
-       } 
-    });
-
-    if (list.length > 1) {
-        list[list.length - 2] = h('span', {class: 'dvd'}, delimiters[1]);
-    }
-
-    const listnode = h('ul', {class: 'p-list-linear'}, list);
+    // const listnode = computed(() => h('ul', {class: 'p-list-linear'}, list));
 
 </script>
 
 <template>
-    <!-- <ul class="p-list-linear" role="list"> -->
+    
         <component :is="listnode" role="list"></component>
-    <!-- </ul> -->
+    
 </template>

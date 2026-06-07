@@ -121,7 +121,7 @@ export default {
 			this.showDiff = diff || this.showDiff;
 			this.showParty = party || null;
 			this.showRegion = region || null;
-			this.tick++;
+			// // this.tick++;
 
 			if (this.$refs.partyPicker) this.$refs.partyPicker.opened = false;
 			if (this.$refs.regionPicker) this.$refs.regionPicker.opened = false;
@@ -495,7 +495,7 @@ export default {
 				}
 			}
 
-			this.tick++;
+			// this.tick++;
 
 			return 0;
 		},
@@ -545,7 +545,7 @@ export default {
 				})
 			});
 
-			this.tick++;
+			// this.tick++;
 
 			return arr;
 		},
@@ -581,7 +581,7 @@ export default {
 				})
 			});
 
-			this.tick++;
+			// this.tick++;
 
 			return arr;
 		},

@@ -822,17 +822,30 @@
 								</div>
 							</p-block>
 							<p-block headline="Videa" :class="{'_empty': !current.$data.video}" :hide="!current.$data.video">
-								<template v-for="(video, index) in (current.$data.video || [])">
-									<p-collapsible :label="video.label || 'Volební spot'" logo="yt">
-										<div class="_video" v-html="video.value" v-if="video.value"></div>
-										<div class="_video" v-if="video.source && video.source.split('facebook').length > 1">
-											<iframe :src="video.source" width="560" height="429" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
-										</div>
-										<div class="_video" v-if="video.source && video.source.split('youtube').length > 1">
-											<iframe width="560" height="315" :src="video.source" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-										</div>
-									</p-collapsible>
-								</template>
+								<p-grid>
+									<div v-for="(video, index) in (current.$data.video || [])">
+										<p-area :icon="type(video.value)">
+											<div class="smaller">
+												<p-link v-if="isURL(video.value)" :href="video.value" class="strong">{{ truncate(video.label || 'Volební video', 32, true) }}</p-link>
+												<p-modal v-else>
+													<template #init>
+														<strong>{{ truncate(video.label || 'Volební video', 32, true) }}</strong>
+													</template>
+													<template #content>
+														<div class="_video" v-html="video.value" v-if="video.value"></div>
+														<div class="_video" v-if="video.source && video.source.split('facebook').length > 1">
+															<iframe :src="video.source" width="560" height="429" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+														</div>
+														<div class="_video" v-if="video.source && video.source.split('youtube').length > 1">
+															<iframe width="560" height="315" :src="video.source" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+														</div>
+													</template>
+												</p-modal>
+											</div>
+											<div class="smallest dimm">vloženo {{ date(video.updated) }} jako {{ isURL(video.value) ? 'odkaz' : 'video'}}</div>
+										</p-area>
+									</div>
+								</p-grid>
 								<div class="smallest mv1" v-if="(current.$data.video || []).length > 0">
 									<p-label color="var(--red)" class="strong red">Cookies:</p-label> videa jsou vkládána ze zdrojů třetích stran, jako je Youtube nebo Facebook. Při načtení mohou využívat soubory cookies.
 								</div>
