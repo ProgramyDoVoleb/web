@@ -152,3 +152,7 @@
       // content: " ";
     }
   }
+
+  .dvd + .dvd {
+    display: none;
+  }
