@@ -292,7 +292,7 @@
 													<p-area>
 														<router-link :to="'/volby/komunalni-volby/' + day.auto.find(x => x.focus === town[0]).volby + '/obec/' + town[0]" class="strong is-span">
 															{{ town[1] }}
-														</router-link>
+														</router-link><span :style="{opacity: 0}">: <br></span>
 														<div class="p-gap _05"></div>
 														<p-list class="_075">
 															<div v-for="party in sortBy(unique(day.auto.filter(x => x.focus === town[0]).map(x => x.relates.split(',')[0].split(':')), 1).map(y => [y, day.auto.find(x => x.focus === town[0] && x.$relates[0].id == y).$relates[0].NAZEV]), 1, null, true)">
@@ -300,7 +300,7 @@
 																	{{ party[1] }}
 																</router-link>
 																<div v-if="day.auto.find(x => x.focus === town[0] && x.$relates[0].id == party[0] && x.$relates[0].id != x.$relates[1].id)" class="pt05 smaller">
-																	<p-label class="block" color="var(--greyish)">
+																	<!-- <p-label class="block" color="var(--greyish)"> -->
 																		<p-list-linear>
 																			<span v-for="cand in sortBy(day.auto.filter(x => x.focus === town[0] && x.$relates[0].id == party[0] && x.$relates[0].id != x.$relates[1].id).map(x => [x.$relates[1].id, x.$relates[1].volby, x.$relates[1].JMENO, x.$relates[1].PRIJMENI, x.$relates[1].PORCISLO]), 4, 99, false)">
 																				<span class="dimm tiny" v-if="cand[4]">{{ cand[4] }}. </span>
@@ -309,10 +309,11 @@
 																				</router-link>
 																			</span>
 																		</p-list-linear>
-																	</p-label>
+																	<!-- </p-label> -->
 																</div>
 															</div>
 														</p-list>
+														<div :style="{opacity: 0}" class="mt-25"><br></div>
 													</p-area>
 												</div>
 											</p-columns>
