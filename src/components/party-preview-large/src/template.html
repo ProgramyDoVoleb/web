@@ -1,5 +1,5 @@
 <div class="party-preview">
-	<p-area class="_aig">
+	<p-area class="_aig" ref="area">
 		<!-- <div class="_aig"> -->
 			<div class="_b">
 				<div>
@@ -23,14 +23,14 @@
 									</li>
 								</p-list-linear>
 							</div>
-							<div v-if="candidates.length === 0 && elections && elections.cis && elections.cis.volby && elections.cis.volby[0].status < 3" class="dimm smallest">				
+							<div v-if="candidates.length === 0 && ((elections && elections.cis && elections.cis.volby && elections.cis.volby[0].status < 3) || elections && elections.list && elections.list[0] && elections.list[0].status && elections.list[0].status < 3)" class="dimm smallest">				
 								<div class="_g2"></div>
 								<em>zatím bez dalších informací</em>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="_ba">
+				<div class="_ba" ref="logos">
 					<template v-if="!logoByItem(party, elections).includes('empty')" class="_ba">
 						<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV" class="_logo">
 					</template>

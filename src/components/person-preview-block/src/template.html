@@ -11,7 +11,7 @@
 				<template v-if="current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo')">
 					<p-photo class="_person" :data="con(cand.$data, 'photo', null, null, true)" :alt="cand.JMENO + ' ' + cand.PRIJMENI"></p-photo>
 					<img class="_party" loading="lazy" :src="logoByItem(nominee, data)" v-if="nominee.VSTRANA != current.VSTRANA && !logoByItem(nominee, data).includes('empty.png')" :alt="'Logo ' + nominee.ZKRATKA">
-					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 99">
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999">
 						<img class="_party" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
 					</template>
 					<template v-if="cand.$data.logo && cand.$data.logo.length > 0">
@@ -19,10 +19,10 @@
 					</template>
 				</template>
 				<template v-if="!(current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
-					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 99">
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999">
 						<img class="_partyAlone" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
 					</template>	
-					<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 99 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	
+					<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	
 				</template>
 				<template v-if="cand.pointer && cand.pointer.includes('csu_senat_rk')">
 					<div class="_cand-parties">

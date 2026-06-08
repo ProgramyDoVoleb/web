@@ -36,5 +36,27 @@ export default {
 
 			return arr;
 		}
+	},
+	mounted: function () {
+		setTimeout(() => {
+			try {
+				var area = this.$refs.area.$el;
+				var logos = this.$refs.logos.getBoundingClientRect().height;
+
+				// console.log(this.party.NAZEV, area.getBoundingClientRect().height, logos);
+
+				if (area.getBoundingClientRect().height - 32 < logos) {
+					area.style = 'min-height: ' + (Math.floor(logos) + 32) + 'px';
+
+					setTimeout(() => {
+						logos = this.$refs.logos.getBoundingClientRect().height;
+						// console.log(this.party.NAZEV, area, logos);
+						area.style = 'min-height: ' + (Math.floor(logos) + 32) + 'px';
+					}, 100);
+				}
+			} catch (e) {
+				console.warn('Chyba při stanovování výšky kontejneru');
+			}
+		}, 250);
 	}
 };

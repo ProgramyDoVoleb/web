@@ -43,20 +43,26 @@
             list.push(item);
         }
 
-        // console.log(sloted.map(x => typeof x.type));
+        // console.log(sloted, sloted.map(x => typeof x.type));
 
-        sloted.forEach(vnode => {
-            if (typeof vnode.children === 'string' || vnode.patchFlag === -2) {
-                // nothing
-            } else if (typeof vnode.type === 'string') {
-                addToList(vnode); 
-        } else {
-                // console.log(vnode.children);
-                vnode.children.forEach(cnode => {
-                    addToList(cnode);
-                })
-        } 
-        });
+        try {
+
+            sloted.forEach(vnode => {
+                if ((typeof vnode.children === 'string' && ['v-if'].indexOf(vnode.children) > -1) || vnode.patchFlag === -2) {
+                    // nothing
+                } else if (typeof vnode.type === 'string' || typeof vnode.children === 'string') {
+                    addToList(vnode); 
+                } else {
+                    // console.log(vnode.children);
+                    vnode.children.forEach(cnode => {
+                        addToList(cnode);
+                    })
+                } 
+            });
+
+        } catch (e) {
+            console.warn('Chyba v seznamu vnodes:', sloted, sloted.map(x => typeof x.type));
+        }
 
         if (list.length > 1) {
             list[list.length - 2] = h('span', {class: 'dvd'}, delimiters[1]);
