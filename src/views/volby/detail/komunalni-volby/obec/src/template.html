@@ -25,8 +25,11 @@
 				</div>
 
 							<p-list>
-								<div v-for="item in news.news">
+								<div v-for="item in news.news.filter((x,i) => i < limit)">
 									<news-item :data="item"></news-item>
+								</div>
+								<div v-if="news.news.length > 5" class="smallest strong">
+									<button class="inline" @click="limit = limit === 5 ? 999 : 5">{{ limit === 5 ? 'Zobrazit vše' : 'Zkrátit' }}</button>
 								</div>
 							</p-list>
 			</p-block>

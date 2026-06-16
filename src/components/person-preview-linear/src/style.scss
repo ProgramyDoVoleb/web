@@ -64,6 +64,11 @@
 	._partyAlone {
 		background: #fff;
 		border: var(--border);
+
+		.dark & {
+			background: none; // #000;
+			border: none; // #000;
+		}
 	}
 }
 

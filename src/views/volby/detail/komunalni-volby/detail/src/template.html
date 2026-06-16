@@ -110,7 +110,7 @@
 			</div>	
 			<div class="p-gap"></div>
 			<p-columns>
-				<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'ZKRATKA' : 'NAZEV'), '', true)">
+				<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'NAZEV' : 'NAZEV'), '', true)">
 					<component :is="compactList ? 'party-preview' : 'party-preview-large'" :link="'/volby/komunalni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.OSTRANA === party.OSTRANA)" :election="null" :elections="data"></component>
 				</div>
 				<div v-if="current.$strany.length === 0">
@@ -124,22 +124,20 @@
 			<template v-if="current.status < 2">
 				<div class="p-line"></div>
 
-				<div class="smallest dimm">
+				<div class="smallest dimm mb1">
 					Kompletní seznam registrovaných stran a hnutí bude znám koncem srpna 2026
 				</div>
-
-				<div class="_edit smallest mt1">
-					<p-icon icon="edit"></p-icon>
-					 
-					<p-popup>
+					
+				<p-popup>
 						<template #init>
-							<span class="green strong">Doplnit nebo upravit</span>
+							<p-box>
+								<p-box-button icon="plus-green" class="green">Doplnit nebo upravit</p-box-button>
+							</p-box>
 						</template>
 						<template #content>
 							<editable-suggest :part="'KV:' + data.list[0].id + ':' + town" type="seznam"></editable-suggest>
 						</template>
 					</p-popup>
-				</div>
 			</template>
 		</p-block>
 	</template>

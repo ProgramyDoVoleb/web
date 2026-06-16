@@ -15,6 +15,7 @@ export default {
 	data: function () {
 		return {
 			cdn, today,
+			limit: 5,
 			hash: 'komunalni-volby'
 		}
 	},

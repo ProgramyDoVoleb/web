@@ -6,7 +6,7 @@
 	display: inline-block;
 	padding: .5em .85em;
 	color: #fff !important;
-	text-shadow: 0 2px 2px #00000044;
+	text-shadow: 0 1px .5px #00000099;
 
 	&.green {
 		color: var(--green) !important;
@@ -217,4 +217,8 @@
 
 ._aig {
 	// background: var(--white) !important;
+}
+
+.p-line:last-child {
+	display: none;
 }

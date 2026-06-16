@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import {useEnums} from '@/stores/enums';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
-import { type, domain, date, truncate, sortBy, lang, number } from '@/pdv/helpers';
+import { type, domain, date, truncate, sortBy, lang, number, firstOfUnique } from '@/pdv/helpers';
 import { useCore, cdn } from '@/stores/core';
 import ReportForm from '@/components/report-form/do.vue';
 
@@ -26,7 +26,7 @@ export default {
 		ReportForm
 	},
 	methods: {
-		colorByItem, logoByItem, date, truncate, type, sortBy, lang, number,
+		colorByItem, logoByItem, date, truncate, type, sortBy, lang, number, firstOfUnique,
 		sortByPorCislo: function (list) {
 			var arr = [];
 
