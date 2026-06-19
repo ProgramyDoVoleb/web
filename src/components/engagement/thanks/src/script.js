@@ -7,6 +7,13 @@ export default {
 		return {
 			amount: null,
 			width: window.innerWidth,
+			motives: [
+				'triko-velkej',
+				'triko-kolik-tolik',
+				'triko-klidne-takhle',
+				'triko-panaco'
+			],
+			motivesIndex: 0
 		}
 	},
 	components: {
@@ -24,5 +31,10 @@ export default {
 		click: function (value) {
 			this.engagement.add(this.$route.fullPath, 'thanks', value, 'Posílám díky');
 		}
+	},
+	mounted: function () {
+		setInterval(() => {
+			this.motivesIndex = Math.floor(Math.random() * this.motives.length);
+		}, 10000);
 	}
 };

@@ -5,7 +5,7 @@
 				<p-box-group>
 					<template v-for="(kc, i) in [100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
 					<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
-					<p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Koupit tričko</p-box-button></p-box>
+					<p-box href="https://eshop.programydovoleb.cz"><p-box-button class="primary">Merch</p-box-button></p-box>
 				</p-box-group>
 				<p class="smallest dimm">Kliknutí přesměruje na portál Darujme.cz</p>
 			</p-block>
@@ -36,7 +36,9 @@
 								</div>
 							
 							<div class="p-line"></div>
-							<p-area icon="hint" background="transparent" class="smallest">Otevřete svou bankovní aplikaci a vyberte platbu pomocí QR kódu. Poté nasměrujte telefon na QR kód. Všechny potřebné údaje pro platbu se vyplní.</p-area>
+							<div class="smallest">
+								<strong>Jak na to?</strong> Otevřete svou bankovní aplikaci a vyberte platbu pomocí QR kódu. Poté nasměrujte telefon na QR kód. Všechny potřebné údaje pro platbu se vyplní. Poté stačí už jen odeslat.
+							</div>
 						</p-area>
 					</div>
 					<div>
@@ -60,30 +62,37 @@
 								</div>
 							
 							<div class="p-line"></div>
-							<p-area icon="hint" background="transparent" class="smallest">Spusťte foťák ne svém mobilu a nasměrujte telefon na QR kód. Není nutná žádná speciální aplikace. Odkaz vás přesměruje na <p-link href="https://darujme.cz/programydovoleb"></p-link></p-area>
+							<div class="smallest">
+								<strong>Jak na to?</strong> Spusťte foťák ne svém mobilu a nasměrujte telefon na QR kód. Není nutná žádná speciální aplikace. Odkaz vás přesměruje na <p-link href="https://darujme.cz/programydovoleb"></p-link>
+							</div>
 						</p-area>
 					</div>
 					<div>
 						<p-area>
 							
 								<div>
-									<p-image :src="cdn + 'img/2025/eshop.jpg'" width="100%" class="rounded"></p-image>
+									<p-image :src="cdn + 'img/merch/triko-velkej.jpg'" width="100%" class="rounded _ar"></p-image>
 								</div>
 								<div class="p-gap"></div>
 								<div>
-									<div class="strong">Koupí triček v <p-link href="https://eshop.programydovoleb.cz">e-shopu</p-link></div>
+									<div class="strong">Koupí triček, tašek apod.</div>
 									<div class="smaller">
 										<ul>
-											<li>- podpora s odměnou</li>
-											<li>- převodem nebo kartou</li>
-											<li>- zásilkovna nebo osobně</li>
-											<li>- nyní předobjednávky</li>
+											<li>- podpora projektu s odměnou</li>
+											<li>- převodem, QR nebo kartou</li>
+											<li>- zásilkovna, osobně nebo online</li>
 										</ul>
 									</div>
 								</div>
+								
+								<p-box href="https://eshop.programydovoleb.cz">
+									<p-box-button>Přejít do e-shopu</p-box-button>
+								</p-box>
 							
 							<div class="p-line"></div>
-							<p-area icon="hint" background="transparent" class="smallest">Všechny objednávky budou s ohledem na předpokládané vytížení realizovány po volbách. K odběru budou až od druhé půlky října.</p-area>
+							<div class="smallest">
+								<strong>Nechcete nic kupovat, ale líbí se vám motiv?</strong> Kupte si ho samotný a použijte, kam budete chtít. Vyberte si ho <p-link href="https://eshop.programydovoleb.cz/motiv-ke-stazeni/">zde</p-link> a během pár minut je váš. <em>CC-BY-ND</em>
+							</div>
 						</p-area>
 					</div>
 				</p-grid>
@@ -152,7 +161,7 @@
 			</p-block>
 		</template>
 		<template #anchors>
-			<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'"></p-logo>
+			<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'"></p-logo>
 			<div class="p-gap"></div>
 			<p-anchors></p-anchors>
 		</template>

@@ -189,7 +189,7 @@
 		</template>
 		<template #anchors>
 			<template v-if="data && current.NAZEV">
-				<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'" v-if="!data"></p-logo>
+				<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'" v-if="!data"></p-logo>
 				<p-logo v-if="data && logoByItem(current, data, null, true)" :data="{logo: logoByItem(current, data)}" :size="'12rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
 				<div class="logos" v-if="data && $coalition">
 					<template v-for="(coal, index) in $coalition">
@@ -208,7 +208,7 @@
 							<p-logo :data="logoByItem(coal, data)" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
 						</template>
 					</div>
-					<p-logo :data="{logo: cdn + 'el/generic-2023.png'}" :size="'12rem'" v-if="!logoByItem(current, data, 'NSTRANA', true) && !$coalition"></p-logo>
+					<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'" v-if="!logoByItem(current, data, 'NSTRANA', true) && !$coalition"></p-logo>
 				</template>
 			</template>
 			<!-- <p-image v-if="data && current.JMENO && con(current.$data, 'photo')" :src="con(current.$data, 'photo') || cdn + 'missing.png'" width="12rem" :rounded="true" :border="true"></p-image> -->

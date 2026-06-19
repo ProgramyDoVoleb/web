@@ -11,9 +11,9 @@
 
 	<div class="p-line _3"></div>
 
-	<template v-if="false && width > 640">
+	<template v-if="true && width > 640">
 
-		<h2 class="serif">Podpořte Programy do voleb</h2>
+		<h2 class="quando">Podpořte Programy do voleb</h2>
 		<!-- <p class="text-center _mw">
 			Tento web je výsledkem celoroční dobrovolnické neplacené práce. 
 		</p> -->
@@ -22,9 +22,7 @@
 	
 		<p-grid class="_1_2_4 _mw text-left">
 			<div>
-				<p-area class="highlight shadow _bw">
-					<p-image src="https://static.programydovoleb.cz/img/2025/fio.png" width="100%" class="rounded"></p-image>
-				</p-area>
+				<p-image src="https://static.programydovoleb.cz/img/2025/fio.png" width="100%" class="rounded _p"></p-image>
 				<div class="p-gap"></div>					
 				<p-box-group>
 					<p-box href="https://ib.fio.cz/ib/transparent?a=2502004588">
@@ -34,13 +32,17 @@
 				</p-box-group>
 			</div>
 			<div>
-				<p-area class="">
-					<p-image src="https://static.programydovoleb.cz/img/2025/eshop.jpg" width="100%" class="rounded"></p-image>
-				</p-area>
+				<p-image :src="'https://static.programydovoleb.cz/img/merch/' + motives[motivesIndex] + '.jpg'" width="100%" class="rounded _ar"></p-image>
 				<div class="p-gap"></div>
 				<p-box-group class="_ab">
-					<p-box href="https://eshop.programydovoleb.cz">
-						<p-box-label>Merch</p-box-label>
+					<p-box href="https://eshop.programydovoleb.cz/tricko">
+						<p-box-label>Tričko</p-box-label>
+					</p-box>
+					<p-box href="https://eshop.programydovoleb.cz/taska">
+						<p-box-label>Taška</p-box-label>
+					</p-box>
+					<p-box href="https://eshop.programydovoleb.cz/motiv-ke-stazeni">
+						<p-box-label>Digi merch</p-box-label>
 					</p-box>
 				</p-box-group>
 			</div>
@@ -48,11 +50,17 @@
 				<p-area class="_con">
 					<h4>Přes Darujme.cz</h4>
 					<p-box-group>
+						<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=50" :full="true">
+							<p-box-button color="var(--green)">50 Kč</p-box-button>
+						</p-box>
 						<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100" :full="true">
 							<p-box-button color="var(--green)">100 Kč</p-box-button>
 						</p-box>
 						<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=250" :full="true">
 							<p-box-button color="var(--green)">250 Kč</p-box-button>
+						</p-box>
+						<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=1000" :full="true">
+							<p-box-button color="var(--green)">1 000 Kč</p-box-button>
 						</p-box>
 					</p-box-group>
 					<div class="p-line _05"></div>
@@ -71,17 +79,24 @@
 						</div>
 					</div>
 					<div class="p-line _05"></div>
-					<div class="smallest">Vhodné pro platby kartou, Apple Pay, opakované platby apod.</div>
+					<div class="smallest">Vhodné pro platby kartou, Apple Pay...</div>
 				</p-area>
+				<div class="p-gap _075"></div>
+				<p-box-group class="_ab">
+					<p-box href="https://darujme.cz/programydovoleb">
+						<p-box-label>Profil na darujme.cz</p-box-label>
+					</p-box>
+				</p-box-group>
 			</div>
 			<div>
 				<p-area>
-					<h4>Na sítích</h4>
+					<h4>Další formy</h4>
 					<p-list class="_05 smaller">
 						<div><strong>Sledujte</strong> Programy na sítích</div>
 						<div><strong>Sdílejte</strong>, lajkujte, komentujte</div>					
-						<div><strong>Doporučte</strong> přátelům, rodině</div>
-						<div>Sdílejte např. <router-link to="/volby/snemovni-volby/166/muj-tip">tipy na výsledek</router-link></div>
+						<div><strong>Doporučte</strong> přátelům, rodině</div>				
+						<div><strong>Zmiňte</strong> v blogu, podcastu</div>
+						<div><strong>Dejte</strong> odkaz na svůj web</div>
 					</p-list>
 				</p-area>
 			</div>
@@ -105,6 +120,9 @@
 				<p-box-button>Jinak...</p-box-button>
 			</p-box>
 		</p-box-group>
+		<div class="_mw20 mv1">
+			<p-image :src="'https://static.programydovoleb.cz/img/merch/' + motives[motivesIndex] + '.jpg'" width="100%" class="rounded _ar"></p-image>
+		</div>
 		<div class="smaller dimm mt1 text-center">Sledujte, sdílejte, doporučujte. Díky</div>
 		<div class="p-line p-line__3"></div>
 	</template>
