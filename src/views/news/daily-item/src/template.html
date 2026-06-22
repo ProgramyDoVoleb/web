@@ -72,7 +72,7 @@
 													</p-area>
 												</div>
 											</template>
-											<template v-for="itemparty in day.log.filter(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1 && y.action != 'ignore'))">
+											<template v-for="itemparty in day.log.filter(x => x.data.find(y => ['priority', 'answer', 'program'].indexOf(y.type) > -1 && y.action != 'ignore' && (!y.node || y.node.status != -1)))">
 												<template v-for="item in itemparty.data.filter(y => y.type === 'program' && !itemparty.data.find(y => y.impact.includes('pdv_program')))">
 													<div>
 														<p-area class="shadow white" borderColor="var(--blue)" icon="program">
@@ -117,7 +117,7 @@
 												</template>
 												<template v-if="itemparty.data.find(x => x.type === 'answer' && x.node.question > 389)">
 													<div>
-														<p-area class="white shadow" borderColor="var(--greyish)" icon="calc">
+														<p-area class="white shadow" borderColor="var(--greyish)" icon="answers-mini">
 															<div class="smallest dimm" v-if="itemparty.node.NAZEVZAST">{{ itemparty.node.NAZEVZAST }}</div>
 																<div class="smallest dimm" v-if="itemparty.node && itemparty.node.OBVOD">
 																	obvod {{ itemparty.node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === itemparty.node.OBVOD).name }}
@@ -270,7 +270,7 @@
 										<div class="smallest green strong">Nově v přehledu</div>
 										<div>
 											<p-columns class="smaller">
-												<div v-for="party in unique(day.auto.filter(x => x.content && (!x.focus || x.focus < 500000)), 'content')">
+												<div v-for="party in unique(day.auto.filter(x => x.content && (!x.focus || x.focus < 500000) && (x.$relates && !x.$relates.find(y => y.volby < 0))), 'content')">
 													<!-- <p-area> -->
 														<strong>{{ party }}</strong>
 														<div class="p-gap _05"></div>
@@ -281,28 +281,28 @@
 														</p-list-linear>
 													<!-- </p-area> -->
 												</div>
-												<div v-for="cand in sortBy(day.auto.filter(x => !x.content && x.focus && enums.obvody.find(y => y.id === x.focus)), 'focus')">
+												<div v-for="cand in sortBy(day.auto.filter(x => !x.content && x.focus && enums.obvody.find(y => y.id === x.focus) && (x.$relates && !x.$relates.find(y => y.volby < 0))), 'focus')">
 													<p-area :icon="cand.focus ? 'senatni-volby' : 'prezidentske-volby'" class="highlight shadow">
 														<div class="dimm" v-if="cand.focus && enums.obvody.find(x => x.id === cand.focus)">obvod {{ cand.focus }} &middot; {{ enums.obvody.find(x => x.id === cand.focus).name }}</div>
 														<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')" class="strong">{{ cand.title }}</router-link>
 														
 													</p-area>
 												</div>
-												<div v-for="town in sortBy(unique(day.auto.filter(x => x.focus && x.focus >= 500000), 'focus').map(x => [x, day.auto.find(y => y.focus === x).content.includes(' · ') ? day.auto.find(y => y.focus === x).content.split(' · ')[1] : day.auto.find(y => y.focus === x).content]), 1, null, true)">
+												<div v-for="town in sortBy(unique(day.auto.filter(x => x.focus && x.focus >= 500000 && (x.$relates && !x.$relates.find(y => y.volby < 0))), 'focus').map(x => [x, day.auto.find(y => y.focus === x).content.includes(' · ') ? day.auto.find(y => y.focus === x).content.split(' · ')[1] : day.auto.find(y => y.focus === x).content]), 1, null, true)">
 													<p-area>
 														<router-link :to="'/volby/komunalni-volby/' + day.auto.find(x => x.focus === town[0]).volby + '/obec/' + town[0]" class="strong is-span">
 															{{ town[1] }}
 														</router-link><span :style="{opacity: 0}">: <br></span>
 														<div class="p-gap _05"></div>
 														<p-list class="_075">
-															<div v-for="party in sortBy(unique(day.auto.filter(x => x.focus === town[0]).map(x => x.relates.split(',')[0].split(':')), 1).map(y => [y, day.auto.find(x => x.focus === town[0] && x.$relates[0].id == y).$relates[0].NAZEV]), 1, null, true)">
+															<div v-for="party in sortBy(unique(day.auto.filter(x => x.focus === town[0] && (x.$relates && !x.$relates.find(y => y.volby < 0))).map(x => x.relates.split(',')[0].split(':')), 1).map(y => [y, day.auto.find(x => x.focus === town[0] && x.$relates[0].id == y).$relates[0].NAZEV]), 1, null, true)">
 																<router-link :to="'/volby/komunalni-volby/' + day.auto.find(x => x.focus === town[0]).volby + '/strana/' + party[0]" class="strong">
 																	{{ party[1] }}
 																</router-link>
 																<div v-if="day.auto.find(x => x.focus === town[0] && x.$relates[0].id == party[0] && x.$relates[0].id != x.$relates[1].id)" class="pt05 smaller">
 																	<!-- <p-label class="block" color="var(--greyish)"> -->
 																		<p-list-linear>
-																			<span v-for="cand in sortBy(day.auto.filter(x => x.focus === town[0] && x.$relates[0].id == party[0] && x.$relates[0].id != x.$relates[1].id).map(x => [x.$relates[1].id, x.$relates[1].volby, x.$relates[1].JMENO, x.$relates[1].PRIJMENI, x.$relates[1].PORCISLO]), 4, 99, false)">
+																			<span v-for="cand in sortBy(day.auto.filter(x => x.focus === town[0] && x.$relates[0].id == party[0] && x.$relates[0].id != x.$relates[1].id && (x.$relates && !x.$relates.find(y => y.volby < 0))).map(x => [x.$relates[1].id, x.$relates[1].volby, x.$relates[1].JMENO, x.$relates[1].PRIJMENI, x.$relates[1].PORCISLO]), 4, 99, false)">
 																				<span class="dimm tiny" v-if="cand[4]">{{ cand[4] }}. </span>
 																				<router-link :to="'/volby/komunalni-volby/' + cand[1] + '/kandidat/' + cand[0]" :class="{'dimm': !cand[4]}">
 																					{{ cand[2] + ' ' + cand[3] }}
