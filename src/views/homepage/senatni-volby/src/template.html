@@ -90,4 +90,15 @@
 			</template>
 		</p-loader>
 	</p-area>
+						
+						<h2 class="quando mt2">Aktivita stran</h2>
+						<p class="">Pokud vás zajímá, zda strana někoho nominuje či podporuje, podívejte se zde:</p>
+						<p-box-group v-if="parties">
+							<template v-for="party in sortBy(parties.list, 'ZKRATKA', null, true)">
+								<p-box :to="'/volby/senatni-volby/' + elections.id + '/aktivita/' + party.VSTRANA">
+									<p-box-image :src="logoByItem(party, {cis: {strany: parties.list}})" class="_r"></p-box-image>
+								</p-box>
+							</template>
+						</p-box-group>
+						<div class="p-line mt1"></div>
 </div>

@@ -554,7 +554,13 @@ export function partyInCis (VSTRANA, CIS) {
     }
 
 export function getMedia (url, nullIfNotFound) {
-			url = url.split('.cz')[0].split('.').pop();
+
+      // console.log(url);
+
+			url = url.split('://')[1].split('/')[0].split('.');
+      url = url[url.length - 2];
+
+      // console.log('->', url);
 
 			var s = 'https://static.programydovoleb.cz/';
 
@@ -581,6 +587,10 @@ export function getMedia (url, nullIfNotFound) {
 			if (url === 'reflex') return s + 'media/reflex.jpg';
 			if (url === 'respekt') return s + 'media/respekt.jpg';
 			if (url === 'seznamzpravy') return s + 'media/seznamzpravy.jpg';
+      if (url === 'instagram') return s + 'icon/ig.svg';
+      if (url === 'facebook') return s + 'icon/fb.svg';
+      if (url === 'fb') return s + 'icon/fb.svg';
+      if (url === 'x') return s + 'icon/x.svg';
 
 			return nullIfNotFound ? null : s + 'icon/link.svg'
 }

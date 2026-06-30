@@ -37,8 +37,7 @@
   opacity: .03;
 }
 
-.dark img[src*="link.svg"],
-.dark img[src*="icon-party.svg"] {
+.dark img[src*="icon/"] {
   filter: invert(1) brightness(2) opacity(.66);
   border: none;
 }

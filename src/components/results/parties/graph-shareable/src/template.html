@@ -45,8 +45,10 @@
 					<div class="_mandates" v-if="display.find(x => x.mandates > 0) && item.id && (item.mandates || item.pct >= 5)">
 						<span class="_mandates-value">
 							<span class="_strong">{{ item.mandates || 0 }}</span>
-							<span class="_mandates-diff" :class="indicator(item.mandates, item.ref.mandates)" v-if="item.mandates !== item.ref.mandates && item.ref.mandates">{{ item.mandates > item.ref.mandates ? '+' : '' }}{{ item.mandates - item.ref.mandates }}</span>
-							<span v-if="!item.ref.mandates" class="_mandates-diff _blue">*</span>
+							<template v-if="item.ref">
+								<span class="_mandates-diff" :class="indicator(item.mandates, item.ref.mandates)" v-if="item.ref.mandates && (item.mandates !== item.ref.mandates)">{{ item.mandates > item.ref.mandates ? '+' : '' }}{{ item.mandates - item.ref.mandates }}</span>
+								<span v-if="!item.ref.mandates" class="_mandates-diff _blue">*</span>
+							</template>							
 						</span>		
 							<span class="_mandates-source dimm" v-if="display[index + 1] && !display[index + 1].passed">‹   výpočet {{ about.poll.agency }}</span>			
 					</div>
