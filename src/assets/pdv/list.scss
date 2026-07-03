@@ -156,3 +156,7 @@
   .dvd + .dvd {
     display: none;
   }
+
+  .dvd:last-child {
+    display: none;
+  }

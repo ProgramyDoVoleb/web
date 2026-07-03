@@ -48,7 +48,7 @@
         try {
 
             sloted.forEach(vnode => {
-                if ((typeof vnode.children === 'string' && ['v-if'].indexOf(vnode.children) > -1) || vnode.patchFlag === -2) {
+                if ((typeof vnode.children === 'string' && (['v-if'].indexOf(vnode.children) > -1) || vnode.patchFlag === -2 || vnode.children === 'v-if')) {
                     // nothing
                 } else if (typeof vnode.type === 'string' || typeof vnode.children === 'string') {
                     addToList(vnode); 
