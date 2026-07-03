@@ -48,7 +48,12 @@
         try {
 
             sloted.forEach(vnode => {
+
+                // console.log(vnode.type, typeof vnode.type, (typeof vnode.type === 'symbol' && vnode.children === 'v-if'), (vnode.children === ''));
+
                 if ((typeof vnode.children === 'string' && (['v-if'].indexOf(vnode.children) > -1) || vnode.patchFlag === -2 || vnode.children === 'v-if')) {
+                    // nothing
+                } else if (typeof vnode.type === 'symbol' && (vnode.children === 'v-if' || (vnode.children === ''))) {
                     // nothing
                 } else if (typeof vnode.type === 'string' || typeof vnode.children === 'string') {
                     addToList(vnode); 
