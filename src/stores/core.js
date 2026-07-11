@@ -15,6 +15,7 @@ export function dayAfterDiffFrom(today, diff) {
 
 export const useCore = defineStore('core', () => {
   const isBanned = ref(false);
+  const banBypass = ref(false);
   const dark = ref(false);
   const tick = ref(0);
   const start = ref(new Date().getTime());
@@ -30,11 +31,13 @@ export const useCore = defineStore('core', () => {
     }
   }
 
-  function ban (value) {
-    isBanned.value = value || true;
+  function ban (value, byPass) {
+    isBanned.value = typeof value === 'undefined' ? true : value;
+    banBypass.value = !!byPass ? [byPass, today.split('-').join(''), start.value, cache.value, (new Date().getTime() - start.value)].join('_') : null;
+    console.warn('New BAN setting', isBanned.value);
   }
 
-  return { dark, tick, start, cache, change, ban, isBanned }
+  return { dark, tick, start, cache, change, ban, isBanned, banBypass }
 })
 
 

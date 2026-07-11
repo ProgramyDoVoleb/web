@@ -17,6 +17,16 @@
 				<p>Pokud máte zájem o přístup k datům, kontaktujte správce:</p>
 				<p><a href="mailto:info@programydovoleb.cz" class="strong">info@programydovoleb.cz</a></p>
 				<p>Domluvíme se na férové kompenzaci.</p>
+				<p-loader :rule="failsafe">
+					<div v-if="failsafe">
+						<div class="p-line mt3"></div>
+						<h2>Ale já jsem člověk!</h2>
+						<p>Je možné, že vás ochrana webu nesprávně označila za robota. Možná přistupujete přes VPN nebo váš poskytovatel nějak ukrývá vás původ.</p>
+						<p>Kliknutím na tlačítko níže potvrdíte, že jste člověk a přístup na tuto stránku, v tomto okně/tabu vám bude umožněn.</p>
+						<button @click="revokeBan">Jsem člověk</button>
+						<div class="p-line mt3"></div>
+					</div>
+				</p-loader>
 			</p-block>			
 		</article>
 	</main>

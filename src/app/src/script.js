@@ -49,16 +49,36 @@ export default {
         this.core.ban();
       }
 
+      var _self = this;
+
       axios.interceptors.response.use(function (response) {
 
-        if (response.data.excessiveFUPDetected) {
-          this.core.ban();
+        if (response.data.excessiveFUPDetected && !_self.core.banBypass) {
+          _self.core.ban();
         }
 
         return response;
       }, function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
+        return Promise.reject(error);
+      });
+
+      axios.interceptors.request.use(function (config) {
+
+        // console.log(this);
+
+        if (_self.core.banBypass) {
+          if (config.url.includes('?')) {
+            config.url += '&b=' + _self.core.banBypass;
+          } else {
+            config.url += '?b=' + _self.core.banBypass;
+          }
+        }
+
+        return config;
+      }, function (error) {
+        // Do something with request error
         return Promise.reject(error);
       });
 

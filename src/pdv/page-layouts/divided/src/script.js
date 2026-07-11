@@ -19,7 +19,8 @@ export default {
 				aside: 0,
 				nav: 0
 			},
-			scrollTop: 0
+			scrollTop: 0,
+			failsafe: false
 		}
 	},
 	computed: {
@@ -80,6 +81,10 @@ export default {
 			description = description ? description.getAttribute('content') : 'Nestranný přehled pro české volby. Strany, koalice, kandidáti, volební programy. Průzkumy, mandáty, výsledky.';
 
 			return {title, description, body: window.appSEO && window.appSEO.body ? window.appSEO.body : null};
+		},
+		revokeBan: function () {
+			this.core.ban(false, Math.floor(Math.random() * 1000) );
+			window.scrollTo(0, 1);
 		}
 	},
 	mounted: function () {
@@ -92,6 +97,12 @@ export default {
 
 		for (var i = 0; i < 5; i++) {
 			setTimeout(() => this.resize(), 1000 * (i + 1));
+		}
+
+		if (!this.isHuman && this.failsafe === false) {
+			setTimeout(() => {
+				this.failsafe = true;
+			}, 1413)
 		}
 		
 		// this.scroll();

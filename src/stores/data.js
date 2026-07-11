@@ -46,6 +46,7 @@ export const useData = defineStore('store', () => {
                         resolve();
                     }).catch(function (err) {
                         console.log(tries);
+                        console.log(err);
                         console.log(err.toJSON());
 
                         tries++;
@@ -62,6 +63,7 @@ export const useData = defineStore('store', () => {
                         tryLoadResource(api + request + '?c=' + core.cache);
                     }, delay || 0);
                 } else {
+                    o.request += '___banned'
                     console.warn('Excessive FUP detected. No data served. Contact info@programydovoleb.cz to whitelist this source and discuss fair compensation.')
                 }
             }).then((resolver, rejected) => {
