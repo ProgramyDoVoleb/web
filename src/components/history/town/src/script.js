@@ -15,7 +15,7 @@ function reg (party) {
 
 export default {
 	name: 'history-town',
-	props: ['num', 'colors', 'seats', 'limit'],
+	props: ['num', 'colors', 'seats', 'limit', 'basic', 'prefill'],
 	data: function () {
 		return {
 			width: 0,
@@ -64,6 +64,12 @@ export default {
 				d.list.forEach(link => {
 					link[0].$color = d.strany.find(x => x.id === link[0].pid).$color;
 				});
+
+				if (this.prefill) {
+					setTimeout(() => {
+						this.select(this.prefill[0], this.prefill[1], this.prefill[2])
+					}, 500);
+				}
 			}
 
 			return d;

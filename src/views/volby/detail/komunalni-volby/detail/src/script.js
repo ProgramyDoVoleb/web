@@ -24,7 +24,8 @@ export default {
 			cdn, today,
 			qenum: [
 				{type: 2, label: 'Volební témata', hash: 'tema'},
-				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka'},
+				{type: 1, label: 'Otázky pro strany', hash: 'otazka', designated: 1},
+				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka', designated: 2},
 				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka'}
 			],
 			compactList: window.width < 1240,
@@ -310,7 +311,7 @@ export default {
 			var arr = [];
 			var mandates = this.current.$dotcene[0].MANDATY || this.current.$dotceneMinule[0].MANDATY;
 
-			this.dhondt.forEach(item => {
+			this.dhondt.filter(x => x.value >= 5).forEach(item => {
 				for (var i = 1; i < mandates + 1; i++) {
 					arr.push({
 						value: 100 * item.value / i,

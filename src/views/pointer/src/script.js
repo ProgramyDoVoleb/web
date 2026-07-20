@@ -40,6 +40,7 @@ import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import HistoryKvRk from '@/components/history/kv-rk/do.vue';
 import HistoryKvRos from '@/components/history/kv-ros/do.vue';
+import HistoryCandidates from '@/components/history/town/do.vue';
 
 export default {
 	name: 'layout-pointer',
@@ -82,7 +83,7 @@ export default {
 	PointerHeader, PointerSummary, PartyPreviewTiny,
 	PopUp,
 	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage,
-	HistoryKvRk, HistoryKvRos
+	HistoryKvRk, HistoryKvRos, HistoryCandidates
   },
 	computed: {
 		$store: function () {

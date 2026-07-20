@@ -8,8 +8,8 @@
 		</div>
 		<div>
 			<p-headline :level="1">
-				{{ subheadline || headline }}
-				<div class="small" v-if="subheadline"><router-link :to="'/volby/' + $volby.$about.hash + '/' + current.volby + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.id">{{ headline }}</router-link></div>
+				<component :is="subheadline ? 'router-link' : 'span'" :to="'/volby/' + $volby.$about.hash + '/' + current.volby + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.id">{{ headline }}</component>
+				<div class="small mt025" v-if="subheadline">{{ subheadline }}</div>
 			</p-headline>
 			<div class="serif">
 				<div v-if="current.$strana && $strana">

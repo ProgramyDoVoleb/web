@@ -343,7 +343,7 @@
 								</p-grid>
 							</p-block>
 							
-							<p-block headline="Kapitoly programu" v-if="current.$program && current.$program.length > 0 && current.$program[0].structure">
+							<p-block headline="Kapitoly programu" v-if="current.$program && current.$program.length > 0 && current.$program[0].structure && current.$program[0].structure.length > 1">
 								<p-area class="primary" :borderColor="colorByItem(current, data)">
 									<p-columns class="smaller">
 										<div v-for="(section, indexP) in current.$program[0].structure">
@@ -1231,7 +1231,7 @@
 							<p-block headline="V minulých volbách" v-if="table === 'csu_kv_ros' && current && [80,90].indexOf(String(current.SLOZENI).split(',').map(x => Number(x)) === -1)">
 								<template v-if="prev && !prev.list[0].$strana">
 									<party-preview-tiny :elections="prev" :party="prev.list[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby" :candidates="prev.list[0].$kandidati"></party-preview-tiny>								
-									<h3 class="serif mb05 mt2">Zapojení stran v historii</h3>
+									<h3 class="serif mb05 mt2" v-if="current.SLOZENI !== 80 && current.SLOZENI !== 90">Zapojení stran v historii</h3>
 								</template>
 								<template v-for="VSTRANA in String(current.SLOZENI).split(',').map(x => Number(x)).filter(x => x != 80 && x != 90)">
 									<p-collapsible :label="partyInCis(VSTRANA, data.cis).NAZEV" :logo="logoByItem(partyInCis(VSTRANA, data.cis), data)">
@@ -1247,6 +1247,9 @@
 									<h3 class="serif mb05 mt2">Přehled dřívějších zapojení ve volbách</h3>
 								</template>
 								<history-kv-rk :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :showUpcoming="$volby.status === 3"></history-kv-rk>
+							</p-block>
+							<p-block headline="Historický vývoj" v-if="$volby.status > 1 && $volby.typ === 'KV'">
+								<history-candidates :num="current.KODZASTUP" :basic="1" :prefill="[(current.JMENO ? 'candidate' : 'party'), current.id, $volby.id]" :limit="[(current.JMENO ? 'candidate' : 'party'), current.id, $volby.id]"></history-candidates>
 							</p-block>
 							<component :is="table === 'csu_kv_rk' && current ? 'p-block-expandable' : 'p-block'" headline="Celková volební historie" v-if="current.$profil && current.$profil.length">
 								<profile-preview :id="current.$profil[0].profil"></profile-preview>
@@ -1274,10 +1277,10 @@
 												</div>
 											</p-list>
 										</p-collapsible>
-										<p-collapsible label="Souhrn odkazů">
+										<p-collapsible label="Souhrn odkazů" :open="$volby.status < 3">
 											<div class="_tmw">
 												<table class="smaller _tmw">
-													<tr v-for="entry in fetchAllSourcesOnPage()">
+													<tr v-for="entry in fetchAllSourcesOnPage().filter(x => !x.source.includes('admin.programydovoleb.cz'))">
 														<td class="text-right">
 															{{ date(entry.updated, 4) }}
 														</td>

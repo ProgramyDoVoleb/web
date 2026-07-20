@@ -53,6 +53,13 @@ export default {
 		changeDate: function (toDate) {
 			this.datum = toDate;
 			window.scrollTo(0, 1);
+		},
+		answersCount: function (itemparty) {
+			var list = itemparty.data.filter(x => x.type === 'answer' && x.node.question > 389);
+			
+			var list2 = unique(list.map(x => [x.node.question]), 0);
+
+			return list2.length;
 		}
 	},
 	computed: {
@@ -80,7 +87,7 @@ export default {
 			}
 
 			return arr;
-		},
+		}
 	},
 	mounted: function () {
 
