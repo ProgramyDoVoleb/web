@@ -108,5 +108,14 @@ export default {
 		// this.scroll();
 
 		// setInterval(() => this.resize(), 1000);
+	},
+	watch: {
+		isHuman: function () {
+			if (!this.isHuman && this.failsafe === false) {
+				setTimeout(() => {
+					this.failsafe = true;
+				}, 1413)
+			}
+		}
 	}
 };

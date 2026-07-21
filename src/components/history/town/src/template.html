@@ -88,7 +88,7 @@
 						</g>
 					</svg>
 				</div>
-				<component :is="prefill ? 'p-collapsible' : 'div'" label="Poznámky">
+				<component :is="prefill ? 'p-collapsible' : 'div'" :label="selected.type === 'candidate' ? selectedCandidate.JMENO + ' ' + selectedCandidate.PRIJMENI : data.strany.find(x => x.id === selected.node).NAZEV">
 					<template v-if="selected.type && selected.node">
 						<p-block :headline="data.strany.find(x => x.id === selected.node).NAZEV" v-if="selected.type === 'party'" :subheadline="date(data.cis.volby.find(x => x.id === data.strany.find(x => x.id === selected.node).volby).datum)">
 							<p-area class="smaller">

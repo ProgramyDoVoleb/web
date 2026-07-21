@@ -43,8 +43,8 @@
 																	<template v-if="data.cis.volby.status === 1 && data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec).length > 0">
 																		<div class="smaller">Možní kandidáti:
 																			<p-list-linear class="inline">
-																				<span v-for="cand in sortBy(data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec), 'PRIJMENI', null, true)">
-																					<router-link :to="'/volby/komunalni-volby/' + id + '/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+																				<span v-for="cand in sortBy(data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec), 'PORCISLO', 99)">
+																					<router-link :to="'/volby/komunalni-volby/' + id + '/kandidat/' + cand.id" :class="{dimm: !cand.PORCISLO}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
 																				</span>
 																			</p-list-linear>
 																		</div>
@@ -54,7 +54,7 @@
 																		<div>Z toho členů: {{ data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PLATNOST === "A" && x.PSTRANA == partyID).length }}</div>
 																		<div class="smaller">Na čele kandidátky:
 																			<p-list-linear class="inline">
-																				<span v-for="cand in sortBy(data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PORCISLO < 5), 'PRIJMENI', null, true)">
+																				<span v-for="cand in sortBy(data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PORCISLO < 5), 'PORCISLO')">
 																					<router-link :to="'/volby/komunalni-volby/' + id + '/kandidat/' + cand.id">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
 																				</span>
 																			</p-list-linear>

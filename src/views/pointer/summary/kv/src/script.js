@@ -6,8 +6,8 @@ import { colorByItem, logoByItem } from '@/pdv/helpers';
 import ReportForm from '@/components/report-form/do.vue';
 
 export default {
-	name: 'layout-pointer-summary',
-	props: ['current', 'party', 'elections', 'data', 'table', 'headline', 'subheadline'],
+	name: 'layout-pointer-summary-kv',
+	props: ['party', 'elections', 'data', 'table', 'headline', 'subheadline'],
 	data: function () {
 		return {
 
@@ -133,6 +133,24 @@ export default {
 			while (s.length < 14) s = '0' + s;
 
 			return s;
+		},
+		current: function () {
+			return this.data.list[0];
+		},
+		leader: function () {
+			var person = this.current.$kandidati.find(x => x.PORCISLO === 1);
+
+			if (person) {
+				return {
+					name: person.JMENO + ' ' + person.PRIJMENI,
+					link: '/volby/komunalni-volby/' + this.current.volby + '/kandidat/' + person.id,
+					woman: isWoman(person),
+					member: person.PSTRANA != null ? this.data.cis.strany.find(x => x.VSTRANA === person.PSTRANA).NAZEV : 'členství zatím neuvedeno',
+					data: person
+				}
+			} else {
+				return null;
+			}
 		}
 	},
   methods: {
@@ -177,6 +195,14 @@ export default {
 				taken[x] = --len in taken ? taken[len] : len;
 			}
 			return result;
+		},
+		person: function (item) {
+			return {
+				name: item.JMENO + ' ' + item.PRIJMENI,
+				link: '/volby/komunalni-volby/' + this.current.volby + '/kandidat/' + item.id,
+				woman: isWoman(item),
+				data: item
+			}
 		}
   }
 };

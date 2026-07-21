@@ -1,0 +1,136 @@
+<div class="pointer-summary pt1">
+	<template v-if="party && elections.status === 1">
+		<p v-if="false">
+			{{ headline }} bude nejspíš kandidovat do zastupitelstva 
+			{{ ['', 'v obci', 've městě', 've statutárním městě', 'v hlavním městě', 'v městské části', 'v městysi'][current.$strana[0].$zastupitelstvo[0].DRUHZASTUP] }}
+			<em>{{ current.$strana[0].NAZEVZAST }}</em>, okres 
+			<router-link :to="'/volby/komunalni-volby/' + current.volby + '/okres/' + current.OKRES">{{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</router-link>
+			za
+			<em><router-link :to="$route.fullPath.split('/kandidat/')[0] + '/strana/' + party.id">{{ party.NAZEV }}</router-link></em> 
+			{{ current.PORCISLO === 1 ? 'na pozici lídra' : 'na ' + current.PORCISLO + '. místě' }}. 			
+			Níže najdete předběžné informace, oficiální registrace proběhne až 45 dní před volbami. 
+		</p>
+	</template>
+	<p v-else-if="party && current.PLATNOST">
+		{{ headline }} 
+		<!-- {{ elections.status === 3 ? (isWoman(current) ? 'uvedla' : 'uvedl') : 'uvádí' }} jako své povolání  -->
+		{{ elections.status === 3 ? (isWoman(current) ? 'byla' : 'byl') : 'je' }}
+		<em>{{ current.POVOLANI }}</em> 
+		a 
+		<template v-if="elections.status === 3">{{ isWoman(current) ? 'kandidovala' : 'kandidoval' }} </template>
+		<template v-else>kandiduje</template>
+		za
+		<em><router-link :to="$route.fullPath.split('/kandidat/')[0] + '/strana/' + party.id">{{ party.NAZEV }}</router-link></em> 
+		{{ current.PORCISLO === 1 ? 'na pozici lídra' : 'na ' + current.PORCISLO + '. místě' }} 
+		{{ ['', 'v obci', 've městě', 've statutárním městě', 'v hlavním městě', 'v městské části', 'v městysi'][current.$strana[0].$zastupitelstvo[0].DRUHZASTUP] }}
+		<em>{{ current.$strana[0].NAZEVZAST }}</em>, okres 
+		<router-link :to="'/volby/komunalni-volby/' + current.volby + '/okres/' + current.OKRES">{{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</router-link>.
+		<template v-if="elections.status === 3">
+			Ve volbách {{ (isWoman(current) ? 'obdržela' : 'obdržel') }} {{ number(current.POCHLASU) }} hlasů a mandát <strong>{{ current.MANDAT === 'A' ? 'získal' : 'nezískal' }}{{(isWoman(current) ? 'a' : '')}}</strong>.
+			<template v-if="current.PORADINAHR > 0">{{(isWoman(current) ? 'Stala' : 'Stal')}} se ale {{ current.PORADINAHR }}. náhradníkem.</template>
+		</template>
+		Do voleb {{ (isWoman(current) ? 'ji' : 'ho') }} nominovali 
+		<em><router-link :to="'/volby/komunalni-volby/' + current.volby + '/aktivita/' + current.NSTRANA">{{ data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).NAZEV }}</router-link></em>,
+		<template v-if="current.PSTRANA != party.VSTRANA && current.PSTRANA != 99 && elections.status === 3">
+			V době voleb {{ isWoman(current) ? 'byla členkou' : 'byl členem' }} 
+			<em><router-link :to="'/volby/komunalni-volby/' + current.volby + '/aktivita/' + current.PSTRANA">{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).ZKRATKA }}</router-link></em>,
+		</template>
+		<template v-if="current.PSTRANA != party.VSTRANA && current.PSTRANA != 99 && elections.status === 2">
+			V době voleb {{ isWoman(current) ? 'je členkou' : 'je členem' }} 
+			<em><router-link :to="'/volby/komunalni-volby/' + current.volby + '/aktivita/' + current.PSTRANA">{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).ZKRATKA }}</router-link></em>,
+		</template>
+		<template v-if="current.PSTRANA === 99 && elections.status === 3">
+			V době voleb {{ isWoman(current) ? 'nebyla členkou' : 'nebyl členem' }} žádné strany nebo hnutí,
+		</template>
+		<template v-if="current.PSTRANA === 99 && elections.status === 2">
+			V době voleb {{ isWoman(current) ? 'není členkou' : 'není členem' }} žádné strany nebo hnutí,
+		</template>
+		{{ elections.status === 3 ? 'bylo' : 'bude' }} {{ isWoman(current) ? 'jí' : 'mu' }} {{ current.VEK }} let, bydlištem <em>{{ current.BYDLISTEN }}</em>.
+		Na této stránce najdete {{ isWoman(current) ? 'její' : 'jeho' }}
+		<p-list-linear class="inline">
+			<span>základní volební údaje</span>
+			<span v-if="current.$priority.length"><router-link :to="$route.path + '/priority'"><p-lang :value="current.$priority.length" :end="['', 'jednu prioritu', '%% priority', '%% priorit']"></p-lang></router-link></span>
+			<span v-if="current.$profil.length">záznamy o <router-link :to="'/lide/profil/' + current.$profil[0].profil">úspěšnosti</router-link> v minulých volbách</span>
+			<span v-else>informace o účasti v minulých volbách</span>
+			<span v-if="current.$odpovedi.find(x => !x.$odpoved[0].quick)"><p-lang :value="current.$odpovedi.filter(x => !x.$odpoved[0].quick).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> na <router-link :to="$route.path + '/otazky-a-odpovedi'">volební otázky</router-link></span>
+			<span v-if="current.$odpovedi.find(x => x.$odpoved[0].quick)"><p-lang :value="current.$odpovedi.filter(x => x.$odpoved[0].quick).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> z <router-link :to="$route.path + '/otazky-a-odpovedi#z-kalkulacky'">kalkulačky</router-link></span>
+			<span v-if="current.$data.about">osobní představení</span> 
+			<span v-if="current.$data.motto">motto</span>
+			<span v-if="current.$data.values">hodnoty</span>
+			<span v-if="current.$data.graphics">volební materiály</span>
+			<span v-if="current.$data.media || current.$data.pr"><p-lang :value="(current.$data.media || []).length + (current.$data.pr || []).length" :end="['', 'jednu zmínku', '%% zmínky', '%% zmínek']"></p-lang> v médiích</span>
+			<span v-if="current.$data.social"><p-lang :value="current.$data.social.length" :end="['', 'jeden profil', '%% profily', '%% profilů']"></p-lang> na sociálních sítích</span>
+			<span v-if="current.$data.phone || current.$data.email || current.$data.address">kontaktní údaje</span>
+			<span v-if="current.$data.links || current.$data.wiki || current.$data.web">další užitečné odkazy</span>
+			
+		</p-list-linear>.
+	</p>
+	<p v-else-if="!party">
+		Kandidátku <em>{{ current.NAZEV }}</em> 
+		{{ ['', 'zřejmě najdou', 'najdou', 'mohli najít'][elections.status] }} 
+		voliči
+		{{ ['', 'v obci', 've městě', 've statutárním městě', 'v hlavním městě', 'v městské části', 'v městysi'][current.$zastupitelstvo[0].DRUHZASTUP] }}
+		<em>{{ current.NAZEVZAST }}</em>, okres 
+		<router-link :to="'/volby/komunalni-volby/' + current.volby + '/okres/' + current.OKRES">{{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</router-link>.
+		Na kandidátce {{ ['', 'je zatím', 'je', 'bylo'][elections.status] }}
+		<p-lang :value="current.$kandidati.length" :end="['', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>{{ elections.status === 3 ? ',' : '.' }}
+		<template v-if="elections.status === 3">
+			získala {{ current.PROCHLSTR }} % hlasů 
+			a <p-lang :value="current.MAND_STR" :end="['tedy žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>.
+		</template>
+		<template v-if="elections.status === 1">
+			<template v-if="current.$kandidati.find(x => x.PORCISLO === 1)">
+				Lídrem zřejmě bude
+				<router-link :to="leader.link">{{ leader.name }}</router-link>.
+			</template>
+			<template v-else>
+				Lídr zatím není znám.
+			</template>
+		</template>
+		<template v-if="elections.status === 2">
+			Lídrem je
+			<router-link :to="leader.link">{{ leader.name }}</router-link>
+		</template>
+		<template v-if="elections.status === 3">
+			Lídrem 
+			{{ leader.woman === true ? 'byla' : 'byl' }}
+			<router-link :to="leader.link">{{ leader.name }}</router-link>
+		</template>
+		<template v-if="elections.status > 1">
+			({{ leader.member }}),
+			{{ leader.data.VEK }} let, 
+			povoláním {{ leader.data.POVOLANI }}, 
+			bydlištěm <em>{{ leader.data.BYDLISTEN }}</em>.
+		</template>
+		<span v-if="current.$program.length > 0">
+			<router-link :to="$route.path + '/volebni-program/' + current.$program[0].id" class="strong">Volební program</router-link> {{ elections.status === 3 ? 'měl' : 'má' }} <p-lang :value="current.$program[0].structure ? current.$program[0].structure.length : 1" :end="['', 'jednu kapitolu', '%% kapitoly', '%% kapitol']"></p-lang>.
+		</span>
+		<span v-else-if="current.$data.program && current.$data.program.length > 0">
+			Volební program {{ elections.status === 3 ? 'byl' : 'je' }} uveden na 
+			<p-link :href="current.$data.program[0].source">{{ domain(current.$data.program[0].source) }}</p-link>
+		</span>
+		<span v-else>Volební program zde {{ elections.status === 3 ? 'nebyl' : 'není zatím' }} uveden.</span>
+		
+		Níže na stránce najdete
+		<p-list-linear class="inline">
+			
+			<span v-if="current.$priority.length"><router-link :to="$route.path + '/priority'"><p-lang :value="current.$priority.length" :end="['', 'jednu prioritu', '%% priority', '%% priorit']"></p-lang></router-link></span>
+			<span v-if="current.$odpovedi.find(x => x.$otazka[0].type === 3)"><p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type === 3).length" :end="['', 'jednu odpověď', '%% odpovědi', '%% odpovědí']"></p-lang> z <router-link :to="$route.path + '/otazky-a-odpovedi#z-kalkulacky'">kalkulačky</router-link></span>
+			<span v-if="current.$data.about">představení</span> 
+			<span v-if="current.$data.motto">volební motto <em>{{ current.$data.motto[0].value }}</em></span> 
+			<span v-if="current.$data.values">hodnoty</span>
+			<span v-if="current.$data.graphics">volební materiály</span>
+			<span v-if="current.$data.media || current.$data.pr"><p-lang :value="(current.$data.media || []).length + (current.$data.pr || []).length" :end="['', 'jednu zmínku', '%% zmínky', '%% zmínek']"></p-lang> v médiích</span>
+			<span v-if="current.$data.social"><p-lang :value="current.$data.social.length" :end="['', 'jeden profil', '%% profily', '%% profilů']"></p-lang> na sociálních sítích</span>
+			<span v-if="current.$data.phone || current.$data.email || current.$data.address">kontaktní údaje</span>
+			<span v-if="current.$data.links || current.$data.wiki || current.$data.web">další užitečné odkazy</span>
+			<span v-if="elections.status > 1">oficiální informace</span>
+			<span v-if="elections.status > 1">statistické údaje</span>
+			<span v-if="elections.status === 3">výsledky</span>
+		</p-list-linear>.
+		<span v-if="current.$data.web">Volební web {{ elections.status === 3 ? 'byl' : 'je' }} na <p-link :href="current.$data.web[0].value">{{ domain(current.$data.web[0].value) }}</p-link></span>
+	</p>
+	<p v-else>
+		Z možné či zvažované kandidatury nakonec sešlo a subjekt či kandidát se voleb nezúčastnil.
+	</p>
+</div>

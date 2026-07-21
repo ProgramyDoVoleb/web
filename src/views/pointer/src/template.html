@@ -6,14 +6,15 @@
 					<div v-if="data">
 						<div v-if="data.list[0]">
 							<pointer-header :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table"></pointer-header>
-							<pointer-summary :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="$volby.id === 166"></pointer-summary>
+							<component :is="'pointer-summary-' + $volby.typ.toLowerCase()" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="['PS', 'KV'].indexOf($volby.typ) > -1"></component>
+							<!-- <pointer-summary-ps :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="$volby.id === 166"></pointer-summary-ps> -->
 							<div class="p-gap _3 _floar-clear"></div>
 							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="current.PRIJMENI">
 								<p-area v-if="current.PLATNOST && current.PLATNOST === 'N'">
 									<p class="red strong">Kandidát se voleb neúčastnil.</p>
 									<p>Důvodem mohlo být odstoupení z voleb po podání kandidátní listiny nebo dodatečné vyškrtnutí kandidujícím subjektem.</p>
 								</p-area>
-								<p-area class="smaller" v-else>
+								<p-area class="smaller highlight shadow" :borderColor="colorByItem(current, data, current.NSTRANA ? 'NSTRANA' : 'VSTRANA')" v-else>
 									<p-split class="-up960">
 										<div>
 											<p-list height=".5" class="-np _05">
@@ -1248,9 +1249,9 @@
 								</template>
 								<history-kv-rk :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :showUpcoming="$volby.status === 3"></history-kv-rk>
 							</p-block>
-							<p-block headline="Historický vývoj" v-if="$volby.status > 1 && $volby.typ === 'KV'">
+							<p-block-expandable headline="Historický vývoj" v-if="$volby.status > 1 && $volby.typ === 'KV'">
 								<history-candidates :num="current.KODZASTUP" :basic="1" :prefill="[(current.JMENO ? 'candidate' : 'party'), current.id, $volby.id]" :limit="[(current.JMENO ? 'candidate' : 'party'), current.id, $volby.id]"></history-candidates>
-							</p-block>
+							</p-block-expandable>
 							<component :is="table === 'csu_kv_rk' && current ? 'p-block-expandable' : 'p-block'" headline="Celková volební historie" v-if="current.$profil && current.$profil.length">
 								<profile-preview :id="current.$profil[0].profil"></profile-preview>
 							</component>	
@@ -1310,7 +1311,7 @@
 							</p-block>
 							<p-block headline="Upravit nebo doplnit" :level="1" :hide="true">
 
-								<div class="_split" v-if="$volby.status < 3">
+								<div class="_split" v-if="$volby.status < 3" name="editace">
 									<div>
 										<!-- <p-block headline="Doplnění" :hide="true"> -->
 											<p-area icon2="edit" class="highlight shadow" borderColor="var(--green)">

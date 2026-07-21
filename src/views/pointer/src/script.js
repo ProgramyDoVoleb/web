@@ -27,7 +27,9 @@ import EventItem from '@/components/event-item/do.vue'
 import AnswerTopicPreview from '@/components/answer-topic-preview/do.vue';
 import PartyPolls from '@/components/party-polls/do.vue'
 import PointerHeader from '@/views/pointer/header/do.vue';
-import PointerSummary from '@/views/pointer/summary/do.vue';
+// import PointerSummary from '@/views/pointer/summary/do.vue';
+import PointerSummaryPs from '@/views/pointer/summary/ps/do.vue';
+import PointerSummaryKv from '@/views/pointer/summary/kv/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
 import EditableBasic from '@/components/editable/basic/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
@@ -80,7 +82,7 @@ export default {
 	CtaGetAdmin, CtaSupport, CtaSupportShort, CtaQuestions,
 	AnswerTopicPreview,
 	PartyPolls,
-	PointerHeader, PointerSummary, PartyPreviewTiny,
+	PointerHeader, PointerSummaryPs, PointerSummaryKv, PartyPreviewTiny,
 	PopUp,
 	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage,
 	HistoryKvRk, HistoryKvRos, HistoryCandidates

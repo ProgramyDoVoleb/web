@@ -33,7 +33,7 @@
 								<p-list class="_0">
 									<template v-for="okres in sortBy(data.cis.okresy, 'NAZEV', null, true)">
 										<template v-if="data.list.$obce.filter(x => x.OKRES === okres.NUMNUTS && x.DRUHZASTUP === druh.id).length > 0">
-											<p-collapsible :label="'okres ' + okres.NAZEV" :status="data.list.$obce.filter(x => x.OKRES === okres.NUMNUTS && x.DRUHZASTUP === druh.id).length">
+											<p-collapsible :label="'okres ' + okres.NAZEV" :status="data.list.$obce.filter(x => x.OKRES === okres.NUMNUTS && x.DRUHZASTUP === druh.id).length" :open="data.list.$obce.filter(x => x.OKRES === okres.NUMNUTS && x.DRUHZASTUP === druh.id).length < 2">
 												<p-list>
 													<div v-for="obec in sortBy(data.list.$obce.filter(x => x.OKRES === okres.NUMNUTS && x.DRUHZASTUP === druh.id), 'NAZEVZAST', null, true)">
 														<template v-for="party in data.list.$strany.filter(x => x.KODZASTUP === obec.obec)">
@@ -78,7 +78,7 @@
 							</div>
 						</p-grid>
 					</p-block>
-					<p-block headline="Priority" v-if="data.list.$globs.$priority.length > 0">
+					<p-block-expandable headline="Priority" v-if="data.list.$globs.$priority.length > 0">
 						<p-area class="primary" :borderColor="colorByItem(data.strana, data)">
 							<section class="program">
 
@@ -125,8 +125,8 @@
 
 							</section>
 						</p-area>
-					</p-block>
-					<p-block headline="Významné zprávy" v-if="data.list.$globs.$data.media.length + data.list.$globs.$data.pr.length > 0">
+					</p-block-expandable>
+					<p-block-expandable headline="Významné zprávy" v-if="data.list.$globs.$data.media.length + data.list.$globs.$data.pr.length > 0">
 						<p-grid class="smaller">
 							<div v-for="item in sortBy([].concat(data.list.$globs.$data.media, data.list.$globs.$data.pr), 'updated', null, true, true)">
 								<p-area>
@@ -135,7 +135,7 @@
 								</p-area>
 							</div>
 						</p-grid>
-					</p-block>
+					</p-block-expandable>
 				</p-block>
 				<p-block headline="Jak jdou do voleb?" :level="1">
 					<p-area class="primary" :borderColor="colorByItem(data.cis.strany.find(x => x.VSTRANA == partyID), data)">

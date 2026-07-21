@@ -30,15 +30,15 @@
 
 .p-leaflet-path---empty {
 	stroke: var(--red88);
-	stroke-width: .25;
-	fill-opacity: .025;
+	stroke-width: .5;
+	fill-opacity: .25;
     fill: var(--red);
 
 	.dark & {
-		fill-opacity: .025;
+		fill-opacity: .25;
 		stroke: var(--red88);
-		stroke-width: .15;
-		fill: var(--black);
+		stroke-width: .5;
+		fill: var(--red);
 	}
 
 	@media (hover: hover) {
