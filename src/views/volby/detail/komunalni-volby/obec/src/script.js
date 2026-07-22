@@ -47,7 +47,7 @@ export default {
 			var d = this.data ? this.data.list[0] : null 
 
 			if (d) {
-				ga(this.about.data.name + ', ' + d.$dotcene[0]['NAZEVZAST'] + ', ' + (d.datum ? date(d.datum) : d.cirka));
+				ga(this.about.data.name + ', ' + d.$dotcene[0]['NAZEVZAST'] + ', ' + (d.datum_label || (d.datum ? date(d.datum) : d.cirka)));
 			}
 
 			return d;

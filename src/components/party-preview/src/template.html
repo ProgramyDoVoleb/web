@@ -16,7 +16,7 @@
 				</div>
 				<div class="_f">
 					<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/strana/' + party.id" :to="link + '/strana/' + party.id" class="strong">{{ party.NAZEV || party.ZKRATKA }}</component>
-							<div class="dimm smallest" v-if="(elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) || {POCET: 1}).POCET > 1">
+							<!-- <div class="dimm smallest" v-if="(elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) || {POCET: 1}).POCET > 1">
 								<div class="_g2"></div>
 								{{ elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80) ? 'sdružení' : 'koalice' }} 
 								<p-list-linear>
@@ -32,24 +32,27 @@
 										</template>
 									</li>
 								</p-list-linear>
-							</div>
+							</div> -->
 					<template v-if="candidates">
 						<div class="p-gap _025"></div>
 						<div v-if="candidates.length > 0 && typeof candidates[0].VOLKRAJ === 'undefined'" class="smaller">
 							<p-list-linear>
-								<template v-for="(cand, index2) in sortByPorCislo(candidates).filter((x, i) => i < 5)">
-									<component :is="cand.NSTRANA === party.VSTRANA ? 'span' : 'p-label'" :color="colorByItem(cand, elections, 'NSTRANA')">
-										<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/kandidat/' + cand.id" :to="link + '/kandidat/' + cand.id" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</component>
-									</component>
+								<template v-for="(cand, index2) in sortBy(candidates, 'PORCISLO', 99).filter((x, i) => i < 5)">
+									<!-- <component :is="cand.NSTRANA === party.VSTRANA ? 'span' : 'p-label'" :color="colorByItem(cand, elections, 'NSTRANA')"> -->
+										<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/kandidat/' + cand.id" :to="link + '/kandidat/' + cand.id" class="is-span" :class="{dimm: !cand.PORCISLO}">{{ cand.PRIJMENI }}</component>
+									<!-- </component> -->
 								</template>
-								<span v-if="candidates.length > 1" class="dimm"> + {{ candidates.length - 5 }}</span>
+								<span v-if="candidates.length > 5" class="dimm">
+									 +<router-link :to="link + '/strana/' + party.id + '/kandidati'" class="dimm">{{ candidates.length - 5 }}</router-link>
+								</span>
+								
 							</p-list-linear>
 							
 						</div>
 						<div v-if="candidates.length > 0 && (typeof candidates[0].VOLKRAJ !== 'undefined') " class="smaller">
 							<p-list-linear>
 								<li v-for="cand in sortBy(candidates.filter(x => x.PORCISLO === 1), 'PRIJMENI', null, true)">
-									<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/kandidat/' + cand.id" :to="link + '/kandidat/' + cand.id" class="is-span">{{ cand.PRIJMENI }}</component>
+									<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/kandidat/' + cand.id" :to="link + '/kandidat/' + cand.id" class="is-span" :class="{dimm: !cand.PORCISLO}">{{ cand.PRIJMENI }}</component>
 								</li>
 								<li v-if="candidates.find(x => !x.PORCISLO || x.PORCISLO > 1)">
 									<p-lang :value="candidates.filter(x => !x.PORCISLO || x.PORCISLO > 1).length" :end="['', '+1', '+%%', '+%%']"></p-lang>

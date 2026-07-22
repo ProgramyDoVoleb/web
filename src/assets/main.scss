@@ -295,7 +295,7 @@ a:focus, button:focus, .btn:focus {
 	}
 }
 
-a.is-span:not(.dimm), .is-span {
+a.is-span:not(.dimm), .is-span:not(.dimm) {
 	// border-bottom: var(--border);
 	color: #000;
 

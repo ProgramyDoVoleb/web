@@ -73,13 +73,22 @@
 
 ._logos {
 	display: flex;
+	flex-direction: column;
 }
 
 ._logos > ._logo {
-	display: inline-block !important;
+	display: block !important;
 
 	&:not(:first-child) {
-		margin-left: -1em;
+		margin-top: -1.75em;
+	}
+
+	&:nth-child(even) {
+		margin-left: -.75em;
+	}
+
+	&:not(:first-child:last-child) {
+		transform: scale(.75, .75) translateX(25%);
 	}
 }
 
