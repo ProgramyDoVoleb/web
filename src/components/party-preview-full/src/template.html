@@ -1,0 +1,199 @@
+<div class="party-preview-full">
+	<p-area class="_aig" ref="area" :borderColor="colorByItem(party, elections)">
+		<div class="p-offset _primaryLayout">
+			<div class="mr1 _logoArea" :class="{_hasMainImage: !logoByItem(party, elections).includes('empty')}">
+				<template v-if="!logoByItem(party, elections).includes('empty')" class="_ba">
+					<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV" class="_logo">
+				</template>
+					<div v-if="(elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) || {POCET: 1}).POCET > 1" class="_ba2">
+						<div class="_logos" v-if="(elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) || {POCET: 1}).POCET > 1">
+							<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.filter(x => x.VSTRANA != 80)">
+								<img loading="lazy" :src="logoByItem(coal, elections)" :alt="'logo ' + coal.NAZEV" class="_logo" :style="{'z-index': 10 - indexC}">
+							</template>
+							<template v-if="party.$data.snk">
+								<template v-for="(coal, indexC) in party.$data.snk">
+									<img loading="lazy" :src="coal.label" :alt="'logo ' + coal.value" class="_logo" :style="{'z-index': 10 - indexC}" v-if="coal.label">
+								</template>
+							</template>
+							<!-- <img loading="lazy" :src="logoByItem({VSTRANA: 80}, elections)" class="_logo" :style="{'z-index': 0}" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80)"> -->
+						</div>
+						<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET === 1">
+							<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV + ' chybí'" class="_logo">
+						</div>
+					</div>
+					<template v-else-if="logoByItem(party, elections).includes('empty')" class="_ba">
+					<img loading="lazy" :src="logoByItem(party, elections)" :alt="'logo ' + party.NAZEV" class="_logo">
+				</template>
+			</div>
+			<div>
+				<!-- <div class="p-offset reverse mb1"> -->
+					<!-- <div> -->
+						<h3 class="mt05 mb0"><router-link :to="link + '/strana/' + party.id" class="strong">{{ truncate(party.NAZEV, 20) }}</router-link></h3>
+						<p class="mt0" v-if="(elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) || {POCET: 1}).POCET > 1">								
+							{{ elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80) ? 'sdružení' : 'koalice' }} 
+							<p-list-linear>
+								<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.filter(x => x.VSTRANA != 80)">
+									<li><em>{{ coal.ZKRATKA }}</em></li>
+								</template>
+								<li v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80)">nezávislých kandidátů<template v-if="party.$data.snk && party.$data.snk.length > 0">:
+										<p-list-linear>
+												<em v-for="snk in party.$data.snk">
+													{{ snk.value }}
+												</em>
+											</p-list-linear>
+									</template>
+								</li>
+							</p-list-linear>
+						</p>
+						<p class="mt0" v-else-if="party.SLOZENI !== 80 && party.SLOZENI !== 90">samostatná kandidátka</p>
+						<p class="mt0" v-else-if="party.SLOZENI === 90">sdružení nezávislých kandidátů</p>
+						<p class="mt0" v-else>nezávislý kandidát</p>
+					<!-- </div> -->
+					<div class="_atr">
+
+										<span v-for="soc in party.$data.web">
+											<p-link :href="soc.value">
+												<p-icon icon="link"></p-icon>
+											</p-link> 
+										</span>
+										<span v-for="soc in party.$data.social">
+											<p-link :href="soc.value">
+												<p-icon :icon="type(soc.value)"></p-icon>
+											</p-link> 
+										</span>
+					</div>
+				<!-- </div> -->
+				<p v-if="con(party.$data, 'about')" v-html="truncate(untag(party.$data.about[0].value), 40)" class="serif"></p>
+				<div class="mv1" v-if="con(party.$data, 'motto')">
+					<p-quote class="serif mv1" size="1em">Motto: <span v-html="party.$data.motto[0].value"></span></p-quote>
+				</div>
+
+				<p v-if="candidates.length === 0 && ((elections && elections.cis && elections.cis.volby && elections.cis.volby[0].status < 3) || elections && elections.list && elections.list[0] && elections.list[0].status && elections.list[0].status < 3)" class="dimm smaller">				
+					<em>zatím bez dalších informací</em>
+				</p>
+
+				<p-box-group class="mv1" v-if="party.$program !== 0 || con(party.$data, 'program') || con(party.$data, 'web') || party.$priority > 0 || party.$odpovedi > 0">
+					<template v-for="(program, indexP) in party.$program">
+						<p-box :to="link + '/strana/' + party.id + '/volebni-program/' + program.id + '#plne-zneni'">
+							<p-box-button class="primary">Volební program</p-box-button>
+						</p-box> 
+					</template>
+					<template v-if="!party.$program || party.$program.length === 0">
+						<template v-for="program in firstOfUnique(party.$data.program, 'source')">
+							<p-box :href="program.source" :title="program.value">
+								<p-box-button icon="link">{{ program.value }}</p-box-button>
+							</p-box> 
+						</template>
+					</template>
+					<template v-if="party.$priority && party.$priority > 0">
+						<p-box :to="link + '/strana/' + party.id + '/priority'">
+							<p-box-button icon="priority">Priority</p-box-button>
+						</p-box>
+					</template>
+					<template v-if="party.$odpovedi && party.$odpovedi > 0">
+						<p-box :to="link + '/strana/' + party.id + '/otazky-a-odpovedi'">
+							<p-box-button icon="answers">Odpovědi</p-box-button>
+						</p-box>
+					</template>	
+					<template v-if="con(party.$data, 'web')">
+						<p-box :href="party.$data.web[0].value">
+							<p-box-button>Web</p-box-button>
+						</p-box>
+					</template>	
+				</p-box-group>
+
+				<div v-if="candidates.length > 0">
+					<div class="p-line _05"></div>
+					<div v-if="candidates.find(x => x.PORCISLO && x.PORCISLO < 5 && con(x.$data, 'photo'))" class="mv1 large">
+						<p-box-group>
+							<template v-for="cand in candidates.filter(x => x.PORCISLO && x.PORCISLO < 5 && con(x.$data, 'photo'))">
+								<p-box>
+									<p-box-image :src="cand.$data.photo[0].value" class="rounded large"></p-box-image>
+								</p-box>
+							</template>
+						</p-box-group>
+					</div>
+					<p-list class="_05">
+						<template v-for="(cand, index2) in snemovni ? sortBy(candidates.filter(x => x.PORCISLO === 1), 'PRIJMENI', null, true) : sortBy(candidates, 'PORCISLO', 99)">
+							<div v-if="index2 < (snemovni ? 15 : (amount || 5))">
+								<div class="p-offset reverse _r">
+									<div>
+										<component :is="candidates.find(x => x.NSTRANA === party.VSTRANA) ? 'span' : 'p-label'" :color="colorByItem(cand, elections, 'NSTRANA')" :asfter="true" class="">
+											<span v-if="!snemovni" :class="{dimm: !cand.PORCISLO}">{{ cand.PORCISLO ? cand.PORCISLO + '. ' : '?  '}}</span>
+											<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/kandidat/' + cand.id" :to="link + '/kandidat/' + cand.id" class="strong" :class="{'dimm w400': !cand.PORCISLO}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</component>
+											<span v-if="snemovni" class="smallest dimm"> &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }}</span>
+										</component>
+										<!-- <router-link :to="link + '/kandidat/' + cand.id" :class="{'is-span': !cand.PORCISLO}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link> -->
+										
+										<div class="small" v-if="cand.VEK || cand.POVOLANI || cand.BYDLISTEN">
+											<p-list-linear class="or">
+												<span v-if="cand.VEK">{{ cand.VEK }} let</span>
+												<span v-if="cand.POVOLANI">{{ cand.POVOLANI }}</span>
+												<span v-if="cand.BYDLISTEN">{{ cand.BYDLISTEN }}</span>
+											</p-list-linear>
+										</div>
+										<p class="smaller serif mt05" v-if="con(cand.$data, 'about')" v-html="truncate(untag(cand.$data.about[0].value), 8)"></p>
+									</div>
+									<div class="_atr">
+										<span v-if="cand.$odpovedi > 0">
+											<router-link :to="link + '/kandidat/' + cand.id + '/otazky-a-odpovedi'">
+												<p-icon icon="answers-mini"></p-icon>
+											</router-link> 
+										</span>	
+										<span v-if="cand.$priority > 0">
+											<router-link :to="link + '/kandidat/' + cand.id + '/priority'">
+												<p-icon icon="priority"></p-icon>
+											</router-link> 
+										</span>
+										<span v-for="soc in cand.$data.social">
+											<p-link :href="soc.value">
+												<p-icon :icon="type(soc.value)"></p-icon>
+											</p-link> 
+										</span>
+									</div>
+								</div>
+							</div>
+							
+						</template>
+						<div v-if="snemovni ? candidates.find(x => !x.PORCISLO || x.PORCISLO > 1) : candidates.length > (amount || 5)" class="smaller">
+							+  <router-link :to="more || link + '/strana/' + party.id + '/kandidati'" class="is-span">
+								<p-lang :value="candidates.length - (snemovni ? candidates.filter(x => x.PORCISLO === 1).length : (amount || 5))" :end="['', 'jeden další', 'další %%', 'dalších %%']"></p-lang>
+							</router-link>
+						</div>
+					</p-list>
+				</div>
+
+			</div>
+		</div>
+			<div class="p-line"></div>
+			<template v-if="party.MAND_STR">	
+				<p-badge background="var(--blue)">{{ number(party.PROCHLSTR, 2) }} %</p-badge>
+				&rarr;
+				<p-badge :background="party.MAND_STR > 0 ? 'var(--green)' : 'var(--red)'">{{ party.MAND_STR + ' mandát' + lang(party.MAND_STR, ['', '', 'y', 'ů']) || 'bez zisku mandátů' }}</p-badge> 
+			</template>
+			<router-link :to="link + '/strana/' + party.id">
+				<p-badge background="var(--blue)">Podrobnosti</p-badge>
+			</router-link> 
+				<template v-if="elections.list[0].editace === 1" class="smaller">
+					<p-popup class="inline">
+						<template #init>
+							<p-badge background="var(--green)">Chci něco doplnit</p-badge>
+						</template>
+						<template #content>
+							<report-form :part="elections.list[0].typ + ':' + elections.list[0].id + ' - pointer csu_' + elections.list[0].typ.toLowerCase() + '_rkl:' + party.id"></report-form>
+						</template>
+					</p-popup>
+				</template>
+			<div class="smallest dimm _br" v-if="party.ESTRANA > 0">
+				<span class="tiny">#</span>{{ party.ESTRANA }}
+			</div>
+			<div class="smallest dimm _br" v-if="party.KSTRANA > 0">
+				<span class="tiny">č. </span>{{ party.KSTRANA }}
+			</div>
+			<div class="smallest dimm _br" v-if="party.POR_STR_HL > 0">
+				<span class="tiny">č. </span>{{ party.POR_STR_HL }}
+			</div>
+
+		<!-- </div> -->
+	</p-area>
+</div>

@@ -1,12 +1,12 @@
 import {useData} from '@/stores/data';
 import {useEnums} from '@/stores/enums';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
-import { type, domain, date, truncate, sortBy, lang, number, firstOfUnique } from '@/pdv/helpers';
+import { type, domain, date, truncate, sortBy, lang, number, firstOfUnique, con, untag } from '@/pdv/helpers';
 import { useCore, cdn } from '@/stores/core';
 import ReportForm from '@/components/report-form/do.vue';
 
 export default {
-	name: 'party-preview-large',
+	name: 'party-preview-full',
 	props: ['party', 'candidates', 'elections', 'election', 'link', 'amount', 'more'],
 	data: function () {
 		return {
@@ -26,7 +26,7 @@ export default {
 		ReportForm
 	},
 	methods: {
-		colorByItem, logoByItem, date, truncate, type, sortBy, lang, number, firstOfUnique,
+		colorByItem, logoByItem, date, truncate, type, sortBy, lang, number, firstOfUnique, con, untag,
 		sortByPorCislo: function (list) {
 			var arr = [];
 
@@ -38,25 +38,5 @@ export default {
 		}
 	},
 	mounted: function () {
-		setTimeout(() => {
-			try {
-				var area = this.$refs.area.$el;
-				var logos = this.$refs.logos.getBoundingClientRect().height;
-
-				// console.log(this.party.NAZEV, area.getBoundingClientRect().height, logos);
-
-				if (area.getBoundingClientRect().height - 32 < logos) {
-					area.style = 'min-height: ' + (Math.floor(logos) + 32) + 'px';
-
-					setTimeout(() => {
-						logos = this.$refs.logos.getBoundingClientRect().height;
-						// console.log(this.party.NAZEV, area, logos);
-						area.style = 'min-height: ' + (Math.floor(logos) + 32) + 'px';
-					}, 100);
-				}
-			} catch (e) {
-				console.warn('Chyba při stanovování výšky kontejneru');
-			}
-		}, 250);
 	}
 };

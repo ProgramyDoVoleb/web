@@ -11,6 +11,7 @@ import ElectionStats from '@/components/results/stats/do.vue';
 import ElectionResults from '@/views/history/volby/detail/do.vue';
 import PartyPreview from '@/components/party-preview/do.vue'
 import PartyPreviewLarge from '@/components/party-preview-large/do.vue'
+import PartyPreviewFull from '@/components/party-preview-full/do.vue'
 import PersonPreviewBlock from '@/components/person-preview-block/do.vue'
 import PopUp from '@/components/pop-up/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
@@ -28,7 +29,7 @@ export default {
 				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka', designated: 2},
 				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka'}
 			],
-			compactList: window.width < 1240,
+			compactList: window.width < 1240 ? 1 : 2,
 			dhondt: []
 		}
 	},
@@ -42,6 +43,7 @@ export default {
 	ElectionResults,
 	PartyPreview,
 	PartyPreviewLarge,
+	PartyPreviewFull,
 	PersonPreviewBlock,
 	PopUp,
 	EditableSuggest,

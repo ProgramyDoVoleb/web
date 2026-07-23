@@ -36,7 +36,13 @@
 }
 
 .rounded {
-  border-radius: 2rem;
+  border-radius: 50% !important;
+}
+
+.large .p-box-image {
+  width: 6rem;
+  height: 6rem;
+  flex: 0 0 6rem;
 }
 
 .roundedSlightly {

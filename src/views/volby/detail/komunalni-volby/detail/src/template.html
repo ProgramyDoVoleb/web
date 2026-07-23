@@ -95,7 +95,11 @@
 		<p-block :headline="current.status === 1 ? 'Předběžný přehled' : 'Přehled stran'" :hide="true">
 			<div class="p-offset reverse balanced" v-if="current.$strany.length > 0">
 				<div>
-					<h2><button class="inline" @click="compactList = true" :class="{'active': compactList}">Seznam</button> / <button class="inline" @click="compactList = false" :class="{'active': !compactList}">Přehled</button></h2>
+					<h2>
+						<button class="inline" @click="compactList = 1" :class="{'active': compactList === 1}">Seznam</button> / 
+						<button class="inline" @click="compactList = 2" :class="{'active': compactList === 2}">Přehled</button> /
+						<button class="inline" @click="compactList = 3" :class="{'active': compactList === 3}">Podrobně</button>
+					</h2>
 				</div>
 				<div v-if="current.status === 1">
 					<p-modal>
@@ -109,9 +113,9 @@
 				</div>
 			</div>	
 			<div class="p-gap"></div>
-			<p-columns>
-				<div v-for="(party, index) in sortBy(current.$strany, (compactList ? 'NAZEV' : 'NAZEV'), '', true)">
-					<component :is="compactList ? 'party-preview' : 'party-preview-large'" :link="'/volby/komunalni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.OSTRANA === party.OSTRANA)" :election="null" :elections="data"></component>
+			<component :is="compactList === 3 ? 'p-list' : 'p-columns'">
+				<div v-for="(party, index) in sortBy(current.$strany, 'NAZEV', '', true)">
+					<component :is="['', 'party-preview', 'party-preview-large', 'party-preview-full'][compactList]" :link="'/volby/komunalni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.OSTRANA === party.OSTRANA)" :election="null" :elections="data"></component>
 				</div>
 				<div v-if="current.$strany.length === 0">
 					<p-area icon="icon-none" class="smaller">
@@ -119,7 +123,7 @@
 						<div class="smallest">Víte o nějaké? Dejte vědět</div>
 					</p-area>
 				</div>
-			</p-columns>
+			</component>
 			<!-- <election-grid :leaders="true" :list="people(parties(current.$strany, current.$strany), current.$kandidati, true)"></election-grid> -->
 			<template v-if="current.status < 2">
 				<div class="p-line"></div>
