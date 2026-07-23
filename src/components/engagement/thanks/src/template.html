@@ -11,9 +11,14 @@
 
 	<div class="p-line _3"></div>
 
-	<template v-if="true && width > 640">
+	<template v-if="false && width > 640">
 
-		<h2 class="quando">Podpořte Programy do voleb</h2>
+		<h2 class="quando">
+			Podpořte Programy do voleb
+		</h2>
+			<div class="smaller strong sans red mt-15 mb3">
+				<p-link href="https://kristalova.lupa.cz/nominace/" class="red">Nominujte tento projekt na Křišťálovou Lupu</p-link>
+			</div>
 		<!-- <p class="text-center _mw">
 			Tento web je výsledkem celoroční dobrovolnické neplacené práce. 
 		</p> -->
@@ -106,6 +111,9 @@
 	</template>
 	<template v-else>
 		<h3 class="serif mt0">Podpořte tento projekt</h3>
+		<div class="smaller strong sans red mt-05 mb15">
+			<p-link href="https://kristalova.lupa.cz/nominace/" class="red">Nominujte <em>Programy</em> na Křišťálovou Lupu</p-link>
+		</div>
 		<p-box-group class="_mw">
 			<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100">
 				<p-box-button class="green">100 Kč</p-box-button>
@@ -120,9 +128,9 @@
 				<p-box-button>Jinak...</p-box-button>
 			</p-box>
 		</p-box-group>
-		<div class="_mw20 mv1">
+		<!-- <div class="_mw20 mv1">
 			<p-image :src="'https://static.programydovoleb.cz/img/merch/' + motives[motivesIndex] + '.jpg'" width="100%" class="rounded _ar"></p-image>
-		</div>
+		</div> -->
 		<div class="smaller dimm mt1 text-center">Sledujte, sdílejte, doporučujte. Díky</div>
 		<div class="p-line p-line__3"></div>
 	</template>

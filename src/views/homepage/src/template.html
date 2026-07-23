@@ -179,17 +179,17 @@
 					</p-grid>
 					<p>
 						<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="is-span">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link>. Oficiální přehledy stran a kandidátů sice budou až koncem srpna, ale už dnes lze na <em>Programy</em> přidávat strany a kandidáty ve všech obcích a obvodech.
-						<template v-if="news && news.summary">
-
-									<!-- <p-area icon="spotify" borderColor="var(--green)" background="var(--green11)" class="inline"> -->
-										<!-- <h4 class="mt0 pt025 mb0 smallest"> -->
-											Chcete rychlé shrnutí novinek za minulý týden? <router-link :to="'/novinky/' + news.summary.id" class="smaller strong" :title="news.summary.title">{{ news.summary.title }}</router-link><p-icon icon="spotify"></p-icon>
-										<!-- </h4> -->
-										<!-- <div class="smallest"> -->
-											<!-- Shrnutí novinek od {{ date(new Date(new Date(news.summary.datum).getTime() - 6 * 24 * 60 * 60 * 1000).toISOString(), 2) }} do {{ date(news.summary.datum, 2) }} -->
-										<!-- </div> -->
-									<!-- </p-area> -->
-					</template>
+					</p>
+					<p class="smaller strong">						
+						<p-label color="var(--red)"><p-link href="https://kristalova.lupa.cz/nominace/" class="red">Nominujte <em>Programy</em></p-link> na Křišťálovou Lupu</p-label>
+						<br>
+						<p-label color="var(--blue)">Rychlé shrnutí týdne 
+							<template v-if="news && news.summary">
+								<router-link :to="'/novinky/' + news.summary.id" :title="news.summary.title">
+									 od {{ date(new Date(new Date(news.summary.datum).getTime() - 6 * 24 * 60 * 60 * 1000).toISOString(), 2) }} do {{ date(news.summary.datum, 2) }}
+								</router-link>
+							</template>
+						</p-label>
 					</p>
 					
 				</p-block>	
