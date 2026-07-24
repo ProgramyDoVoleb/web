@@ -254,7 +254,7 @@
 					Oficiální registrace ještě neproběhla
 				</div>
 			</template>
-			<template v-if="$volby.editace === 1 && (typeof current.$program !== 'undefined' && current.$program.length === 0) && (typeof current.$data.program === 'undefined' || current.$data.program.length === 0)">
+			<template v-if="$volby.editace === 1 && (['SENAT','PREZ'].indexOf($volby.typ) > -1 || current.NAZEV) && (typeof current.$program !== 'undefined' && current.$program.length === 0) && (typeof current.$data.program === 'undefined' || current.$data.program.length === 0)">
 				<br>
 				<engagement-add-program :pointer="table + ':' + current.id" :elections="current.volby" :focus="current.OBVOD || current.KODZASTUP"></engagement-add-program>
 			</template>
