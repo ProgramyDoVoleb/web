@@ -109,9 +109,9 @@
 					<div class="p-line _05"></div>
 					<div v-if="candidates.find(x => x.PORCISLO && x.PORCISLO < 5 && con(x.$data, 'photo'))" class="mv1 large">
 						<p-box-group>
-							<template v-for="cand in candidates.filter(x => x.PORCISLO && x.PORCISLO < 5 && con(x.$data, 'photo'))">
-								<p-box>
-									<p-box-image :src="cand.$data.photo[0].value" class="rounded large"></p-box-image>
+							<template v-for="(cand, i) in candidates.filter(x => x.PORCISLO && x.PORCISLO < 6 && con(x.$data, 'photo'))">
+								<p-box :to="link + '/kandidat/' + cand.id" class="_r" :style="{'z-index': 10 - i}">
+									<p-box-image :src="cand.$data.photo[0].value" class="rounded large border" :class="{'mr-1': width < 640}"></p-box-image>
 								</p-box>
 							</template>
 						</p-box-group>

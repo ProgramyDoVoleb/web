@@ -42,6 +42,12 @@
   border-radius: 50% !important;
 }
 
+.border {
+  // border: var(--border) !important;
+  // border-style: inset;
+  box-shadow: 0 0 1px #00000044 inset;
+}
+
 .large .p-box-image {
   width: 6rem;
   height: 6rem;

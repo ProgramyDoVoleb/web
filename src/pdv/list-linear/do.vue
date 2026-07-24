@@ -7,10 +7,10 @@
         margin: 0;
         padding: 0;
         list-style: none;
+    }
 
-            &.inline {
-                display: inline;
-            }
+    .p-list-linear.inline {
+        display: inline;
     }
 </style>
 

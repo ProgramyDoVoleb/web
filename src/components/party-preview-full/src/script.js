@@ -11,7 +11,8 @@ export default {
 	data: function () {
 		return {
 			cdn,
-			enums: useEnums()
+			enums: useEnums(),
+			width: window.innerWidth
 		}
 	},
 	computed: {
