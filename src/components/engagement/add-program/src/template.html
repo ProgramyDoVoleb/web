@@ -1,0 +1,9 @@
+<div class="engagement-add-program">
+	<p-area class="inline smallest strong" background="var(--green11)" borderColor="var(--green)">
+		Vložte odkaz na
+		<p-popup preClass="strong" v-if="pointer"><template #init><span class="green">volební program</span> </template><template #content><editable-basic type="program" :pointer="pointer" :elections="elections" showSource="1"></editable-basic></template></p-popup>
+		<p-popup preClass="strong" v-else><template #init><span class="green">volební program</span></template><template #content><editable-suggest placeholder="Odkaz na program" type="program" :part="(elections || 'homepage') + ':' + (focus || 'suggestion')" link="1"></editable-suggest></template></p-popup>
+		nebo
+		<p-popup preClass="strong"><template #init><span class="green">priority</span></template><template #content><editable-suggest placeholder="Odkaz na priority" type="priority" :part="(elections || 'homepage') + ':' + (focus || 'suggestion') + (pointer ? ' - pointer ' + pointer : '')" link="1"></editable-suggest></template></p-popup>
+	</p-area>
+</div>

@@ -295,3 +295,9 @@
 		top: 0;
 	}
 }
+
+._logo[src*="/nk.png"] {
+	background: transparent;
+	z-index: 0 !important;
+	position: relative;
+}

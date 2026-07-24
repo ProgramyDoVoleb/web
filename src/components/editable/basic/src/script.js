@@ -35,7 +35,7 @@ export default {
 			if (this.type === 'phone' && ((!this.val || (this.val < 200000000 || this.val > 999999999)) || (!this.source || !isURL(this.source)))) valid = false;
 			if (this.type === 'email' && (!this.val || ((this.val.split('@').length === 1 || this.val.split('@')[0].length === 0 || this.val.split('@')[1].length === 0))) && (!this.source || !isURL(this.source))) valid = false;
 			if ((this.type === 'pr' || this.type === 'media') && (!this.val || !this.source || (this.val.length < 2 || !isURL(this.source)))) valid = false;
-			if (this.type === 'program' && (!this.val || !this.source || !isURL(this.source))) valid = false;
+			if (this.type === 'program' && (!this.source || !isURL(this.source))) valid = false;
 			if (this.type === 'motto' && (!this.val || !this.source || !isURL(this.source))) valid = false;
 			if (this.type === 'about' && (!this.val || !this.source || !isURL(this.source))) valid = false;
 			if (this.type === 'support' && (!this.val || !this.source || !isURL(this.source))) valid = false;
@@ -86,6 +86,10 @@ export default {
 				var note = notify.add('Odesílám návrh na doplnění');
 
 				this.sending = true;
+
+				if (!this.val && this.type === 'program') {
+					this.val = 'Volební program';
+				}
 
 				ge({
 					event: 'edit',

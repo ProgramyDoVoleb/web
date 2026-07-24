@@ -194,10 +194,10 @@
 								</p-block>
 							</template>
 
-							<p-block headline="Představení" :hide="true" :class="{'_empty': typeof current.$data.length === 'number' || !((current.$data.about || current.$data.motto || current.$data.values))}">
+							<p-block headline="Představení" v-if="!(typeof current.$data.length === 'number' || !((current.$data.about || current.$data.motto || current.$data.values)))">
 								<div class="p-list _2 _invisible" v-if="typeof current.$data.length === 'undefined'">
 									<div v-if="current.$data.about">
-										<h2 class="serif mt0">Představení</h2>
+										<!-- <h2 class="serif mt0">Představení</h2> -->
 										<div class="serif _mw">
 											<p-truncated :size="60" :content="(current.$data.about.find(x => x.type === 'about').value || '').split('\n').join('<br>')"></p-truncated>
 										</div>	
@@ -233,30 +233,12 @@
 													<p-area :borderColor="colorByItem(current, data, 'NSTRANA')">
 														<div class="strong" v-if="val.value">{{ val.value }}</div>
 														<p v-if="val.label"><p-truncated :size="24" :content="val.label"></p-truncated></p>
-														<!-- <p class="smallest sans dimm">
-															Přidáno {{ date(val.updated) }} 
-															<template v-if="val.source">
-																&middot;
-																zdroj <p-link :href="val.source" class="is-span dimm">{{ domain(val.source) }}</p-link>
-															</template>
-														</p> -->
 													</p-area>
 												</div>
 											</p-grid>
 										</div>
 									</template>
-								</div>		
-								<div class="mt1" v-if="true && $volby.editace === 1">
-									<div class="smallest _edit">
-										<p-icon icon="edit"></p-icon>
-										&nbsp;
-										<p-popup preClass="green strong"><template #init>Upravit představení</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="about"  showSource="1"></editable-basic></template></p-popup>
-										&middot;
-										<p-popup preClass="green strong"><template #init>motto</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="motto" showSource="1" ></editable-basic></template></p-popup>
-										&middot;
-										<p-popup preClass="green strong"><template #init>hodnoty</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="values" showSource="1" showLabel="1"></editable-basic></template></p-popup>
-									</div>
-								</div>					
+								</div>				
 							</p-block>
 							<p-block headline="Lídr a vládní kandidáti" anchor="Lídr a tým" :class="{'_empty': !(!current.$data.length && (current.$data.leader || current.$data.govrole))}" :hide="true" v-if="['csu_kz_rkl', 'csu_ps_rkl'].indexOf(table) > -1">
 									<template v-if="['csu_ps_rkl'].indexOf(table) > -1 && current.$data.leader && current.$data.leader.length > 0">
@@ -353,31 +335,6 @@
 									</p-columns>
 								</p-area>
 							</p-block>
-
-							<!-- <p-block headline="Garanti" :hide="true" :class="{'_empty': !current.$data.garant}">
-								<template v-if="current.$data.garant" class="mb1">
-									<h2 class="serif">Garanti</h2>
-									<p-columns>
-										<div v-for="cand in current.$data.garant">
-												<div class="p-offset reverse balanced">
-													<div>
-														<component :is="JSON.parse(cand.value || '[1, null]')[1] ? 'router-link' : 'span'" :to="$link.split('/strana')[0] + '/kandidat/' + JSON.parse(cand.value || '[1,1]')[1]" class="strong">{{ JSON.parse(cand.value || "['chybné zadání', null]")[0] }}</component>
-														<div class="smallest">{{ cand.label }}</div>
-													</div>
-													<div v-if="cand.source">
-														<p-link class="smallest dimm" :href="cand.source">zdroj</p-link>
-													</div>
-												</div>
-										</div>
-									</p-columns>
-
-								</template>
-								<div v-if="true && $volby.editace === 1" class="smallest _edit">
-									<p-icon icon="edit"></p-icon>
-									&nbsp;
-									<p-popup preClass="green strong"><template #init>Doplnit garanty</template><template #content><editable-suggest placeholder="Odkaz na garanta" type="garant" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup>
-								</div>
-							</p-block> -->
 							
 							<p-block headline="Volební priority" v-if="current.$priority.length > 0">
 								<p-list class="_05">
@@ -386,7 +343,7 @@
 											<strong v-if="priority.headline">{{ truncate(priority.headline, 8) }}</strong>
 											<span v-if="priority.headline && priority.content && priority.content.charAt(0) != '['"> &middot; </span>
 											<span v-if="priority.content && priority.content.charAt(0) != '['">
-												<p-truncated class="_inline serif" :content="priority.content.split('\n').join('<br>')" :size="current.$priority.length === 1 ? 120 : 24" :compact="$link + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
+												<p-truncated class="_inline serif" :content="untag(priority.content).split('\n').join('<br>')" :size="current.$priority.length === 1 ? 120 : 24" :compact="$link + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
 											</span>
 										</p-label>
 									</div>								
@@ -628,7 +585,7 @@
 																		<p-list>
 																			<template v-for="(cand, index3) in sortByPorCislo(sortBy(current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).filter(x => OBVOD > 0 ? x.COBVODU === OBVOD : true), 'PRIJMENI', null, true))">
 																				<template v-if="(index3 < limit) || limitOff || (cand.MANDAT && cand.MANDAT === 'A')">
-																					<component :is="index3 < 3 ? 'person-preview-block' : 'person-preview-linear'" :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id"></component>
+																					<component :is="index3 < 1 && con(cand.$data, 'photo') ? 'person-preview-block' : 'person-preview-linear'" :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id"></component>
 																				</template>
 																			</template>
 																			<div v-if="current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).length > limit">
@@ -659,7 +616,7 @@
 									</p-box-group>
 								</template>
 							</p-block>
-							<p-block headline="Odkazy" :hide="linksAll.length === 0" :class="{'_empty': linksAll.length === 0}">
+							<p-block headline="Odkazy" v-if="linksAll.length > 0">
 								<p-list class="_025">
 									<template v-if="linksAll.filter(x => x.type === 'web' || x.type === 'wiki').length > 0">
 										<div v-for="(item, index) in linksAll.filter(x => x.type === 'web' || x.type === 'wiki')">
@@ -703,19 +660,8 @@
 										</div>
 									</template>
 								</p-list>
-								<div v-if="true && $volby.editace === 1" class="smallest _edit">
-									<p-icon icon="edit"></p-icon>
-									&nbsp;
-									<p-popup preClass="green strong"><template #init>Navrhnout volební web</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="web" ></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>wiki</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="wiki" ></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>sociální síť</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="social" ></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>další odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="link"  :showLabel="1"></editable-basic></template></p-popup>
-								</div>
 							</p-block>
-							<p-block headline="Kontakty" :hide="contacts.length === 0" :class="{'_empty': contacts.length === 0}">
+							<p-block headline="Kontakty" v-if="contacts.length > 0">
 								<p-list class="_025">
 									<div v-for="(item, index) in contacts">
 										<p-box-group>
@@ -729,17 +675,8 @@
 										</p-box-group>										
 									</div>
 								</p-list>
-								<div v-if="true && $volby.editace === 1" class="smallest _edit">
-									<p-icon icon="edit"></p-icon>
-									&nbsp;
-									<p-popup preClass="green strong"><template #init>Navrhnout e-mail</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="email"  showSource="1" showLabel="1"></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>telefon</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="phone"  showSource="1" showLabel="1"></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>adresu</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="address"  showSource="1" showLabel="1"></editable-basic></template></p-popup>
-								</div>
 							</p-block>
-							<p-block :headline="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení stran a místních hnutí' : 'Koalice registrovaných stran a hnutí'" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
+							<p-block :headline="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení stran a místních hnutí' : 'Koalice registrovaných stran a hnutí'" :anchor="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení' : 'Koalice'" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
 								<div class="columns _c">
 									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
 										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
@@ -791,7 +728,7 @@
 									</div>
 								</div>
 							</p-block>
-							<p-block :hide="!current.$data.support" :class="{'_empty': !current.$data.support}" headline="Podpora">
+							<p-block v-if="current.$data.support" headline="Podpora">
 								<template v-if="current.$data.support && current.$data.support.find(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
 									<!-- <p-area> -->
 										<p-grid class="smaller">
@@ -812,17 +749,8 @@
 										</div>
 									</div>
 								</template>
-								<div v-if="true && $volby.editace === 1 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1" class="smallest _edit">
-									<p-icon icon="edit"></p-icon>
-									&nbsp;
-									<p-popup preClass="green strong"><template #init>Přidat podporu od strany/hnutí</template><template #content><editable-suggest placeholder="Odkaz, kde strana vyjadřuje podporu" type="support" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>spolku či sdružení</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="support"  showSource="1"></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>osobnosti</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="support"  showSource="1"></editable-basic></template></p-popup>
-								</div>
 							</p-block>
-							<p-block headline="Videa" :class="{'_empty': !current.$data.video}" :hide="!current.$data.video">
+							<p-block headline="Videa" v-if="current.$data.video">
 								<p-grid>
 									<div v-for="(video, index) in (current.$data.video || [])">
 										<p-area :icon="type(video.value)">
@@ -850,13 +778,8 @@
 								<div class="smallest mv1" v-if="(current.$data.video || []).length > 0">
 									<p-label color="var(--red)" class="strong red">Cookies:</p-label> videa jsou vkládána ze zdrojů třetích stran, jako je Youtube nebo Facebook. Při načtení mohou využívat soubory cookies.
 								</div>
-								<div v-if="true && $volby.editace === 1" class="smallest _edit">
-									<p-icon icon="edit"></p-icon>
-									&nbsp;
-									<p-popup preClass="green strong"><template #init>Zaslat odkaz na volební video</template><template #content><editable-suggest placeholder="Odkaz, např na youtube, facebook..." type="video" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID" link="1"></editable-suggest></template></p-popup>
-								</div>
 							</p-block>
-							<p-block headline="Zprávy a média" :class="{'_empty': newsmedia.length === 0}" :hide="newsmedia.length === 0">
+							<p-block headline="Zprávy a média" v-if="newsmedia.length > 0">
 								<p-columns>
 									<div v-for="item in newsmedia.filter((x, i) => i < mediaLimit)">
 										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue11)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :class="{'highlight shadow': item.label != 'Zpráva'}">
@@ -905,26 +828,11 @@
 										</p-list>
 									</p-collapsible>
 								</template>
-								<div v-if="true && $volby.editace === 1" class="smallest _edit">
-									<p-icon icon="edit"></p-icon>
-									&nbsp;
-									<p-popup preClass="green strong"><template #init>Doplnit článek</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Článek" showSource="1"></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>rozhovor</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Rozhovor" showSource="1"></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>profil</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="media" preLabel="Profil" showSource="1"></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>tiskovou zprávu</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="pr" preLabel="Tisková zpráva" showSource="1"></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>status</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="pr" preLabel="Status" showSource="1"></editable-basic></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>placený článek</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="pr" preLabel="Placený článek" showSource="1"></editable-basic></template></p-popup>
-								</div>
 							</p-block>
 							<template v-if="$volby.id === 166 && table === 'csu_ps_rkl'">
 								<party-polls :VSTRANA="current.VSTRANA" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :isCoalition="false" from="2024-09-01" :election="$volby.id"></party-polls>
 							</template>
-							<p-block headline="Volební materiály" :hide="!(current.$data.graphics || (current.PRIJMENI && current.$data.logo))" :class="{'_empty': !(current.$data.graphics || (current.PRIJMENI && current.$data.logo))}">
+							<p-block headline="Volební materiály" v-if="(current.$data.graphics || (current.PRIJMENI && current.$data.logo))">
 								<p-grid>
 									<div v-for="item in current.PRIJMENI && current.$data.logo ? current.$data.logo : []">
 										<p-area>
@@ -963,13 +871,6 @@
 										</p-area>
 									</div>
 								</p-grid>
-								<div v-if="true && $volby.editace === 1" class="smallest _edit">
-									<p-icon icon="edit"></p-icon>
-									&nbsp;
-									<p-popup preClass="green strong"><template #init>Nahrát leták, plakát nebo billboard</template><template #content><editable-image type="graphics" :pointer="table + ':' + tableID" :elections="$volby.id"></editable-image></template></p-popup>
-									&middot;
-									<p-popup preClass="green strong"><template #init>zaslat odkaz</template><template #content><editable-suggest type="graphics" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template></p-popup>
-								</div>
 							</p-block>
 							<p-block headline="Galerie fotek" v-if="current.$data.gallery">
 								<p-grid class="mb1">
@@ -994,7 +895,7 @@
 									</div>
 								</p-grid>
 							</p-block>
-							<p-block headline="Dokumenty" :class="{'_empty': !(current.$data.document && current.$data.document.length > 0)}" :hide="!(current.$data.document && current.$data.document.length > 0)">
+							<p-block headline="Dokumenty" v-if="current.$data.document">
 								<p-grid>
 									<div v-for="(item, index) in current.$data.document">
 										<p-area icon="link">
@@ -1008,14 +909,9 @@
 										</p-area>
 									</div>
 								</p-grid>
-								<div v-if="true && $volby.editace === 1 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1" class="smallest _edit">
-									<p-icon icon="edit"></p-icon>
-									&nbsp;
-									<p-popup preClass="green strong"><template #init>Přidat dokument, smlouvu nebo memorandum</template><template #content><editable-suggest placeholder="Odkaz na dokument" type="document" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template></p-popup>
-								</div>
 							</p-block>
 
-							<p-block headline="Události" :hide="!(current.$data.event && current.$data.event.length > 0 && current.$data.event.find(x => JSON.parse(x.label)[0] >= today))" :class="{'_empty': !(current.$data.event && current.$data.event.length > 0 && current.$data.event.find(x => JSON.parse(x.label)[0] >= today))}">
+							<p-block headline="Události" v-if="(current.$data.event && current.$data.event.length > 0 && current.$data.event.find(x => JSON.parse(x.label)[0] >= today))">
 								<p-list height="1.5">
 									<div v-for="(item, index) in sortEvents((current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today)).filter((x, i) => i < (eventsOff ? 1000000 : eventsLimit))">
 										<event-item :item="item" :party="current" :data="data" :noTag="true"></event-item>
@@ -1024,13 +920,8 @@
 										<button @click="eventsOff = !eventsOff">{{ eventsOff ? 'Zobrazit méně' : 'Zobrazit vše' }}</button>
 									</div>
 								</p-list>
-								<div v-if="true && $volby.editace === 1" class="smallest _edit">
-									<p-icon icon="edit"></p-icon>
-									&nbsp;
-									<p-popup preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="table + ':' + tableID" :elections="$volby.id"></editable-event></template></p-popup>
-								</div>
 							</p-block>
-							<p-block headline="Poznámky" :class="{'_empty': !current.$data.note}" :hide="!current.$data.note">
+							<p-block headline="Poznámky" v-if="current.$data.note">
 								<p-list height="1">
 									<div v-for="(item, index) in (current.$data.note || [])">
 										<p-label :color="colorByItem(current, data)" class="block">
@@ -1501,6 +1392,9 @@
 						<template v-for="snk in current.$data.snk.filter(x => x.label)">
 							<p-logo :data="snk.label" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + snk.value"></p-logo>
 						</template>
+					</template>
+					<template v-for="(coal, index) in $coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA === 80)">
+						<p-logo :data="logoByItem(coal, data)" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
 					</template>
 				</div>
 			</template>

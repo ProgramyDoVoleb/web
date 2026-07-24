@@ -58,8 +58,8 @@
 			<span v-if="current.$data.motto">motto</span>
 			<span v-if="current.$data.values">hodnoty</span>
 			<span v-if="current.$data.graphics">volební materiály</span>
-			<span v-if="current.$data.media || current.$data.pr"><p-lang :value="(current.$data.media || []).length + (current.$data.pr || []).length" :end="['', 'jednu zmínku', '%% zmínky', '%% zmínek']"></p-lang> v médiích</span>
-			<span v-if="current.$data.social"><p-lang :value="current.$data.social.length" :end="['', 'jeden profil', '%% profily', '%% profilů']"></p-lang> na sociálních sítích</span>
+			<span v-if="current.$data.media || current.$data.pr">zmínky v médiích</span>
+			<span v-if="current.$data.social">profily na sociálních sítích</span>
 			<span v-if="current.$data.phone || current.$data.email || current.$data.address">kontaktní údaje</span>
 			<span v-if="current.$data.links || current.$data.wiki || current.$data.web">další užitečné odkazy</span>
 			
@@ -120,8 +120,8 @@
 			<span v-if="current.$data.motto">volební motto <em>{{ current.$data.motto[0].value }}</em></span> 
 			<span v-if="current.$data.values">hodnoty</span>
 			<span v-if="current.$data.graphics">volební materiály</span>
-			<span v-if="current.$data.media || current.$data.pr"><p-lang :value="(current.$data.media || []).length + (current.$data.pr || []).length" :end="['', 'jednu zmínku', '%% zmínky', '%% zmínek']"></p-lang> v médiích</span>
-			<span v-if="current.$data.social"><p-lang :value="current.$data.social.length" :end="['', 'jeden profil', '%% profily', '%% profilů']"></p-lang> na sociálních sítích</span>
+			<span v-if="current.$data.media || current.$data.pr">zmínky v médiích</span>
+			<span v-if="current.$data.social">profily na sociálních sítích</span>
 			<span v-if="current.$data.phone || current.$data.email || current.$data.address">kontaktní údaje</span>
 			<span v-if="current.$data.links || current.$data.wiki || current.$data.web">další užitečné odkazy</span>
 			<span v-if="elections.status > 1">oficiální informace</span>

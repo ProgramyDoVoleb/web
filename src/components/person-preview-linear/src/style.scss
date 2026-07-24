@@ -62,8 +62,11 @@
 
 	._party,
 	._partyAlone {
-		background: #fff;
-		border: var(--border);
+
+		&:not([src*="nk.png"]) {
+			background: #fff;
+			border: var(--border);
+		}
 
 		.dark & {
 			background: none; // #000;

@@ -1,4 +1,4 @@
-<span class="p-logo" :style="{'width': size}">
+<span class="p-logo" :style="{'width': size}" :class="{_nk: (data && data.logo && data.logo.includes['nk.png']) || (party && party.includes['nk.png']) || (data && typeof data === 'string' && data.includes('nk.png'))}">
 	<span class="logo-outer">
 		<img loading="lazy"  v-if="data && data.logo && data.logo[1] === 't'" :alt="alt" :src="data.logo" class="logo-circle">
 		<img loading="lazy"  v-if="data && data.logo && data.logo[1] === 'b'" :alt="alt" :src="'https://data.programydovoleb.cz/' + data.logo" class="logo-circle">

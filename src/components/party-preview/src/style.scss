@@ -69,6 +69,8 @@
     height: 4rem;
     border-radius: 50%;
     background: #fff;
+	position: relative;
+	z-index: 1;
 }
 
 ._logos {
@@ -138,4 +140,10 @@
 
 ._white {
 	color: #fff;
+}
+
+._logo[src*="/nk.png"] {
+	background: transparent;
+	z-index: 0 !important;
+	position: relative;
 }

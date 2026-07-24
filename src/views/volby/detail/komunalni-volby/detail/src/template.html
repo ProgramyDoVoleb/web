@@ -90,6 +90,12 @@
 		<p-area borderColor="var(--red)" class="strong">Volby neproběhly, nebyla registrovaná ani jedna kandidátní listina.</p-area>
 		<div class="p-gap_3"></div>
 	</template>
+
+	<template v-if="current.editace === 1">
+		<p-block headline="Přidat program" :hide="true" class="mb-2">
+			<engagement-add-program :elections="current.id" :focus="town"></engagement-add-program>
+		</p-block>
+	</template>
 	
 	<template v-if="current.status < 3">
 		<p-block :headline="current.status === 1 ? 'Předběžný přehled' : 'Přehled stran'" :hide="true">

@@ -4,6 +4,7 @@ import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, unique, sortBy} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import ReportForm from '@/components/report-form/do.vue';
+import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
 
 export default {
 	name: 'layout-pointer-header',
@@ -14,7 +15,8 @@ export default {
 		}
 	},
   components: {
-	ReportForm
+	ReportForm,
+	EngagementAddProgram
   },
 	computed: {
 		$store: function () {

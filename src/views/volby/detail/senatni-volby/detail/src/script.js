@@ -13,7 +13,8 @@ import PersonPreviewLinear from '@/components/person-preview-linear/do.vue';
 import PersonPreviewBlock from '@/components/person-preview-block/do.vue';
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
-import ReportForm from '@/components/report-form/do.vue'
+import ReportForm from '@/components/report-form/do.vue';
+import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
 
 export default {
 	name: 'layout-volby-detail-senatni-obvod-detail',
@@ -39,7 +40,8 @@ export default {
 	PersonPreviewLinear,
 	PersonPreviewBlock,
 	CtaGetAdmin, CtaSupport,
-	ReportForm
+	ReportForm,
+	EngagementAddProgram
   },
 	computed: {
 		$store: function () {

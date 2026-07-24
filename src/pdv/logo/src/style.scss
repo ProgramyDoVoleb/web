@@ -60,3 +60,14 @@
 .dark .p-logo.invertable img {
   filter: invert(1) brightness(2) opacity(.9);
 }
+
+img[src*="/nk.png"] {
+	background: transparent;
+	z-index: 0 !important;
+	position: relative;
+}
+
+._nk .logo-outer {
+  border-color: transparent;
+  background-color: transparent;
+}

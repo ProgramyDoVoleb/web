@@ -1,4 +1,4 @@
-import {truncate} from '@/pdv/helpers';
+import {truncate, untag} from '@/pdv/helpers';
 
 export default {
 	name: 'TruncatedText',
@@ -15,7 +15,7 @@ export default {
 			var txt = (!this.hideable || this.full) ? this.content : this.truncated;
 
 			if (this.hideable && !this.full) txt = this.removeBreaks(txt); 
-			if (this.unbreak) txt = this.removeBreaks(txt);
+			if (this.unbreak) txt = this.removeBreaks(untag(txt));
 
 			return txt;
 		}
@@ -36,7 +36,7 @@ export default {
 			}
 		},
 		removeBreaks: function (txt) {
-			return (txt || '').split('<br>').join(' ');
+			return untag(txt || '').split('<br>').join(' ');
 		}
 	},
 	mounted: function () {

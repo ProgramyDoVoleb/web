@@ -46,7 +46,7 @@
 														<div>
 															<p-list class="_15">
 																<template v-for="(cand, index3) in sortByPorCislo(current.$kandidati.filter(x => VOLKRAJ != 0 && current.$kandidati[0].VOLKRAJ ? x.VOLKRAJ === VOLKRAJ : true).filter(x => x.COBVODU ? x.COBVODU === OBVOD : true))">
-																	<component :is="index3 < 3 || focus ? 'person-preview-block' : 'person-preview-linear'" :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id"></component>
+																	<person-preview-block :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id"></person-preview-block>
 																</template>
 															</p-list>
 														</div>

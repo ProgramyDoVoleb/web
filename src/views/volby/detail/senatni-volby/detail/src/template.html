@@ -41,6 +41,11 @@
 			</p-area>
 		</p-block>
 	</template>
+	<template v-if="current.editace === 1">
+		<p-block headline="Přidat program" :hide="true" class="mb-2">
+			<engagement-add-program :elections="current.id" :focus="obvod"></engagement-add-program>
+		</p-block>
+	</template>
 	<template v-if="current.status > 1">
 		<p-block headline="Kandidáti">
 			<!-- <p>Zde najdete přehled registrovaných kandidátů.</p> -->
@@ -70,16 +75,19 @@
 				</div>
 			</div>	
 			<div class="p-gap"></div>
-			<p-area>
-				<p-list>
+			<!-- <p-area> -->
+				<p-list class="invisible">
 					<div v-for="(cand, index) in sortBy(current.$kandidati, 'PRIJMENI', null, true)">
-						<person-preview-block  :cand="cand" :data="data" :current="current" :link="'/volby/senatni-volby/' + current.id"></person-preview-block>
+						<p-area class="mv05">
+							<person-preview-block  :cand="cand" :data="data" :current="current" :link="'/volby/senatni-volby/' + current.id"></person-preview-block>
+						</p-area>
+						
 					</div>
 					<div v-if="current.$kandidati.length === 0">
 						<em class="smallest dimm">Zatím zde nejsou žádní známí kandidáti.</em>
 					</div>
 				</p-list>
-			</p-area>
+			<!-- </p-area> -->
 			<div class="p-gap"></div>
 			<p-grid>
 				<div>

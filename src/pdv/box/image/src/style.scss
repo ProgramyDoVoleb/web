@@ -3,12 +3,15 @@
   height: 4rem;
   flex: 0 0 4rem;
   display: block;
-  background-color: #fff;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
 
   position: relative;
+
+  &:not([style*="/nk.png"]) {
+    background-color: #fff;
+  }
 
   &:not(.no-border):after {
     position: absolute;

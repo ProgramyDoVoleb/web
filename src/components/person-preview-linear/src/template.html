@@ -11,10 +11,16 @@
 			</template>
 		</div>
 		<div class="_cand-img" v-if="!(current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
-			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999">
+			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA !== 99">
 				<img class="_partyAlone" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
 			</template>	
-			<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99">
+						<img class="_partyAlone" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
+					</template>	
+			<!-- <template v-if="!logoByItem(nominee, data).includes('empty.png')"> -->
+				<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	
+			<!-- </template> -->
+			<!-- <img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	 -->
 		</div>
 		<div class="_cand-flex">
 			<div>
@@ -44,7 +50,7 @@
 						<span class="dimm tiny" v-if="cand.TITULPRED"> &middot; {{ cand.TITULPRED }}</span>
 						<span class="dimm tiny" v-if="cand.TITULZA"> &middot; {{ cand.TITULZA }}</span>
 					<!-- </p-label> -->
-					<!-- <template v-if="cand.VEK || cand.POVOLANI || cand.BYDLISTEN"> -->
+					<template v-if="cand.VEK || cand.POVOLANI || cand.BYDLISTEN">
 						<div class="p-gap _01"></div>
 						<div class="smallest _mw2">
 							<div>
@@ -76,7 +82,7 @@
 								</p-list-linear>
 							</div>
 						</div>
-					<!-- </template> -->
+					</template>
 				</div>
 			</div>
 			<div class="smaller" v-if="cand.$data.about.length > 0">

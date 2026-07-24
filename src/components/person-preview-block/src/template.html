@@ -19,10 +19,15 @@
 					</template>
 				</template>
 				<template v-if="!(current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
-					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999">
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA != 99">
 						<img class="_partyAlone" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
 					</template>	
-					<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99">
+						<img class="_partyAlone" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
+					</template>	
+					<!-- <template v-if="!logoByItem(nominee, data).includes('empty.png')"> -->
+						<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	
+					<!-- </template> -->
 				</template>
 				<template v-if="cand.pointer && cand.pointer.includes('csu_senat_rk')">
 					<div class="_cand-parties">

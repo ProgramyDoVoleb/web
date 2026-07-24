@@ -507,10 +507,11 @@ export function logoByItem (item, data, _key, _canBeNull) {
       // console.log(item, res, data, _key, keys, key, _canBeNull);
 
       if ((!res || res.includes('missing.png')) && (keys.length > 1 || !_canBeNull)) {
+        // console.log(item);
           if ((_key || 'VSTRANA').split(',').length > 1) {
               res = logoByItem(item, data, keys.splice(1,5), _canBeNull);
           } else {
-              res = cdn + 'empty.png';
+              res = cdn + 'empty.png';   
           }
       } 
   } else {
