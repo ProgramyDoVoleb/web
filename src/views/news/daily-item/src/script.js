@@ -15,6 +15,7 @@ import {today, dayAfterDiffFrom, cdn} from '@/stores/core';
 import {ga} from '@/pdv/analytics';
 import { useEnums } from '@/stores/enums';
 import NewsMap from '@/components/news-map/do.vue';
+import EngagementSupport from '@/components/engagement/support/do.vue';
 
 export default {
 	name: 'NewsDailyItem',
@@ -36,7 +37,8 @@ export default {
 		EditableSuggest,
 		EventItem,
 		PopUp,
-		NewsMap
+		NewsMap,
+		EngagementSupport
 	},
 	methods: {
 		date, number, truncate, indicator, untag, domain, sortBy, unique, sortEvents, getMedia,

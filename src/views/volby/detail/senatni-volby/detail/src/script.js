@@ -15,6 +15,7 @@ import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import ReportForm from '@/components/report-form/do.vue';
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
+import EngagementSupport from '@/components/engagement/support/do.vue';
 
 export default {
 	name: 'layout-volby-detail-senatni-obvod-detail',
@@ -41,7 +42,7 @@ export default {
 	PersonPreviewBlock,
 	CtaGetAdmin, CtaSupport,
 	ReportForm,
-	EngagementAddProgram
+	EngagementAddProgram, EngagementSupport
   },
 	computed: {
 		$store: function () {

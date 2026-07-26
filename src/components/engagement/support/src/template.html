@@ -1,0 +1,13 @@
+<div class="engagement-support">
+			<router-link tag="div" to="/o-projektu/jak-podporit" class="_flex smaller strong green">
+				<div title="Základní online kampaň by šla udělat za 25 000 Kč. Větší by byla kolem 50 000 Kč. Opravdu solidní za 100 000 Kč.">
+					Sbírka na kampaň
+				</div>
+				<div class="_graph" :title="'Stav ke dni ' + date(datum) + ', aktualizováno vždy v neděli'">
+					<p-line-graph :value="collected / max * 100" color="var(--green)" label=""></p-line-graph>
+				</div>
+				<div :title="'Stav ke dni ' + date(datum)">
+					{{ number(collected) + ' Kč' }}
+				</div>
+			</router-link>
+</div>

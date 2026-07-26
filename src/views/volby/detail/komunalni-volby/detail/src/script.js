@@ -17,6 +17,7 @@ import PopUp from '@/components/pop-up/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
 import HistoryCandidates from '@/components/history/town/do.vue';
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
+import EngagementSupport from '@/components/engagement/support/do.vue';
 
 export default {
 	name: 'layout-volby-detail-komunalni-obec-detail',
@@ -49,7 +50,7 @@ export default {
 	PopUp,
 	EditableSuggest,
 	HistoryCandidates,
-	EngagementAddProgram
+	EngagementAddProgram, EngagementSupport
   },
 	computed: {
 		$store: function () {

@@ -43,6 +43,7 @@ import CtaSupport from '@/components/cta/support/do.vue';
 import HistoryKvRk from '@/components/history/kv-rk/do.vue';
 import HistoryKvRos from '@/components/history/kv-ros/do.vue';
 import HistoryCandidates from '@/components/history/town/do.vue';
+import EngagementSupport from '@/components/engagement/support/do.vue';
 
 export default {
 	name: 'layout-pointer',
@@ -85,7 +86,8 @@ export default {
 	PointerHeader, PointerSummaryPs, PointerSummaryKv, PartyPreviewTiny,
 	PopUp,
 	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage,
-	HistoryKvRk, HistoryKvRos, HistoryCandidates
+	HistoryKvRk, HistoryKvRos, HistoryCandidates,
+	EngagementSupport
   },
 	computed: {
 		$store: function () {

@@ -3,7 +3,8 @@ import { useEnums } from '@/stores/enums';
 import { useNotifications } from '@/stores/notifications'
 import SearchTown from '@/components/search-town/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
-import {truncate, sortBy} from '@/pdv/helpers';
+import EngagementSupport from '@/components/engagement/support/do.vue';
+import {truncate, sortBy, number, date} from '@/pdv/helpers';
 
 export default {
 	name: 'main-header',
@@ -19,6 +20,11 @@ export default {
 			querySearchTownSearching: false,
 			enums: useEnums(),
 			showMenu3: false,
+			support: {
+				value: 11827,
+				max: 100000,
+				date: '2026-07-26'
+			},
 			menu166: [
 				{label: 'Jak volit?', route: '/volby/snemovni-volby/166/jak-volit'},
 				{label: 'Průvodce', route: '/volby/snemovni-volby/166/pruvodce'},
@@ -46,7 +52,7 @@ export default {
 		}
 	},
 	components: {
-		SearchTown, PopUp
+		SearchTown, PopUp, EngagementSupport
 	},
 	computed: {
 		loaded: function () {
@@ -65,7 +71,7 @@ export default {
 		}
 	},
 	methods: {
-		sortBy, truncate,
+		sortBy, truncate, number, date,
 		remove: function (item) {
 			this.notifications.update(item, 'Akce zrušena', 'red')
 		}

@@ -38,6 +38,7 @@ import HomepageSummary from '@/views/homepage/summary/do.vue';
 import HeroMap from '@/components/hero-map/main/do.vue';
 import NewsMap from '@/components/news-map/do.vue';
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
+import EngagementSupport from '@/components/engagement/support/do.vue';
 
 export default {
 	name: 'layout-homepage',
@@ -66,7 +67,7 @@ export default {
 	CtaGuide, CtaHowTo, 
 	HomepageSummary,
 	HeroMap, NewsMap,
-	EngagementAddProgram
+	EngagementAddProgram, EngagementSupport
   },
 	computed: {
 		$store: function () {
