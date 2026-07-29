@@ -4,6 +4,7 @@ import { colorByItem, logoByItem } from '@/pdv/helpers';
 import { type, domain, date, truncate, sortBy, lang, number, firstOfUnique, con, untag } from '@/pdv/helpers';
 import { useCore, cdn } from '@/stores/core';
 import ReportForm from '@/components/report-form/do.vue';
+import PersonPreviewLinear from '@/components/person-preview-linear/do.vue';
 
 export default {
 	name: 'party-preview-full',
@@ -24,7 +25,7 @@ export default {
 		}
 	},
 	components: {
-		ReportForm
+		ReportForm, PersonPreviewLinear
 	},
 	methods: {
 		colorByItem, logoByItem, date, truncate, type, sortBy, lang, number, firstOfUnique, con, untag,

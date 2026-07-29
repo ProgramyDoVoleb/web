@@ -66,17 +66,17 @@
 							<p-box-image :src="logoByItem(party, data)" class="_bw"></p-box-image>
 						</p-box>
 					</template>
-					<template v-for="party in involvedParties.filter(x => logoByItem(x, data).includes('nk.png'))">
-						<p-box>
-							<p-box-image :src="logoByItem(party, data)" class="_bw"></p-box-image>
-						</p-box>
-					</template>
 					<template v-if="current.$data.snk && current.$data.snk.filter(x => x.label).length > 0">
 						<template v-for="snk in current.$data.snk.filter(x => x.label)">
 							<p-box :href="snk.source">
 								<p-box-image :src="snk.label" :alt="'Logo nezávislého sdružení kandidátů ' + snk.value"></p-box-image>
 							</p-box>
 						</template>
+					</template>
+					<template v-for="party in involvedParties.filter(x => logoByItem(x, data).includes('nk.png'))">
+						<p-box>
+							<p-box-image :src="logoByItem(party, data)" class="_bw"></p-box-image>
+						</p-box>
 					</template>
 				</template>
 				<template v-if="current.$program.length > 0">

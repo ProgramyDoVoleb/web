@@ -4,7 +4,7 @@
 }
 
 ._unconfirmed {
-	// filter: grayscale(1) opacity(.33);
+	filter: grayscale(1) opacity(.33);
 }
 
 ._cand {
@@ -73,6 +73,10 @@
 			border: none; // #000;
 		}
 	}
+}
+
+.candImageSmall ._cand-img ._person {
+	width: 2.75em;
 }
 
 ._cand-flex {

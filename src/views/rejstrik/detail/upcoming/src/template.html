@@ -92,6 +92,12 @@
 											</div>
 										</div>
 									</div>
+									<div class="p-line"></div>
+									<p-box-group>
+										<p-box :to="'/volby/' + enums.elections.find(x => x.key === election.$volby.typ).hash + '/' + election.$volby.id + '/aktivita/' + id">
+											<p-box-button>Podrobnosti o volební aktivitě</p-box-button>
+										</p-box>
+									</p-box-group>
 								</template>
 								<template v-if="election.$volby.typ === 'KV'">
 									<p-list class="smaller" v-if="election.$obce.length > 0">

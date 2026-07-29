@@ -107,54 +107,10 @@
 
 				<div v-if="candidates.length > 0">
 					<div class="p-line _05"></div>
-					<div v-if="candidates.find(x => x.PORCISLO && x.PORCISLO < 5 && con(x.$data, 'photo'))" class="mv1 large">
-						<p-box-group>
-							<template v-for="(cand, i) in candidates.filter(x => x.PORCISLO && x.PORCISLO < 6 && con(x.$data, 'photo'))">
-								<p-box :to="link + '/kandidat/' + cand.id" class="_r" :style="{'z-index': 10 - i}">
-									<p-box-image :src="cand.$data.photo[0].value" class="rounded large border" :class="{'mr-1': width < 640}"></p-box-image>
-								</p-box>
-							</template>
-						</p-box-group>
-					</div>
 					<p-list class="_05">
 						<template v-for="(cand, index2) in snemovni ? sortBy(candidates.filter(x => x.PORCISLO === 1), 'PRIJMENI', null, true) : sortBy(candidates, 'PORCISLO', 99)">
 							<div v-if="index2 < (snemovni ? 15 : (amount || 5))">
-								<div class="p-offset reverse _r">
-									<div>
-										<component :is="candidates.find(x => x.NSTRANA === party.VSTRANA) ? 'span' : 'p-label'" :color="colorByItem(cand, elections, 'NSTRANA')" :asfter="true" class="">
-											<span v-if="!snemovni" :class="{dimm: !cand.PORCISLO}">{{ cand.PORCISLO ? cand.PORCISLO + '. ' : '?  '}}</span>
-											<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/kandidat/' + cand.id" :to="link + '/kandidat/' + cand.id" class="strong" :class="{'dimm w400': !cand.PORCISLO}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</component>
-											<span v-if="snemovni" class="smallest dimm"> &middot; {{ enums.regionsShort[cand.VOLKRAJ - 1] }}</span>
-										</component>
-										<!-- <router-link :to="link + '/kandidat/' + cand.id" :class="{'is-span': !cand.PORCISLO}">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</router-link> -->
-										
-										<div class="small" v-if="cand.VEK || cand.POVOLANI || cand.BYDLISTEN">
-											<p-list-linear class="or">
-												<span v-if="cand.VEK">{{ cand.VEK }} let</span>
-												<span v-if="cand.POVOLANI">{{ cand.POVOLANI }}</span>
-												<span v-if="cand.BYDLISTEN">{{ cand.BYDLISTEN }}</span>
-											</p-list-linear>
-										</div>
-										<p class="smaller serif mt05" v-if="con(cand.$data, 'about')" v-html="truncate(untag(cand.$data.about[0].value), 8)"></p>
-									</div>
-									<div class="_atr">
-										<span v-if="cand.$odpovedi > 0">
-											<router-link :to="link + '/kandidat/' + cand.id + '/otazky-a-odpovedi'">
-												<p-icon icon="answers-mini"></p-icon>
-											</router-link> 
-										</span>	
-										<span v-if="cand.$priority > 0">
-											<router-link :to="link + '/kandidat/' + cand.id + '/priority'">
-												<p-icon icon="priority"></p-icon>
-											</router-link> 
-										</span>
-										<span v-for="soc in cand.$data.social">
-											<p-link :href="soc.value">
-												<p-icon :icon="type(soc.value)"></p-icon>
-											</p-link> 
-										</span>
-									</div>
-								</div>
+								<person-preview-linear :cand="cand" :data="elections" :current="{$kandidati: candidates}" :link="link" class="candImageSmall"></person-preview-linear>								
 							</div>
 							
 						</template>
