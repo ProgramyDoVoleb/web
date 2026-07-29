@@ -280,7 +280,7 @@
 									</div>
 									<div class="mb0"></div>
 							</p-block>
-							<p-block headline="Volební program" :hide="true" v-if="!$strana && (current.$program.length > 0 || (current.$otazky && current.$otazky.find(x => x.type === 2)) || current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0 || (current.$data.program && current.$data.program.length > 0))">
+							<p-block headline="Hlavní odkazy" v-if="!$strana && (current.$program.length > 0 || (current.$otazky && current.$otazky.find(x => x.type === 2)) || current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0 || (current.$data.program && current.$data.program.length > 0))">
 								<p-grid>
 									<div v-if="current.$program.length > 0">
 										<p-area icon="icon-party" background="var(--blue11)">
@@ -354,7 +354,7 @@
 
 							<p-block headline="Volební témata" :hide="true" v-if="current.$otazky && current.$otazky.filter(x => x.type === 2).length > 0">
 								<p-area icon="detail">
-									<strong>Výběr z volebního programu:</strong>
+									<strong>Vybraná témata:</strong>
 									<div class="p-gap _05"></div>
 									<div class="_mw">
 										<p-list-linear>
@@ -395,7 +395,7 @@
 							</p-block>
 
 							<p-block headline="Z kalkulačky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 3).length > 0" :hide="true">
-								<h3 class="mt0">Z kalkulačky <p-icon icon="calc" :border="0"></p-icon></h3>
+								<h2 class="mt0">Z kalkulačky <p-icon icon="calc" :border="0"></p-icon></h2>
 								<p-list class="_05">
 									<div v-for="(question, index) in randonAmount(current.$otazky.filter(x => x.type === 3 && (!x.designated || x.designated === (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 2 : 1))), 5)">
 										<div class="smaller p-offset reverse balanced">
@@ -1151,7 +1151,14 @@
 							<component :is="table === 'csu_kv_rk' && current ? 'p-block-expandable' : 'p-block'" headline="Celková volební historie" v-if="current.$profil && current.$profil.length">
 								<profile-preview :id="current.$profil[0].profil"></profile-preview>
 							</component>	
-							<p-block headline="Zdroje a podklady">
+
+							<p-block headline="Sdílet tuto stránku" :hide="1">
+								<p-area padding="2em 1em 1em 1em" background="var(--blue11)">
+									<p-share :compact="1"></p-share>	
+								</p-area>
+							</p-block>
+
+							<p-block headline="Zdroje a podklady" :level="1">
 								<p-loader :rule="news">
 									<div v-if="news">
 										<p-collapsible label="Historie úprav">
@@ -1191,6 +1198,7 @@
 									</div>
 								</p-loader>
 							</p-block>
+
 							<p-block :hide="true" headline="Zadavatel a zpracovatel" v-if="$volby && $volby.datum > '2025-10-10'">
 								<p-area icon="legal">
 									<p class="smaller strong pv0">Poznámka k zadavateli, zpracovateli a legislativě voleb v EU a České republice</p>
@@ -1205,7 +1213,7 @@
 									</template>
 								</p-area>
 							</p-block>
-							<p-block headline="Upravit nebo doplnit" :level="1" :hide="true">
+							<p-block headline="Upravit nebo doplnit" :hide="true">
 
 								<div class="_split" v-if="$volby.status < 3" name="editace">
 									<div>
