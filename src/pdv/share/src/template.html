@@ -3,10 +3,41 @@
 	<p-list class="invisible" :class="{compact}">
 		<div>
 			<p-box :click="() => copyLink()" class="_blockAside" title="Kliknutím si zkopírujete odkaz na stránku do schránky">
-				<p-box-button v-if="!copied" icon="link.svg">{{ cta || 'Zkopírovat odkaz na tuto stránku'}}</p-box-button>
+				<p-box-button v-if="!copied" icon="link.svg">{{ cta || 'Zkopírovat odkaz'}}</p-box-button>
 				<p-box-label v-if="copied" class="green">Kopie</p-box-label>
 				<!-- <p-box-icon type="link" v-if="cta"></p-box-icon> -->
 			</p-box>
+		</div>
+		<div v-if="pointer">
+			<p-modal>
+				<template #init>
+					<p-box>
+						<p-box-button>Hezká URL</p-box-button>
+					</p-box>
+				</template>
+				<template #content>
+					<strong>Odkazovátko</strong>
+					<div class="smallest">Vytvořte si kratší, hezčí, prostě svůj odkaz k této stránce.</div>
+					<div class="p-line"></div>
+					<!-- <p-list> -->
+						<div class="smallest strong">
+							<p-list-linear class="smallest or">
+								<span><button class="inline" @click="type = 1" :class="{'strong green': type === 1}">Nejkratší</button></span>
+								<span><button class="inline" @click="type = 2" :class="{'strong green': type === 2}">Jméno</button></span>
+								<span><button class="inline" @click="type = 3" :class="{'strong green': type === 3}">Vlastní text</button></span>
+							</p-list-linear>
+						</div>
+						<div v-if="type === 3">
+							<div class="p-gap _05"></div>
+							<input type="text" v-model="txt" placeholder="váš text">
+						</div>
+						<div class="smallest strong">
+							<div class="p-line"></div>
+							<p-link :href="shorthand"></p-link> <span class="dimm tiny"> &rarr; <button class="inline tiny w400 dimm" @click="copyLink(shorthand)">zkopírovat</button> <p-icon icon="icon-check" v-if="copied"></p-icon></span>
+						</div>
+					<!-- </p-list> -->
+				</template>
+			</p-modal>
 		</div>
 		<div>
 			<p-box :href="'https://www.facebook.com/sharer/sharer.php?u=' + path" title="Kliknutím se otevře okno pro sdílení na Facebooku">
