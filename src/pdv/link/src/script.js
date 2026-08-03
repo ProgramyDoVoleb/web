@@ -24,8 +24,12 @@ export default {
 			}
 
 			// console.log(link);
-
-			var url = URL.parse(link);
+			try {
+				var url = URL.parse(link);
+			} catch (e) {
+				var url = new URL(link);
+			}
+			
 			var query = url.search != "" ? url.search.split('?')[1].split('&').map(x => x.split('=')) : [];
 
 			if (query.length > 0) {
