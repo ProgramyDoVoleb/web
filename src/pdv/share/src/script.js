@@ -1,6 +1,6 @@
 import copy from 'copy-to-clipboard';
 
-import QRCodeVue3 from "qrcode-vue3";
+import QRCodeVue3 from "@/components/qrcode/src";
 
 import {ge} from '@/pdv/analytics'
 import {url} from '@/pdv/helpers'
