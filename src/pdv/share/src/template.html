@@ -16,47 +16,91 @@
 					</p-box>
 				</template>
 				<template #content>
-					<strong>Odkazovátko</strong>
-					<div class="smallest">Vytvořte si kratší, hezčí, prostě svůj odkaz k této stránce.</div>
-					<div class="p-line"></div>
-					<!-- <p-list> -->
-						<div class="smallest strong">
-							<p-list-linear class="smallest or">
-								<span><button class="inline" @click="type = 1" :class="{'strong green': type === 1}">Nejkratší</button></span>
-								<span><button class="inline" @click="type = 2" :class="{'strong green': type === 2}">Jméno</button></span>
-								<span><button class="inline" @click="type = 3" :class="{'strong green': type === 3}">Vlastní text</button></span>
-							</p-list-linear>
-						</div>
-						<div v-if="type === 3">
-							<div class="p-gap _05"></div>
-							<input type="text" v-model="txt" placeholder="váš text">
-						</div>
-						<div class="smallest strong">
+							<strong>Odkazovátko</strong>
+							<div class="smallest">Vytvořte si kratší, hezčí, prostě svůj odkaz k této stránce.</div>
 							<div class="p-line"></div>
-							<p-link :href="shorthand"></p-link> <span class="dimm tiny"> &rarr; <button class="inline tiny w400 dimm" @click="copyLink(shorthand)">zkopírovat</button> <p-icon icon="icon-check" v-if="copied"></p-icon></span>
+							<div class="smallest strong">
+								<p-list-linear class="smallest or">
+									<span><button class="inline" @click="type = 1" :class="{'strong green': type === 1}">Nejkratší</button></span>
+									<span><button class="inline" @click="type = 2" :class="{'strong green': type === 2}">Jméno</button></span>
+									<span><button class="inline" @click="type = 3" :class="{'strong green': type === 3}">Vlastní text</button></span>
+								</p-list-linear>
+							</div>
+							<div v-if="type === 3">
+								<div class="p-gap _05"></div>
+								<input type="text" v-model="txt" placeholder="váš text">
+							</div>
+							<div class="smallest strong">
+								<div class="p-line"></div>
+								<p-link :href="shorthand"></p-link> 
+								<span class="dimm tiny"> 
+									&rarr; 
+									<button class="inline tiny w400 dimm" @click="copyLink(shorthand)">zkopírovat</button> 
+									<p-icon icon="icon-check" v-if="copied"></p-icon>
+								</span>
+							</div>
+				</template>
+			</p-modal>
+		</div>
+		<div>
+			<p-modal>
+				<template #init>
+					<p-box>
+						<p-box-button>{{ compact ? 'QR' : 'Vytvořit QR kód' }}</p-box-button>
+					</p-box>
+				</template>
+				<template #content>
+							<strong>QR kód</strong>
+							<div class="smallest">Stáhněte si QR kód s odkazem na tuto stránku v rozlišení 600x600px ve formátu PNG.</div>
+							<div class="p-line"></div>
+
+						<div class="qr_keep">
+								<div ref="qr" v-if="showQR">
+
+										<QRCodeVue3
+											:width="600"
+											:height="600"
+											:value="path"
+											:qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
+											:imageOptions="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }"
+											:dotsOptions="{
+												type: 'square',
+												color: '#000000'
+											}"
+											:backgroundOptions="{ color: '#ffffff' }"
+											:cornersSquareOptions="{ type: 'square', color: '#000000' }"
+											:cornersDotOptions="{ type: undefined, color: '#000000' }"
+											fileExt="png"
+											myclass="qr_full"
+											imgclass="qr_img"
+											:download="true"
+          									downloadButton="button"
+											buttonName="Stáhnout QR kód"
+          									:downloadOptions="{ name: 'qr_' + path, extension: 'png' }"
+											/>
+								</div>
 						</div>
-					<!-- </p-list> -->
 				</template>
 			</p-modal>
 		</div>
 		<div>
 			<p-box :href="'https://www.facebook.com/sharer/sharer.php?u=' + path" title="Kliknutím se otevře okno pro sdílení na Facebooku">
-				<p-box-button @click="() => report('fb')" icon="fb.svg">Sdílet<template v-if="!compact"> na Facebooku</template></p-box-button>
+				<p-box-button @click="() => report('fb')" icon="fb.svg"><template v-if="!compact">Sdílet na Facebooku</template></p-box-button>
 			</p-box>
 		</div>
 		<div>
 			<p-box :href="'http://twitter.com/share?text=' + encodeURIComponent(copy || _backupCopy) + '&url=' + encodeURIComponent(path) + '&via=programydovoleb'" title="Kliknutím se otevře okno pro sdílení na Twitteru">
-				<p-box-button @click="() => report('tw')" icon="tw.svg">Sdílet<template v-if="!compact"> na Twitteru</template></p-box-button>
+				<p-box-button @click="() => report('tw')" icon="tw.svg"><template v-if="!compact">Sdílet na Twitteru</template></p-box-button>
 			</p-box>
 		</div>
 		<div>
 			<p-box :href="'https://bsky.app/intent/compose?text=' + encodeURIComponent(copy || _backupCopy) + ' · ' + encodeURIComponent(path)" title="Kliknutím se otevře okno pro sdílení na Bluesky">
-				<p-box-button @click="() => report('bsky')" icon="bsky.svg">Sdílet<template v-if="!compact"> na BlueSky</template></p-box-button>
+				<p-box-button @click="() => report('bsky')" icon="bsky.svg"><template v-if="!compact">Sdílet na BlueSky</template></p-box-button>
 			</p-box>
 		</div>
 		<div>
 			<p-box :href="'https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(path) + '&title=' + encodeURIComponent(copy || _backupCopy)" title="Kliknutím se otevře okno pro sdílení na síti LinkedIn.">
-				<p-box-button @click="() => report('linkedin')" icon="linkedin.svg">Sdílet<template v-if="!compact"> na LinkedIn</template></p-box-button>
+				<p-box-button @click="() => report('linkedin')" icon="linkedin.svg"><template v-if="!compact">Sdílet na LinkedIn</template></p-box-button>
 				<!-- <p-box-button type="linkedin">LinkedIn</p-box-button> -->
 			</p-box>
 		</div>

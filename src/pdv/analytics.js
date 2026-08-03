@@ -4,11 +4,11 @@ import axios from 'axios'
 
 var page_visited = 0;
 var page_last = "xxx";
-var route = null;
+// var route
 
 export function ga (payloadOriginal) {
 
-  route = useRoute();
+  var route = location.pathname; // useRoute();
 
   // console.log(route, payloadOriginal);
 
@@ -17,13 +17,13 @@ export function ga (payloadOriginal) {
   if (typeof payloadOriginal === "undefined") {
     payload = {
       title: 'Programy do voleb',
-      path: route.path
+      path: (route || {path: '/'}).path
     }
     document.title = 'Programy do voleb';
   } else if (typeof payloadOriginal === "string") {
     payload = {
       title: payloadOriginal,
-      path: route.path
+      path: (route || {path: '/'}).path
     }
     document.title = payload.title + ' - Programy do voleb';
   } else {

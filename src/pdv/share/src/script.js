@@ -1,4 +1,7 @@
 import copy from 'copy-to-clipboard';
+
+import QRCodeVue3 from "qrcode-vue3";
+
 import {ge} from '@/pdv/analytics'
 import {url} from '@/pdv/helpers'
 
@@ -10,8 +13,13 @@ export default {
 			copied: false,
 			_backupCopy: 'Podívejte se na Programy do voleb',
 			type: 1,
-			txt: null
+			txt: null,
+			tick: 1,
+			showQR: true
 		}
+	},
+	components: {
+		QRCodeVue3
 	},
 	computed: {
 		path: function () {
@@ -38,6 +46,8 @@ export default {
 				s.push(url(this.txt))
 			}
 
+			this.tick++;
+
 			return "http://dovoleb.cz/" + s.reverse().join('--');
 		}
 	},
@@ -56,6 +66,13 @@ export default {
 				event: "share",
 				label: this.$route.fullPath
 			});
+		}
+	},
+	watch: {
+		shorthand: function () {
+			this.showQR = false;
+
+			setTimeout(() => this.showQR = true, 50);
 		}
 	}
 };
