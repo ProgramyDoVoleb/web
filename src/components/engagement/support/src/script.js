@@ -5,7 +5,7 @@ export default {
 	data: function () {
 		return {
 				collected: window.collectedAmount || 11827,
-				max: 100000,
+				max: 25000,
 				datum: window.collectedDatum || '2026-07-26'
 		}
 	},
