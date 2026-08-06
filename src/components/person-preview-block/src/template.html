@@ -18,7 +18,7 @@
 						<img class="_party" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
 					</template>
 					<template v-if="cand.$data.logo && cand.$data.logo.length > 0">
-						<img class="_party" loading="lazy" :src="cand.$data.logo[0].value" :alt="'Logo ' + member.ZKRATKA">
+						<img class="_party" loading="lazy" :src="cand.$data.logo[0].value" :alt="'Logo ' + cand.JMENO + ' ' + cand.PRIJMENI">
 					</template>
 				</template>
 				<template v-if="!(current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
