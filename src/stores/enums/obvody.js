@@ -326,7 +326,7 @@ export default [
     },
     {
         id: 66,
-        name: "Olomouc",
+        name: "Litovel",
         OKRES: 7102
     },
     {
