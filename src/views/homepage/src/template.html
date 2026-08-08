@@ -451,7 +451,7 @@
 														<div class="smallest dimm" v-if="item.$node && item.$node.NAZEVZAST">
 															{{ item.$node.NAZEVZAST }}
 														</div>
-														<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id" class="strong">
+														<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id + '#plne-zneni'" class="strong">
 															{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}
 														</router-link>
 														<div class="smallest">

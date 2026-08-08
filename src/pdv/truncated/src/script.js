@@ -29,7 +29,7 @@ export default {
 			if (this.full) {
 				this.full = false;
 				setTimeout(() => {
-					this.$el.scrollIntoView({behavior: "smooth", block: "center"});
+					this.$el.scrollIntoView({behavior: "smooth", block: "start"});
 				}, 100);
 			} else {
 				this.full = true;

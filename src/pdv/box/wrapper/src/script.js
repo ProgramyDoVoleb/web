@@ -9,7 +9,7 @@ export default {
 	methods: {
 		slideTo: function (name, ev) {
 			ev.preventDefault();
-			document.querySelector("a[name=" + name.split('#')[1] + "]").scrollIntoView({behavior: "smooth", block: "center"});
+			document.querySelector("a[name=" + name.split('#')[1] + "]").scrollIntoView({behavior: "smooth", block: "start"});
 		},
 		isClicked: function (ev) {
 			if (this.href && this.href.charAt(0) === '#') {

@@ -164,7 +164,7 @@ export default {
 		
 				setTimeout(() => {
 					if (location.hash != '') {
-						this.$el.querySelector("[name=" + location.hash.split('#')[1] + "]").scrollIntoView({behavior: "smooth", block: "center"});
+						this.$el.querySelector("[name=" + location.hash.split('#')[1] + "]").scrollIntoView({behavior: "smooth", block: "start"});
 					}
 				}, 500);
 			}
@@ -213,7 +213,7 @@ export default {
 			if (this.current.JMENO && (!this.current.PLATNOST || this.current.PLATNOST === 'A')) hdl = this.current.JMENO + ' ' + this.current.PRIJMENI;
 
 			var title = [hdl];
-			if (this.current.$strana && this.current.$strana.length > 0) title.push(this.current.$strana[0].ZKRATKA);
+			if (this.current.$strana && this.current.$strana.length > 0) title.push(this.current.$strana[0].NAZEV);
 			title.push(this.enums.elections.find(x => x.key === this.data.cis.volby[0].typ).name + ' ' + (this.data.cis.volby[0].datum_label || (this.data.cis.volby[0].datum ? date(this.data.cis.volby[0].datum, 3) : this.data.cis.volby[0].cirka)));
 
 			ga(title.join(' - '));

@@ -38,7 +38,7 @@ export default {
 		scrollIntoView: function (item, event) {
 			// console.log(item);
 			if (event) event.preventDefault();
-			// item.el.scrollIntoView({behavior: "smooth", block: "center"});
+			// item.el.scrollIntoView({behavior: "smooth", block: "start"});
 			if (item) {
 				window.scrollTo({top: item.el.getBoundingClientRect().top - document.body.getBoundingClientRect().top - 180, behavior: 'smooth'})
 				history.pushState(null, null, item.hash);

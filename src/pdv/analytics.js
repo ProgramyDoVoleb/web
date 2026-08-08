@@ -8,9 +8,9 @@ var page_last = "xxx";
 
 export function ga (payloadOriginal) {
 
-  var route = location.pathname; // useRoute();
+  var route = {path: location.pathname, query: location.href.includes('?') ? location.href.split('?')[1].split('#')[0] : null}; // useRoute();
 
-  // console.log(route, payloadOriginal);
+  // console.log(route, payloadOriginal); 
 
   var payload = null;
 
@@ -31,12 +31,14 @@ export function ga (payloadOriginal) {
     document.title = payload.title + ' - Programy do voleb';
   }
 
+  // console.log(page_last, payload.path, route); 
+
   if (page_last != payload.path) {
 
     page_last = payload.path;
     page_visited++;
 
-    var query = JSON.stringify(payload.query || (route ? route.query : '{}'));
+    var query = route.query || JSON.stringify(payload.query || (route ? route.query : '{}'));
 
     if (query === '{}') query = null;
 

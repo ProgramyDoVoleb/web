@@ -56,7 +56,7 @@ export default {
 		
 				setTimeout(() => {
 					if (location.hash != '') {
-						this.$el.querySelector("a[name=" + location.hash.split('#')[1] + "]").scrollIntoView({behavior: "smooth", block: "center"});
+						this.$el.querySelector("a[name=" + location.hash.split('#')[1] + "]").scrollIntoView({behavior: "smooth", block: "start"});
 					}
 				}, 500);
 			}

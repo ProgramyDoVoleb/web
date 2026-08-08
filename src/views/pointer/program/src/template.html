@@ -39,7 +39,7 @@
 									</p-collapsible>
 								</p-area>
 								<div class="p-gap_3"></div>
-								<section class="program">
+								<section class="program" name="plne-zneni">
 									<template v-if="current.$program[0].content && [5,6].indexOf(current.$program[0].type) > -1">
 											<template v-for="(part, index) in fullType5">
 													<program-block :parts="part" :hash="url(part.headline)" :headline="part.headline" :color="colorByItem(current, data)" class="_pb"></program-block>
