@@ -88,8 +88,9 @@
 						</g>
 					</svg>
 				</div>
-				<component :is="prefill ? 'p-collapsible' : 'div'" :label="selected.type === 'candidate' ? selectedCandidate.JMENO + ' ' + selectedCandidate.PRIJMENI : data.strany.find(x => x.id === selected.node).NAZEV">
-					<template v-if="selected.type && selected.node">
+				<template v-if="selected.type && selected.node">
+					<component :is="prefill ? 'p-collapsible' : 'div'" :label="selected.type === 'candidate' ? selectedCandidate.JMENO + ' ' + selectedCandidate.PRIJMENI : data.strany.find(x => x.id === selected.node).NAZEV">
+					
 						<p-block :headline="data.strany.find(x => x.id === selected.node).NAZEV" v-if="selected.type === 'party'" :subheadline="date(data.cis.volby.find(x => x.id === data.strany.find(x => x.id === selected.node).volby).datum)">
 							<p-area class="smaller">
 								<template v-if="data.kandidati.filter(x => data.strany.find(x => x.id === selected.node).$kandidati.find(y => y === x.id) && x.MANDAT === 'A').length > 0">
@@ -140,8 +141,8 @@
 								</p-list>
 							</template>
 						</p-block>
-					</template>
-				</component>
+					</component>
+				</template>
 			</div>
 		</p-loader>
 	</component>
