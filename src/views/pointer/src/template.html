@@ -1060,9 +1060,9 @@
 								</p-area>
 							</p-block>
 
-							<p-block headline="Podpořte Programy" subheadline="aby se o nestranných přehledech a volebních programech dozvědělo co nejvíce lidí" anchor="" class="green" v-if="$volby.editace === 1">
+							<!-- <p-block headline="Podpořte Programy" subheadline="aby se o nestranných přehledech a volebních programech dozvědělo co nejvíce lidí" anchor="" class="green" v-if="$volby.editace === 1">
 								<engagement-support></engagement-support>
-							</p-block>
+							</p-block> -->
 
 							<candidate-stats v-if="$volby.status > 1 && current.$kandidati && current.$kandidati.length > 1" :data="current.$kandidati" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="$volby.status"></candidate-stats>
 							

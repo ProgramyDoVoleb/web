@@ -178,7 +178,7 @@
 						</div>
 					</p-grid>
 					<p>
-						<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="is-span">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link>. Oficiální přehledy stran a kandidátů sice budou až koncem srpna, ale už dnes lze na <em>Programy</em> přidávat strany a kandidáty ve všech obcích a obvodech.
+						<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="is-span">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link>. Oficiální přehledy stran a kandidátů sice budou zřejmě <strong>26. srpna po 16:00</strong>, ale už dnes lze na <em>Programy</em> přidávat strany a kandidáty.
 					</p>
 					<p class="smaller strong">						
 						<p-label color="var(--red)"><p-link href="https://kristalova.lupa.cz/nominace/" class="red">Nominujte <em>Programy</em></p-link> na Křišťálovou Lupu</p-label>
@@ -307,9 +307,9 @@
 				<engagement-block :hash="'psp-166-happy-' + (new Date().getMonth() + 1)" :data="[{question: 'Jste spokojeni s výsledkem voleb?', options: ['spokojenost', 'mohlo to být horší', 'mohlo to být lepší', 'katastrofa']}]" :compact="true"></engagement-block>
 			</p-block> -->
 
-							<p-block headline="Podpořte Programy" subheadline="aby se o nestranných přehledech a volebních programech dozvědělo co nejvíce lidí" anchor="" class="green">
+							<!-- <p-block headline="Podpořte Programy" subheadline="aby se o nestranných přehledech a volebních programech dozvědělo co nejvíce lidí" anchor="" class="green">
 								<engagement-support></engagement-support>
-							</p-block>
+							</p-block> -->
 			
 			<p-block headline="Předvolební deník" anchor="Novinky" subheadline="novinky nejen z médií" :level="1">
 
@@ -335,7 +335,7 @@
 									<p-columns class="tighter">
 										<div v-for="(datum, index) in unique(news.log.filter(x => x.node && x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1)), 'date').filter((x, i) => i < 12)">
 											<p-collapsible :label="date(datum, 2)" :open="index < 2">
-												<template v-for="point in ['csu_ps_rkl:', 'csu_ps_rk:', 'csu_senat_rk:']">
+												<template v-for="point in ['csu_kv_ros:', 'csu_kv_rk:', 'csu_senat_rk:']">
 													<div v-for="item in news.log.filter(x => x.node && x.pointer.includes(point) && x.date === datum).filter(x => x.data.find(y => ['program', 'answer', 'priority'].indexOf(y.type) > -1))">
 														<router-link v-if="item.node.JMENO" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.JMENO }} {{ item.node.PRIJMENI }}</router-link>
 														<router-link class="strong" v-if="item.node.NAZEV" :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.node.NAZEV }}</router-link>
@@ -363,29 +363,45 @@
 					<p-loader :rule="news">
 						<div v-if="news">
 
+							<p>
+								Za poslední týden na <em>Programy do voleb</em> přibylo: 
+								<p-list-linear class="inline">
+									<span v-if="news.list.reduce((a, b) => a + b.fullprogram.length, 0) > 0" class="strong"><p-lang :value="news.list.reduce((a, b) => a + b.fullprogram.length, 0)" :end="['Žádné programy', 'Jeden plný text program', '%% plné texty programy', '%% plných textů programů']"></p-lang></span>
+									<span v-if="news.list.reduce((a, b) => a + b.programlink.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.programlink.length, 0)" :end="['Žádné programy', 'Jeden odkaz na program', '%% odkazy na program', '%% odkazů na program']"></p-lang></span>
+									<span v-if="news.list.reduce((a, b) => a + b.priority.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.priority.length, 0)" :end="['Žádné priority', 'Jedna priorita', '%% priority', '%% priorit']"></p-lang></span>
+									<span v-if="news.list.reduce((a, b) => a + b.odpovedi.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.odpovedi.length, 0)" :end="['Žádné odpovědi', 'Jedna odpověd', '%% odpovědi', '%% odpovědí']"></p-lang></span>
+									<span v-if="news.list.reduce((a, b) => a + b.sys.length + b.main.length + b.media.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.sys.length + b.main.length + b.media.length, 0)" :end="['Žádná novinka', 'Jedna novinka', '%% novinky', '%% novinek']"></p-lang></span>
+									<span v-if="news.list.reduce((a, b) => a + b.auto.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.auto.length, 0)" :end="['Žádný nový profil', 'Jeden nový profil', '%% nové profily', '%% nových profilů']"></p-lang></span>
+									<span v-if="news.list.reduce((a, b) => a + b.log.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.log.length, 0)" :end="['Žádné úpravy', 'Jedna úprava profilů', '%% úpravy profilů', '%% úprav profilů']"></p-lang></span>
+								</p-list-linear>.
+								Níže najdete nejdůležitější novinky za poslední dny, <router-link to="/novinky" class="smaller strong">úplný předvolební deník najdete zde</router-link>.
+							</p>
+
+							<h3 class="quando">Výbrané novinky</h3>
+
 							<p-columns>
 
-								<div>
+								<!-- <div>
 									<p-area class="highlight shadow smaller" borderColor="var(--red)">
 										<strong>Za poslední týden</strong>
 										<div class="p-gap"></div>
 										<p-list class="invisible">
+											<div><p-lang :value="news.list.reduce((a, b) => a + b.fullprogram.length, 0)" :end="['Žádné programy', 'Jeden plný text program', '%% plné texty programy', '%% plných textů programů']"></p-lang></div>
+											<div><p-lang :value="news.list.reduce((a, b) => a + b.programlink.length, 0)" :end="['Žádné programy', 'Jeden odkaz na program', '%% odkazy na program', '%% odkazů na program']"></p-lang></div>
+											<div><p-lang :value="news.list.reduce((a, b) => a + b.priority.length, 0)" :end="['Žádné priority', 'Jedna priorita', '%% priority', '%% priorit']"></p-lang></div>
+											<div><p-lang :value="news.list.reduce((a, b) => a + b.odpovedi.length, 0)" :end="['Žádné odpovědi', 'Jedna odpověd', '%% odpovědi', '%% odpovědí']"></p-lang></div>
 											<div><p-lang :value="news.list.reduce((a, b) => a + b.sys.length + b.main.length + b.media.length, 0)" :end="['Žádná novinka', 'Jedna novinka', '%% novinky', '%% novinek']"></p-lang></div>
 											<div><p-lang :value="news.list.reduce((a, b) => a + b.auto.length, 0)" :end="['Žádný nový profil', 'Jeden nový profil', '%% nové profily', '%% nových profilů']"></p-lang></div>
 											<div><p-lang :value="news.list.reduce((a, b) => a + b.log.length, 0)" :end="['Žádné úpravy', 'Jedna úprava', '%% úpravy', '%% úprav']"></p-lang></div>
-											<!-- <div><p-lang :value="news.list.reduce((a, b) => a + b.log.length, 0)" :end="['Žádné úpravy', 'Jedna úprava', '%% úpravy', '%% úprav']"></p-lang></div>
-											<div><p-lang :value="news.list.reduce((a, b) => a + b.log.length, 0)" :end="['Žádné úpravy', 'Jedna úprava', '%% úpravy', '%% úprav']"></p-lang></div> -->
-											<!-- <div>XXX programů</div> -->
-											<!-- <div>XXX odpovědí</div> -->
 										</p-list>
 										<div class="p-line"></div>
 										<div class="smallest">
 											<router-link to="/novinky" class="strong">Podrobně den po dni</router-link> &rarr;
 										</div>										
 									</p-area>
-								</div>
+								</div> -->
 
-								<div>
+								<!-- <div>
 									<p-area icon="spotify" borderColor="var(--green)" background="var(--green11)">
 										<h4 class="mt0 pt025 mb0 smallest">
 											<router-link :to="'/novinky/' + news.summary.id" class="is-span" :title="news.summary.title">{{ news.summary.title }}</router-link>
@@ -394,9 +410,12 @@
 											Shrnutí novinek od {{ date(new Date(new Date(news.summary.datum).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(), 2) }} do {{ date(news.summary.datum, 2) }}
 										</div>
 									</p-area>
-								</div>
+								</div> -->
 
-								<template v-for="day in news.list">
+								<template v-for="(day, inday) in news.list">
+
+									<h4 class="quando dimm smaller mb075" :class="{mt0: inday === 0}">{{ date(day.datum) }}</h4>
+
 									<div v-for="(item, index) in day.sys">
 											<p-area class="shadow highlight smaller" borderColor="var(--blue)">
 												<router-link :to="'/novinky/' + item.id" class="strong">{{ item.title }}</router-link>
@@ -426,7 +445,7 @@
 														<p-image :src="logoByItem(item.$node, item)" width="2.5em" :rounded="true"></p-image>
 													</div>
 													<div v-else>
-														<p-image src="https://static.programydovoleb.cz/icon/program.svg" size="2.5em" width="2.5em"></p-image>
+														<p-image src="https://static.programydovoleb.cz/icon/pdv.svg" size="2.5em" width="2.5em"></p-image>
 													</div>
 													<div>
 														<div class="smallest dimm" v-if="item.$node && item.$node.NAZEVZAST">
@@ -455,6 +474,58 @@
 											</p-area>
 										</div>
 									</template>
+									
+									<template v-if="day.programlink.length > 0">
+										<div>
+											<p-area icon="program">
+												<strong class="smallest dimm">Odkazy na program</strong>
+												<p class="smaller mt0">
+													<p-list-linear class="nebo">
+														<template v-for="item in day.programlink.filter(x => x.$node)">
+															<span>
+																<p-link class="strong" :href="item.source">{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}</p-link>
+															</span>
+														</template>
+													</p-list-linear>
+												</p>
+											</p-area>
+										</div>
+									</template>
+									
+									<template v-if="day.priority.length > 0">
+										<div>
+											<p-area icon="priority">
+												<strong class="smallest dimm">Priority</strong>
+												<p class="smaller mt0">
+													<p-list-linear class="nebo">
+														<template v-for="item in firstOfUnique(day.priority.filter(x => x.$node), 'csu_id')">
+															<span>
+																<router-link class="strong" :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/priority'">{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}</router-link>
+															</span>
+														</template>
+													</p-list-linear>
+												</p>
+											</p-area>
+										</div>
+									</template>
+									
+									<template v-if="day.odpovedi.length > 0">
+										<div>
+											<p-area icon="answers-mini">
+												<strong class="smallest dimm">Odpovědi</strong>
+												<p class="smaller mt0">
+													<p-list-linear class="nebo">
+														<template v-for="item in firstOfUnique(day.odpovedi.filter(x => x.$node), 'csu_id')">
+															<span>
+																<router-link class="strong" :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/otazky-a-odpovedi'">{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}</router-link>
+															</span>
+														</template>
+													</p-list-linear>
+												</p>
+											</p-area>
+										</div>
+									</template>
+
 									<template v-if="polls">
 										<div v-for="(poll, index) in day.polls">
 											<p-area>
@@ -463,39 +534,21 @@
 										</div>
 									</template>
 									<template v-if="width > 1">
+										<div class="p-gap _025" v-if="day.main.length + day.media.length > 0"></div>
 										<div v-for="(item, index) in day.main.filter((x, i) => i < 3)">
-												<p-area class="smaller" borderColor="var(--blue44)">
-													<p-link :href="item.source" class="strong">{{ item.title.split(' | ')[0].split(' – ')[0].split(' — ')[0].split(' - ')[0] }}</p-link>
-													<!-- <p>{{ truncate(untag(item.content.split('Původní text: ').join('')), 20) }}</p> -->
-													<!-- <div class="smallest mt05 dimm">
-														{{ date(day.datum) }} &middot; {{ domain(item.source) }}
-													</div> -->
-													<div class="p-offset center mt05">
-														<div>
-															<p-image :src="getMedia(item.source)" width="2em" class="rounded shadow" :rounded="1"></p-image>
-														</div>
-														<div class="smallest dimm">
-															{{ date(day.datum) }} &middot; {{ domain(item.source) }}
-														</div>
-													</div>
-												</p-area>
+											<div class="smaller">
+												{{ item.title.split(' | ')[0].split(' – ')[0].split(' — ')[0].split(' - ')[0] }}
+												 
+												<span class="dimm smaller keep"> &rarr;  <p-image :src="getMedia(item.source)" width="1em" class="rounded shadow shift inline" :rounded="1"></p-image> <p-link :href="item.source" class="">{{ domain(item.source) }}</p-link></span>
+												<div class="p-line _05 mt05"></div>
+											</div>
 										</div>
 										<div v-for="(item, index) in day.media.filter((x, i) => i < 3)">
-											<p-area class="smaller">
-													<p-link :href="item.source" class="">{{ item.value.split(' | ')[0].split(' – ')[0].split(' — ')[0].split(' - ')[0] }}</p-link>
-													<!-- <p>{{ truncate(untag(item.content.split('Původní text: ').join('')), 20) }}</p> -->
-													<!-- <div class="smallest mt05 dimm"> -->
-														<!-- {{ date(day.datum) }} &middot; {{ domain(item.source) }} -->
-													<!-- </div> -->
-													<div class="p-offset center mt05">
-														<div>
-															<p-image :src="getMedia(item.source)" width="2em" class="rounded shadow" :rounded="1"></p-image>
-														</div>
-														<div class="smallest dimm">
-															{{ date(day.datum) }} &middot; {{ domain(item.source) }}
-														</div>
-													</div>
-												</p-area>
+											<div class="smaller">
+												{{ item.value.split(' | ')[0].split(' – ')[0].split(' — ')[0].split(' - ')[0] }}
+												<span class="dimm smaller keep"> &rarr;  <p-image :src="getMedia(item.source)" width="1em" class="rounded shadow shift inline" :rounded="1"></p-image> <p-link :href="item.source" class="">{{ domain(item.source) }}</p-link></span>
+												<div class="p-line _05 mt05"></div>
+											</div>											
 										</div>
 										<div v-if="day.main.length + day.media.length > 3" class="smallest dimm pb2">
 											<!-- <p-area class="smallest highlight dimm"> -->

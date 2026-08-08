@@ -40,3 +40,8 @@ img.full {
     left: 0;
   }
 }
+
+.p-icon.shift img {
+  position: relative;
+  transform: translateY(20%);
+}
