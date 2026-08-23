@@ -72,8 +72,8 @@
 		{{ ['', 'v obci', 've městě', 've statutárním městě', 'v hlavním městě', 'v městské části', 'v městysi'][current.$zastupitelstvo[0].DRUHZASTUP] }}
 		<em>{{ current.NAZEVZAST }}</em>, okres 
 		<router-link :to="'/volby/komunalni-volby/' + current.volby + '/okres/' + current.OKRES">{{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</router-link>.
-		Na kandidátce {{ ['', 'je zatím', 'je', 'bylo'][elections.status] }}
-		<p-lang :value="current.$kandidati.length" :end="['', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>{{ elections.status === 3 ? ',' : '.' }}
+		Na kandidátce {{ ['', 'zatím je', 'je', 'bylo'][elections.status] }}
+		<p-lang :value="current.$kandidati.length" :end="['prázdno', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>{{ elections.status === 3 ? ',' : '.' }}
 		<template v-if="elections.status === 3">
 			získala {{ current.PROCHLSTR }} % hlasů 
 			a <p-lang :value="current.MAND_STR" :end="['tedy žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>.

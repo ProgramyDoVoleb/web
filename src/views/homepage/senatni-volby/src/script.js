@@ -39,7 +39,8 @@ export default {
 				{id: 77 , label: "77 · Vsetín", count: 3},
 				{id: 80 , label: "80 · Zlín", count: 6},
 				{id: 60 , label: "60 · Brno-město"},
-			]
+			],
+			view: 0
 		}
 	},
 	components: {

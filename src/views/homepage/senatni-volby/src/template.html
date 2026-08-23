@@ -5,6 +5,12 @@
 	</h1>
 	<p>V řádných senátních volbách se obměňuje třetina Senátu, tedy 27 senátorů z 81. První kolo se koná souběžně s komunálními volbami. Případné druhé kolo o týden později. Tentokrát se týkají těchto obvodů:</p>
 	<p-area :class="{primary: elections.status === 2}">
+		<div class="mb1">
+			<p-list-linear class="or smallest">
+				<span><button class="inline" @click="view = 0" :class="{'green strong': view === 0}">Jen obvody</button></span><span><button class="inline" @click="view = 1" :class="{'green strong': view === 1}">Obvody a kandidáti</button></span>
+			</p-list-linear>
+		</div>
+		
 		<p-loader :rule="election" reserve="100px">
 			<template v-if="election">
 				<p-columns :class="{'_2_4': election.list[0].$dotcene.length > 1}">
@@ -69,7 +75,7 @@
 											</p-list-linear>
 										</div>
 								</div>	
-								<div v-if="election && election.list[0].status < 3 && election.list[0].radne === 1" class="ml15">
+								<div v-if="election && election.list[0].status < 3 && election.list[0].radne === 1 && view === 1" class="ml15">
 
 										<component :is="election.list[0].dotcene ? 'div' : 'p-list'" class="invisible" v-if="election.list[0].$kandidati && election.list[0].$kandidati.filter(x => x.OBVOD == obvod.OBVOD).length > 0" :class="{'columns-4': election.list[0].$dotcene.length === 1}">
 											<div v-for="(cand, index2) in sortBy(election.list[0].$kandidati.filter(x => x.OBVOD == obvod.OBVOD), 'PRIJMENI', '', true)">
