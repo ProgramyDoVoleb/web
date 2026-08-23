@@ -41,6 +41,7 @@ export function ga (payloadOriginal) {
     var query = route.query || JSON.stringify(payload.query || (route ? route.query : '{}'));
 
     if (query === '{}') query = null;
+    if (query === "null") query = null;
 
     axios.post(api + 'tracker/page?c=' + (new Date().getTime()), {
       n: page_visited,
