@@ -86,7 +86,16 @@
 															</template>
 														</div>
 													</p-stats>
-													<p-stats label="Kandiduje za" class="_horizontal" v-if="current.VSTRANA">
+													<p-stats label="Volební strana" class="_horizontal" v-if="current.VSTRANA && current.NAZEV_VS">
+														<div>
+															<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA), data)">
+																<p-link :href="'https://programydovoleb.cz/rejstrik/' + current.VSTRANA">
+																	{{ current.NAZEV_VS }}
+																</p-link>
+															</p-label>
+														</div>
+													</p-stats>
+													<p-stats label="Kandiduje za" class="_horizontal" v-if="current.VSTRANA && !current.NAZEV_VS">
 														<div>
 															<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA), data)">
 																<p-link :href="'https://programydovoleb.cz/rejstrik/' + current.VSTRANA">
@@ -677,6 +686,10 @@
 								</p-list>
 							</p-block>
 							<p-block :headline="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení stran a místních hnutí' : 'Koalice registrovaných stran a hnutí'" :anchor="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení' : 'Koalice'" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
+								<p-area v-if="current.NAZEV_VS" class="highlight shadow" :borderColor="colorByItem(current, data, 'VSTRANA')" :logo="current.$data.logo ? current.$data.logo[0].value : null">
+									<h3 class="mv0">{{ current.NAZEV_VS }}</h3>
+									<div class="smallest">Název volební strany</div>
+								</p-area>
 								<div class="columns _c">
 									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
 										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
