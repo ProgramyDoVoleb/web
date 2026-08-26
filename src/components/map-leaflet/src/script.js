@@ -25,7 +25,7 @@ export default {
 					regiony: 'https://data.gov.cz/p%C5%99%C3%ADlohy/%C4%8Dl%C3%A1nky/kartogram-choropleth/data/regiony_soudrznosti-simple.json',
 					obce: 'https://data.gov.cz/p%C5%99%C3%ADlohy/%C4%8Dl%C3%A1nky/kartogram-choropleth/data/obce-simple.json',
 					okrsky: 'https://static.programydovoleb.cz/2025/vol_okrsky_2025_g100_20250701.geojson',
-					senat: 'https://www.volby.cz/opendata/se2025leden/geo/VO_Senat_2022g300.geojson'
+					senat: 'https://volby.gov.cz/opendata/se2022/geo/VO_Senat_2022g300.geojson'
 				}
 			}
 		}
