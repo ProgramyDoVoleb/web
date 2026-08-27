@@ -30,22 +30,22 @@
 			<template v-if="current.PORADINAHR > 0">{{(isWoman(current) ? 'Stala' : 'Stal')}} se ale {{ current.PORADINAHR }}. náhradníkem.</template>
 		</template>
 		Do voleb {{ (isWoman(current) ? 'ji' : 'ho') }} nominovali 
-		<em><router-link :to="'/volby/komunalni-volby/' + current.volby + '/aktivita/' + current.NSTRANA">{{ data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).NAZEV }}</router-link></em>,
+		<em><router-link :to="'/volby/komunalni-volby/' + current.volby + '/aktivita/' + current.NSTRANA">{{ truncate(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).NAZEV, 6) }}</router-link></em>,
 		<template v-if="current.PSTRANA != party.VSTRANA && current.PSTRANA != 99 && elections.status === 3">
 			V době voleb {{ isWoman(current) ? 'byla členkou' : 'byl členem' }} 
-			<em><router-link :to="'/volby/komunalni-volby/' + current.volby + '/aktivita/' + current.PSTRANA">{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).ZKRATKA }}</router-link></em>,
+			<em><router-link :to="'/volby/komunalni-volby/' + current.volby + '/aktivita/' + current.PSTRANA">{{ truncate(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).NAZEV, 6) }}</router-link></em>,
 		</template>
-		<template v-if="current.PSTRANA != party.VSTRANA && current.PSTRANA != 99 && elections.status === 2">
-			V době voleb {{ isWoman(current) ? 'je členkou' : 'je členem' }} 
-			<em><router-link :to="'/volby/komunalni-volby/' + current.volby + '/aktivita/' + current.PSTRANA">{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).ZKRATKA }}</router-link></em>,
-		</template>
-		<template v-if="current.PSTRANA === 99 && elections.status === 3">
-			V době voleb {{ isWoman(current) ? 'nebyla členkou' : 'nebyl členem' }} žádné strany nebo hnutí,
+		<template v-if="current.PSTRANA != 99 && elections.status === 2">
+			{{ isWoman(current) ? 'Je členkou' : 'Je členem' }} 
+			<em><router-link :to="'/volby/komunalni-volby/' + current.volby + '/aktivita/' + current.PSTRANA">{{ truncate(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).NAZEV, 6) }}</router-link></em>,
 		</template>
 		<template v-if="current.PSTRANA === 99 && elections.status === 2">
 			V době voleb {{ isWoman(current) ? 'není členkou' : 'není členem' }} žádné strany nebo hnutí,
 		</template>
-		{{ elections.status === 3 ? 'bylo' : 'bude' }} {{ isWoman(current) ? 'jí' : 'mu' }} {{ current.VEK }} let, bydlištem <em>{{ current.BYDLISTEN }}</em>.
+		<template v-if="current.PSTRANA === 99 && elections.status === 3">
+			V době voleb {{ isWoman(current) ? 'nebyla členkou' : 'nebyl členem' }} žádné strany nebo hnutí,
+		</template>
+		{{ elections.status === 3 ? 'bylo' : 'v době voleb mu bude' }} {{ isWoman(current) ? 'jí' : 'mu' }} {{ current.VEK }} let, bydlištem <em>{{ current.BYDLISTEN }}</em>.
 		Na této stránce najdete {{ isWoman(current) ? 'její' : 'jeho' }}
 		<p-list-linear class="inline">
 			<span>základní volební údaje</span>

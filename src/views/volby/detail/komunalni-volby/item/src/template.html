@@ -48,7 +48,24 @@
 				<template v-if="current.status === 3 && current.$ucast.length === 0">
 					<i class="red smaller">Volby zde neproběhly!</i>
 				</template>
-				<div v-if="current.status < 3" :class="{'smallest dimm': data.list[0].$strany.length === 0}">
+				<div v-if="current.status === 2" :class="{'smallest dimm': data.list[0].$strany.length === 0}">
+					<p-list class="invisible">
+						<div v-for="party in sortBy(data.list[0].$strany, 'NAZEV', null, true)">
+							<div class="p-offset reverse">
+								<router-link :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id" :class="{'is-span': current.status === 1}">{{ truncate(party.NAZEV, 8) }}</router-link>
+								<div class="dimm _candCount">
+									<p-icon icon="pdv" v-if="party.$program != 0" size="1em"></p-icon>
+									<p-icon icon="program" v-if="party.$data.program.length != 0" size="1em"></p-icon>
+									<p-icon icon="answers-mini" v-if="party.$answers != 0" size="1em"></p-icon>
+								</div>
+							</div>
+						</div>
+						<div v-if="data.list[0].$strany.length === 0" class="smallest dimm">
+							<em>Zatím žádné známé strany</em>
+						</div>
+					</p-list>
+				</div>
+				<div v-if="current.status === 1" :class="{'smallest dimm': data.list[0].$strany.length === 0}">
 					<p-list class="invisible">
 						<div v-for="party in sortBy(data.list[0].$strany, 'NAZEV', null, true)">
 							<div class="p-offset reverse">

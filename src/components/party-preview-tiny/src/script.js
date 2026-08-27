@@ -1,6 +1,6 @@
 import {useData} from '@/stores/data';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
-import { type, domain, date } from '@/pdv/helpers';
+import { type, domain, date, truncate } from '@/pdv/helpers';
 import { useCore, cdn } from '@/stores/core';
 import ReportForm from '@/components/report-form/do.vue';
 
@@ -19,7 +19,7 @@ export default {
 
 	},
 	methods: {
-		colorByItem, logoByItem, date,
+		colorByItem, logoByItem, date, truncate,
 		sortByPorCislo: function (list) {
 			var arr = [];
 

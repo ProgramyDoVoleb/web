@@ -51,8 +51,8 @@
 			</template>
 		</template>
 		<template v-if="current.status === 1">Zatím <p-lang :value="current.$strany.length" :end="['není známá žádná strana, která by se hlásila', 'je známa jedna strana, která se hlásí', 'jsou známy %% strany, které se hlásí', 'je známo %% stran, které se hlásí']"></p-lang> do voleb.</template>	
-		<template v-if="current.status === 2">Do voleb<p-lang :value="current.$strany.length" :end="['není registrována žádná strana nebo kandidát', 'je registrována jedna strana', 'jsou registrovány %% strany', 'je registrováno %% stran']"></p-lang>.</template>
-		<template v-if="current.status === 2">Voleb se<p-lang :value="current.$strany.length" :end="['neúčastnila žádná strana nebo kandidát', 'se účastnila jen jedna strana', 'se účastnily %% strany', 'se účastnilo %% stran']"></p-lang>.</template>	
+		<template v-if="current.status === 2">Do voleb <p-lang :value="current.$strany.filter(x => x.POR_STR_HL > 0).length" :end="['není registrována žádná strana nebo kandidát', 'je registrována jedna strana', 'jsou registrovány %% strany', 'je registrováno %% stran']"></p-lang>.</template>
+		<template v-if="current.status === 3">Voleb se <p-lang :value="current.$strany.filter(x => x.POR_STR_HL > 0).length" :end="['neúčastnila žádná strana nebo kandidát', 'se účastnila jen jedna strana', 'se účastnily %% strany', 'se účastnilo %% stran']"></p-lang>.</template>	
 		<template v-if="core && townInRegularElectionsAlsoVotesInSenat(data.list[0].datum.split('-')[0], core.list[0].$core[0].OBVOD)"> Současně s komunálními volbami se zde v tomto roce konají <router-link :to="'/obvod/' + core.list[0].$core[0].OBVOD" class="strong">senátní volby</router-link></template>
 	</p>
 	<template v-if="current.status === 3 && current.$ucast.length > 0">
@@ -120,7 +120,7 @@
 			</div>	
 			<div class="p-gap"></div>
 			<component :is="compactList === 3 ? 'p-list' : 'p-columns'">
-				<div v-for="(party, index) in sortBy(current.$strany, 'NAZEV', '', true)">
+				<div v-for="(party, index) in sortBy(current.$strany.filter(x => current.status === 1 ? true : x.POR_STR_HL > 0), 'NAZEV', '', true)">
 					<component :is="['', 'party-preview', 'party-preview-large', 'party-preview-full'][compactList]" :link="'/volby/komunalni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.OSTRANA === party.OSTRANA)" :election="null" :elections="data"></component>
 				</div>
 				<div v-if="current.$strany.length === 0">

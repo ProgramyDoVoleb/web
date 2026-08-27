@@ -15,7 +15,7 @@
 					</div>
 				</div>
 				<div class="_f">
-					<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/strana/' + party.id" :to="link + '/strana/' + party.id" class="strong">{{ party.NAZEV || party.ZKRATKA }}</component>
+					<component :is="link.split('https').length > 1 ? 'p-link' : 'router-link'" :href="link + '/strana/' + party.id" :to="link + '/strana/' + party.id" class="strong">{{ truncate(party.NAZEV || party.ZKRATKA, 8) }}</component>
 							<!-- <div class="dimm smallest" v-if="(elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) || {POCET: 1}).POCET > 1">
 								<div class="_g2"></div>
 								{{ elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80) ? 'sdružení' : 'koalice' }} 
