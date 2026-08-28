@@ -145,6 +145,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/volby/komunalni-volby/:id/aktivita',
+      name: 'volby-komunalni-aktivita',
+      component: () => import('../views/volby/detail/komunalni-volby/strany/do.vue'),
+      props: true
+    },
+    {
       path: '/volby/snemovni-volby/:id/strany',
       name: 'volby-snemovni-strany',
       component: () => import('../views/volby/detail/snemovni-volby/strany/do.vue'),

@@ -1,0 +1,49 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Přehled stran" :level="1" subheadline="Komunální volby 2026">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<p-area class="smallest">
+							<p-list-linear class="nebo">
+								<span>Seřadit <button class="inline" :class="{'green strong': sortByIndex === 'NAZEV'}" @click="sortByIndex = 'NAZEV'">podle názvu</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$members'}" @click="sortByIndex = '$members'">členství</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$nominees'}" @click="sortByIndex = '$nominees'">nominace</button></span>
+							</p-list-linear>
+							<div class="p-line _05"></div>
+							<p-list-linear class="nebo">
+								<span>Zobrazit <button class="inline" :class="{'green strong': mainOnly === true}" @click="mainOnly = true">více aktivní</button></span>
+								<span><button class="inline" :class="{'green strong': mainOnly === false}" @click="mainOnly = false">všechny</button></span>
+							</p-list-linear>
+						</p-area>
+						<div class="p-gap _1"></div>
+						<table class="smaller">
+							<tbody>
+								<tr v-for="party in sortBy(data.list, sortByIndex, null, (sortByIndex === 'NAZEV' ? true : false), (sortByIndex !== 'NAZEV' ? true : false)).filter(x => mainOnly ? x.$members > 100 || x.$nominees > 100 : true)">
+									<td>
+										<p-image :src="logoByItem(party, {cis: {strany:[party]}})" class="rounded _ar"></p-image>
+									</td>
+									<td><router-link :to="link + 'aktivita/' + party.VSTRANA">{{ truncate(party.NAZEV, 8) }}</router-link></td>
+									<td class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
+									<td class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</p-loader>
+			</p-block>
+		</template>
+		<template #anchors>
+			<p-logo :data="{logo: cdn + 'icon/snemovni-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+				<div>
+					<top-tasks></top-tasks>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>
