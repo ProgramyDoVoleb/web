@@ -7,11 +7,12 @@
 						<p-area class=" smallest strong">
 							<p-list-linear class="or">
 								<span class="strong pv0 red" v-if="data.cis.volby.status === 1">Předběžné statistiky</span>
-								<span>Aktivní <p-lang :value="list.filter(x => x.cand).length" :end="['není v ani jednom obvodě', 'v jednom obvodě', 've %% obvodech', 'v %% obvodech']"></p-lang>.</span>
+								<span>Aktivní <p-lang :value="list.filter(x => x.type.coal || x.type.solemn).length" :end="['není v ani jednom obvodě', 'v jednom obvodě', 've %% obvodech', 'v %% obvodech']"></p-lang></span>
 								<template v-if="list.filter(x => x.cand).length > 0">
-									<span><p-lang :value="list.filter(x => x.type.member).length" :end="['Žádný člen se neúčastní', 'Jeden člen se účastní voleb', '%% členové se účastní', '%% členů se účastní']"></p-lang>.</span>
-									<span><p-lang :value="list.filter(x => x.type.coal).length" :end="['Bez koaličního kandidáta', 'Jeden koaliční kandidát', '%% koaliční kandidáti', '%% koaličních kandidátů']"></p-lang>.</span>
-									<span><p-lang :value="list.filter(x => x.type.support).length" :end="['Bez podpory nějakého jiného kandidáta', 'Podpora jednoho dalšícho kandidáta', 'Podpora %% dalších kandidáti', 'Podpora %% dalších kandidátů']"></p-lang>.</span>
+									<span><p-lang :value="list.filter(x => x.type.solemn).length" :end="['Nikde samostatně', 'Jednou samostatně', '%% samostatně', '%% samostatně']"></p-lang></span>
+									<span><p-lang :value="list.filter(x => x.type.coal).length" :end="['Bez koaličního kandidáta', 'Jeden koaliční kandidát', '%% koaliční kandidáti', '%% koaličních kandidátů']"></p-lang></span>
+									<span><p-lang :value="list.filter(x => x.type.member).length" :end="['Žádný člen se neúčastní', 'Jeden člen', '%% členové', '%% členů']"></p-lang></span>
+									<span><p-lang :value="list.filter(x => x.type.support && !x.type.solemn && !x.type.coal).length" :end="['bez známé podpory nějakého jiného kandidáta', 'známá podpora jednoho dalšícho kandidáta', 'známá podpora %% dalších kandidáti', 'známá podpora %% dalších kandidátů']"></p-lang></span>
 								</template>
 							</p-list-linear>
 						</p-area>

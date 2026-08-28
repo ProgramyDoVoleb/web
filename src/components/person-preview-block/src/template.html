@@ -102,10 +102,21 @@
 			</div>
 			<div class="smallest strong" v-if="cand.VSTRANA && !current.VSTRANA && cand.VSTRANA != current.VSTRANA && (cand.VSTRANA < 997 || cand.VSTRANA > 999)">
 				
-				<p-label :color="colorByItem(cand, data, 'VSTRANA')" class="block">volební strana 
-					<router-link :to="'/rejstrik/' + cand.VSTRANA" class="is-span">
+				<p-label :color="colorByItem(cand, data, 'VSTRANA')" class="block">volební strana: 
+					<!-- <router-link :to="'/rejstrik/' + cand.VSTRANA" class="is-span"> -->
 						{{ cand.NAZEV_VS || data.cis.strany.find(x => x.VSTRANA === cand.VSTRANA).NAZEV }}
-					</router-link>
+
+						<template v-if="data.cis.strany.find(x => x.VSTRANA === cand.VSTRANA).$coalition" class="smallest">
+							<span class="w400">
+								<br>volební strana je koalicí
+								<p-list-linear class="inline">
+									<span v-for="member in data.cis.strany.find(x => x.VSTRANA === cand.VSTRANA).$coalition">
+										<router-link :to="link + '/aktivita/' + member.VSTRANA" class="is-span">{{ member.ZKRATKA }}</router-link>
+									</span>
+								</p-list-linear>
+							</span>
+						</template>
+					<!-- </router-link> -->
 				</p-label>
 				
 			</div>

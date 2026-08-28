@@ -745,7 +745,7 @@
 								<template v-if="current.$data.support && current.$data.support.find(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
 									<!-- <p-area> -->
 										<p-grid class="smaller">
-											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
+											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value) && (!data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA === sup.value)))">
 												<party-quicklook :VSTRANA="sup.value" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 												<div v-if="sup.source" class="dimm tiny">
 													<p-link :href="sup.source" class="dimm">zdroj</p-link>
