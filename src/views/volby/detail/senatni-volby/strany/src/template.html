@@ -1,7 +1,7 @@
 <div class="layout-volby">
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Přehled stran" :level="1" subheadline="Komunální volby">
+			<p-block headline="Přehled stran" :level="1" subheadline="Senátní volby">
 				<p-loader :rule="data">
 					<div v-if="data">
 						<p-area class="smallest">
@@ -9,6 +9,9 @@
 								<span>Seřadit <button class="inline" :class="{'green strong': sortByIndex === 'NAZEV'}" @click="sortByIndex = 'NAZEV'">podle názvu</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$members'}" @click="sortByIndex = '$members'">členství</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$nominees'}" @click="sortByIndex = '$nominees'">nominace</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$solemn'}" @click="sortByIndex = '$solemn'">samostatné</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$coal'}" @click="sortByIndex = '$coal'">koaliční kandidátky</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$support'}" @click="sortByIndex = '$support'">podpory</button></span>
 							</p-list-linear>
 							<div class="p-line _05"></div>
 							<p-list-linear class="nebo">
@@ -18,14 +21,28 @@
 						</p-area>
 						<div class="p-gap _1"></div>
 						<table class="smaller">
+							<thead>
+								<tr>
+									<th></th>
+									<th></th>
+									<th class="text-right">Člen</th>
+									<th class="text-right">Nom</th>
+									<th class="text-right">Samo</th>
+									<th class="text-right">Koal</th>
+									<th class="text-right">Podp</th>
+								</tr>
+							</thead>
 							<tbody>
-								<tr v-for="party in sortBy(data.list, sortByIndex, null, (sortByIndex === 'NAZEV' ? true : false), (sortByIndex !== 'NAZEV' ? true : false)).filter(x => mainOnly ? x.$members > 100 || x.$nominees > 100 : true)">
+								<tr v-for="party in sortBy(data.list, sortByIndex, null, (sortByIndex === 'NAZEV' ? true : false), (sortByIndex !== 'NAZEV' ? true : false)).filter(x => mainOnly ? x.$members > 8 || x.$nominees > 8 || x.$coal + x.$solemn > 8 || x.$support > 8 : true)">
 									<td>
 										<p-image :src="logoByItem(party, {cis: {strany:[party]}})" class="rounded _ar"></p-image>
 									</td>
 									<td><router-link :to="link + 'aktivita/' + party.VSTRANA">{{ truncate(party.NAZEV, 8) }}</router-link></td>
 									<td class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
 									<td class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>
+									<td class="text-right" :class="{strong: sortByIndex === '$solemn'}">{{ number(party.$solemn) }}</td>
+									<td class="text-right" :class="{strong: sortByIndex === '$coal'}">{{ number(party.$coal) }}</td>
+									<td class="text-right" :class="{strong: sortByIndex === '$support'}">{{ number(party.$support) }}</td>
 								</tr>
 							</tbody>
 						</table>

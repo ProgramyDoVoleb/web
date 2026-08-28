@@ -40,6 +40,9 @@
 								<p-box-image :src="logoByItem(party, {cis: {strany: parties.list}})" class="_r"></p-box-image>
 							</p-box>
 						</template>
+						<p-box v-if="data.list[0].id === 173" to="/volby/senatni-volby/173/strany">
+							<p-box-button>Všechny strany</p-box-button>
+						</p-box>
 						<p-modal>
 							<template #init>
 								<p-box>

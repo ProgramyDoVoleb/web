@@ -37,7 +37,7 @@ export default {
 			return useEnums()
 		},
 		about: function () {
-			var e = this.enums.elections.find(x => x.hash === 'komunalni-volby');
+			var e = this.enums.elections.find(x => x.hash === 'senatni-volby');
 			return {key: e.key, data: e}
 		},
 		data: function () {
@@ -46,7 +46,7 @@ export default {
 			return d;
 		},
 		link: function () {
-			return '/volby/komunalni-volby/' + this.id + '/';
+			return '/volby/senatni-volby/' + this.id + '/';
 		}
 	},
   methods: {

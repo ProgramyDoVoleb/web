@@ -47,7 +47,7 @@
 							<p-box-image :src="logoByItem(party, {cis: {strany: parties.list}})" class="_r"></p-box-image>
 						</p-box>
 					</template>
-					<p-box :to="'/volby/komunalni-volby/' + data.list[0].id + '/aktivita'" v-if="data.list[0].id === 176">
+					<p-box :to="'/volby/komunalni-volby/' + data.list[0].id + '/strany'" v-if="data.list[0].id === 176">
 						<p-box-button>Přehled stran</p-box-button>
 					</p-box>
 					<p-modal>
