@@ -1156,7 +1156,7 @@
 									</p-area>
 									<h3 class="serif mb05 mt2">Přehled dřívějších zapojení ve volbách</h3>
 								</template>
-								<history-kv-rk :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :showUpcoming="$volby.status === 3"></history-kv-rk>
+								<history-kv-rk :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :id="current.id" :showUpcoming="$volby.status === 3"></history-kv-rk>
 							</p-block>
 							<p-block-expandable headline="Historický vývoj" v-if="$volby.status > 1 && $volby.typ === 'KV'">
 								<history-candidates :num="current.KODZASTUP" :basic="1" :prefill="[(current.JMENO ? 'candidate' : 'party'), current.id, $volby.id]" :limit="[(current.JMENO ? 'candidate' : 'party'), current.id, $volby.id]"></history-candidates>

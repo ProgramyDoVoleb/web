@@ -45,7 +45,7 @@
 		<template v-if="current.PSTRANA === 99 && elections.status === 3">
 			V době voleb {{ isWoman(current) ? 'nebyla členkou' : 'nebyl členem' }} žádné strany nebo hnutí,
 		</template>
-		{{ elections.status === 3 ? 'bylo' : 'v době voleb mu bude' }} {{ isWoman(current) ? 'jí' : 'mu' }} {{ current.VEK }} let, bydlištem <em>{{ current.BYDLISTEN }}</em>.
+		{{ elections.status === 3 ? 'bylo' : 'je' }} {{ isWoman(current) ? 'jí' : 'mu' }} {{ current.VEK }} let, bydlištěm <em>{{ current.BYDLISTEN }}</em>.
 		Na této stránce najdete {{ isWoman(current) ? 'její' : 'jeho' }}
 		<p-list-linear class="inline">
 			<span>základní volební údaje</span>

@@ -1,11 +1,11 @@
 <div class="history-kv">	
-	<p class="smaller">V téhle části najdete, zda v minulosti někdo stejného jména kandidoval. Protože ale v oficiálních datech neexistuje spojení mezi kandidáty, mohou se ve výpisu vyskytnout chyby. Berte ho spíš jako orientační.</p>
+	<p class="smaller">V téhle části najdete, zda v minulosti někdo stejného jména kandidoval v komunálních volbách. Protože ale v oficiálních datech neexistuje spojení mezi kandidáty, mohou se ve výpisu vyskytnout chyby. Berte ho spíš jako orientační.</p>
 	<p-loader :rule="data">
 		<div v-if="data">
 			<p-list>
-				<template v-if="data.list.filter(x => x.status > (showUpcoming ? 0 : 2)).length > 0">
-					<template v-for="(election, index) in sorted">
-						<div v-if="index === 0 || Math.abs((sorted[index - 1].$kandidati[0].VEK - election.$kandidati[0].VEK) - (Number(sorted[index - 1].datum.split('-')[0]) - Number(election.datum.split('-')[0]))) < 2">
+				<template v-if="list.filter(x => x.status > (showUpcoming ? 0 : 2)).length > 0">
+					<template v-for="(election, index) in list">
+						<div v-if="showUpcoming ? true : election.status === 3">
 							<p-area :class="{'highlight shadow': election.status < 3}">
 								<template v-if="election.radne === 1"><strong class="smaller">{{ election.datum_label || election.datum.split('-')[0] }}</strong><span class="smallest dimm"> &middot; řádné volby</span></template>
 								<template v-else><strong class="smaller">{{ date(election.datum) }}</strong><span class="smallest dimm"> &middot; mimořádné volby</span></template>
@@ -69,10 +69,12 @@
 														</div>
 														
 													</template>
-													<div class="p-gap _05"></div>
-													<p-badge :background="cand.MANDAT === 'A' ? 'var(--green)' : 'var(--red)'">
-														mandát {{ cand.MANDAT === 'N' ? 'ne' : '' }}získán
-													</p-badge>
+													<template v-if="election.status === 3">
+														<div class="p-gap _05"></div>
+														<p-badge :background="cand.MANDAT === 'A' ? 'var(--green)' : 'var(--red)'">
+															mandát {{ cand.MANDAT === 'N' ? 'ne' : '' }}získán
+														</p-badge>
+													</template>
 												</div>
 												<div v-else-if="cand.PLATNOST === 'N'">
 													<em class="smallest dimm">nebyl registrován do voleb</em>
