@@ -186,6 +186,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/volby/komunalni-volby/:id/hlasovani-nanecisto/:zast',
+      name: 'volby-test-komunal-kraj',
+      component: () => import('../views/volby/detail/komunalni-volby/test/do.vue'),
+      props: true
+    },
+    {
       path: '/volby/senatni-volby/:id/obvod/:obvod', 
       name: 'volby-detail-senat-obvod',
       component: VolbySenatDetail, // () => import('../views/volby/detail/senatni-volby/obvod/do.vue'),

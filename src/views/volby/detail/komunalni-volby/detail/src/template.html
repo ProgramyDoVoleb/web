@@ -201,18 +201,19 @@
 			</p-collapsible>
 			<div class="p-gap"></div>
 			<p-box-group>
-				<p-box to="/jak-volit/komunalni-volby">
-					<p-box-button class="primary">Více o tom, jak volit</p-box-button>
+				<p-box :to="'/volby/komunalni-volby/' + current.id + '/hlasovani-nanecisto/' + town">
+					<p-box-button class="primary">Vyzkoušejte si to</p-box-button>
 				</p-box>
-				<p-box :to="$route.path.split('/obec')[0]">
-					<p-box-label>Obecně o volbách</p-box-label>
+				<p-box to="/jak-volit/komunalni-volby">
+					<p-box-label>Více o tom, jak volit</p-box-label>
 				</p-box>
 			</p-box-group>
 		</p-area>
 	</p-block>
+	<candidate-stats v-if="current.status > 1" :data="current.$kandidati" :cis="data.cis" :status="current.status" :simple="true" color="var(--blue)"></candidate-stats>
 	<p-block v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0" headline="Otázky a odpovědi">
 		<template v-for="(qitem, qindex) in qenum">
-			<p-collapsible :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type && (!qitem.designated || qitem.designated === x.designated)).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0">
+			<p-collapsible :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type && (!qitem.designated || qitem.designated === x.designated)).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0" icon="answers-mini">
 				<p-area>
 					<div :class="qitem.type < 3 ? 'columns' : 'p-list'">
 						<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 1 && (!qitem.designated || qitem.designated === x.designated))">
@@ -321,8 +322,8 @@
 				</table>
 			</p-area>
 		</p-collapsible>
-		<p-collapsible label="Statistiky" v-if="current.status > 1">
-
+		<p-collapsible label="Historie kandidátů">
+			<history-candidates :num="town"></history-candidates>
 		</p-collapsible>
 	</p-block>
 	<p-block headline="Stav před volbami">
@@ -384,7 +385,7 @@
 	</p-block>
 	<p-block headline="Zajímavosti">
 		<p-area icon="komunalni-volby" class="inline highlight shadow">
-			<router-link :to="'/obec/' + town" class="strong">Seznam voleb v obci <em>{{ current.$dotcene[0].NAZEVZAST }}</em></router-link>
+			<router-link :to="'/obec/' + town" class="strong">Přehled voleb v obci <em>{{ current.$dotcene[0].NAZEVZAST }}</em></router-link>
 			<div class="smaller">Všechny minulé výsledky a srovnání s krajskými nebo celostátními výsledky.</div>
 		</p-area>
 		<div class="p-gap"></div>
@@ -462,9 +463,6 @@
 					<p-box-button>RIS - Regionální informační servis</p-box-button>
 				</p-box>
 			</p-box-group>
-		</p-collapsible>
-		<p-collapsible label="Historie kandidátů" logo="person">
-			<history-candidates :num="town"></history-candidates>
 		</p-collapsible>
 	</p-block>
 	<p-block headline="Nepřehlédněte" v-if="data && core && (core.list[0].$core[0].$part || core.list[0].$core[0].$parts.length > 0)" :hide="true">
