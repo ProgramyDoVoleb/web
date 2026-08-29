@@ -80,7 +80,7 @@ export default {
 			return {regular: regular ? regular[regular.length - 1] : null, outlook: outlook ? outlook[0] : null, extra: extra ? extra[extra.length - 1] : null}
 		},
 		parties: function () {
-			return this.$store.getters.pdv('parties/as-of/2026-10-09;1,7,47,53,166,703,720,721,768,1114,714,5,1227,1245,1265,1178,1298');
+			return this.$store.getters.pdv('parties/as-of/2026-10-09;1,7,47,53,166,703,720,721,768,1114,714,5,1227,1245,1265,1178');
 		}
 	},
   methods: {
