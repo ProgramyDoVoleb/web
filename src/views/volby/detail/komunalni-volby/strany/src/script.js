@@ -19,7 +19,8 @@ export default {
 			cdn, today,
 			showAll: true,
 			sortByIndex: 'NAZEV',
-			mainOnly: false
+			mainOnly: false,
+			width: window.innerWidth
 		}
 	},
   components: {

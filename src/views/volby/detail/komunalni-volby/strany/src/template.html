@@ -22,7 +22,7 @@
 						</p-area>
 						<div class="p-gap _1"></div>
 						<table class="smaller">
-							<thead>
+							<thead v-if="width > 800">
 								<tr>
 									<th colspan="2">Název strany či hnutí</th>
 									<th colspan="2" class="text-center">Kandidáti</th>
@@ -44,13 +44,13 @@
 									<td>
 										<p-image :src="logoByItem(party, {cis: {strany:[party]}})" class="rounded _ar"></p-image>
 									</td>
-									<td><router-link :to="link + 'aktivita/' + party.VSTRANA">{{ truncate(party.NAZEV, 8) }}</router-link></td>
-									<td class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
-									<td class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>
-									<td class="text-right _bl" :class="{strong: sortByIndex === '$total'}">{{ number(party.$total) }}</td>
-									<td class="text-right" :class="{strong: sortByIndex === '$solemn'}">{{ number(party.$solemn) }}</td>
-									<td class="text-right" :class="{strong: sortByIndex === '$withNK'}">{{ number(party.$withNK) }}</td>
-									<td class="text-right" :class="{strong: sortByIndex === '$coal'}">{{ number(party.$coal) }}</td>
+									<td><router-link :to="link + 'aktivita/' + party.VSTRANA">{{ truncate(party.NAZEV, 32, true) }}</router-link></td>
+									<td v-if="width > 800 || sortByIndex === '$members'" class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
+									<td v-if="width > 800 || sortByIndex === '$nominees'" class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>
+									<td v-if="width > 800 || sortByIndex === '$total'" class="text-right _bl" :class="{strong: sortByIndex === '$total'}">{{ number(party.$total) }}</td>
+									<td v-if="width > 800 || sortByIndex === '$solemn'" class="text-right" :class="{strong: sortByIndex === '$solemn'}">{{ number(party.$solemn) }}</td>
+									<td v-if="width > 800 || sortByIndex === '$withNK'" class="text-right" :class="{strong: sortByIndex === '$withNK'}">{{ number(party.$withNK) }}</td>
+									<td v-if="width > 800 || sortByIndex === '$coal'" class="text-right" :class="{strong: sortByIndex === '$coal'}">{{ number(party.$coal) }}</td>
 								</tr>
 							</tbody>
 						</table>
