@@ -41,7 +41,7 @@ export default {
 			return {key: e.key, data: e}
 		},
 		data: function () {
-			var d = this.$store.getters.pdv('elections/specific/' + this.id + '/activity');
+			var d = this.$store.getters.pdv('elections/activity/kv-summary/' + this.id);
 
 			return d;
 		},

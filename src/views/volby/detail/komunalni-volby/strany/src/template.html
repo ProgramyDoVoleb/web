@@ -1,7 +1,7 @@
 <div class="layout-volby">
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Přehled stran" :level="1" subheadline="Komunální volby">
+			<p-block headline="Přehled stran" :level="1" :subheadline="'Komunální volby ' + (data ? (data.cis.volby[0].datum_label || data.cis.volby[0].datum.split('-')[0]) : '')">
 				<p-loader :rule="data">
 					<div v-if="data">
 						<p-area class="smallest">
@@ -9,6 +9,10 @@
 								<span>Seřadit <button class="inline" :class="{'green strong': sortByIndex === 'NAZEV'}" @click="sortByIndex = 'NAZEV'">podle názvu</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$members'}" @click="sortByIndex = '$members'">členství</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$nominees'}" @click="sortByIndex = '$nominees'">nominace</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$total'}" @click="sortByIndex = '$total'">počtu zastupitelstev</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$solemn'}" @click="sortByIndex = '$solemn'">samostatných kandidátek</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$withNK'}" @click="sortByIndex = '$withNK'">kandidátek s nezávislými kandidáty</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$coal'}" @click="sortByIndex = '$coal'">koalic a dalších sdružení</button></span>
 							</p-list-linear>
 							<div class="p-line _05"></div>
 							<p-list-linear class="nebo">
@@ -18,6 +22,23 @@
 						</p-area>
 						<div class="p-gap _1"></div>
 						<table class="smaller">
+							<thead>
+								<tr>
+									<th colspan="2">Název strany či hnutí</th>
+									<th colspan="2" class="text-center">Kandidáti</th>
+									<th colspan="4" class="text-center _bl">Forma zapojení</th>
+								</tr>
+								<tr>
+									<th></th>
+									<th></th>
+									<th class="text-right">členů</th>
+									<th class="text-right">nomin</th>
+									<th class="text-right _bl">celkem</th>
+									<th class="text-right">sami</th>
+									<th class="text-right">s NK</th>
+									<th class="text-right">koal</th>
+								</tr>
+							</thead>
 							<tbody>
 								<tr v-for="party in sortBy(data.list, sortByIndex, null, (sortByIndex === 'NAZEV' ? true : false), (sortByIndex !== 'NAZEV' ? true : false)).filter(x => mainOnly ? x.$members > 100 || x.$nominees > 100 : true)">
 									<td>
@@ -26,6 +47,10 @@
 									<td><router-link :to="link + 'aktivita/' + party.VSTRANA">{{ truncate(party.NAZEV, 8) }}</router-link></td>
 									<td class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
 									<td class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>
+									<td class="text-right _bl" :class="{strong: sortByIndex === '$total'}">{{ number(party.$total) }}</td>
+									<td class="text-right" :class="{strong: sortByIndex === '$solemn'}">{{ number(party.$solemn) }}</td>
+									<td class="text-right" :class="{strong: sortByIndex === '$withNK'}">{{ number(party.$withNK) }}</td>
+									<td class="text-right" :class="{strong: sortByIndex === '$coal'}">{{ number(party.$coal) }}</td>
 								</tr>
 							</tbody>
 						</table>

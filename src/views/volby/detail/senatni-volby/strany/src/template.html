@@ -1,7 +1,7 @@
 <div class="layout-volby">
 	<p-layout-divided>
 		<template #main>
-			<p-block headline="Přehled stran" :level="1" subheadline="Senátní volby">
+			<p-block headline="Přehled stran" :level="1" :subheadline="'Senátní volby ' + (data ? (data.cis.volby[0].datum_label || data.cis.volby[0].datum.split('-')[0]) : '')">
 				<p-loader :rule="data">
 					<div v-if="data">
 						<p-area class="smallest">
