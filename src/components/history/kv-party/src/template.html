@@ -1,0 +1,26 @@
+<div class="history-kv">	
+	<p-loader :rule="loaded">
+		<div v-if="loaded">
+			<p-grid class="smaller _2_4">
+				<div v-for="area in areas">
+					<p-area>
+						<strong>{{ area.label }}</strong>
+						<div class="mv2">
+							<stats-tiny :data="getValues(area.ky)" color="var(--blue)"></stats-tiny>
+						</div>
+						<table class="smallests">
+							<tr v-for="year in data.filter(x => x.data.list.find(x => x.VSTRANA === party.VSTRANA))">
+								<td>{{ year.year }}</td>
+								<td class="text-right">
+									<template v-for="item in year.data.list.filter(x => x.VSTRANA === party.VSTRANA)">
+										{{ number(item[area.ky]) }}
+									</template>
+								</td>
+							</tr>
+						</table>
+					</p-area>
+				</div>
+			</p-grid>
+		</div>
+	</p-loader>
+</div>

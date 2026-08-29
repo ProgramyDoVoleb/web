@@ -2,11 +2,12 @@ import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import { useRoute } from 'vue-router'
-import {url, date, number, truncate, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, sortBy, logoByItem} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import VolbyItem from '@/views/volby/item/do.vue'
 import ReportForm from '@/components/report-form/do.vue';
+import HistoryKvParty from '@/components/history/kv-party/do.vue';
 
 export default {
 	name: 'layout-volby-typ',
@@ -27,7 +28,7 @@ export default {
 		}
 	},
   components: {
-	NewsItem, VolbyItem, ReportForm
+	NewsItem, VolbyItem, ReportForm, HistoryKvParty
   },
 	computed: {
 		$store: function () {
@@ -77,6 +78,9 @@ export default {
 			var extra = this.elections.list.filter(x => x.datum && x.datum > today && x.radne === 0);
 
 			return {regular: regular ? regular[regular.length - 1] : null, outlook: outlook ? outlook[0] : null, extra: extra ? extra[extra.length - 1] : null}
+		},
+		parties: function () {
+			return this.$store.getters.pdv('parties/as-of/2026-10-09;1,7,47,53,166,703,720,721,768,1114,714,5,1227,1245,1265,1178,1298');
 		}
 	},
   methods: {
@@ -84,6 +88,8 @@ export default {
 		date,
 		number,
 		truncate,
+		sortBy,
+		logoByItem,
 		dynamicGA: function () {
 			ga({path: this.route.path, title: this.about.data.name + ": přehled, účast, výsledky"});
 		}

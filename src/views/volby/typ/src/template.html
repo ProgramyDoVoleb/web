@@ -17,8 +17,8 @@
 						<p-label color="var(--blue)">Příští</p-label>
 						řádné volby budou zřejmě v roce 
 						<template v-if="about.key === 'PS'">2029</template>
-						<template v-if="about.key === 'KV'">2026</template>
-						<template v-if="about.key === 'SENAT'">2026</template>
+						<template v-if="about.key === 'KV'">2030</template>
+						<template v-if="about.key === 'SENAT'">2028</template>
 						<template v-if="about.key === 'PREZ'">2028</template>
 						<template v-if="about.key === 'KZ'">2028</template>
 						<template v-if="about.key === 'EP'">2029</template>
@@ -108,6 +108,13 @@
 						</template>
 					</p-loader>
 				</p-block>
+				<p-block v-if="hash === 'komunalni-volby' && parties" headline="Historický vývoj" subheadline="u nejznámějších stran">
+					<template v-for="party in sortBy(parties.list, 'NAZEV', null, true)">
+						<p-collapsible :label="party.NAZEV" :logo="logoByItem(party, {cis: {strany: []}})">
+							<history-kv-party :party="party"></history-kv-party>
+						</p-collapsible>
+					</template>
+				</p-block>
 				<p-block headline="Novinky">
 					<p-loader :rule="news">
 						<div v-if="news">
@@ -190,7 +197,7 @@
 		</template>
 		<template #aside>
 			<p-list class="spacey">
-				<div>
+				<!-- <div>
 					<strong>Novinky</strong>
 					<div class="p-gap"></div>
 					<p-loader :rule="news">
@@ -204,7 +211,7 @@
 							</p-list>
 						</div>
 					</p-loader>
-				</div>
+				</div> -->
 				<div>
 					<top-tasks></top-tasks>
 				</div>
