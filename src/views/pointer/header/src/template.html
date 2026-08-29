@@ -135,6 +135,16 @@
 					</p-box>
 				</template>
 				<template v-if="typeof current.MANDAT === 'undefined'">
+					<template v-if="current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL < 500">
+						<p-box>
+							<p-box-ticker background="var(--grey11)">{{ current.POR_STR_HL }}.</p-box-ticker>
+						</p-box>
+					</template>
+					<template v-if="current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL > 499">
+						<p-box>
+							<p-box-label>Zatím bez volebního čísla</p-box-label>
+						</p-box>
+					</template>
 					<template v-if="null === current.ESTRANA || current.ESTRANA < 0">
 						<p-box background="var(--grey11)">
 							<p-box-label v-if="!current.ESTRANA">Neúčastní se přímo</p-box-label>
