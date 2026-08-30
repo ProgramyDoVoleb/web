@@ -119,7 +119,7 @@
 		</p-box>
 	</p-box-group>
 	<div class="canvas mt1 _h" ref="canvas"></div>
-	<div>
+	<div v-if="imagedata">
 		<p-image :src="graphData" class="_result" width="100%"></p-image>
 	</div>
 	<p-loader :rule="!generating"></p-loader>
