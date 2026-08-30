@@ -18,7 +18,8 @@ export default {
 			txt: null,
 			enums: useEnums(),
 			image: [null, null, null, null],
-			splits: []
+			splits: [],
+			generating: false,
 		}
 	},
 	computed: {
@@ -36,13 +37,32 @@ export default {
 			while (this.$refs.canvas.children.length > 0) {
 				this.$refs.canvas.children[0].remove();
 			}
+			
+			var el = this.$el.querySelector('._rendered');
+			if (window.innerWidth < 640) el.classList.add('generation');
+
+			this.generating = true;
+
+			var imgs = document.querySelectorAll('[loading]');
+
+			for (var i = 0; i < imgs.length; i++) {
+				imgs[i].setAttribute('loading', 'auto');
+			}
 
 			setTimeout(() => {
 				html2canvas(this.$el.querySelector('._rendered'),{
 					allowTaint: true,
 					useCORS : true,
 					backgroundColor:null,
-					alpha: false
+					alpha: false,
+					ignoreElements: function (e) {
+						// Here, ignore external URL links and lazyload images
+						if ((e.tagName === "A" && e.host !== window.location.host) || e.getAttribute('loading') === "lazy") {
+							return true;
+						} else {
+							return false;
+						}
+					}
 				}).then((canvas) => {
 					this.$refs.canvas.appendChild(canvas);
 					this.imagedata = canvas.toDataURL("image/png");
@@ -55,6 +75,9 @@ export default {
 						event: "quote-generated",
 						value: this.data.pointer + ':' + this.id
 					})
+
+					el.classList.remove('generation');
+					this.generating = false;
 				})
 			}, 500);
 

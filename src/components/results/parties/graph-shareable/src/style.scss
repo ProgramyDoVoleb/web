@@ -5,8 +5,9 @@
 	width: 1080px;
 	color: #20133C;
 	// transform: scale(.5, .5) translate(-50%, -50%);
-	position: absolute;
+	position: fixed;
 	left: 300vw;
+	pointer-events: none;
 
 	.dark & {
 		color: #20133C;
@@ -15,6 +16,11 @@
 	&.bg {
 		background: #fff url(https://programydovoleb.cz/static/chartgen-bg3.png) no-repeat;
 		background-size: 100% 100%;
+	}
+
+	&.generation {
+		position: absolute;
+		// left: 0;
 	}
 }
 
@@ -307,6 +313,7 @@
 	position: absolute;
 	text-align: right;
 	top: 100px;
+	right: 80px;
 }
 
 ._header-agency {
@@ -354,4 +361,9 @@
 ._header-attendance-value {
 	padding-top: 30px;
 	font-size: 20px;
+}
+
+._ofh {
+	overflow: hidden;
+	height: 0;
 }

@@ -12,7 +12,9 @@ export default {
 			show: true,
 			width: 400,
 			bg: true,
-			imagedata: null
+			imagedata: null,
+			generating: false,
+			error: null
 		}
 	},
 	computed: {
@@ -129,13 +131,32 @@ export default {
 			while (this.$refs.canvas.children.length > 0) {
 				this.$refs.canvas.children[0].remove();
 			}
+			
+			var el = this.$el.querySelector('._rendered');
+			if (window.innerWidth < 640) el.classList.add('generation');
+
+			this.generating = true;
+
+			var imgs = document.querySelectorAll('[loading]');
+
+			for (var i = 0; i < imgs.length; i++) {
+				imgs[i].setAttribute('loading', 'auto');
+			}
 
 			setTimeout(() => {
-				html2canvas(this.$el.querySelector('._rendered'),{
+				html2canvas(el,{
 					allowTaint: true,
 					useCORS : true,
 					backgroundColor:null,
-					alpha: false
+					alpha: false,
+					ignoreElements: function (e) {
+						// Here, ignore external URL links and lazyload images
+						if ((e.tagName === "A" && e.host !== window.location.host) || e.getAttribute('loading') === "lazy") {
+							return true;
+						} else {
+							return false;
+						}
+					}
 				}).then((canvas) => {
 					this.$refs.canvas.appendChild(canvas);
 					this.imagedata = canvas.toDataURL("image/png");
@@ -148,7 +169,12 @@ export default {
 						event: "graph-generated",
 						value: this.username ? 'Tip na výsledek' : 'Průzkum'
 					})
-				})
+
+					el.classList.remove('generation');
+					this.generating = false;
+				}).catch(e => {
+					this.error = e;
+				});
 			}, 500);
 		}
 	},
