@@ -56,7 +56,7 @@ export default {
 			return this.current ? this.current.$dotcene[0] : null
 		},
 		valid: function () {
-			return this.list.reduce((a, b) => a + b.value, 0) <= 100 && this.list.reduce((a, b) => a + b.value, 0) >= 5;
+			return this.list.reduce((a, b) => a + b.value, 0) <= 100 && this.list.reduce((a, b) => a + b.value, 0) >= this.list.reduce((a, b) => a + (b.value === 0 ? 4.9 : 0), 0);
 		},
 		data: function () {
 			var d = {
@@ -118,10 +118,10 @@ export default {
 
 			// console.log(1);
 
-			this.list.filter(x => x.value >= 5).forEach(item => {
-				for (var i = 1; i < mandates + 1; i++) {
+			this.list.filter(x => x.value / x.candidates >= 5 / Number(this.$town.MANDATY)).forEach(item => {
+				for (var i = 1; i < item.candidates + 1; i++) {
 					arr.push({
-						value: 100 * item.value / i,
+						value: 100 * item.value / item.candidates / i,
 						item
 					});
 				}
@@ -155,7 +155,8 @@ export default {
 			this.list.push({
 				item,
 				name: item.NAZEV,
-				value: 0
+				value: 0,
+				candidates: this.current.$kandidati.filter(x => x.POR_STR_HL === item.POR_STR_HL && x.PLATNOST && x.PLATNOST === 'A').length
 			});
 			this.tick++;
 		},
