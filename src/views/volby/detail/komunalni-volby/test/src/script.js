@@ -8,6 +8,7 @@ import KomunalniVolby from '@/views/volby/detail/komunalni-volby/detail/do.vue'
 import SearchTown from '@/components/search-town/do.vue'
 import PopUp from '@/components/pop-up/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
+import { useNotifications } from '@/stores/notifications'
 
 export default {
 	name: 'layout-volby-test-komunalni',
@@ -23,7 +24,9 @@ export default {
 				isValid: false,
 				used: 0
 			},
-			ticket: true
+			ticket: true,
+			width: window.innerWidth,
+			notify: useNotifications()
 		}
 	},
   components: {
@@ -57,9 +60,9 @@ export default {
 						list: []
 					}
 
-					d.$kandidati.filter(x => x.POR_STR_HL === party.POR_STR_HL).forEach(cand => {
+					d.$kandidati.filter(x => x.POR_STR_HL === party.POR_STR_HL && x.PORCISLO > 0).forEach(cand => {
 						obj.list.push({
-							name: cand.JMENO + ' ' + cand.PRIJMENI,
+							name: (this.width > 960 ? cand.JMENO + ' ' : '') + cand.PRIJMENI,
 							id: cand.PORCISLO,
 							valid: false, 
 							selected: false
@@ -91,6 +94,9 @@ export default {
 			slide('test', document);
 		},
 		evaluate: function () {
+
+			var lastState = this.valid.isValid;
+
 			this.valid.selectedTowns = this.demo.reduce((a, b) => a + (b.selected ? 1 : 0), 0);
 			this.valid.selectedPeople = this.demo.reduce((a, b) => a + b.list.reduce((x, y) => x + (y.selected && !b.selected ? 1 : 0), 0), 0);
 			this.valid.isValid = true;
@@ -122,6 +128,10 @@ export default {
 						this.valid.used++;
 					}
 				})
+			}
+
+			if (this.valid.isValid != lastState) {
+				var note = this.notify.add('Lístek ' + (this.valid.isValid ? 'je' : 'už není') + ' platný', this.valid.isValid ? 'green' : 'red');
 			}
 		},
 		toggle: function (town, item) {

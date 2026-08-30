@@ -109,6 +109,12 @@ const router = createRouter({
       component: () => import('../views/aktivity/generator/25-tip-vysledek/do.vue')
     },
     {
+      path: '/volby/komunalni-volby/:id/muj-tip/:town',
+      name: 'activity-kv-tip',
+      component: () => import('../views/aktivity/generator/kv-tip-vysledek/do.vue'),
+      props: true
+    },
+    {
       path: '/volby/snemovni-volby/:id/kraj/:region',
       name: 'volby-detail-snemovni-kraj',
       component: () => import('../views/volby/detail/snemovni-volby/region/do.vue'),

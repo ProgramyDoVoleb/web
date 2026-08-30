@@ -4,7 +4,7 @@
 			<p-block :subheadline="(current ? current.$dotcene[0].NAZEVZAST : '') + ', ' + (current ? (current.datum_label || (current.datum ? date(current.datum, 3) : current.cirka)) : 'načítám...')" :level="1" headline="Hlasování nanečisto" anchor="Hlasování">
 				<p-loader :rule="current">
 					<div v-if="current">
-						<!-- <p-collapsible label="Jak na to?" status="Pravidla" icon="hint" :open="true"> -->
+						<component :is="width > 960 ? 'div' : 'p-collapsible'" label="Jak na to?" :status="'Máte ' + current.$dotcene[0].MANDATY + ' hlasů'" icon="hint">
 							<p-area icon="hint" class="mt2">
 								<div class="mb05">
 									<strong>Pravidla pro hlasování v komunálních volbách</strong>
@@ -19,63 +19,21 @@
 									</p-list>
 								</div>
 							</p-area>
-						<!-- </p-collapsible> -->
+						</component>
 						<div class="mv2 scrollTo" name="test">
 
 							<h2 class="quando" v-if="ticket">Pojďte si to zkusit <div class="small">s reálnými stranami a kandidáty</div></h2>
 							<h2 class="quando" v-else>Kdo získal vaše hlasy? <div class="small">Celkem jste využili <p-lang :value="valid.used" :end="['', 'jeden hlas', '%% hlasy', '%% hlasů']"></p-lang></div></h2>
 
-							<p-area  class="primary _mobile" :borderColor="valid.isValid ? 'var(--green)' : 'var(--red)'">
-								<div class="p-offset reverse">
-									<div>
-										<template v-if="valid.isValid">
-											<strong>Tento hlasovací lístek je platný</strong>
-											<div class="smaller" v-if="valid.selectedTowns === 0 && valid.used < valid.maxPeople">
-												Použili jste zatím <strong>{{ valid.selectedPeople }} z možných {{ valid.maxPeople }}</strong>. Můžete ještě zakřížkovat nějakého kandidáta, nebo dát křížek straně.
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns === 0 && valid.used === valid.maxPeople">
-												Použili jste všech {{ valid.maxPeople }} dostupných křížků.
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns === 1 && valid.used < valid.maxPeople">
-												Použili jste zatím {{ valid.used }} dostupných křížků.
-												<span v-if="valid.selectedPeople > 0">{{ valid.selectedPeople }} patří kandidátům z jiných stran, zbytek byl přiřazen straně <em>{{ demo.find(x => x.selected).name }}</em></span>
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns === 1 && valid.used === valid.maxPeople && valid.selectedPeople < valid.maxPeople">
-												Použili jste všech {{ valid.used }} dostupných křížků.
-												<span v-if="valid.selectedPeople > 0">{{ valid.selectedPeople }} patří kandidátům z jiných stran, zbytek byl přiřazen straně <em>{{ demo.find(x => x.selected).name }}</em></span>
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns === 1 && valid.selectedPeople === valid.maxPeople">
-												Použili jste všech {{ valid.maxPeople }} dostupných křížků. Všichni kandidáti ale patří do jiných stran, z straně <em>{{ demo.find(x => x.selected).name }}</em> nezískal hlas nikdo, přestože je zakřížkovaná.
-											</div>
-											<div class="smaller strong green mt05" v-if="valid.used < valid.maxPeople">Ještě může přiřadit <p-lang :value="valid.maxPeople - valid.used" :end="['', 'poslední křížek', '%% křížky', '%% křížků']"></p-lang>.</div>
-										</template>
-										<template v-else>
-											<strong>Tento hlasovací lístek by nebyl platný</strong>
-											<div class="smaller" v-if="valid.selectedPeople === 0 && valid.selectedTowns === 0">
-												Nikdo nebyl vybrán. Je nutné vybrat aspoň jednoho kandidáta nebo stranu.
-											</div>
-											<div class="smaller" v-if="valid.selectedPeople > valid.maxPeople">
-												Křížek dostalo {{ valid.selectedPeople }} kandidátů. Maximum je {{ valid.maxPeople }}.
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns > 1">
-												Velký křížek dostalo moc stran. Křížek lze dát nejvýše jedné straně.
-											</div>
-										</template>
-									</div>
-									<div>
-										<p-icon :icon="valid.isValid ? 'icon-check' : 'icon-against'" size="3em"></p-icon>
-									</div>
-								</div>
-							</p-area>
 						</div>
 
-								<component :is="ticket ? 'p-grid' : 'p-columns'" class="smaller _2_4">
+								<component :is="ticket ? 'p-grid' : 'p-columns'" class="smaller _2_4 _noGap _noRule">
 									<div v-for="town in demo.filter(x => ticket ? true : x.valid || x.list.find(y => y.valid))">
 										<p-area :class="{'highlight shadow': !ticket}" :borderColor="ticket ? null : 'var(--green)'">
 											<div :class="{'text-center': ticket}">
 												<strong :class="{'green strong': town.valid}">{{ town.name }}</strong>
 												<div v-if="ticket" class="mv1">
-													<span class="_w2">
+													<span class="_w4">
 														<p-box class="_check _big" :click="() => toggle(town)">
 															<p-box-icon :type="town.selected ? 'cancel' : 'empty.png'"></p-box-icon>
 														</p-box>
@@ -118,20 +76,60 @@
 										</p-area>
 									</div>
 								</component>
-						<div class="p-line _2"></div>
-						<template v-if="ticket">
-							<p-box v-if="valid.isValid" :click="() => toggleTicket(false)">
-								<p-box-button class="green" icon="check">Odevzdat hlasovací lístek</p-box-button>					
-							</p-box>
-							<p-box v-else>
-								<p-box-label class="red">Takto vyplněný lístek by neplatil</p-box-label>
-							</p-box>
-						</template>
-						<template v-if="!ticket">
-							<p-box :click="() => toggleTicket(true)">
-								<p-box-button>Pokračovat v úpravách</p-box-button>
-							</p-box>
-						</template>
+
+							<div class="p-line _2"></div>
+						
+							<p-area  class="primary _mobile" :borderColor="valid.isValid ? 'var(--green)' : 'var(--red)'">
+								<div class="p-offset reverse">
+									<div>
+										<template v-if="valid.isValid">
+											<strong>Tento hlasovací lístek je platný</strong>
+											<div class="smaller" v-if="valid.selectedTowns === 0 && valid.used < valid.maxPeople">
+												Použili jste zatím <strong>{{ valid.selectedPeople }} z možných {{ valid.maxPeople }}</strong>. Můžete ještě zakřížkovat nějakého kandidáta, nebo dát křížek straně.
+											</div>
+											<div class="smaller" v-if="valid.selectedTowns === 0 && valid.used === valid.maxPeople">
+												Použili jste všech {{ valid.maxPeople }} dostupných křížků.
+											</div>
+											<div class="smaller" v-if="valid.selectedTowns === 1 && valid.used < valid.maxPeople">
+												Použili jste zatím {{ valid.used }} dostupných křížků.
+												<span v-if="valid.selectedPeople > 0">{{ valid.selectedPeople }} patří kandidátům z jiných stran, zbytek byl přiřazen straně <em>{{ demo.find(x => x.selected).name }}</em></span>
+											</div>
+											<div class="smaller" v-if="valid.selectedTowns === 1 && valid.used === valid.maxPeople && valid.selectedPeople < valid.maxPeople">
+												Použili jste všech {{ valid.used }} dostupných křížků.
+												<span v-if="valid.selectedPeople > 0">{{ valid.selectedPeople }} patří kandidátům z jiných stran, zbytek byl přiřazen straně <em>{{ demo.find(x => x.selected).name }}</em></span>
+											</div>
+											<div class="smaller" v-if="valid.selectedTowns === 1 && valid.selectedPeople === valid.maxPeople">
+												Použili jste všech {{ valid.maxPeople }} dostupných křížků. Všichni kandidáti ale patří do jiných stran, z straně <em>{{ demo.find(x => x.selected).name }}</em> nezískal hlas nikdo, přestože je zakřížkovaná.
+											</div>
+											<div class="smaller strong green mt05" v-if="valid.used < valid.maxPeople">Ještě může přiřadit <p-lang :value="valid.maxPeople - valid.used" :end="['', 'poslední křížek', '%% křížky', '%% křížků']"></p-lang>.</div>
+											<div class="mt1">
+												<p-box v-if="valid.isValid && ticket" :click="() => toggleTicket(false)">
+													<p-box-button class="green" icon="check">Odevzdat hlasovací lístek</p-box-button>					
+												</p-box>
+												<p-box v-if="!ticket" :click="() => toggleTicket(true)">
+													<p-box-button>Pokračovat v úpravách</p-box-button>
+												</p-box>
+											</div>
+										</template>
+										<template v-else>
+											<strong>Tento hlasovací lístek by nebyl platný</strong>
+											<div class="smaller" v-if="valid.selectedPeople === 0 && valid.selectedTowns === 0">
+												Nikdo nebyl vybrán. Je nutné vybrat aspoň jednoho kandidáta nebo stranu.
+											</div>
+											<div class="smaller" v-if="valid.selectedPeople > valid.maxPeople">
+												Křížek dostalo {{ valid.selectedPeople }} kandidátů. Maximum je {{ valid.maxPeople }}.
+											</div>
+											<div class="smaller" v-if="valid.selectedTowns > 1">
+												Velký křížek dostalo moc stran. Křížek lze dát nejvýše jedné straně.
+											</div>
+										</template>
+									</div>
+									<div>
+										<p-icon :icon="valid.isValid ? 'icon-check' : 'icon-against'" size="3em"></p-icon>
+									</div>
+								</div>
+							</p-area>
+
 						<div class="p-line _2"></div>
 						<h3 class="quando">Pomůcka</h3>
 						<p>I u reálného hlasování jsou všichni kandidáti takhle na jedné <em>plachtě</em>. U všech budou navíc informace o věku, bydlišti, povolání, tituly nebo zda jsou členy strany. Tím bude hlasovací lístek ještě o trochu méně přehledný. Ale stačí pamatovat dvě pravidla:</p>

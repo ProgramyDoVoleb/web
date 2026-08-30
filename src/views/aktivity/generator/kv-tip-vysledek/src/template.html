@@ -1,0 +1,51 @@
+	<div class="layout-activity text-center">
+	<p-layout-simple>
+		<section>
+			<h1>Můj tip na výsledek</h1>
+			<p>Naklikejte si, jak to {{ current ? current.datum_label : '' }} podle vás u komunálních voleb zastupitelstva <em>{{ parties ? current.$dotcene[0].NAZEVZAST : '' }}</em> dopadne, a vygenerovaný graf s výsledky pak můžete kdekoli sdílet.</p>
+		</section>
+		<template v-if="parties">
+			<section>
+				<h3 class="quando mb0 pb0">Vyplňte zisk hlasů v procentech</h3>
+				<div class="mt-1 mb2">
+					<p>Součet nesmí přesáhnout 100 %</p>
+				</div>
+				
+				<div class="_pbg">
+					<div class="p-list _025">
+						<div v-for="party in sortBy(list, 'name', null, true)">
+							<p-box-group>
+								<p-box>
+									<p-box-image :src="logoByItem(party.item, parties)"></p-box-image>
+									<p-box-label>{{ truncate(party.item.NAZEV, 24, true) }}</p-box-label>
+								</p-box>
+								<p-box-gap></p-box-gap>
+								<p-box>
+									<p-box-label class="_r">
+										<input type="number" min="1" max="100" v-model="party.value">
+										<!-- {{ party.id }} -->
+										<span class="_pct dimm" v-if="mandates.length > 0">{{ mandates.find(x => party.item.id === x.item.id).mandates }}</span>
+									</p-box-label>
+								</p-box>
+							</p-box-group>
+						</div>
+						<div class="smallest dimm" v-if="list.find(x => x.value > 0)">
+							Součet je {{ list.reduce((a, b) => a + b.value, 0) }} %
+						</div>
+						<div v-if="valid">
+							<input type="number" min="10" max="100" v-model="att" placeholder="(Volitelně) účast">
+						</div>
+						<div v-if="valid">
+							<input type="text" maxlength="10" v-model="username" placeholder="(Volitelně) jméno nebo přezdívka">
+						</div>
+					</div>
+				</div>
+			</section>
+			<section v-if="valid">
+				<div class="_pbg">
+					<results-parties-graph-shareable :list="listOfParties.sort((a, b) => b.pct - a.pct).filter((x, i) => (i < 8 && x.pct > 0) || x.pct >= 5)" :mandates="mandates" :mandatesSince="mandatesSince" :about="data" :username="(username ? 'Můj tip: ' + username + ' - ' : 'Můj tip - ') + date(today)" :hash="'kv-tip-' + id + '-' + town"></results-parties-graph-shareable>
+				</div>
+			</section>
+		</template>
+	</p-layout-simple>
+</div>

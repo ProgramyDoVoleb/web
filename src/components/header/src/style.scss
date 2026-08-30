@@ -481,8 +481,8 @@ button:not(.inline) {
 
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
+  left: 2em;
+  right: 2em;
   z-index: 10000;
 
   & > div {

@@ -1,4 +1,4 @@
-import { number, pct, round, truncate, indicator, date, url } from '@/pdv/helpers';
+import { number, pct, round, truncate, indicator, date, url, logoByItem } from '@/pdv/helpers';
 import { cdn } from '@/stores/core';
 import html2canvas from 'html2canvas'
 import { useEngagement } from '@/stores/engagement';
@@ -6,7 +6,7 @@ import { ge } from '@/pdv/analytics'
 
 export default {
 	name: 'results-parties-graph',
-	props: ['list', 'diff', 'mandates', 'mandatesPrevious', 'mandatesSince', 'about', 'username'],
+	props: ['list', 'diff', 'mandates', 'mandatesPrevious', 'mandatesSince', 'about', 'username', 'hash'],
 	data: function () {
 		return {
 			show: true,
@@ -106,6 +106,7 @@ export default {
 		round,
 		truncate,
 		number, indicator, date, url,
+		logoByItem,
 		onResize: function () {
 			this.width = this.$el.getBoundingClientRect().width;
 		},
@@ -122,7 +123,7 @@ export default {
 					})
 				})
 
-				this.engagement.add(this.$route.fullPath, 'psp25-tip-1', JSON.stringify(arr), 'Ukládám tip');
+				this.engagement.add(this.$route.fullPath, this.hash || 'psp25-tip-1', JSON.stringify(arr), 'Ukládám tip');
 			}			
 			
 			while (this.$refs.canvas.children.length > 0) {

@@ -263,7 +263,22 @@
 		</template>
 	</p-block>
 	<p-block headline="Může se hodit" v-if="!false">
-		<p-collapsible label="Aktivita stran">
+		<p-area class="highlight shadow" icon="results" borderColor="var(--blue)">
+			<div class="p-offset reverse">
+				<div>
+					<strong>Máte tip na výsledek?</strong>
+					<div class="smaller">Vytvořte si svůj vlastní graf s výsledky a sdílejte ho online</div>
+				</div>
+				<div>
+					<p-box :to="'/volby/komunalni-volby/' + data.list[0].id + '/muj-tip/' + town">
+						<p-box-button class="primary">Vytvořit</p-box-button>
+					</p-box>
+				</div>
+			</div>
+			
+		</p-area>
+		<div class="p-gap"></div>
+		<p-collapsible label="Aktivita stran" icon="calc">
 			<p-loader :rule="current && partyList">
 				<div v-if="current && partyList">
 
@@ -291,7 +306,7 @@
 				</div>
 			</p-loader>
 		</p-collapsible>
-		<p-collapsible label="Přepočet na mandáty">
+		<p-collapsible label="Přepočet na mandáty" icon="person">
 			<p-area>
 				<table>
 					<thead>
@@ -322,7 +337,7 @@
 				</table>
 			</p-area>
 		</p-collapsible>
-		<p-collapsible label="Historie kandidátů">
+		<p-collapsible label="Historie kandidátů" icon="revert">
 			<history-candidates :num="town"></history-candidates>
 		</p-collapsible>
 	</p-block>

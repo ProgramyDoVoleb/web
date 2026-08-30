@@ -1,7 +1,7 @@
 // @import url('https://fonts.googleapis.com/css2?family=Quando&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 ._rendered {
-	height: 1080px;
+	height: 1350px;
 	width: 1080px;
 	color: #20133C;
 	// transform: scale(.5, .5) translate(-50%, -50%);
@@ -13,7 +13,7 @@
 	}
 
 	&.bg {
-		background: #fff url(https://programydovoleb.cz/static/chartgen-bg2.png) no-repeat;
+		background: #fff url(https://programydovoleb.cz/static/chartgen-bg3.png) no-repeat;
 		background-size: 100% 100%;
 	}
 }
@@ -33,7 +33,7 @@
 
 ._space {
 	display: flex;
-	padding-top: 380px;
+	padding-top: 540px;
 	margin: auto;
 }
 
@@ -172,7 +172,7 @@
 	overflow: hidden;
 	position: relative;
 	height: 52px;
-	font-size: 20px;
+	font-size: 14px;
 
 	> span,
 	> a,
@@ -202,7 +202,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	margin-top: .25em;
+	margin-top: 1em;
 	margin-bottom: -.1em;
 
 	.p-logo {
@@ -306,7 +306,7 @@
 ._header {
 	position: absolute;
 	text-align: right;
-	top: 60px;
+	top: 100px;
 }
 
 ._header-agency {
