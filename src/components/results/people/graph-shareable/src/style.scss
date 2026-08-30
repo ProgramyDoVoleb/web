@@ -7,6 +7,7 @@
 	// transform: scale(.5, .5) translate(-50%, -50%);
 	position: fixed;
 	left: 300vw;
+	// position: relative;
 	pointer-events: none;
 
 	.dark & {
@@ -39,8 +40,58 @@
 
 ._space {
 	display: flex;
-	padding-top: 540px;
+	padding-top: 380px;
 	margin: auto;
+	width: 920px;
+
+	&._noRound2 {
+		padding-top: 540px;
+	}
+}
+
+._space2 {
+	display: flex;
+	flex-wrap: wrap;
+	margin: auto;
+	width: 900px;
+	justify-content: space-between;
+
+	.p-image {
+		left: 0;
+	}
+}
+
+._bar2_holder {
+	// overflow: hidden;
+	display: flex;
+	width: 720px;
+}
+
+._bar2 {
+	position: relative;
+	
+	&:nth-child(1) {
+		border-top-left-radius: 16px;
+		border-bottom-left-radius: 16px;
+	}
+	
+	&:nth-child(2) {
+		border-top-right-radius: 16px;
+		border-bottom-right-radius: 16px;
+	}
+}
+
+._bar2_value {
+	font-size: 30px;
+	font-weight: 700;
+	position: absolute;
+	top: -45px;
+	left: 15px;
+
+	._bar2:nth-child(2) & {
+		left: auto;
+		right: 15px;
+	}
 }
 
 ._strong {
@@ -307,6 +358,7 @@
 	bottom: 10px;
 	left: 15px;
 	line-height: 1.25;
+	text-align: left;
 }
 
 ._header {
@@ -317,8 +369,11 @@
 }
 
 ._header-agency {
-	font-size: 80px;
+	font-size: 54px;
 	letter-spacing: -0.03em;
+	max-width: 8em;
+	line-height: 1.1;
+	margin-top: .33em;
 
 	._header_nms-market-research & {
 		font-size: 50px;
@@ -339,13 +394,14 @@
 ._header-attendance {
 	margin-top: 20px;
 	position: relative;
+	height: 20px;
 }
 
 ._header-attendance-bar {
 	background: #fff;
 	border-radius: 10px;
 	height: 20px;
-	width: 300px;
+	width: 200px;
 	position: absolute;
 	right: 0;
 }
@@ -356,11 +412,17 @@
 	border-radius: 10px;
 	position: absolute;
 	width: 100px;
+	right: 0;
 }
 
 ._header-attendance-value {
-	padding-top: 30px;
+	position: absolute;
+	right: 210px;
+	top: -5px;
+	// padding-top: 30px;
 	font-size: 20px;
+	width: 10em;
+	
 }
 
 ._ofh {
@@ -378,4 +440,22 @@
 	width: 100%;
 	left: 0;
 	aspect-ratio: 4/5;
+}
+
+._space_divider {
+	height: 1px;
+	border-top: 1px solid var(--blue);
+	margin: 2em;
+	padding-top: .5em;
+	padding-bottom: 1em;
+	font-size: 24px;
+}
+
+._rnd2_name {
+	font-weight: 700;
+	font-size: 30px;
+}
+
+._space2 + ._space2 {
+	margin-top: .5em;
 }

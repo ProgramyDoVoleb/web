@@ -1,0 +1,116 @@
+<div class="results-parties-graph _roboto">
+	<div class="_ofh">
+		<div class="_rendered" :style="{width: detectWidth + 'px'}" :class="{bg}">
+			<div class="_space" :style="{widtdh: (display.length * 100) + 'px'}" :class="{_noRound2: round2.length === 0}">
+				<div class="_item" v-for="(item, index) in display" :class="{passed: item.passed, rest: !item.link}">
+					<div class="_bar-holder" :class="{'_ref': item.ref}">
+						<div class="_bar">
+							<div class="_bar-pane" :style="{height: ((this.show ? item.graph : 0) * 6.5) + 'px', background: item.color, 'transition-delay': (index * .05 + .5) + 's'}"></div>
+							<div class="_bar-value">
+								<span class="_strong">{{ number(item.value, 1) }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="_data">
+						<div class="_short tiny">
+							<div class="_strong">{{ item.item.JMENO }}</div>
+							<div class="_strong">{{ item.item.PRIJMENI }}</div>
+						</div>
+						<div class="_logo">
+							<p-image :src="item.logo" :rounded="true" width="100%"></p-image>
+						</div>
+						<div class="_coal mv1" v-if="(about.cis.strany.find(x => x.VSTRANA === item.item.VSTRANA) || {}).$coalition">
+							<div v-for="member in (about.cis.strany.find(x => x.VSTRANA === item.item.VSTRANA) || {}).$coalition.filter(x => x.VSTRANA != 80)">
+								<p-logo :data="{logo: logoByItem(member, about)}" size="1.5em"></p-logo>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			<template v-if="round2.length > 0">
+				<div class="_space_divider _quando _blue">2. kolo</div>
+				<div class="_space2">
+					<div v-for="item in [display.filter(x => x.rnd2 > 0)[0]]">
+						<div class="_logo">
+							<p-image :src="item.logo" :rounded="true" width="100%"></p-image>
+						</div>
+					</div>
+					<div class="_bar2_holder">
+						<div class="_bar2" :style="{background: item.color, width: item.rnd2 + '%'}" v-for="item in [display.filter(x => x.rnd2 > 0)[0]]">
+							<div class="_bar2_value">{{ item.rnd2 + ' %' }}</div>
+						</div>
+						<div class="_bar2" :style="{background: item.color, width: item.rnd2 + '%'}" v-for="item in [display.filter(x => x.rnd2 > 0)[1]]">
+							<div class="_bar2_value">{{ item.rnd2 + ' %' }}</div>
+						</div>
+					</div>
+					<div v-for="item in [display.filter(x => x.rnd2 > 0)[1]]">
+						<div class="_logo">
+							<p-image :src="item.logo" :rounded="true" width="100%"></p-image>
+						</div>
+					</div>
+				</div>
+				<div class="_space2">
+					<div v-for="(item, index) in display.filter(x => x.rnd2 > 0)" :class="index === 1 ? 'text-right' : 'text-left'">
+						<div class="_rnd2_name">{{ item.name }}</div>
+						<div class="_rnd2_party _blue">{{ item.pty }}</div>
+					</div>
+				</div>
+			</template>
+			<div class="_footer_brand _quando">programydovoleb.cz</div>
+			<div class="_footer_about">
+				<template v-if="!username">
+					{{ number(about.poll.amount) }} respondentů
+					<br>
+				</template>
+				<div v-if="username">Tip od {{ username }}</div>
+				Zveřejněno {{ date(about.poll.datum) }}
+				<template v-if="about.previous">
+					<br>
+					Srovnání s {{ about.poll.agency }} z {{ date(about.previous.datum) }}
+				</template>
+			</div>
+			<div class="_header" :class="'_header_' + url(about.poll.agency)">
+				<div class="_header-fromto _blue _quando">Tip na vítěze</div>
+				<div class="_header-fromto _quando">obvod {{ about.poll.agency }}</div>
+				<div class="_header-agency _quando">{{ winner.JMENO + ' ' + winner.PRIJMENI }}</div>
+				
+				<div class="_header-fromto _blue _quando" v-if="about.poll.from">sběr od {{ date(about.poll.from, 2) }} do {{ date(about.poll.to, 2) }}</div>
+				
+				<div class="_header-attendance" v-if="about.poll.attendance1">
+					<div class="_header-attendance-bar">
+						<div class="_header-attendance-indicator" :style="{width: Math.floor(200 * Number(about.poll.attendance1) / 100) + 'px'}"></div>
+					</div>
+					<div class="_header-attendance-value _blue _strong">
+						účast 1. kolo: {{ number(about.poll.attendance1) }} %
+					</div>
+				</div>
+				<div class="_header-attendance" v-if="about.poll.attendance2">
+					<div class="_header-attendance-bar">
+						<div class="_header-attendance-indicator" :style="{width: Math.floor(200 * Number(about.poll.attendance2) / 100) + 'px'}"></div>
+					</div>
+					<div class="_header-attendance-value _blue _strong">
+						2. kolo: {{ number(about.poll.attendance2) }} %
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<p-box-group>
+		<p-box :click="() => snapshot()">
+			<p-box-button icon="results">Vygenerovat</p-box-button>
+		</p-box>
+		<p-box :click="() => bg = !bg">
+			<p-box-button>{{ bg ? 'Bez' : 'Vložit' }} pozadí</p-box-button>
+		</p-box>
+		<p-box v-if="imagedata">
+			<p-box-label><a :href="imagedata" :download="'graf-' + (new Date().getTime()) + '.png'">Stáhnout</a></p-box-label>
+		</p-box>
+	</p-box-group>
+	<div class="canvas mt1 _h" ref="canvas"></div>
+	<div v-if="imagedata">
+		<p-image :src="graphData" class="_result" width="100%"></p-image>
+	</div>
+	<p-loader :rule="!generating"></p-loader>
+	<div v-if="error">{{ error }}</div>
+</div>

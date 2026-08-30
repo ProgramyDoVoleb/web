@@ -1,12 +1,12 @@
-import { number, pct, round, truncate, indicator, date, url, logoByItem } from '@/pdv/helpers';
+import { number, pct, round, truncate, indicator, date, url, logoByItem, colorByItem, sortBy, con } from '@/pdv/helpers';
 import { cdn } from '@/stores/core';
 import html2canvas from 'html2canvas'
 import { useEngagement } from '@/stores/engagement';
 import { ge } from '@/pdv/analytics'
 
 export default {
-	name: 'results-parties-graph',
-	props: ['list', 'diff', 'mandates', 'mandatesPrevious', 'mandatesSince', 'about', 'username', 'hash'],
+	name: 'results-candidates-graph',
+	props: ['list', 'round2', 'winner', 'about', 'username', 'hash'],
 	data: function () {
 		return {
 			show: true,
@@ -44,68 +44,43 @@ export default {
 			return w;
 		},
 		display: function () {
-			var arr = this.list.filter(x => x.passed);
-			var rest = [];
-
-			// console.log(this.$el);
-
-			this.list.filter(x => !x.passed).forEach(item => {
-
-				var limit = 70;
-
-				// if (this.width > 800) limit = 10;
-				// if (this.width > 1200) limit = 15;
-
-				if (arr.length < limit) {
-					arr.push(item);
-				} else {
-					rest.push(item);
-				}
-			});
+			var arr = [];
 			
-			var o = {
-				label: 'ostatní',
-				short: 'ostatní',
-				link: null,
-				color: '#ddd',
-				logo: cdn + 'empty.png',
-				votes: 100 - arr.reduce((a, b) => a + b.pct, 0),
-				pct: 100 - arr.reduce((a, b) => a + b.pct, 0),
-				mandates: null,
-				passed: false
-			}
+			this.list.forEach(x => arr.push({
+				item: x.item,
+				name: x.name,
+				pty: x.pty,
+				filt: x.filt,
+				value: x.value,
+				rnd2: x.rnd2
+			}));
 
-			// if (arr[0].ref) {
-
-			if (arr.find(x => x.ref)) {
-				o.ref = {
-					votes: 100 - arr.reduce((a, b) => a + b.ref.pct, 0),
-					pct: 100 - arr.reduce((a, b) => a + b.ref.pct, 0)
-				}
-			}
-
-				
-			// }
-
-			arr.push(o);
+			var rest = [];
 			
 			var highest = 0;
+			var o = {pct: 0};
 
 			arr.forEach(x => {
-				if (highest < x.pct) highest = x.pct;
-
-				if (x.ref && x.ref.pct > highest) highest = x.ref.pct;
+				if (highest < x.value) highest = x.value;
 			})
 			
 			arr.forEach(x => {
-				x.graph = pct(x.pct, highest * (highest === o.pct ? 1.4 : 1.2), 2);
+				x.graph = pct(x.value, highest * (highest === o.pct ? 1.4 : 1.2), 2);
+				x.logo = logoByItem(x.item, this.about);
+				x.color = colorByItem(x.item, this.about);
 
-				if (x.ref) {
-					x.ref.graph = pct(x.ref.pct, highest * (highest === o.pct ? 1.4 : 1.2), 2);
+				if (x.logo.includes('empty') && con(x.item.$data, 'photo')) {
+					x.logo = con(x.item.$data, 'photo');
 				}
 			})
+
+			if (this.round2.length > 0 && arr.find(x => x.rnd2 > 0)) {
+				// console.log(this.about.poll.$data.find(y => y.inRnd2 && y.rnd2 === 0));
+				var missing = arr.find(x => x.item.id === this.about.poll.$data.find(y => y.inRnd2 && y.rnd2 === 0).cand.id);
+				missing.rnd2 = 100 - arr.find(x => x.rnd2 > 0).rnd2;
+			}
 			
-			return arr;
+			return sortBy(arr, 'value', 0, false, true);
 		}
 	},
 	methods: {

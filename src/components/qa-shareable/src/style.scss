@@ -197,3 +197,15 @@
 		z-index: 2;
 	}
 }
+
+._h {
+	position: fixed;
+	left: 300vw;
+}
+
+._result {
+	margin-top: 1em;
+	width: 100%;
+	left: 0;
+	aspect-ratio: 4/5;
+}

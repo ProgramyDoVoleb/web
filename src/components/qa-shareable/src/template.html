@@ -32,6 +32,7 @@
 	</p-box-group>
 	<div class="p-line"></div>
 	<!-- <template v-if="preview"> -->
+		<div class="smallest" v-if="preview">Toto je jen náhled. Po nastavení obsahu klikněte na tlačítko <em class="strong"><button class="inline is-span" @click="snapshot">Vygenerovat</button></em>.</div>
 		<div class="_rendered" :class="{preview}">
 			<div class="_quote" :class="{'quick': !!quick && !answer}">
 				<div class="_quote-question _roboto strong" v-html="czechify(question)" :style="{'font-size': answer ? null : fontsize + 'px'}"></div>
@@ -54,11 +55,17 @@
 						</div>
 						<div>
 							<div class="_quote-author _roboto strong _blue">{{ display }}</div>
-							<div v-if="current.volby === 166 && current.JMENO" class="_quote-meta _roboto _blue">
+							<div v-if="(current.volby === 166 || current.volby === 173 || current.volby === 176) && current.JMENO" class="_quote-meta _roboto _blue">
 								{{ czechify(current.POVOLANI) }}, {{ current.VEK }} let
 							</div>
 							<div v-if="current.volby === 166 && current.$strana && current.$strana.length > 0" class="_quote-party _roboto strong _blue">
 								{{ current.$strana[0].ZKRATKA }} &middot; {{ enums.regions[current.VOLKRAJ - 1] }} &middot; č. {{ current.PORCISLO }}
+							</div>
+							<div v-if="current.volby === 176 && current.$strana && current.$strana.length > 0" class="_quote-party _roboto strong _blue">
+								{{ current.$strana[0].NAZEV }} &middot; č. {{ current.PORCISLO }} <br> {{ current.$strana[0].NAZEVZAST }}
+							</div>
+							<div v-if="current.volby === 173" class="_quote-party _roboto strong _blue">
+								{{ current.OBVOD }} &middot; {{ data.cis.obvody[0].NAZEV }}
 							</div>
 						</div>
 					</div>
@@ -82,5 +89,12 @@
 		</div>
 
 	<!-- </template> -->
-	<div class="canvas mt1" ref="canvas"></div>
+	 <div class="_h">
+		<div class="canvas mt1" ref="canvas"></div>
+	 </div>
+
+	<div v-if="imagedata">
+		<p-image :src="imagedata" class="_result" width="100%"></p-image>
+	</div>
+	
 </div>

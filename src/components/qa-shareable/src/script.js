@@ -104,12 +104,12 @@ export default {
 		} else {
 			if (con(this.current.$data, 'photo')) {
 				this.image[0] = con(this.current.$data, 'photo', null, null, true).value;
-				this.image[1] = logoByItem(this.current.$strana[0], this.data);
+				if (this.current.$strana) this.image[1] = logoByItem(this.current.$strana[0], this.data);
 
-				if (this.current.$strana[0].VSTRANA != this.current.PSTRANA && this.current.PSTRANA != 99) {
+				if (this.current.$strana && this.current.$strana[0].VSTRANA != this.current.PSTRANA && this.current.PSTRANA != 99) {
 					this.image[2] = logoByItem(this.current, this.data, 'PSTRANA');
 				}
-			} else {
+			} else if (this.current.$strana) {
 				this.image[3] = logoByItem(this.current.$strana[0], this.data);
 				if (this.current.$strana[0].VSTRANA != this.current.PSTRANA && this.current.PSTRANA != 99) {
 					this.image[1] = logoByItem(this.current, this.data, 'PSTRANA');

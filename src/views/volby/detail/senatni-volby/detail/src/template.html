@@ -106,9 +106,26 @@
 			</p-grid>
 		</p-block>
 	</template>
+	<candidate-stats v-if="current.status > 1" :data="current.$kandidati" :cis="data.cis" :status="current.status" :simple="true" color="var(--blue)"></candidate-stats>
 	<!-- <p-block headline="Podpořte Programy" subheadline="aby se o nestranných přehledech a volebních programech dozvědělo co nejvíce lidí" anchor="" class="green" v-if="current.editace === 1">
 		<engagement-support></engagement-support>
 	</p-block> -->
+	<p-block headline="Tip na výsledek" :hide="true">
+		<p-area class="highlight shadow" icon="results" borderColor="var(--blue)">
+			<div class="p-offset reverse">
+				<div>
+					<strong>Máte tip na výsledek?</strong>
+					<div class="smaller">Vytvořte si svůj vlastní graf s výsledky a sdílejte ho online</div>
+				</div>
+				<div>
+					<p-box :to="'/volby/senatni-volby/' + data.list[0].id + '/muj-tip/' + obvod">
+						<p-box-button class="primary">Vytvořit</p-box-button>
+					</p-box>
+				</div>
+			</div>
+			
+		</p-area>
+	</p-block>
 	<p-block-expandable headline="Aktivita stran">
 		<p-area>
 			<table class="smaller">

@@ -1,0 +1,102 @@
+	<div class="layout-activity text-center">
+	<p-layout-simple>
+		<section>
+			<h1>Můj tip na výsledek</h1>
+			<p>Naklikejte si, jak to {{ current ? current.datum_label : '' }} podle vás u senátních voleb v obvodu <em class="keep">{{ parties ? $obvod.OBVOD + ' · ' + $obvod.NAZEV : '' }}</em> dopadne, a vygenerovaný graf s výsledky pak můžete kdekoli sdílet.</p>
+		</section>
+		<template v-if="parties">
+			<section>
+				<h3 class="quando mb0 pb0">Vyplňte zisk hlasů v prvním kole v procentech</h3>
+				<div class="mt-1 mb2">
+					<p>Součet nesmí přesáhnout 100 %</p>
+				</div>
+				
+				<div class="_pbg">
+					<p-area class="inline">
+						<div class="p-list _025">
+							<div v-for="party in sortBy(list, 'filt', null, true)">
+								<p-box-group>
+									<p-box>
+										<p-box-image :src="logoOrPhoto(party.item, parties)"></p-box-image>
+										<p-box-label class="text-left">{{ party.name }} <div class="smallest w400">{{ party.pty }}</div>	</p-box-label>
+									</p-box>
+									<p-box-gap></p-box-gap>
+									<p-box>
+										<p-box-label class="_r">
+											<input type="number" min="0" max="100" v-model="party.value">
+											<!-- {{ party.id }} -->
+											<!-- <span class="_pct dimm" v-if="mandates.length > 0">{{ mandates.find(x => party.item.id === x.item.id).mandates }}</span> -->
+										</p-box-label>
+									</p-box>
+								</p-box-group>
+							</div>
+							<div class="smallest dimm" v-if="list.find(x => x.value > 0)">
+								Součet je {{ list.reduce((a, b) => a + b.value, 0) }} %
+							</div>
+							<div v-if="list.find(x => x.value > 0)">
+								<input type="number" min="10" max="100" v-model="att" placeholder="(Volitelně) účast">
+							</div>
+						</div>
+					</p-area>
+				</div>
+			</section>
+			<section v-if="!list.find(x => x.value > 50) && list.find(x => x.value > 0)">
+				<h3 class="quando mb0 pb0">Zisk hlasů v druhém kole</h3>
+				<div class="mt-1 mb2">
+					<p>Stačí vyplnit prvního kandidáta</p>
+				</div>
+				
+				<div class="_pbg">
+					<p-area class="inline">
+						<div class="p-list _025">
+							<div v-for="(party, i) in inRound2 ">
+								<p-box-group>
+									<p-box>
+										<p-box-image :src="logoOrPhoto(party.item, parties)"></p-box-image>
+										<p-box-label class="text-left">{{ party.name }} <div class="smallest w400">{{ party.pty }}</div>	</p-box-label>
+									</p-box>
+									<p-box-gap></p-box-gap>
+									<p-box>
+										<p-box-label class="_r">
+											<input v-if="i === 0" type="number" min="0" max="100" v-model="party.rnd2">
+											<span v-else-if="list.find(x => x.rnd2 > 0)">{{ 100 - inRound2.find(x => x.rnd2 > 0).rnd2 }} %</span>
+										</p-box-label>
+									</p-box>
+								</p-box-group>
+							</div>
+							<div>
+								<input type="number" min="10" max="100" v-model="att2" placeholder="(Volitelně) účast">
+							</div>
+						</div>
+					</p-area>
+				</div>
+			</section>
+			<section v-if="winner.length > 0">
+				<h3 class="quando mb0 pb0">Vítěz</h3>
+				
+				<div class="_pbg">
+					<p-area class="inline">
+						<div class="p-list _025">
+							<div v-for="party in winner">
+								<p-box-group>
+									<p-box>
+										<p-box-image :src="logoOrPhoto(party.item, parties)"></p-box-image>
+										<p-box-label class="text-left">{{ party.name }} <div class="smallest w400">{{ party.pty }}</div>	</p-box-label>
+									</p-box>
+								</p-box-group>
+							</div>
+						</div>
+					</p-area>
+
+					<h3 class="quando mt2">Vygenerujte si obrázek</h3>
+					<div>
+						<input type="text" maxlength="10" v-model="username" placeholder="(Volitelně) jméno nebo přezdívka">
+					</div>
+					<div class="mt1">
+						<results-candidates-graph-shareable :list="list" :round2="inRound2.map(x => x.item)" :winner="winner.map(x => x.item)[0]" :about="data" :username="(username || null)" :hash="'senat-tip-' + id + '-' + obvod"></results-candidates-graph-shareable>
+					</div>
+				</div>
+			</section>
+		</template>
+	</p-layout-simple>
+</div>
