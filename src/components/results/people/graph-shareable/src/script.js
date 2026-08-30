@@ -93,19 +93,20 @@ export default {
 		},
 		snapshot: function (ev) {
 
-			if (this.username) {
+			// if (this.username) {
 				var arr = [];
 
 				this.list.forEach(x => {
 					arr.push({
-						id: x.id,
-						pct: x.pct,
-						short: x.short
+						id: x.item.id,
+						rnd1: x.value,
+						rnd2: x.rnd2,
+						short: x.item.PRIJMENI
 					})
 				})
 
 				this.engagement.add(this.$route.fullPath, this.hash || 'psp25-tip-1', JSON.stringify(arr), 'Ukládám tip');
-			}			
+			// }			
 			
 			while (this.$refs.canvas.children.length > 0) {
 				this.$refs.canvas.children[0].remove();
