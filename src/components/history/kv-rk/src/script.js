@@ -37,7 +37,7 @@ export default {
 				initialAge = this.sorted[0].$kandidati.find(x => x.id == this.id).VEK;
 			}
 
-			console.log(initialYear, initialAge);
+			// console.log(initialYear, initialAge);
 
 			if (this.sorted.length > 1) {
 				this.sorted.forEach((el, i) => {
@@ -49,6 +49,8 @@ export default {
 						var expectedAge = initialAge ? initialAge - (initialYear - expectedYear) : null;
 
 						o.list = el.$kandidati.filter(x => Math.abs(Number(x.VEK) - expectedAge) < 2);
+
+						// console.log(expectedYear, expectedAge, o.list.map(x => x.VEK));
 
 						// console.log(expectedYear, expectedAge, o);
 

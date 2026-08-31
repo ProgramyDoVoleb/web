@@ -11,7 +11,7 @@
 								<template v-else><strong class="smaller">{{ date(election.datum) }}</strong><span class="smallest dimm"> &middot; mimořádné volby</span></template>
 								<div class="p-gap _05"></div>
 								<p-list class="invisible smaller">
-									<div v-for="party in sortBy(election.$strany, 'NAZEV', null, true)">
+									<div v-for="party in sortBy(election.$strany.filter(x => election.list.find(y => y.OSTRANA === x.OSTRANA && y.COBVODU === x.COBVODU)), 'NAZEV', null, true)">
 										<p-label :color="colorByItem(party, election)" class="block">
 											<router-link :to="'/volby/komunalni-volby/' + election.id + '/strana/' + party.id" class="strong">{{ party.NAZEV }}</router-link>
 											<template v-if="election.status === 3">
@@ -22,7 +22,7 @@
 													<p-lang :value="party.MAND_STR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>
 												</strong>
 											</template>
-											<div v-for="cand in election.$kandidati.filter(x => x.COBVODU === party.COBVODU && x.OSTRANA === party.OSTRANA)">
+											<div v-for="cand in election.list.filter(x => x.COBVODU === party.COBVODU && x.OSTRANA === party.OSTRANA)">
 												<router-link :to="'/volby/komunalni-volby/' + election.id + '/kandidat/' + cand.id" class="strong is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link> <template v-if="cand.PORCISLO">&middot; č. {{ cand.PORCISLO }}</template>
 												<div class="smallest" v-if="cand.VEK && cand.POVOLANI">
 													{{ cand.VEK }} let, {{ cand.POVOLANI }} 
