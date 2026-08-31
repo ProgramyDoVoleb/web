@@ -104,7 +104,7 @@
 				
 				<p-label :color="colorByItem(cand, data, 'VSTRANA')" class="block">volební strana: 
 					<!-- <router-link :to="'/rejstrik/' + cand.VSTRANA" class="is-span"> -->
-						{{ cand.NAZEV_VS || data.cis.strany.find(x => x.VSTRANA === cand.VSTRANA).NAZEV }}
+						{{ truncate(cand.NAZEV_VS || data.cis.strany.find(x => x.VSTRANA === cand.VSTRANA).NAZEV, 8) }}
 
 						<template v-if="data.cis.strany.find(x => x.VSTRANA === cand.VSTRANA).$coalition" class="smallest">
 							<span class="w400">

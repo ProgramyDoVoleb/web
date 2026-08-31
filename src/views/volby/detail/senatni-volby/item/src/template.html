@@ -21,7 +21,7 @@
 														<router-link :to="party.link" :class="{'strong': party.mandate}">{{ party.label }}</router-link>
 													</span>
 													<div v-if="party.party" class="dimm smallest">
-														{{ party.party }}
+														{{ truncate(party.party, 8) }}
 													</div>
 												<!-- </p-label> -->
 												<span class="graph-line-holder" v-if="current.status === 3"><span class="graph-line" :style="{width: party.round2.graph + '%', background: party.color}"></span></span>
@@ -48,7 +48,7 @@
 														<span class="badge yellow" v-if="party.hasAnswers">●</span>
 													</span>
 													<div v-if="party.party" class="dimm smallest">
-														{{ party.party }}
+														{{ truncate(party.party, 8) }}
 													</div>
 												<!-- </p-label> -->
 												<span class="graph-line-holder" v-if="current.status === 3"><span class="graph-line" :style="{width: party.round1.graph + '%', background: party.color}"></span></span>

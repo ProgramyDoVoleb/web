@@ -123,12 +123,16 @@ export default {
 						short: party.NAZEV_VS,
 						link: '/bod/csu_senat_rk/' + party.id,
 						color: colorByItem(party, this.data),
-						logo: logoByItem(party, this.data),
+						logo: logoByItem(party, this.data, 'NSTRANA'),
 						votes: item.value,
 						pct: item.value,
 					}
 
-					if (o.logo.includes('empty') && con(party.$data, 'photo')) {
+					if (o.logo.includes('empty') && con(party.$data, 'logo')) {
+						o.logo = con(party.$data, 'logo');
+					}
+
+					if ((o.logo.includes('empty') || o.logo.includes('null')) && con(party.$data, 'photo')) {
 						o.logo = con(party.$data, 'photo');
 					}
 
@@ -192,11 +196,17 @@ export default {
 			this.current.$kandidati.filter(x => x.CKAND > 0 && x.PLATNOST && x.PLATNOST === 'A').forEach(x => this.addItem(x));
 		},
 		logoOrPhoto: function (item, data) {
-			var logo = logoByItem(item, data);
+			var logo = logoByItem(item, data, 'NSTRANA');
 
 			if (logo.includes('empty')) {
+				logo = con(item.$data, 'logo');
+			}
+
+			if (logo === null || logo.includes('empty')) {
 				logo = con(item.$data, 'photo');
 			}
+
+			console.log(item.PRIJMENI, logo);
 
 			return logo;
 		}

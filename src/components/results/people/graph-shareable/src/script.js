@@ -66,7 +66,7 @@ export default {
 			
 			arr.forEach(x => {
 				x.graph = pct(x.value, highest * (highest === o.pct ? 1.4 : 1.2), 2);
-				x.logo = logoByItem(x.item, this.about);
+				x.logo = logoByItem(x.item, this.about, 'NSTRANA');
 				x.color = colorByItem(x.item, this.about);
 
 				if (x.logo.includes('empty') && con(x.item.$data, 'photo')) {
