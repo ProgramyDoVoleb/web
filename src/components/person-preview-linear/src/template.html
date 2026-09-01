@@ -5,23 +5,23 @@
 		<div class="dimm smallest _cand-no"> {{ (cand.PORCISLO && cand.PORCISLO > 0 ? cand.PORCISLO + '.' : null) || (cand.CKAND && cand.CKAND > 0 ? cand.CKAND + '.' : null ) || '?' }}</div>
 		<div class="_cand-img" v-if="current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo')">
 			<p-photo class="_person _ar1" :data="con(cand.$data, 'photo', null, null, true)" :alt="cand.JMENO + ' ' + cand.PRIJMENI"></p-photo>
-			<img class="_party" loading="lazy" :src="logoByItem(nominee, data)" v-if="nominee.VSTRANA != current.VSTRANA" :alt="'Logo ' + nominee.ZKRATKA">
+			<img class="_party" loading="lazy" :src="logoByItem(nominee, data, null, null, true)" v-if="nominee.VSTRANA != current.VSTRANA" :alt="'Logo ' + nominee.ZKRATKA">
 			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA != 99">
-						<img class="_party" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
-					</template>
-					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99">
-						<img class="_party" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
-					</template>
+				<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, true)" :alt="'Logo ' + member.ZKRATKA">
+			</template>
+			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99 && cand.NSTRANA != 80">
+				<img class="_party" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
+			</template>
 		</div>
 		<div class="_cand-img" v-if="!(current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
 			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA !== 99">
-				<img class="_partyAlone" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
+				<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, true)" :alt="'Logo ' + member.ZKRATKA">
 			</template>	
-					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99">
-						<img class="_partyAlone" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99 && cand.NSTRANA !== 80">
+						<img class="_party" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
 					</template>	
 			<!-- <template v-if="!logoByItem(nominee, data).includes('empty.png')"> -->
-				<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	
+				<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_partyAlone' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data, null, null, true)" :alt="'Logo ' + nominee.ZKRATKA">	
 			<!-- </template> -->
 			<!-- <img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	 -->
 		</div>

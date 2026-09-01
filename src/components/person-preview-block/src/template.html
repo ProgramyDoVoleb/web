@@ -8,29 +8,29 @@
 				<p-photo class="_personSmall" :data="con(cand.$data, 'photo', null, null, true)" :alt="cand.JMENO + ' ' + cand.PRIJMENI" width="4em"></p-photo>
 			</template>
 			<template v-else>
+				<template v-if="!(current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA != 99">
+						<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, true)" :alt="'Logo ' + member.ZKRATKA">
+					</template>	
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99 && cand.NSTRANA != 80">
+						<img class="_party" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
+					</template>	
+					<!-- <template v-if="!logoByItem(nominee, data).includes('empty.png')"> -->
+						<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_partyAlone' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data, null, null, true)" :alt="'Logo ' + nominee.ZKRATKA">	
+					<!-- </template> -->
+				</template>
 				<template v-if="current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo')">
 					<p-photo class="_person" :data="con(cand.$data, 'photo', null, null, true)" :alt="cand.JMENO + ' ' + cand.PRIJMENI"></p-photo>
-					<img class="_party" loading="lazy" :src="logoByItem(nominee, data)" v-if="nominee.VSTRANA != current.VSTRANA && !logoByItem(nominee, data).includes('empty.png')" :alt="'Logo ' + nominee.ZKRATKA">
+					<img class="_party" loading="lazy" :src="logoByItem(nominee, data, null, null, true)" v-if="nominee.VSTRANA != current.VSTRANA && !logoByItem(nominee, data).includes('empty.png')" :alt="'Logo ' + nominee.ZKRATKA">
 					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA != 99">
-						<img class="_party" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
+						<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, true)" :alt="'Logo ' + member.ZKRATKA">
 					</template>
-					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99">
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99 && cand.NSTRANA != 80">
 						<img class="_party" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
 					</template>
 					<template v-if="cand.$data.logo && cand.$data.logo.length > 0">
 						<img class="_party" loading="lazy" :src="cand.$data.logo[0].value" :alt="'Logo ' + cand.JMENO + ' ' + cand.PRIJMENI">
 					</template>
-				</template>
-				<template v-if="!(current.$kandidati.find(x => x.$data && x.$data.photo && x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
-					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA != 99">
-						<img class="_partyAlone" loading="lazy" :src="logoByItem(member, data)" :alt="'Logo ' + member.ZKRATKA">
-					</template>	
-					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99">
-						<img class="_partyAlone" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
-					</template>	
-					<!-- <template v-if="!logoByItem(nominee, data).includes('empty.png')"> -->
-						<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_party' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data)" :alt="'Logo ' + nominee.ZKRATKA">	
-					<!-- </template> -->
 				</template>
 				<template v-if="cand.pointer && cand.pointer.includes('csu_senat_rk')">
 					<div class="_cand-parties">
@@ -128,6 +128,14 @@
 				</p-label>
 				
 			</div>
+			<!-- <div class="smallest strong" v-if="(cand.NSTRANA === 80 || cand.NSTRANA === 90) && cand.PSTRANA === 99">
+				<p-label color="var(--grey)" class="block">
+					nestraník, nominace
+					<router-link :to="'/rejstrik/' + cand.NSTRANA" class="is-span keep">
+						{{ data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}
+					</router-link>
+				</p-label>
+			</div> -->
 			<div class="smallest strong" v-if="cand.PSTRANA && cand.PSTRANA != 99 && cand.PSTRANA != cand.NSTRANA">
 				<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA), data, 'PSTRANA')" class="block">člen{{ isWoman(cand) ? 'ka' : '' }}
 					<router-link :to="'/rejstrik/' + cand.PSTRANA" class="is-span keep">
@@ -146,7 +154,7 @@
 					</p-list-linear>
 				</p-label>
 			</div>
-			<div class="smallest" v-if="cand.PSTRANA && current.VSTRANA != 80 && current.VSTRANA != 90 && cand.PSTRANA === 99">
+			<div class="smallest" v-if="cand.PSTRANA && cand.PSTRANA === 99">
 				<p-label color="var(--greyish)">
 					<span>bez politické příslušnosti</span>
 				</p-label>				

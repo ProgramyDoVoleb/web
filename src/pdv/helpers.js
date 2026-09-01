@@ -488,7 +488,7 @@ export function colorByItem (item, data, _key, _flat) {
   return res;
 }
 
-export function logoByItem (item, data, _key, _canBeNull) {
+export function logoByItem (item, data, _key, _canBeNull, _trySNK) {
 
   var res = null;
 
@@ -504,6 +504,23 @@ export function logoByItem (item, data, _key, _canBeNull) {
           res = con(s.$data, 'logo');
       }
 
+      try {
+
+        if ((!res || res.includes('nk.png')) && item.VSTRANA == 80 && data.list[0].KODZASTUP && _trySNK) {
+          
+          // console.log('try');
+            var c = con(data.list[0].$data, 'snk', null, null, true);
+
+            if (c) {
+              // console.log(c);
+
+              res = c.label;
+            }
+        }
+      } catch (e) {
+        console.log('snk bug');
+      }
+
       // console.log(item, res, data, _key, keys, key, _canBeNull);
 
       if ((!res || res.includes('missing.png')) && (keys.length > 1 || !_canBeNull)) {
@@ -514,6 +531,10 @@ export function logoByItem (item, data, _key, _canBeNull) {
               res = cdn + 'empty.png';   
           }
       } 
+
+      if (!res) {
+        res = cdn + 'empty.png';     
+      }
   } else {
       res = cdn + 'empty.png';   
   }
