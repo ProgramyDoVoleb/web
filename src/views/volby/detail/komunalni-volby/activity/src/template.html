@@ -19,7 +19,7 @@
 								</span>
 								<span class="dimm">    </span>
 								<span>
-									<p-label color="var(--grey)">na cizí kandidátce</p-label>
+									<p-label color="var(--red44)">na cizí kandidátce</p-label>
 								</span>
 							</div>
 							<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
@@ -219,11 +219,11 @@
 						<p>Někdy může člena nominovat jiná strana nebo SNK. Nejde ale o ověřovaný údaj, takže může dojít k tomu, že se někdo označí za člena strany, přestože není. Proto berte tento výčet s lehkou rezervou.</p>
 						<p-collapsible label="Zobrazit seznam">
 							<p-list>
-								<div v-for="obec in data.list.$obce.filter(x => data.roque.$obce.find(y => y === x.obec))">
-									<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + obec.obec">{{ obec.NAZEVZAST }}</router-link>
+								<div v-for="obec in sortBy(data.list.$obce.filter(x => data.roque.$obce.find(y => y === x.obec)), 'NAZEVZAST', null, true)">
+									<router-link class="is-span strong" :to="'/volby/komunalni-volby/' + id + '/obec/' + obec.obec">{{ obec.NAZEVZAST }}</router-link>
 									<div class="smaller" v-for="strana in data.roque.$strany.filter(x => x.KODZASTUP == obec.obec)">
 										<router-link :to="'/volby/komunalni-volby/' + id + '/strana/' + strana.id">{{ strana.NAZEV }}</router-link>
-										<div class="smallest" v-for="kandidat in data.roque.$kandidati.filter(x => x.KODZASTUP == strana.KODZASTUP && x.POR_STR_HL == strana.POR_STR_HL)">
+										<div class="smallest" v-for="kandidat in sortBy(data.roque.$kandidati.filter(x => x.KODZASTUP == strana.KODZASTUP && x.POR_STR_HL == strana.POR_STR_HL), 'PORCISLO')">
 											<router-link :to="'/volby/komunalni-volby/' + id + '/kandidat/' + kandidat.id">{{ kandidat.JMENO + ' ' + kandidat.PRIJMENI }}, č. {{ kandidat.PORCISLO }}, nominace {{ data.roque.cis.strany.find(x => x.VSTRANA === kandidat.NSTRANA).ZKRATKA }}</router-link>
 										</div>
 									</div>

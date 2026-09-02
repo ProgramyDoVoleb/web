@@ -128,9 +128,10 @@ export default {
 			var empty = false;
 
 			var party = this.data.list.$strany.find(x => x.KODZASTUP === Number(feature.properties.KOD));
-
+			var obec = this.data.list.$obce.find(x => x.obec === Number(feature.properties.KOD));
+			
 			if (this.data && this.data.cis.volby.status === 3) {
-				var obec = this.data.list.$obce.find(x => x.obec === Number(feature.properties.KOD));
+				
 
 				color = party.MAND_STR > 0 ? 'var(--green)' : 'var(--red)';
 				empty = party.MAND_STR === 0;
@@ -154,8 +155,16 @@ export default {
 					}
 				}
 
+				if (obec.obec === 554782) {
+					console.log(party, obec);
+				}
+
+				if (party && obec && !this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && (this.data.list.$support && this.data.list.$support.find(x => x.KODZASTUP == obec.obec))) {
+					color = 'var(--red44)';
+				}
+
 				if (!party) {
-					color = 'var(--grey)';
+					color = 'var(--red44)';
 				}
 
 				// if (color.includes('linear')) color = 'var(--blue)';
@@ -187,7 +196,7 @@ export default {
 
 			if (memberOnly) {
 				content.push('<div class="p-gap _05"></div>');
-				content.push('<div class="smallest strong red">Člen na kandidátce jiné strany</div>');
+				content.push('<div class="smallest strong red">Na kandidátce jiné strany</div>');
 			}
 
 				content.push('<div class="p-line"></div>');
@@ -205,6 +214,11 @@ export default {
 
 			if (!this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && (this.data.list.$support && this.data.list.$support.find(x => x.KODZASTUP == obec.obec))) {
 				content.push('<div class="smallest strong red">- pouze podpora</div>');
+				content.push('<div class="p-gap _05"></div>');
+				var members = this.data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PLATNOST === "A" && x.PSTRANA == this.party);
+				sortBy(members, 'PORCISLO').forEach(member => {
+					content.push('<div class="smaller">' + member.JMENO + ' ' + member.PRIJMENI + ', č. ' + member.PORCISLO + '</em></div>')
+				});
 			}
 
 			if (this.data && this.data.cis.volby.status === 3) {
@@ -240,8 +254,8 @@ export default {
 
 			if (memberOnly) {
 				var members = this.data.roque.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PLATNOST === "A" && x.PSTRANA == this.party);
-				members.forEach(member => {
-					content.push('<div class="smaller">' + member.JMENO + ' ' + member.PRIJMENI + ', nominace <em>' + this.data.roque.cis.strany.find(x => x.VSTRANA === member.NSTRANA).ZKRATKA + '</em></div>')
+				sortBy(members, 'PORCISLO').forEach(member => {
+					content.push('<div class="smaller">' + member.JMENO + ' ' + member.PRIJMENI + ', č. ' + member.PORCISLO + ', nominace <em>' + this.data.roque.cis.strany.find(x => x.VSTRANA === member.NSTRANA).ZKRATKA + '</em></div>')
 				});
 			}
 			
