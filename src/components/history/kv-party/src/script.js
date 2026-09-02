@@ -17,7 +17,9 @@ export default {
 				{'label': 'Počet zastupitelstev celkem', ky: '$total'},
 				{'label': 'Samostatných kandidátek', ky: '$solemn'},
 				{'label': this.party.ZKRATKA + ' s nezávislými kandidáty', ky: '$withNK'},
-				{'label': 'Koalic a sdružení více stran', ky: '$coal'}
+				{'label': 'Koalic a sdružení více stran', ky: '$coal'},
+				{'label': 'Členové nominovaní jinou stranou', ky: '$roque'},
+				{'label': 'Zastupitelstva s hostujícími členy', ky: '$roqueCoco'}
 			]
 		}
 	},

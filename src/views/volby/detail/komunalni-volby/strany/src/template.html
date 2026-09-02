@@ -13,6 +13,8 @@
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$solemn'}" @click="sortByIndex = '$solemn'">samostatných kandidátek</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$withNK'}" @click="sortByIndex = '$withNK'">kandidátek s nezávislými kandidáty</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$coal'}" @click="sortByIndex = '$coal'">koalic a dalších sdružení</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$roque'}" @click="sortByIndex = '$roque'">počtu hostujících členů</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$roqueCoco'}" @click="sortByIndex = '$roqueCoco'">počtu kandidátek hostujících členů</button></span>
 							</p-list-linear>
 							<div class="p-line _05"></div>
 							<p-list-linear class="nebo">
@@ -22,11 +24,12 @@
 						</p-area>
 						<div class="p-gap _1"></div>
 						<table class="smaller">
-							<thead v-if="width > 800">
+							<thead v-if="width > 1000">
 								<tr>
 									<th colspan="2">Název strany či hnutí</th>
 									<th colspan="2" class="text-center">Kandidáti</th>
-									<th colspan="4" class="text-center _bl">Forma zapojení</th>
+									<th colspan="4" class="text-center _bl">Zastupitelstva</th>
+									<th colspan="2" class="text-center">Hostování</th>
 								</tr>
 								<tr>
 									<th></th>
@@ -37,6 +40,8 @@
 									<th class="text-right">sami</th>
 									<th class="text-right">s NK</th>
 									<th class="text-right">koal</th>
+									<th class="text-right _bl">členů</th>
+									<th class="text-right">zastup</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -45,12 +50,14 @@
 										<p-image :src="logoByItem(party, {cis: {strany:[party]}})" class="rounded _ar"></p-image>
 									</td>
 									<td><router-link :to="link + 'aktivita/' + party.VSTRANA">{{ truncate(party.NAZEV, 32, true) }}</router-link></td>
-									<td v-if="width > 800 || sortByIndex === '$members'" class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
-									<td v-if="width > 800 || sortByIndex === '$nominees'" class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>
-									<td v-if="width > 800 || sortByIndex === '$total'" class="text-right _bl" :class="{strong: sortByIndex === '$total'}">{{ number(party.$total) }}</td>
-									<td v-if="width > 800 || sortByIndex === '$solemn'" class="text-right" :class="{strong: sortByIndex === '$solemn'}">{{ number(party.$solemn) }}</td>
-									<td v-if="width > 800 || sortByIndex === '$withNK'" class="text-right" :class="{strong: sortByIndex === '$withNK'}">{{ number(party.$withNK) }}</td>
-									<td v-if="width > 800 || sortByIndex === '$coal'" class="text-right" :class="{strong: sortByIndex === '$coal'}">{{ number(party.$coal) }}</td>
+									<td v-if="width > 1000 || sortByIndex === '$members'" class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
+									<td v-if="width > 1000 || sortByIndex === '$nominees'" class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>									
+									<td v-if="width > 1000 || sortByIndex === '$total'" class="text-right _bl" :class="{strong: sortByIndex === '$total'}">{{ number(party.$total) }}</td>
+									<td v-if="width > 1000 || sortByIndex === '$solemn'" class="text-right" :class="{strong: sortByIndex === '$solemn'}">{{ number(party.$solemn) }}</td>
+									<td v-if="width > 1000 || sortByIndex === '$withNK'" class="text-right" :class="{strong: sortByIndex === '$withNK'}">{{ number(party.$withNK) }}</td>
+									<td v-if="width > 1000 || sortByIndex === '$coal'" class="text-right" :class="{strong: sortByIndex === '$coal'}">{{ number(party.$coal) }}</td>
+									<td v-if="width > 1000 || sortByIndex === '$roque'" class="text-right _bl" :class="{strong: sortByIndex === '$roque'}">{{ number(party.$roque) }}</td>
+									<td v-if="width > 1000 || sortByIndex === '$roqueCoco'" class="text-right" :class="{strong: sortByIndex === '$roqueCoco'}">{{ number(party.$roqueCoco) }}</td>
 								</tr>
 							</tbody>
 						</table>
