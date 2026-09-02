@@ -461,7 +461,7 @@
 									<template v-if="(allCandidatesSameNominees && allCandidatesSameNominees.length === 1) || (allCandidatesSameMembers && allCandidatesSameMembers.length === 1)">
 										<p-area class="inline smallest">
 											<div v-if="allCandidatesSameNominees && allCandidatesSameNominees.length === 1 && allCandidatesSameNominees[0].VSTRANA != 80">
-												<p-label :color="colorByItem(allCandidatesSameNominees[0], data)">Všichni kandidáti jsou nominovaní <em>{{ allCandidatesSameNominees[0].ZKRATKA }}</em></p-label>
+												<p-label :color="colorByItem(allCandidatesSameNominees[0], data)">Všichni kandidáti jsou nominovaní <router-link :to="'/rejstrik/' + allCandidatesSameNominees[0].VSTRANA"><em>{{ allCandidatesSameNominees[0].ZKRATKA }}</em></router-link></p-label>
 											</div>
 											<div v-if="allCandidatesSameMembers && allCandidatesSameMembers.length === 1 && allCandidatesSameMembers[0].VSTRANA != 99">
 												<p-label :color="colorByItem(allCandidatesSameMembers[0], data)">Všichni kandidáti jsou členové <em>{{ allCandidatesSameMembers[0].ZKRATKA }}</em></p-label>
