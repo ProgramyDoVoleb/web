@@ -6,47 +6,93 @@
 		</section>
 		<template v-if="parties">
 			<section>
-				<h3 class="quando mb0 pb0">Vyplňte zisk hlasů v procentech</h3>
-				<div class="mt-1 mb2">
-					<p>Součet nesmí přesáhnout 100 %</p>
-				</div>
-				
-				<div class="_pbg">
-					<div class="p-list _025">
-						<div v-for="party in sortBy(list, 'name', null, true)">
-							<p-box-group>
-								<p-box>
-									<p-box-image :src="logoByItem(party.item, parties)"></p-box-image>
-									<p-box-label>{{ truncate(party.item.NAZEV, 24, true) }}</p-box-label>
-								</p-box>
-								<p-box-gap></p-box-gap>
-								<p-box>
-									<p-box-label class="_r">
-										<input type="number" min="1" max="100" v-model="party.value">
-										<!-- {{ party.id }} -->
-										<span class="_pct dimm" v-if="mandates.length > 0">{{ mandates.find(x => party.item.id === x.item.id).mandates }}</span>
-									</p-box-label>
-								</p-box>
-							</p-box-group>
-						</div>
-						<div class="smallest dimm" v-if="list.find(x => x.value > 0)">
-							Součet je {{ list.reduce((a, b) => a + b.value, 0) }} %
-						</div>
-						<div v-if="valid">
-							<input type="number" min="10" max="100" v-model="att" placeholder="(Volitelně) účast">
-						</div>
-						<div v-if="valid">
-							<input type="text" maxlength="10" v-model="username" placeholder="(Volitelně) jméno nebo přezdívka">
+				<h3 class="quando mb0 pb0">Vyplňte <button class="inline" :class="{'strong green': !direct}" @click="direct = false">zisk hlasů</button> nebo <button class="inline" :class="{'strong green': direct}" @click="direct = true">mandáty</button></h3>
+				<template v-if="direct">
+
+					<div class="mt-1 mb2">
+						<p>Součet nesmí přesáhnout {{ $town.MANDATY }}</p>
+					</div>
+					
+					<div class="_pbg">
+						<div class="p-list _025">
+							<div v-for="party in sortBy(list, 'name', null, true)">
+								<p-box-group>
+									<p-box>
+										<p-box-image :src="logoByItem(party.item, parties)"></p-box-image>
+										<p-box-label>{{ truncate(party.item.NAZEV, 24, true) }}</p-box-label>
+									</p-box>
+									<p-box-gap></p-box-gap>
+									<p-box>
+										<p-box-label class="_r">
+											<input type="number" min="0" :max="Number($town.MANDATY)" v-model="party.mandates">
+											<!-- {{ party.id }} -->
+											<!-- <span class="_pct dimm" v-if="mandates.length > 0">{{ mandates.find(x => party.item.id === x.item.id).mandates }}</span> -->
+										</p-box-label>
+									</p-box>
+								</p-box-group>
+							</div>
+							<div class="smallest dimm" v-if="list.find(x => x.mandates > 0)">
+								Přiřadili jste {{ list.reduce((a, b) => a + (b.mandates || 0), 0) }} z {{ $town.MANDATY }} mandátů
+							</div>
+							<div v-if="valid2">
+								<input type="number" min="10" max="100" v-model="att" placeholder="(Volitelně) účast">
+							</div>
+							<div v-if="valid2">
+								<input type="text" maxlength="10" v-model="username" placeholder="(Volitelně) jméno nebo přezdívka">
+							</div>
 						</div>
 					</div>
-				</div>
+				</template>
+				<template v-else>
+					<div class="mt-1 mb2">
+						<p>Součet nesmí přesáhnout 100 %</p>
+					</div>
+					
+					<div class="_pbg">
+						<div class="p-list _025">
+							<div v-for="party in sortBy(list, 'name', null, true)">
+								<p-box-group>
+									<p-box>
+										<p-box-image :src="logoByItem(party.item, parties)"></p-box-image>
+										<p-box-label>{{ truncate(party.item.NAZEV, 24, true) }}</p-box-label>
+									</p-box>
+									<p-box-gap></p-box-gap>
+									<p-box>
+										<p-box-label class="_r">
+											<input type="number" min="0" max="100" v-model="party.value">
+											<!-- {{ party.id }} -->
+											<span class="_pct dimm" v-if="mandates.length > 0">{{ mandates.find(x => party.item.id === x.item.id).mandates }}</span>
+										</p-box-label>
+									</p-box>
+								</p-box-group>
+							</div>
+							<div class="smallest dimm" v-if="list.find(x => x.value > 0)">
+								Součet je {{ list.reduce((a, b) => a + b.value, 0) }} %
+							</div>
+							<div v-if="valid">
+								<input type="number" min="10" max="100" v-model="att" placeholder="(Volitelně) účast">
+							</div>
+							<div v-if="valid">
+								<input type="text" maxlength="10" v-model="username" placeholder="(Volitelně) jméno nebo přezdívka">
+							</div>
+						</div>
+					</div>
+				</template>
 			</section>
-			<section v-if="valid">
+			<section>
+				<div v-html="chart2" class="_chart" :class="'tick_' + chart"></div>
+			</section>
+			<section v-if="!direct && valid">
 				<div class="_pbg">
 					<results-parties-graph-shareable :list="listOfParties.sort((a, b) => b.pct - a.pct).filter((x, i) => (i < 8 && x.pct > 0) || x.pct >= 5)" :mandates="mandates" :mandatesSince="mandatesSince" :about="data" :username="(username ? 'Můj tip: ' + username + ' - ' : 'Můj tip - ') + date(today)" :hash="'kv-tip-' + id + '-' + town"></results-parties-graph-shareable>
 					<template v-if="list.find(x => x.candidates < Number($town.MANDATY))">
 						<p class="smaller"><strong>Poznámka: </strong> Protože zde kandidují strany, které nemají plnou kandidátní listinu, tak přestože nemusí dosáhnout na 5 % hlasů, mohou díky specifickému přepočtu mandátů v komunálních volbách i tak získat mandáty.</p>
 					</template>
+				</div>
+			</section>
+			<section v-if="direct && valid2">
+				<div class="_pbg">
+					<results-parties-mandates-shareable :list="list.filter(x => x.mandates && x.mandates > 0)" :about="data" :username="username" :hash="'kv-tip-mandates-' + id + '-' + town"></results-parties-mandates-shareable>
 				</div>
 			</section>
 		</template>

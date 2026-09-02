@@ -1,0 +1,155 @@
+// @import url('https://fonts.googleapis.com/css2?family=Quando&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+._rendered {
+	aspect-ratio: 4/5;
+	width: 1080px;
+	color: #20133C;
+	// transform: scale(.5, .5) translate(-50%, -50%);
+	position: fixed;
+	left: 300vw;
+	pointer-events: none;
+
+	.dark & {
+		color: #20133C;
+	}
+
+	&.bg {
+		background: #fff url(https://programydovoleb.cz/static/chartgen-bg3.png) no-repeat;
+		background-size: 100% 100%;
+	}
+
+	&.generation {
+		position: absolute;
+		// left: 0;
+	}
+}
+
+._quando {
+	font-family: "Quando", serif;
+	letter-spacing: -0.015em;
+}
+
+._roboto {
+	font-family: "Roboto", sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
+	font-variation-settings:
+	  "wdth" 100;
+  }
+
+._space {
+	display: flex;
+	padding-top: 240px;
+	margin: auto;
+}
+
+._list {
+	width: 640px;
+	text-align: left;
+	font-size: 30px;
+	margin: 60px auto 0;
+}
+
+._svg {
+	display: block;
+	width: 800px;
+	height: auto;
+	margin: auto;
+}
+
+._strong {
+	font-weight: 600;
+}
+
+._blue {
+	color: #269AFF;
+}
+
+._footer_brand {
+	color: #fff;
+	font-size: 30px;
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
+}
+
+._footer_about {
+	font-weight: 600;
+	color: #fff;
+	font-size: 20px;
+	position: absolute;
+	bottom: 10px;
+	left: 15px;
+	line-height: 1.25;
+}
+
+._header {
+	position: absolute;
+	text-align: right;
+	top: 100px;
+	right: 80px;
+}
+
+._header-agency {
+	font-size: 80px;
+	letter-spacing: -0.03em;
+
+	._header_nms-market-research & {
+		font-size: 50px;
+		margin-top: 10px;
+	}
+
+	margin-bottom: -.2em;
+}
+
+._header-agency_paid {
+	font-size: 30px;
+}
+
+._header-fromto {
+	font-size: 30px;
+}
+
+._header-attendance {
+	margin-top: 20px;
+	position: relative;
+}
+
+._header-attendance-bar {
+	background: #fff;
+	border-radius: 10px;
+	height: 20px;
+	width: 300px;
+	position: absolute;
+	right: 0;
+}
+
+._header-attendance-indicator {
+	background: #269AFF;
+	height: 20px;
+	border-radius: 10px;
+	position: absolute;
+	width: 100px;
+}
+
+._header-attendance-value {
+	padding-top: 30px;
+	font-size: 20px;
+}
+
+._ofh {
+	overflow: hidden;
+	height: 0;
+}
+
+._h {
+	position: fixed;
+	left: 300vw;
+}
+
+._result {
+	margin-top: 1em;
+	width: 100%;
+	left: 0;
+	aspect-ratio: 4/5;
+}

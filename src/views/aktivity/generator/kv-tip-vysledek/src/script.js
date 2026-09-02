@@ -1,12 +1,17 @@
 import {useData} from '@/stores/data';
 import { api, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, sortBy, unique, slide, domain, con, round} from '@/pdv/helpers';
-import { colorByItem, logoByItem } from '@/pdv/helpers';
+import {url, date, number, truncate, sortBy, unique, slide, domain, con, round, colorByItem, logoByItem} from '@/pdv/helpers';
+// import { colorByItem, logoByItem } from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import {db, results2021, coefs} from "@/components/election-simulation-imperiali-2021/helpers/votes-imperiali-2025";
 import ResultsPartiesGraphShareable from '@/components/results/parties/graph-shareable/do.vue';
+import ResultsPartiesMandatesShareable from '@/components/results/parties/mandates-shareable/do.vue';
 import ElectionSimulationImperiali2021 from '@/components/election-simulation-imperiali-2021/do.vue';
+
+// import parliamentSvg from 'parliament-svg';
+// import toHtml from 'to-html';
+// import { toHtml as toSvg } from 'hast-util-to-html'
 
 export default {
 	name: 'aktivity-tip-kv',
@@ -21,11 +26,14 @@ export default {
 			tick: 0,
 			username: null,
 			att: null,
-			loaded: null
+			loaded: null,
+			chart: 0,
+			direct: false
 		}
 	},
 	components: {
 		ResultsPartiesGraphShareable,
+		ResultsPartiesMandatesShareable,
 		ElectionSimulationImperiali2021
 	},
 	computed: {
@@ -57,6 +65,9 @@ export default {
 		},
 		valid: function () {
 			return this.list.reduce((a, b) => a + b.value, 0) <= 100 && this.list.reduce((a, b) => a + b.value, 0) >= this.list.reduce((a, b) => a + (b.value === 0 ? 4.9 : 0), 0);
+		},
+		valid2: function () {
+			return this.list.reduce((a, b) => a + (b.mandates || 0), 0) === Number(this.$town.MANDATY)
 		},
 		data: function () {
 			var d = {
@@ -114,6 +125,9 @@ export default {
 		},
 		mandates: function () {
 			var arr = [];
+
+			if (!this.loaded) return;
+
 			var mandates = Number(this.$town.MANDATY);
 
 			// console.log(1);
@@ -146,7 +160,44 @@ export default {
 				item.value = item.mandates;
 			});
 
+			this.chart++;
+
 			return list;
+		},
+		chart2: function () {
+			var res = '<div></div>';
+			var virtualSVG = null;
+
+			if (this.mandates && this.mandates.reduce((a, b) => a + b.mandates, 0) > 0) {
+
+				var seatData = {};
+
+				this.mandates.filter(x => x.mandates > 0).forEach(party => {
+					seatData[url(party.item.NAZEV).split('-').join('')] = {
+						seats: party.mandates,
+						color: colorByItem(party.item, this.data, null, true)
+					}
+				});
+
+				const chartData = {};
+  
+				for (const [party, info] of Object.entries(seatData)) {
+					chartData[party] = {
+						seats: info.seats,
+						colour: info.color
+					};
+				}
+
+				virtualSVG = parliamentSvg(chartData, {seatCount: true});
+
+				res = toSvg(virtualSVG);
+
+				// console.log(seatData, virtualSVG, res);
+			} else {
+				// console.log('nothing to do');
+			}
+
+			return res;
 		}
 	},
 	methods: {
@@ -167,7 +218,47 @@ export default {
 	mounted: function () {
 	  window.scrollTo(0, 1);
 	  ga('Můj tip na výsledek');
+
+	//   setInterval(() => {
+	// 		var res = '<div></div>';
+	// 		var virtualSVG = null;
+
+	// 		if (this.mandates && this.mandates.reduce((a, b) => a + b.mandates, 0) > 0) {
+
+	// 			var seatData = {};
+
+	// 			this.mandates.filter(x => x.mandates > 0).forEach(party => {
+	// 				seatData[url(party.item.NAZEV).split('-').join('')] = {
+	// 					seats: party.mandates,
+	// 					color: colorByItem(party.item, this.data, null, true)
+	// 				}
+	// 			});
+
+	// 			const chartData = {};
+  
+	// 			for (const [party, info] of Object.entries(seatData)) {
+	// 				chartData[party] = {
+	// 					seats: info.seats,
+	// 					colour: info.color
+	// 				};
+	// 			}
+
+	// 			virtualSVG = parliamentSvg(chartData, {seatCount: true});
+
+	// 			res = toSvg(virtualSVG);
+
+	// 			// console.log(seatData, virtualSVG, res);
+	// 		} else {
+	// 			console.log('nothing to do');
+	// 		}
+
+	// 		this.chart = res;
+	//   }, 100);
 	},
 	watch: {
+		// mandates: function () {
+		// 	console.log('try');
+		// 	this.chartTick++;
+		// }
 	}
 };

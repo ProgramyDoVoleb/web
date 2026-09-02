@@ -1,0 +1,71 @@
+<div class="results-parties-graph _roboto">
+	<div class="_ofh">
+		<div class="_rendered" :style="{width: detectWidth + 'px'}" :class="{bg}">
+			<div class="_space">
+				<div v-html="chart" class="_svg"></div>
+			</div>
+			<div class="_list _roboto _strong mt2">
+					<p-list class="_025">
+						<div v-for="party in sortBy(list, 'mandates', 0, null, true)">
+							<div class="p-offset reverse balanced">
+								<div>
+									<p-label :color="colorByItem(party.item, about, null, true)" class="dynamic block">
+										{{ truncate(party.name, 32, true) }}
+									</p-label>
+								</div>
+								<div class="_blue">
+									{{ party.mandates }}
+								</div>
+							</div>
+						</div>
+					</p-list>
+			</div>
+			<div class="_footer_brand _quando">programydovoleb.cz</div>
+			<div class="_footer_about">
+				<template v-if="!username">
+					{{ number(about.poll.amount) }} respondentů
+					<br>
+				</template>
+				Zveřejněno {{ date(about.poll.datum) }}
+				<template v-if="about.previous">
+					<br>
+					Srovnání s {{ about.poll.agency }} z {{ date(about.previous.datum) }}
+				</template>
+			</div>
+			<div class="_header" :class="'_header_' + url(about.poll.agency)">
+				<div class="_header-agency _quando">{{ about.poll.agency }}</div>
+				<div class="_header-agency_paid _quando _header-agency-STEMCNN" v-if="about.poll.agency === 'STEM'">pro CNN Prima News</div>
+				<div class="_header-agency_paid _quando _header-agency-KANTAR" v-if="about.poll.agency === 'Kantar'">pro Českou televizi</div>
+				<div class="_header-agency_paid _quando _header-agency-IPSOS" v-if="about.poll.agency === 'Ipsos'">pro Moravec.cz</div>
+				<div class="_header-agency_paid _quando _header-agency-NMS" v-if="about.poll.agency === 'NMS'">pro Novinky.cz</div>
+				<div class="_header-fromto _blue _quando" v-if="about.poll.from">sběr od {{ date(about.poll.from, 2) }} do {{ date(about.poll.to, 2) }}</div>
+				<div class="_header-fromto _blue _quando" v-if="username">Můj tip{{ username ? ' - ' + username : ''  }}</div>
+				<div class="_header-attendance" v-if="about.poll.attendance">
+					<div class="_header-attendance-bar">
+						<div class="_header-attendance-indicator" :style="{width: Math.floor(300 * Number(about.poll.attendance) / 100) + 'px', right: 0}"></div>
+					</div>
+					<div class="_header-attendance-value _blue _strong">
+						účast {{ number(about.poll.attendance) }} %
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<p-box-group>
+		<p-box :click="() => snapshot()">
+			<p-box-button icon="results">Vygenerovat graf</p-box-button>
+		</p-box>
+		<p-box :click="() => bg = !bg">
+			<p-box-button>{{ bg ? 'Vypnout' : 'Zapnout' }} pozadí</p-box-button>
+		</p-box>
+		<p-box v-if="imagedata">
+			<p-box-label><a :href="imagedata" :download="'graf-' + (new Date().getTime()) + '.png'">Stáhnout</a></p-box-label>
+		</p-box>
+	</p-box-group>
+	<div class="canvas mt1 _h" ref="canvas"></div>
+	<div v-if="imagedata">
+		<p-image :src="graphData" class="_result" width="100%"></p-image>
+	</div>
+	<p-loader :rule="!generating"></p-loader>
+	<div v-if="error">{{ error }}</div>
+</div>
