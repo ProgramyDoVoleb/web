@@ -3,7 +3,7 @@ import { colorByItem, logoByItem } from '@/pdv/helpers';
 
 export default {
 	name: 'layout-volby-aktivity-detail',
-	props: ['party', 'partyID', 'data', 'id', 'obec'],
+	props: ['party', 'partyID', 'data', 'id', 'obec', 'volby', 'roque'],
   	methods: {
 		url,
 		date,

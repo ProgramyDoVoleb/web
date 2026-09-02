@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, sortBy, domain, pct, unique} from '@/pdv/helpers';
+import {url, date, con, number, truncate, sortBy, domain, pct, unique} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
@@ -139,9 +139,26 @@ export default {
 					fillOpacity = .25 + (party.MAND_STR * 2 / obec.MANDATY);
 				}
 			} else {
-				color = colorByItem(party, this.data);
+				
+				var pty = this.data.cis.strany.find(x => x.VSTRANA == this.party);
 
-				if (color.includes('linear')) color = 'var(--blue)';
+				if (pty) {
+					color = con(pty.$data, 'color', 'var(--grey)');
+				}
+
+				if (party) {
+					var slozeni = String(party.SLOZENI).split(',').map(x => Number(x));
+
+					if (slozeni.length > 2 || (slozeni.length === 2 && !slozeni.find(x => x === 80))) {
+						color = 'var(--blue)';
+					}
+				}
+
+				if (!party) {
+					color = 'var(--grey)';
+				}
+
+				// if (color.includes('linear')) color = 'var(--blue)';
 			}
 
 			return {
@@ -153,6 +170,13 @@ export default {
 		map_popup: function (feature, layer, ev) {
 
 			var party = this.data.list.$strany.find(x => x.KODZASTUP === Number(feature.properties.KOD));
+			var memberOnly = false;
+
+			if (!party) {
+				party = this.data.roque.$strany.find(x => x.KODZASTUP === Number(feature.properties.KOD));
+				memberOnly = true;
+			}
+
 			var obec = this.data.list.$obce.find(x => x.obec === Number(feature.properties.KOD));
 			var okres = this.data.cis.okresy.find(x => x.NUTS === feature.properties.LAU1_KOD);
 
@@ -160,6 +184,12 @@ export default {
 				content.push(feature.properties.NAZEV);
 				if (okres) content.push('<div class="smallest dimm">okres ' + okres.NAZEV + '</div>');
 				content.push('<div class="smallest dimm">' + obec.MANDATY + ' mandátů</div>');
+
+			if (memberOnly) {
+				content.push('<div class="p-gap _05"></div>');
+				content.push('<div class="smallest strong red">Člen na kandidátce jiné strany</div>');
+			}
+
 				content.push('<div class="p-line"></div>');
 				content.push('<strong><a href="/volby/komunalni-volby/' + party.volby + '/strana/' + party.id + '">' + party.NAZEV + '</a></strong>');
 			
@@ -206,6 +236,13 @@ export default {
 					content.push('<div>Nominací: ' + members.length + ', z toho členů: ' + members.filter(x => x.PSTRANA == this.party).length + '</div>');
 					content.push('<div class="smaller">Na čele kandidátky: ' + members.filter(x => x.PORCISLO < 6).map(x => x.JMENO + ' ' + x.PRIJMENI).join(', ')  + '</div>')
 				}
+			}
+
+			if (memberOnly) {
+				var members = this.data.roque.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PLATNOST === "A" && x.PSTRANA == this.party);
+				members.forEach(member => {
+					content.push('<div class="smaller">' + member.JMENO + ' ' + member.PRIJMENI + ', nominace <em>' + this.data.roque.cis.strany.find(x => x.VSTRANA === member.NSTRANA).ZKRATKA + '</em></div>')
+				});
 			}
 			
 			if (this.data && this.data.cis.volby.status === 1) {

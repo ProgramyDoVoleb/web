@@ -9,13 +9,17 @@
 							<div class="p-gap"></div>
 						</p-block>
 						<p-block headline="Na mapě" :hide="true">
-							<div class="nebo smaller strong">
+							<div class="nebo smaller strong mb05" v-if="data.cis.volby.status < 3">
 								<span>
-									<p-label :color="colorByItem(data.strana, data)">samostatně</p-label>
+									<p-label :color="colorByItem(data.strana, data)">samostatně či s nezávislými</p-label>
 								</span>
 								<span class="dimm">    </span>
 								<span>
 									<p-label color="var(--blue)">v koalici</p-label>
+								</span>
+								<span class="dimm">    </span>
+								<span>
+									<p-label color="var(--grey)">na cizí kandidátce</p-label>
 								</span>
 							</div>
 							<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
@@ -38,6 +42,9 @@
 													<div v-for="obec in sortBy(data.list.$obce.filter(x => x.OKRES === okres.NUMNUTS && x.DRUHZASTUP === druh.id), 'NAZEVZAST', null, true)">
 														<template v-for="party in data.list.$strany.filter(x => x.KODZASTUP === obec.obec)">
 															<activity-detail :data="data" :party="party" :partyID="partyID" :id="id" :obec="obec"></activity-detail>
+														</template>
+														<template v-for="party in data.roque.$strany.filter(x => x.KODZASTUP === obec.obec)">
+															<activity-detail :data="data.roque" :volby="data.cis.volby" :party="party" :partyID="partyID" :id="id" :obec="obec" :roque="true"></activity-detail>
 														</template>
 													</div>
 												</p-list>
@@ -168,41 +175,61 @@
 							</div>
 						</div>
 					</p-area>
-					<div class="p-gap"></div>
-					<h3 class="serif" v-if="colabParties.length > 0">Spolupráce</h3>
-					<p v-if="data.cis.volby.status === 3">Následující přehled ukazuje, s jakými dalšími stranami nebo hnutími se ve volbách spolupracovalo, v jakých volbách/obcích, s jakým názvem kandidátní listiny a s jakým výsledkem: celkovým ziskem mandátů a ziskem mandátů pro členy strany/hnutí.</p>
-					<template v-for="party in colabParties">
-						<!-- <br> -->
-						<!-- {{ party.NAZEV }} -->
-						<template v-for="listUnique in [unique(relatedWithParty(party.VSTRANA), 'KODZASTUP')]">
-							<!-- {{ listUnique }} -->
-							<template v-if="listUnique.length > 0">
-								<p-block :headline="party.NAZEV" :hide="true" class="_mv0" :anchor="truncate(party.NAZEV, 16, true)">
-									<p-collapsible :label="party.NAZEV" :logo="logoByItem(party, data)" :status="listUnique.length">
-										<p-area class="primary" :borderColor="colorByItem(party, data)">
-											<p-columns>
-												<div v-for="obec in sortBy(data.list.$obce.filter(x => listUnique.indexOf(x.obec) > -1), 'NAZEVZAST', null, true)">
-													<div :class="{strong: obec.DRUHZASTUP === 3, 'smaller dimm': [1,6].indexOf(obec.DRUHZASTUP) > -1}">
-														{{ obec.NAZEVZAST }}
-														<div class="smallest">
-															<template v-for="party in data.list.$strany.filter(x => x.KODZASTUP === obec.obec)">
-																<router-link :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id">{{ party.NAZEV }}</router-link>
-																<template v-if="data.cis.volby.status === 3 && party.MAND_STR > 0">
-																	<span class="dimm"> &rarr; </span>
-																	<span class="green strong">{{ party.MAND_STR }}</span>
-																	<span class="dimm"> / </span>
-																	<span class="green strong">{{ data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.MANDAT === 'A' && x.PSTRANA == partyID).length }}</span>
+					<template v-if="colabParties.length > 0">
+						<div class="p-gap"></div>
+						<h3 class="serif">Spolupráce</h3>
+						<p v-if="data.cis.volby.status === 3">Následující přehled ukazuje, s jakými dalšími stranami nebo hnutími se ve volbách spolupracovalo, v jakých volbách/obcích, s jakým názvem kandidátní listiny a s jakým výsledkem: celkovým ziskem mandátů a ziskem mandátů pro členy strany/hnutí.</p>
+						<template v-for="party in colabParties">
+							<!-- <br> -->
+							<!-- {{ party.NAZEV }} -->
+							<template v-for="listUnique in [unique(relatedWithParty(party.VSTRANA), 'KODZASTUP')]">
+								<!-- {{ listUnique }} -->
+								<template v-if="listUnique.length > 0">
+									<p-block :headline="party.NAZEV" :hide="true" class="_mv0" :anchor="truncate(party.NAZEV, 16, true)">
+										<p-collapsible :label="party.NAZEV" :logo="logoByItem(party, data)" :status="listUnique.length">
+											<p-area class="primary" :borderColor="colorByItem(party, data)">
+												<p-columns>
+													<div v-for="obec in sortBy(data.list.$obce.filter(x => listUnique.indexOf(x.obec) > -1), 'NAZEVZAST', null, true)">
+														<div :class="{strong: obec.DRUHZASTUP === 3, 'smaller dimm': [1,6].indexOf(obec.DRUHZASTUP) > -1}">
+															{{ obec.NAZEVZAST }}
+															<div class="smallest">
+																<template v-for="party in data.list.$strany.filter(x => x.KODZASTUP === obec.obec)">
+																	<router-link :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id">{{ party.NAZEV }}</router-link>
+																	<template v-if="data.cis.volby.status === 3 && party.MAND_STR > 0">
+																		<span class="dimm"> &rarr; </span>
+																		<span class="green strong">{{ party.MAND_STR }}</span>
+																		<span class="dimm"> / </span>
+																		<span class="green strong">{{ data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.MANDAT === 'A' && x.PSTRANA == partyID).length }}</span>
+																	</template>
 																</template>
-															</template>
+															</div>
 														</div>
 													</div>
-												</div>
-											</p-columns>
-										</p-area>
-									</p-collapsible>
-								</p-block>
+												</p-columns>
+											</p-area>
+										</p-collapsible>
+									</p-block>
+								</template>
 							</template>
 						</template>
+					</template>
+					<template v-if="data.roque && data.roque.$kandidati.length > 0">
+						<div class="p-gap"></div>
+						<h3 class="serif">Členové na cizí kandidátce</h3>
+						<p>Někdy může člena nominovat jiná strana nebo SNK. Nejde ale o ověřovaný údaj, takže může dojít k tomu, že se někdo označí za člena strany, přestože není. Proto berte tento výčet s lehkou rezervou.</p>
+						<p-collapsible label="Zobrazit seznam">
+							<p-list>
+								<div v-for="obec in data.list.$obce.filter(x => data.roque.$obce.find(y => y === x.obec))">
+									<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + obec.obec">{{ obec.NAZEVZAST }}</router-link>
+									<div class="smaller" v-for="strana in data.roque.$strany.filter(x => x.KODZASTUP == obec.obec)">
+										<router-link :to="'/volby/komunalni-volby/' + id + '/strana/' + strana.id">{{ strana.NAZEV }}</router-link>
+										<div class="smallest" v-for="kandidat in data.roque.$kandidati.filter(x => x.KODZASTUP == strana.KODZASTUP && x.POR_STR_HL == strana.POR_STR_HL)">
+											<router-link :to="'/volby/komunalni-volby/' + id + '/kandidat/' + kandidat.id">{{ kandidat.JMENO + ' ' + kandidat.PRIJMENI }}, č. {{ kandidat.PORCISLO }}, nominace {{ data.roque.cis.strany.find(x => x.VSTRANA === kandidat.NSTRANA).ZKRATKA }}</router-link>
+										</div>
+									</div>
+								</div>
+							</p-list>
+						</p-collapsible>
 					</template>
 				</p-block>
 			</template>
