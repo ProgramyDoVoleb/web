@@ -35,7 +35,31 @@
 												</p-label>
 											</p-area>
 										</div>	
-									</div>					
+									</div>			
+
+									<template v-if="(allCandidatesSameNominees && allCandidatesSameNominees.length === 1) || (allCandidatesSameMembers && allCandidatesSameMembers.length === 1)">
+										<p-area class="inline smallest">
+											<div v-if="allCandidatesSameNominees && allCandidatesSameNominees.length === 1 && allCandidatesSameNominees[0].VSTRANA != 80">
+												<p-label :color="colorByItem(allCandidatesSameNominees[0], data)">Všichni kandidáti jsou nominovaní <em>{{ allCandidatesSameNominees[0].ZKRATKA }}</em></p-label>
+											</div>
+											<div v-if="allCandidatesSameMembers && allCandidatesSameMembers.length === 1 && allCandidatesSameMembers[0].VSTRANA != 99">
+												<p-label :color="colorByItem(allCandidatesSameMembers[0], data)">Všichni kandidáti jsou členové <em>{{ allCandidatesSameMembers[0].ZKRATKA }}</em></p-label>
+											</div>
+											<div v-if="allCandidatesSameNominees && allCandidatesSameNominees.length === 1 && allCandidatesSameNominees[0].VSTRANA === 80 && allCandidatesSameMembers && allCandidatesSameMembers.length === 1 && allCandidatesSameMembers[0].VSTRANA === 99">
+												<p-label>Všichni kandidáti jsou nestraníci, nominování sdružením nezávislých kandidátů</p-label>
+											</div>
+											<template v-else>
+												<div v-if="allCandidatesSameNominees && allCandidatesSameNominees.length === 1 && allCandidatesSameNominees[0].VSTRANA === 80">
+												<p-label :color="colorByItem(allCandidatesSameNominees[0], data)">Všichni kandidáti jsou nominovaní sdružením nezávislých kanditátů <em>{{ con(current.$data, 'snk') ? con(current.$data, 'snk', null, null, true).value : '' }}</em></p-label>
+											</div>
+											<div v-if="allCandidatesSameMembers && allCandidatesSameMembers.length === 1 && allCandidatesSameMembers[0].VSTRANA === 99">
+												<p-label :color="colorByItem(allCandidatesSameMembers[0], data)">Všichni kandidáti jsou nestraníci</p-label>
+											</div>
+											</template>
+										</p-area>
+										<div class="p-gap _15"></div>
+									</template>
+
 								<template v-for="(VOLKRAJ, index) in (current.$kandidati.length > 0 && current.$kandidati[0].VOLKRAJ && !focus ? [1,2,3,4,5,6,7,8,9,10,11,12,13,14,-1] : (current.$kandidati.length > 0 && current.$kandidati[0].VOLKRAJ && !!focus ? [Number(focus)] : [-1]))">
 									<template v-if="VOLKRAJ != 0 && current.$kandidati[0].VOLKRAJ ? current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 0 : true">
 										<component :is="VOLKRAJ != 0 && !focus && current.$kandidati[0].VOLKRAJ ? 'p-collapsible' : 'div'" :label="VOLKRAJ != 0 ? (VOLKRAJ === -1 ? '- nezařazeni' : data.cis.kraje.find(x => x.KRAJ === VOLKRAJ).NAZEV) : null" :status="VOLKRAJ != 0 ? current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length : ''">
@@ -46,7 +70,7 @@
 														<div>
 															<p-list class="_15">
 																<template v-for="(cand, index3) in sortByPorCislo(current.$kandidati.filter(x => VOLKRAJ != 0 && current.$kandidati[0].VOLKRAJ ? x.VOLKRAJ === VOLKRAJ : true).filter(x => x.COBVODU ? x.COBVODU === OBVOD : true))">
-																	<person-preview-block :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id"></person-preview-block>
+																	<person-preview-block :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id" :omitNominee="allCandidatesSameNominees && allCandidatesSameNominees.length === 1" :omitMember="allCandidatesSameMembers && allCandidatesSameMembers.length === 1"></person-preview-block>
 																</template>
 															</p-list>
 														</div>

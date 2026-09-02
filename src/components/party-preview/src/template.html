@@ -7,7 +7,7 @@
 				<div v-if="logoByItem(party, elections).includes('empty')">
 					<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET > 1">
 						<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition">
-							<img loading="lazy" :src="logoByItem(coal, elections)" :alt="'logo ' + coal.NAZEV" class="_logo" :style="{'z-index': 10 - indexC}">
+							<img loading="lazy" :src="logoByItem(coal, elections, null, null, true)" :alt="'logo ' + coal.NAZEV" class="_logo" :style="{'z-index': 10 - indexC}">
 						</template>
 					</div>
 					<div class="_logos" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).POCET === 1">

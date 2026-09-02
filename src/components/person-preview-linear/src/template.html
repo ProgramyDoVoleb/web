@@ -64,17 +64,18 @@
 									<li v-if="cand.MANDAT && !cand.VEK">&#9617;&#9617; let</li>
 									<li v-if="cand.MANDAT && !cand.POVOLANI">&#9617;&#9617;&#9617;&#9617;&#9617;</li>
 									<li v-if="cand.MANDAT && !cand.BYDLISTEN">&#9617;&#9617;&#9617;&#9617;&#9617;</li>
-									<li v-if="cand.PSTRANA && cand.PSTRANA === 99">nestraník</li>
-									<li v-if="cand.NSTRANA && !current.PSTRANA && cand.NSTRANA != current.VSTRANA">
+									<li v-if="cand.PSTRANA && cand.PSTRANA === 99 && !omitMember">nestraník</li>
+									<li v-if="cand.NSTRANA && cand.NSTRANA === 80 && con(current.$data, 'snk') && !omitNominee">nominace <em>{{ con(current.$data, 'snk', null, null, true).value }}</em></li>
+									<li v-if="cand.NSTRANA && (cand.NSTRANA != 80 || !con(current.$data, 'snk')) && !current.PSTRANA && cand.NSTRANA != current.VSTRANA && !omitNominee">
 										nominace <template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
 										<router-link :to="'/rejstrik/' + cand.NSTRANA" class="keep">
 											{{ data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}
 										</router-link>
 									</li>
-									<li v-if="cand.PSTRANA && cand.PSTRANA != 99 && cand.PSTRANA != cand.NSTRANA">
+									<li v-if="cand.PSTRANA && cand.PSTRANA != 99 && cand.PSTRANA != cand.NSTRANA && !omitMember">
 										člen
 										<!-- <p-label :after="true" :color="colorByItem(cand, data, 'PSTRANA')"> -->
-											<router-link :to="'/rejstrik/' + cand.PSTRANA" class="is-span keep">
+											<router-link :to="'/rejstrik/' + cand.PSTRANA" class="keep">
 												{{ data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA).ZKRATKA }}
 											</router-link>
 										<!-- </p-label> -->

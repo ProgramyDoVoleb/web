@@ -2,7 +2,7 @@ import {useData} from '@/stores/data';
 import { useCore, cdn, today } from '@/stores/core';
 import { useRoute } from 'vue-router';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, sortBy, allCandidatesSameMembers, allCandidatesSameNominees} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsBlock from '@/components/news-block/do.vue'
@@ -347,7 +347,9 @@ export default {
 		},
 		listLimited: function () {
 			return this.current.$kandidati.filter(x => this.listLimit === 1 ? true : (this.listLimit === 2 ? x.PORCISLO < 6 : x.$odpovedi > 0));
-		}
+		},
+		allCandidatesSameMembers,
+		allCandidatesSameNominees
 	},
   methods: {
 		url,

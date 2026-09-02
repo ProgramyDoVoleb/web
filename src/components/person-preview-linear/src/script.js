@@ -4,7 +4,7 @@ import { cdn } from '@/stores/core';
 
 export default {
 	name: 'person-preview-linear',
-	props: ['cand', 'data', 'current', 'link'],
+	props: ['cand', 'data', 'current', 'link', 'omitNominee', 'omitMember'],
 	data: function () {
 		return {
 			cdn

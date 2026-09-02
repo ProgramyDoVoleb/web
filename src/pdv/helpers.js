@@ -617,3 +617,29 @@ export function getMedia (url, nullIfNotFound) {
 
 			return nullIfNotFound ? null : s + 'icon/link.svg'
 }
+
+// computed
+
+export function allCandidatesSameNominees () {
+			if (!this.current.KODZASTUP || !this.current.$kandidati) return;
+
+			var list = unique(this.current.$kandidati, 'NSTRANA');
+
+			if (list.length === 1 && list[0] === 80) {
+				return [this.data.cis.strany.find(x => x.VSTRANA === list[0])]
+			}
+			
+			return this.data.cis.strany.filter(x => list.find(y => y === x.VSTRANA))
+		};
+
+		export function allCandidatesSameMembers () {
+			if (!this.current.KODZASTUP || !this.current.$kandidati) return;
+
+			var list = unique(this.current.$kandidati, 'PSTRANA');
+
+			if (list.length === 1 && list[0] === 99) {
+				return [this.data.cis.strany.find(x => x.VSTRANA === list[0])]
+			}
+			
+			return this.data.cis.strany.filter(x => list.find(y => y === x.VSTRANA))
+		}

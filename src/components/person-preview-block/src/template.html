@@ -120,14 +120,20 @@
 				</p-label>
 				
 			</div>
-			<div class="smallest strong" v-if="cand.NSTRANA && !current.PSTRANA && cand.NSTRANA != current.VSTRANA">
-				<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA), data, 'NSTRANA')" class="block">nominace <template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
-					<router-link :to="'/rejstrik/' + cand.NSTRANA" class="is-span keep">
-						{{ data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}
-					</router-link>
-				</p-label>
-				
-			</div>
+			<template v-if="!omitNominee">
+
+				<div class="smallest strong" v-if="cand.NSTRANA && cand.NSTRANA != current.VSTRANA && (cand.NSTRANA === 80 && con(current.$data, 'snk'))">
+					<p-label color="var(--greyish)">nominace sdružením nezávislých kandidátů <em>{{ con(current.$data, 'snk', null, null, true).value }}</em></p-label>
+				</div>
+				<div class="smallest strong" v-if="cand.NSTRANA && cand.PSTRANA && cand.NSTRANA != current.VSTRANA && (cand.NSTRANA != 80)">
+					<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA), data, 'NSTRANA')" class="block">nominace <template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
+						<router-link :to="'/rejstrik/' + cand.NSTRANA" class="is-span keep">
+							{{ data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}
+						</router-link>
+					</p-label>				
+				</div>
+
+			</template>
 			<!-- <div class="smallest strong" v-if="(cand.NSTRANA === 80 || cand.NSTRANA === 90) && cand.PSTRANA === 99">
 				<p-label color="var(--grey)" class="block">
 					nestraník, nominace
@@ -136,7 +142,7 @@
 					</router-link>
 				</p-label>
 			</div> -->
-			<div class="smallest strong" v-if="cand.PSTRANA && cand.PSTRANA != 99 && cand.PSTRANA != cand.NSTRANA">
+			<div class="smallest strong" v-if="cand.PSTRANA && cand.PSTRANA != 99 && cand.PSTRANA != cand.NSTRANA && !omitMember">
 				<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA), data, 'PSTRANA')" class="block">člen{{ isWoman(cand) ? 'ka' : '' }}
 					<router-link :to="'/rejstrik/' + cand.PSTRANA" class="is-span keep">
 						{{ data.cis.strany.find(x => x.VSTRANA === cand.PSTRANA).ZKRATKA }}
@@ -154,7 +160,7 @@
 					</p-list-linear>
 				</p-label>
 			</div>
-			<div class="smallest" v-if="cand.PSTRANA && cand.PSTRANA === 99">
+			<div class="smallest" v-if="cand.PSTRANA && cand.PSTRANA === 99 && !omitMember">
 				<p-label color="var(--greyish)">
 					<span>bez politické příslušnosti</span>
 				</p-label>				
