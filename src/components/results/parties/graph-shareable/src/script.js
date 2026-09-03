@@ -118,19 +118,27 @@ export default {
 		},
 		snapshot: function (ev) {
 
-			if (this.username) {
+			// if (this.username) {
 				var arr = [];
 
 				this.list.forEach(x => {
 					arr.push({
 						id: x.id,
 						pct: x.pct,
-						short: x.short
+						short: truncate(x.short, 24, true)
 					})
 				})
 
+				if (this.mandates.length > 0 && this.mandates[0].item.KODZASTUP) {
+					arr = {
+						obec: this.mandates[0].item.KODZASTUP,
+						volby: this.mandates[0].item.volby,
+						tip: arr
+					}
+				}
+
 				this.engagement.add(this.$route.fullPath, this.hash || 'psp25-tip-1', JSON.stringify(arr), 'Ukládám tip');
-			}			
+			// }			
 			
 			while (this.$refs.canvas.children.length > 0) {
 				this.$refs.canvas.children[0].remove();

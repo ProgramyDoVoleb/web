@@ -64,7 +64,7 @@ export default {
 			return this.current ? this.current.$dotcene[0] : null
 		},
 		valid: function () {
-			return this.list.reduce((a, b) => a + b.value, 0) <= 100 && this.list.reduce((a, b) => a + b.value, 0) >= this.list.reduce((a, b) => a + (b.value === 0 ? 4.9 : 0), 0);
+			return this.list.reduce((a, b) => a + (b.value || 0), 0) === 100;
 		},
 		valid2: function () {
 			return this.list.reduce((a, b) => a + (b.mandates || 0), 0) === Number(this.$town.MANDATY)
@@ -165,39 +165,7 @@ export default {
 			return list;
 		},
 		chart2: function () {
-			var res = '<div></div>';
-			var virtualSVG = null;
-
-			if (this.mandates && this.mandates.reduce((a, b) => a + b.mandates, 0) > 0) {
-
-				var seatData = {};
-
-				this.mandates.filter(x => x.mandates > 0).forEach(party => {
-					seatData[url(party.item.NAZEV).split('-').join('')] = {
-						seats: party.mandates,
-						color: colorByItem(party.item, this.data, null, true)
-					}
-				});
-
-				const chartData = {};
-  
-				for (const [party, info] of Object.entries(seatData)) {
-					chartData[party] = {
-						seats: info.seats,
-						colour: info.color
-					};
-				}
-
-				virtualSVG = parliamentSvg(chartData, {seatCount: true});
-
-				res = toSvg(virtualSVG);
-
-				// console.log(seatData, virtualSVG, res);
-			} else {
-				// console.log('nothing to do');
-			}
-
-			return res;
+			return;
 		}
 	},
 	methods: {

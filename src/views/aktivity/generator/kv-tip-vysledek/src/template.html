@@ -79,9 +79,6 @@
 					</div>
 				</template>
 			</section>
-			<section>
-				<div v-html="chart2" class="_chart" :class="'tick_' + chart"></div>
-			</section>
 			<section v-if="!direct && valid">
 				<div class="_pbg">
 					<results-parties-graph-shareable :list="listOfParties.sort((a, b) => b.pct - a.pct).filter((x, i) => (i < 8 && x.pct > 0) || x.pct >= 5)" :mandates="mandates" :mandatesSince="mandatesSince" :about="data" :username="(username ? 'Můj tip: ' + username + ' - ' : 'Můj tip - ') + date(today)" :hash="'kv-tip-' + id + '-' + town"></results-parties-graph-shareable>
