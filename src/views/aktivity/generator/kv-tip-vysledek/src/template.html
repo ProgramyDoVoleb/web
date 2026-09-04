@@ -18,6 +18,7 @@
 							<div v-for="party in sortBy(list, 'name', null, true)">
 								<p-box-group>
 									<p-box>
+										<p-box-color :color="colorByItem(party.item, parties, null, true)"></p-box-color>
 										<p-box-image :src="logoByItem(party.item, parties)"></p-box-image>
 										<p-box-label>{{ truncate(party.item.NAZEV, 24, true) }}</p-box-label>
 									</p-box>
@@ -53,6 +54,7 @@
 							<div v-for="party in sortBy(list, 'name', null, true)">
 								<p-box-group>
 									<p-box>
+										<p-box-color :color="colorByItem(party.item, parties, null, true)"></p-box-color>
 										<p-box-image :src="logoByItem(party.item, parties)"></p-box-image>
 										<p-box-label>{{ truncate(party.item.NAZEV, 24, true) }}</p-box-label>
 									</p-box>

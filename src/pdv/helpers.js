@@ -467,8 +467,10 @@ export function colorByItem (item, data, _key, _flat) {
   
           res = gradient(arr);
 
-          if (_flat) {
+          if (_flat && s.$coalition[0].VSTRANA != 80) {
               res = con(s.$coalition[0].$data, 'color', color(s.$coalition[0].NAZEV));
+          } else {
+            res = con(s.$coalition[1].$data, 'color', color(s.$coalition[1].NAZEV));
           }
       }
   
@@ -488,7 +490,7 @@ export function colorByItem (item, data, _key, _flat) {
   return res;
 }
 
-export function logoByItem (item, data, _key, _canBeNull, _trySNK) {
+export function logoByItem (item, data, _key, _canBeNull, _trySNK, _tryLocal, _isHuman) {
 
   var res = null;
 
@@ -518,12 +520,27 @@ export function logoByItem (item, data, _key, _canBeNull, _trySNK) {
             }
         }
       } catch (e) {
-        console.log('snk bug');
+        console.log('try snk bug');
+      }
+
+      try {
+
+        if ((!res || res.includes('nk.png')) && _tryLocal) {
+          
+          // console.log('try');
+            var c = logoByItem(_tryLocal, data, 'VSTRANA', true);
+
+            if (c) {
+              res = c;
+            }
+        }
+      } catch (e) {
+        console.log('try local bug');
       }
 
       // console.log(item, res, data, _key, keys, key, _canBeNull);
 
-      if ((!res || res.includes('missing.png')) && (keys.length > 1 || !_canBeNull)) {
+      if ((!res || res.includes('missing.png') || res.includes('nk.png') || res.includes('empty.png')) && (keys.length > 1 || !_canBeNull)) {
         // console.log(item);
           if ((_key || 'VSTRANA').split(',').length > 1) {
               res = logoByItem(item, data, keys.splice(1,5), _canBeNull);
@@ -537,6 +554,14 @@ export function logoByItem (item, data, _key, _canBeNull, _trySNK) {
       }
   } else {
       res = cdn + 'empty.png';   
+  }
+
+  if ((res.includes('empty.png') || res.includes('missing.png')) && item.JMENO) {
+    res = cdn + 'nk.png';   
+  }
+
+  if ((res.includes('empty.png') || res.includes('missing.png')) && _isHuman) {
+    res = cdn + 'nk.png';   
   }
 
   // console.log(res);

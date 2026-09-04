@@ -72,8 +72,16 @@
 		{{ ['', 'v obci', 've městě', 've statutárním městě', 'v hlavním městě', 'v městské části', 'v městysi'][current.$zastupitelstvo[0].DRUHZASTUP] }}
 		<em>{{ current.NAZEVZAST }}</em>, okres 
 		<router-link :to="'/volby/komunalni-volby/' + current.volby + '/okres/' + current.OKRES">{{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</router-link>.
-		Na kandidátce {{ ['', 'zatím je', 'je', 'bylo'][elections.status] }}
-		<p-lang :value="current.$kandidati.length" :end="['prázdno', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>{{ elections.status === 3 ? ',' : '.' }}
+		Na listině {{ ['', 'zatím je', 'je', 'bylo'][elections.status] }}
+		<p-lang :value="current.$kandidati.length" :end="['prázdno', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>{{ elections.status === 3 || (elections.status === 2 && String(current.SLOZENI).includes(',')) ? ',' : '.' }}
+		<template v-if="elections.status === 2 && String(current.SLOZENI).includes(',')">
+			<p-list-linear class="inline">
+				<span v-for="NSTRANA in unique(current.$kandidati, 'NSTRANA')">
+					<p-lang :value="current.$kandidati.filter(x => x.NSTRANA === NSTRANA).length" :end="['', 'jeden člověk nominovaný za ', '%% lidé nominovaní za ', '%% lidí nominovaných za ']"></p-lang>
+					<em><router-link :to="'/rejstrik/' + NSTRANA" class="is-span">{{ data.cis.strany.find(x => x.VSTRANA === NSTRANA).ZKRATKA }}</router-link></em>
+				</span>
+			</p-list-linear>.
+		</template>
 		<template v-if="elections.status === 3">
 			získala {{ current.PROCHLSTR }} % hlasů 
 			a <p-lang :value="current.MAND_STR" :end="['tedy žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>.
