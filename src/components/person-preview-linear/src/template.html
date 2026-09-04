@@ -5,7 +5,7 @@
 		<div class="dimm smallest _cand-no"> {{ (cand.PORCISLO && cand.PORCISLO > 0 ? cand.PORCISLO + '.' : null) || (cand.CKAND && cand.CKAND > 0 ? cand.CKAND + '.' : null ) || '?' }}</div>
 		<div class="_cand-img" v-if="current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo')">
 			<p-photo class="_person _ar1" :data="con(cand.$data, 'photo', null, null, true)" :alt="cand.JMENO + ' ' + cand.PRIJMENI"></p-photo>
-			<img class="_party" loading="lazy" :src="logoByItem(nominee, data, null, null, true)" v-if="nominee.VSTRANA != current.VSTRANA" :alt="'Logo ' + nominee.ZKRATKA">
+			<img class="_party" loading="lazy" :src="logoByItem(nominee, data, null, null, true, current)" v-if="nominee.VSTRANA != current.VSTRANA && !omitNominee" :alt="'Logo ' + nominee.ZKRATKA">
 			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA != 99">
 				<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, true)" :alt="'Logo ' + member.ZKRATKA">
 			</template>
