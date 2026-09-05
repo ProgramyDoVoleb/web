@@ -33,12 +33,20 @@
 								<p-line-graph v-if="status === 3 && electedResults.count > 0" append="Zvolení" :value="pct(electedResults.uni, electedResults.count)" :color="color"></p-line-graph>
 							</p-area>
 						</div>
-						<div>
+						<div v-if="data.find(x => typeof x.MANDAT != 'undefined')">
 							<p-area>
 								<strong class="smaller">{{ results.young }} <p-lang :value="results.young" :end="['', '', '', 'ch']">mladší</p-lang> 30 let<template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"> &middot; <p-lang :value="electedResults.young" :end="['žádný nezvolen', 'jeden zvolen', '%% zvoleni', '%% zvoleno']"></p-lang></template></strong>
 								<div class="p-gap_05"></div>
 								<p-line-graph :value="pct(results.young, count)" :color="color"></p-line-graph>
 								<p-line-graph v-if="status === 3 && electedResults.count > 0" append="Zvolení" :value="pct(electedResults.young, electedResults.count)" :color="color"></p-line-graph>
+							</p-area>
+						</div>
+						<div v-if="data.find(x => typeof x.ZVOLEN_K2 != 'undefined')">
+							<p-area>
+								<strong class="smaller">{{ results.youngSenate }} <p-lang :value="results.youngSenate" :end="['', '', '', 'ch']">mladší</p-lang> 50 let<template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"> &middot; <p-lang :value="electedResults.youngSenate" :end="['žádný nezvolen', 'jeden zvolen', '%% zvoleni', '%% zvoleno']"></p-lang></template></strong>
+								<div class="p-gap_05"></div>
+								<p-line-graph :value="pct(results.youngSenate, count)" :color="color"></p-line-graph>
+								<p-line-graph v-if="status === 3 && electedResults.count > 0" append="Zvolení" :value="pct(electedResults.youngSenate, electedResults.count)" :color="color"></p-line-graph>
 							</p-area>
 						</div>
 						<div>

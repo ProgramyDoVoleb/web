@@ -556,12 +556,26 @@ export function logoByItem (item, data, _key, _canBeNull, _trySNK, _tryLocal, _i
       res = cdn + 'empty.png';   
   }
 
-  if ((res.includes('empty.png') || res.includes('missing.png')) && item.JMENO) {
+  // console.log(item.JMENO || item.NAZEV, _isHuman, item.KODZASTUP, item.VSTRANA, res);
+
+  if ((res.includes('empty') || res.includes('missing')) && item.JMENO) {
     res = cdn + 'nk.png';   
   }
 
-  if ((res.includes('empty.png') || res.includes('missing.png')) && _isHuman) {
+  if ((res.includes('empty') || res.includes('missing')) && _isHuman) {
     res = cdn + 'nk.png';   
+  }
+
+  if ((res.includes('empty') || res.includes('missing')) && !_isHuman && item.KODZASTUP && item.VSTRANA === 90) {
+    res = cdn + 'snk.png';
+  }
+
+  // console.log(document.querySelector('#app-main').classList.contains('dark'));
+
+  if (document.querySelector('#app-main').classList.contains('dark')) {
+    if (res.includes('/nk.png')) res = cdn + 'nk-dark.png';
+    if (res.includes('/snk.png')) res = cdn + 'snk-dark.png';
+    if (res.includes('/empty.png')) res = cdn + 'empty-dark.png';
   }
 
   // console.log(res);

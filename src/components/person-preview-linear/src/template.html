@@ -10,15 +10,15 @@
 				<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, true)" :alt="'Logo ' + member.ZKRATKA">
 			</template>
 			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99 && cand.NSTRANA != 80">
-				<img class="_party" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
+				<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, null, null, true)" :alt="'Logo ' + member.ZKRATKA">
 			</template>
 		</div>
 		<div class="_cand-img" v-if="!(current.$kandidati.find(x => x.$data.photo.length > 0) && con(cand.$data, 'photo'))">
 			<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA !== 99">
 				<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, true, current, true)" :alt="'Logo ' + member.ZKRATKA">
 			</template>	
-					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99 && cand.NSTRANA !== 80">
-						<img class="_party" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99 && cand.NSTRANA !== 80 && !omitMember">
+						<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, null, null, true)" :alt="'Logo ' + member.ZKRATKA">
 					</template>	
 			<!-- <template v-if="!logoByItem(nominee, data).includes('empty.png')"> -->
 				<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_partyAlone' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data, null, null, true, current, true)" :alt="'Logo ' + nominee.ZKRATKA">	
@@ -66,7 +66,8 @@
 									<li v-if="cand.MANDAT && !cand.BYDLISTEN">&#9617;&#9617;&#9617;&#9617;&#9617;</li>
 									<li v-if="cand.PSTRANA && cand.PSTRANA === 99 && !omitMember">nestraník</li>
 									<li v-if="cand.NSTRANA && cand.NSTRANA === 80 && con(current.$data, 'snk') && !omitNominee">nominace <em>{{ con(current.$data, 'snk', null, null, true).value }}</em></li>
-									<li v-if="cand.NSTRANA && (cand.NSTRANA != 80 || !con(current.$data, 'snk')) && !current.PSTRANA && cand.NSTRANA != current.VSTRANA && !omitNominee">
+									<li v-if="cand.NSTRANA && cand.NSTRANA === 80 && !con(current.$data, 'snk') && !omitNominee">nezávislý kandidát</li>
+									<li v-if="cand.NSTRANA && (cand.NSTRANA != 80 && !con(current.$data, 'snk')) && !current.PSTRANA && cand.NSTRANA != current.VSTRANA && !omitNominee">
 										nominace <template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
 										<router-link :to="'/rejstrik/' + cand.NSTRANA" class="keep">
 											{{ data.cis.strany.find(x => x.VSTRANA === cand.NSTRANA).ZKRATKA }}

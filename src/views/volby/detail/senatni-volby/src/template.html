@@ -93,6 +93,7 @@
 		</template>
 	</div>
 	<div class="p-gap_4"></div>
+	<candidate-stats v-if="current.status > 1" :data="data.list[0].$kandidati" :cis="data.cis" :status="data.list[0].status" :simple="true" color="var(--blue)"></candidate-stats>
 	<p-block-expandable headline="Aktivita stran">
 		<p-area>
 			<table class="smaller">

@@ -68,9 +68,17 @@
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
-    background: #fff;
+    background: var(--bg);
 	position: relative;
 	z-index: 1;
+}
+
+._logoEmpty {
+	background: none;
+	width: 3rem;
+	height: 3rem;
+	left: .5em;
+	top: .5em;
 }
 
 ._logos {

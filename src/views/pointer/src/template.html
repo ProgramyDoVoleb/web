@@ -1442,7 +1442,10 @@
 						</template>
 					</template>
 					<template v-for="(coal, index) in $coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA === 80)">
-						<p-logo :data="logoByItem(coal, data)" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
+						<p-logo :data="logoByItem(coal, data, null, null, null, null, true)" :size="logoByItem(current, data) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
+					</template>
+					<template v-for="(coal, index) in $coalition.filter(x => x.VSTRANA != 80 && x.VSTRANA === 90)">
+						<p-logo :data="logoByItem(coal, data, null, null, null, null, true)" :size="logoByItem(current, data) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
 					</template>
 				</div>
 			</template>

@@ -7,12 +7,13 @@ import RegionItem from '@/views/volby/detail/senatni-volby/item/do.vue'
 import CtaGetAdmin from '@/components/cta/get-admin/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import SearchParty from '@/components/search-party/do.vue'
+import CandidateStats from '@/components/candidate-stats/do.vue';
 
 export default {
 	name: 'volby-item',
 	props: ['data', 'prev'],
 	components: {
-		RegionItem, CtaGetAdmin, CtaSupport, SearchParty
+		RegionItem, CtaGetAdmin, CtaSupport, SearchParty, CandidateStats
 	},
 	data: function () {
 		return {

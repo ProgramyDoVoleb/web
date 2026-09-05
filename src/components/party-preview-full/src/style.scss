@@ -92,7 +92,11 @@
     width: 8rem;
     height: 8rem;
     border-radius: 1em;
-    background: #fff;
+    background: var(--bg);
+}
+
+._logoEmpty {
+	background: none;
 }
 
 ._logos {

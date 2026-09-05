@@ -20,12 +20,15 @@ export default {
 			return this.data.length
 		},
 		results: function () {
+			var data = this.data.filter(x => x.PLATNOST === 'A');
+
 			var obj = {
-				age: round(this.data.reduce((acc, curr) => acc + curr.VEK, 0) / this.data.length, 2),
-				woman: this.data.reduce((acc, curr) => acc + (this.isWoman(curr) ? 1 : 0), 0),
-				uni: this.data.reduce((acc, curr) => acc + (curr.TITULPRED || curr.TITULZA ? 1 : 0), 0),
-				young: this.data.reduce((acc, curr) => acc + (curr.VEK < 30 ? 1 : 0), 0),
-				old: this.data.reduce((acc, curr) => acc + (curr.VEK > 65 ? 1 : 0), 0)
+				age: round(data.reduce((acc, curr) => acc + curr.VEK, 0) / data.length, 2),
+				woman: data.reduce((acc, curr) => acc + (this.isWoman(curr) ? 1 : 0), 0),
+				uni: data.reduce((acc, curr) => acc + (curr.TITULPRED || curr.TITULZA ? 1 : 0), 0),
+				young: data.reduce((acc, curr) => acc + (curr.VEK < 30 ? 1 : 0), 0),
+				youngSenate: data.reduce((acc, curr) => acc + (curr.VEK < 50 ? 1 : 0), 0),
+				old: data.reduce((acc, curr) => acc + (curr.VEK > 65 ? 1 : 0), 0)
 			};
 
 			return obj;
@@ -35,9 +38,9 @@ export default {
 				count: 0
 			};
 
-			if (this.status === 3 && this.data.find(x => x.MANDAT === 'A')) {
+			if (this.status === 3 && (this.data.find(x => x.MANDAT === 'A') || this.data.find(x => x.ZVOLEN_K2 === 1))) {
 
-				var mandates = this.data.filter(x => x.MANDAT === 'A');
+				var mandates = this.data.filter(x => x.MANDAT === 'A' || x.ZVOLEN_K2 === 1 || x.ZVOLEN_K1 === 1);
 
 				obj = {
 					count: mandates.length,
@@ -45,6 +48,7 @@ export default {
 					woman: mandates.reduce((acc, curr) => acc + (this.isWoman(curr) ? 1 : 0), 0),
 					uni: mandates.reduce((acc, curr) => acc + (curr.TITULPRED || curr.TITULZA ? 1 : 0), 0),
 					young: mandates.reduce((acc, curr) => acc + (curr.VEK < 30 ? 1 : 0), 0),
+					youngSenate: mandates.reduce((acc, curr) => acc + (curr.VEK < 50 ? 1 : 0), 0),
 					old: mandates.reduce((acc, curr) => acc + (curr.VEK > 65 ? 1 : 0), 0)
 				};
 			}

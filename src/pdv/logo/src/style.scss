@@ -10,11 +10,11 @@
   border-radius: 50%;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: var(--bg);
   aspect-ratio: 1;
 
   .dark & {
-    border: 1px solid var(--black);
+    border: var(--border);
     // background: none;
   }
 }

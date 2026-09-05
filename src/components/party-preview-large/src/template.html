@@ -45,7 +45,7 @@
 								</template>
 							</template>
 							<template v-for="(coal, indexC) in elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.filter(x => x.VSTRANA === 80)">
-								<img loading="lazy" :src="logoByItem(coal, elections)" :alt="'logo ' + coal.NAZEV" class="_logo" :style="{'z-index': 10 - indexC}">
+								<img loading="lazy" :src="logoByItem(coal, elections, null, null, null, null, true)" :alt="'logo ' + coal.NAZEV" class="_logo _logoEmpty" :style="{'z-index': 10 - indexC}">
 							</template>
 							<!-- <img loading="lazy" :src="logoByItem({VSTRANA: 80}, elections)" class="_logo" :style="{'z-index': 0}" v-if="elections.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition.find(x => x.VSTRANA === 80)"> -->
 						</div>
