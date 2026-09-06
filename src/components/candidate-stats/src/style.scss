@@ -156,13 +156,13 @@ h4 {
 }
 
 .rnd {
-  height: 1.6rem;
+  height: 1rem;
     border-radius: 0.8rem;
     overflow: hidden;
     margin-top: .8rem;
 
     .p-box {
-      margin-top: 0;
+      margin-top: 0 !important;
       margin-right: 2px;
 
       &:last-child {
@@ -225,7 +225,7 @@ table td {
   transform: translateY(0em);
 }
 
-.keep {
+.keep2 {
   @media (max-width: 640px) {
     display: none;
   }
@@ -238,6 +238,10 @@ table td {
 .columns {
   @media (max-width: 800px) {
     columns: 1;
+
+    > div:first-child:not(._noGap) {
+      margin-bottom: 2em;
+    }
   }
 }
 

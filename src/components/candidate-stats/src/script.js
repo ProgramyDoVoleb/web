@@ -1,10 +1,10 @@
-import {number, round, sortBy} from '@/pdv/helpers';
+import {number, round, sortBy, unique} from '@/pdv/helpers';
 import {colorByItem} from '@/pdv/helpers';
 import { useEnums } from '@/stores/enums';
 
 export default {
 	name: 'CandidateStats',
-	props: ['data', 'cis', 'color', 'status', 'slozeni', 'focus', 'simple', 'tag'],
+	props: ['data', 'cis', 'color', 'status', 'slozeni', 'focus', 'simple', 'tag', 'label', 'headline', 'open'],
 	data: function () {
 		return {
 			selected: null,
@@ -40,7 +40,7 @@ export default {
 
 			if (this.status === 3 && (this.data.find(x => x.MANDAT === 'A') || this.data.find(x => x.ZVOLEN_K2 === 1))) {
 
-				var mandates = this.data.filter(x => x.MANDAT === 'A' || x.ZVOLEN_K2 === 1 || x.ZVOLEN_K1 === 1);
+				var mandates = this.mandates;
 
 				obj = {
 					count: mandates.length,
@@ -74,6 +74,28 @@ export default {
 			});
 
 			return {data, max: Math.max((Math.max(...data[0])), (Math.max(...data[1])))};
+		},
+		mandates: function () {
+			return this.data.filter(x => x.MANDAT === 'A' || x.ZVOLEN_K2 === 1 || x.ZVOLEN_K1 === 1);
+		},
+		agesLength: function () {
+			return {
+				candidates: this.data.filter(x => x.PLATNOST === 'A').length,
+				mandates: this.mandates.length
+			}
+		},
+		ages: function () {
+			return {
+				youngest: unique(this.data.filter(x => x.PLATNOST === 'A'), 'VEK').sort((a, b) => a - b).splice(0, 3),
+				oldest:unique(this.data.filter(x => x.PLATNOST === 'A'), 'VEK').sort((a, b) => a - b).splice(-3, 3).reverse()
+			} 
+		},
+		agesResults: function () {
+
+			return {
+				youngest: unique(this.mandates.filter(x => x.PLATNOST === 'A'), 'VEK').sort((a, b) => a - b).splice(0, 3),
+				oldest:unique(this.mandates.filter(x => x.PLATNOST === 'A'), 'VEK').sort((a, b) => a - b).splice(-3, 3).reverse()
+			} 
 		}
 	},
 	methods: {

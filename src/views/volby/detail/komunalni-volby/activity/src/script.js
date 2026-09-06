@@ -11,6 +11,7 @@ import MapLeaflet from '@/components/map-leaflet/do.vue'
 import ActivityDetail from '@/views/volby/detail/komunalni-volby/activity-detail/do.vue'
 import ProgramBlock from '@/components/program-block-dynamic/do.vue';
 import PartyQuicklook from '@/components/party-quicklook/do.vue';
+import CandidateStats from '@/components/candidate-stats/do.vue';
 
 export default {
 	name: 'layout-volby-aktivity-strany',
@@ -34,7 +35,8 @@ export default {
 	MapLeaflet,
 	ActivityDetail,
 	ProgramBlock,
-	PartyQuicklook
+	PartyQuicklook,
+	CandidateStats
   },
 	computed: {
 		$store: function () {

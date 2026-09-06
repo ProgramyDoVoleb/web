@@ -1,6 +1,6 @@
 <div class="candidate-stats">
 
-	<component :is="tag || 'p-block'" headline="Statistiky">
+	<component :is="tag || 'p-block'" :headline="label || headline || 'Statistiky'" :open="open" :status="data.length">
 		<!-- <template v-if="data.csu.candidates && data.csu.candidates.length > 5"> -->
 			<!-- <p-area> -->
 				<!-- <template>
@@ -9,7 +9,7 @@
 				</template> -->
 				<!-- <p-block-expandable headline="Demografické údaje" anchor="- demografie"> -->
 					<div class="columns">
-						<div>
+						<div class="_noGap">
 							<p-area>
 								<strong class="smaller">ø věk kandidátů {{ results.age }} let <template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"><br>ø věk zvolených {{ electedResults.age }} let</template></strong>
 								<div class="p-gap_05"></div>
@@ -19,7 +19,7 @@
 						</div>
 						<div>
 							<p-area>
-									<strong class="smaller">{{ results.woman }} <p-lang :value="results.woman" :end="['žen', 'žena', 'ženy', 'žen']"></p-lang><template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"> &middot; <p-lang :value="electedResults.woman" :end="['žádná nezvolena', 'jedna zvolena', '%% zvoleny', '%% zvoleno']"></p-lang></template></strong>
+									<strong class="smaller">{{ number(results.woman) }} <p-lang :value="results.woman" :end="['žen', 'žena', 'ženy', 'žen']"></p-lang><template v-if="status === 3 && data.find(x => x.MANDAT === 'A')"> &middot; <p-lang :value="electedResults.woman" :end="['žádná nezvolena', 'jedna zvolena', '%% zvoleny', '%% zvoleno']"></p-lang></template></strong>
 									<div class="p-gap_05"></div>
 									<p-line-graph :value="pct(results.woman, count)" color="var(--red)"></p-line-graph>
 									<p-line-graph v-if="status === 3 && electedResults.count > 0" append="Zvoleno" :value="pct(electedResults.woman, electedResults.count)" color="var(--red)"></p-line-graph>
@@ -242,7 +242,7 @@
 											<td><div class="dot" :style="{background: member.MANDAT === 'A' ? 'var(--green)' : 'transparent'}"></div></td>
 											<td :class="{'strong': member.MANDAT === 'A'}" class="_n">
 												{{ member.JMENO + ' ' + member.PRIJMENI }}
-												<span class="dimm smallest keep"> {{ member.VEK }} let</span>
+												<span class="dimm smallest keep2"> {{ member.VEK }} let</span>
 											</td>
 											<td><div class="dot" :style="{background: colorByItem(cis.strany.find(x => x.VSTRANA === member.NSTRANA), {cis})}"></div></td>
 											<td><div class="dot" :style="{background: member.PSTRANA === 99 ? '' : colorByItem(cis.strany.find(x => x.VSTRANA === member.PSTRANA), {cis})}"></div></td>
@@ -292,6 +292,72 @@
 				</template>
 			</p-area>
 		</p-block-expandable>
+		<p-block headline="Nejmladší a nejstarší kandidáti" class="mt2" :level="3" :hide="true" v-if="agesLength.candidates > 1">
+			<div class="p-line mt-2 mb1" v-if="simple"></div>
+			<div class="columns">
+				<div v-for="(value, key) in ages">
+					<!-- <p-area> -->
+						<strong>{{ key === 'oldest' ? 'Nejstarší' : 'Nejmladší' }} kandidáti</strong>
+						<p-list class="_05 pt05 smaller">
+							<div v-for="age in ages[key]">
+								<strong>{{ age }} let: </strong>
+								<p-list-linear class="inline">
+									<span v-for="cand in sortBy(data.filter(x => x.PLATNOST === 'A' && x.VEK == age), 'PRIJMENI', null, true)" class="keep">
+										<router-link :to="'/bod/csu_kv_rk/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+									</span>
+								</p-list-linear>
+							</div>
+						</p-list>
+					<!-- </p-area> -->
+				</div>
+			</div>
+		</p-block>
+		<p-block class="mt2" :level="3" headline="Kandidáti" :hide="true" v-else>
+			<div class="p-line mt-2 mb1" v-if="simple"></div>
+			<div v-for="age in ages.youngest">
+				<strong>{{ age }} let: </strong>
+				<p-list-linear class="inline">
+					<span v-for="cand in sortBy(data.filter(x => x.PLATNOST === 'A' && x.VEK == age), 'PRIJMENI', null, true)" class="keep">
+						<router-link :to="'/bod/csu_kv_rk/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+					</span>
+				</p-list-linear>
+			</div>
+		</p-block>
+		<template :v-if="status === 3">
+			<p-block headline="Nejmladší a nejstarší úspěšní kandidáti" class="mt2" :level="3" :hide="true" v-if="agesLength.mandates > 1">
+				<div class="p-line mt-2 mb1" v-if="simple"></div>
+				<h3>Získali mandát</h3>
+				<div class="columns">
+					<div v-for="(value, key) in agesResults">
+						<!-- <p-area> -->
+							<strong>{{ key === 'oldest' ? 'Nejstarší' : 'Nejmladší' }} kandidáti</strong>
+							<p-list class="_05 pt05 smaller">
+								<div v-for="age in agesResults[key]">
+									<strong>{{ age }} let: </strong>
+									<p-list-linear class="inline">
+										<span v-for="cand in sortBy(data.filter(x => x.PLATNOST === 'A' && x.VEK == age && (x.MANDAT === 'A' || x.ZVOLEN_K2 === 1 || x.ZVOLEN_K1 === 1)), 'PRIJMENI', null, true)" class="keep">
+											<router-link :to="'/bod/csu_kv_rk/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+										</span>
+									</p-list-linear>
+								</div>
+							</p-list>
+						<!-- </p-area> -->
+					</div>
+				</div>
+			</p-block>
+			<p-block class="mt2" :level="3" headline="Kandidáti" :hide="true" v-else>
+				<div class="p-line mt-2 mb1" v-if="simple"></div>
+				<h3>Mandát získal{{ mandates.length > 1 ? 'i' : '' }}:</h3>
+				<div v-for="age in agesResults.youngest">
+					<strong>{{ age }} let: </strong>
+					<p-list-linear class="inline">
+						<span v-for="cand in sortBy(data.filter(x => x.PLATNOST === 'A' && x.VEK == age && (x.MANDAT === 'A' || x.ZVOLEN_K2 === 1 || x.ZVOLEN_K1 === 1)), 'PRIJMENI', null, true)" class="keep">
+							<router-link :to="'/bod/csu_kv_rk/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+						</span>
+					</p-list-linear>
+				</div>
+			</p-block>
+		</template>
 	</component>
-	<div class="p-gap_3"></div>
+	<div class="p-gap_3" v-if="!tag"></div>
 </div>

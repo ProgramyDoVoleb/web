@@ -58,11 +58,17 @@
 								</p-list>
 							</p-block-expandable>
 						</template>
+						<p-block headline="Statistiky" subheadline="Členové a/nebo nominovaní kandidáti" v-if="data.cis.volby.status > 1">
+							<candidate-stats tag="p-collapsible" label="Pouze členové" :data="data.list.$kandidati.filter(x => x.PSTRANA == party)" :cis="data.cis" :status="data.cis.volby.status" :simple="true" :color="colorByItem(data.strana, data)" :open="true"></candidate-stats>
+							<candidate-stats tag="p-collapsible" label="Všichni nominovaní" :data="data.list.$kandidati.filter(x => x.NSTRANA == party)" :cis="data.cis" :status="data.cis.volby.status" :simple="true" :color="colorByItem(data.strana, data)"></candidate-stats>
+						</p-block>
+							
+						<!-- </div> -->
 					</div>
 				</p-loader>
 			</p-block>
 			<template v-if="data">
-				<p-block headline="Obecné informace" v-if="data.list.$globs" :level="1">
+				<p-block headline="Obecné informace" v-if="data.list.$globs" :level="1" class="mt-2">
 					<party-quicklook :VSTRANA="party" class="mb1"></party-quicklook>
 					<p-block headline="Úvodem" :hide="true" v-if="data.list.$globs.$data.about.length > 0">
 						<div class="serif wsw" v-html="data.list.$globs.$data.about[0].value"></div>
