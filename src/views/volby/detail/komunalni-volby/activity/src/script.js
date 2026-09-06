@@ -1,13 +1,12 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, con, number, truncate, sortBy, domain, pct, unique} from '@/pdv/helpers';
+import {url, date, con, number, truncate, sortBy, domain, pct, unique, colorByItem, logoByItem} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
 import KrajskeVolby from '@/views/volby/detail/krajske-volby/detail/do.vue'
 import ReportForm from '@/components/report-form/do.vue'
-import { colorByItem, logoByItem } from '@/pdv/helpers';
 import MapLeaflet from '@/components/map-leaflet/do.vue'
 import ActivityDetail from '@/views/volby/detail/komunalni-volby/activity-detail/do.vue'
 import ProgramBlock from '@/components/program-block-dynamic/do.vue';
@@ -144,27 +143,27 @@ export default {
 				var pty = this.data.cis.strany.find(x => x.VSTRANA == this.party);
 
 				if (pty) {
-					color = con(pty.$data, 'color', 'var(--grey)');
+					color = colorByItem(pty, {cis: {strany: []}});
 				}
 
 				if (party) {
 					var slozeni = String(party.SLOZENI).split(',').map(x => Number(x));
 
+					if (slozeni.length === 2 && slozeni.find(x => x === 80)) {
+						color += 'aa';
+					}
+
 					if (slozeni.length > 2 || (slozeni.length === 2 && !slozeni.find(x => x === 80))) {
-						color = 'var(--blue)';
+						color = '#066ed2';
 					}
 				}
 
-				if (obec.obec === 554782) {
-					console.log(party, obec);
-				}
-
 				if (party && obec && !this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && (this.data.list.$support && this.data.list.$support.find(x => x.KODZASTUP == obec.obec))) {
-					color = 'var(--red44)';
+					color = '#d7202744';
 				}
 
 				if (!party) {
-					color = 'var(--red44)';
+					color = '#d7202744';
 				}
 
 				// if (color.includes('linear')) color = 'var(--blue)';

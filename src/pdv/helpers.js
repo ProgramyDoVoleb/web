@@ -487,6 +487,10 @@ export function colorByItem (item, data, _key, _flat) {
 
   res = res ? res.split('rgb(249,89,231)').join('#f959e722').split('rgb(249, 89, 231)').join('#f959e722') : res;
 
+  if (res.length === 4 && res[0] === '#') {
+    res = '#' + res[1] + res[1] + res[2] + res[2] + res[3] + res[3];
+  }
+
   return res;
 }
 
