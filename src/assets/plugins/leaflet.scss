@@ -1,8 +1,8 @@
-#app .leaflet-container {
+#app-main .leaflet-container {
 	background: var(--white);
 }
 
-#app.dark .leaflet-container {
+#app-main.dark .leaflet-container {
 	background: var(--black);
 }
 

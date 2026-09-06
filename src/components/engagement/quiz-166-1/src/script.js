@@ -50,9 +50,9 @@ export default {
 		},
 		toggle_footer: function (add) {
 			if (add) {
-				document.querySelector('#app').classList.add('hide-footer');
+				document.querySelector('#app-main').classList.add('hide-footer');
 			} else {
-				document.querySelector('#app').classList.remove('hide-footer');
+				document.querySelector('#app-main').classList.remove('hide-footer');
 			}
 		},
 		send_results: function () {
