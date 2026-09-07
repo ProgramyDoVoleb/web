@@ -73,7 +73,7 @@
 								</p-box-group>
 							</div>
 							<div class="smallest dimm" v-if="list.find(x => x.value > 0)">
-								Součet je {{ list.reduce((a, b) => a + b.value, 0) }} %
+								Součet je {{ Math.round(list.reduce((a, b) => a + Math.round((b.value || 0) * 10)/10, 0) * 10)/10 }} %
 							</div>
 							<div v-if="valid">
 								<input type="number" min="10" max="100" v-model="att" placeholder="(Volitelně) účast">
@@ -87,7 +87,7 @@
 			</section>
 			<section v-if="!direct && valid">
 				<div class="_pbg">
-					<results-parties-graph-shareable :list="listOfParties.sort((a, b) => b.pct - a.pct).filter((x, i) => (i < 8 && x.pct > 0) || x.pct >= 5)" :mandates="mandates" :mandatesSince="mandatesSince" :about="data" :username="(username ? 'Můj tip: ' + username + ' - ' : 'Můj tip - ') + date(today)" :hash="'kv-tip-' + id + '-' + town"></results-parties-graph-shareable>
+					<results-parties-graph-shareable :list="listOfParties.sort((a, b) => b.pct - a.pct).filter((x, i) => (i < 8 && x.pct > 0) || x.pct >= 5)" :mandates="mandates" :mandatesSince="mandatesSince" :about="data" :username="(['Median', 'Ipsos', 'Kantar', 'STEM', 'CVVM', 'NMS'].indexOf(username) === -1 ? 'Můj tip: ' : '') + (username ? username + ' - ' : '') + date(today)" :hash="'kv-tip-' + id + '-' + town"></results-parties-graph-shareable>
 					<template v-if="list.find(x => x.candidates < Number($town.MANDATY))">
 						<p class="smaller"><strong>Poznámka: </strong> Protože zde kandidují strany, které nemají plnou kandidátní listinu, tak přestože nemusí dosáhnout na 5 % hlasů, mohou díky specifickému přepočtu mandátů v komunálních volbách i tak získat mandáty.</p>
 					</template>

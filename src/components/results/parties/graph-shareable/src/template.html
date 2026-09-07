@@ -67,10 +67,16 @@
 							<div v-for="member in (about.cis.strany.find(x => x.VSTRANA === item.VSTRANA) || {}).$coalition.filter(x => x.VSTRANA != 80)">
 								<p-logo :data="{logo: logoByItem(member, about)}" size="1.5em"></p-logo>
 							</div>
+							<div v-for="member in (about.cis.strany.find(x => x.VSTRANA === item.VSTRANA) || {}).$coalition.filter(x => x.VSTRANA === 80)">
+								<p-logo :data="{logo: logoByItem(member, about, null, null, null, null, true)}" size="1.5em"></p-logo>
+							</div>
 						</div>
 						<div class="_coal2 smallest" v-if="(about.cis.strany.find(x => x.VSTRANA === item.VSTRANA) || {}).$coalition">
 							<div v-for="member in (about.cis.strany.find(x => x.VSTRANA === item.VSTRANA) || {}).$coalition.filter(x => x.VSTRANA != 80)">
 								{{ member.ZKRATKA }}
+							</div>
+							<div v-for="member in (about.cis.strany.find(x => x.VSTRANA === item.VSTRANA) || {}).$coalition.filter(x => x.VSTRANA === 80)">
+								nezávislí<br>kandidáti
 							</div>
 						</div>
 					</div>
