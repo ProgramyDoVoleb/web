@@ -64,7 +64,7 @@ export default {
 			return this.current ? this.current.$dotcene[0] : null
 		},
 		valid: function () {
-			return this.list.reduce((a, b) => a + (Math.round((b.value || 0) * 10) / 10), 0) > 95;
+			return this.list.reduce((a, b) => a + (Math.round((b.value || 0) * 10) / 10), 0) > 75;
 		},
 		valid2: function () {
 			return this.list.reduce((a, b) => a + (b.mandates || 0), 0) === Number(this.$town.MANDATY)
