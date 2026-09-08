@@ -19,7 +19,7 @@ export default {
 				code.push('<script src="https://embed.programydovoleb.cz/js/iframeResizer.min.js"></script>');
 			}
 			
-			code.push('<iframe src="https://embed.programydovoleb.cz/' + this.id + '" frameborder="0" width="' + this.size[0] + '" height="' + this.size[1] + '" style="width: ' + this.size[0] + 'px; height: ' + this.size[1] + 'px" loading="lazy" referrerpolicy="strict-origin" id="pdv-iframe-' + this.id + '" onload="iFrameResize({}, \'#pdv-iframe-' + this.id + '\')"></iframe>');
+			code.push('<iframe src="https://embed.programydovoleb.cz/' + this.id + '" frameborder="0" width="' + this.size[0] + '" height="' + (this.autoheight ? 'auto' : this.size[1]) + '" style="width: ' + this.size[0] + 'px; height: ' + (this.autoheight ? 'auto' : this.size[1] + 'px') + '" loading="lazy" referrerpolicy="strict-origin" id="pdv-iframe-' + this.id + '" onload="iFrameResize({}, \'#pdv-iframe-' + this.id + '\')"></iframe>');
 			// code.push('<script>iFrameResize({}, "#pdv-widget")</script>');
 
 			copy(code.join('\n'));
