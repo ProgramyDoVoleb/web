@@ -19,6 +19,7 @@ import HistoryCandidates from '@/components/history/town/do.vue';
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
 import EngagementSupport from '@/components/engagement/support/do.vue';
 import CandidateStats from '@/components/candidate-stats/do.vue';
+import WidgetEmbed from '@/components/widget-block/do.vue';
 
 export default {
 	name: 'layout-volby-detail-komunalni-obec-detail',
@@ -52,7 +53,8 @@ export default {
 	EditableSuggest,
 	HistoryCandidates,
 	EngagementAddProgram, EngagementSupport,
-	CandidateStats
+	CandidateStats,
+	WidgetEmbed
   },
 	computed: {
 		$store: function () {

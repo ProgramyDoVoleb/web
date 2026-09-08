@@ -1426,6 +1426,30 @@
 				</p>
 				<div class="p-gap"></div> -->
 			</p-block>
+			<p-block headline="Pro váš web">
+				<p-area class="highlight shadow" icon="embed" borderColor="var(--blue)">
+					<div class="p-offset reverse">
+						<div>
+							<strong>Vložte si tenhle přehled na svůj web</strong>
+							<div class="smaller">Stačí jeden řádek kódu</div>
+						</div>
+						<div>
+							<p-modal :extended="1">
+								<template #init>
+									<p-box>
+										<p-box-button class="primary">To chci</p-box-button>
+									</p-box>
+								</template>
+								<template #content>
+									<widget-embed :id="'os' + tableID"></widget-embed>
+								</template>
+							</p-modal>
+							
+						</div>
+					</div>
+					
+				</p-area>
+			</p-block>
 			
 		</template>
 		<template #anchors>

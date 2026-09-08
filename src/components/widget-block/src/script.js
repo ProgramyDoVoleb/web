@@ -2,43 +2,33 @@ import copy from 'copy-to-clipboard';
 
 export default {
 	name: 'widget-block',
-	props: ['link', 'open'],
+	props: ['id'],
 	data: function () {
 		return {
-			copied: false
-		}
-	},
-	computed: {
-		path: function () {
-			return 'https://2022.programydovoleb.cz' + (this.link || this.$route.fullPath.split('#')[0]);
-		},
-		vars: function () {
-			return this.link;
-		},
-		sample: function () {
-			var code = [];
-			code.push('<script src="https://embed.programydovoleb.cz/js/iframeResizer.min.js"></script>');
-			code.push('<iframe id="pdv-widget" src="https://embed.programydovoleb.cz?' + this.vars + '" style="width: 1px; min-width: 100%; border: 0 none" onload="iFrameResize({}, "#pdv-widget")"></iframe>');
-			// code.push('<script>iFrameResize({}, "#pdv-widget")</script>');
-
-			return code.join('\n');
-		},
-		sampleDemo: function () {
-			return this.sample.split('<').join('&lt;').split('>').join('&gt;')
+			copied: false,
+			size: [300,450],
+			autoheight: false,
+			own: false
 		}
 	},
 	methods: {
 		copyLink: function () {
-			copy(this.sample);
+			var code = [];
+
+			if (this.autoheight) {
+				code.push('<script src="https://embed.programydovoleb.cz/js/iframeResizer.min.js"></script>');
+			}
+			
+			code.push('<iframe src="https://embed.programydovoleb.cz/' + this.id + '" frameborder="0" width="' + this.size[0] + '" height="' + this.size[1] + '" style="width: ' + this.size[0] + 'px; height: ' + this.size[1] + 'px" loading="lazy" referrerpolicy="strict-origin" id="pdv-iframe-' + this.id + '" onload="iFrameResize({}, \'#pdv-iframe-' + this.id + '\')"></iframe>');
+			// code.push('<script>iFrameResize({}, "#pdv-widget")</script>');
+
+			copy(code.join('\n'));
 			this.copied = true;
 
 			setTimeout(() => this.copied = false, 1000);
 		},
 		enc: function (s) {
 			return encodeURIComponent(s);
-		},
-		openme: function () {
-			this.$refs.ce.opened = true;
 		}
 	}
 };

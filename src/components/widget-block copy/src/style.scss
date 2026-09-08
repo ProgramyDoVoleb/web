@@ -1,0 +1,25 @@
+#iframe-demo {
+  width: 1px;
+  min-width: 100%;
+}
+
+.split {
+	@media (min-width: 800px) {
+		display: flex;
+
+		> div:nth-child(2) {
+			width: 320px;
+			margin-right: 2rem;
+      order: -1;
+		}
+
+    > div:nth-child(1) {
+      max-width: 50%;
+    }
+	}
+}
+
+.code-sample {
+	white-space: pre-wrap;
+	font-size: 11px;
+}

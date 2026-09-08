@@ -1,24 +1,32 @@
 <div class="widget-block">
-
-	<h3 v-if="!open">Přehled stran jako widget pro vaši stránku</h3>
-	<p-collapsible label="Chci widget" :open="open" :borderless="open" :skip="open" ref="ce">
-		<div class="split">
+	<p-list-linear class="smallest strong or">
+			<span><button class="inline" @click="size = [240,300]">Kompaktní</button></span>
+			<span><button class="inline" @click="size = [300,600]">Vysoký</button></span>
+			<span><button class="inline" @click="size = [500,600]">Rozšířený</button></span>
+			<span><button class="inline" @click="size = [800,600]">Úplný</button></span>
+			<span><button class="inline" @click="own = true">Vlastní nastavení</button></span>
+	</p-list-linear>
+	<div v-if="own">
+		<div class="p-line _05"></div>
+		<p-grid class="_2">
 			<div>
-				<h4>Zkopírujte do vaší stránky:</h4>
-				<p-area class="code-sample" ref="code-sample" v-html="sampleDemo"></p-area>
-				<div class="p-gap"></div>
-				<p-box-group>
-					<p-box :click="() => copyLink()">
-						<p-box-button v-if="!copied" icon="link.svg" color="#066ed2">Zkopírovat kód</p-box-button>
-						<p-box-icon type="icon-check" v-if="copied"></p-box-icon>
-						<p-box-label v-if="copied">Zkopírováno</p-box-label>
-					</p-box>
-				</p-box-group>
+				<div class="smallest dimm">Šířka:</div>
+				<input type="number" min="240" max="2000" v-model="size[0]">
 			</div>
 			<div>
-				<h4>Náhled:</h4>
-				<iframe :src="'https://embed.programydovoleb.cz/?dnt=1&' + vars" frameborder="0" id="iframe-demo" onload="iFrameResize({}, '#iframe-demo')"></iframe>
+				<div class="smallest dimm">Výška:</div>
+				<input type="number" min="240" max="2000" v-model="size[1]">
 			</div>
+		</p-grid>
+		<div>
+			<label><input type="checkbox" v-model="autoheight"> automatické nastavení výšky</label>
 		</div>
-	</p-collapsible>
+	</div>
+	<div class="p-line _05"></div>
+	<div class="scrollable">
+		<iframe v-if="autoheight" class="reset" :src="'https://embed.programydovoleb.cz/' + id" frameborder="0" id="iframe-demo" :width="size[0]" :height="size[1]" :style="{width: size[0] + 'px', height: size[1] + 'px'}" onload="iFrameResize({}, '#iframe-demo')"></iframe>
+		<iframe v-else class="reset" :src="'https://embed.programydovoleb.cz/' + id" frameborder="0" id="iframe-demo" :width="size[0]" :height="size[1]" :style="{width: size[0] + 'px', height: size[1] + 'px'}"></iframe>
+	</div>
+	<div class="p-line _05"></div>
+	<button @click="copyLink">Zkopírovat kód{{ copied ? ' - hotovo' : ''}}</button>
 </div>

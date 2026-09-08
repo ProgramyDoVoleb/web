@@ -44,6 +44,7 @@ import HistoryKvRk from '@/components/history/kv-rk/do.vue';
 import HistoryKvRos from '@/components/history/kv-ros/do.vue';
 import HistoryCandidates from '@/components/history/town/do.vue';
 import EngagementSupport from '@/components/engagement/support/do.vue';
+import WidgetEmbed from '@/components/widget-block/do.vue';
 
 export default {
 	name: 'layout-pointer',
@@ -87,7 +88,8 @@ export default {
 	PopUp,
 	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage,
 	HistoryKvRk, HistoryKvRos, HistoryCandidates,
-	EngagementSupport
+	EngagementSupport,
+	WidgetEmbed
   },
 	computed: {
 		$store: function () {

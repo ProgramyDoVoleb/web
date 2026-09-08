@@ -538,7 +538,7 @@ a.is-span:not(.dimm), .is-span:not(.dimm) {
 //   }
 // }
 
-iframe {
+iframe:not(.reset) {
 	@media (max-width: 1280px) {
 		width: 100% !important;
 	}
