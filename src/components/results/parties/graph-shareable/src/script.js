@@ -53,8 +53,8 @@ export default {
 
 				var limit = 70;
 
-				// if (this.width > 800) limit = 10;
-				// if (this.width > 1200) limit = 15;
+				if (this.width > 800) limit = 10;
+				if (this.width > 1200) limit = 15;
 
 				if (arr.length < limit) {
 					arr.push(item);

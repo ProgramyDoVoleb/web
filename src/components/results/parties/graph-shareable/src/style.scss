@@ -22,6 +22,11 @@
 		position: absolute;
 		// left: 0;
 	}
+
+	.fixedHeight & {
+		height: 1350px;
+		aspect-ratio: initial;
+	}
 }
 
 ._quando {
