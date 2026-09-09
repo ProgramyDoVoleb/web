@@ -129,7 +129,7 @@ export default {
 					})
 				})
 
-				if (this.mandates.length > 0 && this.mandates[0].item.KODZASTUP) {
+				if (this.mandates.length > 0 && this.mandates[0].item && this.mandates[0].item.KODZASTUP) {
 					arr = {
 						obec: this.mandates[0].item.KODZASTUP,
 						volby: this.mandates[0].item.volby,
