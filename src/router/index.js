@@ -186,6 +186,11 @@ const router = createRouter({
       redirect: '/volby/snemovni-volby/166/kviz'
     },
     {
+      path: '/plakaty',
+      name: 'plakaty-redirect',
+      redirect: '/o-projektu/jak-podporit'
+    },
+    {
       path: '/volby/snemovni-volby/166/kviz',
       name: 'volby-snemovni-166-kviz',
       component: () => import('../views/aktivity/quiz/166-general/do.vue'),
