@@ -60,3 +60,17 @@ h4 {
 		// transform: translateY(.45em);
 	}
 }
+
+._logoCoalition {
+	width: 2.5em;
+	display: flex;
+	flex-wrap: wrap;
+
+	> div {
+		margin-bottom: .1em;
+
+		&:nth-child(odd) {
+			margin-right: .1em;
+		}
+	}
+}

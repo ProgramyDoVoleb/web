@@ -562,7 +562,7 @@ export function logoByItem (item, data, _key, _canBeNull, _trySNK, _tryLocal, _i
 
   // console.log(item.JMENO || item.NAZEV, _isHuman, item.KODZASTUP, item.VSTRANA, res);
 
-  if ((res.includes('empty') || res.includes('missing')) && item.JMENO) {
+  if ((res.includes('empty') || res.includes('missing')) && item && item.JMENO) {
     res = cdn + 'nk.png';   
   }
 
@@ -570,7 +570,7 @@ export function logoByItem (item, data, _key, _canBeNull, _trySNK, _tryLocal, _i
     res = cdn + 'nk.png';   
   }
 
-  if ((res.includes('empty') || res.includes('missing')) && !_isHuman && item.KODZASTUP && item.VSTRANA === 90) {
+  if ((res.includes('empty') || res.includes('missing')) && !_isHuman && item && item.KODZASTUP && item.VSTRANA === 90) {
     res = cdn + 'snk.png';
   }
 
