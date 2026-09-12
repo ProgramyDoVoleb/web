@@ -469,7 +469,7 @@ export function colorByItem (item, data, _key, _flat) {
 
           if (_flat && s.$coalition[0].VSTRANA != 80) {
               res = con(s.$coalition[0].$data, 'color', color(s.$coalition[0].NAZEV));
-          } else {
+          } else if (_flat) {
             res = con(s.$coalition[1].$data, 'color', color(s.$coalition[1].NAZEV));
           }
       }

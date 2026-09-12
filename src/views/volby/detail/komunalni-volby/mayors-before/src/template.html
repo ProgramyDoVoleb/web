@@ -1,0 +1,112 @@
+<div class="layout-volby">
+	<p-layout-divided>
+		<template #main>
+			<p-block headline="Kdo vede česká města před volbami?">
+				<p-loader :rule="data">
+					<div v-if="data">
+						<p-block headline="Shrnutí" :hide="true" class="_mv0">
+							<p>
+								<p-truncated-content>
+									Před volbami bylo známo {{ data.mayors.length }} primátorů a starostů z celkem {{ data.list.length }} měst napříč republikou. V tomhle přehledu uvidíte jejich mapu a seznam, a kde se podařilo zjistit, tak také koalici, která na radnici nebo magistrátu do voleb vládla. Berte prosím na vědomí, že neexistuje státní registr starostů (údaje pochází z přehledu <p-link href="https://rpp-opendata.egon.gov.cz/odrpp/datovasada/ovm.json">Orgány veřejné moci</p-link>), natož registr pro koalice na radnicích. Dokonce ani webové stránky měst neobsahují jasné informace, které strany jsou součástí koalice.
+								</p-truncated-content>
+							</p>
+						</p-block>
+						<p-block headline="Na mapě" :hide="true">
+							<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>							
+						</p-block>
+						
+						<template v-for="(kraj, index) in enums.regions">
+							<p-block-expandable :headline="kraj">
+								<p-list>
+									<div v-for="obec in sortBy(data.list.filter(x => data.cis.okresy.find(y => y.NUMNUTS == x.OKRES).KRAJ === index + 1), 'NAZEVZAST', null, true)">
+										<p-area :class="{primary: obec.DRUHZASTUP > 2}">
+											<div class="p-offset reverse">
+												<div>
+													<router-link :to="'/volby/komunalni-volby/154/obec/' + obec.obec" class="strong is-span">{{ obec.NAZEVZAST }}</router-link>
+												</div>
+												<div class="smaller strong">
+													{{ obec.MANDATY }} mandátů
+												</div>
+											</div>
+											<div class="p-line _05 mb05"></div>
+											<component :is="obec.coalition ? 'p-columns' : 'div'" class="smaller">
+												<div v-if="data.mayors.find(x => x.id === obec.mayor)">
+													<h4 class="mv1 smallest dimm">{{ obec.DRUHZASTUP === 2 ? 'Starosta' : 'Primátor'}}</h4>
+													<template v-for="cand in data.mayors.filter(x => x.id === obec.mayor)">
+														<person-preview-block :cand="cand" :current="{$kandidati: []}" :data="data" :link="'/volby/komunalni-volby/' + cand.volby" :party="cand.$party" :omitElected="true"></person-preview-block>
+													</template>
+												</div>
+												<div v-if="obec.coalition">
+													<h4 class="mv1 smallest dimm">Koalice — {{ data.parties.filter(x => obec.coalition.indexOf(x.id) > -1).reduce((a, b) => a + b.MAND_STR, 0) }} mandátů z {{ obec.MANDATY }}</h4>
+													<div v-for="party in data.parties.filter(x => obec.coalition.indexOf(x.id) > -1)" class="p-offset reverse">
+														<div>
+															<p-label class="block" :color="colorByItem(party, data, null, true)">
+																<router-link :to="'/volby/komunalni-volby/154/strana/' + party.id">{{ party.NAZEV }}</router-link>
+															</p-label>
+														</div>
+														<div>
+															{{ party.MAND_STR }}
+														</div>
+													</div>
+												</div>
+												<div v-if="obec.coalition">
+													<h4 class="mv1 smallest dimm">Opozice</h4>
+													<div v-for="party in data.parties.filter(x => x.KODZASTUP == obec.obec && obec.coalition.indexOf(x.id) === -1)" class="p-offset reverse">
+														<div>
+															<p-label class="block" :color="colorByItem(party, data, null, true)">
+																<router-link :to="'/volby/komunalni-volby/154/strana/' + party.id">{{ party.NAZEV }}</router-link>
+															</p-label>
+														</div>
+														<div>
+															{{ party.MAND_STR }}
+														</div>
+													</div>
+												</div>
+												<div v-if="!data.mayors.find(x => x.id === obec.mayor) && !obec.coalition">
+													<em>údaje chybí</em>
+												</div>
+											</component>
+											<div class="p-line"></div>
+											<div class="smallest dimm p-offset reverse">
+												<div>
+													Poslední aktualizace {{ date(obec.lastUpdate) }}
+												</div>
+												<div>
+													<router-link :to="'/obec/' + obec.obec + '#vedeni-zastupitelstva'" class="strong green">Upravit</router-link>
+												</div>
+											</div>
+										</p-area>
+									</div>
+								</p-list>
+							</p-block-expandable>
+						</template>
+						<!-- </div> -->
+						 <p-block headline="Statistika a zajímavosti">
+							<candidate-stats tag="div" :data="data.mayors" :simple="true" color="var(--blue)"></candidate-stats>
+						 </p-block>
+					</div>
+				</p-loader>
+			</p-block>
+		</template>
+		<template #anchors>
+			<!-- <p-logo v-if="data && logoByItem(data.strana, data, null, true)" :data="{logo: logoByItem(data.strana, data)}" :size="'12rem'" :alt="'Logo ' + data.strana.NAZEV"></p-logo> -->
+			<p-logo :data="{logo: cdn + 'icon/komunalni-volby.svg'}" :size="'12rem'"></p-logo>
+			<div class="p-gap"></div>
+			<p-anchors></p-anchors>
+		</template>
+		<template #aside>
+			<p-list height="1.5">
+				<div>
+
+							<div class="smallest strong" v-if="data && data.cis.volby">
+								<div><p-label :color="'var(--' + (['red', 'blue', 'green', 'red'][data.cis.volby.status]) + ')'">{{ data.cis.volby.radne === 0 ? 'mimořádné ' : ''}}volby {{ enums.status[data.cis.volby.status] }}</p-label></div>
+								<div><p-label :color="'var(--' + (['red', 'green', 'red', 'blue'][data.cis.volby.editace]) + ')'">administrace {{ enums.editace[data.cis.volby.editace] }}</p-label></div>
+							</div>
+				</div>
+				<div>
+					<top-tasks></top-tasks>
+				</div>
+			</p-list>
+		</template>
+	</p-layout-divided>
+</div>

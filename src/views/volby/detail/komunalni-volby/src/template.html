@@ -79,6 +79,12 @@
 				<!-- </template> -->
 			</template>
 		</p-columns>
+		<template v-if="data.list[0].id === 176">
+			<div class="p-line"></div>
+			<p-box to="/volby/komunalni-volby/176/stav-pred-volbami">
+				<p-box-button icon="map">Stav před volbami</p-box-button>
+			</p-box>
+		</template>
 	</p-block>
 	<div class="p-gap"></div>
 </div>

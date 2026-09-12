@@ -60,10 +60,10 @@
 				</div>
 				<div>
 					<!-- <p-label :after="true" :color="cand.MANDAT === 'A' ? 'var(--green)' : null"> -->
-						<router-link class="strong" :to="link + '/kandidat/' + cand.id" :class="{green: elected}">
+						<router-link class="strong" :to="link + '/kandidat/' + cand.id" :class="{green: elected && !omitElected}">
 							{{ cand.JMENO }} {{ cand.PRIJMENI }}
 						</router-link>
-						<span v-if="elected" class="ml05 mr025">
+						<span v-if="elected && !omitElected" class="ml05 mr025">
 							<p-badge background="var(--green)">zvolen{{ isWoman(cand) ? 'a' : '' }}</p-badge>
 						</span>
 						<span v-if="rnd2" class="ml05 mr025">
