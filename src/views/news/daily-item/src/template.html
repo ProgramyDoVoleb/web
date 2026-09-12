@@ -73,7 +73,7 @@
 												</div>
 											</template>
 											<template v-for="key in ['priority', 'answer', 'program']">
-												<template v-for="itemparty in day.log.filter(x => x.data.find(y => y.type === key && y.action != 'ignore' && (!y.node || y.node.status != -1)))">
+												<template v-for="itemparty in sortBy(day.log.filter(x => x.data.find(y => y.type === key && y.action != 'ignore' && (!y.node || y.node.status != -1))), 'title', null, true)">
 													<template v-for="item in itemparty.data.filter(y => y.type === key && y.type === 'program' && !itemparty.data.find(y => y.impact.includes('pdv_program'))).filter(x => x.node.status != -1)">
 														<div>
 															<!-- {{ itemparty. }} -->
@@ -93,7 +93,7 @@
 																		</div>
 																	</div>
 																	<div v-else>
-																		<p-image src="https://static.programydovoleb.cz/icon/program.svg" size="2.5em" width="2.5em"></p-image>
+																		<p-image src="https://static.programydovoleb.cz/empty.png" size="2.5em" width="2.5em"></p-image>
 																	</div>
 																	<div>
 																		<div class="smallest dimm" v-if="itemparty.node && itemparty.node.NAZEVZAST">

@@ -45,6 +45,7 @@ import Lang from './pdv/lang/do.vue';
 import LineGraph from './pdv/line-graph/do.vue';
 
 import TruncatedText from './pdv/truncated/do.vue';
+import TruncatedLinear from './pdv/truncated-content/do.vue';
 import CompareValues from './pdv/compare/do.vue';
 import ShareBlock from './pdv/share/do.vue';
 import ModalElement from './pdv/modal/do.vue';
@@ -91,6 +92,7 @@ app.component('p-modal', ModalElement);
 app.component('p-link', OutboundLink);
 app.component('p-share', ShareBlock);
 app.component('p-truncated', TruncatedText);
+app.component('p-truncated-content', TruncatedLinear);
 app.component('p-loader', Loader);
 app.component('p-logo', LogoItem);
 app.component('p-collapsible', CollapsibleElement);

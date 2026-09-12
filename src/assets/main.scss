@@ -623,6 +623,10 @@ iframe:not(.reset) {
 	}
 }
 
+[name] {
+	scroll-margin-top: 20vh;
+}
+
 @import "./your-voice.scss";
 @import "./pdv/_index.scss";
 @import "./plugins/_index.scss"; 

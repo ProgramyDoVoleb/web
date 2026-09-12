@@ -1,0 +1,15 @@
+<span class="truncated-text-linear">
+	<p-icon v-if="icon" :icon="icon"></p-icon>
+	<span v-html="short" v-if="!show || keep"></span>
+	<span v-if="!show" class="strong smallest">... <button class="inline" @click="show = true">{{ cta || 'pokračovat'}}</button> »</span>
+	<!-- <span ref="txt" :data-tick="tick"> -->
+		<span v-if="show"> 
+			<slot></slot>
+		</span>
+	<!-- </span> -->
+	<span v-if="show" class="strong smallest"><span class="keep"> « <button class="inline red" @click="show = false">Skrýt</button></span></span>
+
+	<span class="_f" ref="txt" :data-tick="tick">
+		<slot></slot>
+	</span>
+</span>

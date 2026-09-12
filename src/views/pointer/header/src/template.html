@@ -233,7 +233,8 @@
 									<p-icon icon="admin"></p-icon>
 								</li>
 								<li>
-									<button class="inline green strong" @click="slide('editace', null, false, true)">chci něco doplnit</button>
+									<router-link :to="$link + '#upravit-nebo-doplnit'" class="green strong">chci něco doplnit</router-link>
+									<!-- <button class="inline green strong" @click="slide('editace', null, false, true)">chci něco doplnit</button> -->
 								</li>
 								<li>
 									<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + current.id + '?source=https://programydovoleb.cz' + $route.path">chci spravovat informace</p-link>
