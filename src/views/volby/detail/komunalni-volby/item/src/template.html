@@ -3,7 +3,7 @@
 		<p-area>
 			<div class="p-offset reverse">
 				<div>
-					<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town" class="strong">{{ current.$obce[0].NAZEVZAST }}</router-link>
+					<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town" class="strong is-span">{{ current.$obce[0].NAZEVZAST }}</router-link>
 				</div>
 				<div v-if="current.$zvoleni">
 					<strong>{{ number(current.$zvoleni.length) }}</strong>
@@ -85,7 +85,7 @@
 					<!-- <div class="p-gap_075"></div> -->
 					<template v-if="current.status < 3">
 						<report-modal headline="Pošlete odkaz a případně přidejte poznámku." :part="'KV:' + id + ', obec ' + town">
-							<button class="inline green">Přidat nebo doplnit</button>
+							<button class="inline green">{{ current.status === 1 ? 'Přidat nebo doplnit' : 'Přidat program'}}</button>
 						</report-modal>
 						<!-- &middot; -->
 					</template>
