@@ -12,13 +12,21 @@ export default {
 	},
 	methods: {
 		checkShort: function () {
-			if (this.headline && this.tick > -1) this.short = this.headline;
+
+			// console.log(this.headline, this.tick, this.headline && this.tick > -1);
+
+			if (this.headline && this.tick > -1) {
+				this.short = this.headline.split(' ').splice(0, this.size || 20).join(' ');
+				return;
+			}
 
 			if (this.$refs && this.$refs.txt) {
 				this.short = this.$refs.txt.innerText.split(' ').splice(0, this.size || 20).join(' ');
 			} else {
 				this.short = '<strong>Rychlé shrnutí</strong>';
 			}
+
+			this.tick++;
 			
 			return null;
 		}

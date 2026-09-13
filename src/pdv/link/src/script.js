@@ -24,32 +24,36 @@ export default {
 			}
 
 			// console.log(link);
-			try {
-				var url = URL.parse(link);
-			} catch (e) {
-				var url = new URL(link);
-			}
+			// try {
+			// 	var url = URL.parse(link);
+			// } catch (e) {
+			// 	var url = new URL(link);
+			// }
 			
-			var query = url.search != "" ? url.search.split('?')[1].split('&').map(x => x.split('=')) : [];
+			// var query = url.search != "" ? url.search.split('?')[1].split('&').map(x => x.split('=')) : [];
 
-			if (query.length > 0) {
-				var qutm = query.find(x => x[0] === 'utm_source');
-				if (qutm) {
-					qutm[1] = 'programydovoleb.cz';
-				} else {
-					query.push(['utm_source', 'programydovoleb.cz']);
-				}
+			// if (query.length > 0) {
+			// 	var qutm = query.find(x => x[0] === 'utm_source');
+			// 	if (qutm) {
+			// 		qutm[1] = 'programydovoleb.cz';
+			// 	} else {
+			// 		query.push(['utm_source', 'programydovoleb.cz']);
+			// 	}
 
-				var qarr = [];
+			// 	var qarr = [];
 
-				query.forEach(x => qarr.push(x.join('=')));
+			// 	query.forEach(x => qarr.push(x.join('=')));
 
-				link = url.origin + url.pathname + '?' + qarr.join('&');
-			} else {
-				link = url.origin + url.pathname + '?utm_source=programydovoleb.cz';
-			} 
+			// 	link = url.origin + url.pathname + '?' + qarr.join('&');
+			// } else {
+			// 	link = url.origin + url.pathname + '?utm_source=programydovoleb.cz';
+			// } 
 
 			// console.log('=>', link);
+
+			if (link.includes('instagram.com')) {
+				link = link.split('?')[0];
+			}
 
 			return link;
 		},

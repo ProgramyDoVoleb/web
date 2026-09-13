@@ -75,7 +75,7 @@
 											<template v-for="key in ['priority', 'answer', 'program']">
 												<template v-for="itemparty in sortBy(day.log.filter(x => x.data.find(y => y.type === key && y.action != 'ignore' && (!y.node || y.node.status != -1))), 'title', null, true)">
 													<template v-for="item in itemparty.data.filter(y => y.type === key && y.type === 'program' && !itemparty.data.find(y => y.impact.includes('pdv_program'))).filter(x => x.node.status != -1)">
-														<div>
+														<div class="pt05">
 															<!-- {{ itemparty. }} -->
 															<!-- <p-area class="shadow white" borderColor="var(--blue)"> -->
 																<div class="p-offset">
@@ -119,7 +119,7 @@
 
 																	</div>
 																</div>
-																<div class="p-line _05"></div>
+																<!-- <div class="p-line _05"></div> -->
 															<!-- </p-area> -->
 														</div>
 													</template>
@@ -177,31 +177,35 @@
 											</template>
 										</p-columns>
 									</template>
-									<template v-if="day.main.length > 0">
+									<template v-if="day.main.length > 0 && day.main.find(x => x.$relates.length > 0)">
 										<div class="smallest dimm strong">Významné zprávy z médií</div>
-										<div v-for="item in day.main">
-											<h4><p-link :href="item.source">{{ item.title.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link></h4>
-											<p v-if="item.content" v-html="(item.content || '').split('Původní text: ').join('')"></p>
-											<p class="smallest">
-												<div class="p-offset center">
-													<div>
-														<p-image :src="getMedia(item.source)" width="3em" class="rounded shadow" :rounded="1"></p-image>
-													</div>
-													<div>
-														<span class="strong">{{ domain(item.source) }}</span>												
-														<template v-if="item.$relates.length > 0">
-															<br>Týká se
-															<p-list-linear class="or inline">
-																<span v-for="(relates, index) in item.$relates">
-																	<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')">
-																		{{ (item.relates.split(',')[index].includes('ros') ? relates.NAZEV : relates.ZKRATKA) || relates.JMENO + ' ' + relates.PRIJMENI }}
-																	</router-link>
-																</span>
-															</p-list-linear>
-														</template>
-													</div>
-												</div>
-											</p>
+										<!-- <div v-if="day.main.find(x => x.$relates.length > 0)"> -->
+											<!-- <p-columns class="wide"> -->
+												<div v-for="item in day.main.filter(x => x.$relates.length > 0)" class="pb1">
+													<h4><p-link :href="item.source">{{ item.title.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }}</p-link></h4>
+													<p v-if="item.content" v-html="(item.content || '').split('Původní text: ').join('')" class="smaller mt-1"></p>
+													<p class="smallest">
+														<div class="p-offset">
+															<div>
+																<p-image :src="getMedia(item.source)" width="3em" class="rounded shadow" :rounded="1"></p-image>
+															</div>
+															<div class="smallest">
+																<span class="strong">{{ domain(item.source) }}</span>												
+																<div v-if="item.$relates.length > 0" class="">
+																	týká se
+																	<p-list-linear class="or inline">
+																		<span v-for="(relates, index) in item.$relates">
+																			<router-link :to="'/bod/' + item.relates.split(',')[index].split(':').join('/')" class="">
+																				{{ (item.relates.split(',')[index].includes('ros') ? relates.NAZEV : relates.ZKRATKA) || relates.JMENO + ' ' + relates.PRIJMENI }}
+																			</router-link>
+																		</span>
+																	</p-list-linear>
+																</div>
+															</div>
+														</div>
+													</p>
+												<!-- </div> -->
+											<!-- </p-columns> -->
 										</div>
 									</template>
 									<template v-if="day.polls.length > 0">
@@ -253,6 +257,20 @@
 												</p-area>
 											</div>
 										</p-columns>
+									</template>
+									<template v-if="day.main.length > 0 && day.main.find(x => x.$relates.length === 0)">
+										<div class="smallest dimm strong">Další zprávy</div>
+										<p-columns class="smallest">
+												<div v-for="item in day.main.filter(x => x.$relates.length === 0)" class="p-offset pt1">
+													<div>
+														<p-image :src="getMedia(item.source)" width="3em" class="rounded shadow" :rounded="1"></p-image>
+													</div>
+													<div>
+														{{ item.title.split(' – ')[0].split(' - ')[0].split(' • ')[0].split(' | ')[0].split(' — ')[0] }} &middot; <p-link :href="item.source">{{ domain(item.source) }}</p-link>
+													</div>
+													
+												</div>
+											</p-columns>
 									</template>
 									<template v-if="day.comm.length > 0">
 										<div class="smallest dimm strong">Komentáře</div>
@@ -345,50 +363,60 @@
 											</p-columns>
 										</div>
 									</template>
-									<template v-if="day.log.length > 0 && day.log.find(x => x.data.filter(y => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(y.type) === -1).length > 0)">
-										<div class="smallest dimm strong">Další upravené záznamy</div>
-										<div>
-											<p-list class="invisible smaller">
-												<div v-for="item in sortBy(day.log.filter(x => x.node && x.node.NAZEV && x.data.filter(y => ['media', 'pr'].indexOf(y.type) === -1).length > 0 ) || [], 'title', null, true)">
-													<router-link :to="'/bod/' + item.pointer.split(':').join('/')" class="strong">{{ item.title }}</router-link>
-													<span class="smallest dimm">
-														&mdash;
-														<p-list-linear class="or inline">
-															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(x) === -1)">
-																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
-																	{{ logtypes[entity] }}
-																</component>
+									<div>
+										<template v-if="day.log.length > 0">
+											<p-collapsible icon="edit" label="Přehled upravených záznamů" :status="day.log.length" class="mt-075">
+												<div class="">
+													<p-list class="invisible smaller">
+														<div v-for="item in sortBy(day.log.filter(x => x.node && x.node.NAZEV ) || [], 'title', null, true)">
+															
+															<router-link :to="'/bod/' + item.pointer.split(':').join('/')" class="strong">{{ item.title }}</router-link>
+															<span v-if="item.node && item.node.NAZEVZAST" class=""> &mdash; {{ item.node.NAZEVZAST }}</span>
+															<span class="smallest dimm">
+																&mdash;
+																<p-list-linear class="or inline">
+																	<span v-for="entity in unique(item.data, 'type')">
+																		<!-- <component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)"> -->
+																			{{ logtypes[entity] }}
+																		<!-- </component> -->
+																	</span>
+																</p-list-linear>
+																
 															</span>
-														</p-list-linear>
-													</span>
-												</div>
-												<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node && x.node.PRIJMENI && x.data.filter(y => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(y.type) === -1).length > 0 ) || [], 'title', null, true)">
-													<router-link :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.title }}</router-link>
-													<span class="smallest dimm">
-														&mdash;
-														<p-list-linear class="or inline">
-															<span v-for="entity in unique(item.data, 'type').filter(x => ['media', 'pr', 'answer', 'priority', 'program'].indexOf(x) === -1)">
-																<component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)">
-																	{{ logtypes[entity] }}
-																</component>
+														</div>
+														<div v-for="item in sortByPrijmeni(day.log.filter(x => x.node && x.node.PRIJMENI ) || [], 'title', null, true)">
+															
+															<router-link :to="'/bod/' + item.pointer.split(':').join('/')">{{ item.title }}</router-link>
+															<span v-if="item.node && item.node.OBVOD" class=""> &mdash; obv. {{ item.node.OBVOD }}</span>
+															<span class="smallest dimm">
+																&mdash;
+																<p-list-linear class="or inline">
+																	<span v-for="entity in unique(item.data, 'type')">
+																		<!-- <component :is="['priority', 'program', 'answer'].indexOf(entity) > -1 ? 'p-badge' : 'span'" background="var(--green)"> -->
+																			{{ logtypes[entity] }}
+																		<!-- </component> -->
+																	</span>
+																</p-list-linear>
+																
 															</span>
-														</p-list-linear>
-													</span>
+														</div>
+													</p-list>
 												</div>
-											</p-list>
-										</div>
-									</template>
-									<div v-if="day.auto.length > 0 || day.media.length > 0 || day.comm.length > 0 || day.main.length > 0">
-										<p-collapsible label="Zdroje" logo="link">
-											<p-list class="_05 smaller">
-												<div v-for="link in unique([].concat(day.main.map(x => x.source), day.auto.map(x => x.source), day.comm.map(x => x.source), day.media.map(x => x.source)).map(x => [x].map(x => x.includes('https://admin.programydovoleb.cz/vlastni-zaznam') ? 'https://admin.programydovoleb.cz/vlastni-zaznam' : x)), 0)">
-													<p-link :href="link"></p-link>
-												</div>
-											</p-list>
-										</p-collapsible>
-										<p-collapsible label="Novinky na mapě" icon="map" v-if="news.gps" borderless="1">
-											<news-map :data="news"></news-map>
-										</p-collapsible>
+
+											</p-collapsible>
+										</template>
+										<template v-if="day.auto.length > 0 || day.media.length > 0 || day.comm.length > 0 || day.main.length > 0">
+											<p-collapsible label="Zdroje" logo="link">
+												<p-list class="_05 smaller">
+													<div v-for="link in unique([].concat(day.main.map(x => x.source), day.auto.map(x => x.source), day.comm.map(x => x.source), day.media.map(x => x.source)).map(x => [x].map(x => x.includes('https://admin.programydovoleb.cz/vlastni-zaznam') ? 'https://admin.programydovoleb.cz/vlastni-zaznam' : x)), 0).sort((a, b) => a.localeCompare(b, 'cs'))">
+														<p-link :href="link"></p-link>
+													</div>
+												</p-list>
+											</p-collapsible>
+											<p-collapsible label="Novinky na mapě" icon="map" v-if="news.gps" borderless="1">
+												<news-map :data="news"></news-map>
+											</p-collapsible>
+										</template>
 									</div>
 									<template v-if="day.main.length === 0 && day.sys.length === 0 && day.polls.length === 0 && day.log.length === 0 && day.media.length === 0">
 										<div class="smallest dimm strong">Ticho po pěšině</div>

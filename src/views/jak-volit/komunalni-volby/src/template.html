@@ -7,7 +7,7 @@
 				<div class="p-gap _2"></div>
 				<p-block headline="Jak křížkovat?">
 					<p>Pro křížkování platí tři základní pravidla:</p>
-					<ol>
+					<ol class="classic">
 						<li>Velký křížek mohu dát jedné nebo žádné straně</li>
 						<li>Malé křížky mohu dát, komu chci, klidně z více stran, ale nesmí jich být víc, než kolik jich nakonec usedne v zastupitelstvu.</li>
 						<li>Malé křížky, které dám straně, které jsem dal zároveň velký křížek, se nepočítají</li>
@@ -93,89 +93,10 @@
 					</p-grid>
 				</p-block-expandable>
 				<p-block headline="Zkuste si to">
-					<p>V naší obci Veselá se volí 7 zastupitelů, takže máme 7 hlasů. O hlasy se uchází 6 stran, počty kandidátů jednotlivých stran se ale mohou lišit. Zde se podíváme, jak vyplnit lístek, aby byl platný, a kdo vlastně dostane vaše hlasy.</p>
-					<div class="mv1">
-						<p-collapsible label="Zobrazit hlasovací lístek">
 
-							<p-area  class="primary" :borderColor="valid.isValid ? 'var(--green)' : 'var(--red)'">
-								<div class="p-offset reverse">
-									<div>
-										<template v-if="valid.isValid">
-											<strong>Tento hlasovací lístek je platný</strong>
-											<div class="smaller" v-if="valid.selectedTowns === 0 && valid.used < valid.maxPeople">
-												Použili jste zatím <strong>{{ valid.selectedPeople }} z možných {{ valid.maxPeople }}</strong>. Můžete ještě zakřížkovat nějakého kandidáta, nebo dát křížek straně.
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns === 0 && valid.used === valid.maxPeople">
-												Použili jste všech {{ valid.maxPeople }} dostupných křížků.
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns === 1 && valid.used < valid.maxPeople">
-												Použili jste zatím {{ valid.used }} dostupných křížků.
-												<span v-if="valid.selectedPeople > 0">{{ valid.selectedPeople }} patří kandidátům z jiných stran, zbytek byl přiřazen straně <em>{{ demo.find(x => x.selected).name }}</em></span>
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns === 1 && valid.used === valid.maxPeople && valid.selectedPeople < valid.maxPeople">
-												Použili jste všech {{ valid.used }} dostupných křížků.
-												<span v-if="valid.selectedPeople > 0">{{ valid.selectedPeople }} patří kandidátům z jiných stran, zbytek byl přiřazen straně <em>{{ demo.find(x => x.selected).name }}</em></span>
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns === 1 && valid.selectedPeople === valid.maxPeople">
-												Použili jste všech {{ valid.maxPeople }} dostupných křížků. Všichni kandidáti ale patří do jiných stran, z straně <em>{{ demo.find(x => x.selected).name }}</em> nezískal hlas nikdo, přestože je zakřížkovaná.
-											</div>
-											<div class="smaller strong green" v-if="valid.used < valid.maxPeople">Ještě může přiřadit další křížek.</div>
-										</template>
-										<template v-else>
-											<strong>Tento hlasovací lístek by nebyl platný</strong>
-											<div class="smaller" v-if="valid.selectedPeople === 0 && valid.selectedTowns === 0">
-												Nikdo nebyl vybrán. Je nutné vybrat aspoň jednoho kandidáta nebo stranu.
-											</div>
-											<div class="smaller" v-if="valid.selectedPeople > 7">
-												Křížek dostalo {{ valid.selectedPeople }} kandidátů. Maximum je {{ valid.maxPeople }}.
-											</div>
-											<div class="smaller" v-if="valid.selectedTowns > 1">
-												Křížek dostalo moc stran. Křížek lze dát nejvýše jedné straně.
-											</div>
-										</template>
-									</div>
-									<div>
-										<p-icon :icon="valid.isValid ? 'icon-check' : 'icon-against'" size="3em"></p-icon>
-									</div>
-								</div>
-								<div class="p-line _2"></div>
-								<p-grid>
-									<div v-for="town in demo">
-										<p-area>
-											<div class="text-center">
-												<strong :class="{'green strong': town.valid}">{{ town.name }}</strong>
-												<div>
-													<span class="_w2">
-														<p-box class="_check" :click="() => toggle(town)">
-															<p-box-icon :type="town.selected ? 'cancel' : 'empty.png'"></p-box-icon>
-														</p-box>
-													</span>
-												</div>
-											</div>
-											<div class="p-line _05"></div>
-											<div class="mt05">
-												<p-list class="invisible">
-													<div v-for="(item, index) in town.list">
-														<span class="_w2">
-															{{ index + 1 }}.
-														</span>
-														<span class="_w2">
-															<p-box class="_check" :click="() => toggle(town, item)">
-																<p-box-icon :type="item.selected ? 'cancel' : 'empty.png'"></p-box-icon>
-															</p-box>
-														</span>
-														<span :class="{'green strong': item.valid}">
-															{{ item.name }}
-														</span>
-													</div>
-												</p-list>
-											</div>
-										</p-area>
-									</div>
-								</p-grid>
-							</p-area>
-						</p-collapsible>
-					</div>
+							<p>Teorie je jedna věc, ale není nad to si to zkusit. Nejlépe nanečisto, ale s opravdovými údaji přímo z vaší obce. Vyberte si ji zde a pak už jen klikejte a zkoušejte, kdy lístek platí.</p>
+							<search-town link="/volby/komunalni-volby/176/hlasovani-nanecisto/"></search-town>
+					
 				</p-block>
 			</p-block>
 			<p-block headline="Kdo může volit?" :level="1">
@@ -209,15 +130,32 @@
 				</p-block>
 				<p-block headline="Občané EU">
 					<p>Do komunálních voleb mohou volit také občané EU, kteří zde mají trvalý nebo přechodný pobyt, pokud se včas zapíšou do zvláštního seznamu voličů. Termín je <strong>dva dny před prvním volebním dnem</strong>, tedy do středy. Ten vede úřad v místě jejich bydliště. Je nutné o zápis do něj požádat. Potom volí stejnou formou a ve stejný termín jako ostatní voliči.</p>
-					<p-box-group>
+					<!-- <p-box-group>
 						<p-box href="https://mv.gov.cz/volby/soubor/vzor-zadost-o-zapis-do-dodatku-staleho-seznamu-volicu.aspx">
 							<p-box-button>Žádost o zápis</p-box-button>
 						</p-box>
 						<p-box href="https://mv.gov.cz/volby/clanek/for-foreigners-voters.aspx">
 							<p-box-button>Více na webu Vnitra</p-box-button>
 						</p-box>
-					</p-box-group>
+					</p-box-group> -->
 				</p-block>
+			</p-block>
+			<p-block headline="Další informace" :level="1">
+				<p-area class="inline" icon="hint">
+					<p-link href="https://medium.seznam.cz/clanek/programy-do-voleb-jak-na-krizkovani-ve-volbach-pojdte-si-to-zkusit-uz-dnes-a-par-tipu-navic-319574" class="strong">Jak na křížkování ve volbách?</p-link>
+					<div class="smallest dimm">Článek na Medium.cz</div>
+				</p-area>
+				<ul class="classic">
+					<li>
+						<p-link href="https://mv.gov.cz/volby-referenda/vyhlasene-volby">Informace o volbách na Ministerstvu vnitra</p-link>
+					</li>
+					<li>
+						<p-link href="https://volby.gov.cz/app/kv2026/cs/20261009/home">Údaje na webu volby.cz</p-link>
+					</li>
+					<li>
+						<p-link href="https://medium.seznam.cz/clanek/programy-do-voleb-jak-na-krizkovani-ve-volbach-pojdte-si-to-zkusit-uz-dnes-a-par-tipu-navic-319574">Článek o křížkování</p-link>
+					</li>
+				</ul>
 			</p-block>
 		</template>
 		<template #aside>

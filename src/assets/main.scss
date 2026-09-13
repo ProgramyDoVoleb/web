@@ -27,7 +27,7 @@ p {
 	max-width: 40em;
 }
 
-ul {
+ul:not(.classic) {
 	list-style: none;
 }
 
@@ -35,7 +35,22 @@ ul, li {
 	padding: 0;
 }
 
-ol {
+ul.classic,
+ol.classic {
+	list-style-position: outside;
+	margin-left: 1.5em;
+	padding-left: 0;
+
+	li {
+		padding-left: .5em;
+
+		+ li {
+			padding-top: .25em;
+		}
+	}
+}
+
+ol:not(.classic) {
   list-style: none;
   padding: 0;
   margin: 0;

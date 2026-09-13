@@ -181,3 +181,16 @@
 	column-rule: none;
 	column-gap: .75em;
 }
+
+.p-columns---wide,
+._wide,
+.wide {
+	container-type: inline-size;
+	
+	@container (min-width: 540px) {
+		.p-columns---container {
+			columns: 2;
+			column-gap: 4em;
+		}
+	}
+}

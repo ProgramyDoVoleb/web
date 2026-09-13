@@ -1,5 +1,6 @@
 import {ga} from '@/pdv/analytics';
 import { cdn } from '@/stores/core';
+import SearchTown from '@/components/search-town/do.vue'
 
 export default {
 	name: 'layout-how-komunalni',
@@ -70,6 +71,9 @@ export default {
 				used: 0
 			}
 		}
+	},
+	components: {
+		SearchTown
 	},
 	methods: {
 		evaluate: function () {
