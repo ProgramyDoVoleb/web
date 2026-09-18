@@ -19,8 +19,8 @@
 							<engagement-support></engagement-support>
 							<p-area class="mt1">
 								<p-list class="_05">
-									<div class="strong blue">&rarr; úroveň 1 &middot; 25 000 Kč = dobrá kampaň</div>
-									<div>úroveň 2 &middot; 50 000 Kč = lepší kampaň</div>
+									<div class="strong green">úroveň 1 &middot; 25 000 Kč = dobrá kampaň</div>
+									<div class="strong blue">&rarr; úroveň 2 &middot; 50 000 Kč = lepší kampaň</div>
 									<div>úroveň 3 &middot; 75 000 Kč = skvělá kampaň</div>
 									<div>úroveň 4 &middot; 100 000 Kč = hustá kampaň</div>									
 								</p-list>
@@ -116,6 +116,21 @@
 								<strong>Nechcete nic kupovat, ale líbí se vám motiv?</strong> Kupte si ho samotný a použijte, kam budete chtít. Vyberte si ho <p-link href="https://programydovoleb.t-shock.eu/cs//motiv-ke-stazeni/">zde</p-link> a během pár minut je váš. <em>CC-BY-ND</em>
 							</div>
 						</p-area>
+					</div>
+				</p-grid>
+				<div class="p-gap"></div>
+				<h3 class="quando">Nebo koupí plakátů</h3>
+				<p class="smaller">Nyní lze objednat pouze <strong>tisková data</strong> pro vlastní tisk. Pozor, jedná se o digitální produkt - získáte soubory PDF a JPG, určený k tisku, na vlastní riziko. Nejedná se o hotový vytištěný plakát na zeď. Licence <p-link href="https://creativecommons.org/licenses/by-nd/4.0/deed.cs">CC-BY-ND</p-link> vám umožňuje široké využití, včetně komerčního, za podmínky, že si nebudete přisvojovat autorství, vyvolávat dojem spolupráce nebo sympatizování a nebudete zasahovat do podoby.</p>
+				<p class="smallest mb2">Prodej digitálních produktů zajištěn přes platformu SimpleShop.</p>
+				<p-grid class="_2_4"> 
+					<div v-for="item in prints">
+						
+							<p-image width="100%" :src="item.src" class="rounded"></p-image>
+							<div class="mt 25">
+								<span class="smallest strong">{{ item.name }} &rarr; </span>
+								<p-link :href="item.link"><p-badge background="var(--blue)">{{ item.price }} Kč</p-badge></p-link>
+							</div>
+						
 					</div>
 				</p-grid>
 			</p-block>
