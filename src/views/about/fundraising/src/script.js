@@ -1,5 +1,6 @@
 import {ga} from '@/pdv/analytics';
 import { useCore, cdn, today } from '@/stores/core';
+import { slide } from '@/pdv/helpers';
 import PromoBlock from '@/components/cta/promo-block/do.vue';
 import CtaSupport from '@/components/cta/support/do.vue';
 import EngagementSupport from '@/components/engagement/support/do.vue';
@@ -37,5 +38,14 @@ export default {
   mounted: function () {
     window.scrollTo(0, 1);
     ga("Podpořte Programy do voleb");
+	setTimeout(() => {
+					if (location.hash && location.hash != '') {
+						var el = document.querySelector("[name=" + location.hash.split('#')[1] + "]");
+						if (el) el.scrollIntoView({behavior: "smooth", block: "start"});
+					}
+				}, 500);
+  },
+  methods: {
+	slide
   }
 };

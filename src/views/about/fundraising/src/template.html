@@ -3,9 +3,10 @@
 		<template #main>
 			<p-block :level="1" headline="Podpořte Programy do voleb" anchor="Podpora projektu">
 				<p-box-group>
-					<template v-for="(kc, i) in [100, 250]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
+					<template v-for="(kc, i) in [100, 226, 2026]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
 					<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
 					<p-box href="https://programydovoleb.t-shock.eu/cs/"><p-box-button class="primary">Merch</p-box-button></p-box>
+					<p-box :click="() => slide('plakaty')"><p-box-button class="primary">Plakáty</p-box-button></p-box>
 				</p-box-group>
 				<p class="smallest dimm">Kliknutí přesměruje na portál Darujme.cz</p>
 			</p-block>
@@ -98,34 +99,68 @@
 										<ul>
 											<li>- podpora projektu s odměnou</li>
 											<li>- převodem, QR, případně kartou</li>
-											<li>- zásilkovna, osobně nebo online</li>
+											<li>- různé možnosti dopravy</li>
 										</ul>
 									</div>
 								</div>
 								<p-box-group>
 									<p-box href="https://www.t-shock.eu/cs/shop/NUBj">
-										<p-box-button>E-shop</p-box-button>
-									</p-box>
-									<p-box href="https://form.simpleshop.cz/4znjE/">
-										<p-box-button>Motiv k tisku</p-box-button>
+										<p-box-button>Chci merch</p-box-button>
 									</p-box>
 								</p-box-group>
-							
-							<div class="p-line"></div>
-							<div class="smallest">
-								<strong>Nechcete nic kupovat, ale líbí se vám motiv?</strong> Kupte si ho samotný a použijte, kam budete chtít. Vyberte si ho <p-link href="https://programydovoleb.t-shock.eu/cs//motiv-ke-stazeni/">zde</p-link> a během pár minut je váš. <em>CC-BY-ND</em>
-							</div>
 						</p-area>
 					</div>
 				</p-grid>
-				<div class="p-gap"></div>
-				<h3 class="quando">Nebo koupí plakátů</h3>
+			</p-block>
+			<p-block headline="Plakáty" subheadline="tisková data">
 				<p class="smaller">Nyní lze objednat pouze <strong>tisková data</strong> pro vlastní tisk. Pozor, jedná se o digitální produkt - získáte soubory PDF a JPG, určený k tisku, na vlastní riziko. Nejedná se o hotový vytištěný plakát na zeď. Licence <p-link href="https://creativecommons.org/licenses/by-nd/4.0/deed.cs">CC-BY-ND</p-link> vám umožňuje široké využití, včetně komerčního, za podmínky, že si nebudete přisvojovat autorství, vyvolávat dojem spolupráce nebo sympatizování a nebudete zasahovat do podoby.</p>
-				<p class="smallest mb2">Prodej digitálních produktů zajištěn přes platformu SimpleShop.</p>
+				<p class="smallest mb2">
+					Prodej digitálních produktů zajištěn přes platformu SimpleShop. 
+					<p-modal class="inline">
+						<template #init>
+							<button class="inline">Obchodní podmínky</button>
+						</template>
+						<template #content>
+							<h3>Obchodní podmínky pro prodej digitálních produktů</h3>
+							<p>Programy do voleb jsou neziskový projekt a doplňkový prodej digitálních produktů nebo licencí je v dobré víře vedlejší hospodářskou činností. Případný výnos je určen pro další rozvoj a propagaci projektu.</p>
+							<h4>1. Úvodní ustanovení</h4>
+							<p>Tyto Všeobecné obchodní podmínky (dále jen „VOP“) upravují právní vztahy, práva a povinnosti vznikající mezi: Prodávajícím/Poskytovatelem <strong>Programy do voleb, z. s., sídlem Jana Palacha 1413, 511 01 Turnov, IČO 10906380</strong> a Kupujícím/Uživatelem (Odběratel digitálního obsahu/zákazník).</p>
+							<h4>2. Předmět VOP a uzavření smlouvy</h4>
+ 							<p>Předmětem je zejména prodej digitálního obsahu. Smlouva se uzavírá okamžikem odeslání formuláře na webu www.programydovoleb.cz nebo simpleshop.cz. Poskytnutí digitálního obsahu je podmíněno poskytnutím osobních údajů: e-mailové adresy, jména a příjmení, adresa pro účely uskutečnění objednávky. Osobní odaje spravují Programy do voleb, zpracovatelem je distributor digitálního obsahu <p-link href="https://www.simpleshop.cz/ochrana-osobnich-udaju/">SimpleShop</p-link>.</p>
+							<h4>3. Poskytování digitálního obsahu</h4>
+							<ul class="classic">
+								<li>Charakteristika obsahu: Digitální obsah (e-book, šablony, plakáty apod.) je poskytován v elektronické podobě.</li>
+								<li>Cena je uvedena v okamžiku objednávky jako konečná. Programy do voleb nejsou plátce DPH. Z povahy věci se neplatí dopravné.</li>
+								<li>Platba: Platit je možné bankovním převodem nebo QR platbou. Platba je zaznamenána na transparentním účtu <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">2502004588/2010</p-link>.</li>
+								<li>Dodání: Obsah nebo odkaz do uložiště je doručen uživateli na jeho e-mailovou adresu, kterou zadal do formuláře, obvykle ihned, nejpozději do 24 hodin.</li>
+								<li>Licence: Uživatel získává nevýhradní licenci k použití digitálního obsahu, na vlastní riziko, s licencí <p-link href="https://creativecommons.org/licenses/by-nd/4.0/deed.cs">CC-BY-ND</p-link>, která ho opravňuje k dalšímu šíření i komerčnímu prodeji, za podmínky, že se nebude vydávat za autora, nebude zasahovat do podoby díla a nebude vyvolávat dojem, že by byl mezi subjekty jiný než obchodní vztah.</li>
+								<li>Počet stažení: Kupující může digitální obsah stahovat neomezeně, kdykoli, opakovaně, dokud je k dispozici. Prodávající ale garantuje pouze jedno stažení nebo zaslání.</li>
+							</ul>
+							<h4>4. Odpovědnost za vady a reklamace digitálního obsahu</h4>
+							<ul class="classic">
+								<li>Funkčnost: Poskytovatel odpovídá za to, že digitální obsah je bez vad a má obvyklé vlastnosti. Nezodpovídá za vady způsobené dalším nakládáním či formou nakládání s digitálním obsahem</li>
+								<li>Zákonné aktualizace: Poskytovatel není povinen provádět aktualizace digitálního obsahu, pokud není ujednáno jinak.</li>
+								<li>Uplatnění vady: Vady (např. nefunkční odkaz ke stažení) lze reklamovat bez zbytečného odkladu e-mailem na info@programydovoleb.cz</li>
+							</ul>
+							<h4>5. Odstoupení od smlouvy (platí pouze pro placené produkty)</h4>
+							<ul class="classic">
+								<li>Standardní odstoupení: Spotřebitel má právo odstoupit od smlouvy o koupi fyzického zboží do 14 dnů.</li>
+								<li>Digitální obsah: U digitálního obsahu, který není dodán na hmotném nosiči a byl dodán se souhlasem spotřebitele a s jeho výslovným prohlášením, že byl poučen o ztrátě práva na odstoupení, nelze od smlouvy odstoupit.</li>
+							</ul>						
+							<h4>6. Závěrečná ustanovení</h4>
+							<p>Vztahy se řídí českým právním řádem, zejména Občanským zákoníkem.</p>
+							<p>V případě sporu se může zákazník obrátit na Českou obchodní inspekci s žádostí o mimosoudní řešení sporu.</p>
+							<p>Prodávající má právo kdykoli tyto podmínky jednostranně změnit, přičemž pro kupujícího platí podmínky platné v době objednávky.</p>
+							<p>Kopii platných podmínek si může kupující přečíst předem a jejich kopii získá spolu s objednávkou.</p>
+							<p>Účinnost od 19. září 2026</p>
+						</template>
+					</p-modal>
+				</p>
 				<p-grid class="_2_4"> 
 					<div v-for="item in prints">
-						
-							<p-image width="100%" :src="item.src" class="rounded"></p-image>
+							<div class="_poster">
+								<p-image width="100%" :src="item.src" class="rounded"></p-image>
+							</div>
 							<div class="mt 25">
 								<span class="smallest strong">{{ item.name }} &rarr; </span>
 								<p-link :href="item.link"><p-badge background="var(--blue)">{{ item.price }} Kč</p-badge></p-link>
