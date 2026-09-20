@@ -56,6 +56,11 @@
 			<div class="p-gap"></div>
 			<p-box-group class="_empty">
 				<template v-if="current">
+					<template v-if="current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL < 500">
+						<p-box>
+							<p-box-ticker background="var(--grey11)"><span class="smallest">#</span>{{ current.POR_STR_HL }}</p-box-ticker>
+						</p-box>
+					</template>
 					<template v-if="current.PRIJMENI && current.$data.logo">
 						<p-box>
 							<p-box-image :src="current.$data.logo[0].value" class="_bw"></p-box-image>
@@ -86,7 +91,7 @@
 				</template>
 				<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length === 1">
 					<p-box :href="current.$data.program[0].source">
-						<p-box-button class="primary">Program</p-box-button>
+						<p-box-button class="primary">Program <p-icon icon="link"></p-icon></p-box-button>
 					</p-box>
 				</template>
 				<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length > 1">
@@ -135,11 +140,6 @@
 					</p-box>
 				</template>
 				<template v-if="typeof current.MANDAT === 'undefined'">
-					<template v-if="current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL < 500">
-						<p-box>
-							<p-box-ticker background="var(--grey11)">{{ current.POR_STR_HL }}.</p-box-ticker>
-						</p-box>
-					</template>
 					<template v-if="current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL > 499">
 						<p-box>
 							<p-box-label>Zatím bez volebního čísla</p-box-label>
@@ -168,6 +168,12 @@
 						<p-box>
 							<p-box-label>č. {{ current.CKAND }}</p-box-label>
 						</p-box>
+					</template>
+					<template v-for="cand in current.$kandidati && current.$kandidati.filter(x => x.PORCISLO === 1)">
+						<p-box :to="'/bod/' + table.split('_').splice(0,2).join('_') + '_rk/' + cand.id">
+							<p-box-image v-if="con(cand.$data, 'photo')" :src="con(cand.$data, 'photo')" class="_bw"></p-box-image>
+							<p-box-label>1. {{ cand.JMENO }} {{ cand.PRIJMENI }}</p-box-label>
+						</p-box>	
 					</template>
 				</template>
 				<template v-if="current.MANDAT">

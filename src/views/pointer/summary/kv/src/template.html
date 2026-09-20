@@ -25,8 +25,8 @@
 				<em><router-link :to="$route.fullPath.split('/kandidat/')[0] + '/strana/' + party.id">{{ party.NAZEV }}</router-link></em> 
 				{{ current.PORCISLO === 1 ? 'na pozici lídra' : 'na ' + current.PORCISLO + '. místě' }} 
 				{{ ['', 'v obci', 've městě', 've statutárním městě', 'v hlavním městě', 'v městské části', 'v městysi'][current.$strana[0].$zastupitelstvo[0].DRUHZASTUP] }}
-				<em>{{ current.$strana[0].NAZEVZAST }}</em>, okres 
-				<router-link :to="'/volby/komunalni-volby/' + current.volby + '/okres/' + current.OKRES">{{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</router-link>.
+				<em>{{ current.$strana[0].NAZEVZAST }}</em><template v-if="[1,6].indexOf(current.$zastupitelstvo[0].DRUHZASTUP) > -1">, okres 
+				<router-link :to="'/volby/komunalni-volby/' + current.volby + '/okres/' + current.OKRES">{{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</router-link></template>. 
 				<template v-if="elections.status === 3">
 					Ve volbách {{ (isWoman(current) ? 'obdržela' : 'obdržel') }} {{ number(current.POCHLASU) }} hlasů a mandát <strong>{{ current.MANDAT === 'A' ? 'získal' : 'nezískal' }}{{(isWoman(current) ? 'a' : '')}}</strong>.
 					<template v-if="current.PORADINAHR > 0">{{(isWoman(current) ? 'Stala' : 'Stal')}} se ale {{ current.PORADINAHR }}. náhradníkem.</template>
@@ -72,8 +72,8 @@
 				{{ ['', 'zřejmě najdou', 'najdou', 'mohli najít'][elections.status] }} 
 				voliči
 				{{ ['', 'v obci', 've městě', 've statutárním městě', 'v hlavním městě', 'v městské části', 'v městysi'][current.$zastupitelstvo[0].DRUHZASTUP] }}
-				<em>{{ current.NAZEVZAST }}</em>, okres 
-				<router-link :to="'/volby/komunalni-volby/' + current.volby + '/okres/' + current.OKRES">{{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</router-link>.
+				<em>{{ current.NAZEVZAST }}</em><template v-if="[1,6].indexOf(current.$zastupitelstvo[0].DRUHZASTUP) > -1">, okres 
+				<router-link :to="'/volby/komunalni-volby/' + current.volby + '/okres/' + current.OKRES">{{ data.cis.okresy.find(x => x.NUMNUTS === current.OKRES).NAZEV }}</router-link></template>. 
 				Na listině {{ ['', 'zatím je', 'je', 'bylo'][elections.status] }}
 				<p-lang :value="current.$kandidati.length" :end="['prázdno', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang>{{ elections.status === 3 || (elections.status === 2 && String(current.SLOZENI).includes(',')) ? ':' : '.' }}
 				<template v-if="elections.status === 2 && String(current.SLOZENI).includes(',')">
