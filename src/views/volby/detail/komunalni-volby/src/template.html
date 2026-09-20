@@ -70,8 +70,22 @@
 		</p-block>
 	</template>
 	<p-block headline="V největších městech">
-		<p-columns class="_2_4">
-			<template v-for="(item, index) in data.list[0].$dotcene.filter(x => !x.OBVODY || x.OBVODY < 2)">
+		<template v-for="(item, index) in data.list[0].$dotcene.filter(x => x.DRUHZASTUP === 4).filter(x => !x.OBVODY || x.OBVODY < 2)">
+			<town-item :data="town(item.obec)" :town="item.obec" :id="data.list[0].id" :hasColumns="1"></town-item>
+		</template>
+		<h3 class="quando mt3">Krajská města</h3>
+		<p-columns class="_noGap _noRule">
+			<template v-for="(item, index) in data.list[0].$dotcene.filter(x => enums.towns.regional.find(y => y.num === x.obec)).filter(x => !x.OBVODY || x.OBVODY < 2)">
+				<!-- <template v-if="index != 0"> -->
+					<div>
+						<town-item :data="town(item.obec)" :town="item.obec" :id="data.list[0].id"></town-item>
+					</div>
+				<!-- </template> -->
+			</template>
+		</p-columns>
+		<h3 class="quando mt3">Další velká města</h3>
+		<p-columns class="_noGap _noRule">
+			<template v-for="(item, index) in data.list[0].$dotcene.filter(x => enums.towns.other.find(y => y.num === x.obec)).filter(x => !x.OBVODY || x.OBVODY < 2)">
 				<!-- <template v-if="index != 0"> -->
 					<div>
 						<town-item :data="town(item.obec)" :town="item.obec" :id="data.list[0].id"></town-item>

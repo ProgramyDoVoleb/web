@@ -11,7 +11,7 @@ import ElectionStats from '@/components/results/stats/do.vue';
 
 export default {
 	name: 'layout-volby-detail-komunalni-item',
-	props: ['data', 'prev', 'town', 'id'],
+	props: ['data', 'prev', 'town', 'id', 'hasColumns'],
 	data: function () {
 		return {
 			cdn, today,

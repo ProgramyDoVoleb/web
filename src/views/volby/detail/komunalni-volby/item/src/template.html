@@ -1,15 +1,17 @@
 <div class="komunalni-volby">
 	<!-- <p-block :headline="current.$obce[0].NAZEVZAST" :hide="true"> -->
-		<p-area>
-			<div class="p-offset reverse">
+		<p-area :class="{'shadow highlight': hasColumns}">
+			<div class="p-offset reverse mb075">
 				<div>
 					<router-link :to="'/volby/komunalni-volby/' + id + '/obec/' + town" class="strong is-span">{{ current.$obce[0].NAZEVZAST }}</router-link>
 				</div>
 				<div v-if="current.$zvoleni">
 					<strong>{{ number(current.$zvoleni.length) }}</strong>
 				</div>
+				<div v-else>
+					<strong>{{ number(current.$obce[0].MANDATY) }}</strong>
+				</div>
 			</div>			
-			<div class="p-gap_025"></div>
 			<div class="smaller">
 				<template v-if="current.status === 3 && current.$ucast.length > 0">
 					<template v-for="(obvod, index) in obvody">
@@ -49,21 +51,24 @@
 					<i class="red smaller">Volby zde neproběhly!</i>
 				</template>
 				<div v-if="current.status === 2" :class="{'smallest dimm': data.list[0].$strany.length === 0}">
-					<p-list class="invisible">
+					<component :is="hasColumns ? 'p-columns' : 'p-list'" class="invisible _1_2">
 						<div v-for="party in sortBy(data.list[0].$strany, 'NAZEV', null, true)">
-							<div class="p-offset reverse">
+							<div class="p-offset reverse top">
 								<router-link :to="'/volby/komunalni-volby/' + id + '/strana/' + party.id" :class="{'is-span': current.status === 1}">{{ truncate(party.NAZEV, 8) }}</router-link>
 								<div class="dimm _candCount">
-									<p-icon icon="pdv" v-if="party.$program != 0" size="1em"></p-icon>
-									<p-icon icon="program" v-if="party.$data.program.length != 0" size="1em"></p-icon>
-									<p-icon icon="answers-mini" v-if="party.$answers != 0" size="1em"></p-icon>
+									<router-link v-if="party.$program != 0" :to="'/volby/komunalni-volby/' + party.volby + '/strana/' + party.id + '/volebni-program/' + party.$program[0].id"><p-badge background="var(--blue)">program</p-badge></router-link>
+									<p-link v-if="party.$program != 0 && party.$data.program.length != 0" :href="party.$data.program[0].source"><p-badge background="var(--blue11)" color="var(--grey)"><p-icon icon="link"></p-icon></p-badge></p-link>
+									<p-link v-if="party.$program === 0 && party.$data.program.length != 0" :href="party.$data.program[0].source"><p-badge background="var(--blue11)" color="var(--grey)">program <p-icon icon="link"></p-icon></p-badge></p-link>
+									<!-- <p-icon icon="pdv" v-if="party.$program != 0" size="1em"></p-icon> -->
+									<!-- <p-icon icon="program" v-if="party.$data.program.length != 0" size="1em"></p-icon> -->
+									<!-- <p-icon icon="answers-mini" v-if="party.$answers != 0" size="1em"></p-icon> -->
 								</div>
 							</div>
 						</div>
 						<div v-if="data.list[0].$strany.length === 0" class="smallest dimm">
 							<em>Zatím žádné známé strany</em>
 						</div>
-					</p-list>
+					</component>
 				</div>
 				<div v-if="current.status === 1" :class="{'smallest dimm': data.list[0].$strany.length === 0}">
 					<p-list class="invisible">
