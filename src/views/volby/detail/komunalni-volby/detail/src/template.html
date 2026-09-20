@@ -156,17 +156,21 @@
 				</div>
 			</div>	
 			<div class="p-gap"></div>
-			<component :is="compactList === 3 ? 'p-list' : 'p-columns'">
-				<div v-for="(party, index) in sortBy(current.$strany.filter(x => current.status === 1 ? true : x.POR_STR_HL > 0), 'NAZEV', '', true)">
-					<component :is="['', 'party-preview', 'party-preview-large', 'party-preview-full'][compactList]" :link="'/volby/komunalni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.OSTRANA === party.OSTRANA)" :election="null" :elections="data"></component>
-				</div>
-				<div v-if="current.$strany.length === 0">
-					<p-area icon="icon-none" class="smaller">
-						<strong>Zatím zde není žádná strana</strong>
-						<div class="smallest">Víte o nějaké? Dejte vědět</div>
-					</p-area>
-				</div>
-			</component>
+			<template v-for="(obvod, index) in obvody">
+				<component :is="obvod.OBVODY === 2 ? 'p-block-expandable' : 'div'" :headline="'Obvod ' + (index + 1)">
+					<component :is="compactList === 3 ? 'p-list' : 'p-columns'">
+						<div v-for="(party, index2) in sortBy(current.$strany.filter(x => x.COBVODU === (index + 1)).filter(x => current.status === 1 ? true : x.POR_STR_HL > 0), 'NAZEV', '', true)">
+							<component :is="['', 'party-preview', 'party-preview-large', 'party-preview-full'][compactList]" :link="'/volby/komunalni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.COBVODU === (index + 1)).filter(x => x.OSTRANA === party.OSTRANA)" :election="null" :elections="data"></component>
+						</div>
+						<div v-if="current.$strany.length === 0">
+							<p-area icon="icon-none" class="smaller">
+								<strong>Zatím zde není žádná strana</strong>
+								<div class="smallest">Víte o nějaké? Dejte vědět</div>
+							</p-area>
+						</div>
+					</component>
+				</component>
+			</template>
 			<!-- <election-grid :leaders="true" :list="people(parties(current.$strany, current.$strany), current.$kandidati, true)"></election-grid> -->
 			<template v-if="current.status < 2">
 				<div class="p-line"></div>
