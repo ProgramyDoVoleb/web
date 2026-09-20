@@ -45,6 +45,7 @@ export default {
 	},
   methods: {
 		url,
+		con,
 		date,
 		number,
 		truncate,
@@ -128,6 +129,7 @@ export default {
 					color: this.colorByItem(item, this.data, 'PSTRANA,NSTRANA'),
 					logo: this.logoByItem(item, this.data, 'PSTRANA,NSTRANA', true),
 					photo: this.photoByItem(item, this.data, 'PSTRANA,NSTRANA'),
+					web: con(item.$data, 'web'),
 					round1: {
 						pct: item.PROC_K1,
 						votes: item.HLASY_K1,
@@ -144,7 +146,8 @@ export default {
 					VSTRANA: item.VSTRANA,
 					NSTRANA: item.NSTRANA,
 					hasAnswers: item.$odpovedi && item.$odpovedi > 0,
-					hasProgram: item.$data.program && item.$data.program.length > 0,
+					hasProgram: (item.$data.program && item.$data.program.length > 0) || (item.$program && item.$program.length && item.$program.length > 0),
+					hasPriority: (item.$priority && item.$priority > 0),
 				}
 
 				if (this.data.list[0].status === 1) {

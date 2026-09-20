@@ -44,14 +44,21 @@
 												<!-- <p-label :color="party.color"> -->
 													<span>
 														<router-link :to="party.link" :class="{'strong': party.round1.pct > 50}">{{ party.label }}</router-link>
-														<span class="badge blue" v-if="party.hasProgram">●</span>
-														<span class="badge yellow" v-if="party.hasAnswers">●</span>
+														<!-- <span class="badge blue" v-if="party.hasProgram">●</span> -->
+														<!-- <span class="badge yellow" v-if="party.hasAnswers">●</span> -->
+														<!-- <span class="badge green" v-if="party.hasPriority">●</span> -->
 													</span>
 													<div v-if="party.party" class="dimm smallest">
 														{{ truncate(party.party, 8) }}
 													</div>
 												<!-- </p-label> -->
 												<span class="graph-line-holder" v-if="current.status === 3"><span class="graph-line" :style="{width: party.round1.graph + '%', background: party.color}"></span></span>
+											</div>
+											<div v-if="current.status === 2">
+												<router-link v-if="party.hasAnswers" :to="party.link + '/otazky-a-odpovedi'"><p-icon icon="answers-mini"></p-icon></router-link>
+												<router-link v-if="party.hasProgram" :to="party.link"><p-icon icon="program"></p-icon></router-link>
+												<router-link v-if="party.hasPriority" :to="party.link + '/priority'"><p-icon icon="priority"></p-icon></router-link>
+												<p-link v-if="party.web" :href="party.web"><p-icon icon="link"></p-icon></p-link>
 											</div>
 											<div class="_keep" v-if="current.status === 3">
 												{{ party.round1.pct }}

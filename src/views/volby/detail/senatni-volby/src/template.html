@@ -79,10 +79,16 @@
 	<div v-if="data.list[0].status == 1" class="mv1">
 		<p-area borderColor="var(--red)" class="strong smallest red inline">Předběžné informace</p-area>
 	</div>
-	<div class="smallest" v-if="data.list[0].status < 3">
-		<p-label color="var(--blue)">Zveřejněný program</p-label>
-		<br>
-		<p-label color="var(--yellow)">Zaslané odpovědi</p-label>
+	<p-area class="inline smaller highlight shadow" v-if="data.list[0].status < 3">
+		<p-icon icon="program"></p-icon>  Zveřejněný program
+		<span class="dimm">     </span>
+		<p-icon icon="answers-mini"></p-icon>  Zaslané odpovědi
+		<span class="dimm">     </span>
+		<p-icon icon="priority"></p-icon>  Vyplněné priority
+		<span class="dimm">     </span>
+		<p-icon icon="link"></p-icon>  Odkaz na web
+	</p-area>
+	<div class="p-gap _2" v-if="data.list[0].status < 3">
 		<div class="p-gap _2"></div>
 	</div>
 	<div class="columns">
