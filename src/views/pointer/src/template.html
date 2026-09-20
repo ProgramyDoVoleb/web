@@ -382,7 +382,8 @@
 								</p-area>
 							</p-block>
 
-							<p-block headline="Volební otázky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 1).length > 0">
+							<p-block headline="Volební otázky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 1).length > 0" :hide="true">
+								<h2 class="quando">Volební otázky <p-icon icon="answers-mini"></p-icon></h2>
 								<p-list height="1.5">
 									<div v-for="(question, index) in randonAmount(current.$otazky.filter(x => x.type === 1 && (!x.designated || x.designated === (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 2 : 1))).filter((x, i) => i < 5), 1)">
 										<div class="_mw">

@@ -66,6 +66,11 @@
 							<p-box-image :src="current.$data.logo[0].value" class="_bw"></p-box-image>
 						</p-box>
 					</template>
+					<template v-if="party && party.VSTRANA != current.PSTRANA && party.VSTRANA != current.NSTRANA && con(party.$data, 'logo')">
+						<p-box :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/strana/' + $strana.id">
+							<p-box-image :src="con(party.$data, 'logo')"></p-box-image>
+						</p-box>
+					</template>
 					<template v-for="party in involvedParties.filter(x => !logoByItem(x, data).includes('empty') && x.VSTRANA != 80)">
 						<p-box :to="'/rejstrik/' + party.VSTRANA">
 							<p-box-image :src="logoByItem(party, data)" class="_bw"></p-box-image>
@@ -127,7 +132,7 @@
 					<p-box>
 						<p-box-label v-if="!current.PORCISLO">Umístění neuvedeno</p-box-label>
 						<p-box-label background="var(--grey11)" v-if="current.PORCISLO">
-							{{ current.PORCISLO }}
+							č. {{ current.PORCISLO }}
 							<span v-if="current.VOLKRAJ > 0">
 								&middot;
 								{{ enums.regionsShort[current.VOLKRAJ - 1] }}
