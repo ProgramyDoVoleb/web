@@ -17,6 +17,11 @@ export default {
 	},
 	data: function () {
 		return {
+			qenum: [
+				{type: 2, label: 'Volební témata', hash: 'tema'},
+				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka'},
+				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka'}
+			],
 			cdn
 		}
 	},

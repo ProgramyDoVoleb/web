@@ -101,4 +101,61 @@
 		</template>
 	</p-block>
 	<div class="p-gap"></div>
+	<template v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0">
+		<p-block headline="Otázky a odpovědi" :hide="true" class="mb3">
+			<p-area class="primary" borderColor="var(--yellow)" icon="answers-mini">
+				<h2 class="serif mt0">Otázky a odpovědi</h2>
+				<template v-for="(qitem, qindex) in qenum">
+					<p-collapsible :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type && qitem.designee === x.designated).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type && qitem.designee === x.designated).length > 0">
+						<p-area>
+							<p-list>
+								<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 1 && qitem.designee === x.designated)">
+									<!-- <p-area> -->
+										<router-link class="strong" :to="'/volby/evropske-volby/' + data.list[0].id + '/' + qitem.hash + '/' + qquestion.id">{{ qquestion.question }}</router-link>
+										<div class="smaller" v-if="qquestion.comment">{{ truncate(qquestion.comment, 12) }}</div>
+									<!-- </p-area> -->
+								</div>
+							</p-list>
+							<template v-if="data.list[0].$otazky.find(x => x.type === qitem.type && x.priority === 2)">
+								<div class="p-gap"></div>
+								<p-collapsible label="Doplňkové otázky">
+									<div :class="qitem.type < 3 ? 'columns' : 'p-list'">
+										<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 2 && qitem.designee === x.designated)">
+											<router-link :to="'/volby/evropske-volby/' + data.list[0].id + '/' + qitem.hash + '/' + qquestion.id">{{ qquestion.question }}</router-link>
+										</div>
+									</div>
+								</p-collapsible>
+							</template>
+						</p-area>
+					</p-collapsible>
+				</template>
+						<template v-if="data.list[0].editace === 1">
+							<p-modal class="mt2">
+								<template #init>
+									<p-box>
+										<p-box-button icon="warning">Chcete také doplnit odpovědi?</p-box-button>
+									</p-box>
+								</template>
+								<template #content>
+									<strong>Kandidujete a chcete také zaslat odpovědi?</strong>
+									<p-list class="smaller _05 pt2">
+										<div>
+											Nejlépe tak uděláte pomocí <strong>Adminu</strong>. Ještě nemáte přístup? <p-link href="https://admin.programydovoleb.cz" class="strong">Získejte ho zde</p-link>
+										</div>
+										<div>
+											V Adminu můžete doplnit fotku, priority, představení a další...
+										</div>
+										<div>
+											Pokud máte stranický e-mail, můžete své odpovědi poslat přímo na <a href="mailto:odpovedi@programydovoleb.cz">odpovedi@programydovoleb.cz</a>
+										</div>
+										<div>
+											Posledním dnem, kdy lze odpovědi zaslat, je <strong>středa 7. října</strong>.
+										</div>
+									</p-list>
+								</template>
+							</p-modal>
+						</template>
+			</p-area>
+		</p-block>
+	</template>
 </div>

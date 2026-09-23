@@ -1,7 +1,7 @@
 import {cdn} from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {useData} from '@/stores/data';
-import {date, sortBy} from '@/pdv/helpers';
+import {date, sortBy, truncate} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import TownItem from '@/views/volby/detail/komunalni-volby/item/do.vue'
 import SearchTown from '@/components/search-town/do.vue'
@@ -16,6 +16,12 @@ export default {
 	},
 	data: function () {
 		return {
+			qenum: [
+				{type: 2, label: 'Volební témata', hash: 'tema'},
+				{type: 1, label: 'Otázky pro strany', hash: 'otazka', designee: 1},
+				{type: 1, label: 'Otázky pro kandidáty', hash: 'otazka', designee: 2},
+				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka'}
+			],
 			cdn
 		}
 	},
@@ -31,7 +37,7 @@ export default {
 		}
 	},
 	methods: {
-		date, sortBy,
+		date, sortBy, truncate,
 		colorByItem, logoByItem,
 		town: function (index) {
 			var o = {}
