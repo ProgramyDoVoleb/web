@@ -79,22 +79,27 @@
 															<!-- {{ itemparty. }} -->
 															<!-- <p-area class="shadow white" borderColor="var(--blue)"> -->
 																<div class="p-offset">
-																	<div v-if="logoByItem(itemparty.node, news, 'VSTRANA', false) && !logoByItem(itemparty.node, news, 'VSTRANA', false).includes('empty.png')">
-																		<p-image :src="logoByItem(itemparty.node, news, 'VSTRANA', false)" width="2.5em" :rounded="true"></p-image>
+																	<div v-if="itemparty.node.JMENO && logoByItem(itemparty.node, news, 'NSTRANA', false) && !logoByItem(itemparty.node, news, 'NSTRANA', false).includes('empty.png')">
+																		<p-image :src="logoByItem(itemparty.node, news, 'NSTRANA', false)" width="2.5em" :rounded="true"></p-image>
 																	</div>
-																	<div v-else-if="news.cis.strany.find(x => x.VSTRANA == itemparty.node.VSTRANA) && news.cis.strany.find(x => x.VSTRANA == itemparty.node.VSTRANA).$coalition">
-																		<div class="_logoCoalition">
-																			<template v-for="member in news.cis.strany.find(x => x.VSTRANA == itemparty.node.VSTRANA).$coalition.filter(x => x.VSTRANA != 80)">
-																				<p-image :src="logoByItem(member, news, 'VSTRANA', false)" width="1.2em" :rounded="false"></p-image>
-																			</template>
-																			<template v-for="member in news.cis.strany.find(x => x.VSTRANA == itemparty.node.VSTRANA).$coalition.filter(x => x.VSTRANA === 80)">
-																				<p-image :src="logoByItem(member, news, null, null, null, null, true)" width="1.2em" :rounded="false"></p-image>
-																			</template>
+																	<template v-else>
+																		<div v-if="itemparty.node.NAZEV && logoByItem(itemparty.node, news, 'VSTRANA', false) && !logoByItem(itemparty.node, news, 'VSTRANA', false).includes('empty.png')">
+																			<p-image :src="logoByItem(itemparty.node, news, 'VSTRANA', false)" width="2.5em" :rounded="true"></p-image>
 																		</div>
-																	</div>
-																	<div v-else>
-																		<p-image src="https://static.programydovoleb.cz/empty.png" size="2.5em" width="2.5em"></p-image>
-																	</div>
+																		<div v-else-if="news.cis.strany.find(x => x.VSTRANA == itemparty.node.VSTRANA) && news.cis.strany.find(x => x.VSTRANA == itemparty.node.VSTRANA).$coalition">
+																			<div class="_logoCoalition">
+																				<template v-for="member in news.cis.strany.find(x => x.VSTRANA == itemparty.node.VSTRANA).$coalition.filter(x => x.VSTRANA != 80)">
+																					<p-image :src="logoByItem(member, news, 'VSTRANA', false)" width="1.2em" :rounded="false"></p-image>
+																				</template>
+																				<template v-for="member in news.cis.strany.find(x => x.VSTRANA == itemparty.node.VSTRANA).$coalition.filter(x => x.VSTRANA === 80)">
+																					<p-image :src="logoByItem(member, news, null, null, null, null, true)" width="1.2em" :rounded="false"></p-image>
+																				</template>
+																			</div>
+																		</div>
+																		<div v-else>
+																			<p-image src="https://static.programydovoleb.cz/empty.png" size="2.5em" width="2.5em"></p-image>
+																		</div>
+																	</template>
 																	<div>
 																		<div class="smallest dimm" v-if="itemparty.node && itemparty.node.NAZEVZAST">
 																			{{ itemparty.node.NAZEVZAST }}
