@@ -9,20 +9,23 @@
 						<p-area class="primary">
 							<p-columns class="_small _2 smaller">
 								<div v-for="(town, index) in enums.towns.capital">
-									<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num" :class="{'strong': index === 0}">
-										Hlavní město Praha
-									</router-link>
+									<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num" :class="{'strong red': index === 0}">
+										Praha</router-link> <span class="dimm strong" v-if="town.sub">*</span>
 								</div>
 								<div v-for="(town, index) in sortBy([].concat(enums.towns.regional, enums.towns.other), 'name', null, true)">
 									<!-- <div class="p-offset reverse"> -->
 										<!-- <div> -->
 											<router-link :to="'/volby/komunalni-volby/176/obec/' + town.num">
 												{{ town.name }}
-											</router-link>	
+											</router-link> <span class="dimm strong" v-if="town.sub">*</span>
 										<!-- </div> -->
 									<!-- </div>									 -->
 								</div>
 							</p-columns>
+							<div class="p-line"></div>
+							<div class="smallest dimm">
+								<strong class="dimm">*</strong> v těchto městech se volí také do zastupitelstva městské části 
+							</div>
 						</p-area>
 						<h2 class="quando mt2">Vyhledat jiné</h2>
 						<search-town link="/volby/komunalni-volby/176/obec/" class="mt1"></search-town>

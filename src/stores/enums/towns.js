@@ -1,19 +1,19 @@
 export default {
     capital: [
-      {num: 554782, name: 'Hl.m. Praha'}
+      {num: 554782, name: 'Hl.m. Praha', sub: true}
     ],
     regional: [
-      {num: 582786, name: 'Brno'},
+      {num: 582786, name: 'Brno', sub: true},
       {num: 544256, name: 'České Budějovice'},
       {num: 569810, name: 'Hradec Králové'},
       {num: 586846, name: 'Jihlava'},
       {num: 554961, name: 'Karlovy Vary'},
-      {num: 563889, name: 'Liberec'},
+      {num: 563889, name: 'Liberec', sub: true},
       {num: 500496, name: 'Olomouc'},
-      {num: 554821, name: 'Ostrava'},
-      {num: 555134, name: 'Pardubice'},
-      {num: 554791, name: 'Plzeň'},
-      {num: 554804, name: 'Ústí nad Labem'},
+      {num: 554821, name: 'Ostrava', sub: true},
+      {num: 555134, name: 'Pardubice', sub: true},
+      {num: 554791, name: 'Plzeň', sub: true},
+      {num: 554804, name: 'Ústí nad Labem', sub: true},
       {num: 585068, name: 'Zlín'}
     ],
     other: [
@@ -27,7 +27,7 @@ export default {
       {num: 532053, name: 'Kladno'},
       {num: 535419, name: 'Mladá Boleslav'},
       {num: 567027, name: 'Most'},
-      {num: 505927, name: 'Opava'},
+      {num: 505927, name: 'Opava', sub: true},
       {num: 589250, name: 'Prostějov'},
       {num: 511382, name: 'Přerov'},
       {num: 552046, name: 'Tábor'},
