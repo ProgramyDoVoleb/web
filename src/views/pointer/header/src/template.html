@@ -100,7 +100,7 @@
 					</p-box>
 				</template>
 				<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length > 1">
-					<p-box :click="() => slide('programove-dokumenty')">
+					<p-box :to="$link + '#hlavni-odkazy'">
 						<p-box-button class="primary"><p-lang :value="current.$data.program.length" :end="['', '', '%% programy', '%% programů']"></p-lang></p-box-button>
 					</p-box>
 				</template>

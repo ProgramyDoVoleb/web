@@ -20,6 +20,9 @@
 					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99 && cand.NSTRANA !== 80 && !omitMember">
 						<img class="_party" loading="lazy" :src="logoByItem(member, data, null, null, null, null, true)" :alt="'Logo ' + member.ZKRATKA">
 					</template>	
+					<template v-if="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 && cand.PSTRANA === 99 && cand.NSTRANA === 80 && !omitMember">
+						<img class="_party" loading="lazy" :src="cdn + 'nk.png'" :alt="'Logo ' + member.ZKRATKA">
+					</template>	
 			<!-- <template v-if="!logoByItem(nominee, data).includes('empty.png')"> -->
 				<img :class="member && member.VSTRANA !== nominee.VSTRANA && member.VSTRANA != 9999 ? '_partyAlone' : '_partyAlone'" loading="lazy" :src="logoByItem(nominee, data, null, null, true, current, true)" :alt="'Logo ' + nominee.ZKRATKA">	
 			<!-- </template> -->
