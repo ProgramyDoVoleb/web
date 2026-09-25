@@ -248,17 +248,17 @@
 									<!-- <button class="inline green strong" @click="slide('editace', null, false, true)">chci něco doplnit</button> -->
 								</li>
 								<li>
-									<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + current.id + '?source=https://programydovoleb.cz' + $route.path">chci spravovat informace</p-link>
+									<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + current.id + '?source=https://programydovoleb.cz' + $route.path">chci spravovat celý profil</p-link>
 								</li>
 								<li>
-									<router-link to="/pro-kandidaty">informace</router-link>
+									<router-link to="/pro-kandidaty">informace pro kandidáty</router-link>
 								</li>
 							</p-list-linear>
 						</div>
 						<div>
 							<p-popup class="down">
 								<template #init>
-									<button class="inline red">chyba</button>
+									<button class="inline red">nahlásit chybu</button>
 								</template>
 								<template #content>
 									<report-form noLink="1"></report-form>

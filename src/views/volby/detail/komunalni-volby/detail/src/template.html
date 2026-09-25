@@ -23,13 +23,14 @@
 			</p-box>
 		</template>
 		<p-box bg="rgba(0, 0, 0, 0.03)">
-			<p-box-label><p-lang :value="current.$strany.length" :end="['žádná strana', 'jedna strana', '%% strany', '%% stran']"></p-lang></p-box-label>
+			<p-box-label><p-lang :value="current.$strany.filter(x => x.POR_STR_HL > 0 && x.POR_STR_HL < 50).length" :end="['žádná strana', 'jedna strana', '%% strany', '%% stran']"></p-lang></p-box-label>
 		</p-box>
 		<p-box bg="rgba(0, 0, 0, 0.03)">
-			<p-box-label><p-lang :value="current.$kandidati.length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></p-box-label>
+			<p-box-label><p-lang :value="current.$kandidati.filter(x => x.PLATNOST === 'A').length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></p-box-label>
 		</p-box>
 		<p-box bg="rgba(0, 0, 0, 0.03)">
-			<p-box-label>{{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů</p-box-label>
+			<!-- <p-box-icon type="warning" ></p-box-icon> -->
+			<p-box-label> <p-icon icon="warning" v-if="current.$dotceneMinule[0].MANDATY != current.$dotcene[0].MANDATY" title="Počet mandátů se oproti minulým volbám změnil."></p-icon> {{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů</p-box-label>
 		</p-box>
 		<p-box :to="'/obec/' + town">
 			<p-box-label>Historie</p-box-label>
@@ -38,11 +39,20 @@
 		<p-box v-if="townInRegularElectionsAlsoVotesInSenat(data.list[0].datum.split('-')[0], core.list[0].$core[0].OBVOD)" :to="'/obvod/' + core.list[0].$core[0].OBVOD">
 			<p-box-badge icon="senatni-volby" class="green">volí i do Senátu</p-box-badge>
 		</p-box>
+		<p-box v-if="current.$dotcene[0].NADRZASTUP && current.$dotcene[0].obec != current.$dotcene[0].NADRZASTUP" :to="$route.path.split('/obec/')[0] + '/obec/' + current.$dotcene[0].NADRZASTUP">
+			<p-box-badge icon="komunalni-volby" class="green">volí i na magistrát</p-box-badge>
+		</p-box>
+		<p-box v-if="core && core.list[0].$core[0].$parts && core.list[0].$core[0].$parts.length > 0" :click="() => slide('neprehlednete')">
+			<p-box-badge icon="komunalni-volby" class="green">volí i městské části</p-box-badge>
+		</p-box>
 	</p-box-group>
 	<p v-if="core && current">
 		<strong>Shrnutí: </strong><p-truncated-content :key="current">
-			{{ current.$dotcene[0].NAZEVZAST }} volí
+			{{ current.$dotcene[0].NAZEVZAST }} volí <template v-if="current.$dotceneMinule[0].MANDATY != current.$dotcene[0].MANDATY">nově</template>
 			{{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů. 
+			<template v-if="current.$dotceneMinule[0].MANDATY != current.$dotcene[0].MANDATY">
+				Je to <strong>změna oproti minulým volbám</strong>, kdy se volilo {{ current.$dotceneMinule[0].MANDATY }} zastupitelů.
+			</template>
 			<template v-if="leadership && leadership.mayor != -1">
 				Posledním známým {{ [4,3].indexOf(core.cis.druh[0].id) > -1 ? 'primátorem' : 'starostou' }} byl{{ isWoman(leadership.mayor) ? 'a' : '' }}
 				<span class="keep">{{ leadership.mayor.JMENO + ' ' + leadership.mayor.PRIJMENI }}</span> za <em>{{ leadership.party.NAZEV }}</em>.
@@ -56,17 +66,18 @@
 					</p-list-linear>
 				</template>
 			</template>
-			<template v-else-if="leadership && leadership.coalition">
+			<template v-else-if="leadership && leadership.coalition && leadership.coalition != -1">
 				Na vedení se před volbami podílela uskupení <p-list-linear class="inline">
 					<span v-for="member in leadership.coalition">
 						<em>{{ member.NAZEV }}</em>
 					</span>
 				</p-list-linear>
 				se souhrnou silou 
-				{{ leadership.coalition.reduce((a, b) => a + b.MAND_STR, 0) }} z {{ current.$dotceneMinule[0].MANDATY }} mandátů.
+				{{ leadership.coalition }}
+				<!-- {{ leadership.coalition.reduce((a, b) => a + b.MAND_STR, 0) }} z {{ current.$dotceneMinule[0].MANDATY }} mandátů. -->
 			</template>
 			<template v-if="current.status === 1">Zatím <p-lang :value="current.$strany.length" :end="['není známá žádná strana, která by se hlásila', 'je známa jedna strana, která se hlásí', 'jsou známy %% strany, které se hlásí', 'je známo %% stran, které se hlásí']"></p-lang> do voleb.</template>	
-			<template v-if="current.status === 2">Do voleb <p-lang :value="current.$strany.filter(x => x.POR_STR_HL > 0).length" :end="['není registrována žádná strana nebo kandidát', 'je registrována jedna strana', 'jsou registrovány %% strany', 'je registrováno %% stran']"></p-lang> a celkem {{ number(current.$kandidati.length) }} kandidátů.</template>
+			<template v-if="current.status === 2">Do voleb <p-lang :value="current.$strany.filter(x => x.POR_STR_HL > 0).length" :end="['není registrována žádná strana nebo kandidát', 'je registrována jedna strana', 'jsou registrovány %% strany', 'je registrováno %% stran']"></p-lang> a celkem {{ number(current.$kandidati.filter(x => x.PLATNOST === 'A').length) }} kandidátů.</template>
 			<template v-if="current.status === 3">Voleb se <p-lang :value="current.$strany.filter(x => x.POR_STR_HL > 0).length" :end="['neúčastnila žádná strana nebo kandidát', 'se účastnila jen jedna strana', 'se účastnily %% strany', 'se účastnilo %% stran']"></p-lang>.</template>	
 			{{ current.$dotcene[0].NAZEVZAST }}
 			je
@@ -88,7 +99,7 @@
 			<template v-if="core.cis.druh[0].id === 5">
 				Lidé zde volí na radnici i <router-link :to="$route.path.split(town).join(current.$dotcene[0].NADRZASTUP || current.$dotceneMinule[0].NADRZASTUP)">magistrát</router-link>.
 			</template>
-			<template v-if="core && townInRegularElectionsAlsoVotesInSenat(data.list[0].datum.split('-')[0], core.list[0].$core[0].OBVOD)"> Současně s komunálními volbami se zde v tomto roce konají <router-link :to="'/obvod/' + core.list[0].$core[0].OBVOD" class="strong">senátní volby</router-link></template>
+			<template v-if="core && townInRegularElectionsAlsoVotesInSenat(data.list[0].datum.split('-')[0], core.list[0].$core[0].OBVOD)"> Současně s komunálními volbami se zde v tomto roce konají <router-link :to="'/obvod/' + core.list[0].$core[0].OBVOD" class="strong">senátní volby</router-link>. </template>
 			<template v-if="current.status < 3">Na této stránce najdete také výsledky minulých voleb, zajímavé stratistiky, můžete si zkusit hlasování nanečisto nebo si tipnout výsledek.</template>
 		</p-truncated-content>
 	</p>
