@@ -96,7 +96,7 @@
 				</template>
 				<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length === 1">
 					<p-box :href="current.$data.program[0].source">
-						<p-box-button class="primary">Program <p-icon icon="link"></p-icon></p-box-button>
+						<p-box-button class="primary">Program <p-icon :icon="current.$data.program[0].source.includes('.pdf') ? 'pdf' : 'link'"></p-icon></p-box-button>
 					</p-box>
 				</template>
 				<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length > 1">

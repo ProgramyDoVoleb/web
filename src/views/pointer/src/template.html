@@ -322,7 +322,7 @@
 										</p-area>
 									</div>
 									<div v-for="(item, index) in current.$data.program">
-										<p-area icon="link">
+										<p-area :icon="item.source.includes('.pdf') ? 'pdf' : 'link'">
 											<p-link :href="item.source" class="strong">{{ item.value }}</p-link>
 											<div class="smallest dimm">
 												Přidáno {{ date(item.updated) }}

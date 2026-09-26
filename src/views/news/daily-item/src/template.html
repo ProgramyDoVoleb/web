@@ -113,7 +113,7 @@
 																			</p-link>
 																		</strong>
 																		<div class="smallest">
-																			Odkaz na <em>{{ item.node.value || 'volební materiál' }}</em>
+																			Odkaz na <em>{{ item.node.value || 'volební materiál' }}</em> {{  item.node.source.includes('.pdf') ? '[PDF]' : '' }}
 																			<span class="dimm" v-if="item.node.label">
 																				&middot;
 																				<p-link :href="item.node.label" class="dimm">

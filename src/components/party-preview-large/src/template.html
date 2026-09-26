@@ -91,7 +91,7 @@
 
 					<template v-if="!party.$program || party.$program.length === 0">
 						<template v-for="program in firstOfUnique(party.$data.program, 'source')">
-							<p-link :href="program.source" class="smallest strong _pq" :style="{background: 'var(--blue)', color: 'var(--white)'}" :title="program.value">program <p-icon icon="link" class="invert"></p-icon></p-link> 
+							<p-link :href="program.source" class="smallest strong _pq" :style="{background: 'var(--blue)', color: 'var(--white)'}" :title="program.value">program <p-icon :icon="program.source.includes('.pdf') ? 'pdf' : 'link'" class="invert"></p-icon></p-link> 
 						</template>
 					</template>
 					

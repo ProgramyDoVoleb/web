@@ -652,6 +652,8 @@ export function getMedia (url, nullIfNotFound) {
 			if (url === 'parlamentnilisty') return s + 'media/parlamentni-listy.jpg';
 			if (url === 'reflex') return s + 'media/reflex.jpg';
 			if (url === 'respekt') return s + 'media/respekt.jpg';
+			if (url === 'rozhlas') return s + 'media/rozhlas.png';
+			if (url === 'mujrozhlas') return s + 'media/rozhlas.png';
 			if (url === 'seznamzpravy') return s + 'media/seznamzpravy.jpg';
       if (url === 'instagram') return s + 'icon/ig.svg';
       if (url === 'facebook') return s + 'icon/fb.svg';

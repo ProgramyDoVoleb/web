@@ -84,7 +84,7 @@
 					<template v-if="!party.$program || party.$program.length === 0">
 						<template v-for="program in firstOfUnique(party.$data.program, 'source')">
 							<p-box :href="program.source" :title="program.value">
-								<p-box-button icon="link">{{ program.value }}</p-box-button>
+								<p-box-button :icon="program.source.includes('.pdf') ? 'pdf' : 'link'">{{ program.value }}</p-box-button>
 							</p-box> 
 						</template>
 					</template>
