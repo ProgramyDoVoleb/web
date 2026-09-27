@@ -25,6 +25,12 @@
 							</p-box-group> -->
 							<h4>Příští volby</h4>
 							<p-grid>
+								<div>
+									<p-area class="highlight shadow" icon="guide">
+										<router-link class="strong" :to="'/pruvodce/2026/' + num">Průvodce volbami</router-link>
+										<div class="smaller">Přehledně na jedné stránce</div>
+									</p-area>
+								</div>
 								<div v-for="(election, index) in $elections.next">
 									<p-area>
 										<div class="p-offset">

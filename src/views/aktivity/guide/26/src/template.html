@@ -1,0 +1,490 @@
+<div class="layout-guide text-center">
+	<p-layout-simple>
+		<section name="search" v-if="!townID">
+			<div class="_mc">
+				<p-area class="highlight shadow _ha" padding="2em">
+					<div>
+						<h1 class="quando text-center mt0">Průvodce volbami</h1>
+						<div class="text-center mt-1 mb15 _mw _ma">Vyberte si svou obec a zjistíte, jaké volby se vás týkají, kdo kandiduje, jak se vlastně volí a další informace přehledně na jedné stránce.</div>
+						<div class="text-left">
+							<search-town link="/pruvodce/2026/"></search-town>
+						</div>
+					</div>					
+				</p-area>
+			</div>
+		</section>
+		<section name="intro" v-if="townID">
+			<div class="smaller blue strong">Průvodce volbami</div>
+			<p class="smaller">Vše důležité k nadcházejícím volbám na jedné stránce. Jaké volby se vás týkají, kdo kandiduje a jak nepřijít o hlas?</p>
+			<div class="p-line"></div>
+		</section>
+		<template v-if="townID">
+			<p-loader :rule="checkData">
+				<section name="overview" v-if="checkData && checkData.zastupitelstvo">
+					<h1>
+						{{ checkData.zastupitelstvo.NAZEVZAST }}						
+					</h1>
+					<div class="smallest dimm mt-2" v-if="[1,2,6].indexOf(checkData.zastupitelstvo.DRUHZASTUP) > -1">okres {{ enums.okresy.find(x => x.id === checkData.zastupitelstvo.OKRES).name }}</div>
+					<div class="smallest dimm mt-2" v-if="[5].indexOf(checkData.zastupitelstvo.DRUHZASTUP) > -1">část města {{ checkData.cast.NAZEVZAST }}</div>
+
+					<template v-if="checkData.casti.length > 0">
+						<p>{{ checkData.zastupitelstvo.NAZEVZAST }} volí na magistrát a také na radnici městské části. To může mít také vliv na senátní obvod nebo vyhlášené referendum. Proto nejprve vyberte, ve které městské části máte trvalé bydliště:</p>
+						<h2>Vyberte část města</h2>
+						<div class="_mc">
+							<p-area class="highlight shadow text-left">
+								<p-columns class="_2_4">
+									<div v-for="part in sortBy(checkData.casti, 'NAZEVZAST', null, true)">
+										<router-link :to="'/pruvodce/2026/' + part.obec">{{ part.NAZEVZAST }}</router-link>
+									</div>
+								</p-columns>
+							</p-area>
+						</div>
+					</template>
+
+					<template v-else>
+						<div class="_mc2 text-left pt2">
+							<p-list class="invisible">
+								<div class="text-center smaller mb05">
+									Jaké volby se vás týkají?
+								</div>
+								<div>
+									<p-area icon="komunalni-volby" class="highlight shadow">
+										<strong>Volby do {{ checkData.zastupitelstvo.DRUHZASTUP === 3 ? 'magistrát' : 'zastupitelstva' }} {{ ['', 'obce', 'města', 'statutárního města', 'hlavního města', 'městské části', 'městyse'][checkData.zastupitelstvo.DRUHZASTUP] }} <button class="inline" @click="slide('zastupitelstvo')">{{ checkData.zastupitelstvo.NAZEVZAST }}</button></strong>
+										<div class="smaller">Celkem máte {{ checkData.zastupitelstvo.MANDATY }} hlasů. Tolik můžete udělat křížků.</div>
+									</p-area>
+								</div>
+								<div v-if="checkData.cast.obec">
+									<p-area icon="komunalni-volby" class="highlight shadow">
+										<strong>Volby do zastupitelstva {{ checkData.cast.DRUHZASTUP === 4 ? 'hlavního ' : '' }}města <button class="inline" @click="slide('magistrat')">{{ checkData.cast.NAZEVZAST }}</button></strong>
+										<div class="smaller">Celkem máte {{ checkData.cast.MANDATY }} hlasů. Tolik můžete udělat křížků.</div>
+									</p-area>
+								</div>
+								<div v-if="checkData.senat.length > 0">
+									<p-area icon="senatni-volby" class="highlight shadow">
+										<strong>Volby do Senátu v obvodu {{ checkData.senat[0].obvod }} &middot; <button class="inline" @click="slide('senat')">{{ enums.obvody.find(x => x.id === checkData.senat[0].obvod).name }}</button></strong>
+										<div class="smaller">1. kolo souběžně s komunálními volbami. <template v-if="checkData.senat[0].obvod != 48">Druhé kolo o týden později.</template></div>
+									</p-area>
+								</div>
+								<div v-if="checkData.referendum.length > 0">
+									<p-area icon="calc" class="highlight shadow">
+										<strong>Místní <button class="inline" @click="slide('referendum')">referendum</button></strong>
+										<div class="smaller">Můžete odpovědět na <p-lang :value="checkData.referendum.length" :end="['', 'jednu otázku.', '%% otázky.', '%% otázek.']"></p-lang></div>
+									</p-area>
+								</div>
+								<div v-if="checkData.senat.length === 0">
+									<p-area class="dimm smallest">
+										<p-icon icon="senatni-volby"></p-icon>   Senátní volby zde tentokrát nejsou.
+									</p-area>
+								</div>
+								<div v-if="checkData.referendum.length === 0">
+									<p-area class="dimm smallest">
+										<p-icon icon="calc"></p-icon>   Není zde vyhlášené žádné referendum.
+									</p-area>
+								</div>
+								<div class="smaller text-center mt2" v-if="checkData.referendum.length > 0 || checkData.senat.length > 0 || checkData.cast.obec">
+									Pro všechny volby platí, že se konají na stejném místě. V jedné volební místnosti tak najednou odvolíte najednou. Nemusíte se přesouvat mezi místnostmi. Pro každý typ voleb je jiný hlasovací lístek, jiná obálka a také jiná pravidla.
+								</div>
+							</p-list>
+						</div>
+						<h3 class="quando mt2">Kdy jsou volby?</h3>
+						<div class="_mc2 strong smaller">
+							<p-area background="var(--blue11)">
+								<p-list>
+									<div>
+										Pátek 9. října od 14:00 do 20:00
+									</div>
+									<div>
+										Sobbota 10. října od 8:00 do 14:00
+									</div>
+								</p-list>
+							</p-area>
+							<p v-if="checkData.senat.length > 0" class="smallest w400 blue">Případné druhé kolo senátních voleb o týden později.</p>
+						</div>
+						<div class="smaller text-center mv4">
+							A teď se podíváme na podrobnosti{{ checkData.referendum.length > 0 || checkData.senat.length > 0 || checkData.cast.obec ? ' k jednotlivým volbám' : '' }}.
+							<br><br>
+							<h2 @click="slide('zastupitelstvo')">&darr;</h2>
+						</div>
+					</template>
+
+				</section>
+				<section v-else>
+					<em>Takové místo v České republice není.</em>
+				</section>	
+				<template v-if="checkData && checkData.casti.length === 0">
+				<section name="zastupitelstvo" v-if="checkData && checkData.zastupitelstvo">
+					<p-icon icon="komunalni-volby" size="8em"></p-icon>
+					<h1>{{ checkData.zastupitelstvo.NAZEVZAST }}</h1>
+					<div class="_mc3 pb2">
+						<p-area class="inline highlight shadow strong smaller">
+							<p-icon icon="person"></p-icon>  Volí se {{ checkData.zastupitelstvo.MANDATY }} zastupitelů.
+						</p-area>
+						<div class="smallest mt1">
+							<button class="inline" @click="view.zastupitelstvo = 1" :class="{'green strong': view.zastupitelstvo === 1}">Seznam</button>
+							&middot;
+							<button class="inline" @click="view.zastupitelstvo = 2" :class="{'green strong': view.zastupitelstvo === 2}">Přehled</button>
+							&middot;
+							<button class="inline" @click="view.zastupitelstvo = 3" :class="{'green strong': view.zastupitelstvo === 3}">Podrobnosti</button>
+						</div>
+					</div>
+					<p-loader :rule="zastupitelstvo">
+						<div v-if="zastupitelstvo">
+							<component :is="view.zastupitelstvo != 2 ? 'p-list' : 'p-columns'" class="text-left _noGap _noRule _05" :class="{'_mc': view.zastupitelstvo != 2}">
+								<div v-for="party in sortBy(zastupitelstvo.list[0].$strany.filter(x => x.POR_STR_HL > 0), 'NAZEV', null, true)">
+									<component :is="['party-preview-tiny', 'party-preview-large', 'party-preview-full'][view.zastupitelstvo - 1]" :party="party" link="/volby/komunalni-volby/176" :elections="zastupitelstvo" :candidates="zastupitelstvo.list[0].$kandidati.filter(x => x.POR_STR_HL === party.POR_STR_HL && x.COBVODU === party.COBVODU)"></component>
+								</div>
+							</component>
+						</div>
+					</p-loader>
+					<div class="_mc2 pt4 smaller text-left">
+						<p-area background="var(--blue11)" icon="hint">
+							Kompletní informace, statistiky, výsledek minulých voleb, přehled vedení a další zajímavé informace najdete <router-link :to="'/volby/komunalni-volby/176/obec/' + townID" class="strong">zde</router-link>
+						</p-area>
+					</div>
+					<h3 class="quando mt4">Kdo může hlasovat?</h3>
+					<div class="_mc">
+						<p-grid class="smaller _2_4_tight">
+							<div><p-area class="highlight shadow"><div><p-icon icon="snemovni-volby" size="40%"></p-icon></div>občan ČR</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="evropske-volby" size="40%"></p-icon></div>občan EU</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="person" size="40%"></p-icon></div>starší 18 let</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="komunalni-volby" size="40%"></p-icon></div>dle trvalého bydliště</p-area></div>
+						</p-grid>
+						<p class="smaller _mc2 pt1">Největším rozdílem oproti jiným volbám je, že nelze požádat o voličský průkaz a volit někde jinde.</p>
+					</div>
+					<h3 class="quando mt4">Jak se hlasuje?</h3>
+					<p>U komunálních voleb se <strong>křížkuje</strong>. Každý má tolik hlasů, kolik se volí členů zastupitelstva - v tomto případě <strong>{{ checkData.zastupitelstvo.MANDATY }} hlasů</strong>. Hlasy lze rozdělit třemi způsoby:</p>
+					<div class="_mc text-left">
+						<p-grid class="_tighter _noGap _noRule smaller">
+							<div>
+								<p-area><strong>Velký křížek straně</strong>. Ta získá všech {{ checkData.zastupitelstvo.MANDATY }} hlasů. Jednoduché.</p-area>
+							</div>
+							<div>
+								<p-area><strong>Křížky jednotlivým kandidátům různých stran, max {{ checkData.zastupitelstvo.MANDATY }}</strong></p-area>
+							</div>
+							<div>
+								<p-area><strong>Jeden křížek straně a až {{ checkData.zastupitelstvo.MANDATY - 1 }} křížků kandidátům z jiných stran</strong></p-area>
+							</div>
+						</p-grid>
+					</div>
+					<div class="p-gap _2"></div>
+					<p-box-group class="_pbg">
+						<p-box :to="'/volby/komunalni-volby/176/hlasovani-nanecisto/' + townID">
+							<p-box-button icon="cancel" class="primary">Hlasování nanečisto</p-box-button>
+						</p-box>
+						<p-box to="/jak-volit/komunalni-volby">
+							<p-box-button icon="hint">Chci vědět víc</p-box-button>
+						</p-box>
+					</p-box-group>
+					<h3 class="quando mt4">Časté otázky</h3>
+					<div class="_mc2 text-left">
+						<p-area class="highlight shadow">
+							<p-collapsible label="Mohu volit někde jinde, třeba na chatě?">
+								<div class="smaller pr2">Bohužel to nejde, u komunálních voleb se nevydávají voličské průkazy. Lze volit pouze v místě trvalého bydliště.</div>
+							</p-collapsible>
+							<p-collapsible label="Jak se dávají preferenční hlasy?">
+								<div class="smaller pr2">Preferenční hlasování, jak ho znáte z jiných voleb, tady není. Nemůžete zaškrtout stranu a pak v rámci ní někoho konkrétního. Jakmile zaškrtnete stranu, tak hlasy se počítají odshora. Přesto jde hlasovat tak, aby kandidáti přeskočili - musíte zakřížkovat je, a pak je dobré zaškrtnout i všechny pod nimi, abyste co nejvíc hlasů dali straně. Ta nejprve musí překročit 5% hranici, než se začnou rozdělovat mandáty. Zbylé křížky můžete dát někomu z úplně jiné strany, nebo se jich vzdát - prostě je nepoužít.</div>
+							</p-collapsible>
+							<p-collapsible label="Mohu zaškrtnou dvě strany?">
+								<div class="smaller pr2">To není povolený způsob hlasování, lístek by byl neplatný. Můžete dát velký křížek jedné straně a pak malé křížky ke kandidátům z druhé strany.</div>
+							</p-collapsible>
+							<p-collapsible label="Opravdu mohu zaškrtnout kandidáty z různých stran?">
+								<div class="smaller pr2">Ano, můžete. Jen si dejte pozor, abyste neudělali víc křížků, než je počet volených zastupitelů. Tedy nejvýše {{ checkData.zastupitelstvo.MANDATY }}.</div>
+							</p-collapsible>
+							<p-collapsible label="Mohu zaškrnout stranu a u ní nějaké kandidáty?">
+								<div class="smaller pr2">Takový lístek sice platí, ale křížky u kandidátů se nepočítají.</div>
+							</p-collapsible>
+							<p-collapsible :label="'Když křížkuji kandidáty, musím použít všech ' + checkData.zastupitelstvo.MANDATY + ' hlasů?'">
+								<div class="smaller pr2">Nemusíte, ale o to menší sílu bude váš hlas mít. Pro strany je důležité nejprve získat přes 5 % hlasů, až pak se kouká na křížky.</div>
+							</p-collapsible>
+							<p-collapsible label="Co když se mi nikdo nelíbí?">
+								<div class="smaller pr2">To je v pořádku. Můžete odevzdat prázdnou obálku nebo znehodnocený lístek, nebo nejít k volbám vůbec.</div>
+							</p-collapsible>
+							<p-collapsible label="Co když udělám chybu?">
+								<div class="smaller pr2">Obraťte se na volební komisi, dá vám nový lístek, případně poradí.</div>
+							</p-collapsible>
+							<p-collapsible label="Nedávno jsem se stěhoval. Mohu volit?">
+								<div class="smaller pr2">Pokud máte novou občanku a v ní nové trvalé bydliště, tak vás komise napíše do seznamu voličů dodatečně až ve volební místnosti.</div>
+							</p-collapsible>
+							<p-collapsible label="EU citizens with perm/temp residency can vote as well">
+								<div class="smaller pr2">It is recommended to be in a special voters list, but if you didn't register, you can still vote. If you have take your residency documents with you, the comitee will add your name to the voters list in the voting room and allow you to vote in municipal elections and local referendum. <p-link href="https://mv.gov.cz/volby-referenda/information-about-referendums">More info</p-link></div>
+							</p-collapsible>
+						</p-area>
+					</div>
+					<div class="smaller text-center mv4" v-if="checkData && checkData.cast.obec">
+						A teď se podíváme na volby na magistrát.
+						<br><br>
+						<h2 @click="slide('magistrat')">&darr;</h2>
+					</div>
+					<div class="smaller text-center mv4" v-else-if="checkData && checkData.senat.length > 0">
+						A teď se podíváme na volby do Senátu.
+						<br><br>
+						<h2 @click="slide('senat')">&darr;</h2>
+					</div>
+					<div class="smaller text-center mv4" v-else-if="checkData && checkData.referendum.length > 0">
+						A teď se podíváme na místní referendum.
+						<br><br>
+						<h2 @click="slide('referendum')">&darr;</h2>
+					</div>
+					<div class="smaller text-center mv4" v-else>
+						A jdeme do finále.
+						<br><br>
+						<h2 @click="slide('konec')">&darr;</h2>
+					</div>
+				</section>
+				<section name="magistrat" v-if="checkData && checkData.cast.obec">
+					<p-icon icon="komunalni-volby" size="8em"></p-icon>
+					<h1>{{ checkData.cast.NAZEVZAST }}</h1>
+					<div class="_mc3 pb2">
+						<p-area class="inline highlight shadow strong smaller">
+							<p-icon icon="person"></p-icon>  Volí se {{ checkData.cast.MANDATY }} zastupitelů.
+						</p-area>
+						<div class="smallest mt1">
+							<button class="inline" @click="view.magistrat = 1" :class="{'green strong': view.magistrat === 1}">Seznam</button>
+							&middot;
+							<button class="inline" @click="view.magistrat = 2" :class="{'green strong': view.magistrat === 2}">Přehled</button>
+							&middot;
+							<button class="inline" @click="view.magistrat = 3" :class="{'green strong': view.magistrat === 3}">Podrobnosti</button>
+						</div>
+					</div>
+					<p-loader :rule="magistrat">
+						<div v-if="magistrat">
+							<component :is="view.magistrat != 2 ? 'p-list' : 'p-columns'" class="text-left _noGap _noRule _05" :class="{'_mc': view.magistrat != 2}">
+								<div v-for="party in sortBy(magistrat.list[0].$strany.filter(x => x.POR_STR_HL > 0), 'NAZEV', null, true)">
+									<component :is="['party-preview-tiny', 'party-preview-large', 'party-preview-full'][view.magistrat - 1]" :party="party" link="/volby/komunalni-volby/176" :elections="magistrat" :candidates="magistrat.list[0].$kandidati.filter(x => x.POR_STR_HL === party.POR_STR_HL && x.COBVODU === party.COBVODU)"></component>
+								</div>
+							</component>
+						</div>
+					</p-loader>
+					<div class="_mc2 pt4 smaller text-left">
+						<p-area background="var(--blue11)" icon="hint">
+							Kompletní informace, statistiky, výsledek minulých voleb, přehled vedení a další zajímavé informace najdete <router-link :to="'/volby/komunalni-volby/176/obec/' + checkData.cast.obec" class="strong">zde</router-link>
+						</p-area>
+					</div>
+					<h3 class="quando mt4">Kdo může hlasovat?</h3>
+					<div class="_mc">
+						<p-grid class="smaller _2_4_tight">
+							<div><p-area class="highlight shadow"><div><p-icon icon="snemovni-volby" size="40%"></p-icon></div>občan ČR</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="evropske-volby" size="40%"></p-icon></div>občan EU</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="person" size="40%"></p-icon></div>starší 18 let</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="komunalni-volby" size="40%"></p-icon></div>dle trvalého bydliště</p-area></div>
+						</p-grid>
+						<p class="smaller _mc2 pt1">Největším rozdílem oproti jiným volbám je, že nelze požádat o voličský průkaz a volit někde jinde.</p>
+					</div>
+					<h3 class="quando mt4">Jak se hlasuje?</h3>
+					<p>I u voleb na magistrát se <strong>křížkuje</strong>, princip je úplně stejný jako pro zastupitelstvo <em class="keep">{{ checkData.zastupitelstvo.NAZEVZAST }}</em>. Liší se jen počet hlasů, těch máte <strong>{{ checkData.cast.MANDATY }} hlasů</strong>. Všechny strany a kandidáti jsou uvedeni na jednom hlasovacím lístku, ten tak bude hodně velký. Podívejte se proto i z druhé strany nebo na další stránky.</p>
+					<h4 class="quando">Tři způsoby hlasování:</h4>
+					<div class="_mc text-left">
+						<p-grid class="_tighter _noGap _noRule smaller">
+							<div>
+								<p-area><strong>Velký křížek straně</strong>. Ta získá všech {{ checkData.cast.MANDATY }} hlasů. Jednoduché.</p-area>
+							</div>
+							<div>
+								<p-area><strong>Křížky jednotlivým kandidátům různých stran, max {{ checkData.cast.MANDATY }}</strong></p-area>
+							</div>
+							<div>
+								<p-area><strong>Jeden křížek straně a až {{ checkData.cast.MANDATY - 1 }} křížků kandidátům z jiných stran</strong></p-area>
+							</div>
+						</p-grid>
+					</div>
+					<div class="p-gap _2"></div>
+					<p-box-group class="_pbg">
+						<p-box :to="'/volby/komunalni-volby/176/hlasovani-nanecisto/' + checkData.cast.obec">
+							<p-box-button icon="cancel" class="primary">Hlasování nanečisto</p-box-button>
+						</p-box>
+						<p-box to="/jak-volit/komunalni-volby">
+							<p-box-button icon="hint">Chci vědět víc</p-box-button>
+						</p-box>
+					</p-box-group>
+					<h3 class="quando mt4">Časté otázky</h3>
+					<div class="_mc2 text-left">
+						<p-area class="highlight shadow">
+							<p-collapsible label="Musím volit stejně na magistrát i do městské části?">
+								<div class="smaller pr2">Nemusíte. Strany na magistrát uzavírají jiné koalice nebo v městské části. Často kandidují jen lokálně nebo naopak jen na magistrát. Berte to jako dvoje samostatné volby.</div>
+							</p-collapsible>
+							<p-collapsible label="Musím volit na magistrát?">
+								<div class="smaller pr2">Nemusíte. Je jen na vás, zda budete volit jen do místní části, nebo jen na magistrát, nebo v obou případech.</div>
+							</p-collapsible>
+							<p-collapsible label="V naší části jdou spolu, ale na magistrát úplně jinak. Co teď?">
+								<div class="smaller pr2">Můžete využít křížkování kandidátů a své hlasy rozdělit mezi ně.</div>
+							</p-collapsible>
+							<p-collapsible label="Nemohu najít kandidáta, ale viděl jsem ho na billboardu.">
+								<div class="smaller pr2">Kampaně stran do městské části a na magistrát se dost překrývají, občas je těžké je rozlišit. Někteří kandidáti jdou navíc do obou voleb, jiní ale jen na magistrát, nebo jen do místní části. Často se děje, že známější kandidát (nebo politik) stojí na billboardu, ale na kandidátce ho nakonec nenajdete.</div>
+							</p-collapsible>
+						</p-area>
+					</div>
+					<div class="smaller text-center mv4" v-if="checkData && checkData.senat.length > 0">
+						A teď se podíváme na volby do Senátu.
+						<br><br>
+						<h2 @click="slide('senat')">&darr;</h2>
+					</div>
+					<div class="smaller text-center mv4" v-else-if="checkData && checkData.referendum.length > 0">
+						A teď se podíváme na místní referendum.
+						<br><br>
+						<h2 @click="slide('referendum')">&darr;</h2>
+					</div>
+					<div class="smaller text-center mv4" v-else>
+						A jdeme do finále.
+						<br><br>
+						<h2 @click="slide('konec')">&darr;</h2>
+					</div>
+				</section>
+				<section name="senat" v-if="checkData && checkData.senat.length > 0">
+					<p-icon icon="senatni-volby" size="8em"></p-icon>
+					<h1><div class="small dimm">obvod {{ checkData.senat[0].obvod }}</div>{{ enums.obvody.find(x => x.id === checkData.senat[0].obvod).name }}</h1>
+					<div v-if="checkData.senat[0].obvod === 27" class="_mc2 pb1">
+						<p-area class="inline">
+							<p-icon icon="warning" size="2em"></p-icon>
+							<div class="smaller">Tento obvod nekopíruje přesně hnanice městských částí. Patří do něj {{ obvodAbout._27 }}</div>
+						</p-area>
+					</div>
+						<p-area class="inline highlight shadow strong smaller">
+							Současný senátor: {{ current['_' + checkData.senat[0].obvod] }}
+						</p-area>
+					<h3 class="quando">Kdo kandiduje?</h3>
+						<div class="smallest mt-1 mb1">
+							<button class="inline" @click="view.senat = 1" :class="{'green strong': view.senat === 1}">Seznam</button>
+							<!-- &middot; -->
+							<!-- <button class="inline" @click="view.senat = 2" :class="{'green strong': view.senat === 2}">Přehled</button> -->
+							&middot;
+							<button class="inline" @click="view.senat = 3" :class="{'green strong': view.senat === 3}">Podrobnosti</button>
+						</div>
+					<p-loader :rule="senat">
+						<div v-if="senat">
+							<p-list class="text-left _mc">
+								<div v-for="cand in sortBy(senat.list[0].$kandidati.filter(x => x.CKAND > 0), 'PRIJMENI', null, true)">
+									<p-area>
+										<component :is="['person-preview-linear', 'person-preview-block', 'person-preview-block'][view.senat - 1]" :cand="cand" link="/volby/senatni-volby/173" :data="senat" :current="senat.list[0]"></component>
+									</p-area>
+								</div>
+							</p-list>
+						</div>
+					</p-loader>
+					<div class="_mc2 pt4 smaller text-left">
+						<p-area background="var(--blue11)" icon="hint">
+							Kompletní informace, statistiky, výsledek minulých voleb a další zajímavé informace najdete <router-link :to="'/volby/senatni-volby/173/obvod/' + checkData.senat[0].obvod" class="strong">zde</router-link>
+						</p-area>
+					</div>
+					<h3 class="quando mt4">Kdo může hlasovat?</h3>
+					<div class="_mc">
+						<p-grid class="smaller _2_4_tight">
+							<div><p-area class="highlight shadow"><div><p-icon icon="snemovni-volby" size="40%"></p-icon></div>jen občan ČR</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="person" size="40%"></p-icon></div>starší 18 let</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="komunalni-volby" size="40%"></p-icon></div>dle trvalého bydliště</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="doc" size="40%"></p-icon></div>či voličský průkaz</p-area></div>
+						</p-grid>
+						<p class="smaller _mc2 pt1">V senátních volbách lze hlasovat v rámci obvodu na libovolném místě, pokud si zařídíte voličský průkaz.</p>
+					</div>
+					<h3 class="quando mt4">Jak se hlasuje?</h3>
+					<p>Senátní volby mají velmi jednoduché hlasování, do obálky dáte lístek se jménem, pro které hlasujete. Senátorem se stane ten kandidát, který získá přes 50 % hlasů. Pokud se tak nestane s prvním kole, následuje druhé kolo o týden později, do kterého postupují dva kandidáti s nejvyšším počtem hlasů.</p>
+					<h3 class="quando mt4">Časté otázky</h3>
+					<div class="_mc2 text-left">
+						<p-area class="highlight shadow">
+							<p-collapsible label="Mám to dát všechno do jedné obálky?">
+								<div class="smaller pr2">Ne. Pro komunální volby je šedá obálka, pro senátní žlutá.</div>
+							</p-collapsible>
+							<p-collapsible label="18 let mi bude až v sobotu. Mohu volit?">
+								<div class="smaller pr2">Můžete. U kandidátů i voličů se kontroluje věk až k druhému dni voleb.</div>
+							</p-collapsible>
+							<p-collapsible label="Když jdu volit v prvním kole, musím i v druhém?">
+								<div class="smaller pr2">Nemusíte. A také platí, že můžete jít volit v druhém, i když jste nebyli v tom prvním.</div>
+							</p-collapsible>
+							<p-collapsible label="Takže cizinci mohou volit do zastupitelstva, ale do Senátu ne?">
+								<div class="smaller pr2">Přesně tak. České volební zákony umožňují občanům jiných zemí EU hlasovat v některých našich volbách, ale nikdy ne v parlamentních.</div>
+							</p-collapsible>
+						</p-area>
+					</div>
+					<div class="smaller text-center mv4" v-if="checkData && checkData.referendum.length > 0">
+						A teď se podíváme na místní referendum.
+						<br><br>
+						<h2 @click="slide('referendum')">&darr;</h2>
+					</div>
+					<div class="smaller text-center mv4" v-else>
+						A jdeme do finále.
+						<br><br>
+						<h2 @click="slide('konec')">&darr;</h2>
+					</div>
+				</section>
+				<section name="referendum" v-if="checkData && checkData.referendum.length > 0">
+					<p-icon icon="calc" size="8em"></p-icon>
+					<h1>Referendum</h1>
+					<p-list class="invisible _mc2 text-left">
+						<div v-for="question in checkData.referendum">
+							 <p-area class="highlight shadow" icon="question">
+								<div v-html="question[2]" class="serif"></div>
+							 </p-area>
+						</div>
+					</p-list>
+					<h3 class="quando mt4">Kdo může hlasovat?</h3>
+					<div class="_mc">
+						<p-grid class="smaller _2_4_tight">
+							<div><p-area class="highlight shadow"><div><p-icon icon="snemovni-volby" size="40%"></p-icon></div>občan ČR</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="evropske-volby" size="40%"></p-icon></div>občan EU</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="person" size="40%"></p-icon></div>starší 18 let</p-area></div>
+							<div><p-area class="highlight shadow"><div><p-icon icon="komunalni-volby" size="40%"></p-icon></div>dle trvalého bydliště</p-area></div>
+						</p-grid>
+						<p class="smaller _mc2 pt1">Pro hlasování v místním referendu platí stejné podmínky jako pro komunální volby.</p>
+					</div>
+					<h3 class="quando mt4">Jak se hlasuje?</h3>
+					<p v-if="checkData.referendum.length === 1">Na hlasovacím lístku jsou natištěna otázka a dva rámečky ANO a NE. Hlas se udělí <strong>křížkováním</strong> jedné odpovědi.</p>
+					<p v-if="checkData.referendum.length > 1">Na hlasovacím lístku jsou natištěny všechny otázky. U každé otázky jsou dva rámečky ANO a NE. Hlas se udělí <strong>křížkováním</strong> jedné odpovědi.</p>
+					<h3 class="quando mt4">Časté otázky</h3>
+					<div class="_mc2 text-left">
+						<p-area class="highlight shadow">
+							<p-collapsible label="Je účast v referendu povinná?">
+								<div class="smaller pr2">Není. Stejně jako všechny jiné české volby, účast je dobrovolná.</div>
+							</p-collapsible>
+							<p-collapsible label="Kdy je referendum platné?">
+								<div class="smaller pr2">Aby bylo referendum platné, musí se ho zúčastnit 35 % oprávněných voličů. Stačí, že si vezmou lístky, nemusí ani hlasovat.</div>
+							</p-collapsible>
+							<p-collapsible label="Kdy je referendum závazné pro zastupitelstvo?">
+								<div class="smaller pr2">Aby se výsledkem muselo řídit zastupitelstvo, tak musí být splněny tři podmínky: referendum musí být platné (tzn účast alespoň 35 %), většina zúčastněných hlasovala pro vítěznou odpověď a pro tu odpověď hlasovalo alespoň 25 % všech oprávněných voličů.</div>
+							</p-collapsible>
+							<p-collapsible label="Nepřišli mi domů hlasovací lístky. Co teď?">
+								<div class="smaller pr2">Hlasovací lístky pro referenda se vydávají vždy až ve volební místnosti.</div>
+							</p-collapsible>
+						</p-area>
+					</div>
+					<div class="smaller text-center mv4">
+						A jdeme do finále.
+						<br><br>
+						<h2 @click="slide('konec')">&darr;</h2>
+					</div>
+				</section>
+				<section name="konec">
+					<p-icon icon="icon-party" size="8em"></p-icon>
+					<h1>Na co nezapomenout!</h1>
+					<p class="strong">Platnou občanku, pas nebo aktualizované eDoklady.</p>
+					<p>Volby nejsou povinné, nikdo vás nemůže nutit jít volit ani volit někoho konkrétního.</p>
+					<p>Volby jsou tajné, nikdo by s vámi neměl být za plentou ani se dožadovat informací. Určitě by za vás neměl nikdo křížkovat ani před vámi lístek schovávat.</p>
+					<p>Volby jsou svátek demokracie. Alkohol, drogy ani zbraně s sebou nenoste.</p>
+					<p>Volit můžete kdykoli, ale jen jednou, v pátek 9. října od 14:00 do 22:00, nebo v sobotu 10. října od 8:00 do 14:00.</p>
+					<p>Jak jsou volby složité, tak je i jejich sčítání. Hned v sobotu odpoledne tak výsledky nečekejte, zejména ne u větších měst.</p>
+					<h3 class="mt3 quando">Chcete ještě víc informací?</h3>
+					<p-box-group class="_pbg">
+						<p-box to="/volby/komunalni-volby/176">
+							<p-box-button icon="komunalni-volby" class="primary">Více o komunálních volbách</p-box-button>
+						</p-box>
+						<p-box to="/volby/senatni-volby/173">
+							<p-box-button icon="senatni-volby" class="primary">Více o senátních volbách</p-box-button>
+						</p-box>
+					</p-box-group>
+					<p>
+						<p-popup>
+							<template #init>
+								<button class="smallest inline strong">Chci vybrat jinou obec</button>
+							</template>
+							<template #content>
+								<search-town link="/pruvodce/2026/"></search-town>
+							</template>
+						</p-popup>
+					</p>
+		
+					<h2 class="quando mt3">A to je vše.</h2>
+					<p>Tak dobrou volbu 🗳️</p>
+					<p-image src="https://static.programydovoleb.cz/el/pdv-26.svg" width="8em" :round="true"></p-image>
+				</section>
+				</template>
+			</p-loader>
+		</template>
+	</p-layout-simple>
+</div>

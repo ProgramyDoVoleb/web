@@ -166,6 +166,11 @@
 	max-width: 30em;
 }
 
+._ma {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 ._pll {
 	display: inline !important;
 }
@@ -251,4 +256,9 @@
 		right: -.8em;
 		transform: scale(.9, .9);
 	}
+}
+
+._ha {
+	// border: 2px dotted var(--greyish);
+	box-shadow: 0 8px 24px #00000033 !important;
 }

@@ -64,7 +64,18 @@ const router = createRouter({
     {
       path: '/pruvodce',
       name: 'guide-actual',
-      redirect: '/volby/snemovni-volby/166/pruvodce',
+      redirect: '/pruvodce/2026',
+    },
+    {
+      path: '/pruvodce/2026',
+      name: 'guide-2026-search',
+      component: () => import('../views/aktivity/guide/26/do.vue')
+    },
+    {
+      path: '/pruvodce/2026/:townID',
+      name: 'guide-2026',
+      component: () => import('../views/aktivity/guide/26/do.vue'),
+      props: true
     },
     {
       path: '/pruvodce/snemovni-volby-2025',

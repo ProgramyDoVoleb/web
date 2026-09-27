@@ -15,6 +15,9 @@
 			</p-popup>
 		</template>
 		<template v-if="current.status < 3">
+			<p-box :to="'/pruvodce/2026/' + town" v-if="current.id === 176">
+				<p-box-button icon="guide" class="primary">Průvodce</p-box-button>
+			</p-box>
 			<p-box :to="$route.path.split('obec').join('hlasovani-nanecisto')">
 				<p-box-button icon="cancel">Hlasování nanečisto</p-box-button>
 			</p-box>

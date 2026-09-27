@@ -11,12 +11,12 @@
 			<img  loading="lazy" :src="'https://data.programydovoleb.cz/' + party.logo" :alt="label" class="logo">
 		</div>
 		<div class="collapsible-element-button">
-			<component :is="empty ? 'span' : 'button'" class="inline" :class="{red: opened, smaller: !empty}">{{ headline || label }}</component>
+			<component :is="empty ? 'span' : 'button'" class="inline" :class="{'is-span': opened, smaller: !empty}">{{ headline || label }}</component>
 		</div>
 		<div v-if="status" class="collapsible-element---status smaller"><strong>{{ status }}</strong></div>
 		<!-- <span class="icon red" v-if="!empty && opened">&times;</span> -->
 		<!-- <span class="icon blue" v-if="!empty && !opened">&plus;</span> -->
-		<p-icon class="icon" :icon="!empty && !opened ? 'down' : 'icon-against'" size="1em"></p-icon>
+		<p-icon class="icon" :icon="!empty && !opened ? 'down' : 'cancel'" size="1em"></p-icon>
 	</div>
 	<div class="collapsible-element-content" v-if="opened || seo" :class="{seohide: seo && !opened}">
 		<slot></slot>
