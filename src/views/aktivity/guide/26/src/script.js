@@ -3,6 +3,7 @@ import { api, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, sortBy, unique, slide, domain, con} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
+import { useRouter } from 'vue-router';
 import {ga} from '@/pdv/analytics';
 import axios from 'axios';
 
@@ -24,6 +25,7 @@ export default {
 	props: ['townID'],
 	data: function () {
 		return {
+			$router: useRouter(),
 			townSearch: null,	
 			view: {
 				zastupitelstvo: 1,
@@ -61,7 +63,8 @@ export default {
 				_75: "Ondřej Feber",
 				_78: "Tomáš Goláň",
 				_81: "Josef Bazala"
-			}
+			},
+			partAllow: [563889,505927]
 		}
 	},
 	components: {
@@ -78,6 +81,7 @@ export default {
 		AnswerPreview
 	},
 	computed: {
+		
 		$store: function () {
 			return useData()
 		},
@@ -172,6 +176,10 @@ export default {
 		}
 	},
 	mounted: function () {
+
+	  if (this.townID == 556904) this.$router.push('/pruvodce/2026/' + 563889);
+	  if (this.townID == 555321) this.$router.push('/pruvodce/2026/' + 505927);
+
 	  window.scrollTo(0, 1);
 	  ga('Průvodce volbami 2026');
 
@@ -184,6 +192,9 @@ export default {
 	watch: {
 		townID: function () {
 	  		window.scrollTo(0, 1);
+
+			if (this.townID == 556904) this.$router.push('/pruvodce/2026/' + 563889);
+			if (this.townID == 555321) this.$router.push('/pruvodce/2026/' + 505927);
 		}
 	}
 };

@@ -27,7 +27,7 @@
 					<div class="smallest dimm mt-2" v-if="[1,2,6].indexOf(checkData.zastupitelstvo.DRUHZASTUP) > -1">okres {{ enums.okresy.find(x => x.id === checkData.zastupitelstvo.OKRES).name }}</div>
 					<div class="smallest dimm mt-2" v-if="[5].indexOf(checkData.zastupitelstvo.DRUHZASTUP) > -1">část města {{ checkData.cast.NAZEVZAST }}</div>
 
-					<template v-if="checkData.casti.length > 0">
+					<template v-if="checkData.casti.length > 0 && partAllow.indexOf(Number(townID)) === -1">
 						<p>{{ checkData.zastupitelstvo.NAZEVZAST }} volí na magistrát a také na radnici městské části. To může mít také vliv na senátní obvod nebo vyhlášené referendum. Proto nejprve vyberte, ve které městské části máte trvalé bydliště:</p>
 						<h2>Vyberte část města</h2>
 						<div class="_mc">
@@ -41,8 +41,27 @@
 						</div>
 					</template>
 
-					<template v-else>
-						<div class="_mc2 text-left pt2">
+					<template v-if="checkData.casti.length > 0 && partAllow.indexOf(Number(townID)) > -1">
+						<p>{{ checkData.zastupitelstvo.NAZEVZAST }} volí na magistrát, ale některé části volí také na svou místní radnici. To může mít také vliv na senátní obvod nebo vyhlášené referendum. Prosím vyberte, pokud ve některé samosprávné městské části máte trvalé bydliště:</p>
+						<h3 class="serif">Vyberte část města</h3>
+						<div class="_mc">
+							<p-area class="text-left">
+								<p-columns class="_2_4">
+									<div v-for="part in sortBy(checkData.casti, 'NAZEVZAST', null, true)">
+										<router-link :to="'/pruvodce/2026/' + part.obec">{{ part.NAZEVZAST }}</router-link>
+									</div>
+								</p-columns>
+							</p-area>
+						</div>
+						<div class="smaller text-center mt4">
+							a nebo pokračujte níže
+							<br><br>
+							<h2 @click="slide('dale')">&darr;</h2>
+						</div>
+					</template>
+
+					<template v-if="checkData.casti.length === 0 || partAllow.indexOf(Number(townID)) > -1">
+						<div class="_mc2 text-left pt2" name="dale">
 							<p-list class="invisible">
 								<div class="text-center smaller mb05">
 									Jaké volby se vás týkají?
@@ -111,7 +130,7 @@
 				<section v-else>
 					<em>Takové místo v České republice není.</em>
 				</section>	
-				<template v-if="checkData && checkData.casti.length === 0">
+				<template v-if="checkData && (checkData.casti.length === 0 || partAllow.indexOf(Number(townID)) > -1)">
 				<section name="zastupitelstvo" v-if="checkData && checkData.zastupitelstvo">
 					<p-icon icon="komunalni-volby" size="8em"></p-icon>
 					<h1>{{ checkData.zastupitelstvo.NAZEVZAST }}</h1>
@@ -469,14 +488,7 @@
 						</p-box>
 					</p-box-group>
 					<p>
-						<p-popup>
-							<template #init>
-								<button class="smallest inline strong">Chci vybrat jinou obec</button>
-							</template>
-							<template #content>
-								<search-town link="/pruvodce/2026/"></search-town>
-							</template>
-						</p-popup>
+						<router-link class="smallest strong" to="/pruvodce/2026">Chci vybrat jinou obec</router-link>						
 					</p>
 		
 					<h2 class="quando mt3">A to je vše.</h2>
