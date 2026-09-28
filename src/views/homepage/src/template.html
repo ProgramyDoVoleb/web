@@ -77,7 +77,7 @@
 								<div class="p-offset reverse">
 									<div>
 										<h4 class="mt0 mb0">
-											<router-link to="/volby/senatni-volby/173" class="red">Senátní volby</router-link>
+											<router-link to="/volby/senatni-volby/173">Senátní volby</router-link>
 										</h4>
 										<div class="smallest">
 											<p-list-linear class="or">
@@ -117,6 +117,51 @@
 										</p-popup>
 									</div>
 								</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area icon="cancel" class="highlight">
+								<h4 class="mt0 mb0">
+									<router-link to="/volby/komunalni-volby/176/hlasovani-nanecisto">Hlasování nanečisto</router-link>
+								</h4>
+								<div class="smallest">
+									Zkuste si vyplnit volební lístek.
+								</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area icon="plus-green" background="var(--green11)">
+								<h4 class="mv0">
+									Odkaz na
+									<p-popup class="inline">
+										<template #init>
+											<button class="inline green">volební program</button>
+										</template>
+										<template #content>
+											<editable-suggest type="program" part="homepage:suggestion" link="1"></editable-suggest>
+										</template>
+									</p-popup>
+								</h4>
+								<div class="smallest">
+									Nebo priority. Nebo nahrajte 
+									<p-popup class="down">
+										<template #init>
+											<span class="is-span">volební leták</span>
+											
+										</template>
+										<template #content>
+											<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
+										</template>
+									</p-popup>.
+								</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area icon="merch" background="var(--blue11)">
+								<h4 class="mt0 mb0">
+									<router-link to="/novinky/15365">Soutěž o trička</router-link>
+								</h4>
+								<div class="smallest">Pošlete 10 odkazů na chybějící programy</div>
 							</p-area>
 						</div>
 						<div>
@@ -176,8 +221,8 @@
 						</p-label>
 					</p> -->
 
-					<engagement-add-program></engagement-add-program>
-					<p class="smallest">Zapojte se do soutěže o 5 triček s motivy Programů do voleb. Stačí poslat 10 odkazů na chybějící volební program na <a href="tip@programydovoleb.cz">tip@programydovoleb.cz</a> &middot; <router-link to="/novinky/15365" class="strong">Více informací zde</router-link></p>
+					<!-- <engagement-add-program></engagement-add-program> -->
+					<!-- <p class="smallest">Zapojte se do soutěže o 5 triček s motivy Programů do voleb. Stačí poslat 10 odkazů na chybějící volební program na <a href="tip@programydovoleb.cz">tip@programydovoleb.cz</a> &middot; <router-link to="/novinky/15365" class="strong">Více informací zde</router-link></p> -->
 					
 				</p-block>	
 				
