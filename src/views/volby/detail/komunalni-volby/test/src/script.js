@@ -26,7 +26,8 @@ export default {
 			},
 			ticket: true,
 			width: window.innerWidth,
-			notify: useNotifications()
+			notify: useNotifications(),
+			past: false
 		}
 	},
   components: {
@@ -41,7 +42,7 @@ export default {
 			return useData()
 		},
 		data: function () {
-			return this.$store.getters.pdv("elections/fetch/" + this.id + ':' + this.zast);
+			return this.zast ? this.$store.getters.pdv("elections/fetch/" + this.id + ':' + this.zast) : null;
 		},
 		current: function () {
 			var d = this.data ? this.data.list[0] : null 
@@ -146,6 +147,25 @@ export default {
   mounted: function () {
     window.scrollTo(0, 1);
     //ga(this.about.data.name);
+
+	var el = document.querySelector('[name=past]'), el2 = document.querySelector('[name=first]'), s, s2;
+
+	if (el && el2) {
+		window.addEventListener('scroll', () => {
+			if (this.zast) {
+				s = el.getBoundingClientRect().top;
+				s2 = el2.getBoundingClientRect().top
+
+				if (s < 300 || s2 > 300) {
+					this.past = true;
+				} else {
+					this.past = false;
+				}
+			}
+		});
+	} else {
+		console.log('not');
+	}
   },
   watch: {
 	id: function () {

@@ -51,11 +51,48 @@ ol {
 }
 
 ._mobile {
-	@media (min-width: 960px) {
-		display: none;
+	position: fixed;
+	bottom: 1em;
+	left: 1em;
+	right: 1em;
+	z-index: 1000;
+
+	.p-area {
+		max-width: 40em;
+		margin: auto;
+
+		.dark &.highlight:not([style*=background-image]):not(.p-area---has-background), .dark .p-area.highlight[style*=missing]:not(.p-area---has-background) {
+			background: var(--black) !important;
+		}
+	}
+
+	transition: bottom .5s ease-in-out;
+
+	&.past {
+		bottom: -10em;
 	}
 }
 
 .scrollTo {
 	scroll-margin-top: 25vh;
+}
+
+._mw {
+	max-width: 48em;
+	margin-left: auto;
+	margin-right: auto;
+
+	p {
+		max-width: 100%;
+	}
+}
+
+._mw2 {
+	max-width: 70em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.dark ._invert {
+	filter: invert(1) opacity(.25);
 }

@@ -220,6 +220,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/volby/komunalni-volby/:id/hlasovani-nanecisto',
+      name: 'volby-test-komunal-obecne',
+      component: () => import('../views/volby/detail/komunalni-volby/test/do.vue'),
+      props: true
+    },
+    {
       path: '/volby/komunalni-volby/:id/hlasovani-nanecisto/:zast',
       name: 'volby-test-komunal-kraj',
       component: () => import('../views/volby/detail/komunalni-volby/test/do.vue'),
