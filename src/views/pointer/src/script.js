@@ -30,6 +30,7 @@ import PointerHeader from '@/views/pointer/header/do.vue';
 // import PointerSummary from '@/views/pointer/summary/do.vue';
 import PointerSummaryPs from '@/views/pointer/summary/ps/do.vue';
 import PointerSummaryKv from '@/views/pointer/summary/kv/do.vue';
+import PointerSummarySenat from '@/views/pointer/summary/senat/do.vue';
 import PopUp from '@/components/pop-up/do.vue';
 import EditableBasic from '@/components/editable/basic/do.vue';
 import EditableSuggest from '@/components/editable/suggest/do.vue';
@@ -84,7 +85,7 @@ export default {
 	CtaGetAdmin, CtaSupport, CtaSupportShort, CtaQuestions,
 	AnswerTopicPreview,
 	PartyPolls,
-	PointerHeader, PointerSummaryPs, PointerSummaryKv, PartyPreviewTiny,
+	PointerHeader, PointerSummaryPs, PointerSummaryKv, PointerSummarySenat, PartyPreviewTiny,
 	PopUp,
 	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage,
 	HistoryKvRk, HistoryKvRos, HistoryCandidates,

@@ -1,0 +1,23 @@
+<div class="pointer-summary pt1">
+	<p><strong>Shrnutí: </strong>
+		<p-truncated-content :key="current">
+			<template v-if="current.PLATNOST === 'A'">
+				{{ headline }} {{ elections.status < 3 ? 'je ' + rod('kandidátkou', 'kandidátem') : rod('byla kandidátkou', 'byl kandidátem') }} č. {{ current.CKAND }} v obvodě {{ current.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === current.OBVOD).name }} za volební stranu <em>{{ current.NAZEV_VS }}</em>.
+				
+				<template v-if="con(current.$data, 'program')">
+					{{ rod('Její', 'Jeho') }} program najdete na <p-link :href="con(current.$data, 'program', null, null, null, 'source')">{{ domain(con(current.$data, 'program', null, null, null, 'source')) }}</p-link>.
+				</template>
+				<template v-if="current.$priority.length > 0">
+					Své priority uvedl{{ rod('a') }} <router-link :to="link + '/priority'">na Programech zde</router-link>.
+				</template>
+				<template v-if="current.$odpovedi.length > 0">Odpovědi na {{ unique(current.$odpovedi, 'question').length }} volební otázky jsou <router-link :to="link + '/otazky-a-odpovedi'">zde</router-link>.</template>
+				{{ elections.status === 3 ? 'V době voleb ' + rod('jí', 'mu') + ' bylo' : 'Je ' + rod('jí', 'mu') }} {{ current.VEK }} let, bydlištěm {{ current.BYDLISTEN }}, jako své povolání uvedl{{ rod('a') }} <em>{{ current.POVOLANI }}</em> a jako politickou příslušnost <em>{{ current.PSTRANA === 99 ? 'nestraník' : data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).NAZEV }}</em>.
+				Do voleb byl{{ rod('a') }} nominován{{ rod('a') }} od <em>{{ data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).NAZEV }}</em>.
+				Níže najdete důležité odkazy, zmínky v médiích a další informace.
+			</template>
+			<template v-else>
+				Z možné či zvažované kandidatury nakonec sešlo a subjekt či kandidát se voleb nezúčastnil.
+			</template>
+		</p-truncated-content>
+	</p>
+</div>

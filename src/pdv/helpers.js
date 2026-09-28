@@ -115,8 +115,8 @@ export function firstOfUnique (list, key) {
   return arr;
 }
 
-export function con(item, key, def, index, whole) {
-  return item ? (item[key] && item[key][index || 0] ? (whole ? item[key][index || 0] : item[key][index || 0].value) : (def || null)) : null
+export function con(item, key, def, index, whole, column) {
+  return item ? (item[key] && item[key][index || 0] ? (whole ? item[key][index || 0] : item[key][index || 0][column || 'value']) : (def || null)) : null
 }
 
 export function clear(value, fallback) {

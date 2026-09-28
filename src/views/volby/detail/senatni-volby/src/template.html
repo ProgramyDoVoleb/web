@@ -124,14 +124,14 @@
 								</p-collapsible>
 							</template>
 						</p-area>
-						<template v-if="news && data.list[0].status < 3 && qitem.type === 1">
+						<!-- <template v-if="news && data.list[0].status < 3 && qitem.type === 1">
 							<h3 class="serif">Odpovědi již zaslalo {{ news.answers.length }} kandidátů, např:</h3>
 							<p-columns class="tight smaller">
 								<div v-for="cand in sortBy(shuffle(news.answers.filter(x => x && x.PRIJMENI)).filter((x, i) => i < 24), 'PRIJMENI', null, true)">
 									<router-link :to="'/volby/snemovni-volby/' + data.list[0].id + '/kandidat/' + cand.id + '/otazky-a-odpovedi'">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
 								</div>
 							</p-columns>
-						</template>
+						</template> -->
 						<template v-if="data.list[0].editace === 1">
 							<p-modal class="mt2">
 								<template #init>
@@ -157,14 +157,6 @@
 									</p-list>
 								</template>
 							</p-modal>
-						</template>
-						<template v-if="news && data.list[0].status < 3 && qitem.type === 3 && news.answers.find(x => x.ZKRATKA)">
-							<h3 class="serif">Odpovědi stran</h3>
-							<p-columns class="tight smaller">
-								<div v-for="cand in sortBy(shuffle(news.answers.filter(x => x.ZKRATKA)).filter((x, i) => i < 12), 'ZKRATKA', null, true)">
-									<router-link :to="'/volby/snemovni-volby/' + data.list[0].id + '/strana/' + cand.id + '/otazky-a-odpovedi'">{{ cand.ZKRATKA }}</router-link>
-								</div>
-							</p-columns>
 						</template>
 					</p-collapsible>
 				</template>

@@ -6,7 +6,7 @@
 					<div v-if="data">
 						<div v-if="data.list[0]">
 							<pointer-header :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table"></pointer-header>
-							<component :is="'pointer-summary-' + $volby.typ.toLowerCase()" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="['PS', 'KV'].indexOf($volby.typ) > -1"></component>
+							<component :is="'pointer-summary-' + $volby.typ.toLowerCase()" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="['PS', 'KV', 'SENAT'].indexOf($volby.typ) > -1"></component>
 							<!-- <pointer-summary-ps :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="$volby.id === 166"></pointer-summary-ps> -->
 							<div class="p-gap _3 _floar-clear"></div>
 							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="current.PRIJMENI">

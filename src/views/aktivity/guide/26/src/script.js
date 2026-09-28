@@ -184,8 +184,8 @@ export default {
 	  ga('Průvodce volbami 2026');
 
 	  if (window.innerWidth > 800) {
-		this.view.zastupitelstvo = 2;
-		this.view.magistrat = 2;
+		this.view.zastupitelstvo = 3;
+		this.view.magistrat = 3;
 		this.view.senat = 3;
 	  } 
 	},
