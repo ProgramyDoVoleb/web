@@ -143,7 +143,15 @@
 								</div>
 						</div>
 					</p-loader>
-							
+				</p-block>
+				<p-block v-else headline="Výběr obce" :hide="true">
+					<h2 class="quando text-center">Pojďte si to zkusit <div class="small">s reálnými stranami a kandidáty</div></h2>
+					<div class="_mw">
+						<search-town :link="'/volby/komunalni-volby/' + id + '/hlasovani-nanecisto/'"></search-town>
+					</div>
+				</p-block>
+				<p-block headline="Pomůcka" :hide="true">
+
 								<div class="_mw text-center" name="past">
 									<p-icon icon="hint" size="6em"></p-icon>
 									<h1 class="quando">Pomůcka</h1>
@@ -157,9 +165,9 @@
 									</p-area>
 									<p>Aneb na papíře nesmí být víc křížků, než se volí zastupitelů. V tomto případě {{ current ? current.$dotcene[0].MANDATY : '' }}. Mimochodem, tohle číslo je na hlasovací plachtě uvedené a také vám ho zopakují ve volební místnosti.</p>
 								</div>
-							
-							<div class="p-line _2"></div>
-							<h2 class="quando text-center">Obvyklé postupy</h2>
+						</p-block>
+						<p-block headline="Obvyklé postupy" :hide="true">							
+							<h1 class="quando text-center">Obvyklé postupy</h1>
 							<p-columns class="smaller _mw2">
 								<div>
 									<p-image class="_invert mb05" :rounded="true" width="100%" src="https://2022.programydovoleb.cz/static/ticket/valid-1.png"></p-image>
@@ -173,30 +181,26 @@
 									<p-image class="_invert mb05" :rounded="true" width="100%" src="https://2022.programydovoleb.cz/static/ticket/valid-2.png"></p-image>
 									<p-area><h3>Kombinace</h3><p>Nejnáročnějším, ale také platným postupem je nedat ani jeden velký křížek, ale hezky a poctivě rozdat všech {{ current ? current.$dotcene[0].MANDATY : '' }} křížků. Jen je potřeba si to pořádně přepočítat, stačí jeden křížek navíc a celý lístek je neplatný.</p></p-area>
 								</div>
-							</p-columns>						
-							<div class="p-line _2"></div>
+							</p-columns>					
+						</p-block>	
+						<p-block headline="Nechcete?" :hide="true">
 							<h3 class="quando text-center">Nechcete dávat všechny hlasy?</h3>
 							<p class="_mw text-center smaller">A pak je ještě jeden postup, kdy dáváte jen křížky kandidátům, ale dáte jich méně než maximálních {{ current ? current.$dotcene[0].MANDATY : '' }}. Sice se tím připravujete o hlasy, ale aspoň máte jistotu, že svůj hlas dáváte opravdu jen těm lidem, které opravdu chcete volit.</p>
 							<p class="_mw text-center"><router-link to="/jak-volit/komunalni-volby" class="strong smaller">Více informací, jak volit</router-link></p>
-							<div class="p-line _2"></div>
+						</p-block>
+						<p-block headline="Pokračujte dál" :hide="true">
 							<div class="_mw text-center">
 								<p-icon icon="komunalni-volby" size="6em"></p-icon>
 								<br>
-								<p-area class="inline highlight shadow">
+								<p-area class="inline highlight shadow" v-if="current">
 									<router-link :to="$route.path.split('hlasovani-nanecisto').join('obec')" class="strong">{{ current ? current.$dotcene[0].NAZEVZAST : '' }}</router-link>
 									<div class="smaller">Podívejte se přehled stran a kandidátů</div>
 								</p-area>
 								<div class="p-gap"></div>
-								<p-box :to="'/pruvodce/2026/' + zast">
+								<p-box :to="'/pruvodce/2026' + (current ? '/' + zast : '')">
 									<p-box-button icon="guide">Průvodce volbami</p-box-button>
 								</p-box>
 							</div>
-				</p-block>
-				<p-block v-else headline="Výběr obce" :hide="true">
-					<h2 class="quando text-center">Pojďte si to zkusit <div class="small">s reálnými stranami a kandidáty</div></h2>
-					<div class="_mw">
-						<search-town :link="'/volby/komunalni-volby/' + id + '/hlasovani-nanecisto/'"></search-town>
-					</div>
 				</p-block>
 			</p-block>
 	</p-layout-simple>

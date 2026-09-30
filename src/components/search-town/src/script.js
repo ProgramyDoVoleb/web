@@ -29,19 +29,13 @@ export default {
 			if (this.query && this.list) {
 				var str = url(this.query).split('-').join(' ');
 
-				arr = this.list.list.filter(x => x.$index.split(str).length > 1);
-
-				if (arr.length > 100) {
-					if (str === "as" || str === "es") {
-						arr = arr.filter(x => x.NAZEVZAST.length === 2);
-					} else {
-						arr = [];
-					}
-				} 
+				if (str === "as" || str === "es" || str.length > 2) {
+					arr = this.list.list.filter(x => x.$index.includes(str));	
+				}
 			}
 
-			if (arr.length < 100) {
-				arr.sort((a, b) => a.NAZEVZAST.localeCompare(b.NAZEVZAST, 'cs'));
+			if (arr.length > 0) {
+				// arr.sort((a, b) => a.NAZEVZAST.localeCompare(b.NAZEVZAST, 'cs'));
 
 				if (this.num && this.numUsed === false) {
 					var obec = arr.find(x => x.obec == this.num);

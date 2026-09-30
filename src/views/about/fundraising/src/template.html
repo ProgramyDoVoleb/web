@@ -5,14 +5,16 @@
 				<p-box-group>
 					<template v-for="(kc, i) in [100, 226, 2026]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
 					<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
-					<p-box href="https://programydovoleb.t-shock.eu/cs/"><p-box-button class="primary">Merch</p-box-button></p-box>
+					<p-box href="https://www.t-shock.eu/cs/shop/NUBj"><p-box-button class="primary">Merch</p-box-button></p-box>
 					<p-box :click="() => slide('plakaty')"><p-box-button class="primary">Plakáty</p-box-button></p-box>
 				</p-box-group>
 				<p class="smallest dimm">Kliknutí přesměruje na portál Darujme.cz</p>
 			</p-block>
 			<p-block headline="Nestranně, nezávisle, dobrovolnicky" anchor="Důvody podpory">
-				<p>Už od roku 2018 vzniká nestranný a nezávislý předvolební přehled. Po celou dobu funguje jako dobrovolnický neziskový projekt, s hlavním cílem informovat o nadcházejících volbách, o kandidujících stranách, kandidátech a jejich volebních programech. Nejedná se o názorový ani zpravodajský portál, nevnucuje názor, nefandí. Není nijak spojen s žádnou politickou stranou, hnutím, think-tankem, PR agenturou ani mediálním domem.</p>
-				<p>Velká část činnosti je zabezpečena svépomocí, programování, grafika, komunikace je ryze dobrovolnickou nehrazenou prací, ve volném čase. Jediným nezbytným nákladem je webhosting a doména. Veškeré další prostředky tak jdou na propagaci projektu.</p>
+				<p-truncated-content class="p" tag="div" :size="32">
+					<p>Už od roku 2018 vzniká nestranný a nezávislý předvolební přehled. Po celou dobu funguje jako dobrovolnický neziskový projekt, s hlavním cílem informovat o nadcházejících volbách, o kandidujících stranách, kandidátech a jejich volebních programech. Nejedná se o názorový ani zpravodajský portál, nevnucuje názor, nefandí. Není nijak spojen s žádnou politickou stranou, hnutím, think-tankem, PR agenturou ani mediálním domem.</p>
+					<p>Velká část činnosti je zabezpečena svépomocí, programování, grafika, komunikace je ryze dobrovolnickou nehrazenou prací, ve volném čase. Jediným nezbytným nákladem je webhosting a doména. Veškeré další prostředky tak jdou na propagaci projektu.</p>
+				</p-truncated-content>
 				<h3 class="quando">Pomozte Programům před volbami</h3>
 				<p>
 

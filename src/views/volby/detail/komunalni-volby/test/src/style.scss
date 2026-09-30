@@ -96,3 +96,8 @@ ol {
 .dark ._invert {
 	filter: invert(1) opacity(.25);
 }
+
+.p-block + .p-block {
+	border-top: var(--border);
+	padding-top: 3em;
+}

@@ -1,137 +1,62 @@
 <div class="engagement-thanks">
-	
-	<p-box-group class="_mw">
-		<p-box :click="() => click(1)" v-if="!used">
-			<p-box-button icon="star-line.svg">Díky za tuhle stránku</p-box-button>
-		</p-box>
-		<p-box v-if="used" :disabled="1">
-			<p-box-button icon="star.svg">Díky za tuhle stránku</p-box-button>
-		</p-box>
-	</p-box-group>
 
 	<div class="p-line _3"></div>
 
-	<template v-if="false && width > 640">
+		<h3 class="serif mt0">Sdílejte a podpořte tento projekt</h3>
+		<p class="text-center smaller"><em>Programy do voleb</em> jsou výsledkem mnohaleté dobrovolnické neplacené práce. Nestojí za nimi úřady, dotace ani mediální domy. Sdílení a lajky pomáhají proti algoritmu, nestojí čas ani peníze. Finanční dary jdou hlavně na provoz webu a propagaci projektu.</p>
 
-		<h2 class="quando">
-			Podpořte Programy do voleb
-		</h2>
-			<!-- <div class="smaller strong sans red mt-15 mb3">
-				<p-link href="https://kristalova.lupa.cz/nominace/" class="red">Nominujte tento projekt na Křišťálovou Lupu</p-link>
-			</div> -->
-		<!-- <p class="text-center _mw">
-			Tento web je výsledkem celoroční dobrovolnické neplacené práce. 
-		</p> -->
-	
-		<!-- <div class="p-gap _2"></div> -->
-	
-		<p-grid class="_1_2_4 _mw text-left">
-			<div>
-				<p-image src="https://static.programydovoleb.cz/img/2025/fio.png" width="100%" class="rounded _p"></p-image>
-				<div class="p-gap"></div>					
-				<p-box-group>
-					<p-box href="https://ib.fio.cz/ib/transparent?a=2502004588">
-						<p-box-label>2502004588/2010</p-box-label>
-						<p-box-label class="show-60rem">FIO</p-box-label>
+		<p-box-group class="_mw">
+			<p-popup>
+				<template #init>
+					<p-box>
+						<p-box-button icon="telegram">Sdílet</p-box-button>
 					</p-box>
-				</p-box-group>
-			</div>
-			<div>
-				<p-image :src="'https://static.programydovoleb.cz/img/merch/' + motives[motivesIndex] + '.jpg'" width="100%" class="rounded _ar"></p-image>
-				<div class="p-gap"></div>
-				<p-box-group class="_ab">
-					<p-box href="https://programydovoleb.t-shock.eu/cs//tricko">
-						<p-box-label>Tričko</p-box-label>
+				</template>
+				<template #content>
+					<p-share :compact="1" class="mt1"></p-share>
+				</template>
+			</p-popup>
+			<p-popup>
+				<template #init>
+					<p-box>
+						<p-box-button class="green" icon="support">Přispět</p-box-button>
 					</p-box>
-					<p-box href="https://programydovoleb.t-shock.eu/cs//taska">
-						<p-box-label>Taška</p-box-label>
-					</p-box>
-					<p-box href="https://programydovoleb.t-shock.eu/cs//motiv-ke-stazeni">
-						<p-box-label>Digi merch</p-box-label>
-					</p-box>
-				</p-box-group>
-			</div>
-			<div>
-				<p-area class="_con">
-					<h4>Přes Darujme.cz</h4>
-					<p-box-group>
-						<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=50" :full="true">
-							<p-box-button color="var(--green)">50 Kč</p-box-button>
-						</p-box>
-						<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100" :full="true">
-							<p-box-button color="var(--green)">100 Kč</p-box-button>
-						</p-box>
-						<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=250" :full="true">
-							<p-box-button color="var(--green)">250 Kč</p-box-button>
-						</p-box>
-						<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=1000" :full="true">
-							<p-box-button color="var(--green)">1 000 Kč</p-box-button>
-						</p-box>
-					</p-box-group>
-					<div class="p-line _05"></div>
-					<div class="p-offset reverse _responsive">
-						<div>
-							<p-box>
-								<p-box-label class="no-padding">
-									<input type="number" v-model="amount" placeholder="Jiná částka">
-								</p-box-label>
-							</p-box>
-						</div>
-						<div>
-							<p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + amount">
-								<p-box-label>Poslat</p-box-label>
-							</p-box>
+				</template>
+				<template #content>					
+					<div class="text-center">
+						<p-image :src="'https://static.programydovoleb.cz/qr.png'" width="100%"></p-image>
+						<p-link href="https://ib.fio.cz/ib/transparent?a=2502004588" class="smaller strong">2502004588/2010</p-link>
+						<div class="smallest mt05">FIO Banka</div>
+						<div class="p-line"></div>
+						<div class="smallest">
+							Nebo přes Darujme.cz
+							<p-box-group class="_pbg">
+								<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100">
+									<p-box-button class="green">100 Kč</p-box-button>
+								</p-box>
+								<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=226">
+									<p-box-button class="green">226 Kč</p-box-button>
+								</p-box>
+								<p-box href="https://www.darujme.cz/darovat/1205354">
+									<p-box-button class="green">Jiná částka</p-box-button>
+								</p-box>
+							</p-box-group>
 						</div>
 					</div>
-					<div class="p-line _05"></div>
-					<div class="smallest">Vhodné pro platby kartou, Apple Pay...</div>
-				</p-area>
-				<div class="p-gap _075"></div>
-				<p-box-group class="_ab">
-					<p-box href="https://darujme.cz/programydovoleb">
-						<p-box-label>Profil na darujme.cz</p-box-label>
-					</p-box>
-				</p-box-group>
-			</div>
-			<div>
-				<p-area>
-					<h4>Další formy</h4>
-					<p-list class="_05 smaller">
-						<div><strong>Sledujte</strong> Programy na sítích</div>
-						<div><strong>Sdílejte</strong>, lajkujte, komentujte</div>					
-						<div><strong>Doporučte</strong> přátelům, rodině</div>				
-						<div><strong>Zmiňte</strong> v blogu, podcastu</div>
-						<div><strong>Dejte</strong> odkaz na svůj web</div>
-					</p-list>
-				</p-area>
-			</div>
-		</p-grid>
-	
-		<div class="p-line p-line__3"></div>
-	</template>
-	<template v-else>
-		<h3 class="serif mt0">Podpořte tento projekt</h3>
-		<!-- <div class="smaller strong sans red mt-05 mb15">
-			<p-link href="https://kristalova.lupa.cz/nominace/" class="red">Nominujte <em>Programy</em> na Křišťálovou Lupu</p-link>
-		</div> -->
-		<p-box-group class="_mw">
-			<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100">
-				<p-box-button class="green">100 Kč</p-box-button>
+				</template>
+			</p-popup>
+			<p-box :click="() => click(1)" v-if="!used">
+				<p-box-button icon="star-line.svg">Díky</p-box-button>
 			</p-box>
-			<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=226">
-				<p-box-button class="green">226 Kč</p-box-button>
-			</p-box>
-			<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=2026">
-				<p-box-button class="green">2026 Kč</p-box-button>
-			</p-box>
-			<p-box to="/o-projektu/jak-podporit">
-				<p-box-button>Jinak...</p-box-button>
+			<p-box v-if="used" :disabled="1">
+				<p-box-button icon="star.svg">Díky</p-box-button>
 			</p-box>
 		</p-box-group>
 		<!-- <div class="_mw20 mv1">
 			<p-image :src="'https://static.programydovoleb.cz/img/merch/' + motives[motivesIndex] + '.jpg'" width="100%" class="rounded _ar"></p-image>
 		</div> -->
-		<div class="smaller dimm mt1 text-center">Sledujte, sdílejte, doporučujte. Díky</div>
-		<div class="p-line p-line__3"></div>
-	</template>
+		<div class="smallest strong dimm mt1 text-center"><router-link class="green" to="/o-projektu/jak-podporit">Jak také můžete Programy podpořit?</router-link></div>
+		<div class="smallest dimm mt05">Díky, ať zvolíte jakoukoli formu</div>
+		
+	<div class="p-line p-line__3"></div>
 </div>

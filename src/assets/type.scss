@@ -25,10 +25,10 @@ html, body, .sans {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-p {
+p, .truncated-content.p {
   // font-size: .85em;
   line-height: 1.7;
-  max-width: 70em;
+	max-width: 40em;
 
   &.lead {
     font-size: 1em;
