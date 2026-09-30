@@ -212,3 +212,11 @@ section + section {
 	// border: 2px dotted var(--greyish);
 	box-shadow: 0 8px 24px #00000033 !important;
 }
+
+._k {
+	color: var(--black) !important;
+
+	.dark & .p-icon {
+		filter: invert(1);
+	}
+}

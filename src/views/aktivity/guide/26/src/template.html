@@ -171,6 +171,9 @@
 						<p class="smaller _mc2 pt1">Největším rozdílem oproti jiným volbám je, že nelze požádat o voličský průkaz a volit někde jinde.</p>
 					</div>
 					<h3 class="quando mt4">Jak se hlasuje?</h3>
+						<p-area class="inline highlight strong smaller" background="var(--greyish)">
+							<p-icon icon="address"></p-icon>  Do šedé {{ checkData.cast.obec ? 'společné ' : '' }}obálky
+						</p-area>
 					<p>U komunálních voleb se <strong>křížkuje</strong>. Každý má tolik hlasů, kolik se volí členů zastupitelstva - v tomto případě <strong>{{ checkData.zastupitelstvo.MANDATY }} hlasů</strong>. Hlasy lze rozdělit třemi způsoby:</p>
 					<div class="_mc text-left">
 						<p-grid class="_tighter _noGap _noRule smaller">
@@ -290,6 +293,9 @@
 						<p class="smaller _mc2 pt1">Největším rozdílem oproti jiným volbám je, že nelze požádat o voličský průkaz a volit někde jinde.</p>
 					</div>
 					<h3 class="quando mt4">Jak se hlasuje?</h3>
+						<p-area class="inline highlight strong smaller _k" background="var(--greyish)">
+							<p-icon icon="address"></p-icon>  Do šedé společné obálky
+						</p-area>
 					<p>I u voleb na magistrát se <strong>křížkuje</strong>, princip je úplně stejný jako pro zastupitelstvo <em class="keep">{{ checkData.zastupitelstvo.NAZEVZAST }}</em>. Liší se jen počet hlasů, těch máte <strong>{{ checkData.cast.MANDATY }} hlasů</strong>. Všechny strany a kandidáti jsou uvedeni na jednom hlasovacím lístku, ten tak bude hodně velký. Podívejte se proto i z druhé strany nebo na další stránky.</p>
 					<h4 class="quando">Tři způsoby hlasování:</h4>
 					<div class="_mc text-left">
@@ -328,6 +334,9 @@
 							</p-collapsible>
 							<p-collapsible label="Nemohu najít kandidáta, ale viděl jsem ho na billboardu.">
 								<div class="smaller pr2">Kampaně stran do městské části a na magistrát se dost překrývají, občas je těžké je rozlišit. Někteří kandidáti jdou navíc do obou voleb, jiní ale jen na magistrát, nebo jen do místní části. Často se děje, že známější kandidát (nebo politik) stojí na billboardu, ale na kandidátce ho nakonec nenajdete.</div>
+							</p-collapsible>
+							<p-collapsible label="Jak poznám, do jaké obálky patří magistrát a do které místní zastupitelstvo?">
+								<div class="smaller pr2">Dostanete jen jednu šedou obálku a do ní dáte <strong>oba</strong> lístky.</div>
 							</p-collapsible>
 						</p-area>
 					</div>
@@ -394,6 +403,9 @@
 						<p class="smaller _mc2 pt1">V senátních volbách lze hlasovat v rámci obvodu na libovolném místě, pokud si zařídíte voličský průkaz.</p>
 					</div>
 					<h3 class="quando mt4">Jak se hlasuje?</h3>
+						<p-area class="inline highlight strong smaller _k" background="var(--yellow)">
+							<p-icon icon="address"></p-icon>  Do žluté obálky
+						</p-area>
 					<p>Senátní volby mají velmi jednoduché hlasování, do obálky dáte lístek se jménem, pro které hlasujete. Senátorem se stane ten kandidát, který získá přes 50 % hlasů. Pokud se tak nestane s prvním kole, následuje druhé kolo o týden později, do kterého postupují dva kandidáti s nejvyšším počtem hlasů.</p>
 					<h3 class="quando mt4">Časté otázky</h3>
 					<div class="_mc2 text-left">
