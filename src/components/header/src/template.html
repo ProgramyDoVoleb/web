@@ -16,10 +16,31 @@
 			</div>
 			<div class="row-menu">
 				<div class="row-menu-button">
-					<button @click="showMenu = !showMenu" class="button-plain">
-						<span v-if="!showMenu">=</span>
-						<span v-if="showMenu" class="red">&times;</span>
-					</button>
+					<p-box-group>
+						<p-box to="/o-projektu/jak-podporit">
+							<p-box-label class="_fs16">
+								<p-badge background="var(--green)">Podpořit</p-badge>
+							</p-box-label>
+						</p-box>
+						<p-popup class="down">
+							<template #init>
+								<p-box>
+									<p-box-icon type="search"></p-box-icon>
+								</p-box>
+							</template>
+							<template #content>
+								<search-town link="/pruvodce/2026/"></search-town>
+							</template>
+						</p-popup>
+						<p-box :click="() => showMenu = !showMenu">
+							<p-box-icon type="menu" v-if="!showMenu"></p-box-icon>
+							<p-box-icon type="cancel" v-if="showMenu"></p-box-icon>
+							<!-- <p-box-label class="_fs16"> -->
+								<!-- <span v-if="!showMenu">=</span> -->
+								<!-- <span v-if="showMenu" class="red">&times;</span> -->
+							<!-- </p-box-label> -->
+						</p-box>
+					</p-box-group>
 				</div>
 				<div class="row-menu-list" :class="{showMenu}">
 					<div class="hide-1024">
