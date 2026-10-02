@@ -105,7 +105,7 @@ export default {
 		}
 	},
 	methods: {
-		date, sortBy, logoByItem, colorByItem, truncate, slide, toggleItem,
+		date, sortBy, logoByItem, colorByItem, truncate, slide, toggleItem, unique,
 		sortByDeepPrijmeni: function (list) {
 			var arr = [];
 

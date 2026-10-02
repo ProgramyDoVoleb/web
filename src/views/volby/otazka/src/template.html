@@ -60,6 +60,15 @@
 									</p-list-linear>
 								</template>
 							</template>
+							<template v-if="data.list[0].$body.find(x => x.$kandidat && x.$kandidat.OBVOD)">
+								<div class="p-gap"></div>
+								<p-list-linear class="smaller or">
+									<span>Konkrétní obvod</span>
+									<span v-for="(obvod, index) in unique(data.list[0].$body.map(x => x.$kandidat), 'OBVOD').sort((a,b) => a - b)">
+										<router-link :to="'/volby/' + hash + '/' + id + '/otazka/' + qid + '?vyber=' + obvod" class="is-span">{{ obvod }}</router-link>
+									</span>
+								</p-list-linear>
+							</template>
 							
 						</p-area>
 						<div class="p-gap _2"></div>
@@ -79,9 +88,12 @@
 														<p-photo :data="cand.$kandidat.$data.photo[0] || null" class="_ph"></p-photo>
 													</div>
 													<div>
-														<router-link :to="'/volby/' + hash + '/' + id + '/kandidat/' + cand.$kandidat.id"><strong>{{ cand.$kandidat.JMENO + ' ' + cand.$kandidat.PRIJMENI }}</strong></router-link> <span class="dimm smallest">&middot; {{ cand.$kandidat.PORCISLO }} </span> 
+														<router-link :to="'/volby/' + hash + '/' + id + '/kandidat/' + cand.$kandidat.id"><strong>{{ cand.$kandidat.JMENO + ' ' + cand.$kandidat.PRIJMENI }}</strong></router-link> <span class="dimm smallest">&middot; {{ cand.$kandidat.PORCISLO || cand.$kandidat.CKAND }} </span> 
 														<div class="smallest" v-if="cand.$strana">
 															<router-link :to="'/volby/' + hash + '/' + id + '/strana/' + cand.$strana.id" class="is-span">{{ cand.$strana.ZKRATKA }}</router-link>
+														</div>
+														<div class="smallest" v-if="cand.$kandidat.OBVOD">
+															<router-link :to="'/volby/' + hash + '/' + id + '/obvod/' + cand.$kandidat.OBVOD" class="is-span">obvod {{ cand.$kandidat.OBVOD }} &middot; {{ enums.obvody.find(x => x.id == cand.$kandidat.OBVOD).name }}</router-link>
 														</div>
 														<div class="p-gap _025"></div>
 														<div v-if="onlyLast(data.list[0].$odpovedi.filter(x => x.csu_table === cand.csu_table && x.csu_id === cand.csu_id)).quick">
