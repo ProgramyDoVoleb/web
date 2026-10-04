@@ -131,7 +131,7 @@ export default {
 			var party = this.data.list.$strany.find(x => x.KODZASTUP === Number(feature.properties.KOD));
 			var obec = this.data.list.$obce.find(x => x.obec === Number(feature.properties.KOD));
 			
-			if (this.data && this.data.cis.volby.status === 3) {
+			if (this.data && this.data.cis.volby.status === 3 && party) {
 				
 
 				color = party.MAND_STR > 0 ? 'var(--green)' : 'var(--red)';
@@ -230,7 +230,7 @@ export default {
 				if (party.MAND_STR > 0) {
 					content.push('<div class="strong mt05 green">zisk mandátů: ' + party.MAND_STR + ' <span class="dimm smallest">z ' + obec.MANDATY + ' (' + pct(party.MAND_STR, obec.MANDATY) + ' %)</span></div>');
 
-					if (this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition) {
+					if (this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA) && this.data.cis.strany.find(x => x.VSTRANA === party.VSTRANA).$coalition) {
 						content.push('<div class="smaller"><span class="strong">- z toho nominovaní <em>' + this.data.strana.ZKRATKA + '</em>:</span> ' + (this.data.list.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.MANDAT === 'A' && x.NSTRANA == this.party)).length + '</div>');
 					}					
 
