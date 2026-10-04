@@ -1,8 +1,16 @@
 <div class="engagement-thanks">
 
 	<div class="p-line _3"></div>
+		<p-box-group class="_mw">
+			<p-box :click="() => click(1)" v-if="!used">
+				<p-box-button icon="star-line.svg">Díky za tuhle stránku</p-box-button>
+			</p-box>
+			<p-box v-if="used" :disabled="1">
+				<p-box-button icon="star.svg">Díky za tuhle stránku</p-box-button>
+			</p-box>
+		</p-box-group>
 
-		<h3 class="serif mt0">Sdílejte a podpořte tento projekt</h3>
+		<h3 class="serif mt15">Sdílejte a podpořte tento projekt</h3>
 		<p class="text-center smaller"><em>Programy do voleb</em> jsou výsledkem mnohaleté dobrovolnické neplacené práce. Nestojí za nimi úřady, dotace ani mediální domy. Sdílení a lajky pomáhají proti algoritmu, nestojí čas ani peníze. Finanční dary jdou hlavně na provoz webu a propagaci projektu.</p>
 
 		<p-box-group class="_mw">
@@ -27,30 +35,19 @@
 						<p-image :src="'https://static.programydovoleb.cz/qr.png'" width="100%"></p-image>
 						<p-link href="https://ib.fio.cz/ib/transparent?a=2502004588" class="smaller strong">2502004588/2010</p-link>
 						<div class="smallest mt05">FIO Banka</div>
-						<div class="p-line"></div>
-						<div class="smallest">
-							Nebo přes Darujme.cz
-							<p-box-group class="_pbg">
+					</div>
+				</template>
+			</p-popup>
 								<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100">
 									<p-box-button class="green">100 Kč</p-box-button>
 								</p-box>
 								<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=226">
 									<p-box-button class="green">226 Kč</p-box-button>
 								</p-box>
-								<p-box href="https://www.darujme.cz/darovat/1205354">
-									<p-box-button class="green">Jiná částka</p-box-button>
+								<p-box href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=2026">
+									<p-box-button class="green">2026 Kč</p-box-button>
 								</p-box>
-							</p-box-group>
-						</div>
-					</div>
-				</template>
-			</p-popup>
-			<p-box :click="() => click(1)" v-if="!used">
-				<p-box-button icon="star-line.svg">Díky</p-box-button>
-			</p-box>
-			<p-box v-if="used" :disabled="1">
-				<p-box-button icon="star.svg">Díky</p-box-button>
-			</p-box>
+			
 		</p-box-group>
 		<!-- <div class="_mw20 mv1">
 			<p-image :src="'https://static.programydovoleb.cz/img/merch/' + motives[motivesIndex] + '.jpg'" width="100%" class="rounded _ar"></p-image>
