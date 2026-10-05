@@ -177,11 +177,11 @@
 								</div>
 								<div>
 									<p-image class="_invert mb05" :rounded="true" width="100%" src="https://2022.programydovoleb.cz/static/ticket/valid-3.png"></p-image>
-									<p-area><h3>Volím kandidáty</h3><p>Druhý postupem je, že dáte velký křížek jedné straně a pak rozdáte pár křížků několika dalším kandidátům z jiných stran.</p></p-area>
+									<p-area><h3>Volím kandidáty</h3><p>Nejnáročnějším, ale také platným postupem je nedat ani jeden velký křížek, ale rozdat pouze křížky jednotlivým kandidátům. {{ current ? 'Rozdat můžete až ' + current.$dotcene[0].MANDATY + ' křížků.' : '' }} Jen je potřeba si to pořádně přepočítat, stačí jeden křížek navíc a celý lístek je neplatný.</p></p-area>
 								</div>
 								<div>
 									<p-image class="_invert mb05" :rounded="true" width="100%" src="https://2022.programydovoleb.cz/static/ticket/valid-2.png"></p-image>
-									<p-area><h3>Kombinace</h3><p>Nejnáročnějším, ale také platným postupem je nedat ani jeden velký křížek, ale hezky a poctivě rozdat všech {{ current ? current.$dotcene[0].MANDATY : '' }} křížků. Jen je potřeba si to pořádně přepočítat, stačí jeden křížek navíc a celý lístek je neplatný.</p></p-area>
+									<p-area><h3>Kombinace</h3><p>Třetím povoleným postupem je, že dáte velký křížek jedné straně a pak rozdáte pár křížků několika dalším kandidátům z jiných stran. Zde je důležité myslet na to, že křížky kandidátům odebírají hlasy zakřížkované straně odspodu.</p></p-area>
 								</div>
 							</p-columns>					
 						</p-block>	
