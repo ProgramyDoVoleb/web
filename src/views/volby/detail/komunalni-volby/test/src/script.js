@@ -58,6 +58,7 @@ export default {
 						id: party.POR_STR_HL,
 						valid: false, 
 						selected: false, 
+						solemn: Number(party.VSTRANA) === 80,
 						list: []
 					}
 

@@ -42,16 +42,18 @@
 											<p-area :class="{'highlight shadow': !ticket}" :borderColor="ticket ? null : 'var(--green)'">
 												<div :class="{'text-center': ticket}">
 													<strong :class="{'green strong': town.valid}">{{ town.name }}</strong>
-													<div v-if="ticket" class="mv1">
-														<span class="_w4">
-															<p-box class="_check _big" :click="() => toggle(town)">
-																<p-box-icon :type="town.selected ? 'cancel' : 'empty.png'"></p-box-icon>
-															</p-box>
-														</span>
-													</div>
-													<div v-else class="strong green mv05">
-														<p-lang :value="town.list.filter(x => x.valid).length" :end="['', 'jeden hlas', '%% hlasy', '%% hlasů']"></p-lang>
-													</div>
+													<template v-if="!town.solemn">
+														<div v-if="ticket" class="mv1">
+															<span class="_w4">
+																<p-box class="_check _big" :click="() => toggle(town)">
+																	<p-box-icon :type="town.selected ? 'cancel' : 'empty.png'"></p-box-icon>
+																</p-box>
+															</span>
+														</div>
+														<div v-else class="strong green mv05">
+															<p-lang :value="town.list.filter(x => x.valid).length" :end="['', 'jeden hlas', '%% hlasy', '%% hlasů']"></p-lang>
+														</div>
+													</template>
 												</div>
 												<div class="p-line _05"></div>
 												<div class="mt05">
