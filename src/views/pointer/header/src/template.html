@@ -56,7 +56,12 @@
 			<div class="p-gap"></div>
 			<p-box-group class="_empty">
 				<template v-if="current">
-					<template v-if="current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL < 500">
+					<template v-if="current.JMENO && elections.status > 1 && current.PLATNOST != 'A'">
+						<p-box>
+							<p-box-label class="red" background="var(--red11)">NEKANDIDUJE</p-box-label>
+						</p-box>
+					</template>
+					<template v-if="current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL < 500 && ((current.status === 1 && !current.PLATNOST) || (elections.status > 1 && current.PLATNOST === 'A'))">
 						<p-box>
 							<p-box-ticker background="var(--grey11)"><span class="smallest">#</span>{{ current.POR_STR_HL }}</p-box-ticker>
 						</p-box>
@@ -128,7 +133,7 @@
 						<p-box-button icon="answers-mini.svg">{{ current.$odpovedi.filter(x => x.$otazka[0].type != 2).length }}</p-box-button>
 					</p-box>
 				</template>
-				<template v-if="typeof current.MANDAT !== 'undefined'">
+				<template v-if="typeof current.MANDAT !== 'undefined' && (current.PLATNOST === 'A' || elections.status === 1)">
 					<p-box>
 						<p-box-label v-if="!current.PORCISLO">Umístění neuvedeno</p-box-label>
 						<p-box-label background="var(--grey11)" v-if="current.PORCISLO">
