@@ -101,3 +101,22 @@ ol {
 	border-top: var(--border);
 	padding-top: 3em;
 }
+
+._nls {
+	letter-spacing: 0;
+}
+
+._f {
+	display: flex;
+	align-items: top;
+
+	div:last-child {
+		flex: 1;
+	}
+
+	._check {
+		top: -.25em;
+		left: -.25em;
+		position: relative;
+	}
+}

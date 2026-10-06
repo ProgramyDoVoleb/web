@@ -17,6 +17,8 @@ export default {
 			if (this.hideable && !this.full) txt = this.removeBreaks(txt); 
 			if (this.unbreak) txt = this.removeBreaks(untag(txt));
 
+			txt = txt.split('”').join('"');
+
 			return txt;
 		}
 	},

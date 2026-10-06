@@ -32,7 +32,7 @@
 								</p-area>
 								<h2 class="quando" v-if="ticket">
 									Hlasovací lístek
-									<div class="small normal">Kandiduje zde <p-lang :value="current.$strany.filter(x => x.POR_STR_HL > 0).length" :end="['', 'jedna strana', '%% strany', '%% stran']"></p-lang></div>
+									<div class="small normal sans _nls">Kandiduje zde <p-lang :value="current.$strany.filter(x => x.POR_STR_HL > 0).length" :end="['', 'jedna strana', '%% strany', '%% stran']"></p-lang> &middot; <button class="inline _nls" :class="{'green strong': showBio}" @click="showBio = !showBio">Ukázat popisky</button></div>
 								</h2>
 								<h2 class="quando" v-else>Kdo získal vaše hlasy? <div class="small">Celkem jste využili <p-lang :value="valid.used" :end="['', 'jeden hlas', '%% hlasy', '%% hlasů']"></p-lang></div></h2>
 								
@@ -59,18 +59,21 @@
 												<div class="mt05">
 													<p-list class="invisible">
 														<template v-if="ticket">
-															<div v-for="(item, index) in town.list">
-																<span class="_w2">
+															<div v-for="(item, index) in town.list" class="_f">
+																<div class="_w2">
 																	{{ item.id }}.
-																</span>
-																<span class="_w2">
+																</div>
+																<div class="_w2">
 																	<p-box class="_check" :click="() => toggle(town, item)">
 																		<p-box-icon :type="item.selected ? 'cancel' : 'empty.png'"></p-box-icon>
 																	</p-box>
-																</span>
-																<span>
+																</div>
+																<div>
 																	<button class="inline" :class="{'is-span': !item.valid, 'green strong': item.valid}" @click="toggle(town, item)">{{ item.name }}</button>
-																</span>
+																	<div class="smallest dimm" v-if="showBio">
+																		{{ item.bio }}
+																	</div>
+																</div>
 															</div>
 														</template>
 														<template v-else>
@@ -85,6 +88,13 @@
 														</template>
 													</p-list>
 												</div>
+												<template v-if="!ticket">
+													<div class="p-line _05"></div>
+													<div>
+														<router-link :to="'/volby/komunalni-volby/' + id + '/strana/' + town.csu_id" class="smallest strong">Více o této kandidátce</router-link>
+													</div>
+													<div></div>
+												</template>
 											</p-area>
 										</div>
 									</component>

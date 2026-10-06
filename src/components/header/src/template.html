@@ -195,11 +195,11 @@
 							<span class="strong"><router-link to="/jak-volit/komunalni-volby" class="is-span">Jak volit?</router-link></span>
 							<span class="strong"><router-link to="/pruvodce/2026" class="is-span">Průvodce</router-link></span>
 							<span class="strong"><router-link to="/volby/komunalni-volby/176/hlasovani-nanecisto" class="is-span">Hlasování nanečisto</router-link></span>
-							<span class="strong" v-for="item in menu176"><router-link class="is-span" :to="item.route" @click="showMenu = false">{{ item.label }}</router-link></span>
+							<!-- <span class="strong" v-for="item in menu176"><router-link class="is-span" :to="item.route" @click="showMenu = false">{{ item.label }}</router-link></span> -->
 						</p-list-linear>
 						&middot;
 						<p-popup class="down">
-							<template #init>Více</template>
+							<template #init>Vybraná města</template>
 							<template #content>
 								<div class="smaller">
 									<p-columns class="_2">

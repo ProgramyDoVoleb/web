@@ -27,7 +27,8 @@ export default {
 			ticket: true,
 			width: window.innerWidth,
 			notify: useNotifications(),
-			past: false
+			past: false,
+			showBio: false
 		}
 	},
   components: {
@@ -59,7 +60,8 @@ export default {
 						valid: false, 
 						selected: false, 
 						solemn: Number(party.VSTRANA) === 80,
-						list: []
+						list: [],
+						csu_id: party.id
 					}
 
 					d.$kandidati.filter(x => x.POR_STR_HL === party.POR_STR_HL && x.PORCISLO > 0).forEach(cand => {
@@ -67,7 +69,8 @@ export default {
 							name: (this.width > 960 ? cand.JMENO + ' ' : '') + cand.PRIJMENI,
 							id: cand.PORCISLO,
 							valid: false, 
-							selected: false
+							selected: false,
+							bio: cand.VEK + ' let, ' + cand.POVOLANI
 						});
 					});
 
