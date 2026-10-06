@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { api, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, sortBy, unique, slide, domain, con} from '@/pdv/helpers';
+import {url, date, number, truncate, sortBy, unique, slide, domain, con, getMedia} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import { useRouter } from 'vue-router';
 import {ga} from '@/pdv/analytics';
@@ -102,10 +102,13 @@ export default {
 		},
 		senat: function () {
 			return this.checkData && this.checkData.senat.length > 0 ? this.$store.getters.pdv('elections/fetch/173:' + this.checkData.senat[0].obvod) : null;
+		},
+		media: function () {
+			return this.$store.getters.pdv('elections/specific/2026-media/');
 		}
 	},
 	methods: {
-		date, sortBy, logoByItem, colorByItem, truncate, slide, unique, domain, con, url,
+		date, sortBy, logoByItem, colorByItem, truncate, slide, unique, domain, con, url, getMedia,
 		setTown: function (data) {
 			this.town = data;
 			this.krajID = null;

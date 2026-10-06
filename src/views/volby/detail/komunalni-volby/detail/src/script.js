@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, slide, date, number, truncate, con, gradient, color, pct, sortBy, isWoman, type, townInRegularElectionsAlsoVotesInSenat, partyInCis} from '@/pdv/helpers';
+import {url, slide, date, number, truncate, con, gradient, color, pct, sortBy, isWoman, type, townInRegularElectionsAlsoVotesInSenat, partyInCis, getMedia} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
@@ -80,6 +80,9 @@ export default {
 		},
 		partyList: function () {
 			return this.$store.getters.pdv('parties/as-of/' + this.data.list[0].datum + ';1,7,47,53,166,703,720,721,768,1114,714,5,1227,1245,1265,1178,1298,1722');
+		},
+		media: function () {
+			return this.$store.getters.pdv('elections/specific/2026-media/');
 		}
 	},
   methods: {
@@ -94,6 +97,7 @@ export default {
 		townInRegularElectionsAlsoVotesInSenat,
 		partyInCis,
 		slide,
+		getMedia,
 		colorByItem: function (item, data) {
 
 			var res = con(item.$data, 'color');

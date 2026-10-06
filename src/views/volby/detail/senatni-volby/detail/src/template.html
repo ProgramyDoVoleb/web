@@ -46,6 +46,20 @@
 			<engagement-add-program :elections="current.id" :focus="obvod"></engagement-add-program>
 		</p-block>
 	</template>
+	<template v-if="current.id === 173 && media && media.list.find(x => x.focus == Number(obvod))" headline="Může vás také zajímat" :hide="true">
+		<p-area class="inline smallest">
+			<p-list-linear class="or">
+				<span v-for="item in media.list.filter(x => x.focus == Number(obvod))">
+					<p-image :src="getMedia(item.link)" width="1em" :rounded="true" class="inline" v-if="!getMedia(item.link).includes('link.svg')"></p-image>
+					<p-icon :icon="item.type" width="1em" :rounded="true" class="inline" v-if="getMedia(item.link).includes('link.svg')"></p-icon> 
+					<p-link :href="item.link" class="strong">
+						{{ item.title }}
+					</p-link>
+				</span>
+			</p-list-linear>
+		</p-area>
+		<div class="p-gap"></div>
+	</template>
 	<template v-if="current.status > 1">
 		<p-block headline="Kandidáti">
 			<!-- <p>Zde najdete přehled registrovaných kandidátů.</p> -->

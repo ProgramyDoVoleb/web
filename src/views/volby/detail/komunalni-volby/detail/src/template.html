@@ -106,6 +106,20 @@
 			<template v-if="current.status < 3">Na této stránce najdete také výsledky minulých voleb, zajímavé stratistiky, můžete si zkusit hlasování nanečisto nebo si tipnout výsledek.</template>
 		</p-truncated-content>
 	</p>
+	<template v-if="current.id === 176 && media && media.list.find(x => x.focus == Number(town))" headline="Může vás také zajímat" :hide="true">
+		<p-area class="inline smallest">
+			<p-list-linear class="or">
+				<span v-for="item in media.list.filter(x => x.focus == Number(town))">
+					<p-image :src="getMedia(item.link)" width="1em" :rounded="true" class="inline" v-if="!getMedia(item.link).includes('link.svg')"></p-image>
+					<p-icon :icon="item.type" width="1em" :rounded="true" class="inline" v-if="getMedia(item.link).includes('link.svg')"></p-icon> 
+					<p-link :href="item.link" class="strong">
+						{{ item.title }}
+					</p-link>
+				</span>
+			</p-list-linear>
+		</p-area>
+		<div class="p-gap"></div>
+	</template>
 	<template v-if="current.status === 3 && current.$ucast.length > 0">
 		<template v-for="(obvod, index) in obvody">
 			<component :is="obvod.OBVODY === 2 ? 'p-block-expandable' : 'div'" :headline="'Obvod ' + (index + 1)">

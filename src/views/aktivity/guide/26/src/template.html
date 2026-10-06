@@ -110,10 +110,10 @@
 							<p-area background="var(--blue11)">
 								<p-list>
 									<div>
-										Pátek 9. října od 14:00 do 20:00
+										Pátek 9. října od 14:00 do 22:00
 									</div>
 									<div>
-										Sobbota 10. října od 8:00 do 14:00
+										Sobota 10. října od 8:00 do 14:00
 									</div>
 								</p-list>
 							</p-area>
@@ -232,6 +232,19 @@
 							</p-collapsible>
 						</p-area>
 					</div>
+					<template v-if="media && media.list.find(x => x.focus === checkData.zastupitelstvo.obec)">
+						<h3 class="quando mt4">Může vás také zajímat</h3>
+						<p-box-group class="_pbg _mw2">
+							<template v-for="item in media.list.filter(x => x.focus === checkData.zastupitelstvo.obec)">
+								<p-box :href="item.link">
+									<p-box-image :src="getMedia(item.link)" v-if="!getMedia(item.link).includes('link.svg')"></p-box-image>
+									<p-box-icon :type="item.type" v-if="getMedia(item.link).includes('link.svg')"></p-box-icon>
+
+									<p-box-button>{{ item.title }}</p-box-button>
+								</p-box>
+							</template>
+						</p-box-group>
+					</template>
 					<div class="smaller text-center mv4" v-if="checkData && checkData.cast.obec">
 						A teď se podíváme na volby na magistrát.
 						<br><br>
@@ -340,6 +353,18 @@
 							</p-collapsible>
 						</p-area>
 					</div>
+					<template v-if="media && media.list.find(x => x.focus === checkData.cast.obec)">
+						<h3 class="quando mt4">Může vás také zajímat</h3>
+						<p-box-group class="_pbg _mw2">
+							<template v-for="item in media.list.filter(x => x.focus === checkData.cast.obec)">
+								<p-box :href="item.link">
+									<p-box-image :src="getMedia(item.link)" v-if="!getMedia(item.link).includes('link.svg')"></p-box-image>
+									<p-box-icon :type="item.type" v-if="getMedia(item.link).includes('link.svg')"></p-box-icon>
+									<p-box-button>{{ item.title }}</p-box-button>
+								</p-box>
+							</template>
+						</p-box-group>
+					</template>
 					<div class="smaller text-center mv4" v-if="checkData && checkData.senat.length > 0">
 						A teď se podíváme na volby do Senátu.
 						<br><br>
@@ -427,6 +452,18 @@
 							</p-collapsible>
 						</p-area>
 					</div>
+					<template v-if="media && media.list.find(x => x.focus === checkData.senat[0].obvod)">
+						<h3 class="quando mt4">Může vás také zajímat</h3>
+						<p-box-group class="_pbg _mw2">
+							<template v-for="item in media.list.filter(x => x.focus === checkData.senat[0].obvod)">
+								<p-box :href="item.link">
+									<p-box-image :src="getMedia(item.link)" v-if="!getMedia(item.link).includes('link.svg')"></p-box-image>
+									<p-box-icon :type="item.type" v-if="getMedia(item.link).includes('link.svg')"></p-box-icon>
+									<p-box-button>{{ item.title }}</p-box-button>
+								</p-box>
+							</template>
+						</p-box-group>
+					</template>
 					<div class="smaller text-center mv4" v-if="checkData && checkData.referendum.length > 0">
 						A teď se podíváme na místní referendum.
 						<br><br>

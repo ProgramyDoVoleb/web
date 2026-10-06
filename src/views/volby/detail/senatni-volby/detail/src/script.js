@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, gradient, color, pct, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, con, gradient, color, pct, sortBy, getMedia} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 import ElectionTable from '@/components/results/people/table/do.vue';
 import ElectionGraph from '@/components/results/people/graph/do.vue';
@@ -93,6 +93,9 @@ export default {
 			list.sort((a, b) => a.party.ZKRATKA.localeCompare(b.party.ZKRATKA, 'cs'));
 
 			return list;
+		},
+		media: function () {
+			return this.$store.getters.pdv('elections/specific/2026-media/');
 		}
 	},
   methods: {
@@ -102,6 +105,7 @@ export default {
 		truncate,
 		pct,
 		sortBy,
+		getMedia,
 		colorByItem: function (item, data) {
 
 			var key = (data || this.data).list[0].status === 1 ? 'NSTRANA' : 'VSTRANA';
