@@ -10,6 +10,19 @@
 						<h1 class="quando text-center mt0">Průvodce volbami</h1>
 						<div class="text-center mt-1 mb15 _mw _ma">Vyberte si svou obec a zjistíte, jaké volby se vás týkají, kdo kandiduje, jak se vlastně volí a další informace.</div>
 						<search-town link="/pruvodce/2026/"></search-town>
+						<div class="smallest mt05 text-center">
+							<p-list-linear class="or">
+								<span>
+									<router-link to="/pruvodce/2026/554782">Praha</router-link>
+								</span><span>
+									<router-link to="/pruvodce/2026/582786">Brno</router-link>
+								</span><span>
+									<router-link to="/pruvodce/2026/554821">Ostrava</router-link>
+								</span><span>
+									<router-link to="/pruvodce/2026/554791">Plzeň</router-link>
+								</span>
+							</p-list-linear>
+						</div>
 					</div>					
 				</p-area>
 			</p-block>
@@ -129,7 +142,7 @@
 								</div>
 							</p-area>
 						</div>
-						<template v-if="today < '2026-10-07'">
+						<template v-if="today < '2026-10-08'">
 							<div>
 								<p-area icon="plus-green" background="var(--green11)">
 									<h4 class="mv0">
@@ -213,6 +226,9 @@
 						<p-collapsible icon="youtube" label="Jak volit a nepřijít o hlas?" borderless="1" status="2:25">						
 							<iframe class="_if" width="100%" height="auto" src="https://www.youtube.com/embed/dmXP5pjUEF0?si=UGvPkrhhIp2-VyOr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 							<p-box-group>
+								<p-box to="/jak-volit/komunalni-volby">
+									<p-box-button icon="hint">Jak volit?</p-box-button>
+								</p-box>
 								<p-box to="/volby/komunalni-volby/176/hlasovani-nanecisto">
 									<p-box-button icon="cancel">Zkuste si to nanečisto</p-box-button>
 								</p-box>
