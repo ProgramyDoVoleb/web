@@ -1194,6 +1194,43 @@
 								</p-area>
 							</p-block>
 
+							<p-block headline="Jak správně volit?" :level="1" v-if="$volby && $volby.status < 3">
+
+
+								<p-area class="highlight shadow">
+									<p-collapsible icon="youtube" label="Jak volit a nepřijít o hlas?" status="2:25">						
+										<iframe class="_if" width="100%" height="auto" src="https://www.youtube.com/embed/dmXP5pjUEF0?si=UGvPkrhhIp2-VyOr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+										<p-box-group>
+											<p-box to="/volby/komunalni-volby/176/hlasovani-nanecisto">
+												<p-box-button icon="cancel">Zkuste si to nanečisto</p-box-button>
+											</p-box>
+										</p-box-group>
+									</p-collapsible>
+									<p-collapsible icon="warning" label="Pozor na tuhle častou chybu" status="0:30">						
+										<iframe class="_if" width="100%" src="https://www.youtube.com/embed/BDBUobJ9w8k?si=CLJKNLVFkqe6yni4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+										<p-box-group>
+											<p-box to="/volby/komunalni-volby/176/hlasovani-nanecisto">
+												<p-box-button icon="cancel">Zkuste si to nanečisto</p-box-button>
+											</p-box>
+										</p-box-group>
+									</p-collapsible>
+									<p-collapsible icon="cancel" label="Kdy je hlas neplatný?" status="0:45">						
+										<iframe class="_if" width="100%" src="https://www.youtube.com/embed/i8NHB49Oe4k?si=zaFfU7-peGLQdXhZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+										<p-box-group>
+											<p-box to="/volby/komunalni-volby/176/hlasovani-nanecisto">
+												<p-box-button icon="cancel">Zkuste si to nanečisto</p-box-button>
+											</p-box>
+										</p-box-group>
+									</p-collapsible>
+									<p class="smaller">Pokud chcete dát všechny své hlasy této straně, dejte na volebním lístku velký křížek k jejímu názvu. Pokud chcete vybrat jen některé kandidáty, dávejte křížky k jejim jménům. To můžete udělat i tehdy, když dáte velký křížek jiné straně. Jen pozor, aby malých křížků nebylo víc, než kolik se volí zastupitelů. A pamatujte, když označíte stranu, tak malé křížky u téhle strany se nepočítají.</p>
+									<p-box-group>
+										<p-box to="/jak-volit/komunalni-volby">
+											<p-box-button>Více informací</p-box-button>
+										</p-box>
+									</p-box-group>
+								</p-area>
+							</p-block>
+
 							<p-block headline="Zdroje a podklady" :level="1">
 								<p-loader :rule="news">
 									<div v-if="news">

@@ -33,7 +33,7 @@
 					<!-- <h1 class="quando">{{ Math.round((new Date(new Date('2026-10-09 14:00:00') - new Date()).getTime()) / (1000 * 60 * 60 * 24)) }} dní do voleb</h1> -->
 					<p-grid>
 						<div>
-							<p-area class="highlight" icon="komunalni-volby">
+							<p-area class="highlidght" icon="komunalni-volby">
 								<div class="p-offset reverse">
 									<div>
 										<h4 class="mt0 mb0 blue">
@@ -73,7 +73,7 @@
 							</p-area>
 						</div>
 						<div>
-							<p-area class="highlight" icon="senatni-volby">
+							<p-area class="highligdht" icon="senatni-volby">
 								<div class="p-offset reverse">
 									<div>
 										<h4 class="mt0 mb0">
@@ -120,7 +120,7 @@
 							</p-area>
 						</div>
 						<div>
-							<p-area icon="cancel" class="highlight">
+							<p-area icon="cancel" class="higdhlight">
 								<h4 class="mt0 mb0">
 									<router-link to="/volby/komunalni-volby/176/hlasovani-nanecisto">Hlasování nanečisto</router-link>
 								</h4>
@@ -129,83 +129,96 @@
 								</div>
 							</p-area>
 						</div>
-						<div>
-							<p-area icon="plus-green" background="var(--green11)">
-								<h4 class="mv0">
-									Odkaz na
-									<p-popup class="inline">
-										<template #init>
-											<button class="inline green">volební program</button>
-										</template>
-										<template #content>
-											<editable-suggest type="program" part="homepage:suggestion" link="1"></editable-suggest>
-										</template>
-									</p-popup>
-								</h4>
-								<div class="smallest">
-									Nebo priority. Nebo nahrajte 
-									<p-popup class="down">
-										<template #init>
-											<span class="is-span">volební leták</span>
-											
-										</template>
-										<template #content>
-											<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
-										</template>
-									</p-popup>.
-								</div>
-							</p-area>
-						</div>
-						<div>
-							<p-area icon="merch" background="var(--blue11)">
-								<h4 class="mt0 mb0">
-									<router-link to="/novinky/15365">Soutěž o trička</router-link>
-								</h4>
-								<div class="smallest">Pošlete 10 odkazů na chybějící programy</div>
-							</p-area>
-						</div>
-						<div>
-							<p-area icon="admin">
-								<h4 class="mt0 mb0">
-									<router-link to="/pro-kandidaty" class="is-span">Pro kandidáty</router-link>
-								</h4>
-								<div class="smallest">
-									<p-list-linear class="or">
-										<span>
-											<p-link href="https://admin.programydovoleb.cz/seznam" class="is-span strong">Chci přístup</p-link>
-										</span>
-										<span>
-											<router-link to="/novinky/11338" class="is-span">4 otázky</router-link>
-										</span>
-										<!-- <span>
-											<p-popup>
-												<template #init>
-													<span class="is-span strong">Přidat</span>
-												</template>
-												<template #content>
-													<div class="smaller strong p05">Chcete přidat stranu, kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
-													<div class="p-line _05"></div>
-													<editable-suggest></editable-suggest>
-												</template>
-											</p-popup>	
-										</span> -->
-										<span>
-											do 7. října
-											<!-- <p-popup class="down">
-												<template #init>
-													<span class="is-span">Nahrát leták</span>
-												</template>
-												<template #content>
-													<p class="smaller">Viděli jste leták, plakát nebo brožurku s programem? Vyfoťte, nahrajte, poté přidejte do popisu obec a pošlete.</p>
-													<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
-												</template>
-											</p-popup> -->
-										</span>
-									</p-list-linear>
-								</div>
-							</p-area>
-						</div>
+						<template v-if="today < '2026-10-07'">
+							<div>
+								<p-area icon="plus-green" background="var(--green11)">
+									<h4 class="mv0">
+										Odkaz na
+										<p-popup class="inline">
+											<template #init>
+												<button class="inline green">volební program</button>
+											</template>
+											<template #content>
+												<editable-suggest type="program" part="homepage:suggestion" link="1"></editable-suggest>
+											</template>
+										</p-popup>
+									</h4>
+									<div class="smallest">
+										Nebo priority. Nebo nahrajte 
+										<p-popup class="down">
+											<template #init>
+												<span class="is-span">volební leták</span>
+												
+											</template>
+											<template #content>
+												<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
+											</template>
+										</p-popup>.
+									</div>
+								</p-area>
+							</div>
+							<div>
+								<p-area icon="merch" background="var(--blue11)">
+									<h4 class="mt0 mb0">
+										<router-link to="/novinky/15365">Soutěž o trička</router-link>
+									</h4>
+									<div class="smallest">Pošlete 10 odkazů na chybějící programy</div>
+								</p-area>
+							</div>
+							<div>
+								<p-area icon="admin">
+									<h4 class="mt0 mb0">
+										<router-link to="/pro-kandidaty" class="is-span">Pro kandidáty</router-link>
+									</h4>
+									<div class="smallest">
+										<p-list-linear class="or">
+											<span>
+												<p-link href="https://admin.programydovoleb.cz/seznam" class="is-span strong">Chci přístup</p-link>
+											</span>
+											<span>
+												<router-link to="/novinky/11338" class="is-span">4 otázky</router-link>
+											</span>
+											<!-- <span>
+												<p-popup>
+													<template #init>
+														<span class="is-span strong">Přidat</span>
+													</template>
+													<template #content>
+														<div class="smaller strong p05">Chcete přidat stranu, kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
+														<div class="p-line _05"></div>
+														<editable-suggest></editable-suggest>
+													</template>
+												</p-popup>	
+											</span> -->
+											<span>
+												do 7. října
+												<!-- <p-popup class="down">
+													<template #init>
+														<span class="is-span">Nahrát leták</span>
+													</template>
+													<template #content>
+														<p class="smaller">Viděli jste leták, plakát nebo brožurku s programem? Vyfoťte, nahrajte, poté přidejte do popisu obec a pošlete.</p>
+														<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
+													</template>
+												</p-popup> -->
+											</span>
+										</p-list-linear>
+									</div>
+								</p-area>
+							</div>
+						</template>
 					</p-grid>
+					<div class="p-gap _2"></div>
+					<p-area class="highlight shadow">
+						<p-collapsible icon="youtube" label="Jak volit a nepřijít o hlas?" borderless="1" status="2:25">						
+							<iframe class="_if" width="100%" height="auto" src="https://www.youtube.com/embed/dmXP5pjUEF0?si=UGvPkrhhIp2-VyOr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+							<p-box-group>
+								<p-box to="/volby/komunalni-volby/176/hlasovani-nanecisto">
+									<p-box-button icon="cancel">Zkuste si to nanečisto</p-box-button>
+								</p-box>
+							</p-box-group>
+						</p-collapsible>
+					</p-area>
 					<p>
 						<p-truncated-content>
 							<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="is-span">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link> v 27 obvodech. Na tomto webu najdete přehled všech kandidátů, stran i koalic, jejich volební historii a také mnoho doplňujících informací. Pomůžou vám odkazy na volební programy, weby nebo sociální sítě, odpovědi kandidátů a odkazy na rozhovory a zmínky v médiích.
