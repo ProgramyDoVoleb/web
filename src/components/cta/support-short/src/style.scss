@@ -4,3 +4,7 @@
     margin: 0 -1.25em;
     // padding-left: 4.75em !important;
 }
+
+.dark ._bmm {
+    filter: invert(1) opacity(.2);
+}

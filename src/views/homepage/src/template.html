@@ -8,21 +8,10 @@
 				<p-area class="highlight shadow _ha" padding="2em">
 					<div>
 						<h1 class="quando text-center mt0">Průvodce volbami</h1>
-						<div class="text-center mt-1 mb15 _mw _ma">Vyberte si svou obec a zjistíte, jaké volby se vás týkají, kdo kandiduje, jak se vlastně volí a další informace.</div>
+						<div class="smaller text-center strong mt-1 blue">pátek 14:00 - 22:00 &middot; sobota 8:00 - 14:00</div>
+						<div class="text-center mt05 mb15 _mw _ma">Vyberte si svou obec a zjistíte, jaké volby se vás týkají, kdo kandiduje, jak se vlastně volí a další informace.</div>
+						
 						<search-town link="/pruvodce/2026/"></search-town>
-						<div class="smallest mt05 text-center">
-							<p-list-linear class="or">
-								<span>
-									<router-link to="/pruvodce/2026/554782">Praha</router-link>
-								</span><span>
-									<router-link to="/pruvodce/2026/582786">Brno</router-link>
-								</span><span>
-									<router-link to="/pruvodce/2026/554821">Ostrava</router-link>
-								</span><span>
-									<router-link to="/pruvodce/2026/554791">Plzeň</router-link>
-								</span>
-							</p-list-linear>
-						</div>
 					</div>					
 				</p-area>
 			</p-block>
@@ -55,13 +44,10 @@
 										<div class="smallest">
 											<p-list-linear class="or">
 												<span>
-													<router-link class="is-span" to="/jak-volit/komunalni-volby">Jak volit?</router-link>
+													<router-link class="is-span" to="/lide?f=KV,UPCOMING">Hledat kandidáta</router-link>
 												</span>
 												<span>
-													<router-link class="is-span" to="/lide?f=KV,UPCOMING">Hledat</router-link>
-												</span>
-												<span>
-													<router-link class="is-span" to="/volby/komunalni-volby/176/strany">Aktivita</router-link>
+													<router-link class="is-span" to="/volby/komunalni-volby/176/strany">Aktivita stran</router-link>
 												</span>
 											</p-list-linear>
 										</div>
@@ -86,6 +72,53 @@
 							</p-area>
 						</div>
 						<div>
+							<p-area icon="cancel" class="higdhlight">
+								<h4 class="mt0 mb0">
+									<router-link to="/volby/komunalni-volby/176/hlasovani-nanecisto">Hlasování nanečisto</router-link>
+								</h4>
+								<div class="smallest">
+									Zkuste si vyplnit volební lístek.
+								</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area icon="hint" class="higdhlight">
+								<h4 class="mt0 mb0">
+									<router-link to="/jak-volit/komunalni-volby">Jak volit?</router-link>
+								</h4>
+								<div class="smallest">
+									Kdo může volit? Kdy a kde?
+								</div>
+							</p-area>
+						</div>
+							<div>
+								<p-area icon="plus">
+									<h4 class="mv0">
+										Přidat
+										<p-popup class="inline">
+											<template #init>
+												<button class="inline">volební program</button>
+											</template>
+											<template #content>
+												<editable-suggest type="program" part="homepage:suggestion" link="1"></editable-suggest>
+											</template>
+										</p-popup>
+									</h4>
+									<div class="smallest">
+										Nebo priority. Nebo 
+										<p-popup class="down">
+											<template #init>
+												<span class="is-span">volební leták</span>
+												
+											</template>
+											<template #content>
+												<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
+											</template>
+										</p-popup>.
+									</div>
+								</p-area>
+							</div>
+						<div>
 							<p-area class="highligdht" icon="senatni-volby">
 								<div class="p-offset reverse">
 									<div>
@@ -95,10 +128,13 @@
 										<div class="smallest">
 											<p-list-linear class="or">
 												<span>
-													<router-link class="is-span" to="/lide?f=SENAT,UPCOMING">Hledat</router-link>
+													<router-link class="is-span" to="/volby/senatni-volby/173/otazka/449">Zaměření</router-link>
 												</span>
 												<span>
-													<router-link class="is-span" to="/volby/senatni-volby/173/strany">Aktivita</router-link>
+													<router-link class="is-span" to="/volby/senatni-volby/173/otazka/450">Téma</router-link>
+												</span>
+												<span>
+													<router-link class="is-span" to="/volby/senatni-volby/173/strany">Strany</router-link>
 												</span>
 											</p-list-linear>
 										</div>
@@ -133,93 +169,44 @@
 							</p-area>
 						</div>
 						<div>
-							<p-area icon="cancel" class="higdhlight">
+							<p-area icon="support" class="higdhlight">
 								<h4 class="mt0 mb0">
-									<router-link to="/volby/komunalni-volby/176/hlasovani-nanecisto">Hlasování nanečisto</router-link>
+									<p-popup>
+										<template #init>
+											<button class="inline green">Podpořit projekt</button>
+										</template>
+										<template #content>			
+											<div class="text-center">
+												<p-image class="_imgib" :src="'https://static.programydovoleb.cz/qr.png'" width="100%"></p-image>
+												<p-link href="https://ib.fio.cz/ib/transparent?a=2502004588" class="smaller strong">2502004588/2010</p-link>
+												<div class="smallest mt05">FIO Banka</div>
+												<div class="p-line"></div>
+												<div class="smallest mt05">nebo přes Darujme.cz</div>
+												<div class="smaller mt05 mb1 strong">
+													<p-list-linear class="or">
+														<span>
+															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100">100 Kč</p-link>
+														</span>
+														<span>
+															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=226">226 Kč</p-link>
+														</span>
+														<span>
+															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=2026">2026 Kč</p-link>
+														</span>
+														<span>
+															<p-link class="green" href="https://www.darujme.cz/darovat/1205354">jiná částka</p-link>
+														</span>
+													</p-list-linear>
+												</div>
+											</div>
+										</template>
+									</p-popup>
 								</h4>
 								<div class="smallest">
-									Zkuste si vyplnit volební lístek.
+									Podpořte <em>Programy</em> do dalších let
 								</div>
 							</p-area>
 						</div>
-						<template v-if="today < '2026-10-08'">
-							<div>
-								<p-area icon="plus-green" background="var(--green11)">
-									<h4 class="mv0">
-										Odkaz na
-										<p-popup class="inline">
-											<template #init>
-												<button class="inline green">volební program</button>
-											</template>
-											<template #content>
-												<editable-suggest type="program" part="homepage:suggestion" link="1"></editable-suggest>
-											</template>
-										</p-popup>
-									</h4>
-									<div class="smallest">
-										Nebo priority. Nebo nahrajte 
-										<p-popup class="down">
-											<template #init>
-												<span class="is-span">volební leták</span>
-												
-											</template>
-											<template #content>
-												<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
-											</template>
-										</p-popup>.
-									</div>
-								</p-area>
-							</div>
-							<div>
-								<p-area icon="merch" background="var(--blue11)">
-									<h4 class="mt0 mb0">
-										<router-link to="/novinky/15365">Soutěž o trička</router-link>
-									</h4>
-									<div class="smallest">Pošlete 10 odkazů na chybějící programy</div>
-								</p-area>
-							</div>
-							<div>
-								<p-area icon="admin">
-									<h4 class="mt0 mb0">
-										<router-link to="/pro-kandidaty" class="is-span">Pro kandidáty</router-link>
-									</h4>
-									<div class="smallest">
-										<p-list-linear class="or">
-											<span>
-												<p-link href="https://admin.programydovoleb.cz/seznam" class="is-span strong">Chci přístup</p-link>
-											</span>
-											<span>
-												<router-link to="/novinky/11338" class="is-span">4 otázky</router-link>
-											</span>
-											<!-- <span>
-												<p-popup>
-													<template #init>
-														<span class="is-span strong">Přidat</span>
-													</template>
-													<template #content>
-														<div class="smaller strong p05">Chcete přidat stranu, kandidáta nebo zprávu z médií? Stačí poslat odkaz:</div>
-														<div class="p-line _05"></div>
-														<editable-suggest></editable-suggest>
-													</template>
-												</p-popup>	
-											</span> -->
-											<span>
-												do 7. října
-												<!-- <p-popup class="down">
-													<template #init>
-														<span class="is-span">Nahrát leták</span>
-													</template>
-													<template #content>
-														<p class="smaller">Viděli jste leták, plakát nebo brožurku s programem? Vyfoťte, nahrajte, poté přidejte do popisu obec a pošlete.</p>
-														<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
-													</template>
-												</p-popup> -->
-											</span>
-										</p-list-linear>
-									</div>
-								</p-area>
-							</div>
-						</template>
 					</p-grid>
 					<div class="p-gap _2"></div>
 					<p-area class="highlight shadow">
@@ -438,46 +425,17 @@
 								Níže najdete nejdůležitější novinky za poslední dny, <router-link to="/novinky" class="smaller strong">úplný předvolební deník najdete zde</router-link>.
 							</p>
 
-							<h3 class="quando">Výbrané novinky</h3>
+							<p-block-expandable headline="Vybrané novinky">
+
+							<!-- <h3 class="quando">Vybrané novinky</h3> -->
 
 							<p-columns>
 
-								<!-- <div>
-									<p-area class="highlight shadow smaller" borderColor="var(--red)">
-										<strong>Za poslední týden</strong>
-										<div class="p-gap"></div>
-										<p-list class="invisible">
-											<div><p-lang :value="news.list.reduce((a, b) => a + b.fullprogram.length, 0)" :end="['Žádné programy', 'Jeden plný text program', '%% plné texty programy', '%% plných textů programů']"></p-lang></div>
-											<div><p-lang :value="news.list.reduce((a, b) => a + b.programlink.length, 0)" :end="['Žádné programy', 'Jeden odkaz na program', '%% odkazy na program', '%% odkazů na program']"></p-lang></div>
-											<div><p-lang :value="news.list.reduce((a, b) => a + b.priority.length, 0)" :end="['Žádné priority', 'Jedna priorita', '%% priority', '%% priorit']"></p-lang></div>
-											<div><p-lang :value="news.list.reduce((a, b) => a + b.odpovedi.length, 0)" :end="['Žádné odpovědi', 'Jedna odpověd', '%% odpovědi', '%% odpovědí']"></p-lang></div>
-											<div><p-lang :value="news.list.reduce((a, b) => a + b.sys.length + b.main.length + b.media.length, 0)" :end="['Žádná novinka', 'Jedna novinka', '%% novinky', '%% novinek']"></p-lang></div>
-											<div><p-lang :value="news.list.reduce((a, b) => a + b.auto.length, 0)" :end="['Žádný nový profil', 'Jeden nový profil', '%% nové profily', '%% nových profilů']"></p-lang></div>
-											<div><p-lang :value="news.list.reduce((a, b) => a + b.log.length, 0)" :end="['Žádné úpravy', 'Jedna úprava', '%% úpravy', '%% úprav']"></p-lang></div>
-										</p-list>
-										<div class="p-line"></div>
-										<div class="smallest">
-											<router-link to="/novinky" class="strong">Podrobně den po dni</router-link> &rarr;
-										</div>										
-									</p-area>
-								</div> -->
-
-								<!-- <div>
-									<p-area icon="spotify" borderColor="var(--green)" background="var(--green11)">
-										<h4 class="mt0 pt025 mb0 smallest">
-											<router-link :to="'/novinky/' + news.summary.id" class="is-span" :title="news.summary.title">{{ news.summary.title }}</router-link>
-										</h4>
-										<div class="smallest">
-											Shrnutí novinek od {{ date(new Date(new Date(news.summary.datum).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(), 2) }} do {{ date(news.summary.datum, 2) }}
-										</div>
-									</p-area>
-								</div> -->
-
 								<div v-for="(day, inday) in news.list">
 
-									<component :is="inday < 2 || width > 679 ? 'div' : 'p-collapsible'" :label="date(day.datum)" :class="inday < 2 || width > 679 ? 'pb3' : ''">
+									<component :is="inday < 10 || width > 679 ? 'div' : 'p-collapsible'" :label="date(day.datum)" :class="inday < 10 || width > 679 ? 'pb3' : ''">
 
-										<h4 v-if="inday < 2 || width > 679" class="quando dimm smaller mb1" :class="{mt0: inday === 0}">{{ date(day.datum) }}</h4>
+										<h4 v-if="inday < 10 || width > 679" class="quando dimm smaller mb1" :class="{mt0: inday === 0}">{{ date(day.datum) }}</h4>
 
 										<p-list class="invisible">
 											<div v-for="(item, index) in day.sys">
@@ -501,93 +459,97 @@
 												</p-area>
 											</div>	
 
-											<template v-for="item in day.fullprogram">
-												<div>
-													<p-area class="shadow highlight" :borderColor="colorByItem(item.$node, item)">
-														<div class="p-offset">
-															<div v-if="logoByItem(item.$node, item, null, true)">
-																<p-image :src="logoByItem(item.$node, item)" width="2.5em" :rounded="true"></p-image>
-															</div>
-															<div v-else>
-																<p-image src="https://static.programydovoleb.cz/icon/pdv.svg" size="2.5em" width="2.5em"></p-image>
-															</div>
-															<div>
-																<div class="smallest dimm" v-if="item.$node && item.$node.NAZEVZAST">
-																	{{ item.$node.NAZEVZAST }}
+											<template v-if="true">
+
+												<template v-for="item in day.fullprogram">
+													<div>
+														<p-area class="shadow highlight" :borderColor="colorByItem(item.$node, item)">
+															<div class="p-offset">
+																<div v-if="logoByItem(item.$node, item, null, true)">
+																	<p-image :src="logoByItem(item.$node, item)" width="2.5em" :rounded="true"></p-image>
 																</div>
-																<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id + '#plne-zneni'" class="strong">
-																	{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}
-																</router-link>
-																<div class="smallest">
-																	Volební program
-																	<span class="dimm" v-if="item.backup">
-																		&middot;
-																		<p-link :href="item.backup" class="dimm">
-																			záloha
-																		</p-link>
-																	</span>
-																	<span class="dimm" v-if="item.source">
-																		&middot;
-																		<p-link :href="item.source" class="dimm">
-																			originál
-																		</p-link>
-																	</span>
+																<div v-else>
+																	<p-image src="https://static.programydovoleb.cz/icon/pdv.svg" size="2.5em" width="2.5em"></p-image>
+																</div>
+																<div>
+																	<div class="smallest dimm" v-if="item.$node && item.$node.NAZEVZAST">
+																		{{ item.$node.NAZEVZAST }}
+																	</div>
+																	<router-link :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/volebni-program/' + item.id + '#plne-zneni'" class="strong">
+																		{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}
+																	</router-link>
+																	<div class="smallest">
+																		Volební program
+																		<span class="dimm" v-if="item.backup">
+																			&middot;
+																			<p-link :href="item.backup" class="dimm">
+																				záloha
+																			</p-link>
+																		</span>
+																		<span class="dimm" v-if="item.source">
+																			&middot;
+																			<p-link :href="item.source" class="dimm">
+																				originál
+																			</p-link>
+																		</span>
+																	</div>
 																</div>
 															</div>
-														</div>
-													</p-area>
-												</div>
-											</template>
-											
-											<template v-if="day.programlink.length > 0">
-												<div>
-													<p-area icon="program">
-														<strong class="smallest dimm">Odkazy na program</strong>
-														<p class="smaller mt0">
-															<p-list-linear class="nebo">
-																<template v-for="item in day.programlink.filter(x => x.$node)">
-																	<span>
-																		<p-link class="strong" :href="item.source">{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}</p-link>
-																	</span>
-																</template>
-															</p-list-linear>
-														</p>
-													</p-area>
-												</div>
-											</template>
-											
-											<template v-if="day.priority.length > 0">
-												<div>
-													<p-area icon="priority">
-														<strong class="smallest dimm">Priority</strong>
-														<p class="smaller mt0">
-															<p-list-linear class="nebo">
-																<template v-for="item in firstOfUnique(day.priority.filter(x => x.$node), 'csu_id')">
-																	<span>
-																		<router-link class="strong" :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/priority'">{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}</router-link>
-																	</span>
-																</template>
-															</p-list-linear>
-														</p>
-													</p-area>
-												</div>
-											</template>
-											
-											<template v-if="day.odpovedi.length > 0">
-												<div>
-													<p-area icon="answers-mini">
-														<strong class="smallest dimm">Odpovědi</strong>
-														<p class="smaller mt0">
-															<p-list-linear class="nebo">
-																<template v-for="item in firstOfUnique(day.odpovedi.filter(x => x.$node), 'csu_id')">
-																	<span>
-																		<router-link class="strong" :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/otazky-a-odpovedi'">{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}</router-link>
-																	</span>
-																</template>
-															</p-list-linear>
-														</p>
-													</p-area>
-												</div>
+														</p-area>
+													</div>
+												</template>
+												
+												<template v-if="day.programlink.length > 0">
+													<div>
+														<p-area icon="program">
+															<strong class="smallest dimm">Odkazy na program</strong>
+															<p class="smaller mt0">
+																<p-list-linear class="nebo">
+																	<template v-for="item in day.programlink.filter(x => x.$node)">
+																		<span>
+																			<p-link class="strong" :href="item.source">{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}</p-link>
+																		</span>
+																	</template>
+																</p-list-linear>
+															</p>
+														</p-area>
+													</div>
+												</template>
+												
+												<template v-if="day.priority.length > 0">
+													<div>
+														<p-area icon="priority">
+															<strong class="smallest dimm">Priority</strong>
+															<p class="smaller mt0">
+																<p-list-linear class="nebo">
+																	<template v-for="item in firstOfUnique(day.priority.filter(x => x.$node), 'csu_id')">
+																		<span>
+																			<router-link class="strong" :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/priority'">{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}</router-link>
+																		</span>
+																	</template>
+																</p-list-linear>
+															</p>
+														</p-area>
+													</div>
+												</template>
+												
+												<template v-if="day.odpovedi.length > 0">
+													<div>
+														<p-area icon="answers-mini">
+															<strong class="smallest dimm">Odpovědi</strong>
+															<p class="smaller mt0">
+																<p-list-linear class="nebo">
+																	<template v-for="item in firstOfUnique(day.odpovedi.filter(x => x.$node), 'csu_id')">
+																		<span>
+																			<router-link class="strong" :to="'/bod/' + item.csu_table + '/' + item.csu_id + '/otazky-a-odpovedi'">{{ item.$node.NAZEV || item.$node.JMENO + ' ' + item.$node.PRIJMENI }}</router-link>
+																		</span>
+																	</template>
+																</p-list-linear>
+															</p>
+														</p-area>
+													</div>
+												</template>
+
 											</template>
 
 											<template v-if="polls">
@@ -628,18 +590,20 @@
 								</div>
 							</p-columns>
 
+							</p-block-expandable>
+
+							<p-block-expandable headline="Novinky na mapě" icon="map">
+								<news-map :data="news"></news-map>
+							</p-block-expandable>
+
 								<div class="mt2">
 									<p-area icon="sedmideni" class="shadow highlight inline" borderColor="var(--blue)">
-										<router-link to="/novinky" class="strong">Volební deník</router-link> <span class="dimm">&rarr;</span>
+										<router-link to="/novinky" class="strong">Všechny novinky v deníku</router-link>
 										<div class="smallest mt01">
-											Kompletní novinky k volbám &middot; <router-link to="/novinky/archiv" class="is-span">Informace o projektu</router-link>
+											Kompletní přehled &middot; <router-link to="/novinky/archiv" class="is-span">Informace o projektu</router-link>
 										</div>
 									</p-area>
 								</div>
-
-							<p-collapsible label="Novinky na mapě" icon="map" class="mt2">
-								<news-map :data="news"></news-map>
-							</p-collapsible>
 
 							<!-- <p-collapsible label="Chcete týdenní souhrn e-mailem?" icon="email">
 								<mailchimp-signup></mailchimp-signup>

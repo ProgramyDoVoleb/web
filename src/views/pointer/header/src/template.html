@@ -1,5 +1,5 @@
 <div class="pointer-header">
-	<div class="_float">
+	<div class="_float" v-if="current.volby > 0 && ($volby.status === 1 || current.CKAND > 0 || current.PORCISLO > 0 || current.NAZEV)">
 		<div v-if="current.NAZEV && logoByItem(current, data, null, true)" class="hide-60rem _float-right">
 			<p-logo :data="{logo: logoByItem(current, data)}" :size="'8rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
 		</div>
@@ -61,7 +61,7 @@
 							<p-box-label class="red" background="var(--red11)">NEKANDIDUJE</p-box-label>
 						</p-box>
 					</template>
-					<template v-if="current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL < 500 && ((current.status === 1 && !current.PLATNOST) || (elections.status > 1 && current.PLATNOST === 'A'))">
+					<template v-if="current.NAZEV && current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL < 500 && ((current.status === 1 && !current.PLATNOST) || (elections.status > 1 && current.PLATNOST === 'A'))">
 						<p-box>
 							<p-box-ticker background="var(--grey11)"><span class="smallest">#</span>{{ current.POR_STR_HL }}</p-box-ticker>
 						</p-box>
@@ -239,7 +239,7 @@
 						</template>
 				</template>
 			</p-box-group>
-			<template v-if="$volby.editace === 1">
+			<!-- <template v-if="$volby.editace === 1">
 				<div class="p-line _05"></div>
 				<div class="smallest dimm">
 					<div class="p-offset reverse">
@@ -250,7 +250,6 @@
 								</li>
 								<li>
 									<router-link :to="$link + '#upravit-nebo-doplnit'" class="green strong">chci něco doplnit</router-link>
-									<!-- <button class="inline green strong" @click="slide('editace', null, false, true)">chci něco doplnit</button> -->
 								</li>
 								<li>
 									<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + current.id + '?source=https://programydovoleb.cz' + $route.path">chci spravovat celý profil</p-link>
@@ -272,7 +271,7 @@
 						</div>
 					</div>
 				</div>
-			</template>
+			</template> -->
 			<template v-if="$volby.status === 1">
 				<div class="p-line _05"></div>
 				<div class="smallest">
@@ -286,5 +285,8 @@
 				<engagement-add-program :pointer="table + ':' + current.id" :elections="current.volby" :focus="current.OBVOD || current.KODZASTUP"></engagement-add-program>
 			</template>
 		</div>
+	</div>
+	<div v-else>
+		<em>Tento profil byl zrušen.</em>
 	</div>
 </div>

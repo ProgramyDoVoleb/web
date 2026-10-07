@@ -9,7 +9,7 @@
 							<component :is="'pointer-summary-' + $volby.typ.toLowerCase()" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="['PS', 'KV', 'SENAT'].indexOf($volby.typ) > -1"></component>
 							<!-- <pointer-summary-ps :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="$volby.id === 166"></pointer-summary-ps> -->
 							<div class="p-gap _3 _floar-clear"></div>
-							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="current.PRIJMENI">
+							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="current.PRIJMENI && current.volby > 0 && ($volby.status === 1 || current.CKAND > 0 || current.PORCISLO > 0)">
 								<p-area v-if="current.PLATNOST && current.PLATNOST === 'N'">
 									<p class="red strong">Kandidát se voleb neúčastnil.</p>
 									<p>Důvodem mohlo být odstoupení z voleb po podání kandidátní listiny nebo dodatečné vyškrtnutí kandidujícím subjektem.</p>
@@ -1194,7 +1194,7 @@
 								</p-area>
 							</p-block>
 
-							<p-block headline="Jak správně volit?" :level="1" v-if="$volby && $volby.status < 3">
+							<p-block headline="Jak správně volit?" :level="1" v-if="$volby && $volby.status < 3 && $volby.TYP === 'KV'">
 
 
 								<p-area class="highlight shadow">
