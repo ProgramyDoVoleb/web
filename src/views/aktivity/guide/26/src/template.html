@@ -68,8 +68,8 @@
 								</div>
 								<div>
 									<p-area icon="komunalni-volby" class="highlight shadow">
-										<strong>Volby do {{ checkData.zastupitelstvo.DRUHZASTUP === 3 ? 'magistrát' : 'zastupitelstva' }} {{ ['', 'obce', 'města', 'statutárního města', 'hlavního města', 'městské části', 'městyse'][checkData.zastupitelstvo.DRUHZASTUP] }} <button class="inline" @click="slide('zastupitelstvo')">{{ checkData.zastupitelstvo.NAZEVZAST }}</button></strong>
-										<div class="smaller">Celkem máte {{ checkData.zastupitelstvo.MANDATY }} hlasů. Tolik můžete udělat křížků.</div>
+										<strong>Volby {{ checkData.zastupitelstvo.DRUHZASTUP === 3 ? 'na magistrát' : 'do zastupitelstva' }} {{ ['', 'obce', 'města', 'statutárního města', 'hlavního města', 'městské části', 'městyse'][checkData.zastupitelstvo.DRUHZASTUP] }} <button class="inline" @click="slide('zastupitelstvo')">{{ checkData.zastupitelstvo.NAZEVZAST }}</button></strong>
+										<div class="smaller">Celkem máte <strong>{{ checkData.zastupitelstvo.MANDATY }} hlasů</strong>. Tolik můžete udělat křížků.</div>
 									</p-area>
 								</div>
 								<div v-if="checkData.cast.obec">

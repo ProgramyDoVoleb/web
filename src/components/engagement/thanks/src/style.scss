@@ -52,7 +52,13 @@ p {
   max-width: min(90vw, 40em);
 }
 
-.p-image {
+.p-image._qr {
   margin: auto;
   width: 50%;
+}
+
+._mw2 {
+  max-width: 30em;
+  margin-left: auto;
+  margin-right: auto;
 }

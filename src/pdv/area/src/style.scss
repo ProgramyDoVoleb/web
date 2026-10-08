@@ -29,7 +29,7 @@
     &[style*="missing"] {
       &:not(.p-area---has-background) {
         background: rgba(255,255,255,.015) !important;
-        box-shadow: 0 1em 2em #00000022;
+        // box-shadow: 0 1em 2em #00000022;
       }      
     }
   }
@@ -39,7 +39,7 @@
     &[style*="missing"] {
       &:not(.p-area---has-background) {
         background: var(--black) !important;
-        box-shadow: 0 1em 2em #00000022;
+        // box-shadow: 0 1em 2em #00000022;
       }      
     }
   }
@@ -134,6 +134,10 @@
 
 .shadow {
   box-shadow: 0 10px 25px #eee;
+
+  .dark & {
+    box-shadow: 0 1em 2em #00000022;
+  }
 }
 
 .p-area.highlight {
@@ -159,6 +163,7 @@
     &[style*="missing"] {
       &:not(.p-area---has-background) {
         background: rgba(255,255,255,.07) !important;
+        box-shadow: 0 1em 2em #00000044;
       }
     }
   }
