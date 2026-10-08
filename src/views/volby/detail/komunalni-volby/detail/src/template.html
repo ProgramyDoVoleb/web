@@ -224,7 +224,7 @@
 		<engagement-support></engagement-support>
 	</p-block> -->
 	<p-block v-if="current.status < 3" headline="Jak volit?" :hide="true">
-		<p-area icon2="hint">
+		<p-area icon2="hint" class="highlight shadow">
 			<h2 class="pt025 mt0 mb05">Křížkování, aneb jak se volí?</h2>
 			<p>Oproti jiným volbám máme tolik hlasů, kolik se volí zastupitelů. {{ current.$dotcene[0].NAZEVZAST }} volí {{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů. Zároveň jsou všechny strany a kandidáti vytištění na jeden jediný list papíru. Je pouze na nás, jak s hlasy naložíme:</p>
 
@@ -236,6 +236,9 @@
 								</p-box>
 							</p-box-group>
 						</p-collapsible>
+									<p-collapsible icon="check" label="Tři způsoby správného hlasování" status="0:22">						
+										<iframe class="_if" width="100%" src="https://www.youtube.com/embed/yzeBPaj8MW8?si=6FEtiEAdmxVkVsF5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+									</p-collapsible>
 						<p-collapsible icon="warning" label="Pozor na tuhle častou chybu" status="0:30">						
 							<iframe class="_if" width="100%" src="https://www.youtube.com/embed/BDBUobJ9w8k?si=CLJKNLVFkqe6yni4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 							<p-box-group>

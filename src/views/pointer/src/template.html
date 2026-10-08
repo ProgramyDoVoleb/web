@@ -1188,13 +1188,7 @@
 								<profile-preview :id="current.$profil[0].profil"></profile-preview>
 							</component>	
 
-							<p-block headline="Sdílet tuto stránku" :hide="1">
-								<p-area padding="2em 1em 1em 1em" background="var(--blue11)">
-									<p-share :compact="1" :pointer="table + ':' + tableID" :title="headline"></p-share>	
-								</p-area>
-							</p-block>
-
-							<p-block headline="Jak správně volit?" :level="1" v-if="$volby && $volby.status < 3 && $volby.TYP === 'KV'">
+							<p-block headline="Jak správně volit?" :level="1" v-if="$volby && $volby.status < 3 && $volby.typ === 'KV'">
 
 
 								<p-area class="highlight shadow">
@@ -1205,6 +1199,9 @@
 												<p-box-button icon="cancel">Zkuste si to nanečisto</p-box-button>
 											</p-box>
 										</p-box-group>
+									</p-collapsible>
+									<p-collapsible icon="check" label="Tři způsoby správného hlasování" status="0:22">						
+										<iframe class="_if" width="100%" src="https://www.youtube.com/embed/yzeBPaj8MW8?si=6FEtiEAdmxVkVsF5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 									</p-collapsible>
 									<p-collapsible icon="warning" label="Pozor na tuhle častou chybu" status="0:30">						
 										<iframe class="_if" width="100%" src="https://www.youtube.com/embed/BDBUobJ9w8k?si=CLJKNLVFkqe6yni4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -1254,7 +1251,7 @@
 												</div>
 											</p-list>
 										</p-collapsible>
-										<p-collapsible label="Souhrn odkazů" :open="$volby.status < 3">
+										<p-collapsible label="Souhrn odkazů">
 											<div class="_tmw">
 												<table class="smaller _tmw">
 													<tr v-for="entry in fetchAllSourcesOnPage().filter(x => !x.source.includes('admin.programydovoleb.cz'))">
@@ -1272,6 +1269,12 @@
 								</p-loader>
 							</p-block>
 
+							<p-block headline="Sdílet tuto stránku">
+								<p-area padding="2em 1em 1em 1em" background="var(--blue11)">
+									<p-share :compact="1" :pointer="table + ':' + tableID" :title="headline"></p-share>	
+								</p-area>
+							</p-block>
+
 							<p-block :hide="true" headline="Zadavatel a zpracovatel" v-if="$volby && $volby.datum > '2025-10-10'">
 								<p-area icon="legal">
 									<p class="smaller strong pv0">Poznámka k zadavateli, zpracovateli a legislativě voleb v EU a České republice</p>
@@ -1286,7 +1289,7 @@
 									</template>
 								</p-area>
 							</p-block>
-							<p-block headline="Upravit nebo doplnit" :hide="true">
+							<p-block headline="Upravit nebo doplnit" :hide="true" v-if="false">
 
 								<div class="_split" v-if="$volby.status < 3" name="editace">
 									<div>
