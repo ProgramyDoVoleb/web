@@ -120,6 +120,11 @@
 		</p-area>
 		<div class="p-gap"></div>
 	</template>
+	<template v-if="current.id === 154 || current.id === 176">
+		<div class="mv2">
+			<results-quick :data="data" :town="town" :key="town"></results-quick>
+		</div>
+	</template>
 	<template v-if="current.status === 3 && current.$ucast.length > 0">
 		<template v-for="(obvod, index) in obvody">
 			<component :is="obvod.OBVODY === 2 ? 'p-block-expandable' : 'div'" :headline="'Obvod ' + (index + 1)">

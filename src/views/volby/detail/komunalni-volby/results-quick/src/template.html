@@ -1,0 +1,44 @@
+<div class="volby-komunal-results-quick">
+	<p-area class="highlight shadow">
+		<p-loader :rule="csu">
+			<div v-if="csu">
+				<div class="p-offset reverse balanced">
+					<strong>{{ csu.OBEC.$attributes.JE_SPOCTENO === "true" ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
+					<span class="smaller">účast {{ number(Number(csu.OBEC.VYSLEDEK.UCAST.$attributes.UCAST_PROC)) }} %</span>
+				</div>				
+				<div class="p-line"></div>
+
+				<template v-if="list">
+
+					<election-graph :list="list"></election-graph>
+					<div class="p-gap"></div>
+					<p-collapsible label="Podrobné výsledky">
+						<election-table :list="list"></election-table>
+					</p-collapsible>
+					<p-collapsible label="Zvolení kandidáti" borderless="1">
+						<p-list>
+							<div v-for="party in list.filter(x => x.list.length > 0)">
+								<strong>{{ party.label }}</strong>
+								<div class="p-gap"></div>
+								<p-list class="invisible smaller">
+									<div v-for="zast in party.list" class="_f">
+										<span class="_2">{{ zast.reg }}</span>
+										<span class="_f0">{{ zast.display }}</span>
+										<span>{{ number(zast.votes) }}</span>
+									</div>
+								</p-list>
+							</div>
+						</p-list>
+					</p-collapsible>
+
+				</template>
+				<template v-else>
+					<em class="smallest">Připravuji graf</em>
+				</template>
+
+				<div class="p-line"></div>
+				<div class="smallest">Stáhnuto z ČSÚ v {{ date(csu.$attributes.DATUM_CAS_GENEROVANI, 3) }} v {{ csu.$attributes.DATUM_CAS_GENEROVANI.split('T')[1] }}</div>
+			</div>
+		</p-loader>
+	</p-area>
+</div>

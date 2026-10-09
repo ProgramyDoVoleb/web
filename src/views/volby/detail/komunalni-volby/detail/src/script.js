@@ -20,6 +20,7 @@ import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
 import EngagementSupport from '@/components/engagement/support/do.vue';
 import CandidateStats from '@/components/candidate-stats/do.vue';
 import WidgetEmbed from '@/components/widget-block/do.vue';
+import ResultsQuick from '@/views/volby/detail/komunalni-volby/results-quick/do.vue';
 
 export default {
 	name: 'layout-volby-detail-komunalni-obec-detail',
@@ -54,7 +55,8 @@ export default {
 	HistoryCandidates,
 	EngagementAddProgram, EngagementSupport,
 	CandidateStats,
-	WidgetEmbed
+	WidgetEmbed,
+	ResultsQuick
   },
 	computed: {
 		$store: function () {
