@@ -60,46 +60,63 @@ export default {
 		createList: function () {
 			var arr = [];
 
-			this.csu.OBEC.VYSLEDEK.VOLEBNI_STRANA.forEach(party => {
+			var obvody = this.csu.OBEC.VYSLEDEK.VOLEBNI_STRANA ? [this.csu.OBEC] : this.csu.OBEC.OBVOD;
 
-				var item = this.data.list[0].$strany.find(x => x.POR_STR_HL === party.$attributes.POR_STR_HLAS_LIST);
-				var cis = this.data.cis.strany.find(x => x.VSTRANA === item.VSTRANA);
+			obvody.forEach(obv => {
 
-				var o = {
-					KSTRANA: party.$attributes.POR_STR_HLAS_LIST,
-					OBVOD: 1,
-					OSTRANA: item.OSTRANA,
-					VSTRANA: item.VSTRANA,
-					coal: cis.$coalition ? this.createCoalition(cis.$coalition) : null,
-					color: colorByItem(item, this.data),
-					graph: 0,
-					id: item.id,
-					label: item.NAZEV,
-					link: '/volby/komunalni-volby/' + this.data.list[0].id + '/strana/' + item.id,
-					logo: logoByItem(item, this.data),
-					mandates: party.$attributes.ZASTUPITELE_POCET,
-					list: [],
-					passed: party.$attributes.ZASTUPITELE_POCET > 0,
-					pct: party.$attributes.HLASY_PROC,
-					program: [],
-					short: item.NAZEV,
-					votes: party.$attributes.HLASY
-				}
+				var obvdata = [];
 
-				if (party.ZASTUPITEL) {
-					party.ZASTUPITEL.forEach(zast => {
-						o.list.push({
-							display: zast.$attributes.JMENO + ' ' + zast.$attributes.PRIJMENI,
-							reg: zast.$attributes.PORADOVE_CISLO,
-							votes: zast.$attributes.HLASY
+				// var strany = this.csu.OBEC.VYSLEDEK.VOLEBNI_STRANA ? this.csu.OBEC.VYSLEDEK.VOLEBNI_STRANA : this.csu.OBEC.OBVOD[0].VYSLEDEK.VOLEBNI_STRANA;
+
+				obv.VYSLEDEK.VOLEBNI_STRANA.forEach(party => {
+
+					var item = this.data.list[0].$strany.find(x => x.POR_STR_HL === party.$attributes.POR_STR_HLAS_LIST);
+					var cis = this.data.cis.strany.find(x => x.VSTRANA === item.VSTRANA);
+
+					var o = {
+						KSTRANA: party.$attributes.POR_STR_HLAS_LIST,
+						OBVOD: 1,
+						OSTRANA: item.OSTRANA,
+						VSTRANA: item.VSTRANA,
+						coal: cis.$coalition ? this.createCoalition(cis.$coalition) : null,
+						color: colorByItem(item, this.data),
+						graph: 0,
+						id: item.id,
+						label: item.NAZEV,
+						link: '/volby/komunalni-volby/' + this.data.list[0].id + '/strana/' + item.id,
+						logo: logoByItem(item, this.data),
+						mandates: party.$attributes.ZASTUPITELE_POCET,
+						list: [],
+						passed: party.$attributes.ZASTUPITELE_POCET > 0,
+						pct: party.$attributes.HLASY_PROC,
+						program: [],
+						short: item.NAZEV,
+						votes: party.$attributes.HLASY,
+						toJump: Math.floor(party.$attributes.HLASY / party.$attributes.KANDIDATU_POCET * 1.1)
+
+					}
+
+					if (party.ZASTUPITEL) {
+
+						var zvoleni = party.ZASTUPITEL.length ? party.ZASTUPITEL : [party.ZASTUPITEL];
+
+						zvoleni.forEach(zast => {
+							o.list.push({
+								display: zast.$attributes.JMENO + ' ' + zast.$attributes.PRIJMENI,
+								reg: zast.$attributes.PORADOVE_CISLO,
+								votes: zast.$attributes.HLASY
+							});
 						});
-					});
-				}
+					}
 
-				arr.push(o);
-			})
+					obvdata.push(o);
+				})
 
-			arr.sort((a, b) => b.pct - a.pct);
+				obvdata.sort((a, b) => b.pct - a.pct);
+
+				arr.push(obvdata);
+				
+			});
 
 			this.list = arr.length > 0 ? arr : null;
 		}

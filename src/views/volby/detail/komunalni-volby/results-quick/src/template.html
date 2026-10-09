@@ -3,33 +3,51 @@
 		<p-loader :rule="csu">
 			<div v-if="csu">
 				<div class="p-offset reverse balanced">
-					<strong>{{ csu.OBEC.$attributes.JE_SPOCTENO === "true" ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
+					<span>
+						<strong>{{ csu.OBEC.$attributes.JE_SPOCTENO === "true" ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
+						<span v-if="csu.OBEC.$attributes.JE_SPOCTENO !== 'true'" class="smallest">
+							&middot; 
+							{{ csu.OBEC.VYSLEDEK.UCAST.$attributes.OKRSKY_ZPRAC_PROC }} % sečtených okrsků
+						</span>
+					</span>
 					<span class="smaller">účast {{ number(Number(csu.OBEC.VYSLEDEK.UCAST.$attributes.UCAST_PROC)) }} %</span>
 				</div>				
 				<div class="p-line"></div>
 
 				<template v-if="list">
 
-					<election-graph :list="list"></election-graph>
-					<div class="p-gap"></div>
-					<p-collapsible label="Podrobné výsledky">
-						<election-table :list="list"></election-table>
-					</p-collapsible>
-					<p-collapsible label="Zvolení kandidáti" borderless="1">
-						<p-list>
-							<div v-for="party in list.filter(x => x.list.length > 0)">
-								<strong>{{ party.label }}</strong>
-								<div class="p-gap"></div>
-								<p-list class="invisible smaller">
-									<div v-for="zast in party.list" class="_f">
-										<span class="_2">{{ zast.reg }}</span>
-										<span class="_f0">{{ zast.display }}</span>
-										<span>{{ number(zast.votes) }}</span>
+					<p-list>
+
+						<div v-for="(obv, index) in list">
+							<h3 v-if="list.length > 1">Obvod {{ index + 1 }}</h3>
+
+							<election-graph :list="obv"></election-graph>
+							<div class="p-gap"></div>
+							<p-collapsible icon="list" label="Podrobné výsledky">
+								<election-table :list="obv"></election-table>
+							</p-collapsible>
+							<p-collapsible icon="person" label="Zvolení kandidáti" borderless="1">
+								<p-list>
+									<div v-for="party in obv.filter(x => x.list.length > 0)">
+										<div class="p-offset balanced reverse">
+											<strong>{{ party.label }}</strong>
+											<span class="smallest dimm">ke skoku: {{ number(party.toJump) }}</span>
+										</div>
+										
+										<div class="p-gap"></div>
+										<p-list class="invisible smaller">
+											<div v-for="(zast, index) in party.list" class="_f">
+												<span class="_2">{{ zast.reg }}</span>
+												<span class="_f0" :class="{'green strong': zast.votes > party.toJump }">{{ zast.display }}</span>
+												<span>{{ number(zast.votes) }}</span>
+											</div>
+										</p-list>
 									</div>
 								</p-list>
-							</div>
-						</p-list>
-					</p-collapsible>
+							</p-collapsible>
+						</div>
+
+					</p-list>
 
 				</template>
 				<template v-else>

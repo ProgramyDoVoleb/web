@@ -120,8 +120,8 @@
 		</p-area>
 		<div class="p-gap"></div>
 	</template>
-	<template v-if="current.id === 154 || current.id === 176">
-		<div class="mv2">
+	<template v-if="current.id === 176 && current.status === 2">
+		<div class="mv2" v-if="(new Date()).toISOString() > '2026-10-10T14:00:00.000Z'">
 			<results-quick :data="data" :town="town" :key="town"></results-quick>
 		</div>
 	</template>
