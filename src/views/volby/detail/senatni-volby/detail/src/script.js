@@ -95,7 +95,7 @@ export default {
 			return list;
 		},
 		media: function () {
-			return this.$store.getters.pdv('elections/specific/2026-media/');
+			return this.$store.getters.pdv('elections/specific/2026-media');
 		}
 	},
   methods: {

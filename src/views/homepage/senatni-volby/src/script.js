@@ -3,6 +3,7 @@ import PartyPreview from '@/components/party-preview/do.vue';
 import PartyPreviewTiny from '@/components/party-preview-tiny/do.vue';
 import {url, date, number, truncate, domain, con, sortBy} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
+import { useEnums } from '@/stores/enums';
 
 export default {
 	name: 'HomepageSenat',
@@ -49,6 +50,9 @@ export default {
 	computed: {
 		$store: function () {
 			return useData()
+		},
+		enums: function () {
+			return useEnums()
 		},
 		election: function () {
 			return this.$store.getters.pdv('elections/fetch/' + this.elections.id);

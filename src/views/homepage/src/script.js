@@ -106,7 +106,7 @@ export default {
 			return d;
 		},
 		el161: function () {
-			return this.$store.getters.pdv('elections/fetch/161');
+			return null; this.$store.getters.pdv('elections/fetch/161');
 		},
 		polls: function () {
 			var p = this.$store.getters.pdv('polls/last-8');

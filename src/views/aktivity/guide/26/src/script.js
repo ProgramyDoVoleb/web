@@ -104,7 +104,7 @@ export default {
 			return this.checkData && this.checkData.senat.length > 0 ? this.$store.getters.pdv('elections/fetch/173:' + this.checkData.senat[0].obvod) : null;
 		},
 		media: function () {
-			return this.$store.getters.pdv('elections/specific/2026-media/');
+			return this.$store.getters.pdv('elections/specific/2026-media');
 		}
 	},
 	methods: {

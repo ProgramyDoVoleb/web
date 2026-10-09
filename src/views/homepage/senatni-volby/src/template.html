@@ -4,6 +4,7 @@
 		Senátní volby
 	</h1>
 	<p>V řádných senátních volbách se obměňuje třetina Senátu, tedy 27 senátorů z 81. První kolo se koná souběžně s komunálními volbami. Případné druhé kolo o týden později. Tentokrát se týkají těchto obvodů, do voleb jde 154 kandidátů:</p>
+	<template v-if="false">
 	<p-area :class="{primary: elections.status === 2}">
 		<div class="mb1">
 			<p-list-linear class="or smallest">
@@ -97,8 +98,23 @@
 			</template>
 		</p-loader>
 	</p-area>
+	</template>
+
+	<p-area class="highlight shadow">
+		<p-columns class="_2_4">
+			<div v-for="(obvod, index) in enums.obvody.filter(x => x.id % 3 === 0)" class="p-offset balanced smaller">
+				<span class="smallest dimm wib w2 pr075 text-right keep">{{ obvod.id }} </span>
+				<router-link :to="'/volby/senatni-volby/173/obvod/' + obvod.id" class="strong">{{ obvod.name }}</router-link>
+			</div>
+		</p-columns>
+	</p-area>
+
+	<div class="p-gap"></div>
+
+	<p-collapsible label="Aktivita stran" icon="list">
+
 						
-						<h2 class="quando mt2">Aktivita stran</h2>
+						<!-- <h2 class="quando mt2">Aktivita stran</h2> -->
 						<p class="">Pokud vás zajímá, zda strana někoho nominuje či podporuje, podívejte se zde:</p>
 						<p-box-group v-if="parties">
 							<template v-for="party in sortBy(parties.list, 'ZKRATKA', null, true)">
@@ -111,4 +127,5 @@
 							</p-box>
 						</p-box-group>
 						<div class="p-line mt1"></div>
+	</p-collapsible>
 </div>
