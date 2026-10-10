@@ -46,6 +46,11 @@
 			<engagement-add-program :elections="current.id" :focus="obvod"></engagement-add-program>
 		</p-block>
 	</template>
+	<template v-if="current.id === 173 && current.status === 2">
+		<div class="mv2" v-if="(new Date()).toISOString() > '2026-10-09T12:00:00.000Z'">
+			<results-quick :data="data" :obvod="obvod" :key="obvod"></results-quick>
+		</div>
+	</template>
 	<template v-if="current.id === 173 && media && media.list.find(x => x.focus == Number(obvod))" headline="Může vás také zajímat" :hide="true">
 		<p-area class="inline smallest">
 			<p-list-linear class="or">

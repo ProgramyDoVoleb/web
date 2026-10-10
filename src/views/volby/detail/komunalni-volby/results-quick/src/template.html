@@ -4,8 +4,8 @@
 			<div v-if="csu">
 				<div class="p-offset reverse balanced">
 					<span>
-						<strong>{{ csu.OBEC.$attributes.JE_SPOCTENO === "true" ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
-						<span v-if="csu.OBEC.$attributes.JE_SPOCTENO !== 'true'" class="smallest">
+						<strong>{{ csu.OBEC.$attributes.JE_SPOCTENO === 1 ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
+						<span v-if="csu.OBEC.$attributes.JE_SPOCTENO !== 1" class="smallest">
 							&middot; 
 							{{ csu.OBEC.VYSLEDEK.UCAST.$attributes.OKRSKY_ZPRAC_PROC }} % sečtených okrsků
 						</span>

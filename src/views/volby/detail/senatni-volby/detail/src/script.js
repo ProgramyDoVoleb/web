@@ -17,6 +17,7 @@ import ReportForm from '@/components/report-form/do.vue';
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
 import EngagementSupport from '@/components/engagement/support/do.vue';
 import CandidateStats from '@/components/candidate-stats/do.vue';
+import ResultsQuick from '@/views/volby/detail/senatni-volby/results-quick/do.vue';
 
 export default {
 	name: 'layout-volby-detail-senatni-obvod-detail',
@@ -44,7 +45,8 @@ export default {
 	CtaGetAdmin, CtaSupport,
 	ReportForm,
 	EngagementAddProgram, EngagementSupport,
-	CandidateStats
+	CandidateStats,
+	ResultsQuick
   },
 	computed: {
 		$store: function () {

@@ -39,6 +39,8 @@ import HeroMap from '@/components/hero-map/main/do.vue';
 import NewsMap from '@/components/news-map/do.vue';
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
 import EngagementSupport from '@/components/engagement/support/do.vue';
+import ResultsQuick from '@/views/volby/detail/komunalni-volby/results-quick/do.vue';
+import ResultsQuickSenat from '@/views/volby/detail/senatni-volby/results-quick/do.vue';
 
 export default {
 	name: 'layout-homepage',
@@ -57,7 +59,12 @@ export default {
 					show: '+',
 				}
 			},
-			enableNewsLoad: false
+			enableNewsLoad: false,
+			resultsTown: {
+				loading: null,
+				town: null,
+				data: null
+			}
 		}
 	},
   components: {
@@ -67,7 +74,7 @@ export default {
 	CtaGuide, CtaHowTo, 
 	HomepageSummary,
 	HeroMap, NewsMap,
-	EngagementAddProgram, EngagementSupport
+	EngagementAddProgram, EngagementSupport, ResultsQuick, ResultsQuickSenat
   },
 	computed: {
 		$store: function () {
@@ -140,6 +147,33 @@ export default {
 		sortBy, sortEvents,
 		unique, shuffle, untag, firstOfUnique,
 		daysUntil, getMedia,
+		resultsTownChange: async function (town) {
+			this.resultsTown.loading = true;
+			this.resultsTown.data = null;
+
+			// console.log(town);
+  			
+			try {
+
+				var response = await fetch('https://api.programydovoleb.cz/elections/fetch/176:' + town);
+
+				if (!response.ok) {
+					throw new Error(`Response status: ${response.status}`);
+				}
+
+				const result = await response.json();
+
+				this.resultsTown.town = town;
+				this.resultsTown.data = result;
+				this.resultsTown.loading = false;
+
+			} catch (e) {
+
+				alert('Chyba načítání dat');
+				this.resultsTown.loading = false;
+
+			}
+		},
 		$getParty: function (hash) {
 			var item = this.parties.list.find(x => x.hash === hash);
 

@@ -4,7 +4,25 @@
 		<template #main>
 			<p-block :headline="daysUntil('2026-10-09 14:00:00') + ' dní do voleb'" anchor="Volby" :level="1" :hide="true">
 
-			<p-block headline="Průvodce" :hide="true">
+			<p-block headline="Sčítání" :hide="true" v-if="(new Date()).toISOString() > '2026-10-10T12:00:00.000Z'">
+				<!-- <p-area class="highlight shadow _ha" padding="2em"> -->
+					<div>
+						<h1 class="quando text-center mt0">Sčítání</h1>
+						<div class="text-center mt-1 mb15 _mw _ma">Podívejte se na průběžné výsledky a kdo by se stal zastupitelem</div>
+						<template v-if="resultsTown.loading === false && resultsTown.data != null">
+							<results-quick :data="resultsTown.data" :town="resultsTown.town" :key="resultsTown.town"></results-quick>
+							<div class="p-line"></div>
+						</template>
+						<search-town :cb="true" @update="(item) => resultsTownChange(item.obec)"></search-town>
+						<div class="p-line mt2"></div>
+						<h2 class="quando text-center">Senátní volby</h2>
+						<results-quick-senat obvod="all"></results-quick-senat>
+						<div class="p-line mt2"></div>
+					</div>
+				<!-- </p-area> -->
+			</p-block>
+
+			<p-block headline="Průvodce" :hide="true" v-else>
 				<p-area class="highlight shadow _ha" padding="2em">
 					<div>
 						<h1 class="quando text-center mt0">Průvodce volbami</h1>

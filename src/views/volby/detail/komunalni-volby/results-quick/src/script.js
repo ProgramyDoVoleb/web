@@ -70,9 +70,9 @@ export default {
 
 				var obvdata = [];
 
-				// var strany = this.csu.OBEC.VYSLEDEK.VOLEBNI_STRANA ? this.csu.OBEC.VYSLEDEK.VOLEBNI_STRANA : this.csu.OBEC.OBVOD[0].VYSLEDEK.VOLEBNI_STRANA;
+				var strany = this.csu.OBEC.VYSLEDEK.VOLEBNI_STRANA ? this.csu.OBEC.VYSLEDEK.VOLEBNI_STRANA : obv.VYSLEDEK.VOLEBNI_STRANA;
 
-				obv.VYSLEDEK.VOLEBNI_STRANA.forEach(party => {
+				(strany.length ? strany : [strany]).forEach(party => {
 
 					var item = this.data.list[0].$strany.find(x => x.POR_STR_HL === party.$attributes.POR_STR_HLAS_LIST);
 					var cis = this.data.cis.strany.find(x => x.VSTRANA === item.VSTRANA);
@@ -91,7 +91,7 @@ export default {
 						logo: logoByItem(item, this.data),
 						mandates: party.$attributes.ZASTUPITELE_POCET,
 						list: [],
-						passed: party.$attributes.ZASTUPITELE_POCET > 0,
+						passed: this.csu.OBEC.$attributes.JE_SPOCTENO === 1 ? party.$attributes.ZASTUPITELE_POCET > 0 : true, // party.$attributes.ZASTUPITELE_POCET > 0,
 						pct: party.$attributes.HLASY_PROC,
 						program: [],
 						short: item.NAZEV,

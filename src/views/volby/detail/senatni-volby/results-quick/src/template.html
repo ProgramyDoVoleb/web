@@ -1,0 +1,58 @@
+<div class="volby-komunal-results-quick">
+	<!-- <p-area class="highlight shadow"> -->
+		<p-loader :rule="csu">
+			<div v-if="csu">
+				<div class="p-offset reverse balanced" v-if="obvod === 'all'">
+					<span>
+						<strong>{{ Number(csu.CELKEM.UCAST.$attributes.OKRSKY_ZPRAC_PROC) === 100 ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
+						<span v-if="Number(csu.CELKEM.UCAST.$attributes.OKRSKY_ZPRAC_PROC) < 100" class="smallest">
+							&middot; 
+							{{ Number(csu.CELKEM.UCAST.$attributes.OKRSKY_ZPRAC_PROC) }} % sečtených okrsků
+						</span>
+					</span>
+					<span class="smaller">účast {{ number(Number(csu.CELKEM.UCAST.$attributes.UCAST_PROC)) }} %</span>
+				</div>	
+				<div class="p-offset reverse balanced" v-else>
+					<template v-for="obvod in csu.OBVOD.filter(x => this.obvod === 'all' ? true : this.obvod == x.$attributes.CISLO)">
+						<span>
+							<strong>{{ Number(obvod.UCAST.$attributes.OKRSKY_ZPRAC_PROC) === 100 ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
+							<span v-if="Number(obvod.UCAST.$attributes.OKRSKY_ZPRAC_PROC) < 100" class="smallest">
+								&middot; 
+								{{ Number(obvod.UCAST.$attributes.OKRSKY_ZPRAC_PROC) }} % sečtených okrsků
+							</span>
+						</span>
+						<span class="smaller">účast {{ number(Number(obvod.UCAST.$attributes.UCAST_PROC)) }} %</span>
+					</template>
+				</div>				
+				<div class="p-line"></div>
+
+				<template v-if="csu">
+					<template  v-for="obv in csu.OBVOD.filter(x => this.obvod === 'all' ? true : this.obvod == x.$attributes.CISLO)">
+						
+						<component :is="obvod === 'all' ? 'p-collapsible' : 'div'" :label="obv.$attributes.CISLO + ' · ' + obv.$attributes.NAZEV" :status="best(obv)" :icon="Number(obv.UCAST.$attributes.OKRSKY_ZPRAC_PROC) < 100 ? null : 'check'">
+							<p-area class="highlight shadow">
+								<p-list class="_05">
+									<div v-for="(cand, index) in s(obv.KANDIDAT)" class="p-offset reverse balanced">
+										<strong :class="{'green': index === 0 || (index === 1 && Number(s(obv.KANDIDAT)[0].$attributes.HLASY_PROC_1KOLO) < 50)}">{{ cand.$attributes.JMENO }} {{ cand.$attributes.PRIJMENI }}</strong>
+										<span class="smaller">{{ cand.$attributes.HLASY_PROC_1KOLO }} % &middot; {{ number(cand.$attributes.HLASY_1KOLO) }} hlasů</span>
+									</div>
+									<div class="smallest">
+										Účast {{ obv.UCAST.$attributes.UCAST_PROC }} %, sečteno {{ obv.UCAST.$attributes.OKRSKY_ZPRAC_PROC }} % okrsků
+									</div>
+								</p-list>
+							</p-area>
+						</component>
+					</template>
+
+				</template>
+				<template v-else>
+					<em class="smallest">Připravuji graf</em>
+				</template>
+
+				<div class="p-line"></div>
+				<div class="smallest">Stav k {{ date(csu.$attributes.DATUM_CAS_GENEROVANI, 3) }} v {{ csu.$attributes.DATUM_CAS_GENEROVANI.split('T')[1] }}, automatická aktualizace každých 5 minut.</div>
+				<div class="smallest"><button class="inline" @click="loadCSU" :disabled="loadInProgress">Aktualizovat teď</button></div>
+			</div>
+		</p-loader>
+	<!-- </p-area> -->
+</div>
