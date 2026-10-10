@@ -37,7 +37,7 @@ export default {
 			axios.post('https://admin.programydovoleb.cz/api.php?action=/elections/results-quick/' + this.town + '?c=' + (new Date()).getTime(), {
 				url
 			}).then(response => {
-				if (response.status === 200) {
+				if (response.status === 200 && response.data.code === 200) {
 					this.csu = response.data.csu;
 					this.createList();
 				}
@@ -116,6 +116,12 @@ export default {
 					obvdata.push(o);
 				})
 
+				if (obvdata.find(x => x.mandates)) {
+					// nothing
+				} else {
+					obvdata = this.dhondtCalculate(obvdata, obv.$attributes.VOLENO_ZASTUP);
+				}
+
 				obvdata.sort((a, b) => b.pct - a.pct);
 
 				arr.push(obvdata);
@@ -123,7 +129,33 @@ export default {
 			});
 
 			this.list = arr.length > 0 ? arr : null;
-		}
+		},
+					dhondtCalculate: function (list, mandates) {
+
+						// console.log(list, mandates);
+
+						var arr = [];
+
+						list.filter(x => x.pct >= 5).forEach(item => {
+							for (var i = 1; i < mandates; i++) {
+								arr.push({
+									value: item.pct / i,
+									item
+								});
+							}
+						})
+
+						arr.sort((a, b) => b.value - a.value);
+						arr.splice(mandates, arr.length - mandates);
+
+						// console.log(arr);
+
+						list.forEach(item => {
+							item.mandates = arr.filter(x => x.item.id === item.id).length;
+						});
+
+						return list;
+					}
 	},
 	mounted: function () {
 		this.loadCSU();

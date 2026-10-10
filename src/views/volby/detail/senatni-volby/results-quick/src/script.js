@@ -33,7 +33,7 @@ export default {
 			axios.post('https://admin.programydovoleb.cz/api.php?action=/elections/results-quick/' + this.obvod + '?c=' + (new Date()).getTime(), {
 				url
 			}).then(response => {
-				if (response.status === 200) {
+				if (response.status === 200 && response.data.code === 200) {
 					this.csu = response.data.csu;
 				}
 

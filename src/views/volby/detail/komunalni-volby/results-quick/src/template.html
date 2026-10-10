@@ -20,8 +20,9 @@
 
 						<div v-for="(obv, index) in list">
 							<h3 v-if="list.length > 1">Obvod {{ index + 1 }}</h3>
+							<div class="smallest dimm text-right" v-if="csu.OBEC.$attributes.JE_SPOCTENO !== 1">v grafu pouze strany nad 3 %</div>
 
-							<election-graph :list="obv"></election-graph>
+							<election-graph :list="obv.find(x => x.pct > 0) ? obv.filter(x => x.pct > 3) : obv"></election-graph>
 							<div class="p-gap"></div>
 							<p-collapsible icon="list" label="Podrobné výsledky">
 								<election-table :list="obv"></election-table>
