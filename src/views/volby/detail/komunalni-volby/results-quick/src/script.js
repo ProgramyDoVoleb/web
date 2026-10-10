@@ -19,7 +19,8 @@ export default {
 				kv176: 'https://volby.gov.cz/appdata/kv2026/20261009/odata/zastup/vysledky_obec_%%.xml'
 			},
 			csu: null,
-			list: null
+			list: null,
+			loadInProgress: false
 		}
 	},
 	computed: {
@@ -31,14 +32,17 @@ export default {
 		date, sortBy, truncate,	colorByItem, logoByItem, number,
 		loadCSU: async function () {
 			var url = this.sources['kv' + this.data.list[0].id].split('%%').join(this.town);
+			this.loadInProgress = true;
 
-			axios.post('https://admin.programydovoleb.cz/api.php?action=/elections/results-quick/' + this.town, {
+			axios.post('https://admin.programydovoleb.cz/api.php?action=/elections/results-quick/' + this.town + '?c=' + (new Date()).getTime(), {
 				url
 			}).then(response => {
 				if (response.status === 200) {
 					this.csu = response.data.csu;
 					this.createList();
 				}
+
+				setTimeout(() => this.loadInProgress = false, 2500);
 			});
 		},
 		createCoalition (members) {
@@ -123,5 +127,7 @@ export default {
 	},
 	mounted: function () {
 		this.loadCSU();
+
+		setInterval(() => this.loadCSU(), 1000 * 60 * 5); // every 5 minutes
 	}
 };

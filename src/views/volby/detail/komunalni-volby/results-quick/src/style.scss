@@ -12,3 +12,7 @@
 ._f0 {
 	flex: 1
 }
+
+button[disabled] {
+	opacity: .3;
+}

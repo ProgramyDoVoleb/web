@@ -55,7 +55,8 @@
 				</template>
 
 				<div class="p-line"></div>
-				<div class="smallest">Stáhnuto z ČSÚ v {{ date(csu.$attributes.DATUM_CAS_GENEROVANI, 3) }} v {{ csu.$attributes.DATUM_CAS_GENEROVANI.split('T')[1] }}</div>
+				<div class="smallest">Stav k {{ date(csu.$attributes.DATUM_CAS_GENEROVANI, 3) }} v {{ csu.$attributes.DATUM_CAS_GENEROVANI.split('T')[1] }}, automatická aktualizace každých 5 minut.</div>
+				<div class="smallest"><button class="inline" @click="loadCSU" :disabled="loadInProgress">Aktualizovat teď</button></div>
 			</div>
 		</p-loader>
 	</p-area>
