@@ -26,6 +26,23 @@
 									<p-label color="var(--red44)">podpora či hostování na cizí kandidátce</p-label>
 								</span>
 							</div>
+							<div class="nebo smaller strong mb15" v-if="data.cis.volby.status === 3">
+								<span class="keep">
+									<p-label color="var(--green)">zisk mandátu</p-label>
+								</span>
+								<span class="dimm">    </span>
+								<span class="keep">
+									<p-label color="var(--red)">bez mandátu</p-label>
+								</span>
+								<span class="dimm">    </span>
+								<span class="keep">
+									<p-label color="var(--yellow)">zisk mandátu hostujícího člena</p-label>
+								</span>
+								<span class="dimm">    </span>
+								<span class="keep">
+									<p-label color="var(--greyish)">hostující členové bez mandátu</p-label>
+								</span>
+							</div>
 							<map-leaflet ref="map" :options="options" :map_filter="map_filter" :map_style="map_style" :map_onEachFeature="map_onEachFeature"></map-leaflet>
 							
 						</p-block>

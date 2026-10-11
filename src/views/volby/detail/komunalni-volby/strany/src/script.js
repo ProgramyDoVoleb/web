@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, sortBy, domain, unique} from '@/pdv/helpers';
+import {url, date, number, truncate, sortBy, domain, unique, pct} from '@/pdv/helpers';
 import {ga} from '@/pdv/analytics';
 import NewsItem from '@/components/news-item/do.vue'
 import NewsBlock from '@/components/news-block/do.vue'
@@ -58,7 +58,8 @@ export default {
 		sortBy,
 		domain,
 		colorByItem, logoByItem,
-		unique
+		unique,
+		pct
   },
   mounted: function () {
     window.scrollTo(0, 1);

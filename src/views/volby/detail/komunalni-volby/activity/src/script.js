@@ -140,6 +140,18 @@ export default {
 				if (party.MAND_STR > 0) {
 					fillOpacity = .25 + (party.MAND_STR * 2 / obec.MANDATY);
 				}
+			} else if (this.data && this.data.cis.volby.status === 3) {
+				var members = this.data.roque.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PLATNOST === "A" && x.PSTRANA == this.party);
+
+				var romem = members.filter(x => x.MANDAT === 'A').length;
+				if (romem > 0) {
+					color = 'var(--yellow)';
+					fillOpacity = .25 + (romem * 2 / obec.MANDATY);
+				} else {
+					color = 'var(--grey)';
+					fillOpacity = .25;
+				}
+				
 			} else {
 				
 				var pty = this.data.cis.strany.find(x => x.VSTRANA == this.party);
@@ -256,7 +268,9 @@ export default {
 			if (memberOnly) {
 				var members = this.data.roque.$kandidati.filter(x => x.KODZASTUP === obec.obec && x.PLATNOST === "A" && x.PSTRANA == this.party);
 				sortBy(members, 'PORCISLO').forEach(member => {
-					content.push('<div class="smaller">' + member.JMENO + ' ' + member.PRIJMENI + ', č. ' + member.PORCISLO + ', nominace <em>' + this.data.roque.cis.strany.find(x => x.VSTRANA === member.NSTRANA).ZKRATKA + '</em></div>')
+					content.push('<div class="smaller">');
+					if (this.data.cis.volby.status === 3) content.push('<img src="https://static.programydovoleb.cz/icon/icon-' + (member.MANDAT === 'A' ? 'check' : 'against') + '.svg" width="13" height="13"> ');
+					content.push(member.JMENO + ' ' + member.PRIJMENI + ', č. ' + member.PORCISLO + ', nominace <em>' + this.data.roque.cis.strany.find(x => x.VSTRANA === member.NSTRANA).ZKRATKA + '</em></div>')
 				});
 			}
 			

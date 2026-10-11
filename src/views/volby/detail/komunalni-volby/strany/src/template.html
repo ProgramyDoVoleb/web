@@ -6,7 +6,7 @@
 					<div v-if="data">
 						<p-area class="smallest">
 							<p-list-linear class="nebo">
-								<span>Seřadit <button class="inline" :class="{'green strong': sortByIndex === 'NAZEV'}" @click="sortByIndex = 'NAZEV'">podle názvu</button></span>
+								<span>Seřadit podle kandidátů: <button class="inline" :class="{'green strong': sortByIndex === 'NAZEV'}" @click="sortByIndex = 'NAZEV'">podle názvu</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$members'}" @click="sortByIndex = '$members'">členství</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$nominees'}" @click="sortByIndex = '$nominees'">nominace</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$total'}" @click="sortByIndex = '$total'">počtu zastupitelstev</button></span>
@@ -15,6 +15,17 @@
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$coal'}" @click="sortByIndex = '$coal'">koalic a dalších sdružení</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$roque'}" @click="sortByIndex = '$roque'">počtu hostujících členů</button></span>
 								<span><button class="inline" :class="{'green strong': sortByIndex === '$roqueCoco'}" @click="sortByIndex = '$roqueCoco'">počtu kandidátek hostujících členů</button></span>
+							</p-list-linear>
+							<p-list-linear class="nebo">
+								<strong>Seřadit podle zastupitelů</strong>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$membersMandat'}" @click="sortByIndex = '$membersMandat'">členství</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$nomineesMandat'}" @click="sortByIndex = '$nomineesMandat'">nominace</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$totalMandat'}" @click="sortByIndex = '$totalMandat'">počtu zastupitelstev</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$solemnMandat'}" @click="sortByIndex = '$solemnMandat'">samostatných kandidátek</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$withNKMandat'}" @click="sortByIndex = '$withNKMandat'">kandidátek s nezávislými kandidáty</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$coalMandat'}" @click="sortByIndex = '$coalMandat'">koalic a dalších sdružení</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$roqueMandat'}" @click="sortByIndex = '$roqueMandat'">počtu hostujících členů</button></span>
+								<span><button class="inline" :class="{'green strong': sortByIndex === '$roqueCocoMandat'}" @click="sortByIndex = '$roqueCocoMandat'">počtu kandidátek hostujících členů</button></span>
 							</p-list-linear>
 							<div class="p-line _05"></div>
 							<p-list-linear class="nebo">
@@ -50,14 +61,14 @@
 										<p-image :src="logoByItem(party, {cis: {strany:[party]}})" class="rounded _ar"></p-image>
 									</td>
 									<td><router-link :to="link + 'aktivita/' + party.VSTRANA">{{ truncate(party.NAZEV, 32, true) }}</router-link></td>
-									<td v-if="width > 1000 || sortByIndex === '$members'" class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
-									<td v-if="width > 1000 || sortByIndex === '$nominees'" class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>									
-									<td v-if="width > 1000 || sortByIndex === '$total'" class="text-right _bl" :class="{strong: sortByIndex === '$total'}">{{ number(party.$total) }}</td>
-									<td v-if="width > 1000 || sortByIndex === '$solemn'" class="text-right" :class="{strong: sortByIndex === '$solemn'}">{{ number(party.$solemn) }}</td>
-									<td v-if="width > 1000 || sortByIndex === '$withNK'" class="text-right" :class="{strong: sortByIndex === '$withNK'}">{{ number(party.$withNK) }}</td>
-									<td v-if="width > 1000 || sortByIndex === '$coal'" class="text-right" :class="{strong: sortByIndex === '$coal'}">{{ number(party.$coal) }}</td>
-									<td v-if="width > 1000 || sortByIndex === '$roque'" class="text-right _bl" :class="{strong: sortByIndex === '$roque'}">{{ number(party.$roque) }}</td>
-									<td v-if="width > 1000 || sortByIndex === '$roqueCoco'" class="text-right" :class="{strong: sortByIndex === '$roqueCoco'}">{{ number(party.$roqueCoco) }}</td>
+									<td v-if="width > 1000 || sortByIndex === '$membersMandat' || sortByIndex === '$members'" class="text-right" :class="{strong: sortByIndex === '$membersMandat' || sortByIndex === '$members'}">{{ number(party.$members) }} <div class="smaller green">{{ number(party.$membersMandat) }}</div> <div class="tiny dimm">{{ party.$members > 0 ? pct(party.$membersMandat, party.$members) + ' %' : '–' }}</div></td>
+									<td v-if="width > 1000 || sortByIndex === '$nomineesMandat' || sortByIndex === '$nominees'" class="text-right" :class="{strong: sortByIndex === '$nomineesMandat' || sortByIndex === '$nominees'}">{{ number(party.$nominees) }} <div class="smaller green">{{ number(party.$nomineesMandat) }}</div> <div class="tiny dimm">{{ party.$nominees > 0 ? pct(party.$nomineesMandat, party.$nominees) + ' %' : '–' }}</div></td>							
+									<td v-if="width > 1000 || sortByIndex === '$totalMandat' || sortByIndex === '$total'" class="text-right _bl" :class="{strong: sortByIndex === '$totalMandat' || sortByIndex === '$total'}">{{ number(party.$total) }} <div class="smaller green">{{ number(party.$totalMandat) }}</div> <div class="tiny dimm">{{ party.$total > 0 ? pct(party.$totalMandat, party.$total) + ' %' : '–' }}</div></td>
+									<td v-if="width > 1000 || sortByIndex === '$solemnMandat' || sortByIndex === '$solemn'" class="text-right" :class="{strong: sortByIndex === '$solemnMandat' || sortByIndex === '$solemn'}">{{ number(party.$solemn) }} <div class="smaller green">{{ number(party.$solemnMandat) }}</div> <div class="tiny dimm">{{ party.$solemn > 0 ? pct(party.$solemnMandat, party.$solemn) + ' %' : '–' }}</div></td>
+									<td v-if="width > 1000 || sortByIndex === '$withNKMandat' || sortByIndex === '$withNK'" class="text-right" :class="{strong: sortByIndex === '$withNKMandat' || sortByIndex === '$withNK'}">{{ number(party.$withNK) }} <div class="smaller green">{{ number(party.$withNKMandat) }}</div> <div class="tiny dimm">{{ party.$withNK > 0 ? pct(party.$withNKMandat, party.$withNK) + ' %' : '–' }}</div></td>
+									<td v-if="width > 1000 || sortByIndex === '$coalMandat' || sortByIndex === '$coal'" class="text-right" :class="{strong: sortByIndex === '$coalMandat' || sortByIndex === '$coal'}">{{ number(party.$coal) }} <div class="smaller green">{{ number(party.$coalMandat) }}</div> <div class="tiny dimm">{{ party.$coal > 0 ? pct(party.$coalMandat, party.$coal) + ' %' : '–' }}</div></td>
+									<td v-if="width > 1000 || sortByIndex === '$roqueMandat' || sortByIndex === '$roque'" class="text-right _bl" :class="{strong: sortByIndex === '$roqueMandat' || sortByIndex === '$roque'}">{{ number(party.$roque) }} <div class="smaller green">{{ number(party.$roqueMandat) }}</div> <div class="tiny dimm">{{ party.$roque > 0 ? pct(party.$roqueMandat, party.$roque) + ' %' : '–' }}</div></td>
+									<td v-if="width > 1000 || sortByIndex === '$roqueCocoMandat' || sortByIndex === '$roqueCoco'" class="text-right" :class="{strong: sortByIndex === '$roqueCocoMandat' || sortByIndex === '$roqueCoco'}">{{ number(party.$roqueCoco) }} <div class="smaller green">{{ number(party.$roqueCocoMandat) }}</div> <div class="tiny dimm">{{ party.$roqueCoco > 0 ? pct(party.$roqueCocoMandat, party.$roqueCoco) + ' %' : '–' }}</div></td>
 								</tr>
 							</tbody>
 						</table>
