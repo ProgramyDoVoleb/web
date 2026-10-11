@@ -64,7 +64,36 @@ export default {
 				loading: null,
 				town: null,
 				data: null
-			}
+			},
+			se173_rnd2: [
+				{obvod: 3, cand: [3693, 3747]},
+				{obvod: 6, cand: [3685, 3790]},
+				{obvod: 9, cand: [3731, 3741]},
+				{obvod: 12, cand: [3688]},
+				{obvod: 15, cand: [3692, 3709]},
+				{obvod: 18, cand: [3694, 3791]},
+				{obvod: 21, cand: [3703, 3713]},
+				{obvod: 24, cand: [3695, 3778]},
+				{obvod: 27, cand: [3708, 3689]},
+				{obvod: 30, cand: [3686, 3707]},
+				{obvod: 33, cand: [3757]},
+				{obvod: 36, cand: [3806, 3683]},
+				{obvod: 39, cand: [3696]},
+				{obvod: 42, cand: [3719, 3761]},
+				{obvod: 45, cand: [3677, 3717]},
+				{obvod: 48, cand: [3698]},
+				{obvod: 51, cand: [3743, 3699]},
+				{obvod: 54, cand: [3684, 3728]},
+				{obvod: 57, cand: [3702]},
+				{obvod: 60, cand: [3690, 3704]},
+				{obvod: 63, cand: [3745, 3794]},
+				{obvod: 66, cand: [3797, 3795]},
+				{obvod: 69, cand: [3700, 3777]},
+				{obvod: 72, cand: [3734, 3735]},
+				{obvod: 75, cand: [3767, 3786]},
+				{obvod: 78, cand: [3687, 3780]},
+				{obvod: 81, cand: [3751, 3753]}
+			]
 		}
 	},
   components: {
@@ -114,6 +143,9 @@ export default {
 		},
 		el161: function () {
 			return null; this.$store.getters.pdv('elections/fetch/161');
+		},
+		el173: function () {
+			return this.$store.getters.pdv('elections/fetch/173');
 		},
 		polls: function () {
 			var p = this.$store.getters.pdv('polls/last-8');

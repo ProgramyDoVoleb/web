@@ -222,14 +222,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/senatni-volby/173').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1">
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.fullPath.split('/volby/senatni-volby/173').length > 1 || $route.fullPath.split('/bod/csu_senat').length > 1 || $route.fullPath === '/'">
 			<div class="smaller">
-				<strong><router-link to="/volby/senatni-volby/173" class="red">Senátní volby</router-link> </strong><strong> &middot; obvod </strong><p-list-linear class="or" >
-					<span class="strong" v-for="(obvod, index) in enums.obvody.filter(x => x.id % 3 === 0).map(x => x.id)"><router-link class="is-span" :to="'/volby/senatni-volby/173/obvod/' + obvod" @click="showMenu3 = false">{{ obvod }}</router-link></span>
+				<strong><router-link to="/volby/senatni-volby/173" class="red">2. kolo senátních voleb</router-link> </strong><strong> &middot; obvod </strong><p-list-linear class="or" >
+					<span class="strong" v-for="(obvod, index) in enums.obvody.filter(x => x.id % 3 === 0 && [12,33,39,48,57].indexOf(x.id) === -1).map(x => x.id)"><router-link class="is-span" :to="'/volby/senatni-volby/173/obvod/' + obvod" @click="showMenu3 = false">{{ obvod }}</router-link></span>
 				</p-list-linear>
 			</div>
 		</div>
-		<div class="row cmenu" :class="{showMenu3}" v-if="$route.path === '/'">
+		<div class="row cmenu" :class="{showMenu3}" v-if="$route.path === '/xxx'">
 			<div class="smaller p-offset reverse balanced">
 				<div>
 					<strong><router-link to="/volby/komunalni-volby/176" class="blue">Komunální volby</router-link> </strong>

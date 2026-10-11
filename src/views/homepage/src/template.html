@@ -2,12 +2,65 @@
 	
 	<p-layout-divided ref="page">
 		<template #main>
-			<p-block :headline="daysUntil('2026-10-09 14:00:00') + ' dní do voleb'" anchor="Volby" :level="1" :hide="true">
+			<p-block headline="Volby" anchor="Volby" :level="1" :hide="true">
 
-			<p-block headline="Sčítání" :hide="true" v-if="(new Date()).toISOString() > '2026-10-10T12:00:00.000Z'">
-				<!-- <p-area class="highlight shadow _ha" padding="2em"> -->
+
+
+			<p-block headline="Výsledky voleb" :open="true" :hide="true">
+				<div class="text-center smaller strong mb05">Výsledky voleb do zastupitelstva:</div>
+				<template v-if="resultsTown.loading === false && resultsTown.data != null">
+					<results-quick :data="resultsTown.data" :town="resultsTown.town" :key="resultsTown.town"></results-quick>
+					<div class="p-line"></div>
+				</template>
+				<search-town :cb="true" @update="(item) => resultsTownChange(item.obec)"></search-town>
+				<div class="p-gap _05"></div>
+				<p-collapsible icon="senatni-volby" label="Senátní volby">
+					<results-quick-senat obvod="all"></results-quick-senat>
+				</p-collapsible>
+			</p-block>
+
+			<p-block headline="2. kolo senátních voleb" :hide="true">
+				<h1 class="quando text-center mt0">2. kolo senátních voleb</h1>
+				<div class="text-center mt-05 mb3 _mw _ma">
+					<p-area class="shadow highlight inline smaller strong" background="var(--blue)" color="var(--white)">16. a 17. října 2026</p-area>
+				</div>
+				<p-columns class="_1_2_4" v-if="el173">
+					<div v-for="obv in se173_rnd2">
+						<p-area :class="{'highlight shadow': obv.cand.length === 2}">
+							<div class="smallest" :class="{mb15: obv.cand.length === 2}">
+								<strong>Obvod {{ obv.obvod }} &middot; <router-link class="is-span" :to="'/volby/senatni-volby/173/obvod/' + obv.obvod">{{ enums.obvody.find(x => x.id === obv.obvod).name }}</router-link></strong>
+							</div>
+							<p-list class="_05" v-if="obv.cand.length === 2">
+								<div v-for="cand in el173.list[0].$kandidati.filter(x => obv.cand.indexOf(x.id) > -1)">
+									<div class="p-offset">
+										<div>
+											<p-image :src="logoByItem(cand, el173, 'NSTRANA')" :rounded="true"></p-image>
+										</div>
+										<div>
+											<router-link :to="'/volby/senatni-volby/173/kandidat/' + cand.id" class="strong">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+											<div class="smaller dimm">{{ cand.NAZEV_VS }}</div>
+										</div>
+									</div>
+									
+									
+								</div>
+							</p-list>
+							<div class="smallest" v-if="obv.cand.length === 1">
+								Senátorem se v prvním kole stal
+								<span v-for="cand in el173.list[0].$kandidati.filter(x => obv.cand.indexOf(x.id) > -1)" class="keep">
+									<router-link :to="'/volby/senatni-volby/173/kandidat/' + cand.id" class="is-span strong">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+								</span>.
+							</div>
+						</p-area>
+					</div>
+				</p-columns>
+			</p-block>
+
+			<!-- <p-block headline="Sčítání" :hide="true" v-if="(new Date()).toISOString() > '2026-10-10T12:00:00.000Z'">
+				
 					<div>
-						<h1 class="quando text-center mt0">Sčítání</h1>
+						<h1 class="quando text-center mt0">Výsledky</h1>
+						
 						<div class="text-center mt-1 mb15 _mw _ma">Podívejte se na průběžné výsledky a kdo by se stal zastupitelem</div>
 						<template v-if="resultsTown.loading === false && resultsTown.data != null">
 							<results-quick :data="resultsTown.data" :town="resultsTown.town" :key="resultsTown.town"></results-quick>
@@ -19,10 +72,10 @@
 						<results-quick-senat obvod="all"></results-quick-senat>
 						<div class="p-line mt2"></div>
 					</div>
-				<!-- </p-area> -->
-			</p-block>
+				
+			</p-block> -->
 
-			<p-block headline="Průvodce" :hide="true" v-else>
+			<!-- <p-block headline="Průvodce" :hide="true" v-else>
 				<p-area class="highlight shadow _ha" padding="2em">
 					<div>
 						<h1 class="quando text-center mt0">Průvodce volbami</h1>
@@ -32,7 +85,7 @@
 						<search-town link="/pruvodce/2026/"></search-town>
 					</div>					
 				</p-area>
-			</p-block>
+			</p-block> -->
 
 				<!-- <template v-if="elections && elections.list.find(x => x.radne === 0 && x.status < 3 && x.datum <= today)">
 					<div class="p-gap"></div>
@@ -53,90 +106,6 @@
 					<!-- <h1 class="quando">{{ Math.round((new Date(new Date('2026-10-09 14:00:00') - new Date()).getTime()) / (1000 * 60 * 60 * 24)) }} dní do voleb</h1> -->
 					<p-grid>
 						<div>
-							<p-area class="highlidght" icon="komunalni-volby">
-								<div class="p-offset reverse">
-									<div>
-										<h4 class="mt0 mb0 blue">
-											<router-link to="/volby/komunalni-volby/176">Komunální volby</router-link>
-										</h4>
-										<div class="smallest">
-											<p-list-linear class="or">
-												<span>
-													<router-link class="is-span" to="/lide?f=KV,UPCOMING">Hledat kandidáta</router-link>
-												</span>
-												<span>
-													<router-link class="is-span" to="/volby/komunalni-volby/176/strany">Aktivita stran</router-link>
-												</span>
-											</p-list-linear>
-										</div>
-									</div>
-									<div v-if="width < 10240">
-											<p-popup class="down">
-												<template #init>
-													<p-box>
-														<!-- <p-box-button>zast.</p-box-button> -->
-														<p-box-button icon="search"></p-box-button>
-													</p-box>
-												</template>
-												<template #content>
-													<strong>Vyhledat obec</strong>
-													<div class="mt1">
-														<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
-													</div>
-												</template>
-											</p-popup>
-									</div>
-								</div>
-							</p-area>
-						</div>
-						<div>
-							<p-area icon="cancel" class="higdhlight">
-								<h4 class="mt0 mb0">
-									<router-link to="/volby/komunalni-volby/176/hlasovani-nanecisto">Hlasování nanečisto</router-link>
-								</h4>
-								<div class="smallest">
-									Zkuste si vyplnit volební lístek.
-								</div>
-							</p-area>
-						</div>
-						<div>
-							<p-area icon="hint" class="higdhlight">
-								<h4 class="mt0 mb0">
-									<router-link to="/jak-volit/komunalni-volby">Jak volit?</router-link>
-								</h4>
-								<div class="smallest">
-									Kdo může volit? Kdy a kde?
-								</div>
-							</p-area>
-						</div>
-							<div>
-								<p-area icon="plus-green">
-									<h4 class="mv0">
-										Přidat
-										<p-popup class="inline">
-											<template #init>
-												<button class="inline">volební program</button>
-											</template>
-											<template #content>
-												<editable-suggest type="program" part="homepage:suggestion" link="1"></editable-suggest>
-											</template>
-										</p-popup>
-									</h4>
-									<div class="smallest">
-										Nebo priority. Nebo 
-										<p-popup class="down">
-											<template #init>
-												<span class="is-span">volební leták</span>
-												
-											</template>
-											<template #content>
-												<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
-											</template>
-										</p-popup>.
-									</div>
-								</p-area>
-							</div>
-						<div>
 							<p-area class="highligdht" icon="senatni-volby">
 								<div class="p-offset reverse">
 									<div>
@@ -144,7 +113,7 @@
 											<router-link to="/volby/senatni-volby/173">Senátní volby</router-link>
 										</h4>
 										<div class="smallest">
-											<p-list-linear class="or">
+											<!-- <p-list-linear class="or">
 												<span>
 													<router-link class="is-span" to="/volby/senatni-volby/173/otazka/449">Zaměření</router-link>
 												</span>
@@ -154,7 +123,8 @@
 												<span>
 													<router-link class="is-span" to="/volby/senatni-volby/173/strany">Strany</router-link>
 												</span>
-											</p-list-linear>
+											</p-list-linear> -->
+											Druhé kolo je 16. a 17. října
 										</div>
 									</div>
 									<div v-if="width < 10240">
@@ -186,6 +156,91 @@
 								</div>
 							</p-area>
 						</div>
+						<div>
+							<p-area class="highlidght" icon="komunalni-volby">
+								<div class="p-offset reverse">
+									<div>
+										<h4 class="mt0 mb0 blue">
+											<router-link to="/volby/komunalni-volby/176">Komunální volby</router-link>
+										</h4>
+										<div class="smallest">
+											<!-- <p-list-linear class="or">
+												<span>
+													<router-link class="is-span" to="/lide?f=KV,UPCOMING">Hledat kandidáta</router-link>
+												</span>
+												<span>
+													<router-link class="is-span" to="/volby/komunalni-volby/176/strany">Aktivita stran</router-link>
+												</span>
+											</p-list-linear> -->
+											Výsledky podle obcí
+										</div>
+									</div>
+									<div v-if="width < 10240">
+											<p-popup class="down">
+												<template #init>
+													<p-box>
+														<!-- <p-box-button>zast.</p-box-button> -->
+														<p-box-button icon="search"></p-box-button>
+													</p-box>
+												</template>
+												<template #content>
+													<strong>Vyhledat obec</strong>
+													<div class="mt1">
+														<search-town link="/volby/komunalni-volby/176/obec/"></search-town>
+													</div>
+												</template>
+											</p-popup>
+									</div>
+								</div>
+							</p-area>
+						</div>
+						<!-- <div>
+							<p-area icon="cancel" class="higdhlight">
+								<h4 class="mt0 mb0">
+									<router-link to="/volby/komunalni-volby/176/hlasovani-nanecisto">Hlasování nanečisto</router-link>
+								</h4>
+								<div class="smallest">
+									Zkuste si vyplnit volební lístek.
+								</div>
+							</p-area>
+						</div> -->
+						<!-- <div>
+							<p-area icon="hint" class="higdhlight">
+								<h4 class="mt0 mb0">
+									<router-link to="/jak-volit/komunalni-volby">Jak volit?</router-link>
+								</h4>
+								<div class="smallest">
+									Kdo může volit? Kdy a kde?
+								</div>
+							</p-area>
+						</div> -->
+							<!-- <div>
+								<p-area icon="plus-green">
+									<h4 class="mv0">
+										Přidat
+										<p-popup class="inline">
+											<template #init>
+												<button class="inline">volební program</button>
+											</template>
+											<template #content>
+												<editable-suggest type="program" part="homepage:suggestion" link="1"></editable-suggest>
+											</template>
+										</p-popup>
+									</h4>
+									<div class="smallest">
+										Nebo priority. Nebo 
+										<p-popup class="down">
+											<template #init>
+												<span class="is-span">volební leták</span>
+												
+											</template>
+											<template #content>
+												<editable-image :elections="176" pointer="pdv_suggestions:1" type="graphics"></editable-image>
+											</template>
+										</p-popup>.
+									</div>
+								</p-area>
+							</div> -->
 						<div>
 							<p-area icon="support" class="higdhlight">
 								<h4 class="mt0 mb0">
@@ -226,8 +281,8 @@
 							</p-area>
 						</div>
 					</p-grid>
-					<div class="p-gap _2"></div>
-					<p-area class="highlight shadow">
+					<!-- <div class="p-gap _2"></div> -->
+					<!-- <p-area class="highlight shadow">
 						<p-collapsible icon="youtube" label="Jak volit a nepřijít o hlas?" borderless="1" status="2:25">						
 							<iframe class="_if" width="100%" height="auto" src="https://www.youtube.com/embed/dmXP5pjUEF0?si=UGvPkrhhIp2-VyOr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 							<p-box-group>
@@ -239,10 +294,10 @@
 								</p-box>
 							</p-box-group>
 						</p-collapsible>
-					</p-area>
+					</p-area> -->
 					<p>
 						<p-truncated-content>
-							<strong>9. a 10. října 2026</strong> proběhnou <router-link to="/volby/komunalni-volby/176" class="is-span">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link> v 27 obvodech. Na tomto webu najdete přehled všech kandidátů, stran i koalic, jejich volební historii a také mnoho doplňujících informací. Pomůžou vám odkazy na volební programy, weby nebo sociální sítě, odpovědi kandidátů a odkazy na rozhovory a zmínky v médiích.
+							<strong>9. a 10. října 2026</strong> proběhly <router-link to="/volby/komunalni-volby/176" class="is-span">komunální volby</router-link> ve všech obcích, souběžně s nimi i první kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link> v 27 obvodech. Na tomto webu najdete přehled všech kandidátů, stran i koalic, jejich volební historii a také mnoho doplňujících informací. Pomůžou vám odkazy na volební programy, weby nebo sociální sítě, odpovědi kandidátů a odkazy na rozhovory a zmínky v médiích.
 						</p-truncated-content>
 					</p>
 					<!-- <p class="smaller strong">						
