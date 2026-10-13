@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, slide, date, number, truncate, con, gradient, color, pct, sortBy, isWoman, type, townInRegularElectionsAlsoVotesInSenat, partyInCis, getMedia, toggleItem} from '@/pdv/helpers';
+import {url, slide, date, number, truncate, con, gradient, unique, indicator, color, pct, sortBy, isWoman, type, townInRegularElectionsAlsoVotesInSenat, partyInCis, getMedia, toggleItem, colorByItem, logoByItem} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
@@ -74,8 +74,11 @@ export default {
 		current: function () {
 			return this.data ? this.data.list[0] : null;
 		},
+		prevData: function () {
+			return this.$store.getters.pdv('elections/fetch/' + this.current.predchozi + ':' + this.town);
+		},
 		previous: function () {
-			return this.prev ? this.prev.list[0] : null
+			return this.prevData ? this.prevData.list[0] : null;
 		},
 		obvody: function () {
 			return this.current.$dotcene.find(x => x.OBVODY === 2) ? this.current.$dotcene.filter(x => x.OBVODY === 2 && x.COBVODU) : this.current.$dotcene
@@ -91,6 +94,24 @@ export default {
 		},
 		media: function () {
 			return this.$store.getters.pdv('elections/specific/2026-media');
+		},
+		localPartyMandates: function () {
+			var arr = [];
+
+			this.current.$strany.filter(x => x.SLOZENI === 80 && this.previous.$strany.find(y => y.NAZEV === x.NAZEV)).forEach(party => {
+				var o = {
+					party,
+					previous: 0,
+					current: 0
+				}
+
+				o.current = this.current.$kandidati.filter(x => x.MANDAT === 'A' && x.POR_STR_HL === party.POR_STR_HL).length;
+				o.previous = this.previous.$kandidati.filter(x => x.MANDAT === 'A' && x.POR_STR_HL === this.previous.$strany.find(y => y.NAZEV === party.NAZEV).POR_STR_HL).length;
+
+				arr.push(o);
+			})
+
+			return arr;
 		}
 	},
   methods: {
@@ -107,7 +128,11 @@ export default {
 		slide,
 		getMedia,
 		toggleItem,
-		colorByItem: function (item, data) {
+		unique,
+		indicator,
+		colorByItem,
+		logoByItem,
+		colorByItem2: function (item, data) {
 
 			var res = con(item.$data, 'color');
 			var s = (data || this.data).cis.strany.find(x => x.VSTRANA === item.VSTRANA);
@@ -130,7 +155,7 @@ export default {
 
 			return res || '#aaa';
 		},
-		logoByItem: function (item, data) {
+		logoByItem2: function (item, data) {
 
 			var res = con(item.$data, 'logo');
 			var s = (data || this.data).cis.strany.find(x => x.VSTRANA === item.VSTRANA);
@@ -196,8 +221,8 @@ export default {
 					label: truncate(d.NAZEV, 10),
 					short: d.ZKRATKA,
 					link: '/volby/komunalni-volby/' + this.current.id + '/strana/' + this.current.$strany.filter(x => x.OSTRANA === d.OSTRANA).map(x => x.id).join(','),
-					color: this.colorByItem(d),
-					logo: this.logoByItem(d),
+					color: this.colorByItem(d, this.data),
+					logo: this.logoByItem(d, this.data),
 					votes: item.HLASU,
 					pct: item.PROCENT,
 					mandates: item.MANDATU,
@@ -217,8 +242,8 @@ export default {
 
 					p.$coalition.forEach(x => {
 						var m = {
-							logo: this.logoByItem(x),
-							color: this.colorByItem(x),
+							logo: this.logoByItem(x, this.data),
+							color: this.colorByItem(x, this.data),
 							short: x.ZKRATKA,
 							VSTRANA: x.VSTRANA
 						}
@@ -273,7 +298,7 @@ export default {
 						if (this.obvody.length > 1) p.region = person.COBVODU;
 
 						if (person.NSTRANA && person.NSTRANA != item.VSTRANA && item.VSTRANA != 90 && item.VSTRANA != 80) {
-							p.color = this.colorByItem(this.data.cis.strany.find(x => x.VSTRANA === person.NSTRANA))
+							p.color = this.colorByItem(this.data.cis.strany.find(x => x.VSTRANA === person.NSTRANA), this.data)
 						}
 
 						o.list.push(p);
@@ -408,6 +433,7 @@ export default {
 		}
   },
   mounted: function () {
+	window.scrollTo(0,1);
 	sortBy(this.data.list[0].$strany, 'NAZEV', null, true).forEach(party => {
 		this.dhondt.push({
 			id: party.id,
@@ -416,5 +442,10 @@ export default {
 			mandates: 0
 		});
 	});
+  },
+  watch: {
+	town: function () {
+		window.scrollTo(0,1);
+	}
   }
 };

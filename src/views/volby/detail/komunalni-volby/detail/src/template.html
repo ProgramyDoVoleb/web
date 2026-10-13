@@ -343,6 +343,109 @@
 		</p-area>
 	</p-block>
 	<candidate-stats v-if="current.status > 1" :data="current.$kandidati" :cis="data.cis" :status="current.status" :simple="true" color="var(--blue)"></candidate-stats>
+	<p-block headline="Změna zisku mandátů" subheadline="Podle nominující strany" v-if="current.status === 3">
+		<p-area class="highlight shadow" padding="0" v-if="previous">
+			<div class="sticky smaller">
+				<table>
+					<thead>
+						<tr>							
+							<th>Strana</th>
+							<th class="text-right">{{ previous.datum.split('-')[0] }}</th>
+							<th class="text-right">{{ current.datum.split('-')[0] }}</th>
+							<th class="text-right">změna</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(party) in unique([].concat(current.$kandidati, previous.$kandidati), 'NSTRANA').filter(x => x != 80)">							
+							<td :style="{background: 'var(--' + indicator(current.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length, previous.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length) + '11)'}">
+								<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === party) || prevData.cis.strany.find(x => x.VSTRANA === party), data)" class="block">
+									<router-link :to="'/rejstrik/' + party">{{ (data.cis.strany.find(x => x.VSTRANA === party) || prevData.cis.strany.find(x => x.VSTRANA === party)).ZKRATKA }}</router-link>
+								</p-label>
+							</td>
+							<td class="text-right" :class="{'smallest dimm': previous.$kandidati.filter(x => x.NSTRANA === party).length === 0}">{{ previous.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length }}</td>
+							<td class="text-right" :class="{'smallest dimm': current.$kandidati.filter(x => x.NSTRANA === party).length === 0}">{{ current.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length }}</td>
+							<td class="text-right strong">
+								<p-label :after="1" :color="indicator(current.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length, previous.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length, 'var(--greyish)')">
+									{{ current.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length - previous.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length > 0 ? '+' : '' }}{{ current.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length - previous.$kandidati.filter(x => x.NSTRANA === party && x.MANDAT === 'A').length }} 
+								</p-label>
+							</td>
+						</tr>
+						<tr>
+							<td class="smallest dimm" colspan="100">— místní sdružení se stejným názvem jako minule</td>
+						</tr>
+						<tr v-for="item in localPartyMandates">
+							<td :style="{background: 'var(--' + indicator(item.current, item.previous) + '11)'}">
+								<p-label :color="colorByItem(item.party, data)" class="block">
+									{{ item.party.NAZEV }}
+								</p-label>
+							</td>
+							<td class="text-right">
+								{{ item.previous }}
+							</td>
+							<td class="text-right">
+								{{ item.current }}
+							</td>
+							<td class="text-right strong">
+								<p-label :after="1" :color="indicator(item.current, item.previous, 'var(--greyish)')">
+									{{ item.current - item.previous > 0 ? '+' : '' }}{{ item.current - item.previous }} 
+								</p-label>
+							</td>
+						</tr>
+						<tr>
+							<td class="smallest dimm" colspan="100">Zbývající mandáty v daném roce patří kandidátům místních uskupení, která šla do voleb ve sdružení s nějakou stranou.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</p-area>
+	</p-block>
+	<p-block headline="Obhájili mandát" subheadline="+ název uskupení, pořadí a přeskočení" v-if="current.status === 3 && current && previous">
+		<p-area class="highlight shadow" padding="0">
+			<div class="sticky smaller">
+				<table>
+					<thead>
+						<tr>
+							<th>Kandidát</th>
+							<th class="text-right">{{ previous.datum.split('-')[0] }}</th>
+							<th class="text-right">{{ current.datum.split('-')[0] }}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="cand in sortBy(current.$kandidati.filter(x => x.MANDAT === 'A' && previous.$kandidati.find(y => y.MANDAT === 'A' && y.JMENO === x.JMENO && y.PRIJMENI === x.PRIJMENI )), 'OSTRANA')">
+							<td>
+								<p-label :color="colorByItem(cand, data, 'PSTRANA')" class="block">
+									{{ cand.JMENO + ' ' + cand.PRIJMENI }}
+								</p-label>
+							</td>
+							<td class="text-right" v-for="prevcand in [previous.$kandidati.find(y => y.MANDAT === 'A' && y.JMENO === cand.JMENO && y.PRIJMENI === cand.PRIJMENI)]">
+								<span class="_mtw">{{ truncate(previous.$strany.find(x => x.POR_STR_HL === prevcand.POR_STR_HL).NAZEV, 2) }} &middot; </span>
+								{{ prevcand.PORCISLO }} &rarr; <span :class="indicator(prevcand.PORCISLO, prevcand.PORADIMAND, 'grey')">{{ prevcand.PORADIMAND }}</span>
+							</td>
+							
+							<td class="text-right">
+								<span class="_mtw">{{ truncate(current.$strany.find(x => x.POR_STR_HL === cand.POR_STR_HL).NAZEV, 2) }} &middot; </span>
+								{{ cand.PORCISLO }} &rarr; <span :class="indicator(cand.PORCISLO, cand.PORADIMAND, 'grey')">{{ cand.PORADIMAND }}</span></td>
+						</tr>
+						<tr>
+							<td colspan="100" class="smallest dimm text-center">— konec tabulky —</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</p-area>
+			<div class="smallest mt1">
+				Členství ve stranách &middot;
+				<p-list-linear class="or inline">
+					<template v-for="partyID in unique(current.$kandidati.filter(x => x.MANDAT === 'A'), 'PSTRANA').filter(x => x != 99)">
+						<template v-for="party in data.cis.strany.filter(x => x.VSTRANA === partyID)">
+							<span>
+								<p-label :color="colorByItem(party, data)">{{ party.ZKRATKA }}</p-label>
+							</span>
+						</template>
+					</template>
+				</p-list-linear>
+			</div>
+	</p-block>
 	<p-block v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0" headline="Otázky a odpovědi">
 		<template v-for="(qitem, qindex) in qenum">
 			<p-collapsible :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type && (!qitem.designated || qitem.designated === x.designated)).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0" icon="answers-mini">
@@ -395,7 +498,7 @@
 		</template>
 	</p-block>
 	<p-block headline="Může se hodit" v-if="!false">
-		<p-area class="highlight shadow" icon="results" borderColor="var(--blue)">
+		<p-area class="highlight shadow" icon="results" borderColor="var(--blue)" v-if="current.status < 3">
 			<div class="p-offset reverse">
 				<div>
 					<strong>Máte tip na výsledek?</strong>
@@ -409,7 +512,6 @@
 			</div>
 			
 		</p-area>
-		<div class="p-gap"></div>
 		<p-collapsible label="Aktivita stran" icon="calc">
 			<p-loader :rule="current && partyList">
 				<div v-if="current && partyList">

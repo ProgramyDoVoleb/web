@@ -27,7 +27,7 @@
   display: none !important;
 
   @media (min-width: 60em) {
-    display: inherit !important;
+    display: initial !important;
   }
 }
 

@@ -29,7 +29,7 @@ export default {
 		data: function () {
 			var d = this.$store.getters.pdv('party/upcoming/' + this.id);
 
-			if (d) {
+			if (d && d.cis) {
 				if (d.cis.okresy) {
 					var arr = [];
 

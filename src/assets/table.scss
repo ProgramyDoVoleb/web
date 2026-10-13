@@ -48,8 +48,10 @@ td, th {
   overflow: scroll;
   max-height: 80vh;
   border: var(--border);
+  border-bottom: none;
   border-radius: 1em;
   position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
 
   &:after {
     content: '';
@@ -57,19 +59,23 @@ td, th {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 1em;
+    height: 3em;
     pointer-events: none;
-    background: linear-gradient(#00000000, #00000015);
+    background: linear-gradient(#00000000, #00000033);
+    
     display: block;
   }
 
   thead {
     position: sticky;
     top: 0;
+    z-index: 100;
   }
 
   th {
     background: var(--bg);
     opacity: .95;
+    padding-top: 1em;
+    padding-bottom: .75em;
   }
 }

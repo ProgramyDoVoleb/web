@@ -30,3 +30,11 @@
 	aspect-ratio: 16/9;
 	border-radius: .5em;
 }
+
+._mtw {
+	display: block;
+
+	@media (min-width: 40em) {
+		display: inline;
+	}
+}
