@@ -1,9 +1,10 @@
 import {useData} from '@/stores/data';
 import axios from 'axios';
-import {date, sortBy, truncate, number} from '@/pdv/helpers';
+import {date, sortBy, truncate, number, toggleItem} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
+import EditableSuggest from '@/components/editable/suggest/do.vue';
 
 export default {
 	name: 'volby-komunal-results-quick',
@@ -11,6 +12,7 @@ export default {
 	components: {
 		ElectionTable, 
 		ElectionGraph, 
+		EditableSuggest
 	},
 	data: function () {
 		return {
@@ -19,8 +21,13 @@ export default {
 				kv176: 'https://volby.gov.cz/appdata/kv2026/20261009/odata/zastup/vysledky_obec_%%.xml'
 			},
 			csu: null,
+			majority: 0,
 			list: null,
-			loadInProgress: false
+			loadInProgress: false,
+			possibleCoalitions: [],
+			possibleCoalitionsLimit: [],
+			possibleCoalitionsAvoid: [],
+			tick: 0
 		}
 	},
 	computed: {
@@ -29,7 +36,7 @@ export default {
 		}
 	},
 	methods: {
-		date, sortBy, truncate,	colorByItem, logoByItem, number,
+		date, sortBy, truncate,	colorByItem, logoByItem, number, toggleItem,
 		loadCSU: async function () {
 			var url = this.sources['kv' + this.data.list[0].id].split('%%').join(this.town);
 			this.loadInProgress = true;
@@ -40,6 +47,7 @@ export default {
 				if (response.status === 200 && response.data.code === 200) {
 					this.csu = response.data.csu;
 					this.createList();
+					this.majority = Math.ceil(Number(this.csu.OBEC.$attributes.VOLENO_ZASTUP) / 2)
 				}
 
 				setTimeout(() => this.loadInProgress = false, 2500);
@@ -66,7 +74,7 @@ export default {
 
 			var obvody = this.csu.OBEC.VYSLEDEK.VOLEBNI_STRANA ? [this.csu.OBEC] : this.csu.OBEC.OBVOD;
 
-			obvody.forEach(obv => {
+			obvody.forEach((obv, obvIndex) => {
 
 				var obvdata = [];
 
@@ -124,11 +132,16 @@ export default {
 
 				obvdata.sort((a, b) => b.pct - a.pct);
 
+				this.possibleCoalitions = [];
+				this.checkPossibleCoalitions(obvIndex, obvdata.filter(x => x.mandates > 0), 0, []);
+
 				arr.push(obvdata);
 				
 			});
 
 			this.list = arr.length > 0 ? arr : null;
+
+			
 		},
 					dhondtCalculate: function (list, mandates) {
 
@@ -155,11 +168,58 @@ export default {
 						});
 
 						return list;
-					}
+					},
+		checkPossibleCoalitions: function (obvod, list, index, coal) {
+			// console.log('coal check', index);
+			if (index === list.length) {
+				if (this.majority <= coal.reduce((a, b) => a + b.mandates, 0)) {
+					this.possibleCoalitions.push({obvod, coal, size: coal.length, power: coal.reduce((a, b) => a + b.mandates, 0)});
+				} else {
+					// console.log(coal, coal.reduce((a, b) => a + b.mandates, 0));
+				}
+			} else {
+				this.checkPossibleCoalitions(obvod, list, index + 1, [].concat(coal, list[index]));
+				this.checkPossibleCoalitions(obvod, list, index + 1, coal);
+			}
+		},
+		checkPossibleCoalitionsMatch(obvod, list, avoid) {
+			var result = true;
+
+			if (avoid) {		
+				result = false;
+
+				this.possibleCoalitionsAvoid.forEach(x => {
+					if (list.find(y => y.id === x)) result = true;
+				});
+			} else {
+
+				this.possibleCoalitionsLimit.forEach(x => {
+					if (!list.find(y => y.id === x)) result = false;
+				});
+			}
+
+			// if (result === true) console.log(result, list, this.possibleCoalitionsLimit);
+
+			return result;
+		},
+		checkPossibleCoalitionsAvoidMatch(obvod, list, avoid) {
+			var result = true;
+
+			this.possibleCoalitionsAvoid.forEach(x => {
+				if (!list.find(y => y.id === x)) result = false;
+			});
+
+			return result;
+		}
 	},
 	mounted: function () {
 		this.loadCSU();
 
 		setInterval(() => this.loadCSU(), 1000 * 60 * 5); // every 5 minutes
+	},
+	watch: {
+		possibleCoalitionsLimit: function () {
+			// this.tick++;
+		}
 	}
 };

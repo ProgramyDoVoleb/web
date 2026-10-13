@@ -303,7 +303,7 @@
 								<strong>{{ age }} let: </strong>
 								<p-list-linear class="inline">
 									<span v-for="cand in sortBy(data.filter(x => x.PLATNOST === 'A' && x.VEK == age), 'PRIJMENI', null, true)" class="keep">
-										<router-link :to="'/bod/csu_kv_rk/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+										<router-link :to="'/bod/' + (table || 'csu_kv_rk') + '/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
 									</span>
 								</p-list-linear>
 							</div>
@@ -318,15 +318,15 @@
 				<strong>{{ age }} let: </strong>
 				<p-list-linear class="inline">
 					<span v-for="cand in sortBy(data.filter(x => x.PLATNOST === 'A' && x.VEK == age), 'PRIJMENI', null, true)" class="keep">
-						<router-link :to="'/bod/csu_kv_rk/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+						<router-link :to="'/bod/' + (table || 'csu_kv_rk') + '/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
 					</span>
 				</p-list-linear>
 			</div>
 		</p-block>
-		<template :v-if="status === 3">
-			<p-block headline="Nejmladší a nejstarší úspěšní kandidáti" class="mt2" :level="3" :hide="true" v-if="agesLength.mandates > 1">
+		<template v-if="status === 3">
+			<p-block headline="Nejmladší a nejstarší úspěšní kandidáti" class="mt2" :level="3" :hide="true" v-if="agesLength.mandates > 0">
 				<div class="p-line mt-2 mb1" v-if="simple"></div>
-				<h3>Získali mandát</h3>
+				<h3 class="green">Získali mandát</h3>
 				<div class="columns">
 					<div v-for="(value, key) in agesResults">
 						<!-- <p-area> -->
@@ -336,7 +336,7 @@
 									<strong>{{ age }} let: </strong>
 									<p-list-linear class="inline">
 										<span v-for="cand in sortBy(data.filter(x => x.PLATNOST === 'A' && x.VEK == age && (x.MANDAT === 'A' || x.ZVOLEN_K2 === 1 || x.ZVOLEN_K1 === 1)), 'PRIJMENI', null, true)" class="keep">
-											<router-link :to="'/bod/csu_kv_rk/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+											<router-link :to="'/bod/' + (table || 'csu_kv_rk') + '/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
 										</span>
 									</p-list-linear>
 								</div>
@@ -352,7 +352,7 @@
 					<strong>{{ age }} let: </strong>
 					<p-list-linear class="inline">
 						<span v-for="cand in sortBy(data.filter(x => x.PLATNOST === 'A' && x.VEK == age && (x.MANDAT === 'A' || x.ZVOLEN_K2 === 1 || x.ZVOLEN_K1 === 1)), 'PRIJMENI', null, true)" class="keep">
-							<router-link :to="'/bod/csu_kv_rk/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
+							<router-link :to="'/bod/' + (table || 'csu_kv_rk') + '/' + cand.id" class="is-span">{{ cand.JMENO }} {{ cand.PRIJMENI }}</router-link>
 						</span>
 					</p-list-linear>
 				</div>

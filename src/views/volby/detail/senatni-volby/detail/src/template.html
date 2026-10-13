@@ -57,7 +57,7 @@
 		<div class="p-gap_2"></div>
 		<p-block headline="Statistiky" v-if="current.$ucast">
 			<p-area>
-				<election-stats :data="current.$ucast" :results="current.$vysledky"></election-stats>
+				<election-stats table="csu_senat_rk" :data="current.$ucast" :results="current.$vysledky"></election-stats>
 			</p-area>
 		</p-block>
 	</template>
@@ -145,7 +145,7 @@
 			</p-grid>
 		</p-block>
 	</template>
-	<candidate-stats v-if="current.status > 1" :data="current.$kandidati" :cis="data.cis" :status="current.status" :simple="true" color="var(--blue)"></candidate-stats>
+	<candidate-stats v-if="current.status > 1" table="csu_senat_rk" :data="current.$kandidati" :cis="data.cis" :status="current.status" :simple="true" color="var(--blue)"></candidate-stats>
 	<!-- <p-block headline="Podpořte Programy" subheadline="aby se o nestranných přehledech a volebních programech dozvědělo co nejvíce lidí" anchor="" class="green" v-if="current.editace === 1">
 		<engagement-support></engagement-support>
 	</p-block> -->

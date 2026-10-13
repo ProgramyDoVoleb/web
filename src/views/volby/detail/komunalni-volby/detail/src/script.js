@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, slide, date, number, truncate, con, gradient, color, pct, sortBy, isWoman, type, townInRegularElectionsAlsoVotesInSenat, partyInCis, getMedia} from '@/pdv/helpers';
+import {url, slide, date, number, truncate, con, gradient, color, pct, sortBy, isWoman, type, townInRegularElectionsAlsoVotesInSenat, partyInCis, getMedia, toggleItem} from '@/pdv/helpers';
 import ReportModal from '@/components/report-modal/do.vue';
 import ElectionTable from '@/components/results/parties/table/do.vue';
 import ElectionGraph from '@/components/results/parties/graph/do.vue';
@@ -35,7 +35,13 @@ export default {
 				{type: 3, label: 'Kalkulačka', hash: 'kalkulacka'}
 			],
 			compactList: window.width < 1240 ? 1 : 2,
-			dhondt: []
+			dhondt: [],
+			majority: 0,
+			possibleCoalitions: [],
+			possibleCoalitionsCheckDone: false,
+			possibleCoalitionsLimit: [],
+			possibleCoalitionsAvoid: [],
+			list: null,
 		}
 	},
   components: {
@@ -66,7 +72,7 @@ export default {
 			return useEnums()
 		},
 		current: function () {
-			return this.data ? this.data.list[0] : null
+			return this.data ? this.data.list[0] : null;
 		},
 		previous: function () {
 			return this.prev ? this.prev.list[0] : null
@@ -100,6 +106,7 @@ export default {
 		partyInCis,
 		slide,
 		getMedia,
+		toggleItem,
 		colorByItem: function (item, data) {
 
 			var res = con(item.$data, 'color');
@@ -134,6 +141,9 @@ export default {
 
 			return res;
 		},
+		sbv: function (obvod, index) {
+			return this.sortByVotes(this.current.$vysledky, this.current.$strany, obvod.OBVODY === 2 ? index + 1 : null);
+		},
 		sortByVotes: function (list, parties, obvod) {
 			var arr = [];
 			var arr2 = [];
@@ -150,6 +160,17 @@ export default {
 			var l = arr.concat(arr2);
 
 			var res = this.parties(l, parties);
+
+			this.list = res;
+
+			if (this.possibleCoalitionsCheckDone === false) {
+				this.possibleCoalitionsCheckDone = true;
+
+				this.majority = Math.ceil(this.current.$dotcene[0].MANDATY / 2);
+				this.possibleCoalitions = [];
+
+				this.checkPossibleCoalitions(obvod, res.filter(x => x.mandates > 0), 0, []);
+			}
 
 			return res;
 		},
@@ -342,6 +363,48 @@ export default {
 			this.dhondt.forEach(item => {
 				item.mandates = arr.filter(x => x.item.id === item.id).length;
 			});
+		},
+		checkPossibleCoalitions: function (obvod, list, index, coal) {
+			// console.log('coal check', index);
+			if (index === list.length) {
+				if (this.majority <= coal.reduce((a, b) => a + b.mandates, 0)) {
+					this.possibleCoalitions.push({obvod, coal, size: coal.length, power: coal.reduce((a, b) => a + b.mandates, 0)});
+				} else {
+					// console.log(coal, coal.reduce((a, b) => a + b.mandates, 0));
+				}
+			} else {
+				this.checkPossibleCoalitions(obvod, list, index + 1, [].concat(coal, list[index]));
+				this.checkPossibleCoalitions(obvod, list, index + 1, coal);
+			}
+		},
+		checkPossibleCoalitionsMatch(obvod, list, avoid) {
+			var result = true;
+
+			if (avoid) {		
+				result = false;
+
+				this.possibleCoalitionsAvoid.forEach(x => {
+					if (list.find(y => y.id === x)) result = true;
+				});
+			} else {
+
+				this.possibleCoalitionsLimit.forEach(x => {
+					if (!list.find(y => y.id === x)) result = false;
+				});
+			}
+
+			// if (result === true) console.log(result, list, this.possibleCoalitionsLimit);
+
+			return result;
+		},
+		checkPossibleCoalitionsAvoidMatch(obvod, list, avoid) {
+			var result = true;
+
+			this.possibleCoalitionsAvoid.forEach(x => {
+				if (!list.find(y => y.id === x)) result = false;
+			});
+
+			return result;
 		}
   },
   mounted: function () {

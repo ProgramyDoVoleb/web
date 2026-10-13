@@ -4,7 +4,7 @@ import { useEnums } from '@/stores/enums';
 
 export default {
 	name: 'CandidateStats',
-	props: ['data', 'cis', 'color', 'status', 'slozeni', 'focus', 'simple', 'tag', 'label', 'headline', 'open'],
+	props: ['data', 'cis', 'color', 'status', 'slozeni', 'focus', 'simple', 'tag', 'label', 'headline', 'open', 'table'],
 	data: function () {
 		return {
 			selected: null,

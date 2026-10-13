@@ -106,45 +106,73 @@
 			<template v-if="current.status < 3">Na této stránce najdete také výsledky minulých voleb, zajímavé stratistiky, můžete si zkusit hlasování nanečisto nebo si tipnout výsledek.</template>
 		</p-truncated-content>
 	</p>
-	<template v-if="current.id === 176 && media && media.list.find(x => x.focus == Number(town))" headline="Může vás také zajímat" :hide="true">
-		<p-area class="inline smallest">
-			<p-list-linear class="or">
-				<span v-for="item in media.list.filter(x => x.focus == Number(town))">
-					<p-image :src="getMedia(item.link)" width="1em" :rounded="true" class="inline" v-if="!getMedia(item.link).includes('link.svg')"></p-image>
-					<p-icon :icon="item.type" width="1em" :rounded="true" class="inline" v-if="getMedia(item.link).includes('link.svg')"></p-icon> 
-					<p-link :href="item.link" class="strong">
-						{{ item.title }}
-					</p-link>
-				</span>
-			</p-list-linear>
-		</p-area>
-		<div class="p-gap"></div>
-	</template>
-	<template v-if="current.id === 176 && current.status === 2">
-		<div class="mv2" v-if="(new Date()).toISOString() > '2026-10-10T12:00:00.000Z'">
-			<results-quick :data="data" :town="town" :key="town"></results-quick>
-		</div>
-	</template>
 	<template v-if="current.status === 3 && current.$ucast.length > 0">
 		<template v-for="(obvod, index) in obvody">
 			<component :is="obvod.OBVODY === 2 ? 'p-block-expandable' : 'div'" :headline="'Obvod ' + (index + 1)">
 				<p-block headline="Výsledky">
 					<p-area class="relative">
-						<election-graph :list="sortByVotes(current.$vysledky, current.$strany, obvod.OBVODY === 2 ? index + 1 : null)"></election-graph>
+						<election-graph :list="sbv(obvod, index)"></election-graph>
 						<div class="p-gap"></div>
-						<p-collapsible label="Podrobné výsledky">
-							<election-table :list="sortByVotes(current.$vysledky, current.$strany, obvod.OBVODY === 2 ? index + 1 : null)"></election-table>
+						<p-collapsible icon="results" label="Podrobné výsledky">
+							<election-table :list="sbv(obvod, index)"></election-table>
+						</p-collapsible>
+						<!-- <div class="p-gap_2"></div> -->
+						<p-collapsible icon="list" label="Volební statistiky" v-if="current.$ucast">
+							<p-area>
+								<election-stats :data="current.$ucast.find(x => obvod.OBVODY === 2 ? x.OBVOD === obvod.COBVODU : true)" :results="current.$vysledky"></election-stats>
+							</p-area>
+						</p-collapsible>
+						<p-collapsible icon="hint" label="Možné koalice">
+							<p-area class="smallest">
+											Musí obsahovat:
+											<p-list-linear class="inline or">
+												<span v-for="item in sbv(obvod, index).filter(x => x.mandates > 0)">
+													<button class="inline" :class="{'strong green': possibleCoalitionsLimit.indexOf(item.id) > -1}" @click="toggleItem(item.id, possibleCoalitionsLimit)">{{ item.label }}</button>
+												</span>
+												<span v-if="possibleCoalitionsLimit.length > 0">
+													síla vybraných je {{ sbv(obvod, index).reduce((a, b) => a + (possibleCoalitionsLimit.indexOf(b.id) > -1 ? b.mandates : 0), 0) }}
+												</span>
+											</p-list-linear>
+											<div class="p-line _05"></div>
+											Nesmí obsahova:
+											<p-list-linear class="inline or">
+												<span v-for="item in sbv(obvod, index).filter(x => x.mandates > 0)">
+													<button class="inline" :class="{'strong red': possibleCoalitionsAvoid.indexOf(item.id) > -1}" @click="toggleItem(item.id, possibleCoalitionsAvoid)">{{ item.label }}</button>
+												</span>
+												<span v-if="possibleCoalitionsAvoid.length > 0">
+													síla vybraných je {{ sbv(obvod, index).reduce((a, b) => a + (possibleCoalitionsAvoid.indexOf(b.id) > -1 ? b.mandates : 0), 0) }}
+												</span>
+											</p-list-linear>
+										</p-area>
+										<div class="p-gap _15"></div>
+										<div class="sticky smaller">
+											<table>
+												<thead>
+													<tr>
+														<th>Koalice</th>
+														<th class="text-right">&sum;</th>
+														<th class="text-right">M</th>
+														<th class="text-right">+</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr v-for="(coal, ix) in sortBy(possibleCoalitions.filter(x => (!x.obvod || x.obvod === index) && x.power >= majority).filter(x => (possibleCoalitionsLimit.length === 0 && possibleCoalitionsAvoid.length === 0) || ((checkPossibleCoalitionsMatch(index, x.coal) || possibleCoalitionsLimit === 0) && (possibleCoalitionsAvoid.length === 0 || !checkPossibleCoalitionsMatch(index, x.coal, true)))), 'size')">
+														<td>{{ coal.coal.map(x => x.label).join(' + ') }}</td>
+														<td class="text-right">{{ coal.size }}</td>
+														<td class="text-right">{{ coal.power }}</td>
+														<td class="text-right">{{ coal.power - majority }}</td>
+													</tr>
+													<tr>
+														<td colspan="100" class="text-center dimm smallest">— konec tabulky —</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
 						</p-collapsible>
 						<div class="attendance">
 							<p-line-graph :value="current.$ucast.find(x => obvod.OBVODY === 2 ? x.OBVOD === obvod.COBVODU : true).UCAST" color="var(--blue)"></p-line-graph>
 							<div class="text-right smallest dimm">účast</div>
 						</div>
-					</p-area>
-				</p-block>
-				<div class="p-gap_2"></div>
-				<p-block headline="Volební statistiky" v-if="current.$ucast">
-					<p-area>
-						<election-stats :data="current.$ucast.find(x => obvod.OBVODY === 2 ? x.OBVOD === obvod.COBVODU : true)" :results="current.$vysledky"></election-stats>
 					</p-area>
 				</p-block>
 			</component>

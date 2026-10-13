@@ -3,14 +3,19 @@
 		<p-loader :rule="csu">
 			<div v-if="csu">
 				<div class="p-offset reverse balanced">
-					<span>
-						<strong>{{ csu.OBEC.$attributes.JE_SPOCTENO === 1 ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
+					<div>
+						<div class="strong">{{ csu.OBEC.$attributes.NAZEVZAST }}</div>
+						<div class="smaller">{{ csu.OBEC.$attributes.JE_SPOCTENO === 1 ? 'Konečné výsledky' : 'Průběžné výsledky' }}</div>
 						<span v-if="csu.OBEC.$attributes.JE_SPOCTENO !== 1" class="smallest">
 							&middot; 
 							{{ csu.OBEC.VYSLEDEK.UCAST.$attributes.OKRSKY_ZPRAC_PROC }} % sečtených okrsků
 						</span>
-					</span>
-					<span class="smaller">účast {{ number(Number(csu.OBEC.VYSLEDEK.UCAST.$attributes.UCAST_PROC)) }} %</span>
+					</div>
+					<div class="text-right">
+						<div>účast {{ number(Number(csu.OBEC.VYSLEDEK.UCAST.$attributes.UCAST_PROC)) }} %</div>
+						<div class="smaller">{{ csu.OBEC.$attributes.VOLENO_ZASTUP }} zastupitelů, <strong>{{ Math.ceil(Number(csu.OBEC.$attributes.VOLENO_ZASTUP) / 2) }} na většinu</strong></div>
+
+					</div>
 				</div>				
 				<div class="p-line"></div>
 
@@ -27,7 +32,7 @@
 							<p-collapsible icon="list" label="Podrobné výsledky">
 								<election-table :list="obv"></election-table>
 							</p-collapsible>
-							<p-collapsible icon="person" label="Zvolení kandidáti" borderless="1">
+							<p-collapsible icon="person" label="Zvolení kandidáti">
 								<p-list>
 									<div v-for="party in obv.filter(x => x.list.length > 0)">
 										<div class="p-offset balanced reverse">
@@ -46,6 +51,53 @@
 									</div>
 								</p-list>
 							</p-collapsible>
+							<p-collapsible icon="hint" label="Možné koalice" borderless="1">
+								<p-area class="smallest">
+									Musí obsahovat:
+									<p-list-linear class="inline or">
+										<span v-for="item in list[index].filter(x => x.mandates > 0)">
+											<button class="inline" :class="{'strong green': possibleCoalitionsLimit.indexOf(item.id) > -1}" @click="toggleItem(item.id, possibleCoalitionsLimit)">{{ item.label }}</button>
+										</span>
+										<span v-if="possibleCoalitionsLimit.length > 0">
+											síla vybraných je {{ list[index].reduce((a, b) => a + (possibleCoalitionsLimit.indexOf(b.id) > -1 ? b.mandates : 0), 0) }}
+										</span>
+									</p-list-linear>
+									<div class="p-line _05"></div>
+									Nesmí obsahova:
+									<p-list-linear class="inline or">
+										<span v-for="item in list[index].filter(x => x.mandates > 0)">
+											<button class="inline" :class="{'strong red': possibleCoalitionsAvoid.indexOf(item.id) > -1}" @click="toggleItem(item.id, possibleCoalitionsAvoid)">{{ item.label }}</button>
+										</span>
+										<span v-if="possibleCoalitionsAvoid.length > 0">
+											síla vybraných je {{ list[index].reduce((a, b) => a + (possibleCoalitionsAvoid.indexOf(b.id) > -1 ? b.mandates : 0), 0) }}
+										</span>
+									</p-list-linear>
+								</p-area>
+								<div class="p-gap _15"></div>
+								<div class="sticky smaller">
+									<table>
+										<thead>
+											<tr>
+												<th>Koalice</th>
+												<th class="text-right">&sum;</th>
+												<th class="text-right">M</th>
+												<th class="text-right">+</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="(coal, ix) in sortBy(possibleCoalitions.filter(x => x.obvod === index && x.power >= majority).filter(x => (possibleCoalitionsLimit.length === 0 && possibleCoalitionsAvoid.length === 0) || ((checkPossibleCoalitionsMatch(index, x.coal) || possibleCoalitionsLimit === 0) && (possibleCoalitionsAvoid.length === 0 || !checkPossibleCoalitionsMatch(index, x.coal, true)))), 'size')">
+												<td>{{ coal.coal.map(x => x.label).join(' + ') }}</td>
+												<td class="text-right">{{ coal.size }}</td>
+												<td class="text-right">{{ coal.power }}</td>
+												<td class="text-right">{{ coal.power - majority }}</td>
+											</tr>
+											<tr>
+												<td colspan="100" class="text-center dimm smallest">— konec tabulky —</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</p-collapsible>
 						</div>
 
 					</p-list>
@@ -58,6 +110,25 @@
 				<div class="p-line"></div>
 				<div class="smallest">Stav k {{ date(csu.$attributes.DATUM_CAS_GENEROVANI, 3) }} v {{ csu.$attributes.DATUM_CAS_GENEROVANI.split('T')[1] }}, automatická aktualizace každých 5 minut.</div>
 				<div class="smallest"><button class="inline" @click="loadCSU" :disabled="loadInProgress">Aktualizovat teď</button></div>
+				<div class="p-line"></div>
+				<p-box-group>
+					<p-popup>
+						<template #init>
+							<p-box>
+								<p-box-button icon="edit">Informace o uzavřené koalici</p-box-button>
+							</p-box>
+						</template>
+						<template #content>
+							<editable-suggest type="koalice" :part="'town:' + town" link="1"></editable-suggest>
+						</template>
+					</p-popup>
+					<p-box :to="'/volby/komunalni-volby/176/obec/' + town">
+						<p-box-label>Podrobněji</p-box-label>
+					</p-box>
+					<p-box :to="'/obec/' + town">
+						<p-box-label>Historie</p-box-label>
+					</p-box>
+				</p-box-group>
 			</div>
 		</p-loader>
 	</p-area>

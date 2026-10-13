@@ -47,7 +47,8 @@ td, th {
 .sticky {
   overflow: scroll;
   max-height: 80vh;
-  border-bottom: var(--border);
+  border: var(--border);
+  border-radius: 1em;
   position: relative;
 
   &:after {
@@ -58,7 +59,7 @@ td, th {
     right: 0;
     height: 1em;
     pointer-events: none;
-    background: linear-gradient(#00000000, #00000033);
+    background: linear-gradient(#00000000, #00000015);
     display: block;
   }
 
