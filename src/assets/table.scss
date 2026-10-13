@@ -43,3 +43,32 @@ td, th {
     text-align: right;
   }
 }
+
+.sticky {
+  overflow: scroll;
+  max-height: 80vh;
+  border-bottom: var(--border);
+  position: relative;
+
+  &:after {
+    content: '';
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1em;
+    pointer-events: none;
+    background: linear-gradient(#00000000, #00000033);
+    display: block;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+  }
+
+  th {
+    background: var(--bg);
+    opacity: .95;
+  }
+}

@@ -44,6 +44,22 @@
 									
 									
 								</div>
+								<div v-if="media && media.list.find(x => x.focus == obv.obvod)" class="smallest">
+									
+									
+										<p-list class="invisible _1">
+											<div v-for="item in media.list.filter(x => x.focus == obv.obvod)" class="mt025 p-offset">
+												<div class="_w2">
+													<p-image :src="getMedia(item.link)" width="1em" :rounded="true" class="inline" v-if="!getMedia(item.link).includes('link.svg')"></p-image>
+													<p-icon :icon="item.type" width="1em" :rounded="true" class="inline" v-if="getMedia(item.link).includes('link.svg')"></p-icon>
+												</div>
+												<p-link :href="item.link" class="strong">
+													{{ item.title }}
+												</p-link>
+											</div>
+										</p-list>
+									
+								</div>
 							</p-list>
 							<div class="smallest" v-if="obv.cand.length === 1">
 								Senátorem se v prvním kole stal

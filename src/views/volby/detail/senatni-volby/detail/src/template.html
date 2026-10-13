@@ -15,9 +15,29 @@
 			</p-area>
 		</p-block>
 		<p-block headline="2. kolo" v-if="!hasSecondRound && current.$kandidati.find(x => x.ZVOLEN_K1 === 2)">
+			<div class="smaller mb1">Uskuteční se v pátek 16. října od 14:00 do 22:00 a v sobotu 17. října od 8:00 do 14:00.</div>
+			<template v-if="current.status === 3 && current.id === 173 && media && media.list.find(x => x.focus == Number(obvod))" headline="Může vás také zajímat" :hide="true">
+				<p-box-group>
+				<!-- <p-area class="inline smallest"> -->
+					<!-- <p-list-linear class="or"> -->
+						<p-box v-for="item in media.list.filter(x => x.focus == Number(obvod))" :href="item.link">
+							<!-- <p-box-image :src="getMedia(item.link)" width="1em" :rounded="true" class="inline" v-if="!getMedia(item.link).includes('link.svg')"></p-box-image> -->
+							<!-- <p-box-icon :type="item.type" width="1em" :rounded="true" class="inline" v-if="getMedia(item.link).includes('link.svg')"></p-box-icon> -->
+							<p-box-button class="strong" :icon="getMedia(item.link)">
+								{{ item.title }}
+							</p-box-button>
+						</p-box>
+					<!-- </p-list-linear> -->
+				<!-- </p-area> -->
+				</p-box-group>
+				<div class="p-gap"></div>
+			</template>
+			<h3 class="quando">Kdo postoupil?</h3>
 			<p-list height="1.5">
 				<div v-for="(cand, index) in sortBy(current.$kandidati.filter(x => x.ZVOLEN_K1 === 2), 'PRIJMENI', null, true)">
-					<person-preview-block  :cand="cand" :data="data" :current="current" :link="'/volby/senatni-volby/' + current.id"></person-preview-block>
+					<p-area class="shadow highlight">
+						<person-preview-block  :cand="cand" :data="data" :current="current" :link="'/volby/senatni-volby/' + current.id"></person-preview-block>
+					</p-area>
 				</div>
 			</p-list>
 		</p-block>
@@ -51,7 +71,7 @@
 			<results-quick :data="data" :obvod="obvod" :key="obvod"></results-quick>
 		</div>
 	</template>
-	<template v-if="current.id === 173 && media && media.list.find(x => x.focus == Number(obvod))" headline="Může vás také zajímat" :hide="true">
+	<template v-if="current.status === 2 && current.id === 173 && media && media.list.find(x => x.focus == Number(obvod))" headline="Může vás také zajímat" :hide="true">
 		<p-area class="inline smallest">
 			<p-list-linear class="or">
 				<span v-for="item in media.list.filter(x => x.focus == Number(obvod))">

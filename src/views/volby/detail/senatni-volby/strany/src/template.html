@@ -20,32 +20,37 @@
 							</p-list-linear>
 						</p-area>
 						<div class="p-gap _1"></div>
-						<table class="smaller">
-							<thead>
-								<tr>
-									<th></th>
-									<th></th>
-									<th class="text-right">Člen</th>
-									<th class="text-right">Nom</th>
-									<th class="text-right">Samo</th>
-									<th class="text-right">Koal</th>
-									<th class="text-right">Podp</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="party in sortBy(data.list, sortByIndex, null, (sortByIndex === 'NAZEV' ? true : false), (sortByIndex !== 'NAZEV' ? true : false)).filter(x => mainOnly ? x.$members > 8 || x.$nominees > 8 || x.$coal + x.$solemn > 8 || x.$support > 8 : true)">
-									<td>
-										<p-image :src="logoByItem(party, {cis: {strany:[party]}})" class="rounded _ar"></p-image>
-									</td>
-									<td><router-link :to="link + 'aktivita/' + party.VSTRANA">{{ truncate(party.NAZEV, 8) }}</router-link></td>
-									<td class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
-									<td class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>
-									<td class="text-right" :class="{strong: sortByIndex === '$solemn'}">{{ number(party.$solemn) }}</td>
-									<td class="text-right" :class="{strong: sortByIndex === '$coal'}">{{ number(party.$coal) }}</td>
-									<td class="text-right" :class="{strong: sortByIndex === '$support'}">{{ number(party.$support) }}</td>
-								</tr>
-							</tbody>
-						</table>
+						<div class="sticky">
+							<table class="smaller">
+								<thead>
+									<tr>
+										<th></th>
+										<th></th>
+										<th class="text-right">Člen</th>
+										<th class="text-right">Nom</th>
+										<th class="text-right">Samo</th>
+										<th class="text-right">Koal</th>
+										<th class="text-right">Podp</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="party in sortBy(data.list, sortByIndex, null, (sortByIndex === 'NAZEV' ? true : false), (sortByIndex !== 'NAZEV' ? true : false)).filter(x => mainOnly ? x.$members > 8 || x.$nominees > 8 || x.$coal + x.$solemn > 8 || x.$support > 8 : true)">
+										<td>
+											<p-image :src="logoByItem(party, {cis: {strany:[party]}})" class="rounded _ar"></p-image>
+										</td>
+										<td><router-link :to="link + 'aktivita/' + party.VSTRANA">{{ truncate(party.NAZEV, 8) }}</router-link></td>
+										<td class="text-right" :class="{strong: sortByIndex === '$members'}">{{ number(party.$members) }}</td>
+										<td class="text-right" :class="{strong: sortByIndex === '$nominees'}">{{ number(party.$nominees) }}</td>
+										<td class="text-right" :class="{strong: sortByIndex === '$solemn'}">{{ number(party.$solemn) }}</td>
+										<td class="text-right" :class="{strong: sortByIndex === '$coal'}">{{ number(party.$coal) }}</td>
+										<td class="text-right" :class="{strong: sortByIndex === '$support'}">{{ number(party.$support) }}</td>
+									</tr>
+									<tr class="smallest dimm text-center">
+										<td colspan="100">– konec tabulky —</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</p-loader>
 			</p-block>

@@ -72,8 +72,8 @@
 
 img {
   display: inline-block;
-  height: 3rem;
-  width: 3rem;
+  height: 2.5rem;
+  width: 2.5rem;
 }
 
 .dark ._icon:not([src*="volby"]):not([src*="answers-mini"]):not([src*="green"]):not([src*="blue"]):not([src*="icon-check"]):not([src*="icon-against"]) {
@@ -92,4 +92,9 @@ img {
 
 span:not(:empty):not(:first-child) {
   margin-left: .5em;
+}
+
+._logo {
+  border-radius: .5em;
+  margin-left: -.25em;
 }

@@ -179,6 +179,17 @@
 	width: 2.5em;
 }
 
+._w2 {
+	width: 1em;
+	text-align: center;
+
+	.p-image {
+		margin-left: auto;
+		margin-right: auto;
+		width: auto;
+	}
+}
+
 ._split-main {
 	margin-bottom: 2em;
 }
