@@ -178,10 +178,11 @@
 			</component>
 		</template>
 		<p-block headline="Zvolení zastupitelé" class="mt4">
-			<component :is="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni)).length > 100 ? 'election-list' : 'election-grid'" :list="consolidate(people(sortByVotes(current.$vysledky, current.$strany), current.$zvoleni))"></component>
-		</p-block>
-		<p-block headline="Kandidáti">
-			<component :is="current.$kandidati.length > 10 ? 'election-list' : 'election-grid'" :list="people(parties(current.$strany, current.$strany), current.$kandidati, true)"></component>
+			<p-columns>
+				<div v-for="party in current.$strany.filter(x => current.$kandidati.find(y => y.MANDAT === 'A' && y.POR_STR_HL === x.POR_STR_HL && y.COBVODU === x.COBVODU))">
+					<party-preview-large :link="'/volby/komunalni-volby/' + current.id" :party="party" :candidates="current.$kandidati.filter(x => x.COBVODU === party.COBVODU).filter(x => x.OSTRANA === party.OSTRANA).filter(x => x.MANDAT === 'A')" :election="null" :elections="data" :amount="100"></party-preview-large>
+				</div>
+			</p-columns>
 		</p-block>
 	</template>
 	<template v-if="current.status === 3 && current.$ucast.length === 0">
@@ -195,8 +196,8 @@
 		</p-block>
 	</template> -->
 	
-	<template v-if="current.status < 3">
-		<p-block :headline="current.status === 1 ? 'Předběžný přehled' : 'Přehled stran'" :hide="true">
+	<!-- <template v-if="current.status < 3"> -->
+		<component :is="current.status === 3 ? 'p-block-expandable' : 'p-block'" :headline="current.status === 1 ? 'Předběžný přehled' : 'Přehled stran'" :hide="true" class="mb4 pb0">
 			<div class="p-offset reverse balanced" v-if="current.$strany.length > 0">
 				<div>
 					<h2>
@@ -251,8 +252,8 @@
 						</template>
 					</p-popup>
 			</template>
-		</p-block>
-	</template>
+		</component>
+	<!-- </template> -->
 	<!-- <p-block headline="Podpořte Programy" subheadline="aby se o nestranných přehledech a volebních programech dozvědělo co nejvíce lidí" anchor="" class="green" v-if="current.editace === 1">
 		<engagement-support></engagement-support>
 	</p-block> -->
