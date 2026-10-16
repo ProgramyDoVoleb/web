@@ -1,0 +1,31 @@
+button[disabled] {
+	opacity: .3;
+}
+
+._r {
+	position: relative;
+
+	span, strong {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+._g {
+	position: absolute;
+	top: .25em;
+	width: 100%;
+	z-index: 0;
+	pointer-events: none;
+	opacity: .1;
+	left: -.33em;
+
+	.dark & {
+		opacity: .3;
+	}
+}
+
+._gb {
+ height: 1.25em;
+ border-radius: 1em;
+}

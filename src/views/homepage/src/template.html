@@ -7,16 +7,23 @@
 
 
 			<p-block headline="Výsledky voleb" :open="true" :hide="true">
-				<div class="text-center smaller strong mb05">Výsledky voleb do zastupitelstva:</div>
-				<template v-if="resultsTown.loading === false && resultsTown.data != null">
-					<results-quick :data="resultsTown.data" :town="resultsTown.town" :key="resultsTown.town"></results-quick>
-					<div class="p-line"></div>
+				<!-- <h3 class="quando text-center smaller mb05">Výsledky voleb</h3> -->
+				
+				<!-- <search-town :cb="true" @update="(item) => resultsTownChange(item.obec)"></search-town> -->
+				<!-- <div class="p-gap _05"></div> -->
+				<!-- <p-collapsible icon="senatni-volby" label="Senátní volby"> -->
+					<!-- <h3 class="quando text-center">Výsledky druhého kola</h3> -->
+				<template v-if="(new Date()).toISOString() > '2026-10-17T12:00:00.000Z'">
+					<results-quick-senat obvod="all" :data="el173"></results-quick-senat>
+				 	<div class="p-line _0 mb0 mt2"></div>
 				</template>
-				<search-town :cb="true" @update="(item) => resultsTownChange(item.obec)"></search-town>
-				<div class="p-gap _05"></div>
-				<p-collapsible icon="senatni-volby" label="Senátní volby">
-					<results-quick-senat obvod="all"></results-quick-senat>
-				</p-collapsible>
+				<!-- </p-collapsible> -->
+				 <p-collapsible icon="komunalni-volby" label="Výsledky v komunálních volbách">
+					<template v-if="resultsTown.loading === false && resultsTown.data != null">
+						<results-quick :data="resultsTown.data" :town="resultsTown.town" :key="resultsTown.town"></results-quick>
+						<div class="p-line"></div>
+					</template>
+				 </p-collapsible>
 			</p-block>
 
 			<p-block headline="2. kolo senátních voleb" :hide="true">

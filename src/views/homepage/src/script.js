@@ -40,7 +40,7 @@ import NewsMap from '@/components/news-map/do.vue';
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
 import EngagementSupport from '@/components/engagement/support/do.vue';
 import ResultsQuick from '@/views/volby/detail/komunalni-volby/results-quick/do.vue';
-import ResultsQuickSenat from '@/views/volby/detail/senatni-volby/results-quick/do.vue';
+import ResultsQuickSenat from '@/views/volby/detail/senatni-volby/results-quick-rnd-2/do.vue';
 
 export default {
 	name: 'layout-homepage',

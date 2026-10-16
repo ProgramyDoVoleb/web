@@ -1,0 +1,73 @@
+<div class="volby-komunal-results-quick-rnd-2">
+	<!-- <p-area class="highlight shadow"> -->
+		<p-loader :rule="csu">
+			<div v-if="csu">
+				<div class="p-offset reverse balanced" v-if="obvod === 'all'">
+					<span>
+						<strong>{{ Number(csu.CELKEM.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC) === 100 ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
+						<span v-if="Number(csu.CELKEM.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC) < 100" class="smallest">
+							&middot; 
+							{{ Number(csu.CELKEM.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC) }} % sečtených okrsků
+						</span>
+					</span>
+					<span class="smaller">účast {{ number(Number(csu.CELKEM.UCAST[1].$attributes.UCAST_PROC)) }} %</span>
+				</div>	
+				<div class="p-offset reverse balanced" v-else>
+					<template v-for="obvod in csu.OBVOD.filter(x => this.obvod === 'all' ? true : this.obvod == x.$attributes.CISLO).filter(x => x.UCAST[1])">
+						<span>
+							<strong>{{ Number(obvod.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC) === 100 ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
+							<span v-if="Number(obvod.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC) < 100" class="smallest">
+								&middot; 
+								{{ Number(obvod.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC) }} % sečtených okrsků
+							</span>
+						</span>
+						<span class="smaller">účast {{ number(Number(obvod.UCAST[1].$attributes.UCAST_PROC)) }} %</span>
+					</template>
+				</div>				
+				<div class="p-line"></div>
+
+				<template v-if="csu && obvod === 'all'">
+					<p-grid class="smaller">
+						<div  v-for="obv in csu.OBVOD.filter(x => obvod === 'all' ? true : obvod == x.$attributes.CISLO).filter(x => x.UCAST[1])">
+							
+							<!-- <component :is="obvod === 'all' ? 'p-collapsible' : 'div'" :label="obv.$attributes.CISLO + ' · ' + obv.$attributes.NAZEV" :status="best(obv)" :icon="Number(obv.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC) < 100 ? null : 'check'"> -->
+								<p-area class="highlight shadow" :borderColor="colorByItem(obv.KANDIDAT.find(x => x.$attributes.HLASY_PROC_2KOLO && x.$attributes.HLASY_PROC_2KOLO > 50), data, 'NSTRANA')">
+									<p-list class="_025">
+										<div class="tiny p-offset reverse">
+											<div>
+												Obvod {{ obv.$attributes.CISLO }} · <router-link :to="'/volby/senatni-volby/173/obvod/' + obv.$attributes.CISLO" class="is-span">{{ obv.$attributes.NAZEV }}</router-link>
+											</div>
+											<div>
+												účast {{ obv.UCAST[1].$attributes.UCAST_PROC }} %, sečteno {{ obv.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC }} % okrsků
+											</div>
+										</div>
+										<div v-for="(cand, index) in s(obv.KANDIDAT).filter(x => typeof x.$attributes.HLASY_PROC_2KOLO !== 'undefined')" class="p-offset reverse balanced _r">
+											<strong class="smallest" :class="{'green': index === 0 && cand.$attributes.HLASY_PROC_2KOLO > 0}">
+												<p-label :color="colorByItem(data.list[0].$kandidati.find(x => x.OBVOD == obv.$attributes.CISLO && x.CKAND == cand.$attributes.PORADOVE_CISLO), data, 'NSTRANA')">{{ cand.$attributes.JMENO }} {{ cand.$attributes.PRIJMENI }}</p-label>
+											</strong>
+											<span class="smaller">{{ cand.$attributes.HLASY_PROC_2KOLO }} % &middot; {{ number(cand.$attributes.HLASY_2KOLO) }} hlasů</span>
+											<div class="_g">
+												<div class="_gb" :style="{background: colorByItem(data.list[0].$kandidati.find(x => x.OBVOD == obv.$attributes.CISLO && x.CKAND == cand.$attributes.PORADOVE_CISLO), data, 'NSTRANA'), width: (cand.$attributes.HLASY_PROC_2KOLO || 50) + '%'}"></div>
+											</div>
+										</div>
+									</p-list>
+								</p-area>
+							<!-- </component> -->
+						</div>
+
+					</p-grid>
+				</template>
+				<template v-else-if="csu && obvod != 'all'">
+					<election-duel :list="obvodData" kolo="2"></election-duel>
+				</template>
+				<template v-else>
+					<em class="smallest">Připravuji graf</em>
+				</template>
+
+				<div class="p-line"></div>
+				<div class="smallest">Stav k {{ date(csu.$attributes.DATUM_CAS_GENEROVANI, 3) }} v {{ csu.$attributes.DATUM_CAS_GENEROVANI.split('T')[1] }}, automatická aktualizace každých 5 minut.</div>
+				<div class="smallest"><button class="inline" @click="loadCSU" :disabled="loadInProgress">Aktualizovat teď</button></div>
+			</div>
+		</p-loader>
+	<!-- </p-area> -->
+</div>
