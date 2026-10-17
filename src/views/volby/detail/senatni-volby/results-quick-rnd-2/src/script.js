@@ -37,7 +37,7 @@ export default {
 						var o = {...this.data.list[0].$kandidati.find(x => x.CKAND == cand.$attributes.PORADOVE_CISLO)};
 
 						o.color = colorByItem(o, this.data, 'NSTRANA');
-						o.graph = cand.HLASY_PROC_2KOLO;
+						o.graph = cand.$attributes.HLASY_PROC_2KOLO;
 						o.logo = logoByItem(o, this.data, 'NSTRANA');
 						o.label = o.JMENO + ' ' + o.PRIJMENI;
 						o.initials = o.JMENO[0] + o.PRIJMENI[0];
@@ -46,10 +46,10 @@ export default {
 						o.no = o.CKAND;
 						o.party = o.NAZEV_VS;
 						o.passed = true;
-						o.pct = cand.HLASY_PROC_2KOLO || 50;
+						o.pct = cand.$attributes.HLASY_PROC_2KOLO || 50;
 						o.photo = con(o.$data, 'photo', logoByItem(o, this.data, 'NSTRANA'));
 						o.short = o.PRIJMENI;
-						o.votes = cand.HLASY_2KOLO;		
+						o.votes = cand.$attributes.HLASY_2KOLO;		
 						
 						o.round2 = {
 							pct: o.pct,

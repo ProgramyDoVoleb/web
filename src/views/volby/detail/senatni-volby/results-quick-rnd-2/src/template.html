@@ -1,7 +1,7 @@
 <div class="volby-komunal-results-quick-rnd-2">
 	<!-- <p-area class="highlight shadow"> -->
-		<p-loader :rule="csu">
-			<div v-if="csu">
+		<p-loader :rule="csu && data">
+			<div v-if="csu && data">
 				<div class="p-offset reverse balanced" v-if="obvod === 'all'">
 					<span>
 						<strong>{{ Number(csu.CELKEM.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC) === 100 ? 'Konečné výsledky' : 'Průběžné výsledky' }}</strong>
@@ -31,7 +31,7 @@
 						<div  v-for="obv in csu.OBVOD.filter(x => obvod === 'all' ? true : obvod == x.$attributes.CISLO).filter(x => x.UCAST[1])">
 							
 							<!-- <component :is="obvod === 'all' ? 'p-collapsible' : 'div'" :label="obv.$attributes.CISLO + ' · ' + obv.$attributes.NAZEV" :status="best(obv)" :icon="Number(obv.UCAST[1].$attributes.OKRSKY_ZPRAC_PROC) < 100 ? null : 'check'"> -->
-								<p-area class="highlight shadow" :borderColor="colorByItem(obv.KANDIDAT.find(x => x.$attributes.HLASY_PROC_2KOLO && x.$attributes.HLASY_PROC_2KOLO > 50), data, 'NSTRANA')">
+								<p-area class="highlight shadow">
 									<p-list class="_025">
 										<div class="tiny p-offset reverse">
 											<div>
@@ -42,7 +42,7 @@
 											</div>
 										</div>
 										<div v-for="(cand, index) in s(obv.KANDIDAT).filter(x => typeof x.$attributes.HLASY_PROC_2KOLO !== 'undefined')" class="p-offset reverse balanced _r">
-											<strong class="smallest" :class="{'green': index === 0 && cand.$attributes.HLASY_PROC_2KOLO > 0}">
+											<strong class="smallest" :class="{'green': cand.$attributes.HLASY_PROC_2KOLO > 50}">
 												<p-label :color="colorByItem(data.list[0].$kandidati.find(x => x.OBVOD == obv.$attributes.CISLO && x.CKAND == cand.$attributes.PORADOVE_CISLO), data, 'NSTRANA')">{{ cand.$attributes.JMENO }} {{ cand.$attributes.PRIJMENI }}</p-label>
 											</strong>
 											<span class="smaller">{{ cand.$attributes.HLASY_PROC_2KOLO }} % &middot; {{ number(cand.$attributes.HLASY_2KOLO) }} hlasů</span>
