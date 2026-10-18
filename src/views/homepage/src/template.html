@@ -13,20 +13,46 @@
 				<!-- <div class="p-gap _05"></div> -->
 				<!-- <p-collapsible icon="senatni-volby" label="Senátní volby"> -->
 					<!-- <h3 class="quando text-center">Výsledky druhého kola</h3> -->
-				<template v-if="(new Date()).toISOString() > '2026-10-17T12:00:00.000Z'">
+				<!-- <template v-if="(new Date()).toISOString() > '2026-10-17T12:00:00.000Z'">
 					<results-quick-senat obvod="all" :data="el173"></results-quick-senat>
 				 	<div class="p-line _0 mb0 mt2"></div>
-				</template>
+				</template> -->
 				<!-- </p-collapsible> -->
-				 <p-collapsible icon="komunalni-volby" label="Výsledky v komunálních volbách">
+				 <p-collapsible icon="senatni-volby" label="Výsledky senátních voleb" status="Úplné" :open="true">
+					<results-quick-senat obvod="all" :data="el173"></results-quick-senat>
+					<div class="p-gap _2"></div>
+					<h3 class="quando">Vyhráli v prvním kole</h3>
+					<p-grid v-if="el173">
+						<div v-for="cand in el173.list[0].$kandidati.filter(x => x.ZVOLEN_K1 === 1)">
+							<p-area class="highlight shadow">
+								<p-list class="_05">
+									<div class="tiny">
+										Obvod {{ cand.OBVOD }} &middot; <router-link :to="'/volby/senatni-volby/173/obvod/' + cand.OBVOD" class="is-span">{{ enums.obvody.find(x => x.id === cand.OBVOD).name }}</router-link>
+									</div>
+									<div class="smallest strong">
+										<p-label :color="colorByItem(cand, el173, 'NSTRANA')">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</p-label>
+									</div>
+								</p-list>
+							</p-area>
+						</div>
+					</p-grid>
+				 </p-collapsible>
+				 <p-collapsible icon="komunalni-volby" label="Výsledky komunálních voleb" status="Úplné" :open="true">
 					<template v-if="resultsTown.loading === false && resultsTown.data != null">
 						<results-quick :data="resultsTown.data" :town="resultsTown.town" :key="resultsTown.town"></results-quick>
 						<div class="p-line"></div>
 					</template>
+					<search-town :cb="true" @update="(item) => resultsTownChange(item.obec)"></search-town>
+					<div class="p-gap _2"></div>
+					<p-columns class="smaller _tight">
+						<div v-for="town in [].concat(enums.towns.capital, enums.towns.regional, enums.towns.other)">
+							<button class="inline" @click="resultsTownChange(town.num)">{{ town.name }}</button>
+						</div>
+					</p-columns>
 				 </p-collapsible>
 			</p-block>
 
-			<p-block headline="2. kolo senátních voleb" :hide="true">
+			<!-- <p-block headline="2. kolo senátních voleb" :hide="true">
 				<h1 class="quando text-center mt0">2. kolo senátních voleb</h1>
 				<div class="text-center mt-05 mb3 _mw _ma">
 					<p-area class="shadow highlight inline smaller strong" background="var(--blue)" color="var(--white)">16. a 17. října 2026</p-area>
@@ -77,7 +103,7 @@
 						</p-area>
 					</div>
 				</p-columns>
-			</p-block>
+			</p-block> -->
 
 			<!-- <p-block headline="Sčítání" :hide="true" v-if="(new Date()).toISOString() > '2026-10-10T12:00:00.000Z'">
 				
@@ -126,59 +152,10 @@
 				</template> -->
 
 				<p-block headline="Přehled" :hide="true" class="pb0 mb3 mt-2">
+
+					<h2 class="quando">Uplynulé volby podrobněji</h2>
 					<!-- <h1 class="quando">{{ Math.round((new Date(new Date('2026-10-09 14:00:00') - new Date()).getTime()) / (1000 * 60 * 60 * 24)) }} dní do voleb</h1> -->
 					<p-grid>
-						<div>
-							<p-area class="highligdht" icon="senatni-volby">
-								<div class="p-offset reverse">
-									<div>
-										<h4 class="mt0 mb0">
-											<router-link to="/volby/senatni-volby/173">Senátní volby</router-link>
-										</h4>
-										<div class="smallest">
-											<!-- <p-list-linear class="or">
-												<span>
-													<router-link class="is-span" to="/volby/senatni-volby/173/otazka/449">Zaměření</router-link>
-												</span>
-												<span>
-													<router-link class="is-span" to="/volby/senatni-volby/173/otazka/450">Téma</router-link>
-												</span>
-												<span>
-													<router-link class="is-span" to="/volby/senatni-volby/173/strany">Strany</router-link>
-												</span>
-											</p-list-linear> -->
-											Druhé kolo je 16. a 17. října
-										</div>
-									</div>
-									<div v-if="width < 10240">
-										<p-popup class="down">
-											<template #init>
-												<p-box>
-													<p-box-button>Obvod</p-box-button>
-												</p-box>
-											</template>
-											<template #content>
-												<strong>Vyberte obvod</strong>
-												<div class="mt1">
-													<p-columns class="squeeze smaller">
-														<div v-for="obvod in enums.obvody.filter(x => x.id % 3 === 0)">
-															<div class="p-offset balanced">
-																<div class="smallest dimm">
-																	{{ obvod.id }}
-																</div>
-																<div>
-																	<router-link :to="'/volby/senatni-volby/173/obvod/' + obvod.id" class="strong">{{ obvod.name }}</router-link>
-																</div>
-															</div>
-														</div>
-													</p-columns>
-												</div>
-											</template>
-										</p-popup>
-									</div>
-								</div>
-							</p-area>
-						</div>
 						<div>
 							<p-area class="highlidght" icon="komunalni-volby">
 								<div class="p-offset reverse">
@@ -213,6 +190,57 @@
 													</div>
 												</template>
 											</p-popup>
+									</div>
+								</div>
+							</p-area>
+						</div>
+						<div>
+							<p-area class="highligdht" icon="senatni-volby">
+								<div class="p-offset reverse">
+									<div>
+										<h4 class="mt0 mb0">
+											<router-link to="/volby/senatni-volby/173">Senátní volby</router-link>
+										</h4>
+										<div class="smallest">
+											<!-- <p-list-linear class="or">
+												<span>
+													<router-link class="is-span" to="/volby/senatni-volby/173/otazka/449">Zaměření</router-link>
+												</span>
+												<span>
+													<router-link class="is-span" to="/volby/senatni-volby/173/otazka/450">Téma</router-link>
+												</span>
+												<span>
+													<router-link class="is-span" to="/volby/senatni-volby/173/strany">Strany</router-link>
+												</span>
+											</p-list-linear> -->
+											Výsledky podle obvodů
+										</div>
+									</div>
+									<div v-if="width < 10240">
+										<p-popup class="down">
+											<template #init>
+												<p-box>
+													<p-box-button>Obvod</p-box-button>
+												</p-box>
+											</template>
+											<template #content>
+												<strong>Vyberte obvod</strong>
+												<div class="mt1">
+													<p-columns class="squeeze smaller">
+														<div v-for="obvod in enums.obvody.filter(x => x.id % 3 === 0)">
+															<div class="p-offset balanced">
+																<div class="smallest dimm">
+																	{{ obvod.id }}
+																</div>
+																<div>
+																	<router-link :to="'/volby/senatni-volby/173/obvod/' + obvod.id" class="strong">{{ obvod.name }}</router-link>
+																</div>
+															</div>
+														</div>
+													</p-columns>
+												</div>
+											</template>
+										</p-popup>
 									</div>
 								</div>
 							</p-area>
@@ -284,7 +312,7 @@
 															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100">100 Kč</p-link>
 														</span>
 														<span>
-															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=226">226 Kč</p-link>
+															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=250">250 Kč</p-link>
 														</span>
 														<span>
 															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=2026">2026 Kč</p-link>
@@ -338,7 +366,9 @@
 					<!-- <engagement-add-program></engagement-add-program> -->
 					<!-- <p class="smallest">Zapojte se do soutěže o 5 triček s motivy Programů do voleb. Stačí poslat 10 odkazů na chybějící volební program na <a href="tip@programydovoleb.cz">tip@programydovoleb.cz</a> &middot; <router-link to="/novinky/15365" class="strong">Více informací zde</router-link></p> -->
 					
-				</p-block>	
+				</p-block>
+
+				<h2 class="quando">Příští volby</h2>
 				
 					<p-loader :rule="elections">
 						<div v-if="elections" class="mt-1">
@@ -371,26 +401,28 @@
 												<homepage-ps :elections="election" :answers="news ? news.answers : null"></homepage-ps>
 											</div>
 											<div v-if="election.typ === 'PREZ'">
-												<p-grid>
-													<div v-for="cand in election.$kandidati">
-														<p-area class="highlight shadow">
-															<router-link :to="'/volby/prezidentske-volby/' + cand.volby + '/kandidat/' + cand.id" class="strong">
-																{{ cand.JMENO }} {{ cand.PRIJMENI }}
-															</router-link>
-															<div class="smallest dimm">{{ cand.POVOLANI}}</div>
-														</p-area>
-													</div>
-												</p-grid>
+												<p-area class="primary">
+													<p-columns class="_2_4">
+														<div v-for="cand in election.$kandidati">
+															<!-- <p-area class="highlight shadow"> -->
+																<router-link :to="'/volby/prezidentske-volby/' + cand.volby + '/kandidat/' + cand.id" class="strong">
+																	{{ cand.JMENO }} {{ cand.PRIJMENI }}
+																</router-link>
+																<!-- <div class="smallest dimm">{{ cand.POVOLANI}}</div> -->
+															<!-- </p-area> -->
+														</div>
+													</p-columns>
+												</p-area>
 											</div>
 										<!-- </p-area> -->
-										<div class="p-gap_075"></div>
+										<div class="p-line"></div>
 										<p-box-group>
 											<p-box :to="'/volby/' + election_types.find(x => x.key === election.typ).hash + '/' + election.id + (election.id === 171 ? '/obvod/60' : '')">
 												<p-box-button class="primary">
 													{{ election.status === 3 ? 'Výsledky a podrobnosti' : 'Více o volbách' }}
 												</p-box-button>
 											</p-box>
-											<template v-if="false && election.status < 3">
+											<template v-if="election.status < 3">
 												<p-popup>
 													<template #init>
 														<p-box :click="() => null">
@@ -1001,20 +1033,6 @@
 				</div> -->
 				<div>
 					<top-tasks></top-tasks>
-				</div>
-				<div class="smaller">
-					<em class="strong">Programy do voleb</em> jsou nestranný předvolební přehled, který se zaměřuje na přehledy stran, kandidátů a jejich volebních programů.
-					<p-list class="_025 pt1">
-						<div>
-							<router-link to="/novinky/archiv" class="">Novinky</router-link>
-						</div>
-						<div>
-							<router-link to="/o-projektu" class="">O projektu</router-link>
-						</div>
-						<div>
-							<router-link to="/o-projektu/jak-podporit" class="">Podpořit</router-link>
-						</div>
-					</p-list>
 				</div>
 			</p-list>
 		</template>

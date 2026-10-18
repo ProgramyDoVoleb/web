@@ -9,18 +9,18 @@
 	<div class="smallest strong">
 		<p-label color="var(--red)" class="block">Nominujte tento web na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou Lupu</p-link></p-label> 
 	</div>	 -->
-	<!-- <p-area icon="komunalni-volby" class="highlight shadow mr-1 ml-1" borderColor="var(--blue)">
+	<p-area icon="komunalni-volby" class="highlight shadow mr-1 ml-1" borderColor="var(--blue)">
 		<div class="smaller strong">
 			<router-link to="/volby/komunalni-volby/176">Komunální volby</router-link>
 		</div>
-		<div class="smallest">Přehledy, aktivity, tipy</div>
-	</p-area> -->
-	<!-- <p-area icon="senatni-volby" class="highlight shadow mr-1 ml-1" borderColor="var(--red)">
+		<div class="smallest">Výsledky voleb</div>
+	</p-area>
+	<p-area icon="senatni-volby" class="highlight shadow mr-1 ml-1" borderColor="var(--red)">
 		<div class="smaller strong">
 			<router-link to="/volby/senatni-volby/173">Senátní volby</router-link>
 		</div>
-		<div class="smallest">Kandidáti, obvody, tipy</div>
-	</p-area> -->
+		<div class="smallest">Výsledky voleb</div>
+	</p-area>
 	<!-- <p-area icon="hint" class="highlight shadow mr-1 ml-1" borderColor="var(--blue)">
 		<div class="smaller">
 			<router-link to="/pro-kandidaty" class="strong">Informace</router-link>  pro strany a kandidáty
@@ -37,30 +37,31 @@
 		</div>
 	</p-area> -->
 	<!-- <div class="p-line"></div> -->
-	<div class="strong mb05 smallest">2. kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link></div>
+	<!-- <div class="strong mb05 smallest">2. kolo <router-link to="/volby/senatni-volby/173" class="is-span">senátních voleb</router-link></div>
 	<p-area class="highlight strong ml-1 mr-1 smaller" borderColor="var(--red)">
 		<p-list class="_05">
 			<div class="p-offset reverse"><div>16. října</div><div> 14:00 - 22:00</div></div>
 			<div class="p-offset reverse"><div>17. října</div><div> 8:00 - 14:00</div></div>
 		</p-list>
+	</p-area> -->
+	<p-area icon="support" class="highlight shadow mr-1 ml-1" borderColor="var(--green)">
+		<div class="smaller strong">
+			<router-link to="/o-projektu/jak-podporit">Podpořit projekt</router-link>
+		</div>
+		<div class="smallest">do dalších let</div>
 	</p-area>
 	<div class="p-line"></div>
-	<cta-support-short></cta-support-short>
-	<div class="p-line"></div>
-	<p-grid class="_2">
-		<div>
-			<p-link href="https://www.t-shock.eu/cs/shop/NUBj">
-				<p-image src="https://static.programydovoleb.cz/img/merch/web-small-triko.jpeg" width="100%" class="rounded"></p-image>
-				<div class="smallest mt05 strong is-span">Merch</div>
-			</p-link>
-			
-		</div>
-		<div>
-			<router-link to="/o-projektu/jak-podporit">
-				<p-image src="https://static.programydovoleb.cz/img/merch/web-small-motiv.jpeg" width="100%" class="rounded"></p-image>
-				<div class="smallest mt05 strong is-span">Motiv k tisku</div>
-			</router-link>
-			
-		</div>
-	</p-grid>
+
+
+				<div class="smaller">
+					<em class="strong">Programy do voleb</em> jsou nestranný neziskový předvolební přehled, který se zaměřuje na přehledy stran, kandidátů a jejich volebních programů.
+					<p-list class="_025 pt1">
+						<div>
+							<router-link to="/o-projektu" class="">O projektu</router-link>
+						</div>
+						<div>
+							<router-link to="/novinky/archiv" class="">Novinky</router-link>
+						</div>
+					</p-list>
+				</div>
 </div>

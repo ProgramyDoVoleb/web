@@ -19,7 +19,7 @@ export default {
 	data: function () {
 		return {
 			cdn,
-			showHistory: false,
+			showHistory: true,
 			showAll: false
 		}
 	},
