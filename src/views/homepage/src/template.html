@@ -6,7 +6,7 @@
 
 
 
-			<p-block headline="Výsledky voleb" :open="true" :hide="true">
+			<p-block headline="Výsledky voleb" :open="true" :hide="true" v-if="false">
 				<!-- <h3 class="quando text-center smaller mb05">Výsledky voleb</h3> -->
 				
 				<!-- <search-town :cb="true" @update="(item) => resultsTownChange(item.obec)"></search-town> -->
@@ -18,7 +18,7 @@
 				 	<div class="p-line _0 mb0 mt2"></div>
 				</template> -->
 				<!-- </p-collapsible> -->
-				 <p-collapsible icon="senatni-volby" label="Výsledky senátních voleb" status="Úplné" :open="true">
+				 <p-collapsible icon="senatni-volby" label="Výsledky senátních voleb" status="Úplné">
 					<results-quick-senat obvod="all" :data="el173"></results-quick-senat>
 					<div class="p-gap _2"></div>
 					<h3 class="quando">Vyhráli v prvním kole</h3>
@@ -37,7 +37,7 @@
 						</div>
 					</p-grid>
 				 </p-collapsible>
-				 <p-collapsible icon="komunalni-volby" label="Výsledky komunálních voleb" status="Úplné" :open="true">
+				 <p-collapsible icon="komunalni-volby" label="Výsledky komunálních voleb" status="Úplné">
 					<template v-if="resultsTown.loading === false && resultsTown.data != null">
 						<results-quick :data="resultsTown.data" :town="resultsTown.town" :key="resultsTown.town"></results-quick>
 						<div class="p-line"></div>
