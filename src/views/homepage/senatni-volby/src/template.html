@@ -1,9 +1,9 @@
 <div class="homepage-senat">
-	<div class="p-divider red"></div>
-	<h1 class="quando mt05 mb075">
-		Senátní volby
-	</h1>
-	<p>V prvním kole senátních voleb bylo zvoleno <strong class="green">5 senátorů</strong>. V ostatních obvodech se musí konat druhé kolo, které je naplánováno na 16. a 17. října.</p>
+	<!-- <div class="p-divider red"></div> -->
+	<!-- <h1 class="quando mt05 mb075"> -->
+		<!-- Senátní volby -->
+	<!-- </h1> -->
+	<!-- <p>V prvním kole senátních voleb bylo zvoleno <strong class="green">5 senátorů</strong>. V ostatních obvodech se musí konat druhé kolo, které je naplánováno na 16. a 17. října.</p> -->
 	<template v-if="false">
 	<p-area :class="{primary: elections.status === 2}">
 		<div class="mb1">
@@ -102,16 +102,16 @@
 
 	<p-area class="highlight shadow">
 		<p-columns class="_2_4">
-			<div v-for="(obvod, index) in enums.obvody.filter(x => x.id % 3 === 0)" class="p-offset balanced smaller">
+			<div v-for="(obvod, index) in enums.obvody.filter(x => x.id % 3 === 1)" class="p-offset balanced smaller">
 				<span class="smallest dimm wib w2 pr075 text-right keep">{{ obvod.id }} </span>
-				<router-link :to="'/volby/senatni-volby/173/obvod/' + obvod.id" class="strong" :class="{green: [12,33,39,48,57].indexOf(Number(obvod.id)) > -1}">{{ obvod.name }}</router-link>
+				<router-link :to="'/volby/senatni-volby/181/obvod/' + obvod.id" class="strong">{{ obvod.name }}</router-link>
 			</div>
 		</p-columns>
 	</p-area>
 
-	<div class="p-gap"></div>
+	<!-- <div class="p-gap"></div> -->
 
-	<p-collapsible label="Aktivita stran" icon="list">
+	<p-collapsible label="Aktivita stran" icon="list" v-if="false">
 
 						
 						<!-- <h2 class="quando mt2">Aktivita stran</h2> -->

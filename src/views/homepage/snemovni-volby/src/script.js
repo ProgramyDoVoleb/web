@@ -138,7 +138,7 @@ export default {
 			return useData()
 		},
 		election: function () {
-			return this.$store.getters.pdv('elections/specific/' + this.elections.id + '/quicklook');
+			return this.$store.getters.pdv('elections/fetch/' + this.elections.id);
 		},
 		enums: function () {
 			return useEnums()
@@ -164,7 +164,7 @@ export default {
 	},
 	mounted: function () {
 		setTimeout(() => {
-			this.width = this.$el.getBoundingClientRect().width;
+			// this.width = this.$el.getBoundingClientRect().width;
 			window.addEventListener('resize', () => this.width = this.$el.getBoundingClientRect().width);
 		}, 500);
 	}

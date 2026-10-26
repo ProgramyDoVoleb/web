@@ -1,4 +1,4 @@
-<div class="homepage-ep" v-if="false">
+<div class="homepage-ep">
 	<p-loader :rule="election">
 		<div v-if="election">
 			<!-- <p-area icon="snemovni-volby" class="inline highlight shadow mt05">
@@ -44,218 +44,225 @@
 			<!-- <div class="smallest dimm">Upozornění: až do registrace stran a kandidátů berte uvedené kandidátní listiny jako předběžné a neoficiální.</div> -->
 				<div class="p-gap_075"></div>
 				<component :is="width < 640 ? 'div' : 'div'" class="smaller white">
-					<p-grid class="_squeeze border hover">
+					<p-grid>
 						<div v-for="(party, index) in sortBy(election.list[0].$strany, 'ZKRATKA', '', true)">
 							<party-preview-leader :party="party" :candidates="sortByPorCislo(election.list[0].$kandidati.filter(x => x.KSTRANA === party.KSTRANA))" :candidatesCount="(election.list[0].$kandidatu.find(x => x.KSTRANA === party.KSTRANA) || {pocet: 0}).pocet" :elections="election" :election="null" :link="'/volby/snemovni-volby/' + elections.id"></party-preview-leader>
+						</div>
+						<div v-if="election.list[0].$strany.length === 0" class="smallest dimm">
+							<em>Zatím zde nejsou žádné strany</em>
 						</div>
 					</p-grid>
 				</component>
 		</div>
 	</p-loader>
 
-
-	<div class="p-line _2 mt05"></div>
-
-	<h2 class="serif mt0">Vybraná volební témata</h2>
-		<p>Zde najdete úryvky z volebních programů podle témat, která vás mohou zajímat:</p>
-
-				<p-loader :rule="election">
-					<div v-if="election">
-						<p-box-group>
-							<template v-for="topic in sortBy(election.list[0].$temata, 'question', null, true)">
-								<p-box :to="'/volby/snemovni-volby/166/tema/' + topic.id">
-									<!-- <p-box-icon :type="topic.icon" v-if="topic.icon"></p-box-icon> -->
-									<p-box-button :icon="topic.icon">{{ topic.question }}</p-box-button>
-								</p-box>
-							</template>
-						</p-box-group>
-					</div>
-				</p-loader>
-
-				<div class="p-gap _2"></div>
-
-				<p-area class="primary smaller" borderColor="var(--yellow)">
-					<div class="p-offset reverse">
-						<div><strong>4 otázky pro kandidáty</strong><p-icon icon="answers-mini"></p-icon></div>
-						<div><router-link to="/novinky/6343" class="smallest is-span dimm">o co jde?</router-link></div>
-					</div>
-					<div class="_mw60 pt025">
-						Proč <router-link to="/volby/snemovni-volby/166/otazka/386" class="is-spann strong">kandidují</router-link>, na co se musí Česko <router-link to="/volby/snemovni-volby/166/otazka/389" class="is-spann strong">připravit</router-link> v příštích letech, co pro ně znamená <router-link to="/volby/snemovni-volby/166/otazka/388" class="is-spann strong">svoboda</router-link> a co je podle nich <router-link to="/volby/snemovni-volby/166/otazka/387" class="is-spann strong">přehlížené téma</router-link>?
-						<div class="p-line _0 mt1"></div>
-						<div class="strong pt1 pb025">Odpovědi již zaslalo {{ answers ? answers.length : 0 }} kandidátů, např.</div>
-						<p-list-linear class="nebo inline" v-if="answers">
-							<span v-for="cand in sortBy(shuffle(answers).filter((x, i) => i < 12), 'PRIJMENI', null, true)">
-								<router-link :to="'/volby/snemovni-volby/166/kandidat/' + cand.id + '/otazky-a-odpovedi'" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
-							</span>
-						</p-list-linear>
-					</div>
-				</p-area>
-				<div class="p-gap _2"></div>
-
-				<h2 class="serif mv0">Kalkulačka stran a kandidátů</h2>
-				<p class="mt0">Čeká vás 40 otázek napříč obory a tématy. Stačí ji projít jen jednou a pak si můžete přepnout mezi výsledky kandidátů a stran. Zapojilo se 22 stran a skoro 200 kandidátů.</p>
-				<p-box-group>
-					<p-box to="/kalkulacka">
-						<p-box-button icon="calc" class="primary">Spustit kalkulačku</p-box-button>
-					</p-box>
-					<p-box to="/volby/snemovni-volby/166/kalkulacka/porovnani">
-						<p-box-label>Porovnat odpovědi</p-box-label>
-					</p-box>
-					<template v-if="elections.editace === 1">
-						<p-box-gap></p-box-gap>
-						<p-box href="https://admin.programydovoleb.cz">
-							<p-box-button icon="admin">Chci doplnit odpovědi</p-box-button>
-						</p-box>
-					</template>
-				</p-box-group>
-	
-				<div class="p-line _2"></div>
-				<h2 class="serif mv0">Přehled lídrů</h2>
-				<div class="p-gap"></div>
-			
-				<p-loader :rule="election">
-					<div v-if="election">
-						<p-grid class="smaller _squeeze text-center">
-							<div v-for="person in sortBy(election.list[0].$kandidati, 'PRIJMENI', null, true)">
-								<!-- <div class="p-offset"> -->
-									<div class="p05">
-										<!-- <template v-for="person in election.list[0].$kandidati.filter(x => x.id === party.$data.leader[0].label)"> -->
-											<p-image :src="person.$data && person.$data.photo && person.$data.photo.length > 0 ? person.$data.photo[0].value : null" class="_ar rounded ma" width="100%"></p-image>
-										<!-- </template> -->
-									</div>
-									<div>
-										<div class="strong">
-											<router-link :to="'/volby/snemovni-volby/166/kandidat/' + person.id">{{ person.JMENO + ' ' + person.PRIJMENI }}</router-link>
-										</div>
-										<div class="smallest">
-											{{ election.list[0].$strany.find(x => x.KSTRANA === person.KSTRANA).ZKRATKA }}
-										</div>	
-									</div>
-								<!-- </div>			 -->
-							</div>
-						</p-grid>
-					</div>
-				</p-loader>
+	<template v-if="false">
 
 
-				
-	<div class="p-line _2"></div>
-	<h2 class="serif mv0">Kandidáti v krajích</h2>
-	<div class="p-gap"></div>
-	<p-area class="smaller">
-		<p-columns class="_tight">
-			<div v-for="(region, index) in enums.regions">
-				<router-link :to="'/volby/snemovni-volby/166/kraj/' + (index + 1)">{{ region }}</router-link>
-			</div>
-			<div>
-				<router-link to="/volby/snemovni-volby/166/kandidati" class="strong red">Vyhledávání</router-link>
-			</div>
-		</p-columns>
-	</p-area>
-	
-	
-	<div class="p-line _2"></div>
-	<h2 class="serif mv0">Kde jsou další strany?</h2>
-	<div class="p-gap"></div>
-	<p-area class="highlight">
-		<p-columns class="_2_4">
-			<div v-for="item in sortBy(list, 'name', null, true)">
-				<!-- <p-area> -->
-					<div class="p-offset _ac">
-						<div>
-							<p-image :src="item.logo" width="3em" :round="true"></p-image>
+		<div class="p-line _2 mt05"></div>
+
+		<h2 class="serif mt0">Vybraná volební témata</h2>
+			<p>Zde najdete úryvky z volebních programů podle témat, která vás mohou zajímat:</p>
+
+					<p-loader :rule="election">
+						<div v-if="election">
+							<p-box-group>
+								<template v-for="topic in sortBy(election.list[0].$temata, 'question', null, true)">
+									<p-box :to="'/volby/snemovni-volby/166/tema/' + topic.id">
+										<!-- <p-box-icon :type="topic.icon" v-if="topic.icon"></p-box-icon> -->
+										<p-box-button :icon="topic.icon">{{ topic.question }}</p-box-button>
+									</p-box>
+								</template>
+							</p-box-group>
 						</div>
-						<div>
-							<div class="strong">
-								<router-link class="is-span" :to="'/volby/snemovni-volby/166/aktivita/' + item.activity">{{ item.name }}</router-link>
+					</p-loader>
+
+					<div class="p-gap _2"></div>
+
+					<p-area class="primary smaller" borderColor="var(--yellow)">
+						<div class="p-offset reverse">
+							<div><strong>4 otázky pro kandidáty</strong><p-icon icon="answers-mini"></p-icon></div>
+							<div><router-link to="/novinky/6343" class="smallest is-span dimm">o co jde?</router-link></div>
+						</div>
+						<div class="_mw60 pt025">
+							Proč <router-link to="/volby/snemovni-volby/166/otazka/386" class="is-spann strong">kandidují</router-link>, na co se musí Česko <router-link to="/volby/snemovni-volby/166/otazka/389" class="is-spann strong">připravit</router-link> v příštích letech, co pro ně znamená <router-link to="/volby/snemovni-volby/166/otazka/388" class="is-spann strong">svoboda</router-link> a co je podle nich <router-link to="/volby/snemovni-volby/166/otazka/387" class="is-spann strong">přehlížené téma</router-link>?
+							<div class="p-line _0 mt1"></div>
+							<div class="strong pt1 pb025">Odpovědi již zaslalo {{ answers ? answers.length : 0 }} kandidátů, např.</div>
+							<p-list-linear class="nebo inline" v-if="answers">
+								<span v-for="cand in sortBy(shuffle(answers).filter((x, i) => i < 12), 'PRIJMENI', null, true)">
+									<router-link :to="'/volby/snemovni-volby/166/kandidat/' + cand.id + '/otazky-a-odpovedi'" class="is-span">{{ cand.JMENO + ' ' + cand.PRIJMENI}}</router-link>
+								</span>
+							</p-list-linear>
+						</div>
+					</p-area>
+					<div class="p-gap _2"></div>
+
+					<h2 class="serif mv0">Kalkulačka stran a kandidátů</h2>
+					<p class="mt0">Čeká vás 40 otázek napříč obory a tématy. Stačí ji projít jen jednou a pak si můžete přepnout mezi výsledky kandidátů a stran. Zapojilo se 22 stran a skoro 200 kandidátů.</p>
+					<p-box-group>
+						<p-box to="/kalkulacka">
+							<p-box-button icon="calc" class="primary">Spustit kalkulačku</p-box-button>
+						</p-box>
+						<p-box to="/volby/snemovni-volby/166/kalkulacka/porovnani">
+							<p-box-label>Porovnat odpovědi</p-box-label>
+						</p-box>
+						<template v-if="elections.editace === 1">
+							<p-box-gap></p-box-gap>
+							<p-box href="https://admin.programydovoleb.cz">
+								<p-box-button icon="admin">Chci doplnit odpovědi</p-box-button>
+							</p-box>
+						</template>
+					</p-box-group>
+		
+					<div class="p-line _2"></div>
+					<h2 class="serif mv0">Přehled lídrů</h2>
+					<div class="p-gap"></div>
+				
+					<p-loader :rule="election">
+						<div v-if="election">
+							<p-grid class="smaller _squeeze text-center">
+								<div v-for="person in sortBy(election.list[0].$kandidati, 'PRIJMENI', null, true)">
+									<!-- <div class="p-offset"> -->
+										<div class="p05">
+											<!-- <template v-for="person in election.list[0].$kandidati.filter(x => x.id === party.$data.leader[0].label)"> -->
+												<p-image :src="person.$data && person.$data.photo && person.$data.photo.length > 0 ? person.$data.photo[0].value : null" class="_ar rounded ma" width="100%"></p-image>
+											<!-- </template> -->
+										</div>
+										<div>
+											<div class="strong">
+												<router-link :to="'/volby/snemovni-volby/166/kandidat/' + person.id">{{ person.JMENO + ' ' + person.PRIJMENI }}</router-link>
+											</div>
+											<div class="smallest">
+												{{ election.list[0].$strany.find(x => x.KSTRANA === person.KSTRANA).ZKRATKA }}
+											</div>	
+										</div>
+									<!-- </div>			 -->
+								</div>
+							</p-grid>
+						</div>
+					</p-loader>
+
+
+					
+		<div class="p-line _2"></div>
+		<h2 class="serif mv0">Kandidáti v krajích</h2>
+		<div class="p-gap"></div>
+		<p-area class="smaller">
+			<p-columns class="_tight">
+				<div v-for="(region, index) in enums.regions">
+					<router-link :to="'/volby/snemovni-volby/166/kraj/' + (index + 1)">{{ region }}</router-link>
+				</div>
+				<div>
+					<router-link to="/volby/snemovni-volby/166/kandidati" class="strong red">Vyhledávání</router-link>
+				</div>
+			</p-columns>
+		</p-area>
+		
+		
+		<div class="p-line _2"></div>
+		<h2 class="serif mv0">Kde jsou další strany?</h2>
+		<div class="p-gap"></div>
+		<p-area class="highlight">
+			<p-columns class="_2_4">
+				<div v-for="item in sortBy(list, 'name', null, true)">
+					<!-- <p-area> -->
+						<div class="p-offset _ac">
+							<div>
+								<p-image :src="item.logo" width="3em" :round="true"></p-image>
 							</div>
 							<div>
-								{{ item.txt }} <router-link :to="item.link" v-if="item.link" class="strong">{{ item.label }}</router-link>
+								<div class="strong">
+									<router-link class="is-span" :to="'/volby/snemovni-volby/166/aktivita/' + item.activity">{{ item.name }}</router-link>
+								</div>
+								<div>
+									{{ item.txt }} <router-link :to="item.link" v-if="item.link" class="strong">{{ item.label }}</router-link>
+								</div>
 							</div>
 						</div>
-					</div>
-					
-					
-				<!-- </p-area> -->
+						
+						
+					<!-- </p-area> -->
+				</div>
+			</p-columns>
+		</p-area>
+		
+		
+		<div class="p-line _2"></div>
+		<h2 class="serif mv0">Přehled průvodců, kalkulaček a dalších nástrojů:</h2>
+		<div class="p-gap"></div>
+		<div class="p-list invisible">
+			<div>
+				<p-box-group>
+					<p-box to="/jak-volit">
+						<p-box-button icon="hint" class="primary">Jak volit</p-box-button>
+					</p-box>
+					<p-box to="/pruvodce">
+						<p-box-button icon="guide">Průvodce</p-box-button>
+					</p-box>
+					<p-box to="/kalkulacka">
+						<p-box-button icon="calc">Kalkulačka</p-box-button>
+					</p-box>
+					<p-box to="/kviz">
+						<p-box-button icon="question">Kvíz</p-box-button>
+					</p-box>
+				</p-box-group>
 			</div>
-		</p-columns>
-	</p-area>
-	
-	
-	<div class="p-line _2"></div>
-	<h2 class="serif mv0">Přehled průvodců, kalkulaček a dalších nástrojů:</h2>
-	<div class="p-gap"></div>
-	<div class="p-list invisible">
-		<div>
-			<p-box-group>
-				<p-box to="/jak-volit">
-					<p-box-button icon="hint" class="primary">Jak volit</p-box-button>
-				</p-box>
-				<p-box to="/pruvodce">
-					<p-box-button icon="guide">Průvodce</p-box-button>
-				</p-box>
-				<p-box to="/kalkulacka">
-					<p-box-button icon="calc">Kalkulačka</p-box-button>
-				</p-box>
-				<p-box to="/kviz">
-					<p-box-button icon="question">Kvíz</p-box-button>
-				</p-box>
-			</p-box-group>
+			<div>
+				<strong class="smallest dimm">Volební kalkulačka&trade; od KohoVolit.eu:</strong>
+				<p-box-group>
+					<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/kalkulacka">
+						<p-box-button class="primary">Klasická</p-box-button>
+					</p-box>
+					<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/expresni">
+						<p-box-button>Expresní</p-box-button>
+					</p-box>
+					<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/ultimatni">
+						<p-box-button>Pro fajnšmekry</p-box-button>
+					</p-box>
+					<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/pro-mlade">
+						<p-box-button>Pro mladé</p-box-button>
+					</p-box>
+					<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/inventura">
+						<p-box-button>Inventura hlasování</p-box-button>
+					</p-box>
+				</p-box-group>
+			</div>
+			<div>
+				<strong class="smallest dimm">Další nástroje a kalkulačky:</strong>
+				<p-box-group>
+					<p-box href="https://www.novinky.cz/clanek/volby-do-poslanecke-snemovny-kalkulacka-koho-volit-2025-40529387">
+						<p-box-button>Novinky</p-box-button>
+					</p-box>
+					<p-box href="https://www.seznamzpravy.cz/clanek/volby-do-poslanecke-snemovny-kalkulacka-volby-2025-koho-volit-282737">
+						<p-box-button>Seznam Zprávy</p-box-button>
+					</p-box>
+					<p-box href="https://zpravy.aktualne.cz/domaci/parlamentni-volby-2025-volebni-kalkulacka/r~3d0885bc88a311f0b589ac1f6b220ee8/">
+						<p-box-button>Aktuálně</p-box-button>
+					</p-box>
+					<p-box href="https://www.idnes.cz/volby/volebni-radce-koho-volit-do-snemovny-2025.A250813_095700_volby_chtl">
+						<p-box-button>iDnes</p-box-button>
+					</p-box>
+					<p-box href="http://volimprozvirata.cz/">
+						<p-box-button>Volím pro zvířata</p-box-button>
+					</p-box>
+				</p-box-group>
+			</div>
+			<div>
+				<strong class="smallest dimm">Potřebujete se nejdřív rozkoukat?</strong>
+				<p-box-group>
+					<p-box to="/novinky/8372">
+						<p-box-button icon="edit">Co vše najdu na Programech?</p-box-button>
+					</p-box>
+					<p-box href="https://open.spotify.com/episode/4mJwR6FGU1Cic23dncyyzv?si=B3Zi4jiYTjCgvWvrCD6N0Q">
+						<p-box-button icon="spotify">Podcast verze</p-box-button>
+					</p-box>
+				</p-box-group>
+			</div>
 		</div>
-		<div>
-			<strong class="smallest dimm">Volební kalkulačka&trade; od KohoVolit.eu:</strong>
-			<p-box-group>
-				<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/kalkulacka">
-					<p-box-button class="primary">Klasická</p-box-button>
-				</p-box>
-				<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/expresni">
-					<p-box-button>Expresní</p-box-button>
-				</p-box>
-				<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/ultimatni">
-					<p-box-button>Pro fajnšmekry</p-box-button>
-				</p-box>
-				<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/pro-mlade">
-					<p-box-button>Pro mladé</p-box-button>
-				</p-box>
-				<p-box href="https://www.volebnikalkulacka.cz/volby/snemovni-2025/inventura">
-					<p-box-button>Inventura hlasování</p-box-button>
-				</p-box>
-			</p-box-group>
-		</div>
-		<div>
-			<strong class="smallest dimm">Další nástroje a kalkulačky:</strong>
-			<p-box-group>
-				<p-box href="https://www.novinky.cz/clanek/volby-do-poslanecke-snemovny-kalkulacka-koho-volit-2025-40529387">
-					<p-box-button>Novinky</p-box-button>
-				</p-box>
-				<p-box href="https://www.seznamzpravy.cz/clanek/volby-do-poslanecke-snemovny-kalkulacka-volby-2025-koho-volit-282737">
-					<p-box-button>Seznam Zprávy</p-box-button>
-				</p-box>
-				<p-box href="https://zpravy.aktualne.cz/domaci/parlamentni-volby-2025-volebni-kalkulacka/r~3d0885bc88a311f0b589ac1f6b220ee8/">
-					<p-box-button>Aktuálně</p-box-button>
-				</p-box>
-				<p-box href="https://www.idnes.cz/volby/volebni-radce-koho-volit-do-snemovny-2025.A250813_095700_volby_chtl">
-					<p-box-button>iDnes</p-box-button>
-				</p-box>
-				<p-box href="http://volimprozvirata.cz/">
-					<p-box-button>Volím pro zvířata</p-box-button>
-				</p-box>
-			</p-box-group>
-		</div>
-		<div>
-			<strong class="smallest dimm">Potřebujete se nejdřív rozkoukat?</strong>
-			<p-box-group>
-				<p-box to="/novinky/8372">
-					<p-box-button icon="edit">Co vše najdu na Programech?</p-box-button>
-				</p-box>
-				<p-box href="https://open.spotify.com/episode/4mJwR6FGU1Cic23dncyyzv?si=B3Zi4jiYTjCgvWvrCD6N0Q">
-					<p-box-button icon="spotify">Podcast verze</p-box-button>
-				</p-box>
-			</p-box-group>
-		</div>
-	</div>
 
 
 
-	<div class="p-line _2"></div>
+		<div class="p-line _2"></div>
+
+	</template>
 </div>
