@@ -19,7 +19,7 @@ import EngagementSupport from '@/components/engagement/support/do.vue';
 
 export default {
 	name: 'NewsDailyItem',
-	props: ['datum'],
+	props: ['datum', 'prefetch'],
 	data: function () {
 		return {
 			cdn,
@@ -69,7 +69,7 @@ export default {
 			return useData()
 		},
 		news: function () {
-			return this.$store.getters.pdv('news/daily/' + this.datum)
+			return this.prefetch || this.$store.getters.pdv('news/daily/' + this.datum)
 		},
 		nearEvents: function () {
 			var arr = [];

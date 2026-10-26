@@ -368,7 +368,7 @@
 											</p-columns>
 										</div>
 									</template>
-									<div>
+									<div v-if="day.log.length > 0 || day.auto.length > 0 || day.media.length > 0 || day.comm.length > 0 || day.main.length > 0">
 										<template v-if="day.log.length > 0">
 											<p-collapsible icon="edit" label="Přehled upravených záznamů" :status="day.log.length" class="mt-075">
 												<div class="">
@@ -418,9 +418,9 @@
 													</div>
 												</p-list>
 											</p-collapsible>
-											<p-collapsible label="Novinky na mapě" icon="map" v-if="news.gps" borderless="1">
+											<!-- <p-collapsible label="Novinky na mapě" icon="map" v-if="news.gps" borderless="1">
 												<news-map :data="news"></news-map>
-											</p-collapsible>
+											</p-collapsible> -->
 										</template>
 									</div>
 									<template v-if="day.main.length === 0 && day.sys.length === 0 && day.polls.length === 0 && day.log.length === 0 && day.media.length === 0">
@@ -429,43 +429,40 @@
 											<em>K tomuto dni nejsou doplněné žádné novinky z médií, žádné nové průzkumy, ani žádné nové záznamy či úpravy na Programech.</em>
 										</div>
 									</template>
-									<div v-if="day.datum === today">
-										<p-box-group>
-											<p-modal class="inline">
-												<template #init>
-													<p-box>
-														<p-box-button color="var(--green)" icon="plus-green.svg">Chci něco doplnit</p-box-button>
-													</p-box>
-												</template>
-												<template #content>
-													<h4>Stačí poslat odkat, případně připojit poznámku.</h4>
-													<report-form part="Sedmidenní přehled"></report-form>
-												</template>
-											</p-modal>
-										</p-box-group>
-										<!-- <div class="p-line"></div>
-										<h3 class="quando">Podpořte Programy do voleb</h3>
-										<p>aby se o nestranných přehledech a volebních programech dozvědělo co nejvíce lidí</p>
-										<engagement-support></engagement-support> -->
-							
-									</div>
 								</p-list>
-								<div class="p-gap _2"></div>
+									<template v-if="day.datum === today">
+										<div class="pt2">
+											<p-box-group>
+												<p-popup class="inline">
+													<template #init>
+														<p-box>
+															<p-box-button color="var(--green)" icon="plus-green.svg">Chci něco doplnit</p-box-button>
+														</p-box>
+													</template>
+													<template #content>
+														<h4>Stačí poslat odkaz, případně připojit poznámku.</h4>
+														<report-form part="Sedmidenní přehled"></report-form>
+													</template>
+												</p-popup>
+											</p-box-group>
+										</div>							
+									</template>
+								<!-- <div class="p-gap _2"></div> -->
 							</p-block>
 							<p-block v-else class="smallest" :headline="date(day.datum)" :hide="true">
 								<p-area class="inline">
 									<em class="dimm">{{ date(day.datum) }} — žádné záznamy</em>
 									<template v-if="day.datum === today">
 										 &middot;
-										<p-modal class="inline">
+										<p-popup class="inline">
 											<template #init>
 												<span class="green strong">přidat</span>
 											</template>
 											<template #content>
-												<h4>Stačí poslat odkat, případně připojit poznámku.</h4>
+												<h4>Stačí poslat odkaz, případně připojit poznámku.</h4>
 												<report-form part="Sedmidenní přehled"></report-form>
 											</template>
-										</p-modal>
+										</p-popup>
 									</template>
 								</p-area>								
 							</p-block>

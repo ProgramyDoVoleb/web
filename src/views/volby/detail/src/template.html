@@ -31,7 +31,7 @@
 								</div>
 							</p-loader>
 						</p-block-expandable>
-						<p-block-expandable headline="Media a tiskové zprávy" :open="current.status < 3">
+						<p-block-expandable headline="Media a tiskové zprávy">
 							<p-loader :rule="news" reserve="450px">
 								<div v-if="news" class="smaller">
 									<div class="columns columns---no-gap">
@@ -75,7 +75,7 @@
 								</div>
 							</p-loader>
 						</p-block-expandable>
-						<p-block-expandable headline="Události" :open="current.status < 3">
+						<p-block-expandable headline="Události">
 							<p-list height="1.5">
 								<div v-for="(item, index) in sortEvents((current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today))">
 									<event-item :item="item" :party="current" :data="data" :noTag="true"></event-item>
@@ -87,7 +87,7 @@
 								<p-popup preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="'csu_volby:' + id" :elections="id"></editable-event></template></p-popup>
 							</div>
 						</p-block-expandable>
-						<p-block-expandable headline="Poznámky" :open="current.status < 3">
+						<p-block-expandable headline="Poznámky">
 							<p-list height="1">
 								<div v-for="(item, index) in (current.$data.note || [])">
 									<div>
@@ -106,7 +106,7 @@
 							</div>
 						</p-block-expandable>
 
-							<p-block-expandable headline="Odkazy" :open="current.status < 3">
+							<p-block-expandable headline="Odkazy">
 								<p-list class="_025">
 									<template v-if="linksAll.filter(x => x.type === 'web' || x.type === 'wiki').length > 0">
 										<div v-for="(item, index) in linksAll.filter(x => x.type === 'web' || x.type === 'wiki')">

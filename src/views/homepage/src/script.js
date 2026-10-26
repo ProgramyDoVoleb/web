@@ -1,5 +1,5 @@
 import {useData} from '@/stores/data';
-import { useCore, cdn, today } from '@/stores/core';
+import { useCore, cdn, today, yesterday } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
 import {url, date, number, truncate, domain, con, sortBy, sortEvents, unique, firstOfUnique, shuffle, untag, daysUntil, getMedia} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
@@ -37,6 +37,7 @@ import PopUp from '@/components/pop-up/do.vue';
 import HomepageSummary from '@/views/homepage/summary/do.vue';
 import HeroMap from '@/components/hero-map/main/do.vue';
 import NewsMap from '@/components/news-map/do.vue';
+import NewsDailyItem from '@/views/news/daily-item/do.vue'
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
 import EngagementSupport from '@/components/engagement/support/do.vue';
 import ResultsQuick from '@/views/volby/detail/komunalni-volby/results-quick/do.vue';
@@ -48,7 +49,7 @@ export default {
 		return {
 			cdn,
 			eu2024: 'https://eu2024.programydovoleb.cz',
-			today,
+			today, yesterday,
 			width: window.innerWidth,
 			log: {
 				types: log,
@@ -103,7 +104,8 @@ export default {
 	CtaGuide, CtaHowTo, 
 	HomepageSummary,
 	HeroMap, NewsMap,
-	EngagementAddProgram, EngagementSupport, ResultsQuick, ResultsQuickSenat
+	EngagementAddProgram, EngagementSupport, ResultsQuick, ResultsQuickSenat,
+	NewsDailyItem
   },
 	computed: {
 		$store: function () {
@@ -119,7 +121,7 @@ export default {
 			return this.enums.elections;
 		},
 		news: function () {
-			return this.enableNewsLoad ? this.$store.getters.pdv('news/weekly/' + this.today) : null;
+			return this.enableNewsLoad ? this.$store.getters.pdv('news/5itemsBefore/' + this.yesterday) : null;
 		},
 		newsmedia: function () {
 			var res = [];

@@ -1,5 +1,5 @@
 <div class="snemovni-volby">
-	<template v-if="current.status < 3">
+	<template v-if="false && current.status < 3">
 		<p-box-group :full="true">
 			<p-box to="/jak-volit/snemovni-volby">
 				<p-box-button class="primary">Jak volit?</p-box-button>
@@ -94,7 +94,7 @@
 			<election-compare :current="data" :previous="$store.getters.pdv('elections/fetch/' + current.predchozi)"></election-compare>
 		</p-block-expandable>
 	</template>
-	<template v-if="current.status < 3">
+	<template v-if="current.status === 2">
 		<p-area icon="hint" background="var(--blue11)">
 			<p-grid>
 				<div>
@@ -113,7 +113,7 @@
 		</p-area>
 		<div class="p-gap _2"></div>
 	</template>
-	<p-block headline="Volební programy" :hide="true" :open="true">
+	<p-block headline="Volební programy" :hide="true" :open="true" v-if="current.status === 2">
 		<p-area class="primary">
 			<p-columns class="smaller _2_4">
 				<div v-for="party in sortBy(current.$strany.filter(x => listFilter.length === 0 ? true : listFilter.indexOf(x.id) > -1), 'ZKRATKA', null, true)">
@@ -325,7 +325,7 @@
 			<div class="p-gap _3"></div>
 		</template> -->
 	<!-- </p-loader> -->
-	<div class="p-gap_3" v-if="current.status === 3"></div>
+	<div class="p-gap"></div>
 	<template v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0">
 		<p-block headline="Otázky a odpovědi" :hide="true" class="mb3">
 			<p-area class="highlight shadow" borderColor="var(--yellow)">
