@@ -1,0 +1,9 @@
+<div class="program-backup">
+	<div class="smallest">
+		Zdroj: <p-link :href="item.label">{{ domain(item.label) }}</p-link> &middot; čas stažení {{ date(item.updated, 3) }} v {{ item.updated.split(' ')[1] }} &middot; <button class="inline" @click="display(show === 'full' ? 'sanitized' : 'full')" :class="{'strong green': show != 'full'}">odebrat styly, obrázky a další formátování</button>
+	</div>
+	<div class="p-line"></div>
+	<div class="iframe-program-backup">
+		<iframe ref="frame"></iframe>
+	</div>
+</div>

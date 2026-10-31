@@ -46,6 +46,7 @@ import HistoryKvRos from '@/components/history/kv-ros/do.vue';
 import HistoryCandidates from '@/components/history/town/do.vue';
 import EngagementSupport from '@/components/engagement/support/do.vue';
 import WidgetEmbed from '@/components/widget-block/do.vue';
+import ProgramBackup from '@/components/program-backup/do.vue'
 
 export default {
 	name: 'layout-pointer',
@@ -90,7 +91,8 @@ export default {
 	EditableBasic, EditableSuggest, EditableEvent, EditableSupportParty, EditableImage,
 	HistoryKvRk, HistoryKvRos, HistoryCandidates,
 	EngagementSupport,
-	WidgetEmbed
+	WidgetEmbed,
+	ProgramBackup
   },
 	computed: {
 		$store: function () {
@@ -524,7 +526,6 @@ export default {
 		this.width = this.$el.getBoundingClientRect().width;
 		window.addEventListener('resize', () => this.width = this.$el.getBoundingClientRect().width);
 	}, 500);
-	
   },
   watch: {
 	data: function () {

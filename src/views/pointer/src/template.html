@@ -346,11 +346,7 @@
 															<strong>{{ date(item.updated) }}</strong>
 														</template>
 														<template #content>
-															<div class="smallest">
-																Zdroj: <p-link :href="item.label">{{ domain(item.label) }}</p-link> &middot; čas stažení {{ date(item.updated, 3) }} v {{ item.updated.split(' ')[1] }}
-															</div>
-															<div class="p-line"></div>
-															<iframe :src="item.source" frameborder="0" width="100%" height="100%"></iframe>
+															<program-backup :item="item"></program-backup>
 														</template>
 													</p-modal>
 												
