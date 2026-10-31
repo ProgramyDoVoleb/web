@@ -289,7 +289,7 @@
 									</div>
 									<div class="mb0"></div>
 							</p-block>
-							<p-block headline="Hlavní odkazy" v-if="!$strana && (current.$program.length > 0 || (current.$otazky && current.$otazky.find(x => x.type === 2)) || current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0 || (current.$data.program && current.$data.program.length > 0))">
+							<p-block headline="Hlavní odkazy" v-if="!$strana && (current.$program.length > 0 || (current.$otazky && current.$otazky.find(x => x.type === 2)) || current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0 || (current.$data.program && current.$data.program.length > 0) || (current.$data.backup && current.$data.backup.length > 0))">
 								<p-grid>
 									<div v-if="current.$program.length > 0">
 										<p-area icon="icon-party" background="var(--blue11)">
@@ -333,6 +333,31 @@
 										</p-area>
 									</div>
 								</p-grid>
+								<template v-if="current.$data.backup && current.$data.backup.length > 0">
+									<div class="p-line"></div>
+									<div class="smallest">
+										<p-icon icon="doc"></p-icon>
+										Záloha volebního programu: 
+										<p-list-linear>
+											<span v-for="(item, index) in current.$data.backup">
+												
+													<p-modal extended="1">
+														<template #init>
+															<strong>{{ date(item.updated) }}</strong>
+														</template>
+														<template #content>
+															<div class="smallest">
+																Zdroj: <p-link :href="item.label">{{ domain(item.label) }}</p-link> &middot; čas stažení {{ date(item.updated, 3) }} v {{ item.updated.split(' ')[1] }}
+															</div>
+															<div class="p-line"></div>
+															<iframe :src="item.source" frameborder="0" width="100%" height="100%"></iframe>
+														</template>
+													</p-modal>
+												
+											</span>
+										</p-list-linear>
+									</div>
+								</template>
 							</p-block>
 							
 							<p-block headline="Kapitoly programu" v-if="current.$program && current.$program.length > 0 && current.$program[0].structure && current.$program[0].structure.length > 1">

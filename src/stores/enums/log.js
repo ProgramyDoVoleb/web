@@ -1,5 +1,6 @@
 export default {
     'about': 'Představení',
+    'backup': 'Záloha volebního programu',
     'color': 'Barva',
     'email': 'E-mail',
     'document': 'Dokument',

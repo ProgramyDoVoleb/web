@@ -12,6 +12,22 @@
   background: rgba(255, 255, 255, .8);
   backdrop-filter: blur(6px);
 
+  &.extended {
+    // padding: 0;
+
+    .modal-content {
+      width: calc(100vw - 4em);
+      height: calc(100vh - 4em);
+      max-width: 100vw;
+      max-height: 100vh;
+
+      @media (min-width: 60em) {
+        width: calc(100vw - 10em);
+        height: calc(100vh - 10em);
+      }
+    }
+  }
+
   .dark & {
     background: #091623aa;
   }
@@ -80,15 +96,4 @@
 
 .modal-span {
   display: inline-block;
-}
-
-.extended {
-  // padding: 0;
-
-  .modal-content {
-    width: calc(100vw - 3em);
-    height: calc(100vh - 3em);
-    max-width: 100vw;
-    max-height: 100vh;
-  }
 }
