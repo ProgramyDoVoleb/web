@@ -337,6 +337,13 @@
 														<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')" class="strong">{{ cand.title }}</router-link>														
 													</p-area>
 												</div>
+												<div v-for="cand in sortBy(day.auto.filter(x => !x.content && !x.focus), 'PRIJMENI')">
+													<p-area icon="prezidentske-volby" class="highlight shadow">
+														<router-link :to="'/bod/' + cand.relates.split(',')[1].split(':').join('/')" class="strong">{{ cand.title }}</router-link>														
+														<div class="dimm smallest" v-if="isWoman(cand.$relates[0])">Nová možná kandidátka na prezidenta</div>
+														<div class="dimm smallest" v-else>Nový možný kandidát na prezidenta</div>
+													</p-area>
+												</div>
 												<div v-for="town in sortBy(unique(day.auto.filter(x => x.focus && x.focus >= 500000 && (x.$relates && !x.$relates.find(y => y.volby < 0))), 'focus').map(x => [x, day.auto.find(y => y.focus === x).content.includes(' · ') ? day.auto.find(y => y.focus === x).content.split(' · ')[1] : day.auto.find(y => y.focus === x).content]), 1, null, true)">
 													<p-area>
 														<router-link :to="'/volby/komunalni-volby/' + day.auto.find(x => x.focus === town[0]).volby + '/obec/' + town[0]" class="strong is-span">

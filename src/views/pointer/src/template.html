@@ -340,7 +340,10 @@
 										Záloha volebního programu: 
 										<p-list-linear>
 											<span v-for="(item, index) in current.$data.backup">
-												
+												<template v-if="item.source.includes('.pdf')">
+													<p-link :href="item.source"><strong>PDF {{ date(item.updated) }}</strong></p-link>
+												</template>
+												<template v-else>
 													<p-modal extended="1">
 														<template #init>
 															<strong>{{ date(item.updated) }}</strong>
@@ -349,6 +352,7 @@
 															<program-backup :item="item"></program-backup>
 														</template>
 													</p-modal>
+												</template>
 												
 											</span>
 										</p-list-linear>
