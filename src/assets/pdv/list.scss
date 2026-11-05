@@ -1,8 +1,10 @@
 .p-list {
-    margin: -1em 0;
+    margin-top: -1em;
+    margin-bottom: -1em;
   
     & > div {
-      padding: 1em 0;
+      padding-top: 1em;
+      padding-bottom: 1em;
       position: relative;
     }
   
@@ -133,7 +135,9 @@
   .p-list.invisible {
     & > div {
       border-top: none !important;
+    }
 
+    &:not(._2):not(._3):not(._15):not(._1):not(._05) > div {
       &:not(:first-child) {
         padding-top: .1em;
       }

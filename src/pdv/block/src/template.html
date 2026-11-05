@@ -1,8 +1,7 @@
-<div class="p-block" :class="'p-block---' + (level || 2)" :name="hide ? hash : null">
-	<p-headline :level="level || 2" :anchor="anchor" :alert="alert" v-if="headline" :class="{'hide-headline': hide}" :editable="editable">
-		<a :name="hide ? null : hash"></a>
-		<span class="p-headline---label" :data-label="anchor || headline">{{ headline }}</span>
-		<div class="p-headline---sublabel">{{ subheadline }}</div>
+<div class="p-block" :class="'_' + (level || 2)" :name="hash" :data-anchor="anchor || headline" :data-level="level || 2">
+	<p-headline :level="level || 2" :anchor="anchor" :alert="alert" :class="{'_hide': hide}">
+		<div class="_label">{{ headline }}</div>
+		<div class="_sublabel">{{ subheadline }}</div>
 	</p-headline>
 	<slot />
 </div>

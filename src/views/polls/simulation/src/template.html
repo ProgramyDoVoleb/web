@@ -1,19 +1,19 @@
 <div class="layout-homepage">
-	<p-layout-divided>
-		<template #anchors>
-			<p-anchors></p-anchors>
-		</template>
-		<template #main>
-			<p-block headline="Výpočet mandátů" :level="1">
-				<p class="lead">Přepočet hlasů na mandáty jednotlivým stranám a do jednotlivých krajů má několik kroků. Zde si můžete vyzkoušet, co by libovolný průzkum znamenal a jak by pak vypadalo složení Sněmovny.</p>
-				<select v-model="type" v-if="polls">
-					<template v-for="(poll, index) in polls.list.filter(x => x.pollofpolls)">
-						<option v-if="index < 8" :value="index">{{ poll.agency }}, {{ poll.title }}, {{ date(poll.datum) }} </option>
-					</template>
-					<option disabled>---</option>
-					<option :value="-1">Vlastní data</option>
-					<option :value="-2">Vlastní krajská účast a podrobná data</option>
-				</select>
+	<p-layout-simple>
+		<!-- <template #main> -->
+			<p-block headline="Přepočet hlasů na mandáty" :level="1">
+				<p class="lead">Zde si můžete vyzkoušet, co by libovolný průzkum znamenal a jak by pak vypadalo složení Sněmovny. Nebo si můžete naklikat vlastní průzkum, rychle nebo podrobně po krajích. Přepočet odpovídá aktuálnímu volebnímu zákonu.</p>
+				<div class="text-center">
+					<h3 class="quando">Zdroj dat</h3>
+					<select v-model="type" v-if="polls">
+						<template v-for="(poll, index) in polls.list.filter(x => x.pollofpolls)">
+							<option v-if="index < 8" :value="index">{{ poll.agency }}, {{ poll.title }}, {{ date(poll.datum) }} </option>
+						</template>
+						<option disabled>---</option>
+						<option :value="-1">Vlastní data</option>
+						<option :value="-2">Vlastní krajská účast a podrobná data</option>
+					</select>
+				</div>
 				<template v-if="type === -1 && parties">
 					<div class="p-gap"></div>
 					<p-area>
@@ -293,7 +293,9 @@
 				</template>
 				<div id="scrollHereAfterCustomSetting"></div>
 			</p-block>
-			<election-simulation-imperiali-2021 v-if="type > -3 && tick > 0" :defined="defined" :definedAttendance="useComplex ? complex.attendance : null" :tickDefined="tick"></election-simulation-imperiali-2021>
-		</template>
-	</p-layout-divided>
+			<p-block headline="Výpočet mandátů">
+				<election-simulation-imperiali-2021 v-if="type > -3 && tick > 0" :defined="defined" :definedAttendance="useComplex ? complex.attendance : null" :tickDefined="tick"></election-simulation-imperiali-2021>
+			</p-block>
+		<!-- </template> -->
+	</p-layout-simple>
 </div>

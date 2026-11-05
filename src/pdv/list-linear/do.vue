@@ -38,7 +38,7 @@
 
         function addToList (item) {
             if (list.length > 0 && list[list.length - 1] !== delimiters[0]) {
-                list.push(h('span', {class: 'dvd'}, delimiters[0]));
+                list.push(h('li', {class: 'dvd'}, delimiters[0]));
             }
             list.push(item);
         }
@@ -70,7 +70,7 @@
         }
 
         if (list.length > 1) {
-            list[list.length - 2] = h('span', {class: 'dvd'}, delimiters[1]);
+            list[list.length - 2] = h('li', {class: 'dvd'}, delimiters[1]);
         }
 
         return h('ul', {class: 'p-list-linear'}, list);

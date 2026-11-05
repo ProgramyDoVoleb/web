@@ -4,7 +4,8 @@ i {
   height: 6px;
   margin-right: 6px;
   border-radius: 50%;
-  transform: translateY(.5em);
+  transform: translateY(.33em);
+  position: relative;
 
   &:last-child:not(:first-child) {
     margin-left: 6px;

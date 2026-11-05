@@ -11,25 +11,26 @@ export default {
 		getAnchors: function () {
 			this.list = [];
 
-			var blocks = document.querySelectorAll('.p-block');
+			var blocks = document.querySelectorAll('[name][data-anchor]');
 
-			if (blocks.length > 0) {
+			// if (blocks.length > 0) {
+
 				blocks.forEach(el => {
-					if (el.querySelector('.p-headline---label')) {
+					// if (el.querySelector('[name]')) {
 						var obj = {
 							el,
-							label: el.querySelector('.p-headline---label').getAttribute('data-label'),
-							level: Number(el.querySelector('.p-headline---component').nodeName.split('H')[1]),
-							rect: el.getBoundingClientRect(),
+							label: el.getAttribute('data-anchor'),
+							level: Number(el.getAttribute('data-level')),
+							rect: null,
 							visible: false
 						}
 
 						obj.hash = '#' + url(obj.label);
 
 						this.list.push(obj);
-					}
+					// }
 				});
-			}
+			// }
 
 			this.scroll();
 		},
@@ -62,6 +63,8 @@ export default {
 	mounted: function () {
 		window.addEventListener("resize", () => this.scroll());
 		window.addEventListener("scroll", () => this.scroll());
+
+		this.getAnchors();
 
 		setInterval(() => this.getAnchors(), 1000);
 

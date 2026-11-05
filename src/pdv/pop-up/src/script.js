@@ -60,7 +60,7 @@ export default {
 
 				} else {
 					if (isDown) {
-						popup.style.top = '1500vh';
+						popup.style.top = '15000vh';
 						arrow.style.top = '1500vh';
 					} else {
 						popup.style.bottom = '1500vh';

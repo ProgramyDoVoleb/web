@@ -32,6 +32,7 @@
   &.blue {border-color: var(--blue);}
   &.red {border-color: var(--red);}
   &.green {border-color: var(--green);}
+  &.yellow {border-color: var(--yellow);}
 }
 
 .invert .p-box-button {
@@ -44,17 +45,18 @@
   box-shadow: 0 4px 12px var(--darken);
   color: #aaa;
 
-  &.primary {
-    border-color: var(--blueCC);
-    color: var(--blue);
-  }
+  &.primary {border-color: var(--blueCC); color: var(--blue);}
+  &.blue {border-color: var(--blue); color: var(--blue)}
+  &.red {border-color: var(--red); color: var(--red)}
+  &.green {border-color: var(--green); color: var(--green)}
+  &.yellow {border-color: var(--yellow); color: var(--yellow)}
 
   @media (hover: hover) {
     transition: all .3s;
     &:hover {
       box-shadow: 0 2px 12px var(--lighter);
-      border: 1px solid #888;
-      color: #ddd !important
+      border: 1px solid #ccc;
+      color: #fff !important
     }
 
     &.primary:hover {

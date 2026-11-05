@@ -3,7 +3,7 @@
   padding: .85em 1.25em;
   position: relative;
   margin-bottom: 0;
-  border-radius: 1.6em;
+  border-radius: .6em;
 
   &.p-area---has-border, &.primary {
     border-top-left-radius: 8px;
@@ -45,15 +45,17 @@
   }
 
   &.p-area---has-icon:not(.p-area---icon-top) {
-    padding: .75em 1em .75em 4em;
+    padding: .75em 1em .75em 4.5em;
   
     .p-box-icon,
     .p-box-image {
       position: absolute;
       top: 0;
-      left: -3.1em;
+      left: -3.6em;
       border-radius: 50%;
       border: none;
+      width: 2.5em;
+      height: 2.5em;
 
       &:after {
         content: none;
@@ -133,7 +135,7 @@
 }
 
 .shadow {
-  box-shadow: 0 10px 25px #eee;
+  box-shadow: 0 10px 25px #00000011;
 
   .dark & {
     box-shadow: 0 1em 2em #00000022;

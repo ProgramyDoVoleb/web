@@ -2,7 +2,7 @@
   background: rgba(0,0,0,.05);
   position: relative;
   width: 100%;
-  border-radius: .4rem;
+  border-radius: 2em;
   overflow: hidden;
 
   .dark & {
@@ -12,14 +12,14 @@
 
 .p-line-graph---value {
   height: 1.6rem;
-  border-radius: .4rem;
+  border-radius: 2em;
   width: 0;
   transition: width 1s ease-out;
   transition: width 1s cubic-bezier(0.435, 0.000, 0.145, 1.000);
 
   .dark & {
-    border-right: 1px inset var(--whiteish);
-    border-bottom: 1px inset var(--whiteish);
+    // border-right: 1px inset var(--whiteish);
+    // border-bottom: 1px inset var(--whiteish);
   }
 }
 

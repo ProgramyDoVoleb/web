@@ -1,44 +1,24 @@
 <div class="layout-about-fundraising">
-	<p-layout-divided>
-		<template #main>
-			<p-block :level="1" headline="Podpořte Programy do voleb" anchor="Podpora projektu">
+	<p-layout-simple>
+		<!-- <template #main> -->
+			<p-block :level="1" headline="Podpořte Programy do voleb" anchor="Podpora projektu" class="maxw40 ma">
 
-				<p-truncated-content class="p" tag="div" :size="32">
+				<p-truncated-content class="p lead" tag="div" :size="32">
 					<p>Už od roku 2018 vzniká nestranný a nezávislý předvolební přehled. Po celou dobu funguje jako dobrovolnický neziskový projekt, s hlavním cílem informovat o nadcházejících volbách, o kandidujících stranách, kandidátech a jejich volebních programech. Nejedná se o názorový ani zpravodajský portál, nevnucuje názor, nefandí. Není nijak spojen s žádnou politickou stranou, hnutím, think-tankem, PR agenturou ani mediálním domem.</p>
 					<p>Velká část činnosti je zabezpečena svépomocí, programování, grafika, komunikace je ryze dobrovolnickou nehrazenou prací, ve volném čase. Jediným nezbytným nákladem je webhosting a doména. Veškeré další prostředky tak jdou na propagaci projektu.</p>
 				</p-truncated-content>
 
-				<div class="p-gap"></div>
+				<!-- <div class="p-gap"></div> -->
 
-				<p-box-group>
+				<p-box-group class="jcc">
 					<template v-for="(kc, i) in [100, 250, 2026]"><p-box :href="'https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=' + kc"><p-box-button color="var(--green)">{{ kc }} Kč</p-box-button></p-box></template>
 					<p-box href="https://www.darujme.cz/programydovoleb"><p-box-button class="primary">Jinou částku</p-box-button></p-box>
 					<!-- <p-box href="https://www.t-shock.eu/cs/shop/NUBj"><p-box-button class="primary">Merch</p-box-button></p-box> -->
 					<!-- <p-box :click="() => slide('plakaty')"><p-box-button class="primary">Plakáty</p-box-button></p-box> -->
 				</p-box-group>
-				<p class="smallest dimm">Kliknutí přesměruje na portál Darujme.cz</p>
+				<p class="smallest dimm text-center ma">Kliknutí přesměruje na portál Darujme.cz</p>
 			</p-block>
-			<!-- <p-block headline="Nestranně, nezávisle, dobrovolnicky" anchor="Důvody podpory">
-				<h3 class="quando">Pomozte Programům před volbami</h3>
-				<p>
-
-						
-							<engagement-support></engagement-support>
-							<p-area class="mt1">
-								<p-list class="_05">
-									<div class="strong green">úroveň 1 &middot; 25 000 Kč = dobrá kampaň</div>
-									<div class="strong green">úroveň 2 &middot; 50 000 Kč = lepší kampaň</div>
-									<div class="strong blue">&rarr; úroveň 3 &middot; 75 000 Kč = skvělá kampaň</div>
-									<div>úroveň 4 &middot; 100 000 Kč = hustá kampaň</div>									
-								</p-list>
-							</p-area>
-						
-				</p>
-				<p>
-					Nejlepší formou, jak oslovit co nejvíce lidí mimo různé bubliny sociálních sítí, je nadále online reklama. Aby bylo možné se dostat k mnoha lidem, je potřeba do reklamy investovat. Za každou vybranou korunu lze oslovit desítky až stovky lidí, za 10 000 už to jsou potenciálně statisíce lidí.
-				</p>
-			</p-block> -->
-			<p-block headline="Jak můžete přispět?" anchor="Dostupné formy">
+			<p-block headline="Jak můžete přispět?" anchor="Dostupné formy" class="maxw60 ma">
 				<p-grid class="_2">
 					<div>
 						<p-area class="highlight shadow">
@@ -74,9 +54,9 @@
 						</p-area>
 					</div>
 				</p-grid>
-				<p>Všechny výdaje lze sledovat na <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">transparentním účtu</p-link>. Peníze nikdy nejdou na platy, vybavení, benzín, jídlo, oblečení, papíry ani elektroniku. Veškerá činnost je dobrovolná.</p>
+				<p class="lead">Všechny výdaje lze sledovat na <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">transparentním účtu</p-link>. Peníze nikdy nejdou na platy, vybavení, benzín, jídlo, oblečení, papíry ani elektroniku. Veškerá činnost je dobrovolná.</p>
 			</p-block>
-			<p-block headline="Kdo řeší peníze?" anchor="Správa darů">
+			<p-block headline="Kdo řeší peníze?" anchor="Správa darů" class="maxw40 ma">
 				<p-area class="inline">
 						<div class="p-offset">
 							<div>
@@ -110,22 +90,14 @@
 					</div>						
 				</p-area>
 			</p-block>
-			<p-block headline="Lze pomoct i jinak?" anchor="Jiné možnosti">
-				<p>Samozřejmě. Velká část <em>Programů</em> vzniká díky dobrovolnické práci. Nemusí jít nutně o hodiny práce, ale i drobné tipy, zaslání odkazu, upozornění na chybu ve funkčnosti nebo překlep. Jednou z výrazných pomocí je sdílení na sociálních sítích. Doporučování v uzavřených skupinách, chat skupinách apod, kam není jinak možnost proniknout.</p>
-				<ul class="classic">
-					<li><strong>šíření: </strong>můžete sdílet, komentovat, lajkovat, doporučit, crosspostovat</li>
-					<li><strong>obsah: </strong>můžete zaslat odkazy na články, tipy na doplnění, návrhy funkcionalit</li>
-					<li><strong>kontrola: </strong>kontrola odkazů, správnosti údajů, upozornění na chyby a překlepy v textu</li>
-				</ul>
+			<p-block headline="Lze pomoct i jinak?" anchor="Jiné možnosti" class="maxw60 ma">
+				<p class="lead">Samozřejmě. Velká část <em>Programů</em> vzniká díky dobrovolnické práci. Nemusí jít nutně o hodiny práce, ale i drobné tipy, zaslání odkazu, upozornění na chybu ve funkčnosti nebo překlep. Jednou z výrazných pomocí je sdílení na sociálních sítích. Doporučování v uzavřených skupinách, chat skupinách apod, kam není jinak možnost proniknout.</p>
+				<p-columns>
+					<div><p-area><strong>šíření: </strong>můžete sdílet, komentovat, lajkovat, doporučit, crosspostovat, zmínit...</p-area></div>
+					<div><p-area><strong>obsah: </strong>můžete zaslat odkazy na články, tipy na doplnění, návrhy funkcionalit</p-area></div>
+					<div><p-area><strong>kontrola: </strong>kontrola odkazů, správnosti údajů, upozornění na chyby a překlepy v textu</p-area></div>
+				</p-columns>
 			</p-block>
-		</template>
-		<template #anchors>
-			<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'"></p-logo>
-			<div class="p-gap"></div>
-			<p-anchors></p-anchors>
-		</template>
-		<template #aside>
-			<top-tasks></top-tasks>
-		</template>
-	</p-layout-divided>
+		<!-- </template> -->
+	</p-layout-simple>
 </div>

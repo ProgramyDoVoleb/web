@@ -1,5 +1,5 @@
-<div class="p-columns">
-  <div class="p-columns---container">
+<div class="p-columns" :class="{_width: !!columnWidth}">
+  <div class="p-columns---container" :style="{'column-width': columnWidth}" ref="column">
     <slot></slot>
   </div>
 </div>

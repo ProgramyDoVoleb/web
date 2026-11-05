@@ -1,10 +1,7 @@
 <div class="layout-imperiali" :class="{hide}">
-	<!-- <p-block :level="hide ? 3 : 2" headline="Projednávaná verze">
-		<p>Tato verze odpovídá dojednanému <outbound-link href="https://www.psp.cz/sqw/text/tiskt.sqw?o=8&ct=1170&ct1=1#prilohy">kompromisu v ústavně-právním výboru</outbound-link>. Konečné znění se může ještě měnit.</p>
-	</p-block> -->
 	<p-loader :rule="parties && tick">
 		<div v-if="parties">
-			<p-block :level="hide ? 3 : 2" headline="Rychlý přepočet">
+			<p-block headline="Rychlý přepočet" :hide="true">
 				<p-area>
 					<div class="graph-split">
 						<div>
@@ -55,86 +52,76 @@
 					<p>Pokud použijete rozpad koalic na strany, berte prosím v potaz zvýšenou citlivost modelu na rozložení v krajích. Proto je vždy nutné je číst stylem "Pokud by byla účast a rozložení hlasů v krajích jako v roce 2025, pak by podle volebního modelu XYZ byl zisk mandátů stránám ...". Reálný zisk jednotlivým stranám může také ovlivnit preferenční hlasování (kroužkování), což ale není možné do modelu zanést.</p>
 					
 				</p-collapsible>
-				<div class="p-line"></div>
+				<!-- <div class="p-line"></div> -->
 			</p-block>
 			<p-block headline="Podrobný výpočet" :level="hide ? 3 : 1">
 				<p class="lead">Jednotlivé kroky výpočtu mandátů si můžete projít. Vedou nejen k určení počtu mandátů, ale také k určení, v kterém kraji je strana získá. U stran, kde jsou známé kandidátky, pak je také vidět poměr zvolených žen, nebo rozdělení podle členů koalice.</p>
 			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="Volební účast v krajích">
-				<p>Čím víc voličů v kraji je, tím víc křesel mu je rezervováno. Nemusí se ale využít všechny. Množství křesel se určí podle podílu volební účasti v jednotlivých krajích na celkovém počtu hlasů. Níže si můžete nastavit, které minulé volby chcete použít pro výpočet, nebo také nastavit účast vlastní. U každého také, do jakého kraje se mají započítávat zahraniční hlasy (cca 15 000 hlasů).</p>
-				<!-- <p><strong class="red">Červeně</strong> jsou křesla přiřazená po dělení.</p>
-				<p-flex :flex="28">
-					<div>
-						<h5>Účast v krajích nastavit podle ...</h5>
-						<select v-model="selectedElectionID">
-							<option :value="index" v-for="(election, index) in electionList">{{ election }}</option>
-						</select>
-					</div>
-					<div>
-						<h5>Zahraniční hlasy počítat do ...</h5>
-						<select v-model="selectedOverseasID">
-							<option :value="index" v-for="(region, index) in enums.regions">{{ region }}</option>
-						</select>
-					</div>
-				</p-flex> -->
+				<p class="lead">Čím víc voličů v kraji je, tím víc křesel mu je rezervováno. Nemusí se ale využít všechny. Množství křesel se určí podle podílu volební účasti v jednotlivých krajích na celkovém počtu hlasů.</p>
 				<template v-if="[0, 4].indexOf(selectedElectionID) > -1">
 					<h3 v-if="selectedElectionID === 4">Nastavení účasti</h3>
-					<h4>Celorepubliková účast</h4>
-					<p-box-group>
-						<p-box>
-							<p-box-label>Účast u voleb</p-box-label>
-							<p-box-label>{{ attendanceCommon }} %</p-box-label>
-						</p-box>
-					</p-box-group>
-					<h4>Účast v krajích</h4>
-					<div class="columns-4">
-						<template v-for="(region, index) in enums.regions">
-							<div>
-								<p-box-group>
-									<p-box :block="true">
-										<!-- <p-box-color></p-box-color> -->
-										<p-box-label>
-											{{ region }}
-											<!-- <span v-if="selectedOverseasID === index"> + Zahr.</span> -->
-										</p-box-label>
-										<p-box-gap></p-box-gap>
-										<p-box-label>
-											{{ number(attendanceCustom[index] || 0, 2) }} %
-											<!-- <input type="number" min=0 max=100 v-model.number="attendanceCustom[index]" @change="recalc" @input="recalc" :disabled="!!defined"> -->
-										</p-box-label>
-									</p-box>
-								</p-box-group>
-							</div>
-						</template>
+					<h4 class="text-center">Celorepubliková účast</h4>
+					<div class="text-center">
+						<p-area class="inline strong">
+							{{ attendanceCommon }} %
+						</p-area>
 					</div>
-					<h3>Rezervované mandáty</h3>
+					<h4 class="text-center">Účast v krajích</h4>
+					<p-area class="maxw80 ma">
+						<p-columns class="_4">
+							<template v-for="(region, index) in enums.regions">
+								<div>
+									<p-box-group>
+										<p-box :block="true">
+											<!-- <p-box-color></p-box-color> -->
+											<p-box-label>
+												{{ region }}
+												<!-- <span v-if="selectedOverseasID === index"> + Zahr.</span> -->
+											</p-box-label>
+											<p-box-gap></p-box-gap>
+											<p-box-label>
+												{{ number(attendanceCustom[index] || 0, 2) }} %
+												<!-- <input type="number" min=0 max=100 v-model.number="attendanceCustom[index]" @change="recalc" @input="recalc" :disabled="!!defined"> -->
+											</p-box-label>
+										</p-box>
+									</p-box-group>
+								</div>
+							</template>
+						</p-columns>
+					</p-area>
+					<h3 class="text-center">Rezervované mandáty</h3>
 				</template>
-				<div class="columns-4">
-					<div v-for="(region, index) in enums.regions">
-						<p-box-group>
-							<p-box :block="true">
-								<p-box-color :color="selectedChairsData[index].extra > 0 ? 'var(--red)' : 'transparent'"></p-box-color>
-								<p-box-label>
-									{{ region }}
-									<span v-if="selectedOverseasID === index"> + Zahr.</span>
-								</p-box-label>
-								<p-box-gap></p-box-gap>
-								<p-box-label>
-									{{ selectedChairsData[index].chairs }}
-									<span class="red small" v-if="selectedChairsData[index].extra > 0">
-										 +{{ selectedChairsData[index].extra }}
-									</span>
-								</p-box-label>
-							</p-box>
-						</p-box-group>
-					</div>
+				<p-area class="highlight maxw80 ma" >
+					<p-columns class="_4">
+						<div v-for="(region, index) in enums.regions">
+							<p-box-group>
+								<p-box :block="true">
+									<p-box-color :color="selectedChairsData[index].extra > 0 ? 'var(--red)' : 'transparent'"></p-box-color>
+									<p-box-label>
+										{{ region }}
+										<span v-if="selectedOverseasID === index"> + Zahr.</span>
+									</p-box-label>
+									<p-box-gap></p-box-gap>
+									<p-box-label>
+										{{ selectedChairsData[index].chairs }}
+										<span class="red small" v-if="selectedChairsData[index].extra > 0">
+											+{{ selectedChairsData[index].extra }}
+										</span>
+									</p-box-label>
+								</p-box>
+							</p-box-group>
+						</div>
+					</p-columns>
+				</p-area>
+				<div class="text-center">
+					<h4>Poznámky:</h4>
+					<div class="center">Rozděleno {{ sum }} křesel.</div>
+					<div class="center" v-if="selectedElectionID === 4">Účast ve volbách by byla {{ number(turnout.sum) }} voličů, {{ turnout.pct }} %.</div>
 				</div>
-				<h4>Poznámky:</h4>
-				<div class="center">Rozděleno {{ sum }} křesel.</div>
-				<div class="center" v-if="selectedElectionID === 4">Účast ve volbách by byla {{ number(turnout.sum) }} voličů, {{ turnout.pct }} %.</div>
 			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="Strany a hlasy">
-				<p>
+				<p class="lead">
 					V druhém kroku jsou již důležité jednotlivé strany. Pro samostatně kandidující je nutné dosáhnout hranice 5 % hlasů, u koalic je 8 % u dvoukoalice, 11 % u ostatních. Zde si můžete vybrat zdroj dat: minulé volby, poslední průzkumy, nebo si je nastavit podle sebe.
 				</p>
 				<!-- <template> -->
@@ -152,23 +139,25 @@
 						</div>
 					</div>
 					<div class="p-gap"></div> -->
-					<div class="columns-4" :tick="results">
+					<p-columns :tick="results" class="maxw60 ma">
 						<div v-for="(party, index) in results">
-							<p-box-group>
-								<p-box :block="true">
-									<p-box-image v-if="party.hash" :src="$getParty(party.hash).logo"></p-box-image>
-									<p-box-color v-if="!party.hash && party.color" :color="party.color"></p-box-color>
-									<p-box-color v-if="!party.hash && !party.color" color="#888"></p-box-color>
-									<p-box-label>{{ party.hash ? $getParty(party.hash).short : party.short }}</p-box-label>
-									<p-box-gap></p-box-gap>
-									<p-box-label>
-										{{ number(party.rs) }} %
-										<!-- <input type="number" v-model.number="party.rs" @change="redistributeWithDelay" class="input-short" :disabled="!!defined"> -->
-									</p-box-label>
-								</p-box>
-							</p-box-group>
+							<p-area>
+								<p-box-group>
+									<p-box :block="true">
+										<p-box-image v-if="party.hash" :src="$getParty(party.hash).logo"></p-box-image>
+										<p-box-color v-if="!party.hash && party.color" :color="party.color"></p-box-color>
+										<p-box-color v-if="!party.hash && !party.color" color="#888"></p-box-color>
+										<p-box-label>{{ party.hash ? $getParty(party.hash).short : party.short }}</p-box-label>
+										<p-box-gap></p-box-gap>
+										<p-box-label>
+											{{ number(party.rs) }} %
+											<!-- <input type="number" v-model.number="party.rs" @change="redistributeWithDelay" class="input-short" :disabled="!!defined"> -->
+										</p-box-label>
+									</p-box>
+								</p-box-group>
+							</p-area>
 						</div>
-					</div>
+					</p-columns>
 				<!-- </template> -->
 				<!-- <h4>Rozložení hlasů do krajů</h4>
 				<p>
@@ -180,52 +169,54 @@
 				</div> -->
 			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="Rozložení hlasů">
-				<div class="scrollable nw">
-					<table>
-						<thead>
-							<tr>
-								<th>Strana</th>
-								<th class="line-right text-right">Součet</th>
-								<th v-for="(reg, i) in enums.regionsShort" class="text-right">{{ reg }}</th>
-							</tr>
-							<tr>
-								<th></th>
-								<th class="line-right text-right">{{ number(turnout.sum) }}</th>
-								<th v-for="(reg, i) in enums.regionsShort" class="text-right">
-									{{ number(turnout.voters[i]) }}
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(party, index) in results">
-								<td :class="{red: party.pct < party.requires}">
-									{{ party.hash ? $getParty(party.hash).short : party.short }}
-								</td>
-								<td class="text-right line-right small">
-									{{  number(party.votes.reduce((a, b) => a + b, 0)) }}
-								</td>
-								<td v-for="(reg, i) in enums.regionsShort" class="text-right  small">
-									{{  number(party.votes[i]) }}
-								</td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<td><strong>Ostatní</strong></td>
-								<td class="line-right"></td>
-								<td v-for="(rem, i) in remaining" :class="{red: rem < 0}" class="small text-right">
-									{{  number(rem) }}
-								</td>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
+				<p-area class="highlight shadow" padding="2em">
+					<div class="scrollable nw">
+						<table>
+							<thead>
+								<tr>
+									<th>Strana</th>
+									<th class="line-right text-right">Součet</th>
+									<th v-for="(reg, i) in enums.regionsShort" class="text-right">{{ reg }}</th>
+								</tr>
+								<tr>
+									<th></th>
+									<th class="line-right text-right">{{ number(turnout.sum) }}</th>
+									<th v-for="(reg, i) in enums.regionsShort" class="text-right">
+										{{ number(turnout.voters[i]) }}
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(party, index) in results">
+									<td :class="{red: party.pct < party.requires}">
+										{{ party.hash ? $getParty(party.hash).short : party.short }}
+									</td>
+									<td class="text-right line-right small">
+										{{  number(party.votes.reduce((a, b) => a + b, 0)) }}
+									</td>
+									<td v-for="(reg, i) in enums.regionsShort" class="text-right  small">
+										{{  number(party.votes[i]) }}
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td><strong>Ostatní</strong></td>
+									<td class="line-right"></td>
+									<td v-for="(rem, i) in remaining" :class="{red: rem < 0}" class="small text-right">
+										{{  number(rem) }}
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</p-area>
 			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="První scrutinium">
-				<p>
+				<p class="lead">
 					Nejprve se v každém kraji vezme součet hlasů pro strany, které postoupily, a vydělí se počtem přidělených mandátů plus 2.
 				</p>
-				<div class="columns">
+				<p-columns class="_4">
 					<div v-for="(region, index) in enums.regions">
 						<p-area>
 							<strong>{{ region }}</strong>
@@ -263,102 +254,106 @@
 							</div>
 						</p-area>
 					</div>
-				</div>
+				</p-columns>
 			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="Mandáty po 1. scrutiniu">
-				<p>
+				<p class="lead">
 					Rozložení mandátů v jednotlivých krajích a stranám. Červené číslo ukazuje, že po použití Imperialiho kvóty bylo přesaženo povolený počet přiřazených mandátů a strana s nejmenším zbytkem po dělení o mandát přichází. Šedě jsou zbytky po dělení.
 				</p>
-				<div class="columns-4" :tick="results">
+				<p-columns class="maxw60 ma" :tick="results">
 					<template v-for="(party, index) in firstScrutinize.parties">
 						<div>
-							<p-box-group>
-								<p-box :block="true">
-									<p-box-image v-if="party.party.hash" :src="$getParty(party.party.hash).logo"></p-box-image>
-									<p-box-color v-if="!party.party.hash && party.party.color" :color="party.party.color"></p-box-color>
-									<p-box-color v-if="!party.party.hash && !party.party.color" color="#888"></p-box-color>
-									<!-- <p-box-image :src="$getParty(party.party.hash).logo"></p-box-image> -->
-									<p-box-label>{{ party.party.hash ? $getParty(party.party.hash).short : party.party.short }}</p-box-label>
-									<p-box-gap></p-box-gap>
-									<p-box-ticker>
-										{{ party.mandates }}
-									</p-box-ticker>
-								</p-box>
-							</p-box-group>
+							<p-area>
+								<p-box-group>
+									<p-box :block="true">
+										<p-box-image v-if="party.party.hash" :src="$getParty(party.party.hash).logo"></p-box-image>
+										<p-box-color v-if="!party.party.hash && party.party.color" :color="party.party.color"></p-box-color>
+										<p-box-color v-if="!party.party.hash && !party.party.color" color="#888"></p-box-color>
+										<!-- <p-box-image :src="$getParty(party.party.hash).logo"></p-box-image> -->
+										<p-box-label>{{ party.party.hash ? $getParty(party.party.hash).short : party.party.short }}</p-box-label>
+										<p-box-gap></p-box-gap>
+										<p-box-ticker>
+											{{ party.mandates }}
+										</p-box-ticker>
+									</p-box>
+								</p-box-group>
+							</p-area>
 						</div>
 					</template>
-				</div>
-				<div class="p-gap"></div>
-				<p-collapsible label="Mandáty stran v krajích">
-					<div class="scrollable">
-						<table>
-							<thead>
-								<tr>
-									<th>Strana</th>
-									<th class="line-right">Součet</th>
-									<th v-for="(reg, i) in enums.regionsShort">{{ reg }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								<template v-for="(obj, index) in firstScrutinize.parties">
-									<tr v-if="obj.mandates > 0">
-										<td :class="{red: obj.party.pct < obj.party.requires}">
-											{{ obj.party.hash ? $getParty(obj.party.hash).short : obj.party.short }}
-										</td>
+				</p-columns>
+				<div class="p-gap _3"></div>
+				<p-area class="highlight" padding="1em 2em">
+					<p-collapsible label="Mandáty stran v krajích" borderless="1">
+						<div class="scrollable">
+							<table>
+								<thead>
+									<tr>
+										<th>Strana</th>
+										<th class="line-right">Součet</th>
+										<th v-for="(reg, i) in enums.regionsShort">{{ reg }}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<template v-for="(obj, index) in firstScrutinize.parties">
+										<tr v-if="obj.mandates > 0">
+											<td :class="{red: obj.party.pct < obj.party.requires}">
+												{{ obj.party.hash ? $getParty(obj.party.hash).short : obj.party.short }}
+											</td>
+											<td class="line-right">
+												{{ obj.mandates }}
+												<div class="small dimm">
+													{{ number(obj.remaining) }}
+												</div>
+											</td>
+											<td v-for="(reg, i) in enums.regionsShort">
+												{{ obj.region[i].mandates }}
+												<span class="red small" v-if="obj.region[i].reduced > 0">- {{ obj.region[i].reduced }}</span>
+												<div class="small dimm">
+													{{  number(obj.region[i].remaining) }}
+												</div>
+											</td>
+										</tr>
+									</template>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td><strong>Součty</strong></td>
 										<td class="line-right">
-											{{ obj.mandates }}
-											<div class="small dimm">
-												{{ number(obj.remaining) }}
-											</div>
+											{{ firstScrutinize.totalDistributedSum }}
 										</td>
-										<td v-for="(reg, i) in enums.regionsShort">
-											{{ obj.region[i].mandates }}
-											<span class="red small" v-if="obj.region[i].reduced > 0">- {{ obj.region[i].reduced }}</span>
-											<div class="small dimm">
-												{{  number(obj.region[i].remaining) }}
-											</div>
+										<td v-for="(rem, i) in firstScrutinize.regionalDistributedSum">
+											{{ rem }}
 										</td>
 									</tr>
-								</template>
-							</tbody>
-							<tfoot>
-								<tr>
-									<td><strong>Součty</strong></td>
-									<td class="line-right">
-										{{ firstScrutinize.totalDistributedSum }}
-									</td>
-									<td v-for="(rem, i) in firstScrutinize.regionalDistributedSum">
-										{{ rem }}
-									</td>
-								</tr>
-								<tr>
-									<td>Max</td>
-									<td class="line-right">
-										200
-									</td>
-									<td v-for="(reg, i) in enums.regionsShort">
-										{{ selectedChairsData[i].total }}
-									</td>
-								</tr>
-								<tr>
-									<td>Nevyužité</td>
-									<td class="line-right">
-										{{ 200 - firstScrutinize.totalDistributedSum }}
-									</td>
-									<td v-for="(reg, i) in enums.regionsShort">
-										{{ selectedChairsData[i].total - firstScrutinize.regionalDistributedSum[i] }}
-									</td>
-								</tr>
-							</tfoot>
-						</table>
-					</div>
-				</p-collapsible>
+									<tr>
+										<td>Max</td>
+										<td class="line-right">
+											200
+										</td>
+										<td v-for="(reg, i) in enums.regionsShort">
+											{{ selectedChairsData[i].total }}
+										</td>
+									</tr>
+									<tr>
+										<td>Nevyužité</td>
+										<td class="line-right">
+											{{ 200 - firstScrutinize.totalDistributedSum }}
+										</td>
+										<td v-for="(reg, i) in enums.regionsShort">
+											{{ selectedChairsData[i].total - firstScrutinize.regionalDistributedSum[i] }}
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</p-collapsible>
+				</p-area>
 			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="Druhé scrutinium" v-if="secondScrutiny">
-				<p>
+				<p class="lead">
 					V druhém kroku se sečtou zbytky stran a vydělí počtem nepřiřazených mandátů plus 1. Toto se stává republikovým mandátovým číslem. Nevyužité mandáty jsou poté přikázány podle zůstatku po dělení. Při překročení vlivem zvýšené kvóty se odečítá straně s nejmenším zbytkem po dělení.
 				</p>
-				<div class="columns">
+				<p-columns class="maxw40 ma">
 					<div>
 						<p-area>
 							<div class="stats-2 smaller">
@@ -399,81 +394,87 @@
 							</div>
 						</p-area>
 					</div>
-				</div>
+				</p-columns>
 				<div class="p-gap"></div>
-				<h3>Přidělené mandáty</h3>
-				<div class="columns-4" :tick="results">
+				<h3 class="text-center">Přidělené mandáty</h3>
+				<p-columns class="maxw60 ma" :tick="results">
 					<template v-for="(party, index) in secondScrutiny.parties">
 						<div v-if="party.firstMandates > 0">
-							<p-box-group>
-								<p-box :block="true">
-									<p-box-image v-if="party.party.hash" :src="$getParty(party.party.hash).logo"></p-box-image>
-									<p-box-color v-if="!party.party.hash && party.party.color" :color="party.party.color"></p-box-color>
-									<p-box-color v-if="!party.party.hash && !party.party.color" color="#888"></p-box-color>
-									<p-box-label>{{ party.party.hash ? $getParty(party.party.hash).short : party.party.short }}</p-box-label>
-									<p-box-gap></p-box-gap>
-									<p-box-ticker>
-										{{ party.mandates }}
-										<span class="red" v-if="party.extra > 0">
-											+{{ party.extra }}
-										</span>
-									</p-box-ticker>
-								</p-box>
-							</p-box-group>
-						</div>
-					</template>
-				</div>
-				<div class="p-gap"></div>
-				<p-collapsible label="Přidělení do krajů" v-if="secondDistribution">
-					<div class="columns-4">
-						<template v-for="(party, index) in secondDistribution.parties">
-							<p-area v-if="party.mandatesToGive > 0" :key="'sdpa_' + index">
+							<p-area>
 								<p-box-group>
-									<p-box>
-										<p-box-image :src="$getParty(party.hash).logo"></p-box-image>
-										<p-box-label>
-											{{ party.hash ? $getParty(party.hash).short : party.short }}
-										</p-box-label>
+									<p-box :block="true">
+										<p-box-image v-if="party.party.hash" :src="$getParty(party.party.hash).logo"></p-box-image>
+										<p-box-color v-if="!party.party.hash && party.party.color" :color="party.party.color"></p-box-color>
+										<p-box-color v-if="!party.party.hash && !party.party.color" color="#888"></p-box-color>
+										<p-box-label>{{ party.party.hash ? $getParty(party.party.hash).short : party.party.short }}</p-box-label>
+										<p-box-gap></p-box-gap>
+										<p-box-ticker>
+											{{ party.mandates }}
+											<span class="red" v-if="party.extra > 0">
+												+{{ party.extra }}
+											</span>
+										</p-box-ticker>
 									</p-box>
 								</p-box-group>
-								<ul>
-									<template v-for="(region, index2) in party.regions">
-										<li v-if="region.mandates.second > 0">
-											{{ enums.regions[index2] }}
-										</li>
-									</template>
-								</ul>
 							</p-area>
-						</template>
-					</div>
-				</p-collapsible>
-			</p-block>
-			<p-block :level="hide ? 3 : 2" headline="Celkový zisk mandátů" v-if="mandateTotal">
-				<div class="columns-4" :tick="results">
-					<template v-for="(party, index) in mandateTotal">
-						<div v-if="party.mandates > 0">
-							<p-box-group>
-								<p-box :block="true">
-									<p-box-image v-if="party.party.hash" :src="$getParty(party.party.hash).logo"></p-box-image>
-									<p-box-color v-if="!party.party.hash && party.party.color" :color="party.party.color"></p-box-color>
-									<p-box-color v-if="!party.party.hash && !party.party.color" color="#888"></p-box-color>
-									<p-box-label>{{ party.party.hash ? $getParty(party.party.hash).short : party.party.short }}</p-box-label>
-									<p-box-gap></p-box-gap>
-									<p-box-ticker>
-										{{ party.mandates }}
-									</p-box-ticker>
-								</p-box>
-							</p-box-group>
 						</div>
 					</template>
-				</div>
+				</p-columns>
+				<div class="p-gap _3"></div>
+				<p-area class="highlight" padding="1em 2em">
+					<p-collapsible label="Přidělení do krajů" v-if="secondDistribution" borderless="1">
+						<div class="columns-4">
+							<template v-for="(party, index) in secondDistribution.parties">
+								<p-area v-if="party.mandatesToGive > 0" :key="'sdpa_' + index">
+									<p-box-group>
+										<p-box>
+											<p-box-image :src="$getParty(party.hash).logo"></p-box-image>
+											<p-box-label>
+												{{ party.hash ? $getParty(party.hash).short : party.short }}
+											</p-box-label>
+										</p-box>
+									</p-box-group>
+									<ul>
+										<template v-for="(region, index2) in party.regions">
+											<li v-if="region.mandates.second > 0">
+												{{ enums.regions[index2] }}
+											</li>
+										</template>
+									</ul>
+								</p-area>
+							</template>
+						</div>
+					</p-collapsible>
+				</p-area>
+			</p-block>
+			<p-block :level="hide ? 3 : 2" headline="Celkový zisk mandátů" v-if="mandateTotal">
+				<p-columns class="maxw60 ma" :tick="results">
+					<template v-for="(party, index) in mandateTotal">
+						<div v-if="party.mandates > 0">
+							<p-area class="highlight shadow">
+								<p-box-group>
+									<p-box :block="true">
+										<p-box-image v-if="party.party.hash" :src="$getParty(party.party.hash).logo"></p-box-image>
+										<p-box-color v-if="!party.party.hash && party.party.color" :color="party.party.color"></p-box-color>
+										<p-box-color v-if="!party.party.hash && !party.party.color" color="#888"></p-box-color>
+										<p-box-label>{{ party.party.hash ? $getParty(party.party.hash).short : party.party.short }}</p-box-label>
+										<p-box-gap></p-box-gap>
+										<p-box-ticker>
+											{{ party.mandates }}
+										</p-box-ticker>
+									</p-box>
+								</p-box-group>
+							</p-area>
+						</div>
+					</template>
+				</p-columns>
 			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="Rozdělení do krajů">
-				<p>
+				<p class="lead">
 					Nyní už víme rozdělení mandátů všech úspěšných stran do všech krajů. Lze tak modelovat, kolik kandidátů z jaké strany a jakého kraje by se do Sněmovny dostalo.
 				</p>
-				<!-- <p-loader type="table" :rule="genom"> -->
-					<!-- <div v-if="genom"> -->
+				<p-area class="highlight shadow" padding="2em">
+
 						<div class="scrollable" v-if="secondDistribution">
 							<table>
 								<thead>
@@ -589,117 +590,123 @@
 								</tfoot>
 							</table>
 						</div>
+				</p-area>
+				<!-- <p-loader type="table" :rule="genom"> -->
+					<!-- <div v-if="genom"> -->
 					<!-- </div> -->
 				<!-- </p-loader> -->
 			</p-block>
 			<p-block v-if="!hide && secondDistribution" headline="Statistiky">
-				<p>Pokud by nedošlo vlivem kroužkování k přeskakování kandidátů, tak by bylo rozdělení mandátů mezi muže, ženy a členy jednotlivých strany následující</p>
+				<p class="lead">Pokud by nedošlo vlivem kroužkování k přeskakování kandidátů, tak by bylo rozdělení mandátů mezi muže, ženy a členy jednotlivých strany následující</p>
 				<p-loader :rule="genom2025 || !useGenom">
 					<div v-if="genom2025 || !useGenom">
-						<div class="scrollable">
-							<table>
-								<thead>
-									<tr>
-										<th>Strana</th>
-										<th class="line-right">Mandátů</th>
-										<th v-for="(reg, i) in enums.regionsShort">{{ reg }}</th>
-									</tr>
-								</thead>
-								<tbody>
-									<template v-for="(party, index) in secondDistribution.parties">
-										<template v-if="party.mandates > 0">
-											<tr class="_tl">
-												<td>
-													<strong>
-														{{ party.hash ? $getParty(party.hash).short : party.short }}
-													</strong>
-												</td>
-												<td class="line-right strong">{{ party.mandates }}</td>
-												<td v-for="(reg, i) in enums.regionsShort" :class="{'dimm small': party.regions[i].mandates.total === 0, strong: party.regions[i].mandates.total > 0}">
-													{{ party.regions[i].mandates.total }}
-												</td>
-											</tr>
-											<!-- <template v-if="sourceSelectedID === 12"> -->
-												<template v-if="useGenom">
-													<tr class="small">
-														<td>muži</td>
-														<td class="line-right small" :class="{'tiny dimm': getGenomSexCount(party, 1) === 0}">
-															{{ getGenomSexCount(party, 1) }}
-														</td>
-														<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomSexCount(party, 1, i+1) === 0}">
-															{{ getGenomSexCount(party, 1, i+1) }}
-														</td>
-													</tr>
-													<tr class="small">
-														<td>ženy</td>
-														<td class="line-right small" :class="{'tiny dimm': getGenomSexCount(party, 2) === 0}">
-															{{ getGenomSexCount(party, 2) }}
-														</td>
-														<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomSexCount(party, 2, i+1) === 0}">
-															{{ getGenomSexCount(party, 2, i+1) }}
-														</td>
-													</tr>
+						<p-area padding="2em">
+							<div class="scrollable">
+								<table>
+									<thead>
+										<tr>
+											<th>Strana</th>
+											<th class="line-right">Mandátů</th>
+											<th v-for="(reg, i) in enums.regionsShort">{{ reg }}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<template v-for="(party, index) in secondDistribution.parties">
+											<template v-if="party.mandates > 0">
+												<tr class="_tl">
+													<td>
+														<strong>
+															{{ party.hash ? $getParty(party.hash).short : party.short }}
+														</strong>
+													</td>
+													<td class="line-right strong">{{ party.mandates }}</td>
+													<td v-for="(reg, i) in enums.regionsShort" :class="{'dimm small': party.regions[i].mandates.total === 0, strong: party.regions[i].mandates.total > 0}">
+														{{ party.regions[i].mandates.total }}
+													</td>
+												</tr>
+												<!-- <template v-if="sourceSelectedID === 12"> -->
+													<template v-if="useGenom">
+														<tr class="small">
+															<td>muži</td>
+															<td class="line-right small" :class="{'tiny dimm': getGenomSexCount(party, 1) === 0}">
+																{{ getGenomSexCount(party, 1) }}
+															</td>
+															<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomSexCount(party, 1, i+1) === 0}">
+																{{ getGenomSexCount(party, 1, i+1) }}
+															</td>
+														</tr>
+														<tr class="small">
+															<td>ženy</td>
+															<td class="line-right small" :class="{'tiny dimm': getGenomSexCount(party, 2) === 0}">
+																{{ getGenomSexCount(party, 2) }}
+															</td>
+															<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomSexCount(party, 2, i+1) === 0}">
+																{{ getGenomSexCount(party, 2, i+1) }}
+															</td>
+														</tr>
 
-													<template v-for="member in getGenomPartyMemberList(party)">
+														<template v-for="member in getGenomPartyMemberList(party)">
+
+															<tr class="small">
+																<td>{{ member.ZKRATKA }}</td>
+																<td class="line-right small" :class="{'tiny dimm': getGenomMemberCount(party, member.VSTRANA) === 0}">
+																	{{ getGenomMemberCount(party, member.VSTRANA) }}
+																</td>
+																<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomMemberCount(party, member.VSTRANA, i+1) === 0}">
+																	{{ getGenomMemberCount(party, member.VSTRANA, i+1) }}
+																</td>
+															</tr>
+														</template>
 
 														<tr class="small">
-															<td>{{ member.ZKRATKA }}</td>
-															<td class="line-right small" :class="{'tiny dimm': getGenomMemberCount(party, member.VSTRANA) === 0}">
-																{{ getGenomMemberCount(party, member.VSTRANA) }}
+															<td>nestraníci</td>
+															<td class="line-right small" :class="{'tiny dimm': getGenomMemberCount(party, 99) === 0}">
+																{{ getGenomMemberCount(party, 99) }}
 															</td>
-															<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomMemberCount(party, member.VSTRANA, i+1) === 0}">
-																{{ getGenomMemberCount(party, member.VSTRANA, i+1) }}
+															<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomMemberCount(party, 99, i+1) === 0}">
+																{{ getGenomMemberCount(party, 99, i+1) }}
 															</td>
 														</tr>
 													</template>
-
-													<tr class="small">
-														<td>nestraníci</td>
-														<td class="line-right small" :class="{'tiny dimm': getGenomMemberCount(party, 99) === 0}">
-															{{ getGenomMemberCount(party, 99) }}
-														</td>
-														<td v-for="(reg, i) in enums.regionsShort" :class="{'tiny dimm': getGenomMemberCount(party, 99, i+1) === 0}">
-															{{ getGenomMemberCount(party, 99, i+1) }}
-														</td>
-													</tr>
-												</template>
+											</template>
 										</template>
-									</template>
-								</tbody>
-								<tfoot>
-									<tr class="_tl">
-										<td><strong>Součty</strong></td>
-										<td class="line-right"><strong>200</strong></td>
-										<td v-for="(rem, i) in secondDistribution.regions">
-											<strong>{{ rem.mandates }}</strong>
-										</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
+									</tbody>
+									<tfoot>
+										<tr class="_tl">
+											<td><strong>Součty</strong></td>
+											<td class="line-right"><strong>200</strong></td>
+											<td v-for="(rem, i) in secondDistribution.regions">
+												<strong>{{ rem.mandates }}</strong>
+											</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</p-area>
 						
 					</div>
 				</p-loader>
 			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="Koalice a většina">
-				<p>
+				<p class="lead">
 					Ve Sněmovně jsou důležité dvě čísla pro vládnoucí strany. Většina poslanců a ústavní většina. Pro mnoho zákonů a úkonů stačí většina prostá, ale když dojde na hlasování silou, nebo protože to ukládá zákon, je dobré držet 101, resp 120 hlasů.
 				</p>
-				<p-box-group>
+				<p-box-group class="jcc">
 					<div v-for="(btn, index) in coalitions">
 						<p-box :click="() => btn.selected = !btn.selected">
-							<p-box-color v-if="btn.color && !btn.logo" :color="btn.color"></p-box-color>
+							<!-- <p-box-color v-if="btn.color" :color="btn.color"></p-box-color> -->
 							<p-box-image v-if="btn.hash" :src="$getParty(btn.hash).logo"></p-box-image>
-							<!-- <p-box-color v-if="!btn.hash && btn.color" :color="btn.color"></p-box-color> -->
-							<!-- <p-box-color v-if="!btn.hash && !btn.color" color="#888"></p-box-color> -->
+							<p-box-color v-if="!btn.hash && btn.color" :color="btn.color"></p-box-color>
+							<p-box-color v-if="!btn.hash && !btn.color" color="#888"></p-box-color>
 							<p-box-label v-if="!btn.hash && btn.short">{{ btn.short }}</p-box-label>
-							<p-box-ticker
-							:background="btn.selected ? (btn.color || $getParty(btn.hash).color) : '#eee'"
-							:color="btn.selected ? '#fff' : '#000'">{{ btn.value }}</p-box-ticker>
+							<p-box-ticker :background="btn.selected ? (btn.color || $getParty(btn.hash).color) : '#eee'" :color="btn.selected ? '#fff' : '#000'">{{ btn.value }}</p-box-ticker>
+							<!-- <p-box-button :logo="btn.hash ? $getParty(btn.hash).logo : null" :class="{green: btn.selected}" class="dimm"> -->
+								<!-- {{ !btn.hash && btn.short ? btn.short : ''}}{{ btn.value }} -->
+							<!-- </p-box-button> -->
 						</p-box>
 					</div>
 				</p-box-group>
-				<div class="bar">
+				<div class="bar maxw40 ma">
 					<div class="bar-flex">
 						<div class="bar-item"
 							v-for="(party, index) in coalitions"
@@ -710,7 +717,7 @@
 					<div class="bar-ident-50"></div>
 					<div class="bar-ident-60"></div>
 				</div>
-				<p-box-group>
+				<p-box-group class="jcc">
 					<p-box>
 						<p-box-ticker>
 							{{ coalitionSum }}

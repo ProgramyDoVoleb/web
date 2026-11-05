@@ -33,8 +33,8 @@ select {
 
 .scrollable {
 	overflow-x: auto;
-	border-top: 1px solid #eee;
-	border-bottom: 1px solid #eee;
+	border-top: var(--border); // 1px solid #eee;
+	border-bottom: var(--border); // 1px solid #eee;
 	padding: .5em 0;
 
 	span, div {
@@ -51,7 +51,8 @@ select {
 }
 
 .line-right {
-	border-right: 2px solid #ccc;
+	border-right: var(--border);
+	border-right-width: 2px;
 }
 
 .max-35rem {
@@ -69,7 +70,7 @@ select {
 
 .bar-flex {
 	border-radius: .5rem;
-	background: #eee;
+	background: var(--blue11);
 	display: flex;
 	overflow: hidden;
 
@@ -119,7 +120,7 @@ button {
 	li {
 		display: flex;
 		justify-content: space-between;
-		border-top: 1px solid #eee;
+		border-top: var(--border);
 	}
 }
 
@@ -257,5 +258,9 @@ button {
 }
 
 ._tl td {
-	border-top: 1px solid var(--blue) !important;
+	border-top: 2px solid var(--blue44) !important;
+}
+
+.p-area---content > .p-box-group .p-box {
+	margin-top: 0 !important;
 }

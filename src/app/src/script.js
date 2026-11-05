@@ -94,7 +94,6 @@ export default {
         this.$nextTick(() => {
            this.setHeight();
         })
-       
       }
     }
 };

@@ -1,16 +1,18 @@
 <div class="layout-polls">
-	<p-layout-divided>
-		<template #main>
+	<p-layout-simple>
+		<!-- <template #main> -->
 			<p-block headline="Přehled průzkumů" :level="1">
-				<p-block headline="Poslední průzkumy" :hide="true">
+				<p-block headline="Poslední průzkumy" :hide="true" class="maxw60 ma">
 					<p-loader :rule="pollsQuick">
 						<div v-if="pollsQuick">
-							<p-area class="inline smallest">
-								<p-list-linear>
-									<span>Řadit podle <button class="inline" @click="sortByMid = true" :class="{'strong green': sortByMid === true}">doby sběru</button></span>
-									<span><button class="inline" @click="sortByMid = false" :class="{'strong green': sortByMid === false}">dne zveřejnění</button></span>
-								</p-list-linear>
-							</p-area>
+							<div class="text-center">
+								<p-area class="inline smallest">
+									<p-list-linear>
+										<span>Řadit podle <button class="inline" @click="sortByMid = true" :class="{'strong green': sortByMid === true}">doby sběru</button></span>
+										<span><button class="inline" @click="sortByMid = false" :class="{'strong green': sortByMid === false}">dne zveřejnění</button></span>
+									</p-list-linear>
+								</p-area>
+							</div>
 							<p-grid class="p-grid---1-2 mt1">
 								<template v-for="(poll, index) in pollsQuick.list">
 									<div>
@@ -23,25 +25,25 @@
 						</div>
 					</p-loader>
 				</p-block>
-				<!-- <p-block headline="Sběr dat">
+				<p-block headline="Sběr dat" class="maxw80 ma">
+					<p class="lead">Jedna z důležitých informací při čtení volebních průzkumů je doba, kdy sběr proběhl. Mohlo to být nedávno a během pár dní, ale také to mohlo být víc jak měsíc zpět a doba sběru také byla velmi dlouhá. Krátká doba sběru spíše zachytí aktuální nálady napříč populací a je tak poměrně náchylný na aktuální kauzy, delší sběr tohle umí vyrovnat.</p>
 					<p-area>
 						<div id="chart" v-if="series.length > 0">
 							<vue-apex-charts type="rangeBar" :height="chartOptions.chart.height" :options="chartOptions" :series="getSeries()"></vue-apex-charts>
 						</div>
 					</p-area>
 				</p-block>
-				<p-block-expandable headline="Poll of Polls">
+				<p-block headline="Poll of Polls" subheadline="Vážený průměr stran a hnutí" class="maxw60 ma">
 					<p-loader :rule="polls">
 						<div v-if="polls">
-							<h3 class="serif">Vážený průměr stran a hnutí</h3>
 							<p-area>
 								<poll-of-polls :polls="polls.list.filter(x => x.pollofpolls === 1)"></poll-of-polls>
 							</p-area>
 						</div>
 					</p-loader>
-				</p-block-expandable> -->
+				</p-block>
 			</p-block>
-			<p-block headline="Od roku 2017" :level="1">
+			<p-block headline="Od roku 2017" :level="1" class="maxw40 ma">
 				<p-area class="inline smallest">
 					<p-list-linear class="or">
 						<span><button class="inline" @click="type = 1" :class="{'green strong': type === 1}">Průzkumy</button></span>
@@ -85,41 +87,6 @@
 					</p-block-expandable>
 				</template>
 			</p-block>
-		</template>
-		<template #anchors>
-			<p-anchors></p-anchors>
-		</template>
-		<template #aside>
-			<div>
-				<top-tasks></top-tasks>
-			</div>
-			<div class="p-line"></div>
-			<div class="smaller">
-				<strong>Agentury</strong>
-				<div class="p-gap"></div>
-				<p-list>
-					<div>
-						<p-link href="https://cz.kantar.com/trendyceska/">Kantar</p-link>
-						<div class="smallest dimm">pro Českou televizi</div>
-					</div>
-					<div>
-						<p-link href="https://www.median.eu/">Median</p-link>
-					</div>
-					<div>
-						<p-link href="https://www.stem.cz/">STEM</p-link>
-						<div class="smallest dimm">pro CNN Prima News</div>
-					</div>
-					<div>
-						<p-link href="https://nms.global/cz/">NMS</p-link>
-					</div>
-					<div>
-						<p-link href="https://www.ipsos.com/cs-cz">Ipsos</p-link>
-					</div>
-					<div>
-						<p-link href="https://www.datacollect.cz/">Data Collect</p-link>
-					</div>
-				</p-list>
-			</div>
-		</template>
-	</p-layout-divided>
+		<!-- </template> -->
+	</p-layout-simple>
 </div>

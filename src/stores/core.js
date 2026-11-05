@@ -26,8 +26,10 @@ export const useCore = defineStore('core', () => {
 
     if (value === true) {
       document.querySelector('html').style.background = '#000';
+      document.querySelector('html').classList.add('dark');
     } else {
       document.querySelector('html').style.background = '#fafafa';
+      document.querySelector('html').classList.remove('dark');
     }
   }
 

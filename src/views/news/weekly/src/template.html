@@ -1,86 +1,60 @@
 <div class="layout-polls">
-	<p-layout-divided>
-		<template #main>
-			<p-block headline="Novinky" :level="1" :hide="true">
-				<div class="p-offset reverse mb1">
-					<div>
-						<p-headline :level="1">Novinky</p-headline>
-						<div class="mt-1 mb1 serif">
-							Předvolební deník
-						</div>
-					</div>
-					<div>
-						<input type="date" v-model="datum" min="2021-10-01" :max="today">
-					</div>
-				</div>
-				<!-- <p class="lead mt0">Souhrn článků z 24 různých médií, které se týkají voleb, stran nebo kandidátů, volební průzkumy a přehled novinek a úprav na webu <em>Programy do voleb</em> za uplynulých sedm dní.</p> -->
-				<!-- <div class="p-gap _2"></div> -->
-
-					<!-- <div v-if="news && news.summary" class="mb1">
-
-									<p-area icon="spotify" borderColor="var(--green)" background="var(--green11)" class="inline">
-										<h4 class="mt0 pt025 mb0 smallest">
-											<router-link :to="'/novinky/' + news.summary.id" class="is-span" :title="news.summary.title">{{ news.summary.title }}</router-link>
-										</h4>
-										<div class="smallest">
-											Shrnutí novinek od {{ date(new Date(new Date(news.summary.datum).getTime() - 6 * 24 * 60 * 60 * 1000).toISOString(), 2) }} do {{ date(news.summary.datum, 2) }}
-										</div>
-									</p-area>
-					</div> -->
-
-				<p-list class="invisible">
+	<p-layout-simple>
+			<p-block headline="Novinky" subheadline="Předvolební deník" :level="1">
+				<p-list class="_4">
 					<div v-for="datum in datumy">
-						<daily-item :datum="datum" class="mv05"></daily-item>
+						<daily-item :datum="datum"></daily-item>
+					</div>
+					<div>
+						<p-block headline="Načíst další" class="text-center">
+							<p-area class="inline" background="var(--blue11)">
+								<div>
+									<p-box-group>
+										<p-box :click="() => days += 7">
+											<p-box-button icon="plus-green">dalších 7 dní</p-box-button>
+										</p-box>
+										<template v-if="datum != today">							
+												<p-box :to="'/novinky?datum=' + today" :click="() => changeDate(today)">
+													<p-box-button class="red" icon="revert">
+														Zpět na dnešní den
+													</p-box-button>
+												</p-box>							
+										</template>
+										<p-box>
+											<p-box-label>Zobrazit od:</p-box-label>
+										</p-box>
+										<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 7)" :click="() => changeDate( dayAfterDiffFrom(today, 7))">
+											<p-box-button>
+												{{ date(dayAfterDiffFrom(today, 7)) }}
+											</p-box-button>
+										</p-box>
+										<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 14)" :click="() => changeDate(dayAfterDiffFrom(today, 14))">
+											<p-box-button>
+												{{ date(dayAfterDiffFrom(today, 14)) }}
+											</p-box-button>
+										</p-box>
+										<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 21)" :click="() => changeDate(dayAfterDiffFrom(today, 21))">
+											<p-box-button>
+												{{ date(dayAfterDiffFrom(today, 21)) }}
+											</p-box-button>
+										</p-box>
+										<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 28)" :click="() => changeDate(dayAfterDiffFrom(today, 28))">
+											<p-box-button>
+												{{ date(dayAfterDiffFrom(today, 28)) }}
+											</p-box-button>
+										</p-box>
+									</p-box-group>
+								</div>
+							</p-area>
+						</p-block>
 					</div>
 				</p-list>
 				<div class="p-gap _3"></div>
-				<p-area class="inline" background="var(--blue11)">
-					<div>
-						<p-box-group>
-							<p-box :click="() => days += 7">
-								<p-box-button icon="plus-green">dalších 7 dní</p-box-button>
-							</p-box>
-							<template v-if="datum != today">							
-									<p-box :to="'/novinky?datum=' + today" :click="() => changeDate(today)">
-										<p-box-button class="red" icon="revert">
-											Zpět na dnešní den
-										</p-box-button>
-									</p-box>							
-							</template>
-							<p-box>
-								<p-box-label>Zobrazit od:</p-box-label>
-							</p-box>
-							<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 7)" :click="() => changeDate( dayAfterDiffFrom(today, 7))">
-								<p-box-button>
-									{{ date(dayAfterDiffFrom(today, 7)) }}
-								</p-box-button>
-							</p-box>
-							<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 14)" :click="() => changeDate(dayAfterDiffFrom(today, 14))">
-								<p-box-button>
-									{{ date(dayAfterDiffFrom(today, 14)) }}
-								</p-box-button>
-							</p-box>
-							<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 21)" :click="() => changeDate(dayAfterDiffFrom(today, 21))">
-								<p-box-button>
-									{{ date(dayAfterDiffFrom(today, 21)) }}
-								</p-box-button>
-							</p-box>
-							<p-box :to="'/novinky?datum=' + dayAfterDiffFrom(today, 28)" :click="() => changeDate(dayAfterDiffFrom(today, 28))">
-								<p-box-button>
-									{{ date(dayAfterDiffFrom(today, 28)) }}
-								</p-box-button>
-							</p-box>
-						</p-box-group>
-					</div>
-				</p-area>
 			</p-block>
 			<p-block headline="Může vás zajímat" :hide="true" :level="1">
-				<!-- <p-block headline="Novinky e-mailem" anchor="Newsletter">
-					<mailchimp-signup></mailchimp-signup>
-				</p-block> -->
-				<p-block headline="Kde najdu Programy na sociálních sítích?" anchor="Na sociálních sítích">
-					<p>Vybrané novinky najdete také na těchto sociálních sítích:</p>
-					<p-box-group>
+				<p-block headline="Novinky od Programů na sociálních sítích?" anchor="Na sociálních sítích" class="text-center">
+					<p class="lead">Vybrané novinky najdete také na těchto sociálních sítích:</p>
+					<p-box-group class="jcc">
 						<template v-for="soc in social">
 							<p-box :href="soc.link">
 								<p-box-icon :type="soc.icon"></p-box-icon>
@@ -88,12 +62,14 @@
 							</p-box>
 						</template>
 					</p-box-group>
-					<div class="p-line"></div>
-					<div class="smallest"><strong>Proč už nejsou Programy na Twitteru (nyní X)?</strong> Publikování na Twitteru bylo ukončeno 20. ledna 2025 po sérii nedemokratických kroků, gest a prohlášení majitele sítě Elona Muska. Zásahy do algoritmu, potlačování svobody slova, protežování vybraných účtů a politických směrů směřujících k potlačení demokracie a politické soutěže, potlačování opozice i zpravodajství, zneužívání sítě k vydírání a poštvávání proti názorovým oponentům, dramatické snížení relevance a dosahu, vysoká míra toxicity i falešných účtů...</div>
+					<div class="maxw60 ma">
+						<div class="p-line"></div>
+						<div class="smallest"><strong>Proč už nejsou Programy na Twitteru (nyní X)?</strong> Publikování na Twitteru bylo ukončeno 20. ledna 2025 po sérii nedemokratických kroků, gest a prohlášení majitele sítě Elona Muska. Zásahy do algoritmu, potlačování svobody slova, protežování vybraných účtů a politických směrů směřujících k potlačení demokracie a politické soutěže, potlačování opozice i zpravodajství, zneužívání sítě k vydírání a poštvávání proti názorovým oponentům, dramatické snížení relevance a dosahu, vysoká míra toxicity i falešných účtů...</div>
+					</div>
 				</p-block>
 				<p-block headline="Chcete se podívat na starší zprávy?" anchor="Archiv zpráv">
-					<p>Historii zpráv najdete v Archivu. Najdete tam vše od počátku projektu v roce 2018.</p>
-					<p-box-group>
+					<p class="lead">Historii zpráv najdete v Archivu. Najdete tam vše od počátku projektu v roce 2018.</p>
+					<p-box-group class="jcc">
 						<p-box to="/novinky/archiv">
 							<p-box-button icon="pdv">Zobrazit archiv</p-box-button>
 						</p-box>
@@ -103,69 +79,10 @@
 					</p-box-group>
 				</p-block>
 				<p-block headline="O projektu" subheadline="Programy do voleb">
-					<!-- <div class="_split"> -->
-						<div>
-							<!-- <h2 class="serif mt0">
-								O projektu
-								<div class="small">Programy do voleb</div>
-							</h2> -->
-							<!-- <h4 class="serif">Programy do voleb</h4> -->
-							<p>Cílem je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. Nenajdete zde ani komentáře či názory, do textů se nezasahuje.</p>
-							<p-box-group>
-								<p-box to="/o-projektu">
-									<p-box-button class="primary">Více o Programech</p-box-button>
-								</p-box>
-								<p-box to="/o-projektu/kontakty">
-									<p-box-label>Kontakty</p-box-label>
-								</p-box>
-								<p-box to="/o-projektu/jak-podporit">
-									<p-box-label class="green">Jak podpořit?</p-box-label>
-								</p-box>
-							</p-box-group>
-						</div>
-						<!-- <div>
-							<cta-support :hide="true"></cta-support>
-						</div> -->
-					<!-- </div> -->
+					<p class="lead">
+						Cílem je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby je našel přehledně a na jednom místě. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. Nenajdete zde ani komentáře či názory, do textů se nezasahuje.
+					</p>
 				</p-block>
 			</p-block>
-		</template>
-		<template #anchors>
-			<p-logo :data="{logo: cdn + 'icon/sedmideni.svg'}" :size="'12rem'"></p-logo>
-			<div class="p-gap"></div>
-			<p-anchors></p-anchors>
-		</template>
-		<template #aside>
-				<!-- <div>
-					<p-list class="mh-1">
-						<template v-if="news && news.events && news.events.length > 0">
-							<div>
-								<strong class="smaller">Nejbližší akce</strong>
-							</div>
-							<div v-for="event in sortEvents(news.events, true).filter((x, i) => i < 2)">
-								<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="aside"></event-item>
-							</div>
-						</template>
-						<div>
-							<div class="smallest _edit">
-								<p-icon icon="edit"></p-icon>
-								&nbsp;
-								<p-popup preClass="green strong"><template #init>Přidat událost</template><template #content><editable-suggest placeholder="Odkaz na událost" type="event" part="HP Novinky" link="1"></editable-suggest></template></p-popup>
-							</div>
-						</div>
-					</p-list>
-				</div>
-			<div class="p-gap"></div> -->
-			<top-tasks></top-tasks>
-			<div class="p-gap"></div>
-			<h4>Čerpáno nejen z těchto médií:</h4>
-			<p class="small">
-				<p-list-linear class="or">
-					<span v-for="media in medialist">
-						<p-link :href="media.source" class="keep">{{ media.name }}</p-link>
-					</span>
-				</p-list-linear>
-			</p>
-		</template>
-	</p-layout-divided>
+	</p-layout-simple>
 </div>

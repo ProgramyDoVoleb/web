@@ -1,16 +1,14 @@
 <div class="layout-about">
-	<p-layout-divided>
-		<template #main>
+	<p-layout-simple>
+		<!-- <template #main> -->
 			<p-block :level="1" anchor="Programy do voleb" headline="O projektu">
 				<p class="lead">Cílem Programů do voleb je usnadnit každému, kdo se zajímá o volby, kandidáty a volební programy, aby
 					je našel přehledně a na jednom místě. Zejména v době informační přehlcenosti a sociálních sítí, kdy
 					včerejší obsah je mimo dosah, je dobré mít místo, které je stálé a univerzální, ale zároveň je přímo
 					zaměřené na jednu jedinou věc.</p>
 				<p class="lead">Tento projekt je nestranný, neziskový a vytvářen z dobré vůle na podporu demokracie a informovanosti.
-					Použítí informací je vždy na vlastní zodpovědnost.</p>
-				<p class="lead">Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni.</p>
-				<div class="p-gap"></div>
-				<p-box-group>
+					Použítí informací je vždy na vlastní zodpovědnost. Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni.</p>
+				<p-box-group class="jcc">
 					<p-box to="/o-projektu/kontakty">
 						<p-box-button class="primary">Chcete se na něco zeptat?</p-box-button>
 					</p-box>
@@ -20,7 +18,7 @@
 				</p-box-group>
 			</p-block>
 			<p-block headline="Desatero">
-				<p-area class="primary inline">
+				<p-area class="primary ma maxw40">
 					<p-list>
 						<div>
 							<div class="p-offset">
@@ -85,15 +83,15 @@
 					</p-list>
 				</p-area>
 			</p-block>
-			<p-block headline="Financování">
-				<p>Programy do voleb jsou zapsaným spolkem a jsou financované výhradně z darů přispěvovatelů. Přispět
+			<p-block headline="Financování" class="maxw40 ma">
+				<p class="char">Programy do voleb jsou zapsaným spolkem a jsou financované výhradně z darů přispěvovatelů. Přispět
 					lze přímo na <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">transparentní účet
 						u FIO banky</p-link>, pomocí portálu <p-link
 						href="https://www.darujme.cz/programydovoleb">Darujme.cz</p-link>.
 					Výdaje pokrývají hlavně provoz webu, nákup reklamy a případně tisk materiálů. Design webu,
 					programování, komunikace apod zajišťuje spolek bez nároku na honorář.</p>
 				<!-- <p>Projekt lze podpořit i <router-link to="/podporit">jinými formami</router-link>, například umístěním banneru, sdílením online apod, odkazováním nebo doporučením.</p> -->
-				<p>Přispěvatelům nevznikají žádné výhody, nejsou jim dostupné nějaké funkce navíc nebo dříve. Mohou si však svůj dar odepsat z daní.</p>
+				<p class="char">Přispěvatelům nevznikají žádné výhody, nejsou jim dostupné nějaké funkce navíc nebo dříve. Mohou si však svůj dar odepsat z daní.</p>
 
 
 			<!-- <p-collapsible label="Poděkování"> -->
@@ -190,7 +188,7 @@
 				<!-- </div> -->
 			<!-- </p-collapsible> -->				
 			</p-block>
-			<p-block headline="Zdroje informací">
+			<p-block headline="Zdroje informací" class="maxw40 ma">
 				<p>Zdrojem informací jsou buď veřejně dostupné zdroje nebo podklady, které zasílají přímo strany či
 					kandidáti. Mohou je doplňovat přímo online v rozhraní Adminu. V případě přebírání zdrojů z jiných webových stránek je vždy na tyto stránky odkazováno
 					včetně data, kdy k tomu došlo.</p>
@@ -254,7 +252,7 @@
 					</p-modal>
 				</p-box-group>
 			</p-block>
-			<p-block headline="Provoz webu">
+			<p-block headline="Provoz webu" class="maxw40 ma">
 				<h4>Zdrojové kódy webu:</h4>
 					<p-area class="inline" icon="program">
 						<div class="smaller strong"><p-link href="https://github.com/programydovoleb/web"></p-link></div>
@@ -282,7 +280,7 @@
 						<em class="is-link">https://programydovoleb.cz</em> a připojte také datum, kdy jste informace z webu získali.</p>
 				</p-area>
 			</p-block>
-			<p-block headline="Ochrana údajů">
+			<p-block headline="Ochrana údajů" class="maxw40 ma">
 				<p>Programy do voleb zpracovávají primárně informace poskytované formou otevřených dat státních úřadů a organizací, které jsou jimi zvěřejňované k účelu větší transparentnosti volebních procesů. Dále Programy do voleb zpracovávají informace vložené zástupci stran a hnutí, samotnými kandidáty, nebo veřejně dostupné informace z veřejných profilů a zpravodajských serverů.</p>
 				<p-collapsible label="Kandidáti">
 					<p>Zpracování osobních údajů kandidátů je prováděno na základě oprávněného zájmu spolku na
@@ -345,7 +343,7 @@
 					</p-area>
 				</p-collapsible>
 			</p-block>
-			<p-block headline="Provozovatel">
+			<p-block headline="Provozovatel" class="maxw40 ma">
 				<p-area class="primary">
 					<p-list>
 						<div class="strong">Programy do voleb, z. s.</div>
@@ -484,26 +482,10 @@
 				</p-area>
 
 			</p-block>
-			<p-block headline="Autor projektu">
+			<p-block headline="Autor projektu" class="maxw40 ma">
 				<div class="float">
-					<p-image :width="18" src="https://programydovoleb.cz/static/profilovka.jpg" :rounded="true"
+					<p-image :width="10" src="https://programydovoleb.cz/static/profilovka.jpg" :rounded="true"
 						:border="true"></p-image>
-						<div class="mt1 mb4">
-							<p-box-group>
-								<p-box href="https://bsky.app/profile/stepanrysavy.cz">
-									<p-box-icon type="bsky"></p-box-icon>
-								</p-box>
-								<p-box href="https://www.threads.com/@stepanrysavy">
-									<p-box-icon type="threads"></p-box-icon>
-								</p-box>
-								<p-box href="https://www.facebook.com/stepan.rysavy">
-									<p-box-icon type="fb"></p-box-icon>
-								</p-box>
-								<p-box href="https://www.linkedin.com/in/stepanrysavy/">
-									<p-box-icon type="linkedin"></p-box-icon>
-								</p-box>
-							</p-box-group>
-						</div>
 				</div>
 				<p>Jmenuji se Štěpán Ryšavý, pocházím z Turnova, toho času v Praze.
 					Profesně jsem reklamkář, designer a programátor, kdo by potřeboval vědět přesněji, zde je můj
@@ -521,37 +503,6 @@
 					<div class="smallest dimm">Napište mi</div>
 				</p-area>
 			</p-block>
-		</template>
-		<template #aside>
-			<top-tasks></top-tasks>
-			<div class="p-line"></div>
-			<h3 class="serif w400 mt0">Programy do voleb</h3>
-			<p>Nestranný neziskový projekt, díky kterému si můžete snadno, pohodlně a bez hledání přečíst a
-				porovnat volební programy všech stran či kandidátů.</p>
-			<div class="smaller">
-				<p-stats :vertical="true" label="Adresa">
-					Jana Palacha 1413<br>
-					511 01 Turnov
-				</p-stats>
-				<p-stats :vertical="true" label="IČO">
-					10906380 &middot; <p-link class="as-span"
-						href="https://or.justice.cz/ias/ui/rejstrik-firma.vysledky?subjektId=1126297&typ=PLATNY">rejstřík</p-link>
-				</p-stats>
-				<p-stats :vertical="true" label="Datovka">
-					vhwmpce
-				</p-stats>
-			</div>
-			<div class="p-line"></div>
-			<p-box-group>
-				<p-box to="/o-projektu/kontakty">
-					<p-box-button class="primary">Kontakty</p-box-button>
-				</p-box>
-			</p-box-group>
-		</template>
-		<template #anchors>
-			<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'"></p-logo>
-			<div class="p-gap"></div>
-			<p-anchors></p-anchors>
-		</template>
-	</p-layout-divided>
+		<!-- </template> -->
+	</p-layout-simple>
 </div>

@@ -26,12 +26,20 @@ html, body, .sans {
 }
 
 p, .truncated-content.p {
-  // font-size: .85em;
+  font-size: .85em;
   line-height: 1.7;
-	max-width: 40em;
 
   &.lead {
     font-size: 1em;
+	  max-width: 40em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3em;
+    text-align: center;
+  }
+
+  .lead + &.lead {
+    margin-top: -2em;
   }
 
   &:first-child {
@@ -43,14 +51,10 @@ p, .truncated-content.p {
   }
 }
 
-h1, h2, h3.serif, h4.serif, h2 button, .quando {
+h1, h2, h2 button, .quando {
   font-family: Quando, 'Palatino Linotype', Georgia, serif;
   font-weight: 400;
   letter-spacing: -.03em;
-}
-
-h2, h3, h4, .p-block---expandable h1 .p-headline---label {
-  letter-spacing: -.01em;
 }
 
 h2 .p-headline---label {
@@ -71,11 +75,11 @@ h2 .p-headline---label {
 }
 
 .smaller {
-  font-size: .85em;
+  font-size: max(.85em, 11px);
 }
 
 .small {
-  font-size: .7em;
+  font-size: max(.7em, 11px);
 }
 
 .smallest {
@@ -87,14 +91,14 @@ h2 .p-headline---label {
 }
 
 .normal {
-  font-size: 1.4rem;
+  font-size: initial;
 }
 
 .dimm {
   color: #a7a7a7;
 
   .dark & {
-    color: #999;
+    color: #6d747b;
   }
 }
 
@@ -192,7 +196,10 @@ h3.nom2 {
 .reset {
   font-size: initial;
   line-height: initial;
-  color: initial;
   font-weight: initial;
   text-align: initial;
+
+  html:not(.dark) {
+    color: initial;
+  }
 }

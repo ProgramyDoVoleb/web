@@ -6,7 +6,7 @@
 				<div class="_arrow" ref="arrow"></div>
 				<div class="_popup reset" ref="popup">
 					<button class="_close plain" @click="toggleShow">&times; zavřít</button>
-					<div v-if="show">
+					<div v-if="show" class="_mh">
 						<slot name="content"></slot>
 					</div>
 				</div>

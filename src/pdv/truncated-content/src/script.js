@@ -1,7 +1,7 @@
 import {untag} from '@/pdv/helpers';
 
 export default {
-	name: 'TruncatedLinear',
+	name: 'TruncatedContent',
 	props: ['headline', 'icon', 'cta', 'keep', 'size', 'tag'],
 	data: function () {
 		return {

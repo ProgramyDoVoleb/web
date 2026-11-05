@@ -18,6 +18,9 @@ export default {
 			if (this.unbreak) txt = this.removeBreaks(untag(txt));
 
 			txt = txt.split('”').join('"');
+			txt = txt.split('="').join('__="');
+			txt = txt.split('href__').join('href');
+			txt = txt.split('src__').join('src');
 
 			return txt;
 		}

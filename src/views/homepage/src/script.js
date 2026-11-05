@@ -166,7 +166,7 @@ export default {
 			return {list};
 		},
 		parties: function () {
-			return this.$store.getters.pdv('parties/1,5,7,47,53,166,1245,720,721,768,1114,1178,1227,1265,714');
+			return this.$store.getters.pdv('parties/1,5,7,47,53,166,1245,720,721,768,1114,1178,1227,1265,714,1722');
 		},
 		media: function () {
 			return this.$store.getters.pdv('elections/specific/2026-media');

@@ -1,53 +1,12 @@
 <div class="layout-homepage">
 	
-	<p-layout-divided ref="page">
-		<template #main>
+	<p-layout-simple ref="page">
+		<!-- <template #main> -->
 			<p-block headline="Volby" anchor="Volby" :level="1" :hide="true">
-
-
-
-			<p-block headline="Výsledky voleb" :open="true" :hide="true" v-if="false">
-				 <p-collapsible icon="senatni-volby" label="Výsledky senátních voleb" status="Úplné">
-					<results-quick-senat obvod="all" :data="el173"></results-quick-senat>
-					<div class="p-gap _2"></div>
-					<h3 class="quando">Vyhráli v prvním kole</h3>
-					<p-grid v-if="el173">
-						<div v-for="cand in el173.list[0].$kandidati.filter(x => x.ZVOLEN_K1 === 1)">
-							<p-area class="highlight shadow">
-								<p-list class="_05">
-									<div class="tiny">
-										Obvod {{ cand.OBVOD }} &middot; <router-link :to="'/volby/senatni-volby/173/obvod/' + cand.OBVOD" class="is-span">{{ enums.obvody.find(x => x.id === cand.OBVOD).name }}</router-link>
-									</div>
-									<div class="smallest strong">
-										<p-label :color="colorByItem(cand, el173, 'NSTRANA')">{{ cand.JMENO + ' ' + cand.PRIJMENI }}</p-label>
-									</div>
-								</p-list>
-							</p-area>
-						</div>
-					</p-grid>
-				 </p-collapsible>
-				 <p-collapsible icon="komunalni-volby" label="Výsledky komunálních voleb" status="Úplné">
-					<template v-if="resultsTown.loading === false && resultsTown.data != null">
-						<results-quick :data="resultsTown.data" :town="resultsTown.town" :key="resultsTown.town"></results-quick>
-						<div class="p-line"></div>
-					</template>
-					<search-town :cb="true" @update="(item) => resultsTownChange(item.obec)"></search-town>
-					<div class="p-gap _2"></div>
-					<p-columns class="smaller _tight">
-						<div v-for="town in [].concat(enums.towns.capital, enums.towns.regional, enums.towns.other)">
-							<button class="inline" @click="resultsTownChange(town.num)">{{ town.name }}</button>
-						</div>
-					</p-columns>
-				 </p-collapsible>
-			</p-block>
-
-				<p-block headline="Přehled" :hide="true" class="pb0 mb3 mt-2">
-
-					<h2 class="quando">Výsledky</h2>
-					<!-- <h1 class="quando">{{ Math.round((new Date(new Date('2026-10-09 14:00:00') - new Date()).getTime()) / (1000 * 60 * 60 * 24)) }} dní do voleb</h1> -->
-					<p-grid>
+				<p-block headline="Výsledky" class="maxw40 ma">
+					<p-columns>
 						<div>
-							<p-area class="highlidght" icon="komunalni-volby">
+							<p-area class="highlight shadow" icon="komunalni-volby">
 								<div class="p-offset reverse">
 									<div>
 										<h4 class="mt0 mb0 blue">
@@ -77,7 +36,7 @@
 							</p-area>
 						</div>
 						<div>
-							<p-area class="highligdht" icon="senatni-volby">
+							<p-area class="highlight shadow" icon="senatni-volby">
 								<div class="p-offset reverse">
 									<div>
 										<h4 class="mt0 mb0">
@@ -116,59 +75,20 @@
 								</div>
 							</p-area>
 						</div>
-						<div>
-							<p-area icon="support" class="higdhlight">
-								<h4 class="mt0 mb0">
-									<p-popup>
-										<template #init>
-											<button class="inline green">Podpořit projekt</button>
-										</template>
-										<template #content>			
-											<div class="text-center">
-												<p-image class="_imgib" :src="'https://static.programydovoleb.cz/qr.png'" width="100%"></p-image>
-												<p-link href="https://ib.fio.cz/ib/transparent?a=2502004588" class="smaller strong">2502004588/2010</p-link>
-												<div class="smallest mt05">FIO Banka</div>
-												<div class="p-line"></div>
-												<div class="smallest mt05">nebo přes Darujme.cz</div>
-												<div class="smaller mt05 mb1 strong">
-													<p-list-linear class="or">
-														<span>
-															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=100">100 Kč</p-link>
-														</span>
-														<span>
-															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=250">250 Kč</p-link>
-														</span>
-														<span>
-															<p-link class="green" href="https://www.darujme.cz/darovat/1205354?portalWidget=1&frequency=once&amount=2026">2026 Kč</p-link>
-														</span>
-														<span>
-															<p-link class="green" href="https://www.darujme.cz/darovat/1205354">jiná částka</p-link>
-														</span>
-													</p-list-linear>
-												</div>
-											</div>
-										</template>
-									</p-popup>
-								</h4>
-								<div class="smallest">
-									do dalších let
-								</div>
-							</p-area>
-						</div>
-					</p-grid>
+					</p-columns>
 					
 				</p-block>
 
-				<h2 class="quando">Příští volby</h2>
+				<p-block headline="Příští volby">
 
-					<p class="mb2">
-						<p-truncated-content :size="24">
-							Teď si dáme na nějakou dobu docela pauzu. Příští volby budou až v lednu 2028, <router-link to="/volby/prezidentske-volby/179">prezidentské</router-link>. Termín zatím není znám. Ty začnou sérii voleb, kdy během cca 20 měsíců proběhnou patery volby. Ještě na podzim 2028 <router-link to="/volby/krajske-volby/180">krajské</router-link> a <router-link to="/volby/senatni-volby/181">senátní</router-link>, na jaře 2029 <router-link to="/volby/evropske-volby/182">evropské</router-link> a na podzim <router-link to="/volby/snemovni-volby/183">sněmovní</router-link>. <br><br>Až do podzimu 2027 to tak bude z pohledu voleb velmi odpočinkové. Mohou sice proběhnout nějaké mimořádné volby obecní nebo senátní, ale ty se budou týkat vždy jen vybrané skupiny voličů. Jediné, co by plán na příští roky mohlo narušit, tak vyhlášení předčasných sněmovních voleb. Zatím tomu ale nic nenasvědčuje.
+					<p class="lead">
+						<p-truncated-content :size="32">
+							Teď si dáme na nějakou dobu docela pauzu. Příští řádné volby budou až v lednu 2028, <router-link to="/volby/prezidentske-volby/179">prezidentské</router-link>. Termín zatím není znám. Ty začnou sérii voleb, kdy během cca 20 měsíců proběhnou patery volby. Ještě na podzim 2028 <router-link to="/volby/krajske-volby/180">krajské</router-link> a <router-link to="/volby/senatni-volby/181">senátní</router-link>, na jaře 2029 <router-link to="/volby/evropske-volby/182">evropské</router-link> a na podzim <router-link to="/volby/snemovni-volby/183">sněmovní</router-link>. <br><br>Až do podzimu 2027 to tak bude z pohledu voleb velmi odpočinkové. Mohou sice proběhnout nějaké mimořádné volby obecní nebo senátní, ale ty se budou týkat vždy jen vybrané skupiny voličů. Jediné, co by plán na příští roky mohlo narušit, tak vyhlášení předčasných sněmovních voleb. Zatím tomu ale nic nenasvědčuje.
 						</p-truncated-content>
 					</p>
 				
 					<p-loader :rule="elections">
-						<div v-if="elections" class="mt-1">
+						<div v-if="elections" class="maxw60 ma">
 							<div v-for="(election, index) in sortBy(elections.list.filter(x => x.status < 3), 'id')">
 								<p-block class="_nmb" :hide="true" :headline="election_types.find(x => x.key === election.typ).name">
 									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))">
@@ -199,7 +119,7 @@
 											</div>
 											<div v-if="election.typ === 'PREZ'">
 												<p-area class="primary">
-													<strong>O kom se mluví?</strong>
+													<strong>O kom se mluví, kdo sbírá podpisy?</strong>
 													<div class="p-line"></div>
 													<p-columns class="_2_4">
 														<div v-for="cand in election.$kandidati">
@@ -277,105 +197,42 @@
 							</p-collapsible>
 						</div>
 					</p-loader>
+				</p-block>
 			</p-block>
 			
-			<p-block headline="Předvolební deník" anchor="Novinky" subheadline="novinky nejen z médií" :level="1">
+			<p-block headline="Předvolební deník" anchor="Novinky" subheadline="novinky nejen z médií" :level="1" class="maxw40 ma">
+				<p class="lead pb2">Kdo bude kandidovat, kdo zveřejnil program, jak probíhají jednání? Nejen to najdete v předvolebním přehledu, přehledně den po dni:</p>
+				<p-list class="_4">
+					<div><news-daily-item :datum="today"></news-daily-item></div>
+					<div><news-daily-item :datum="yesterday"></news-daily-item></div>
+					<template v-if="news">
+						<template v-for="item in news.list">
+							<div><news-daily-item :datum="yesterday" :prefetch="{list: [item]}"></news-daily-item></div>
+						</template>
+					</template>
+					<div v-else><p-loader :rule="news"></p-loader></div>
+					<div>
+						<p-block headline="Starší zprávy">
+							<p-box-group class="jcc">
+								<p-box to="/novinky">
+									<p-box-button icon="sedmideni">Všechny novinky</p-box-button>
+								</p-box>
+								<p-box to="/novinky/archiv">
+									<p-box-button icon="pdv">Oznámení od <em>Programů</em></p-box-button>
+								</p-box>
+							</p-box-group>
+						</p-block>
+					</div>
+				</p-list>
+
 				
-				<!-- <p-block hide="1" headline="Přehled" class="mt2"> -->
-					<!-- <h3 class="quando">Starší novinky</h3> -->
-					<!-- <p-loader :rule="news"> -->
-						<!-- <div v-if="news"> -->
-
-							<p v-if="false">
-								Za poslední týden na <em>Programy do voleb</em> přibylo: 
-								<p-list-linear class="inline">
-									<span v-if="news.list.reduce((a, b) => a + b.fullprogram.length, 0) > 0" class="strong"><p-lang :value="news.list.reduce((a, b) => a + b.fullprogram.length, 0)" :end="['Žádné programy', 'Jeden plný text program', '%% plné texty programů', '%% plných textů programů']"></p-lang></span>
-									<span v-if="news.list.reduce((a, b) => a + b.programlink.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.programlink.length, 0)" :end="['Žádné programy', 'Jeden odkaz na program', '%% odkazy na program', '%% odkazů na program']"></p-lang></span>
-									<span v-if="news.list.reduce((a, b) => a + b.priority.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.priority.length, 0)" :end="['Žádné priority', 'Jedna priorita', '%% priority', '%% priorit']"></p-lang></span>
-									<span v-if="news.list.reduce((a, b) => a + b.odpovedi.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.odpovedi.length, 0)" :end="['Žádné odpovědi', 'Jedna odpověd', '%% odpovědi', '%% odpovědí']"></p-lang></span>
-									<span v-if="news.list.reduce((a, b) => a + b.sys.length + b.main.length + b.media.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.sys.length + b.main.length + b.media.length, 0)" :end="['Žádná novinka', 'Jedna novinka', '%% novinky', '%% novinek']"></p-lang></span>
-									<span v-if="news.list.reduce((a, b) => a + b.auto.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.auto.length, 0)" :end="['Žádný nový profil', 'Jeden nový profil', '%% nové profily', '%% nových profilů']"></p-lang></span>
-									<span v-if="news.list.reduce((a, b) => a + b.log.length, 0) > 0"><p-lang :value="news.list.reduce((a, b) => a + b.log.length, 0)" :end="['Žádné úpravy', 'Jedna úprava profilů', '%% úpravy profilů', '%% úprav profilů']"></p-lang></span>
-								</p-list-linear>.
-								Níže najdete nejdůležitější novinky za poslední dny, <router-link to="/novinky" class="smaller strong">úplný předvolební deník najdete zde</router-link>.
-							</p>
-
-							<p-loader :rule="news">
-								<div v-if="news">
-									<p-list class="_2">
-										<div>
-											<news-daily-item :datum="today"></news-daily-item>
-										</div>
-										<div>
-											<news-daily-item :datum="yesterday"></news-daily-item>
-										</div>
-										<div v-for="item in news.list">
-											<!-- <p-collapsible :label="date(item.datum)"> -->
-												<news-daily-item :datum="yesterday" :prefetch="{list: [item]}"></news-daily-item>
-											<!-- </p-collapsible> -->
-										</div>
-									</p-list>
-								</div>
-							</p-loader>
-
-								<div class="mt2">
-									<p-box-group>
-										<p-box to="/novinky">
-											<p-box-button icon="sedmideni">Všechny novinky</p-box-button>
-										</p-box>
-										<p-box to="/novinky/archiv">
-											<p-box-button icon="pdv">Oznámení od <em>Programů</em></p-box-button>
-										</p-box>
-									</p-box-group>
-								</div>
-						<!-- </div> -->
-					<!-- </p-loader> -->
-				<!-- </p-block> -->
 			</p-block>
 			<p-block headline="Programy do voleb" :level="1" :hide="1">
-				<p-block headline="O projektu" class="_pb0 mb2">
-					<p>
-						<em class="strong">Programy do voleb</em> jsou nestranný předvolební přehled, který se zaměřuje na přehledy kandidátů a volebních programů. 
-						Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. 
-						<em>Programy do voleb</em> jsou nezávislý, neziskový, dobrovolnický projekt. 
-						Nejsou oficiálním státním webem.
-						<router-link to="/o-projektu" class="strong smaller">Více o projektu</router-link>
-					</p>
-				</p-block>
-				<p-block headline="Může vás zajímat" class="_pb0" :hide="true">
-					<p-area class="inline shadow highlight" borderColor="var(--blue)">
-						<h4 class="mb075">Může vás také zajímat</h4>
-						<p-box-group>
-							<p-box to="/rejstrik">
-								<p-box-button icon="search">Strany</p-box-button>
-							</p-box>
-							<p-box to="/lide">
-								<p-box-label>kandidáti</p-box-label>
-							</p-box>
-							<p-box to="/obce">
-								<p-box-label>obce</p-box-label>
-							</p-box>
-							<p-box to="/volby">
-								<p-box-label>volby</p-box-label>
-							</p-box>
-						</p-box-group>
-						<div class="p-line _05"></div>
-						<p-box-group>
-							<p-box to="/volebni-pruzkumy">
-								<p-box-button icon="results">Volební průzkumy</p-box-button>
-							</p-box>
-							<p-box to="/vypocet-mandatu">
-								<p-box-label>Výpočet mandátů</p-box-label>
-							</p-box>
-						</p-box-group>
-					</p-area>
-					<!-- <div class="p-line"></div> -->
-					<div class="p-gap _2"></div>
-					<p-collapsible logo="list" label="Rejstřík stran" v-if="false">
-						<p>Pokud byste se chtěli podívat na zapojení strany v následujících volbách, minulé výsledky, přehled koalic, zjistit důležité odkazy nebo přehled krajských organizací.</p>
+					<p-block logo="list" headline="Rejstřík stran">
+						<p class="lead">Pokud byste se chtěli podívat na zapojení strany v následujících volbách, minulé výsledky, přehled koalic, zjistit důležité odkazy nebo přehled krajských organizací.</p>
 						<p-loader :rule="parties">
 							<div v-if="parties">
-								<p-grid class="_3 _tiny">								
+								<p-grid class="_3 _tiny ma maxw60">								
 									<div v-for="(item, index) in parties.list">
 										<p-area>
 											<div class="text-center">
@@ -395,7 +252,7 @@
 											<div class="text-center">
 												<router-link to="/rejstrik" class="_b">
 													<div>
-														<p-icon icon="detail" size="6rem"></p-icon>
+														<p-icon icon="search" size="6rem"></p-icon>
 													</div>
 												</router-link>
 												<div>
@@ -407,11 +264,11 @@
 								</p-grid>
 							</div>
 						</p-loader>
-					</p-collapsible>
-					<p-collapsible logo="results" label="Výsledky v obcích" v-if="false">
-						<p>Přehled všech voleb, které se konaly v&nbsp;libovolném městě či obci. Najdete zde také zvolené zastupitele, aktuálního starostu a další zajímavosti.</p>
-						<p-area>
-							<div>
+					</p-block>
+					<p-block logo="results" headline="Volby v obcích">
+						<p class="lead">Přehled všech voleb, které se konaly v&nbsp;libovolném městě či obci. Najdete zde také zvolené zastupitele, aktuálního starostu a další zajímavosti.</p>
+						<p-area class="ma maxw80">
+							<div class="text-center">
 								<div v-for="(town, index) in enums.towns.capital">
 									<router-link :to="'/obec/' + town.num" :class="{'strong': index === 0}">
 										Hlavní město Praha
@@ -427,42 +284,67 @@
 								</div>
 							</p-columns>
 							<div class="p-line"></div>
-							<div class="smallest strong">
-								<router-link to="/obce">Hledat jinou obec nebo městskou část</router-link>
-							</div>
+							<search-town></search-town>
 						</p-area>
-					</p-collapsible>
+					</p-block>
+
+				<p-block headline="O projektu" class="_pb0 mb2">
+					<p class="lead">
+						<em class="strong">Programy do voleb</em> jsou nestranný předvolební přehled, který se zaměřuje na přehledy kandidátů a volebních programů. 
+						Žádná strana ani kandidát nejsou jakkoli zvýhodněni, preferováni nebo doporučováni. 
+						<em>Programy do voleb</em> jsou nezávislý, neziskový, dobrovolnický projekt. 
+						Nejsou oficiálním státním webem.
+						<router-link to="/o-projektu" class="strong smaller">Více o projektu</router-link>
+					</p>
+					<p-area class="shadow highlight maxw30 ma mt3" borderColor="var(--blue)">
+						<h4 class="mb075">Může vás také zajímat</h4>
+						<p-box-group>
+							<p-box to="/volebni-pruzkumy">
+								<p-box-button icon="results">Volební průzkumy</p-box-button>
+							</p-box>
+							<p-box to="/vypocet-mandatu">
+								<p-box-label>Výpočet mandátů</p-box-label>
+							</p-box>
+						</p-box-group>
+						<div class="p-line _05"></div>
+						<p-box-group>
+							<p-box to="/lide">
+								<p-box-button icon="search">Hledat kandidáta</p-box-button>
+							</p-box>
+							<p-box to="/volby">
+								<p-box-label>Přehled voleb</p-box-label>
+							</p-box>
+						</p-box-group>
+					</p-area>
 				</p-block>
-					<p-block headline="Časté otázky" :hide="1">
-						<!-- <p-collapsible label="Časté otázky" logo="question"> -->
-							<!-- <p-area class="primary"> -->
-								<h3 class="serif">Časté otázky</h3>
-								<p-collapsible label="Jak vzniká obsah webu?">
+					<p-block headline="Časté otázky">
+						<div class="w40 ma">
+								<p-collapsible label="Jak vzniká obsah webu?" seo="1">
 									<p>Obří porce toho, co na webu najdete, je díky práci dobrovolníků, běžných lidí. Často stačilo 
-										<p-modal class="inline">
+										<p-popup class="inline">
 											<template #init><strong>poslat odkaz</strong></template>
 											<template #content>
 												<report-form></report-form>
 											</template>
-										</p-modal>, 
+										</p-popup>, 
 										například na článek. Všechny potřebné a možné informace jsem už z něj vytahal a doplnil. Není nutné registrace ani práce se složitými programy.</p>
 									<p>Strany a kandidáti mohou také využívat <p-link href="https://admin.programydovoleb.cz" class="strong">Admin</p-link>, ve kterém lze doplňovat a upravovat informace svépomocí.</p>
 								</p-collapsible>
-								<p-collapsible label="Jak dlouho projektu existuje?">
+								<p-collapsible label="Jak dlouho projektu existuje?" seo="1">
 									<p>Projekt vznikl v roce 2018 a od té doby pokrývá všechny české volby s&nbsp;výjimkou některých mimořádných komunálních voleb. Od roku 2021 mají <em>Programy do voleb</em> formu zapsaného spolku a byly 4x nominovány na Cenu českého internetu.</p>
 									<p class="strong"><p-link href="https://kristalova.lupa.cz/2025/vysledky/">Křišťálová lupa 2025</p-link> &middot; <p-link href="https://kristalova.lupa.cz/2023/vysledky/">2023</p-link> &middot; <p-link href="https://kristalova.lupa.cz/2022/vysledky/">2022</p-link></p>
 								</p-collapsible>
-								<p-collapsible label="Jak moc je projekt nestranný?">
+								<p-collapsible label="Jak moc je projekt nestranný?" seo="1">
 									<p><em>Programy do voleb</em> jsou nestranný neziskový nezávislý dobrovolnický projekt. Mají formu zapsaného spolku. Autor projektu ani další členové spolku nejsou členy ani registrovaní příznivci jakékoli politické strany, hnutí nebo lobbistické skupiny. Nejsou součástí žádného zpravodajského serveru, ani projektem politické strany nebo jejího příznivce. Nezřizuje je žádná státní organizace a nežádá o dotace z veřejných rozpočtů.</p>
 									<p>Ke všem stranám i kandidátům je přistupováno na principu rovnosti. Všichni mají proto k dispozici stejné funkce a prostor, všichni mohou odpovědět na stejné volební otázky nebo podklady pro kalkulačku.</p>
-									<p>Programy se od svého vzniku řídí <router-link class="strong" to="/o-projektu#desatero">desaterem</router-link>, informace jsou vždy podložené zdrojem. O činnosti si můžete přečíst také v každoroční <router-link class="strong" to="/o-projektu#povinne-zverejnovane-informace">výroční zprávě</router-link>.</p>
+									<p>Programy se od svého vzniku řídí <router-link class="strong" to="/o-projektu#desatero">desaterem</router-link>, informace jsou vždy podložené zdrojem. O činnosti si můžete přečíst také v každoroční <router-link class="strong" to="/o-projektu#provozovatel">výroční zprávě</router-link>.</p>
 								</p-collapsible>
-								<p-collapsible label="Jak projekt funguje? Kdo to platí?">
+								<p-collapsible label="Jak projekt funguje? Kdo to platí?" seo="1">
 									<p>Projekt je celou dobu extrémně nízkonákladový, o čemž se lze přesvědčit i z výročních zpráv nebo na <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588" class="strong">transparentním účtu</p-link>. Krom plateb za servery a domény nemá spolek takřka žádné další výdaje, neplatí žádné zaměstnance.</p>
 									<p>Všechna práce je čistě dobrovolnická. Kompletní web designuje a programuje <router-link class="strong" to="/o-projektu#autor-projektu">autor projektu</router-link>, ve svém volném čase. Zajišťuje také komunikaci a provoz všech sociálních sítí. S obsahem pomáhají dobrovolníci, anonymní podporovatelé, ale i zástupci stran či samotní kandidáti. Vše bezplatně.</p>
 									<p>Hlavní výdaj tak představují předvolební reklamy, aby se projekt dostal i mimo běžné bubliny sociálních sítí.</p>
 								</p-collapsible>
-								<p-collapsible label="Jak mohu Programy podpořit?">
+								<p-collapsible label="Jak mohu Programy podpořit?" seo="1">
 									<p>Je několik možností, jak lze Programy finančně podpořit.</p>
 									<p-list>
 										<div>
@@ -515,15 +397,9 @@
 												</div>
 											</p-area>
 										</div>
-										<div>
-											<p-area>
-												<p-link href="https://programydovoleb.t-shock.eu/cs/" class="strong">Koupě trička, tašky nebo digitálního merche</p-link> 
-												<div class="dimm smaller">Unikátní autorské designy</div>
-											</p-area>
-										</div>
 									</p-list>
 								</p-collapsible>
-								<p-collapsible label="Jak mohu pomoct i jinak?">
+								<p-collapsible label="Jak mohu pomoct i jinak?" seo="1">
 									<p-grid class="smaller">
 										<div><p-area class="primary">
 											<p-modal :inline="true">
@@ -558,17 +434,17 @@
 										</p-modal>, i kdyby mělo jít jen překlep nebo hrubku. Hlavně ale aby informace byly správně.</p-area></div>
 									</p-grid>
 								</p-collapsible>
-								<p-collapsible label="Jsem kandidát nebo zástupce strany">
+								<p-collapsible label="Jsem kandidát nebo zástupce strany" seo="1">
 									<p>Pokud kandidujete, můžete zažádat o přístup do Adminu Programů do voleb. Jedná se o jednoduchý online nástroj, ve kterém můžete snadno spravovat údaje, které se zobrazují k vaší kandidátní listině nebo vám osobně.</p>
 									
 									<p-area class="primary">
 										<h3 class="serif">Jak získáte přístup do Adminu?</h3>
-										<ol>
-											<li>1 &middot; Přejděte na <p-link href="admin.programydovoleb.cz/seznam"></p-link></li>
-											<li>2 &middot; Vyberte si profil, který chcete upravovat.</li>
-											<li>3 &middot; Zobrazí se krátký formulář, kde vyplníte vaše jméno, kontakt (e-mail nebo odkaz na sociální sítě)</li>
-											<li>4 &middot; Doplňte také vztah k profilu - zda to jste vy osobně, zda jste tiskový mluvčí, správce sítí, apod</li>
-											<li>5 &middot; Během 24 dojde k posouzení žádosti a přijde vám unikátní přístup do Adminu</li>
+										<ol class="classic">
+											<li>Přejděte na <p-link href="admin.programydovoleb.cz/seznam"></p-link></li>
+											<li>Vyberte si profil, který chcete upravovat.</li>
+											<li>Zobrazí se krátký formulář, kde vyplníte vaše jméno, kontakt (e-mail nebo odkaz na sociální sítě)</li>
+											<li>Doplňte také vztah k profilu - zda to jste vy osobně, zda jste tiskový mluvčí, správce sítí, apod</li>
+											<li>Během 24 dojde k posouzení žádosti a přijde vám unikátní přístup do Adminu</li>
 										</ol>
 									</p-area>
 									<p>Můžete také požádat o přístup k vybrané skupině kandidátů, což se hodí například u koalic nebo v případě mládežnických organizací stran.</p>
@@ -581,42 +457,8 @@
 										</p-box>
 									</p-box-group>
 								</p-collapsible>
-							<!-- </p-area> -->
-						<!-- </p-collapsible> -->
-	
+						</div>
 					</p-block>
 			</p-block>
-		</template>
-		<template #anchors>
-			<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'"></p-logo>
-			<div class="p-gap"></div>
-			<p-anchors></p-anchors>
-		</template>
-		<template #aside>
-			<p-list height="1.5">
-				<!-- <div>
-							<div class="mb1">
-								<strong class="smaller">Nejbližší události</strong>
-							</div>
-					<p-list class="mh-1">
-						<template v-if="news && news.events && news.events.length > 0">
-							<div v-for="event in sortEvents(news.events, true).filter((x, i) => i < 2)">
-								<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="aside"></event-item>
-							</div>
-						</template>
-						<div>
-							<div class="smallest _edit">
-								<p-icon icon="edit"></p-icon>
-								&nbsp;
-								<p-popup preClass="green strong"><template #init>Přidat událost</template><template #content><editable-suggest placeholder="Odkaz na událost" type="event" part="HP Novinky" link="1"></editable-suggest></template></p-popup>
-							</div>
-						</div>
-					</p-list>
-				</div> -->
-				<div>
-					<top-tasks></top-tasks>
-				</div>
-			</p-list>
-		</template>
-	</p-layout-divided>
+	</p-layout-simple>
 </div>

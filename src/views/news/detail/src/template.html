@@ -1,19 +1,24 @@
 <div class="layout-polls">
-	<p-layout-divided>
-		<template #main>
+	<p-layout-simple>
+		<!-- <template #main> -->
 			<p-block headline="Novinka" :level="1" :hide="true">
 				<p-loader :rule="item">
-					<div v-if="item">
-						<p class="red">{{ date(item.datum) }} &middot; {{ domain(item.source || 'https://programydovoleb.cz') }}</p>
+					<div v-if="item" class="maxw40 ma _content">
+						<p class="red text-center">{{ date(item.datum) }} &middot; {{ domain(item.source || 'https://programydovoleb.cz') }}</p>
 						<p-headline :level="2">{{ item.title }}</p-headline>
-						<p-block headline="Podrobnosti" :hide="true">
+						<!-- <p-block headline="Podrobnosti" :hide="true"> -->
+						<p-area class="highlight shadow" padding="2em">
 							<div v-html="item.content" class="wsw"></div>
-						</p-block>
-						<p-block headline="Zdroj" :hide="true" v-if="item.source">
-							<p-link :href="item.source" class="btn">{{ item.label || 'Více zde' }}</p-link>
-						</p-block>
+							<template v-if="item.source">
+								<div class="p-line _2"></div>
+								<div>
+									<p-link :href="item.source" class="btn">{{ item.label || 'Více zde' }}</p-link>
+								</div>
+							</template>
+						</p-area>
+						<!-- </p-block> -->
 						<p-block headline="Týká se" v-if="(item.$relates && item.$relates.length > 0) || item.$volby.length > 1" :hide="true">
-							<div class="p-line"></div>
+							<!-- <div class="p-line"></div> -->
 							<p class="smallest dimm">
 								Týká se:
 								<p-list-linear>
@@ -41,14 +46,14 @@
 			<!-- <p-block headline="Newsletter">
 				<mailchimp-signup></mailchimp-signup>
 			</p-block>	 -->
-		</template>
-		<template #anchors>
+		<!-- </template> -->
+		<!-- <template #anchors>
 			<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'"></p-logo>
 			<div class="p-gap"></div>
 			<p-anchors></p-anchors>
 		</template>
 		<template #aside>
 			<top-tasks></top-tasks>
-		</template>
-	</p-layout-divided>
+		</template> -->
+	</p-layout-simple>
 </div>

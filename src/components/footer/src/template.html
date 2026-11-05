@@ -1,79 +1,111 @@
 
-	<footer>
-		<div class="footer---block text-center">
-
-			<engagement-thanks class="mt3"></engagement-thanks>
-	
-			<div class="quando mb05">
-				<router-link class="is-span no-link big" to="/">Programy do voleb</router-link>
-			</div>
-			<div class="">
-				<p-list-linear class="or smaller">
-					<span>
-						<router-link class="is-span" to="/o-projektu">O projektu</router-link>
-					</span>
-					<span>
-						<router-link class="is-span" to="/novinky">Novinky</router-link>
-					</span>
-					<span>
-						<router-link class="is-span" to="/o-projektu/kontakty">Kontakty</router-link>
-					</span>
-					<span>
-						<p-link class="is-span" href="https://admin.programydovoleb.cz">Admin</p-link><sup title="Admin je uzavřen"><p-icon icon="icon-against"></p-icon></sup>
-					</span>
-				</p-list-linear>
-			</div>
+	<footer class="ma">
+		<div class="footer---block text-center pv3">
+			<div class="p-gap _4"></div>
 			
-			<div class="p-gap"></div>
-	
-			<p-box-group class="_jac">
-				<template v-for="(item, index) in Object.keys(list)">
-					<p-box :href="list[item]">
-						<p-box-icon :type="item"></p-box-icon>
-					</p-box>
-				</template>
-			</p-box-group>
-	
-			<div class="p-gap"></div>
-	
-			<p class="small">
-				Web vytváří a provozuje spolek Programy do voleb, z. s., <p-link href="https://or.justice.cz/ias/ui/rejstrik-firma.vysledky?subjektId=1126297&typ=PLATNY" title="Spolkový resjtřík">IČO: 10906380</p-link>, L&nbsp;13767 vedený u Krajského soudu v Hradci Králové, datová schránka <em>vhwmpce</em>. Sídlo spolku je na adrese Jana Palacha 1413, Turnov. Transparentní účet je u Fio Banky: <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">2502004588/2010</p-link>. Web neslouží na podporu žádného kandidáta nebo strany. Ke všem stranám a&nbsp;kandidátům je přistupováno na principu rovnosti a&nbsp;férové politické&nbsp;soutěže. Fotografie kandidátů jsou použité s&nbsp;jejich svolením nebo jejich tiskových oddělení.  Volební číselníky, registry a výsledky vychází z <p-link href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu" content="otevřených dat ČSÚ">otevřených dat ČSÚ</p-link>.
-			</p>
-	
-			<div class="p-gap"></div>
-	
-			<p class="smaller strong">
-				<a href="mailto:info@programydovoleb.cz">info@programydovoleb.cz</a>
-			</p>
-	
-			<div class="p-gap _15"></div>
-	
-			<p-box-group class="_jac pb2">
-				<!-- <p-box to="/o-projektu/jak-podporit">
-					<p-box-button color="var(--green)">Podpořit</p-box-button>
-				</p-box> -->
-				<p-popup> 
+			<p-box-group class="jcc">
+				<p-popup>
 					<template #init>
 						<p-box>
-							<p-box-button color="var(--red)">Nahlásit chybu</p-box-button>
+							<p-box-button icon="telegram" class="blue">Sdílet</p-box-button>
 						</p-box>
 					</template>
 					<template #content>
-						<!-- <h3>Našli jste chybu? Nebo chcete něco doplnit?</h3> -->
-						<report-form part="Hlášení chyby" :noLink="true"></report-form>
-						<!-- <div class="p-line"></div> -->
-						<!-- <p>Můžete také napsat na <p-link href="mailto:opravte@programydovoleb.cz">opravte@programydovoleb.cz</p-link></p> -->
+						<p-share :compact="1" class="mt1"></p-share>
 					</template>
 				</p-popup>
-				<!-- <p-box to="/o-projektu/jak-podporit">
-					<p-box-button class="green">Podpořit</p-box-button>
-				</p-box> -->
+				<p-popup>
+					<template #init>
+						<p-box>
+							<p-box-button class="green" icon="support">Přispět</p-box-button>
+						</p-box>
+					</template>
+					<template #content>					
+						<div class="text-center">
+							<p-image :src="'https://static.programydovoleb.cz/qr.png'" width="100%" class="_qr"></p-image>
+							<p-link href="https://ib.fio.cz/ib/transparent?a=2502004588" class="smaller strong">2502004588/2010</p-link>
+							<div class="smallest mt05">FIO Banka</div>
+							<div class="p-line"></div>
+							<div class="smallest mb05">nebo přes <p-link href="https://darujme.cz/programydovoleb" class="strong">darujme.cz</p-link> &middot; <router-link to="/o-projektu/jak-podporit" class="is-span w400">více info</router-link></div>
+						</div>
+					</template>
+				</p-popup>
+				<p-popup> 
+					<template #init>
+						<p-box>
+							<p-box-button icon="warning" class="red">Chyba</p-box-button>
+						</p-box>
+					</template>
+					<template #content>
+						<report-form part="Hlášení chyby" :noLink="true"></report-form>
+					</template>
+				</p-popup>
 			</p-box-group>
 
-			<div class="mb3 smallest dimm">
-				do voleb s přehledem<br>
-				od roku 2018
+			<p class="smallest ma maxw40">
+				Informační digitální kampaň k senátním a komunálním volbám 2026 je realizovaná s finanční podporou <p-link href="https://nadacetipsport.cz/" class="is-span">Nadace TIPSPORT</p-link> &middot; <router-link to="/novinky/15537" class="dimm">Více zde</router-link>
+			</p>
+
+			<div class="p-line _4"></div>
+
+			<h3 class="mt0 mb0 quando">
+				<router-link class="is-span no-link" to="/">Programy do voleb</router-link>
+			</h3>
+
+			<div class="">
+				<p-list-linear class="or smaller">
+					<li>
+						<router-link class="is-span" to="/o-projektu">O projektu</router-link>
+					</li>
+					<li>
+						<router-link class="is-span" to="/novinky">Novinky</router-link>
+					</li>
+					<li>
+						<router-link class="is-span" to="/o-projektu/kontakty">Kontakty</router-link>
+					</li>
+					<li>
+						<p-link class="is-span" href="https://admin.programydovoleb.cz">Admin</p-link><sup title="Admin je uzavřen"><p-icon icon="icon-against"></p-icon></sup>
+					</li>
+				</p-list-linear>
+			</div>
+			
+			<div class="mv1">
+				<p-box-group class="jcc">
+					<template v-for="(item, index) in Object.keys(list)">
+						<p-box :href="list[item]">
+							<p-box-icon :type="item"></p-box-icon>
+						</p-box>
+					</template>
+				</p-box-group>
 			</div>
 
+			<div class="mh1">
+				<p class="small ma maxw70">
+					<em>Programy do voleb</em> jsou nestranný neziskový předvolební přehled, který se zaměřuje na přehledy stran, kandidátů a jejich volebních programů. Web vytváří a provozuje spolek Programy do voleb, z. s., IČO: <p-link href="https://or.justice.cz/ias/ui/rejstrik-firma.vysledky?subjektId=1126297&typ=PLATNY" title="Spolkový resjtřík">10906380</p-link>, L&nbsp;13767 vedený u Krajského soudu v Hradci Králové, datová schránka <em>vhwmpce</em>. Sídlo spolku je na adrese Jana Palacha 1413, Turnov. Transparentní účet je u Fio Banky: <p-link href="https://ib.fio.cz/ib/transparent?a=2502004588">2502004588/2010</p-link>. Web neslouží na podporu žádného kandidáta, strany ani politického názoru. Ke všem stranám a&nbsp;kandidátům je přistupováno na principu rovnosti a&nbsp;férové politické&nbsp;soutěže. Fotografie kandidátů jsou použité s&nbsp;jejich svolením nebo jejich tiskových oddělení. Volební číselníky, registry a výsledky vychází z <p-link href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu" content="otevřených dat ČSÚ">otevřených dat ČSÚ</p-link>.
+				</p>
+			</div>
+	
+			<p class="smaller strong ma">
+				<a href="mailto:info@programydovoleb.cz">info@programydovoleb.cz</a>
+			</p>
+
+			<div class="_anchors">
+				<!-- <p-area class="inline"> -->
+					<p-popup>
+						<template #init>
+							<p-box-button icon="menu" class="is-span">HOP</p-box-button>
+						</template>
+						<template #content>
+							<div class="strong smallest blue">
+								Na této stránce
+							</div>
+							<div class="p-line _05"></div>
+							<div class="p025">
+								<p-anchors></p-anchors>
+							</div>
+						</template>
+					</p-popup>
+				<!-- </p-area> -->
+			</div>
 		</div>
 	</footer>

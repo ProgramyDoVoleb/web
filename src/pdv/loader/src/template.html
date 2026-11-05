@@ -1,3 +1,9 @@
-<div class="p-loader" :style="{height: !!rule ? 'auto' : _r}" :class="{'_progress _anim': !rule}">
+<template v-if="!!rule">
+	<slot></slot>
+</template>
+<template v-else>
+	<div :style="{height: _r}" class="_loaderArea" ref="loader"></div>
+</template>
+<!-- <div class="p-loader" :style="{height: !!rule ? 'auto' : _r}" :class="{'_progress _anim': !rule}">
 	<slot />
-</div>
+</div> -->

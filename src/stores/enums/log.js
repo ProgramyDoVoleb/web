@@ -1,4 +1,6 @@
 export default {
+    'candidate': 'Profilu',
+    'party': 'Strana',
     'about': 'Představení',
     'backup': 'Záloha volebního programu',
     'color': 'Barva',

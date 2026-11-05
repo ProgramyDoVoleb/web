@@ -62,7 +62,7 @@ export default {
 
 			if (regular.length === 0) regular = this.elections.list.filter(x => x.cirka && x.radne === 1);
 
-			return {regular: regular ? regular : null, outlook: outlook ? outlook[0] : null, extra}
+			return {regular: regular ? regular : null, outlook: outlook ? outlook : null, extra}
 		},
 		newsmedia: function () {
 			var list = [];

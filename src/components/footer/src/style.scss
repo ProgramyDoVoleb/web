@@ -1,55 +1,10 @@
 footer {
-  margin-top: 2em;
   max-width: 160rem;
-  margin: auto;
-
-  &:first-child {
-    margin-top: 6em;
-  }
 }
 
-.fixed-content {
-  margin: auto;
-  max-width: 160rem;
-  position: relative;
-  border-top: var(--border);
-  padding-top: 2em;
-}
-
-.row {
-  padding: 2rem;
-  // max-width: 130rem;
-  // margin: auto;
-}
-
-p {
-  max-width: 70em;
-  margin: auto;
-  padding: 0 2em;
-}
-
-p._narrow {
-  max-width: 40em;
-}
-
-._jac {
-  justify-content: center;
-}
-
-h4 {
-  margin-top: 0;
-}
-
-.big {
-  font-size: 1.2em;
-}
-
-._merch {
-  max-width: 60em;
-  margin: auto;
-  padding: 0 2em;
-}
-
-.forbidden ._hideOnForbidden {
-  display: none;
+._anchors {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  z-index: 1000;
 }

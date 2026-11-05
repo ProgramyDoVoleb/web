@@ -89,6 +89,29 @@ export default {
 			}
 
 			return arr;
+		},
+		links: function () {
+
+			if (!this.news) return [];
+				
+			var day = this.news.list[0];
+			var list = [].concat(day.fullprogram.map(x => x.source || 'https://programydovoleb.cz/bod/' + x.csu_table + '/' + x.csu_id + '/volebni-program/' + x.id), day.sys.map(x => 'https://programydovoleb.cz/novinky/' + x.id), day.main.map(x => x.source), day.auto.map(x => x.source), day.comm.map(x => x.source), day.media.map(x => x.source), day.events.map(x => x.source), day.polls.map(x => x.link));
+
+			day.log.forEach(item => {
+				if (item.data) {
+					item.data.forEach(d => {
+						if (d.node && d.node.source) list.push(d.node.source);
+					});
+				}
+			});
+
+			var filteredList = list.filter(x => x != null);
+			var ownList = filteredList.map(x => [x].map(x => x.includes('https://admin.programydovoleb.cz/vlastni-zaznam') ? 'https://admin.programydovoleb.cz/vlastni-zaznam' : x)); 
+			var uniqueList = unique(ownList, 0);
+			
+			uniqueList.sort((a, b) => a.localeCompare(b, 'cs'));
+
+			return uniqueList;
 		}
 	},
 	mounted: function () {
