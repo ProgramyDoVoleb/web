@@ -20,7 +20,7 @@ export default {
 						var obj = {
 							el,
 							label: el.getAttribute('data-anchor'),
-							level: Number(el.getAttribute('data-level')),
+							level: Number(el.getAttribute('data-level') || 2),
 							rect: null,
 							visible: false
 						}

@@ -599,3 +599,28 @@ button:not(.inline) {
 ._fs16 {
   font-size: 16px !important;
 }
+
+._iconHolder {
+  position: relative;
+}
+
+._icon {
+  position: absolute;
+  width: 2em;
+  height: 1em;
+
+  .p-icon {
+    position: absolute;
+    top: -.2em;
+  }
+}
+
+._pdv {
+  position: relative;
+  left: 0;
+  transition: left .3s ease-in-out;
+
+  &._hasIcon {
+    left: 2.25em;
+  }
+}

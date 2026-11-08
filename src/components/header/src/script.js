@@ -64,6 +64,18 @@ export default {
 
 			return test;
 		},
+		icon: function () {
+			var ic = null;
+
+			var path = this.$route.path.split('/');
+			var list = "evropske,komunalni,krajske,prezidentske,snemovni,senatni".split(',').map(x => x + '-volby');
+
+			if (path.length > 2 && list.indexOf(path[2]) > -1) {
+				ic = path[2];
+			}
+
+			return ic;
+		}
 	},
 	watch:{
 		$route (){

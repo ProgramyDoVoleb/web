@@ -31,6 +31,13 @@ export default {
 			if (this.pointer) {
 				var p = this.pointer.split(':');
 
+				if (p[0] === 'csu_kz_rk') s.push('rk' + p[1]);
+				if (p[0] === 'csu_kz_rkl') s.push('rs' + p[1]);
+				if (p[0] === 'csu_ps_rk') s.push('ck' + p[1]);
+				if (p[0] === 'csu_ps_rkl') s.push('cs' + p[1]);
+				if (p[0] === 'csu_ep_rk') s.push('ek' + p[1]);
+				if (p[0] === 'csu_ep_rkl') s.push('es' + p[1]);
+				if (p[0] === 'csu_prez_rk') s.push('pk' + p[1]);
 				if (p[0] === 'csu_senat_rk') s.push('sk' + p[1]);
 				if (p[0] === 'csu_kv_rk') s.push('ok' + p[1]);
 				if (p[0] === 'csu_kv_ros') s.push('os' + p[1]);

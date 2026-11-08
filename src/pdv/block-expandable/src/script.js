@@ -11,6 +11,9 @@ export default {
 	mounted: function () {
 		if (this.open) this.opened = this.open;
 	},
+	methods: {
+		url
+	},
 	computed: {
 		hash: function () {
 			return url(this.anchor || this.headline)

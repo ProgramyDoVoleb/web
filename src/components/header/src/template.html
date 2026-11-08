@@ -1,13 +1,18 @@
 <header class="header header-v-201110">
 	<div class="fixed-content">
-		<!-- <div class="row">
-			<engagement-support></engagement-support>
-		</div> -->
+		<div class="row text-center quando smallest blue">
+			stránky prochází přestavbou, některé části mohou působit rozbitě
+		</div>
 		<div class="row">
 			<div class="row-logo-flex">
 				<div class="row-logo row-logo-pdv">
-					<router-link to="/" class="no-link quando">
-						Programy do voleb
+					<span class="_iconHolder" v-if="icon">
+						<router-link class="_icon" v-if="icon" :to="$route.path.split('/').splice(0,4).join('/')">
+							<p-icon size="2em" :icon="icon"></p-icon>
+						</router-link>
+					</span>
+					<router-link to="/" class="no-link quando _pdv" :class="{_hasIcon: !!icon}">
+						 Programy do voleb
 					</router-link>
 					<!-- <router-link class="_btn2" to="/volby/snemovni-volby/166">2025</router-link>  -->
 					<!-- <router-link class="_btn2" to="/volby/senatni-volby/163">Senát</router-link> -->

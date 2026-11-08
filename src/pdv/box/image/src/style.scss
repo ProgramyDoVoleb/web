@@ -36,6 +36,10 @@
       content: none;
     }
   }
+
+  .dark &[style*="link.svg"] {
+    filter: invert(1) brightness(2) opacity(.66);
+  }
 }
 
 .rounded {
