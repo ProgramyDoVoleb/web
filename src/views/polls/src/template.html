@@ -2,7 +2,7 @@
 	<p-layout-simple>
 		<!-- <template #main> -->
 			<p-block headline="Přehled průzkumů" :level="1">
-				<p-block headline="Poslední průzkumy" :hide="true" class="maxw60 ma">
+				<p-block headline="Poslední průzkumy" :hide="true" class="mw60 ma">
 					<p-loader :rule="pollsQuick">
 						<div v-if="pollsQuick">
 							<div class="text-center">
@@ -25,7 +25,7 @@
 						</div>
 					</p-loader>
 				</p-block>
-				<p-block headline="Sběr dat" class="maxw80 ma">
+				<p-block headline="Sběr dat" class="mw80 ma">
 					<p class="lead">Jedna z důležitých informací při čtení volebních průzkumů je doba, kdy sběr proběhl. Mohlo to být nedávno a během pár dní, ale také to mohlo být víc jak měsíc zpět a doba sběru také byla velmi dlouhá. Krátká doba sběru spíše zachytí aktuální nálady napříč populací a je tak poměrně náchylný na aktuální kauzy, delší sběr tohle umí vyrovnat.</p>
 					<p-area>
 						<div id="chart" v-if="series.length > 0">
@@ -33,7 +33,7 @@
 						</div>
 					</p-area>
 				</p-block>
-				<p-block headline="Poll of Polls" subheadline="Vážený průměr stran a hnutí" class="maxw60 ma">
+				<p-block headline="Poll of Polls" subheadline="Vážený průměr stran a hnutí" class="mw60 ma">
 					<p-loader :rule="polls">
 						<div v-if="polls">
 							<p-area>
@@ -43,7 +43,7 @@
 					</p-loader>
 				</p-block>
 			</p-block>
-			<p-block headline="Od roku 2017" :level="1" class="maxw40 ma">
+			<p-block headline="Od roku 2017" :level="1" class="mw40 ma">
 				<p-area class="inline smallest">
 					<p-list-linear class="or">
 						<span><button class="inline" @click="type = 1" :class="{'green strong': type === 1}">Průzkumy</button></span>

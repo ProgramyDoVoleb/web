@@ -14,7 +14,7 @@
 					</p-box-group>
 				</p-block>
 			</p-block>
-			<p-block headline="Tiskové zprávy" class="maxw60 ma">
+			<p-block headline="Tiskové zprávy" class="mw60 ma">
 				<p-grid>
 					<div>
 						<p-area class="highlight" padding="2em">
@@ -68,7 +68,7 @@
 					</div>
 				</p-grid>
 			</p-block>
-			<p-block headline="Poslední novinky" class="maxw40 ma">
+			<p-block headline="Poslední novinky" class="mw40 ma">
 				<p-loader :rule="news">
 					<p-list v-if="news">
 						<template v-for="(item, index) in news.sys.filter((x, i) => i < 5)">
@@ -84,7 +84,7 @@
 					</p-list>
 				</p-loader>			
 			</p-block>
-			<p-block headline="Ke stažení" class="maxw60 ma">
+			<p-block headline="Ke stažení" class="mw60 ma">
 				<p class="lead">Vše potřebné najdete na Google Drive, ty tři hlavní prvky pak zde:</p>
 				<p-grid class="_3">
 					<div>
@@ -131,7 +131,7 @@
 						</p-box>
 					</p-box-group>
 			</p-block>
-			<p-block headline="O autorovi" class="maxw40 ma">
+			<p-block headline="O autorovi" class="mw40 ma">
 				<div class="float">
 					<p-image :width="18" src="https://programydovoleb.cz/static/profilovka.jpg" :rounded="true"
 						:border="true"></p-image>

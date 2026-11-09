@@ -31,6 +31,17 @@
     &025 {padding-right: .25em}
 }
 
+.pl, .ph {
+    &0 {padding-left: 0}
+    &1 {padding-left: 1em}
+    &2 {padding-left: 2em}
+    &3 {padding-left: 3em}
+    &4 {padding-left: 4em}
+    &075 {padding-left: .75em}
+    &05 {padding-left: .5em}
+    &025 {padding-left: .25em}
+}
+
 .pt, .pv {
     &0 {padding-top: 0}
     &1 {padding-top: 1em}
@@ -160,7 +171,7 @@
     &100 {width: 100em;}
 }
 
-.maxw {
+.mw {
 
     max-width: 160em;
 

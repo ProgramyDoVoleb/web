@@ -3,7 +3,7 @@
 	<p-layout-simple ref="page">
 		<!-- <template #main> -->
 			<p-block headline="Volby" anchor="Volby" :level="1" :hide="true">
-				<p-block headline="Výsledky" class="maxw40 ma">
+				<p-block headline="Výsledky" class="mw40 ma">
 					<p-columns>
 						<div>
 							<p-area class="highlight shadow" icon="komunalni-volby">
@@ -88,7 +88,7 @@
 					</p>
 				
 					<p-loader :rule="elections">
-						<div v-if="elections" class="maxw60 ma">
+						<div v-if="elections" class="mw60 ma">
 							<div v-for="(election, index) in sortBy(elections.list.filter(x => x.status < 3), 'id')">
 								<p-block class="_nmb" :hide="true" :headline="election_types.find(x => x.key === election.typ).name">
 									<p-collapsible :logo="cdn + 'icon/' + election_types.find(x => x.key === election.typ).hash + '.svg'" :label="election_types.find(x => x.key === election.typ).name" :status="(election.datum_label || election.cirka || date(election.datum))">
@@ -200,7 +200,7 @@
 				</p-block>
 			</p-block>
 			
-			<p-block headline="Předvolební deník" anchor="Novinky" subheadline="novinky nejen z médií" :level="1" class="maxw40 ma">
+			<p-block headline="Předvolební deník" anchor="Novinky" subheadline="novinky nejen z médií" :level="1" class="mw40 ma">
 				<p class="lead pb2">Kdo bude kandidovat, kdo zveřejnil program, jak probíhají jednání? Nejen to najdete v předvolebním přehledu, přehledně den po dni:</p>
 				<p-list class="_4">
 					<div><news-daily-item :datum="today"></news-daily-item></div>
@@ -232,7 +232,7 @@
 						<p class="lead">Pokud byste se chtěli podívat na zapojení strany v následujících volbách, minulé výsledky, přehled koalic, zjistit důležité odkazy nebo přehled krajských organizací.</p>
 						<p-loader :rule="parties">
 							<div v-if="parties">
-								<p-grid class="_3 _tiny ma maxw60">								
+								<p-grid class="_3 _tiny ma mw60">								
 									<div v-for="(item, index) in parties.list">
 										<p-area>
 											<div class="text-center">
@@ -267,7 +267,7 @@
 					</p-block>
 					<p-block logo="results" headline="Volby v obcích">
 						<p class="lead">Přehled všech voleb, které se konaly v&nbsp;libovolném městě či obci. Najdete zde také zvolené zastupitele, aktuálního starostu a další zajímavosti.</p>
-						<p-area class="ma maxw80">
+						<p-area class="ma mw80">
 							<div class="text-center">
 								<div v-for="(town, index) in enums.towns.capital">
 									<router-link :to="'/obec/' + town.num" :class="{'strong': index === 0}">
@@ -296,7 +296,7 @@
 						Nejsou oficiálním státním webem.
 						<router-link to="/o-projektu" class="strong smaller">Více o projektu</router-link>
 					</p>
-					<p-area class="shadow highlight maxw30 ma mt3" borderColor="var(--blue)">
+					<p-area class="shadow highlight mw30 ma mt3" borderColor="var(--blue)">
 						<h4 class="mb075">Může vás také zajímat</h4>
 						<p-box-group>
 							<p-box to="/volebni-pruzkumy">
@@ -318,7 +318,7 @@
 					</p-area>
 				</p-block>
 					<p-block headline="Časté otázky">
-						<div class="w40 ma">
+						<div class="mw40 ma">
 								<p-collapsible label="Jak vzniká obsah webu?" seo="1">
 									<p>Obří porce toho, co na webu najdete, je díky práci dobrovolníků, běžných lidí. Často stačilo 
 										<p-popup class="inline">

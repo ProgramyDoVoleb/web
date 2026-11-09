@@ -1,11 +1,11 @@
 					<template v-if="news">
 						<template v-for="day in news.list">
 							<p-block :headline="date(day.datum)" v-if="Object.keys(day).reduce((a, b) => a + (typeof day[b] === 'string' ? 0 : day[b].length), 0) > 0">
-								<div class="ma maxw80">
+								<div class="ma mw80">
 								<p-list class="invisible _15">
 									<template v-if="day.sys.length > 0">
 										<div class="smallest dimm strong text-center">Novinky na Programech do voleb</div>
-										<div class="maxw40 ma">
+										<div class="mw40 ma">
 											<p-list>
 												<div v-for="item in day.sys">
 													<p-area class="primary inline">
@@ -177,7 +177,7 @@
 									<template v-if="day.main.length > 0 && day.main.find(x => x.$relates.length > 0)">
 										<div class="smallest dimm strong text-center">Významné zprávy z médií</div>
 										<!-- <div v-if="day.main.find(x => x.$relates.length > 0)"> -->
-										<div class="maxw40 ma">
+										<div class="mw40 ma">
 											<p-list class="invisible _05">
 												<div v-for="item in day.main.filter(x => x.$relates.length > 0)">
 													<p-area>
@@ -212,7 +212,7 @@
 									<template v-if="day.polls.length > 0">
 										<div class="smallest dimm strong text-center">Volební průzkumy</div>
 										<div>
-											<div class="maxw40 ma">
+											<div class="mw40 ma">
 												<p-list>
 													<div v-for="poll in day.polls">
 														<p-area>
@@ -225,7 +225,7 @@
 									</template>
 									<template v-if="day.events.length > 0">
 										<div class="smallest dimm strong text-center">Události a akce</div>
-										<p-columns class="maxw40 ma" column-width="15em">
+										<p-columns class="mw40 ma" column-width="15em">
 											<div v-for="event in day.events" class="pb05">
 												<p-area class="highlight">
 													<event-item :item="event" :party="event.$node" :data="event" bod="1" short="1" class="column short"></event-item>
@@ -235,7 +235,7 @@
 									</template>
 									<template v-if="day.media.length > 0">
 										<div class="smallest dimm strong text-center">Články a rozhovory</div>
-										<div class="maxw60 ma">
+										<div class="mw60 ma">
 											<p-columns class="_noGap">
 												<div v-for="item in day.media">
 													<p-area class="smaller">
@@ -268,7 +268,7 @@
 									<template v-if="day.main.length > 0 && day.main.find(x => x.$relates.length === 0)">
 										<div class="smallest dimm strong text-center">Další zprávy</div>
 										<div>
-											<div class="maxw40 ma">
+											<div class="mw40 ma">
 												<p-area>
 													<p-list class="_025">
 														<div v-for="item in day.main.filter(x => x.$relates.length === 0)">

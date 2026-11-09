@@ -3,7 +3,7 @@
 		<!-- <template #main> -->
 			<p-block headline="Novinka" :level="1" :hide="true">
 				<p-loader :rule="item">
-					<div v-if="item" class="maxw40 ma _content">
+					<div v-if="item" class="mw40 ma _content">
 						<p class="red text-center">{{ date(item.datum) }} &middot; {{ domain(item.source || 'https://programydovoleb.cz') }}</p>
 						<p-headline :level="2">{{ item.title }}</p-headline>
 						<!-- <p-block headline="Podrobnosti" :hide="true"> -->

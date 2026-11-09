@@ -5,7 +5,7 @@
 				<p class="lead">
 					Zde najdete kompletní přehled všech voleb, které se konaly v České republice od roku 1993 do současnosti, včetně přehledu voleb v nejbližší době.
 				</p>
-				<p-block headline="Příští volby" :hide="true" class="maxw40 ma">
+				<p-block headline="Příští volby" :hide="true" class="mw40 ma">
 					<p-loader :rule="nearest">
 						<template v-if="elections && elections.list.find(x => x.status < 3 && x.datum <= today)">
 							<p-label color="var(--red)" class="strong">
@@ -79,7 +79,7 @@
 						</template>
 					</p-loader>
 				</p-block>
-				<p-block headline="Typy voleb" class="maxw60 ma">
+				<p-block headline="Typy voleb" class="mw60 ma">
 					<p-loader :rule="elections">
 						<template v-if="elections">
 							<p-grid>
@@ -115,7 +115,7 @@
 						</template>
 					</p-loader>
 				</p-block>
-				<p-block headline="Referenda" class="maxw40 ma">
+				<p-block headline="Referenda" class="mw40 ma">
 					<p class="lead">V České republice je možné hlasovat v místních a krajkých referendech. Podmínkou pro hlasování je možnost volit v místních nebo krajských volbách. Ministerstvo vnitra má k dispozici seznam konaných i chystaných referend, ale nemusí tam být všechna, protože neexistuje povinnost ministerstvo o konání informovat.</p>
 					<p class="lead">Celostátní referenda jsou možná pouze na základě ústavního zákona. Jediným celostátním referendem bylo zatím v roce 2003 referendum o vstupu České republiky do Evropské unie.</p>
 					<p-list>
@@ -158,7 +158,7 @@
 			<p-block headline="Územní celky" :level="1">
 				<p class="lead">Podívejte se na volební historii ve vybraném kraji, obvodě, městě, obci nebo v celé republice a porovnejte si je v celkovými výsledky.</p>
 				<p-list class="_1 invisible">
-					<div class="maxw30 ma">
+					<div class="mw30 ma">
 						<p-block headline="Celá republika" :hide="true" class="pb0 mb0">
 							<h3 class="quando text-center">
 								<p-icon icon="snemovni-volby" size="4em"></p-icon>
@@ -171,7 +171,7 @@
 							</p-area>
 						</p-block>
 					</div>
-					<div class="maxw60 ma">
+					<div class="mw60 ma">
 						<p-block headline="Kraje" :hide="true" class="pb0 mb0">
 							<h3 class="quando text-center">
 								<p-icon icon="krajske-volby" size="4em"></p-icon>
@@ -186,12 +186,12 @@
 									</div>
 								</p-columns>
 							</p-area>
-							<div class="smallest maxw60 ma mt1 text-center">
+							<div class="smallest mw60 ma mt1 text-center">
 								<strong class="red">Praha</strong> má výjimečné postavení, je krajem i městem zároveň. Nekonají se zde ale krajské volby, pravomoci kraje vykonává magistrát. Ten je volen v rámci běžných komunálních voleb podobně jako magistráty jiných statutárních měst.
 							</div>
 						</p-block>
 					</div>
-					<div class="maxw80 ma">
+					<div class="mw80 ma">
 						<p-block headline="Senátní obvody" :hide="true" class="pb0 mb0">
 							<h3 class="quando text-center">
 								<p-icon icon="senatni-volby" size="4em"></p-icon>
@@ -223,12 +223,12 @@
 									</p-loader>
 								</p-collapsible>
 							</p-area>
-							<div class="smallest maxw60 ma mt1 text-center">
+							<div class="smallest mw60 ma mt1 text-center">
 								<strong class="red">Červeně</strong> jsou označeny obvody, ve kterých proběhnout nejbližší řádné senátní volby
 							</div>
 						</p-block>
 					</div>
-					<div class="maxw70 ma">
+					<div class="mw70 ma">
 						<p-block headline="Obce" :hide="true" class="pb0 mb0">
 
 							<h3 class="quando text-center">
@@ -251,12 +251,12 @@
 										</div>
 								</p-columns>
 							</p-area>
-							<search-town link="/obec/" class="mt2 maxw60 ma"></search-town>
+							<search-town link="/obec/" class="mt2 mw60 ma"></search-town>
 						</p-block>
 					</div>
 				</p-list>
 			</p-block>
-			<p-block headline="Přehled voleb" :level="1" class="maxw40 ma">
+			<p-block headline="Přehled voleb" :level="1" class="mw40 ma">
 				<p-area class="smallest">
 					<p-list class="_05">
 						<div>

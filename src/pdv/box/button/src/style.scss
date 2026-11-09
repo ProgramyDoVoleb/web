@@ -40,7 +40,8 @@
 }
 
 .dark .p-box-button {
-  background: var(--darker);
+  background: #07121ccc; // var(--darker);
+  backdrop-filter: blur(6px);
   border: 1px solid var(--whiteish);
   box-shadow: 0 4px 12px var(--darken);
   color: #aaa;

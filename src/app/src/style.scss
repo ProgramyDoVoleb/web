@@ -31,13 +31,22 @@
   z-index: 10000;
 }
 
-.bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
+#app-main {
+  background: linear-gradient(-5deg, var(--bgGradColor) -20%, var(--bg) 70%), linear-gradient(-5deg, var(--bg) 30%, var(--bgGradColor) 120%), var(--bg);
+  background-position: bottom, top, center;
+  background-size: 100vw 100vh, 100vw 100vh, 100% 100%;
+  background-repeat: no-repeat, no-repeat, repeat;
+  
+  @media (hover: hover) and (min-height: 640px) and (min-width: 640px) {
+    background-size: 100vw 40vh, 100vw 40vh, 100% 100%;
+    background-attachment: fixed;
+  }
 
-  background: var(--bg);
+  @media (hover: hover) and (min-height: 1000px) and (min-width: 1920px) {
+    background: linear-gradient(-2deg, var(--bgGradColor) -20%, var(--bg) 70%), linear-gradient(-2deg, var(--bg) 30%, var(--bgGradColor) 120%), var(--bg);
+    background-position: bottom, top, center;
+    background-size: 100vw 50vh, 100vw 50vh, 100% 100%;
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-attachment: fixed;
+  }
 }

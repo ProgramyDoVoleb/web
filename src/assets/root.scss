@@ -1,5 +1,7 @@
 :root {
-    --bg: linear-gradient(180deg, #dbe3ea, #fafafa 24%, #fafafa 76%, #dbe3ea) fixed;
+    --bg: #fafafa;
+    --bgGradColor: #dbe3ea;
+    // --bg: linear-gradient(180deg, #dbe3ea, #fafafa 24%, #fafafa 76%, #dbe3ea) fixed;
     --border: 1px solid #00000011;
     --blue: #066ed2;
     --blue11: #066ed211;
@@ -27,7 +29,9 @@
 }
 
 .dark {
-    --bg: linear-gradient(175deg, #000 -12%, #091623 42%, #091623 69%, #000 120%) fixed;
+    --bg: #091623;
+    --bgGradColor: #000;
+    // --bg: linear-gradient(175deg, #000 -12%, #091623 42%, #091623 69%, #000 120%) fixed;
     --blue: #269AFF;
     --grey: #aaa;
     --red: #bc290e;

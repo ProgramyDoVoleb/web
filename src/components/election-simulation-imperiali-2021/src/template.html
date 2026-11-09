@@ -68,7 +68,7 @@
 						</p-area>
 					</div>
 					<h4 class="text-center">Účast v krajích</h4>
-					<p-area class="maxw80 ma">
+					<p-area class="mw80 ma">
 						<p-columns class="_4">
 							<template v-for="(region, index) in enums.regions">
 								<div>
@@ -92,7 +92,7 @@
 					</p-area>
 					<h3 class="text-center">Rezervované mandáty</h3>
 				</template>
-				<p-area class="highlight maxw80 ma" >
+				<p-area class="highlight mw80 ma" >
 					<p-columns class="_4">
 						<div v-for="(region, index) in enums.regions">
 							<p-box-group>
@@ -139,7 +139,7 @@
 						</div>
 					</div>
 					<div class="p-gap"></div> -->
-					<p-columns :tick="results" class="maxw60 ma">
+					<p-columns :tick="results" class="mw60 ma">
 						<div v-for="(party, index) in results">
 							<p-area>
 								<p-box-group>
@@ -260,7 +260,7 @@
 				<p class="lead">
 					Rozložení mandátů v jednotlivých krajích a stranám. Červené číslo ukazuje, že po použití Imperialiho kvóty bylo přesaženo povolený počet přiřazených mandátů a strana s nejmenším zbytkem po dělení o mandát přichází. Šedě jsou zbytky po dělení.
 				</p>
-				<p-columns class="maxw60 ma" :tick="results">
+				<p-columns class="mw60 ma" :tick="results">
 					<template v-for="(party, index) in firstScrutinize.parties">
 						<div>
 							<p-area>
@@ -353,7 +353,7 @@
 				<p class="lead">
 					V druhém kroku se sečtou zbytky stran a vydělí počtem nepřiřazených mandátů plus 1. Toto se stává republikovým mandátovým číslem. Nevyužité mandáty jsou poté přikázány podle zůstatku po dělení. Při překročení vlivem zvýšené kvóty se odečítá straně s nejmenším zbytkem po dělení.
 				</p>
-				<p-columns class="maxw40 ma">
+				<p-columns class="mw40 ma">
 					<div>
 						<p-area>
 							<div class="stats-2 smaller">
@@ -397,7 +397,7 @@
 				</p-columns>
 				<div class="p-gap"></div>
 				<h3 class="text-center">Přidělené mandáty</h3>
-				<p-columns class="maxw60 ma" :tick="results">
+				<p-columns class="mw60 ma" :tick="results">
 					<template v-for="(party, index) in secondScrutiny.parties">
 						<div v-if="party.firstMandates > 0">
 							<p-area>
@@ -448,7 +448,7 @@
 				</p-area>
 			</p-block>
 			<p-block :level="hide ? 3 : 2" headline="Celkový zisk mandátů" v-if="mandateTotal">
-				<p-columns class="maxw60 ma" :tick="results">
+				<p-columns class="mw60 ma" :tick="results">
 					<template v-for="(party, index) in mandateTotal">
 						<div v-if="party.mandates > 0">
 							<p-area class="highlight shadow">
@@ -706,7 +706,7 @@
 						</p-box>
 					</div>
 				</p-box-group>
-				<div class="bar maxw40 ma">
+				<div class="bar mw40 ma">
 					<div class="bar-flex">
 						<div class="bar-item"
 							v-for="(party, index) in coalitions"

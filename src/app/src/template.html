@@ -1,6 +1,5 @@
 <div id="app-main" :class="{dark: core.dark, 'forbidden': core.isBanned}">
-	<div class="bg"></div>
-	<main class="block" :style="{'padding-top': headerHeight + 'px'}">
+	<main class="block _main" :style="{'padding-top': headerHeight + 'px'}">
 		<router-view></router-view>
 	</main>
 	<main-header />

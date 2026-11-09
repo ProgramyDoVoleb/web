@@ -10,7 +10,8 @@
   box-shadow: 0 .3em 1em rgba(0,0,0,.2);
 
   .dark & {
-    background: linear-gradient(0deg, #091623, #091623ee 20%);
+    background: var(--bg); // linear-gradient(0deg, #091623, #091623ee 20%);
+    // backdrop-filter: blur(6px);
   }
 
   @media (min-width: 640px) {

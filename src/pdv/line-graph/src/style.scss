@@ -18,8 +18,8 @@
   transition: width 1s cubic-bezier(0.435, 0.000, 0.145, 1.000);
 
   .dark & {
-    // border-right: 1px inset var(--whiteish);
-    // border-bottom: 1px inset var(--whiteish);
+    border-right: 1px inset var(--whiteish);
+    border-bottom: 1px inset var(--whiteish);
   }
 }
 
