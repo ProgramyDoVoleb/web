@@ -149,6 +149,9 @@ export default {
 		el173: function () {
 			return this.$store.getters.pdv('elections/fetch/173');
 		},
+		el184: function () {
+			return this.$store.getters.pdv('elections/fetch/184');
+		},
 		polls: function () {
 			var p = this.$store.getters.pdv('polls/last-8');
 

@@ -29,7 +29,7 @@
 					&middot; {{ $volby.cirka || $volby.datum.split('-')[0] }}
 				</template>
 				<template v-else>
-					&middot; {{ $volby.datum_label || date($volby.datum) }}
+					&middot; {{ $volby.datum_label || ($volby.datum ? date($volby.datum) : $volby.cirka) }}
 				</template>
 				<template v-if="$volby.typ === 'KV' && current.$zastupitelstvo && current.$zastupitelstvo.length > 0">
 					&middot; <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/obec/' + current.KODZASTUP">{{ current.NAZEVZAST }}</router-link>
