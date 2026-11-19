@@ -624,3 +624,12 @@ button:not(.inline) {
     left: 2.25em;
   }
 }
+
+._y {
+  background: var(--yellow33);
+  // color: var(--);
+  font-size: 12px;
+  padding: .25em 2em;
+  text-align: center;
+  opacity: .66;
+}

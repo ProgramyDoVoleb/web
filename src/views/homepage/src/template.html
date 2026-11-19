@@ -3,7 +3,71 @@
 	<p-layout-simple ref="page">
 		<!-- <template #main> -->
 			<p-block headline="Volby" anchor="Volby" :level="1" :hide="true">
-				<p-block headline="Výsledky" class="mw40 ma">
+
+				<p-block headline="Opakování senátních voleb" subheadline="v obvodu 51 · Žďár nad Sázavou">
+					<p class="lead">Rozhodnutím <p-link href="https://www.irozhlas.cz/zpravy-domov/soud-zrusil-senatni-volby-na-zdarsku-vyhovel-cernemu-ktery-se-nedostal-do_2611181511_mst">soudu</p-link> se bude kompletně opakovat <router-link to="/volby/senatni-volby/173/obvod/51">volba</router-link> od prvního kola, se všemi původně registrovanými kandidáty, pokud se sami nevzdají.</p>
+
+					<div class="mw20 ma mt-2 mb2">
+						<p-area class="strong smallest red text-center">
+							! předběžné informace, část převzatá z minulých voleb !
+						</p-area>
+					</div>
+
+					<p-loader :rule="el184">
+						<div v-if="el184">
+							<p-columns class="_2_4 ma mw50">
+								<div v-for="cand in sortBy(el184.list[0].$kandidati, 'PRIJMENI', null, true)">
+									<p-area class="highlight shadow" :borderColor="colorByItem(cand, el184)">
+										<router-link :to="'/volby/senatni-volby/184/kandidat/' + cand.id" class="strong">{{cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
+										<div class="smallest">
+											volební strana
+											<strong>{{ cand.NAZEV_VS }}</strong>
+											<br>
+											nominace
+											<template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
+											<template v-for="party in el184.cis.strany.filter(x => x.VSTRANA === cand.NSTRANA)">
+												<router-link :to="'/rejstrik/' + party.VSTRANA" class="strong">{{ party.ZKRATKA }}</router-link>
+											</template>
+											<template v-for="party in el184.cis.strany.filter(x => x.VSTRANA === cand.PSTRANA)">
+
+												<template v-if="party.VSTRANA === 99">, nestraník</template>
+												<template v-else-if="cand.NSTRANA != cand.PSTRANA">													
+													členství <router-link :to="'/rejstrik/' + party.VSTRANA" class="strong">{{ party.ZKRATKA }}</router-link>
+												</template>
+											</template>
+											<div class="smallest mt05 strong green" v-if="cand.id != 3861">
+												<p-icon icon="icon-check"></p-icon>
+												Potvrdil účast
+											</div>
+										</div>
+									</p-area>
+								</div>
+							</p-columns>
+						</div>
+					</p-loader>
+
+					<p class="mt2 ma w40 text-center">
+						Volby musí vyhlásit prezident, učiní tak do 30 dní od okamžiku, kdy mu rozhodnutí soudu doručí. Volby by tak mohly být odhadem v únoru. Dle všeho nebude možné do voleb zařadit nového kandidáta.
+					</p>
+
+					<p-box-group class="jcc">
+						<p-box to="/volby/senatni-volby/184/obvod/51">
+							<p-box-button icon="senatni-volby" class="primary">Více informací</p-box-button>
+						</p-box>
+						<p-popup>
+							<template #init>
+								<p-box>
+									<p-box-button class="green">Chci něco doplnit</p-box-button>
+								</p-box>
+							</template>
+							<template #content>
+								<report-form></report-form>
+							</template>
+						</p-popup>
+					</p-box-group>
+				</p-block>
+
+				<p-block headline="Výsledky voleb '26" class="mw40 ma">
 					<p-columns>
 						<div>
 							<p-area class="highlight shadow" icon="komunalni-volby">
@@ -77,65 +141,6 @@
 						</div>
 					</p-columns>
 					
-				</p-block>
-
-				<p-block headline="Opakování senátních voleb" subheadline="v obvodu 51 · Žďár nad Sázavou">
-					<p class="lead">Rozhodnutím <p-link href="https://www.irozhlas.cz/zpravy-domov/soud-zrusil-senatni-volby-na-zdarsku-vyhovel-cernemu-ktery-se-nedostal-do_2611181511_mst">soudu</p-link> se bude kompletně opakovat <router-link to="/volby/senatni-volby/173/obvod/51">volba</router-link> od prvního kola, se všemi původně registrovanými kandidáty, pokud se sami nevzdají.</p>
-
-					<div class="mw20 ma mt-2 mb2">
-						<p-area class="strong smallest red text-center">
-							! předběžné informace, část převzatá z minulých voleb !
-						</p-area>
-					</div>
-
-					<p-loader :rule="el184">
-						<div v-if="el184">
-							<p-columns class="_2_4 ma mw50">
-								<div v-for="cand in sortBy(el184.list[0].$kandidati, 'PRIJMENI', null, true)">
-									<p-area class="highlight shadow" :borderColor="colorByItem(cand, el184)">
-										<router-link :to="'/volby/senatni-volby/184/kandidat/' + cand.id" class="strong">{{cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
-										<div class="smallest">
-											volební strana
-											<strong>{{ cand.NAZEV_VS }}</strong>
-											<br>
-											nominace
-											<template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
-											<template v-for="party in el184.cis.strany.filter(x => x.VSTRANA === cand.NSTRANA)">
-												<router-link :to="'/rejstrik/' + party.VSTRANA" class="strong">{{ party.ZKRATKA }}</router-link>
-											</template>
-											<template v-for="party in el184.cis.strany.filter(x => x.VSTRANA === cand.PSTRANA)">
-
-												<template v-if="party.VSTRANA === 99">, nestraník</template>
-												<template v-else-if="cand.NSTRANA != cand.PSTRANA">													
-													členství <router-link :to="'/rejstrik/' + party.VSTRANA" class="strong">{{ party.ZKRATKA }}</router-link>
-												</template>
-											</template>
-										</div>
-									</p-area>
-								</div>
-							</p-columns>
-						</div>
-					</p-loader>
-
-					<p class="mt2 ma w40 text-center">
-						Volby musí vyhlásit prezident, učiní tak do 30 dní od okamžiku, kdy mu rozhodnutí soudu doručí. Volby by tak mohly být odhadem v únoru. Dle všeho nebude možné do voleb zařadit nového kandidáta.
-					</p>
-
-					<p-box-group class="jcc">
-						<p-box to="/volby/senatni-volby/184/obvod/51">
-							<p-box-button icon="senatni-volby" class="primary">Více informací</p-box-button>
-						</p-box>
-						<p-popup>
-							<template #init>
-								<p-box>
-									<p-box-button class="green">Chci něco doplnit</p-box-button>
-								</p-box>
-							</template>
-							<template #content>
-								<report-form></report-form>
-							</template>
-						</p-popup>
-					</p-box-group>
 				</p-block>
 
 				<p-block headline="Příští řádné volby">
