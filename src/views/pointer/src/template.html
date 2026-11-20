@@ -1,12 +1,12 @@
 <div class="layout-homepage">
-	<p-layout-divided>
-		<template #main>
+	<p-layout-simple>
+		<!-- <template #main> -->
 			<p-block :headline="headline" :level="1" :hide="true">
 				<p-loader :rule="data">
 					<div v-if="data">
 						<div v-if="data.list[0]">
 							<pointer-header :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table"></pointer-header>
-							<component :is="'pointer-summary-' + $volby.typ.toLowerCase()" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="['PS', 'KV', 'SENAT'].indexOf($volby.typ) > -1"></component>
+							
 							<!-- <pointer-summary-ps :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="$volby.id === 166"></pointer-summary-ps> -->
 							<div class="p-gap _3 _floar-clear"></div>
 							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="current.PRIJMENI && current.volby > 0 && ($volby.status === 1 || current.CKAND > 0 || current.PORCISLO > 0)">
@@ -1517,7 +1517,7 @@
 				</p-area>
 			</p-block>
 			
-		</template>
+		<!-- </template> -->
 		<template #anchors>
 			<template v-if="data && current.NAZEV">
 				<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'" v-if="!data"></p-logo>
@@ -1608,5 +1608,5 @@
 				</div>
 			</p-list>
 		</template>
-	</p-layout-divided>
+	</p-layout-simple>
 </div>

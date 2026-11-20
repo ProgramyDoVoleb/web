@@ -33,6 +33,10 @@
             delimiters = [' · ', ' · '];
         }
 
+        if (attrs.class && attrs.class.includes('arrow')) {
+            delimiters = [' → ', ' → '];
+        }
+
         const sloted = slots.default();
         const list = [];
 

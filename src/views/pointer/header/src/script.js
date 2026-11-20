@@ -5,6 +5,9 @@ import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, s
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import ReportForm from '@/components/report-form/do.vue';
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
+import PointerSummaryPs from '@/views/pointer/summary/ps/do.vue';
+import PointerSummaryKv from '@/views/pointer/summary/kv/do.vue';
+import PointerSummarySenat from '@/views/pointer/summary/senat/do.vue';
 
 export default {
 	name: 'layout-pointer-header',
@@ -16,7 +19,10 @@ export default {
 	},
   components: {
 	ReportForm,
-	EngagementAddProgram
+	EngagementAddProgram,
+	PointerSummaryPs,
+	PointerSummaryKv,
+	PointerSummarySenat
   },
 	computed: {
 		$store: function () {

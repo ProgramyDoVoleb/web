@@ -1,6 +1,7 @@
 <div class="pointer-summary pt1">
-	<p><strong>Shrnutí: </strong>
-		<p-truncated-content :key="current">
+	<p>
+		<!-- <strong>Shrnutí: </strong> -->
+		<!-- <p-truncated-content :key="current" :size="40"> -->
 			<template v-if="party && elections.status === 1">
 				<template v-if="false">
 					{{ headline }} bude nejspíš kandidovat do zastupitelstva 
@@ -16,7 +17,7 @@
 			<template v-else-if="party && current.PLATNOST">
 				{{ headline }} 
 				<!-- {{ elections.status === 3 ? (isWoman(current) ? 'uvedla' : 'uvedl') : 'uvádí' }} jako své povolání  -->
-				{{ elections.status === 3 ? (isWoman(current) ? 'byla' : 'byl') : 'je' }}
+				{{ elections.status === 3 ? (isWoman(current) ? 'byla v době voleb' : 'byl v době voleb') : 'je' }}
 				<em>{{ current.POVOLANI }}</em> 
 				a 
 				<template v-if="elections.status === 3">{{ isWoman(current) ? 'kandidovala' : 'kandidoval' }} </template>
@@ -143,6 +144,6 @@
 			<template v-else>
 				Z možné či zvažované kandidatury nakonec sešlo a subjekt či kandidát se voleb nezúčastnil.
 			</template>
-		</p-truncated-content>
+		<!-- </p-truncated-content> -->
 	</p>
 </div>

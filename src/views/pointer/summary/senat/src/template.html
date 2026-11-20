@@ -15,6 +15,9 @@
 				Do voleb byl{{ rod('a') }} nominován{{ rod('a') }} od <em>{{ data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).NAZEV }}</em>.
 				Níže najdete důležité odkazy, zmínky v médiích a další informace.
 			</template>
+			<template v-else-if="elections.status === 1">
+				{{ headline }} bude zřejmě kandidovat v obvodě {{ current.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === current.OBVOD).name }}. Všechny informace jsou zatím brané jako předběžné a mohou se měnit kdykoli až do okamžiku registrace. Kandidát také může kdykoli odstoupit. Informace proto berte s rezervou.
+			</template>
 			<template v-else>
 				Z možné či zvažované kandidatury zřejmě nakonec sešlo a subjekt či kandidát se voleb nezúčastnil. Také je možné, že pro volby byl vytvořen nový profil, zatímco tento pocházel z období před oficiální registrací. Podívejte se do podrobností <router-link :to="link.split('kandidat')[0] + 'obvod/' + current.OBVOD">o obvodu</router-link>	, zda tam není s novým profilem.
 			</template>

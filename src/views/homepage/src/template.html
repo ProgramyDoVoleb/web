@@ -5,11 +5,11 @@
 			<p-block headline="Volby" anchor="Volby" :level="1" :hide="true">
 
 				<p-block headline="Opakování senátních voleb" subheadline="v obvodu 51 · Žďár nad Sázavou">
-					<p class="lead">Rozhodnutím <p-link href="https://www.irozhlas.cz/zpravy-domov/soud-zrusil-senatni-volby-na-zdarsku-vyhovel-cernemu-ktery-se-nedostal-do_2611181511_mst">soudu</p-link> se bude kompletně opakovat <router-link to="/volby/senatni-volby/173/obvod/51">volba</router-link> od prvního kola, se všemi původně registrovanými kandidáty, pokud se sami nevzdají.</p>
+					<p class="lead">Rozhodnutím <p-link href="https://www.irozhlas.cz/zpravy-domov/soud-zrusil-senatni-volby-na-zdarsku-vyhovel-cernemu-ktery-se-nedostal-do_2611181511_mst">soudu</p-link> se bude kompletně opakovat <router-link to="/volby/senatni-volby/173/obvod/51">volba</router-link> od prvního kola, se všemi původně registrovanými kandidáty. Všech pět kandidátů se již vyjádřilo ke své účasti: Všichni mají zájem do voleb jít.</p>
 
 					<div class="mw20 ma mt-2 mb2">
 						<p-area class="strong smallest red text-center">
-							! předběžné informace, část převzatá z minulých voleb !
+							předběžné informace převzaté z minulých voleb
 						</p-area>
 					</div>
 
@@ -35,10 +35,6 @@
 													členství <router-link :to="'/rejstrik/' + party.VSTRANA" class="strong">{{ party.ZKRATKA }}</router-link>
 												</template>
 											</template>
-											<div class="smallest mt05 strong green" v-if="cand.id != 3861">
-												<p-icon icon="icon-check"></p-icon>
-												Potvrdil účast
-											</div>
 										</div>
 									</p-area>
 								</div>
