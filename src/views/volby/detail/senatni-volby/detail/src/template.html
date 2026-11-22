@@ -7,7 +7,7 @@
 		</div>
 	</template>
 	<template v-if="current.status === 3">
-		<p-block headline="2. kolo" v-if="hasSecondRound">
+		<p-block headline="2. kolo" v-if="hasSecondRound" class="mw60 ma">
 			<p-area class="relative _r2">
 				<div class="p-gap_2"></div>
 				<election-duel :list="sortByVotes(current.$kandidati)" :kolo="2"></election-duel>
@@ -48,7 +48,7 @@
 				</div>
 			</p-list>
 		</p-block>
-		<p-block headline="1. kolo">
+		<p-block headline="1. kolo" class="mw60 ma">
 			<p-area class="relative">
 				<election-graph :list="sortByVotes(current.$kandidati)" :kolo="1"></election-graph>
 				<div class="p-gap"></div>
@@ -61,15 +61,15 @@
 				</div>
 			</p-area>
 		</p-block>
-		<div class="p-gap_2"></div>
-		<p-block headline="Statistiky" v-if="current.$ucast">
+		<!-- <div class="p-gap_2"></div> -->
+		<p-block headline="Statistiky" v-if="current.$ucast" class="mw40 ma">
 			<p-area>
 				<election-stats table="csu_senat_rk" :data="current.$ucast" :results="current.$vysledky"></election-stats>
 			</p-area>
 		</p-block>
 	</template>
 	<template v-if="current.editace === 1">
-		<p-block headline="Přidat program" :hide="true" class="mb-2">
+		<p-block headline="Přidat program" :hide="true" class="mb-2 text-center">
 			<engagement-add-program :elections="current.id" :focus="obvod"></engagement-add-program>
 		</p-block>
 	</template>
@@ -88,18 +88,20 @@
 		<div class="p-gap"></div>
 	</template>
 	<template v-if="current.status > 1">
-		<p-block headline="Kandidáti">
+		<p-block headline="Kandidáti" class="mw60 ma">
 			<!-- <p>Zde najdete přehled registrovaných kandidátů.</p> -->
 			<!-- <election-profiles :list="sortByVotes(current.$kandidati)"></election-profiles> -->
-			<p-list class="_15">
-				<template v-for="(cand, index) in sortBy(current.$kandidati, 'PRIJMENI', null, true)">
-					<person-preview-block  :cand="cand" :data="data" :current="current" :link="'/volby/senatni-volby/' + current.id"></person-preview-block>
-				</template>
+			<p-list class="_05 invisible">
+				<div v-for="(cand, index) in sortBy(current.$kandidati, 'PRIJMENI', null, true)">
+					<p-area class="highlight shadow">
+						<person-preview-block  :cand="cand" :data="data" :current="current" :link="'/volby/senatni-volby/' + current.id"></person-preview-block>
+					</p-area>
+				</div>
 			</p-list>
 		</p-block>
 	</template>
 	<template v-if="current.status === 1">
-		<p-block headline="Předběžný přehled" :hide="true">
+		<p-block headline="Předběžný přehled" :hide="true" class="mw60 ma">
 			<div class="p-offset reverse balanced">
 				<div>
 					<h2>Kandidáti</h2>
@@ -107,7 +109,7 @@
 				<div v-if="current.status === 1">
 					<p-modal>
 						<template #init>
-							<p-label color="var(--red)" class="smaller strong red">Předběžný přehled</p-label>
+							<p-box-badge color="var(--red)" class="smaller strong red">Předběžný přehled</p-box-badge>
 						</template>
 						<template #content>
 							<p>Zde najdete přehled stran a kandidátů, kteří už nějakou formou oznámili záměr nebo odhodlání kandidovat. Kandidáti uvedeni s číslem již byli oznámeni na té pozici kandidátky, ostatní jsou řazeni dle abecedy a nemusí být součástí finální podoby kandidátky. Pořadí a složení se může měnit. Tento přehled bude nahrazen za oficiální přehled, který vydává Český statistický úřad, cca 45 dní před volbami.</p>
@@ -117,7 +119,7 @@
 			</div>	
 			<div class="p-gap"></div>
 			<!-- <p-area> -->
-				<p-list class="invisible">
+				<p-list class="_05 invisible">
 					<div v-for="(cand, index) in sortBy(current.$kandidati, 'PRIJMENI', null, true)">
 						<p-area class="mv05">
 							<person-preview-block  :cand="cand" :data="data" :current="current" :link="'/volby/senatni-volby/' + current.id"></person-preview-block>
@@ -129,29 +131,28 @@
 					</div>
 				</p-list>
 			<!-- </p-area> -->
-			<div class="p-gap"></div>
-			<p-grid>
-				<div>
-					<p-area icon="plus-green" background="var(--green11)">
-						<p-modal>
-							<template #init> <button class="inline green strong">Přidat kandidáta</button> </template>
+			 <div class="mt1">
+				<p-box-group class="jcc">
+					<p-modal>
+							<template #init> 
+								<p-box>
+									<p-box-button icon="plus-green" class="green">Přidat kandidáta</p-box-button>
+								</p-box>
+							</template>
 							<template #content>
 								<div class="strong">Odkaz na článek</div>
 								<p>K přidání kandidáta stačí poslat odkaz na článek nebo status na sociální síti.</p>
 								<report-form part="Přidat kandidáta"></report-form>
 							</template>
 						</p-modal>
-						<div class="smallest dimm">Stačí poslat odkaz</div>
-					</p-area>
-				</div>
-			</p-grid>
+				</p-box-group>
+			 </div>
 		</p-block>
 	</template>
-	<candidate-stats v-if="current.status > 1" table="csu_senat_rk" :data="current.$kandidati" :cis="data.cis" :status="current.status" :simple="true" color="var(--blue)"></candidate-stats>
-	<!-- <p-block headline="Podpořte Programy" subheadline="aby se o nestranných přehledech a volebních programech dozvědělo co nejvíce lidí" anchor="" class="green" v-if="current.editace === 1">
-		<engagement-support></engagement-support>
-	</p-block> -->
-	<p-block headline="Tip na výsledek" :hide="true">
+	<p-block headline="Statistiky" v-if="current.status > 1" class="mw60 ma">
+		<candidate-stats tag="div" table="csu_senat_rk" :data="current.$kandidati" :cis="data.cis" :status="current.status" :simple="true" color="var(--blue)"></candidate-stats>
+	</p-block>
+	<p-block headline="Tip na výsledek" :hide="true" v-if="current.status < 3" class="mb4 mw40 ma">
 		<p-area class="highlight shadow" icon="results" borderColor="var(--blue)">
 			<div class="p-offset reverse">
 				<div>
@@ -167,7 +168,40 @@
 			
 		</p-area>
 	</p-block>
-	<p-block-expandable headline="Aktivita stran">
+	<p-block v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0" headline="Otázky a odpovědi" :hide="true" class="mb3 mw40 ma">
+			
+			<p-area class="primary" borderColor="var(--yellow)" icon="answers">
+				<h2 class="pb1">Otázky a odpovědi</h2>
+				<template v-for="(qitem, qindex) in qenum">
+				<p-collapsible :logo="['answers', 'program', 'icon-check'].find((x, i) => i + 1 === qitem.type)" :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0" :open="data.list[0].status < 3 && data.list[0].$otazky.filter(x => x.type === qitem.type).length < 5" :skip="data.list[0].status < 3 && data.list[0].$otazky.filter(x => x.type === qitem.type).length < 5">
+					<!-- <p-area> -->
+						<div class="p-list">
+							<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 1)">
+								<router-link class="strong" :to="'/volby/senatni-volby/' + data.list[0].id + '/' + qitem.hash + '/' + qquestion.id + '?vyber=' + obvod">{{ qquestion.question }}</router-link>
+								<div class="smaller" v-if="qquestion.comment">{{ truncate(qquestion.comment, 12) }}</div>
+							</div>
+						</div>
+						<template v-if="data.list[0].$otazky.find(x => x.type === qitem.type && x.priority === 2)">
+							<div class="p-gap"></div>
+							<p-collapsible label="Doplňkové otázky">
+								<div :class="qitem.type < 3 ? 'columns' : 'p-list'">
+									<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 2)">
+										<router-link :to="'/volby/senatni-volby/' + data.list[0].id + '/' + qitem.hash + '/' + qquestion.id + '?vyber=' + obvod">{{ qquestion.question }}</router-link>
+									</div>
+								</div>
+							</p-collapsible>
+						</template>
+					<!-- </p-area> -->
+				</p-collapsible>
+
+				</template>
+				<div class="pt2 smaller" v-if="current.status < 3 && data.list[0].$otazky.find(x => x.type != 2)">
+					Odpovědi lze zaslat e-mailem na <a href="mailto:odpovedi@programydovoleb.cz">odpovedi@programydovoleb.cz</a> nebo přímo vyplnit v <p-link href="https://admin.programydovoleb.cz">Adminu</p-link>.
+				</div>
+			</p-area>
+	</p-block>
+	
+	<p-block-expandable headline="Aktivita stran" class="mw60 ma">
 		<p-area>
 			<table class="smaller">
 				<thead>
@@ -213,47 +247,4 @@
 			<div>P — podpora</div>
 		</p-list-linear>
 	</p-block-expandable>
-	<p-block v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0" headline="Otázky a odpovědi" :hide="true" class="mb3">
-			
-			<p-area class="primary" borderColor="var(--yellow)" icon="answers">
-				<h2 class="pb1">Otázky a odpovědi</h2>
-				<template v-for="(qitem, qindex) in qenum">
-				<p-collapsible :logo="['answers', 'program', 'icon-check'].find((x, i) => i + 1 === qitem.type)" :label="qitem.label" :status="data.list[0].$otazky.filter(x => x.type === qitem.type).length" v-if="data.list[0].$otazky.filter(x => x.type === qitem.type).length > 0" :open="data.list[0].status < 3 && data.list[0].$otazky.filter(x => x.type === qitem.type).length < 5" :skip="data.list[0].status < 3 && data.list[0].$otazky.filter(x => x.type === qitem.type).length < 5">
-					<!-- <p-area> -->
-						<div class="p-list">
-							<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 1)">
-								<router-link class="strong" :to="'/volby/senatni-volby/' + data.list[0].id + '/' + qitem.hash + '/' + qquestion.id + '?vyber=' + obvod">{{ qquestion.question }}</router-link>
-								<div class="smaller" v-if="qquestion.comment">{{ truncate(qquestion.comment, 12) }}</div>
-							</div>
-						</div>
-						<template v-if="data.list[0].$otazky.find(x => x.type === qitem.type && x.priority === 2)">
-							<div class="p-gap"></div>
-							<p-collapsible label="Doplňkové otázky">
-								<div :class="qitem.type < 3 ? 'columns' : 'p-list'">
-									<div v-for="(qquestion, qqindex) in data.list[0].$otazky.filter(x => x.type === qitem.type && x.priority === 2)">
-										<router-link :to="'/volby/senatni-volby/' + data.list[0].id + '/' + qitem.hash + '/' + qquestion.id + '?vyber=' + obvod">{{ qquestion.question }}</router-link>
-									</div>
-								</div>
-							</p-collapsible>
-						</template>
-					<!-- </p-area> -->
-				</p-collapsible>
-
-				</template>
-				<div class="pt2 smaller" v-if="current.status < 3 && data.list[0].$otazky.find(x => x.type != 2)">
-					Odpovědi lze zaslat e-mailem na <a href="mailto:odpovedi@programydovoleb.cz">odpovedi@programydovoleb.cz</a> nebo přímo vyplnit v <p-link href="https://admin.programydovoleb.cz">Adminu</p-link>.
-				</div>
-			</p-area>
-	</p-block>
-	<!-- <div headline="Podpořit" :hide="true">
-		<p-grid class="_2">
-			<div>
-				<cta-support></cta-support>
-			</div>
-			<div>
-				<cta-get-admin :election="data.list[0]" v-if="data" :area="true" />
-			</div>
-		</p-grid>
-		<div class="p-gap _2"></div>
-	</div> -->
 </div>

@@ -11,16 +11,42 @@
 		<div class="_card smaller">
 			<div class="_photo" v-if="current.JMENO && con(current.$data, 'photo')">
 				<p-photo :data="current.$data.photo[0]" :alt="current.JMENO + ' ' + current.PRIJMENI"></p-photo>
-				<div class="_logos _logosHorizontal">
+				<div class="_logos _logosHorizontal" v-if="typeof current.CKAND === 'undefined'">
 					<p-image :src="logoByItem($strana, data, null, null, true)" :rounded="true" width="100%" :border="true"></p-image>
 					<p-image v-if="current.NSTRANA != current.VSTRANA && current.NSTRANA != 80" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA), data)" width="100%" :rounded="true"></p-image>
 					<p-image v-if="current.NSTRANA != current.PSTRANA" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data, null, null, true, true, true)" width="100%" :rounded="true"></p-image>
 				</div>
+				<div class="_logos _logosHorizontal" v-else-if="typeof current.OBVOD !== 'undefined'">
+					<p-image :src="con(current.$data, 'logo')" :rounded="true" width="100%" v-if="con(current.$data, 'logo')"></p-image>
+					<p-image :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA), data)" width="100%" :rounded="true"></p-image>
+					<template v-for="member in (data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || [data.cis.strany.find(x => x.VSTRANA === current.VSTRANA)])">
+						<p-image :src="logoByItem(member, data)" width="100%" :rounded="true" v-if="member.VSTRANA != current.NSTRANA"></p-image>
+					</template>
+					<p-image :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data, null, null, true, true, true)" width="100%" :rounded="true" v-if="current.PSTRANA != current.NSTRANA"></p-image>
+				</div>
+				<div class="_logos _logosHorizontal" v-else>
+					<p-image :src="con(current.$data, 'logo')" :rounded="true" width="100%" v-if="con(current.$data, 'logo')"></p-image>
+					<p-image :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data, null, null, true, true, true)" width="100%" :rounded="true" v-if="current.PSTRANA != current.NSTRANA"></p-image>
+				</div>
 			</div>
-			<div class="_logos" v-else-if="current.JMENO && $strana && logoByItem($strana, data, null, true)">
+			<div class="_logos" v-else-if="current.JMENO && !$strana">
+				<template v-if="typeof current.OBVOD !== 'undefined'">
+					<p-image class="_logosMain" :src="con(current.$data, 'logo')" :rounded="true" width="100%" v-if="con(current.$data, 'logo')"></p-image>
+					<p-image :class="{_logosMain: !con(current.$data, 'logo')}" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA), data)" width="100%" :rounded="true"></p-image>
+					<template v-for="member in (data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || [data.cis.strany.find(x => x.VSTRANA === current.VSTRANA)])">
+						<p-image :src="logoByItem(member, data)" width="100%" :rounded="true" v-if="member.VSTRANA != current.NSTRANA"></p-image>
+					</template>
+					<p-image :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data, null, null, true, true, true)" width="100%" :rounded="true" v-if="current.PSTRANA != current.NSTRANA"></p-image>
+				</template>
+				<template v-else>
+					<p-image class="_logosMain" :src="con(current.$data, 'logo')" :rounded="true" width="100%" v-if="con(current.$data, 'logo')"></p-image>
+					<p-image :class="{_logosMain: !con(current.$data, 'logo')}" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data)" width="100%" :rounded="true"></p-image>
+				</template>
+			</div>
+			<div class="_logos" v-else-if="current.JMENO && $strana && logoByItem($strana, data, null, true)">				
 				<p-image class="_logosMain" :src="logoByItem($strana, data, null, null, true)" :rounded="true" width="100%" :border="true"></p-image>
 				<p-image v-if="current.NSTRANA != current.VSTRANA && current.NSTRANA != 80" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA), data)" width="100%" :rounded="true"></p-image>
-				<p-image v-if="current.NSTRANA != current.PSTRANA" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data, null, null, true, true, true)" width="100%" :rounded="true"></p-image>	
+				<p-image v-if="current.NSTRANA != current.PSTRANA" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data, null, null, true, true, true)" width="100%" :rounded="true"></p-image>					
 			</div>
 			<div class="_core" v-if="current.JMENO">
 				<p-list class="_05">
@@ -107,9 +133,9 @@
 													<p-stats label="Nominace" v-if="current.NSTRANA && data.cis.volby[0].typ !== 'PREZ'">
 														<div>
 															<p-label class="block" :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA), data)">
-																<router-link :to="'/rejstrik/' + current.NSTRANA">
+																<component :is="current.NSTRANA != 80 ? 'router-link' : 'span'" :to="'/rejstrik/' + current.NSTRANA">
 																	{{ data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).NAZEV }}
-																</router-link>
+																</component>
 															</p-label>
 														</div>
 													</p-stats>
@@ -123,9 +149,9 @@
 													<p-stats label="Členství" v-if="current.PSTRANA">
 														<div>
 															<p-label class="block" :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data)">
-																<router-link :to="'/rejstrik/' + current.PSTRANA">
+																<component :is="current.PSTRANA != 99 ? 'router-link' : 'span'" :to="'/rejstrik/' + current.PSTRANA">
 																	{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).NAZEV }}
-																</router-link>
+																</component>
 															</p-label>
 														</div>
 													</p-stats>
@@ -148,13 +174,13 @@
 					<p-image class="_logosPrime" :src="logoByItem(current, data, null, null, true)" :rounded="true" width="100%" :border="true"></p-image>
 				</div>
 				<template v-for="member in shiftNK(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || [])">
-					<p-image :src="logoByItem(member, data, null, null, true, true, true)" width="100%" :rounded="true"></p-image>
+					<p-image :src="logoByItem(member, data, null, null, true, true, !!current.KODZASTUP)" width="100%" :rounded="true"></p-image>
 				</template>
 			</div>
 			<div class="_core" v-if="current.NAZEV">
 				<p-list class="_05">
 					<div>
-						<h4>Základní údaje</h4>
+						<h4>Kandidátní listina</h4>
 					</div>
 					<p-stats label="Celý název">{{ current.NAZEV }}</p-stats>
 					<p-stats label="Forma">
@@ -167,7 +193,7 @@
 							Koalice politických stran či hnutí
 						</template>
 						<template v-else>
-							Registrovaná strana nebo hnutí
+							Registrovaná strana nebo hnutí &middot; <router-link :to="'/rejstrik/' + current.VSTRANA">více</router-link>
 						</template>
 					</p-stats>
 					<p-stats v-if="current.ZKRATKA" label="ZKRATKA">
@@ -193,7 +219,7 @@
 								<tbody>
 									<tr v-for="member in sortByKandidati(shiftNK(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || [data.cis.strany.find(x => x.VSTRANA === (current.VSTRANA === 90 ? 80 : current.VSTRANA ))]))">
 										<td>
-											<p-label :color="colorByItem(member, data)" class="block">{{ member.NAZEV }}</p-label>
+											<p-label :color="colorByItem(member, data)" class="block"><router-link :to="'/rejstrik/' + member.VSTRANA">{{ member.NAZEV }}</router-link></p-label>
 										</td>
 										<td class="text-right">
 											{{ current.$kandidati.filter(x => x.NSTRANA === member.VSTRANA).length }}

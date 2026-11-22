@@ -15,7 +15,7 @@
 									<p-box-button icon="link.svg" color="var(--blue)">Webové stránky k volbám</p-box-button>
 								</p-box>
 							</template>
-							<p class="lead" v-if="current.popis" v-html="current.popis"></p>
+							<p class="lead pb1" v-if="current.popis" v-html="current.popis"></p>
 							<!-- <template v-if="current.id === 171">
 								<div class="p-gap"></div>
 								<p-box to="/pruvodce">
@@ -24,14 +24,14 @@
 							</template> -->
 						</p-block>
 						<component :is="hash" :data="data" :prev="previous" :id="current.id" :news="news"></component>
-						<p-block-expandable headline="Zdroje a novinky" :open="current.id === 165">
+						<p-block-expandable headline="Zdroje a novinky" class="mw60 ma">
 							<p-loader :rule="news">
 								<div v-if="news">
 									<news-block class="smaller" :omitSys="true" :limit="6" :expandable="true" :news="news" :data="current.$data" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>	
 								</div>
 							</p-loader>
 						</p-block-expandable>
-						<p-block-expandable headline="Media a tiskové zprávy">
+						<p-block-expandable headline="Media a tiskové zprávy" class="mw60 ma">
 							<p-loader :rule="news" reserve="450px">
 								<div v-if="news" class="smaller">
 									<div class="columns columns---no-gap">
@@ -75,7 +75,7 @@
 								</div>
 							</p-loader>
 						</p-block-expandable>
-						<p-block-expandable headline="Události">
+						<p-block-expandable headline="Události" class="mw60 ma">
 							<p-list height="1.5">
 								<div v-for="(item, index) in sortEvents((current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today))">
 									<event-item :item="item" :party="current" :data="data" :noTag="true"></event-item>
@@ -87,7 +87,7 @@
 								<p-popup preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="'csu_volby:' + id" :elections="id"></editable-event></template></p-popup>
 							</div>
 						</p-block-expandable>
-						<p-block-expandable headline="Poznámky">
+						<p-block-expandable headline="Poznámky" class="mw60 ma">
 							<p-list height="1">
 								<div v-for="(item, index) in (current.$data.note || [])">
 									<div>
@@ -106,7 +106,7 @@
 							</div>
 						</p-block-expandable>
 
-							<p-block-expandable headline="Odkazy">
+							<p-block-expandable headline="Odkazy" class="mw60 ma">
 								<p-list class="_025">
 									<template v-if="linksAll.filter(x => x.type === 'web' || x.type === 'wiki').length > 0">
 										<div v-for="(item, index) in linksAll.filter(x => x.type === 'web' || x.type === 'wiki')">
@@ -146,7 +146,7 @@
 									<p-popup preClass="green strong"><template #init>další odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="link"  :showLabel="1"></editable-basic></template></p-popup>
 								</div>
 							</p-block-expandable>
-							<p-block-expandable headline="Volební materiály">
+							<p-block-expandable headline="Volební materiály" class="mw60 ma">
 								<p-grid>
 									<div v-for="(item, index) in current.$data.graphics">
 										<p-area>
@@ -185,7 +185,7 @@
 									<p-popup preClass="green strong"><template #init>zaslat odkaz</template><template #content><editable-suggest type="graphics" :part="current.typ + ':' + current.id"></editable-suggest></template></p-popup>
 								</div>
 							</p-block-expandable>
-							<p-block-expandable headline="Dokumenty">
+							<p-block-expandable headline="Dokumenty" class="mw60 ma">
 								<p-grid>
 									<div v-for="(item, index) in current.$data.document">
 										<p-area icon="link">
@@ -214,32 +214,11 @@
 								</p-loader>	
 							</p-area>
 						</p-block>
-						<p-block headline="Data" :hide="true" class="mt3" v-if="current && current.editace === 1">
-							<p-grid>
-								<div>
-									<p-area icon="link">
-										<p-modal>
-											<template #init><button class="inline strong">Admin - správa údajů</button></template>
-											<template #content>
-												<strong>Administrace údajů</strong>
-												<div class="p-gap _05"></div>
-												<div class="smaller">Máte zájem spravovat informace na této stránce? Získejte přístup do Adminu. Stačí poslat žádost a ověřit, že jste oprávněná osoba nebo kancelář strany či hnutí, které se tyto údaje týkají a která bude údaje pravdivě a svědomitě spravovat.</div>
-												<div class="p-gap"></div>
-												<div class="strong">
-													<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $route.path" class="button">Vyplnit žádost</p-link>
-												</div>
-											</template>
-										</p-modal>
-										<div class="smallest dimm">Spravujte údaje na této stránce</div>
-									</p-area>
-								</div>
-							</p-grid>
-						</p-block>
 					</div>
 				</p-loader>
 			</p-block>
 			<!-- <div class="p-gap_4"></div> -->
-			<p-block headline="Krátce">
+			<p-block headline="Krátce" class="mw40 ma">
 				<p>{{ about.data.about }}</p>
 				<div v-if="elections">
 					<p-list-linear class="or smaller strong">

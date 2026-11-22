@@ -33,27 +33,24 @@
 								</p-block>
 							</template>
 
-							<p-block headline="Představení" v-if="!(typeof current.$data.length === 'number' || !((current.$data.about || current.$data.motto || current.$data.values)))">
+							<p-block headline="Představení" v-if="!(typeof current.$data.length === 'number' || !((current.$data.about || current.$data.motto || current.$data.values)))" class="mw50 ma">
 								<div class="p-list _2 _invisible" v-if="typeof current.$data.length === 'undefined'">
-									<div v-if="current.$data.about">
-										<!-- <h2 class="serif mt0">Představení</h2> -->
-										<div class="serif _mw">
-											<p-truncated :size="60" :content="(current.$data.about.find(x => x.type === 'about').value || '').split('\n').join('<br>')"></p-truncated>
-										</div>	
-										<div class="smallest dimm">
-											<div class="p-line"></div>
-											Vloženo {{ date(current.$data.about.find(x => x.type === 'about').updated) }}
-											<span v-if="current.$data.about.find(x => x.type === 'about').source"> &middot; zdroj <p-link :href="current.$data.about.find(x => x.type === 'about').source" class="dimm">{{ domain(current.$data.about.find(x => x.type === 'about').source) }}</p-link></span>
-										</div>									
+									<div v-if="current.$data.about" class="mw40 ma">
+										<p-area padding="2em" :borderColor="colorByItem(current, data, 'NSTRANA')">
+											<!-- <h2 class="serif mt0">Představení</h2> -->
+											<div class="serif _mw">
+												<p-truncated :size="60" :content="(current.$data.about.find(x => x.type === 'about').value || '').split('\n').join('<br>')"></p-truncated>
+											</div>	
+											<div class="smallest dimm">
+												<div class="p-line"></div>
+												Vloženo {{ date(current.$data.about.find(x => x.type === 'about').updated) }}
+												<span v-if="current.$data.about.find(x => x.type === 'about').source"> &middot; zdroj <p-link :href="current.$data.about.find(x => x.type === 'about').source" class="dimm">{{ domain(current.$data.about.find(x => x.type === 'about').source) }}</p-link></span>
+											</div>	
+										</p-area>								
 									</div>
 									<template v-if="current.$data.motto">
-										<!-- <div v-if="current.$data.motto.length < 3">
-											<template v-for="(item, index) in current.$data.motto">
-												<p-quote :color="colorByItem(current, data, current.NSTRANA ? 'PSTRANA' : 'VSTRANA')">{{ item.value }}</p-quote>
-											</template>
-										</div>
-										<div v-else> -->
-											<div>
+											<h3 class="quando text-center mv0">Motto</h3>
+											<div class="mw40 ma">
 												<p-quote :color="colorByItem(current, data, current.NSTRANA ? 'PSTRANA' : 'VSTRANA')">
 													<p-list class="_025 smaller">
 														<template v-for="(item, index) in current.$data.motto">
@@ -65,16 +62,16 @@
 										<!-- </div> -->
 									</template>
 									<template v-if="current.$data.values">
-										<h2 class="serif mv0">Hodnoty</h2>
+										<h3 class="quando text-center mv0">Hodnoty</h3>
 										<div class="serif">
-											<p-grid class="tight">
+											<p-columns class="">
 												<div v-for="(val, indexV) in current.$data.values">
-													<p-area :borderColor="colorByItem(current, data, 'NSTRANA')">
+													<p-area>
 														<div class="strong" v-if="val.value">{{ val.value }}</div>
 														<p v-if="val.label"><p-truncated :size="24" :content="val.label"></p-truncated></p>
 													</p-area>
 												</div>
-											</p-grid>
+											</p-columns>
 										</div>
 									</template>
 								</div>				
@@ -119,8 +116,8 @@
 									</div>
 									<div class="mb0"></div>
 							</p-block>
-							<p-block headline="Hlavní odkazy" v-if="!$strana && (current.$program.length > 0 || (current.$otazky && current.$otazky.find(x => x.type === 2)) || current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0 || (current.$data.program && current.$data.program.length > 0) || (current.$data.backup && current.$data.backup.length > 0))">
-								<p-grid>
+							<p-block headline="Hlavní odkazy" v-if="!$strana && (current.$program.length > 0 || (current.$otazky && current.$otazky.find(x => x.type === 2)) || current.$odpovedi.filter(x => x.$otazka[0].type != 2).length > 0 || (current.$data.program && current.$data.program.length > 0) || (current.$data.backup && current.$data.backup.length > 0))" class="mw40 ma">
+								<p-columns class="_noRule">
 									<div v-if="current.$program.length > 0">
 										<p-area icon="icon-party" background="var(--blue11)">
 											<router-link :to="$link + '/volebni-program/' + current.$program[0].id + '#plne-zneni'" class="strong">Celý volební program</router-link>
@@ -162,7 +159,7 @@
 											</div>
 										</p-area>
 									</div>
-								</p-grid>
+								</p-columns>
 								<template v-if="current.$data.backup && current.$data.backup.length > 0">
 									<div class="p-line"></div>
 									<div class="smallest">
@@ -190,7 +187,7 @@
 								</template>
 							</p-block>
 							
-							<p-block headline="Kapitoly programu" v-if="current.$program && current.$program.length > 0 && current.$program[0].structure && current.$program[0].structure.length > 1">
+							<p-block headline="Kapitoly programu" v-if="current.$program && current.$program.length > 0 && current.$program[0].structure && current.$program[0].structure.length > 1" class="mw40 ma">
 								<p-area class="primary" :borderColor="colorByItem(current, data)">
 									<p-columns class="smaller">
 										<div v-for="(section, indexP) in current.$program[0].structure">
@@ -200,23 +197,30 @@
 								</p-area>
 							</p-block>
 							
-							<p-block headline="Volební priority" v-if="current.$priority.length > 0">
-								<p-list class="_05">
-									<div v-for="(priority, indexP) in current.$priority">
-										<p-label class="_block _mw2" :color="colorByItem(current, data, current.PSTRANA && current.PSTRANA != 99 ? 'PSTRANA' : (current.NSTRANA ? 'NSTRANA' : null))">
-											<strong v-if="priority.headline">{{ truncate(priority.headline, 8) }}</strong>
-											<span v-if="priority.headline && priority.content && priority.content.charAt(0) != '['"> &middot; </span>
-											<span v-if="priority.content && priority.content.charAt(0) != '['">
-												<p-truncated class="_inline serif" :content="untag(priority.content).split('\n').join('<br>')" :size="current.$priority.length === 1 ? 120 : 24" :compact="$link + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
-											</span>
-										</p-label>
-									</div>								
-								</p-list>
-								<div class="p-gap"></div>
-								<router-link class="btn" :to="$link + '/priority'">Plné znění priorit</router-link>
+							<p-block headline="Volební priority" v-if="current.$priority.length > 0" class="mw40 ma">
+								<p-area>
+									<p-list>
+										<div v-for="(priority, indexP) in current.$priority">
+											<p-label class="_block _mw2" :color="colorByItem(current, data, current.PSTRANA && current.PSTRANA != 99 ? 'PSTRANA' : (current.NSTRANA ? 'NSTRANA' : null))">
+												<strong v-if="priority.headline">{{ truncate(priority.headline, 8) }}</strong>
+												<span v-if="priority.headline && priority.content && priority.content.charAt(0) != '['"> &middot; </span>
+												<span v-if="priority.content && priority.content.charAt(0) != '['">
+													<p-truncated class="_inline serif" :content="untag(priority.content).split('\n').join('<br>')" :size="current.$priority.length === 1 ? 120 : 24" :compact="$link + '/priority#' + url(truncate(priority.headline, 3) || 'část ' + indexP)"></p-truncated>
+												</span>
+											</p-label>
+										</div>								
+									</p-list>
+								</p-area>
+								<div class="mt1">
+									<p-box-group class="jcc">
+										<p-box :to="$link + '/priority'">
+											<p-box-button icon="priority">Plné znění priorit</p-box-button>
+										</p-box>
+									</p-box-group>
+								</div>
 							</p-block>
 
-							<p-block headline="Volební témata" :hide="true" v-if="current.$otazky && current.$otazky.filter(x => x.type === 2).length > 0">
+							<p-block headline="Volební témata" :hide="true" v-if="current.$otazky && current.$otazky.filter(x => x.type === 2).length > 0" class="mw40 ma">
 								<p-area icon="detail">
 									<strong>Vybraná témata:</strong>
 									<div class="p-gap _05"></div>
@@ -237,29 +241,33 @@
 								</p-area>
 							</p-block>
 
-							<p-block headline="Volební otázky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 1).length > 0" :hide="true">
-								<h2 class="quando">Volební otázky <p-icon icon="answers-mini"></p-icon></h2>
-								<p-list height="1.5">
-									<div v-for="(question, index) in randonAmount(current.$otazky.filter(x => x.type === 1 && (!x.designated || x.designated === (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 2 : 1))).filter((x, i) => i < 5), 1)">
-										<div class="_mw">
-											<strong>{{ question.question }}</strong>
+							<p-block headline="Volební otázky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 1).length > 0" class="mw40 ma">
+								<p-area class="highlight" padding="2em">
+									<p-list class="_05">
+										<template v-for="(question, index) in randonAmount(current.$otazky.filter(x => x.type === 1 && (!x.designated || x.designated === (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 2 : 1))).filter((x, i) => i < 5), 1)">
+											<div>
+												<p-icon icon="answers-mini"></p-icon> 
+												<strong>{{ question.question }}</strong>
+											</div>
+											<div class="serif">
+												<p-truncated :content="current.$odpovedi.find(x => x.question === question.id).$odpoved[0].answer" :size="40"></p-truncated>
+												<div class="smallest dimm" v-if="current.$odpovedi.find(x => x.question === question.id).$odpoved[0].source">Více na <p-link :href="current.$odpovedi.find(x => x.question === question.id).$odpoved[0].source">{{ domain(current.$odpovedi.find(x => x.question === question.id).$odpoved[0].source) }}</p-link></div>
+											</div>
+										</template>
+									</p-list>
+								</p-area>
+										<div v-if="current.$odpovedi.filter(x => x.$otazka[0].type === 1).length > 1" class="mt1">
+											<p-box-group class="jcc">
+												<p-box :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/' + (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 'kandidat' : 'strana') + '/' + tableID + '/otazky-a-odpovedi'">
+													<p-box-button icon="answers-mini">
+														<p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type === 1).length" :end="['', '', 'Všechny %% otázky a odpovědi', 'Všech %% otázek a odpovědí']"></p-lang>
+													</p-box-button>
+												</p-box>
+											</p-box-group>
 										</div>
-										<div class="p-gap _05"></div>
-										<div class="serif _mw">
-											<p-truncated :content="current.$odpovedi.find(x => x.question === question.id).$odpoved[0].answer" :size="40"></p-truncated>
-											<div class="smallest dimm" v-if="current.$odpovedi.find(x => x.question === question.id).$odpoved[0].source">Více na <p-link :href="current.$odpovedi.find(x => x.question === question.id).$odpoved[0].source">{{ domain(current.$odpovedi.find(x => x.question === question.id).$odpoved[0].source) }}</p-link></div>
-										</div>
-									</div>
-									<div v-if="current.$odpovedi.filter(x => x.$otazka[0].type === 1).length > 1" class="smaller">
-										<!-- <p-area class="inline"> -->
-											<strong><p-lang :value="current.$odpovedi.filter(x => x.$otazka[0].type === 1).length" :end="['', '', 'Všechny %% otázky a odpovědi', 'Všech %% otázek a odpovědí']"></p-lang> <router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/' + (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 'kandidat' : 'strana') + '/' + tableID + '/otazky-a-odpovedi'">najdete zde</router-link></strong>
-											<p-icon icon="answers-mini" :border="0"></p-icon>
-										<!-- </p-area>										 -->
-									</div>
-								</p-list>
 							</p-block>
 
-							<p-block headline="Z kalkulačky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 3).length > 0" :hide="true">
+							<p-block headline="Z kalkulačky" v-if="current.$otazky && current.$otazky.filter(x => x.type === 3).length > 0" :hide="true" class="mw40 ma">
 								<h2 class="mt0">Z kalkulačky <p-icon icon="calc" :border="0"></p-icon></h2>
 								<p-list class="_05">
 									<div v-for="(question, index) in randonAmount(current.$otazky.filter(x => x.type === 3 && (!x.designated || x.designated === (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 2 : 1))), 5)">
@@ -503,71 +511,85 @@
 									</p-box-group>
 								</template>
 							</p-block>
-							<p-block headline="Odkazy" v-if="linksAll.length > 0">
-								<p-list class="_025">
+							<p-block headline="Odkazy" v-if="linksAll.length > 0" class="mw40 ma">
+								<p-list class="invisible">
 									<template v-if="linksAll.filter(x => x.type === 'web' || x.type === 'wiki').length > 0">
 										<div v-for="(item, index) in linksAll.filter(x => x.type === 'web' || x.type === 'wiki')">
-											<p-box-group>
-												<p-box :block="true" :href="item.value" class="clean">
-													<p-box-icon :type="type(item.value)"></p-box-icon>
-													<p-box-label>
-														{{ domain(item.value, true) }}
-														<div class="tiny dimm" v-if="item.label">{{ item.label }}</div>
-													</p-box-label>
-												</p-box>
-											</p-box-group>
+											<p-area class="highlight shadow">
+												<p-box-group>
+													<p-box :block="true" :href="item.value" class="clean">
+														<p-box-icon :type="type(item.value)"></p-box-icon>
+														<p-box-label>
+															{{ domain(item.value, true) }}
+															<div class="tiny dimm" v-if="item.label">{{ item.label }}</div>
+														</p-box-label>
+													</p-box>
+												</p-box-group>
+											</p-area>
 										</div>
 									</template>
 									<template v-if="linksAll.filter(x => x.type === 'social').length > 0">
-										<div class="smallest strong _sif">Sociální sítě</div>
+										<div class="text-center dimm pv1">
+											<h3 class="quando">Sociální sítě</h3>
+										</div>
 										<div v-for="(item, index) in linksAll.filter(x => x.type === 'social')">
-											<p-box-group>
-												<p-box :block="true" :href="item.value" class="clean">
-													<p-box-icon :type="type(item.value)"></p-box-icon>
-													<p-box-label>
-														{{ domain(item.value, true) }}
-														<div class="tiny dimm" v-if="item.label">{{ item.label }}</div>
-													</p-box-label>
-												</p-box>
-											</p-box-group>
+											<p-area class="highlight">
+												<p-box-group>
+													<p-box :block="true" :href="item.value" class="clean">
+														<p-box-icon :type="type(item.value)"></p-box-icon>
+														<p-box-label>
+															{{ domain(item.value, true) }}
+															<div class="tiny dimm" v-if="item.label">{{ item.label }}</div>
+														</p-box-label>
+													</p-box>
+												</p-box-group>
+											</p-area>
 										</div>
 									</template>
 									<template v-if="linksAll.filter(x => x.type === 'link').length > 0">
-										<div class="smallest strong _sif">Další odkazy</div>
+										<div class="text-center dimm pv1">
+											<h3 class="quando">Další odkazy</h3>
+										</div>
 										<div v-for="(item, index) in linksAll.filter(x => x.type === 'link')">
-											<p-box-group>
-												<p-box :block="true" :href="item.value" class="clean">
-													<p-box-icon :type="type(item.value)"></p-box-icon>
-													<p-box-label>
-														{{ domain(item.value, true) }}
-														<div class="tiny dimm" v-if="item.label">{{ item.label }}</div>
-													</p-box-label>
-												</p-box>
-											</p-box-group>
+											<p-area>
+												<p-box-group>
+													<p-box :block="true" :href="item.value" class="clean">
+														<p-box-icon :type="type(item.value)"></p-box-icon>
+														<p-box-label>
+															{{ domain(item.value, true) }}
+															<div class="tiny dimm" v-if="item.label">{{ item.label }}</div>
+														</p-box-label>
+													</p-box>
+												</p-box-group>
+											</p-area>
 										</div>
 									</template>
 								</p-list>
 							</p-block>
-							<p-block headline="Kontakty" v-if="contacts.length > 0">
+							<p-block headline="Kontakty" v-if="contacts.length > 0" class="mw40 ma">
 								<p-list class="_025">
 									<div v-for="(item, index) in contacts">
-										<p-box-group>
-											<p-box :block="true" class="clean">
-												<p-box-icon :type="item.type"></p-box-icon>
-												<p-box-label>
-													{{ item.value }}
-													<div class="tiny dimm" v-if="item.label">{{ item.label }}</div>
-												</p-box-label>
-											</p-box>
-										</p-box-group>										
+										<p-area>
+											<p-box-group>
+												<p-box :block="true" class="clean">
+													<p-box-icon :type="item.type"></p-box-icon>
+													<p-box-label>
+														{{ item.value }}
+														<div class="tiny dimm" v-if="item.label">{{ item.label }}</div>
+													</p-box-label>
+												</p-box>
+											</p-box-group>	
+										</p-area>									
 									</div>
 								</p-list>
 							</p-block>
-							<p-block :headline="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení stran a místních hnutí' : 'Koalice registrovaných stran a hnutí'" :anchor="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení' : 'Koalice'" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
-								<p-area v-if="current.NAZEV_VS" class="highlight shadow" :borderColor="colorByItem(current, data, 'VSTRANA')" :logo="current.$data.logo ? current.$data.logo[0].value : null">
-									<h3 class="mv0">{{ current.NAZEV_VS }}</h3>
-									<div class="smallest">Název volební strany</div>
-								</p-area>
+							<p-block :headline="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení stran a místních hnutí' : 'Koalice registrovaných stran a hnutí'" :anchor="data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA == 90 || x.VSTRANA == 80) ? 'Sdružení' : 'Koalice'" v-if="current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition" class="mw50 ma">
+								<div class="mb1" v-if="current.NAZEV_VS">
+									<p-area class="highlight shadow" :borderColor="colorByItem(current, data, 'VSTRANA')" :logo="current.$data.logo ? current.$data.logo[0].value : null">
+										<h3 class="mv0">{{ current.NAZEV_VS }}</h3>
+										<div class="smallest">Název volební strany</div>
+									</p-area>
+								</div>
 								<div class="columns _c">
 									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
 										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
@@ -597,7 +619,7 @@
 									</div>
 								</div>
 							</p-block>
-							<p-block headline="Spolupráce vícero SNK" v-if="Number(current.SLOZENI) === 80 && current.$data.snk && current.$data.snk.length > 1">
+							<p-block headline="Spolupráce vícero SNK" v-if="Number(current.SLOZENI) === 80 && current.$data.snk && current.$data.snk.length > 1" class="mw50 ma">
 								<div class="columns _c">
 									<div v-for="snk in current.$data.snk">
 										<p-area borderColor="var(--greyish)">
@@ -633,16 +655,18 @@
 									<!-- </p-area> -->
 								</template>
 								<template class="" v-if="current.$data.support && current.$data.support.find(sup => typeof sup.value != 'number' || !data.cis.strany.find(x => x.VSTRANA === sup.value))">
-									<div class="smallest strong _sif">Spolky a osobností</div>
-									<div class="columns smaller">
-										<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value != 'number' || !data.cis.strany.find(x => x.VSTRANA === sup.value))">
-											<component :is="sup.source ? 'p-link' : 'span'" :href="sup.source">{{ sup.value }}</component>
-										</div>
-									</div>
+									<div class="smallest strong text-center mt1 mb2">Spolky a osobností</div>
+									<p-area>
+										<p-columns class="smaller _tight">
+											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value != 'number' || !data.cis.strany.find(x => x.VSTRANA === sup.value))">
+												<component :is="sup.source ? 'p-link' : 'span'" :href="sup.source">{{ sup.value }}</component>
+											</div>
+										</p-columns>
+									</p-area>
 								</template>
 							</p-block>
-							<p-block headline="Videa" v-if="current.$data.video">
-								<p-grid>
+							<p-block headline="Videa" v-if="current.$data.video" class="mw40 ma">
+								<p-list class="invisible">
 									<div v-for="(video, index) in (current.$data.video || [])">
 										<p-area :icon="type(video.value)">
 											<div class="smaller">
@@ -665,14 +689,14 @@
 											<div class="smallest dimm">vloženo {{ date(video.updated) }} jako {{ isURL(video.value) ? 'odkaz' : 'video'}}</div>
 										</p-area>
 									</div>
-								</p-grid>
-								<div class="smallest mv1" v-if="(current.$data.video || []).length > 0">
+								</p-list>
+								<div class="smallest mt1 mw40 ma text-center" v-if="(current.$data.video || []).length > 0">
 									<p-label color="var(--red)" class="strong red">Cookies:</p-label> videa jsou vkládána ze zdrojů třetích stran, jako je Youtube nebo Facebook. Při načtení mohou využívat soubory cookies.
 								</div>
 							</p-block>
-							<p-block headline="Zprávy a média" v-if="newsmedia.length > 0">
+							<p-block headline="Zprávy a média" v-if="newsmedia.length > 0" class="mw60 ma">
 								<p-columns>
-									<div v-for="item in newsmedia.filter((x, i) => i < mediaLimit)">
+									<div v-for="item in newsmedia.filter((x, i) => i < mediaLimit)" class="mw20 ma">
 										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue11)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :class="{'highlight shadow': item.label != 'Zpráva'}">
 											<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
 											<div class="p-gap_075"></div>
@@ -723,10 +747,10 @@
 							<template v-if="$volby.id === 166 && table === 'csu_ps_rkl'">
 								<party-polls :VSTRANA="current.VSTRANA" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :isCoalition="false" from="2024-09-01" :election="$volby.id"></party-polls>
 							</template>
-							<p-block headline="Volební materiály" v-if="(current.$data.graphics || (current.PRIJMENI && current.$data.logo))">
-								<p-grid>
+							<p-block headline="Volební materiály" v-if="(current.$data.graphics || (current.PRIJMENI && current.$data.logo))" class="mw60 ma">
+								<p-columns>
 									<div v-for="item in current.PRIJMENI && current.$data.logo ? current.$data.logo : []">
-										<p-area>
+										<p-area class="text-center">
 											<img class="_ar _ofc" :src="item.value" loading="lazy">
 											<div class="p-gap"></div>
 											<strong class="smaller">Volební logo</strong>
@@ -761,7 +785,7 @@
 											</div>
 										</p-area>
 									</div>
-								</p-grid>
+								</p-columns>
 							</p-block>
 							<p-block headline="Galerie fotek" v-if="current.$data.gallery">
 								<p-grid class="mb1">
@@ -812,18 +836,20 @@
 									</div>
 								</p-list>
 							</p-block>
-							<p-block headline="Poznámky" v-if="current.$data.note">
-								<p-list height="1">
+							<p-block headline="Poznámky" v-if="current.$data.note" class="mw40 ma">
+								<p-list>
 									<div v-for="(item, index) in (current.$data.note || [])">
-										<p-label :color="colorByItem(current, data)" class="block">
-											<div class="serif">											
-												{{ item.value }}
-												<div class="mt025" v-if="item.label" v-html="item.label"></div>											
-											</div>
-											<div class="p-gap_05"></div>
-											<!-- <div class="smallest dimm">Vloženo {{ date(item.updated)}}</div> -->
-											<div class="smallest dimm">Vloženo {{ date(item.updated)}}<template v-if="item.source">, zdroj <p-link :href="item.source" class="dimm">{{ domain(item.source) }}</p-link></template></div>
-										</p-label>
+										<p-area class="highlight">
+											<p-label :color="colorByItem(current, data)" class="block">
+												<div class="serif">											
+													{{ item.value }}
+													<div class="mt025" v-if="item.label" v-html="item.label"></div>											
+												</div>
+												<div class="p-gap_05"></div>
+												<!-- <div class="smallest dimm">Vloženo {{ date(item.updated)}}</div> -->
+												<div class="smallest dimm">Vloženo {{ date(item.updated)}}<template v-if="item.source">, zdroj <p-link :href="item.source" class="dimm">{{ domain(item.source) }}</p-link></template></div>
+											</p-label>
+										</p-area>
 									</div>
 								</p-list>
 								<div v-if="true && $volby.editace === 1" class="smallest _edit">
@@ -957,38 +983,10 @@
 
 							<candidate-stats v-if="$volby.status > 1 && current.$kandidati && current.$kandidati.length > 1" :data="current.$kandidati" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="$volby.status"></candidate-stats>
 							
-
-							<p-block headline="Volby" v-if="false">
-								<p-area :icon="$volby.$about.hash">
-									<strong>{{ $volby.$about.name }}</strong>
-									<div class="smaller">{{ $volby.datum ? ($volby.datum_label || date($volby.datum, 3)) : $volby.cirka }}</div>
-									<div class="smaller dimm" v-if="$volby.radne === 0">{{ $volby.popis }}</div>
-									<div class="smaller dimm" v-if="label">{{ label }}</div>
-									<div class="p-gap"></div>
-									<div>
-										<p-label :color="[null, 'var(--blue)', 'var(--green)', 'var(--red)'][$volby.status]" class="smaller strong">
-											<span v-if="$volby.status === 1">Předběžné informace</span>
-											<span v-if="$volby.status === 2">Registrace dokončena, oficiální seznamy</span>
-											<span v-if="$volby.status === 3">Volby ukončeny</span>
-										</p-label>
-									</div>
-									<div>
-										<p-label :color="[null, 'var(--green)', 'var(--blue)', 'var(--red)'][$volby.status]" class="smaller strong">
-											<span v-if="$volby.editace === 1"> <p-link href="https://admin.programydovoleb.cz">Admin otevřen</p-link>, údaje lze doplňovat</span>
-											<span v-if="$volby.editace === 2">Údaje jsou zaarchivovány</span>
-											<span v-if="$volby.editace === 3">Admin ještě nebyl spuštěn</span>
-										</p-label>
-									</div>
-									<div class="p-line"></div>
-									<div class="smaller strong">
-										<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id">Přejít na detail voleb</router-link>
-									</div>
-								</p-area>
-							</p-block>
-							<p-block headline="Více o straně či hnutí" v-if="current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition && current.VSTRANA != 90">
+							<p-block headline="Více o straně či hnutí" v-if="current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition && current.VSTRANA != 90" class="mw30 ma">
 								<party-quicklook :VSTRANA="current.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 							</p-block>
-							<p-block headline="Zmíněné strany a hnutí" v-if="current.PRIJMENI && !current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA)" anchor="Detaily">
+							<p-block headline="Zmíněné strany a hnutí" v-if="current.PRIJMENI && !current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA)" anchor="Detaily" class="mw50 ma">
 								<div class="columns _c">
 									<party-quicklook v-if="current.NSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition" :VSTRANA="current.NSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 									<template v-if="current.NSTRANA && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition">
@@ -1039,9 +1037,11 @@
 							<p-block-expandable headline="Historický vývoj" v-if="$volby.status > 1 && $volby.typ === 'KV'">
 								<history-candidates :num="current.KODZASTUP" :basic="1" :prefill="[(current.JMENO ? 'candidate' : 'party'), current.id, $volby.id]" :limit="[(current.JMENO ? 'candidate' : 'party'), current.id, $volby.id]"></history-candidates>
 							</p-block-expandable>
-							<component :is="table === 'csu_kv_rk' && current ? 'p-block-expandable' : 'p-block'" headline="Celková volební historie" v-if="current.$profil && current.$profil.length">
-								<profile-preview :id="current.$profil[0].profil"></profile-preview>
-							</component>	
+							<p-block headline="Celková volební historie" v-if="current.$profil && current.$profil.length" class="mw40 ma">
+								<p-area class="highlight">
+									<profile-preview :id="current.$profil[0].profil"></profile-preview>
+								</p-area>
+							</p-block>	
 
 							<p-block headline="Jak správně volit?" :level="1" v-if="$volby && $volby.status < 3 && $volby.typ === 'KV'">
 
@@ -1083,7 +1083,7 @@
 								</p-area>
 							</p-block>
 
-							<p-block headline="Zdroje a podklady" :level="1">
+							<p-block headline="Zdroje a podklady" :level="1" class="mw40 ma">
 								<p-loader :rule="news">
 									<div v-if="news">
 										<p-collapsible label="Historie úprav">
@@ -1094,12 +1094,15 @@
 										<p-collapsible label="Přehled autorů" v-if="data.cis.zdroje">
 											<p-list class="_025 smaller">
 												<div v-for="user in data.cis.zdroje">
-													{{ user.id === 1 ? 'Programy do voleb' : user.display }}:
-													<p-list-linear class="inline">
-														<span v-for="entry in unique(data.news.log.filter(x => x.user === user.id), 'type')">
-															<span>{{ types[entry] }}</span>
-														</span>
-													</p-list-linear>
+													<p-area class="highlight">
+														<h4 class="mb025">{{ user.id === 1 ? 'Programy do voleb' : user.display }}:</h4>
+														
+														<p-list-linear class="inline">
+															<span v-for="entry in unique(data.news.log.filter(x => x.user === user.id), 'type')">
+																<span>{{ types[entry] }}</span>
+															</span>
+														</p-list-linear>
+													</p-area>
 												</div>
 												<div v-if="$volby && $volby.status > 1">
 													Opendata z ČSÚ: základní registry {{ $volby.status === 3 ? 'a výsledky' : ''}}
@@ -1107,10 +1110,10 @@
 											</p-list>
 										</p-collapsible>
 										<p-collapsible label="Souhrn odkazů">
-											<div class="_tmw">
+											<p-area>
 												<table class="smaller _tmw">
 													<tr v-for="entry in fetchAllSourcesOnPage().filter(x => !x.source.includes('admin.programydovoleb.cz'))">
-														<td class="text-right">
+														<td class="text-right tiny dimm">
 															{{ date(entry.updated, 4) }}
 														</td>
 														<td>
@@ -1118,16 +1121,10 @@
 														</td>
 													</tr>
 												</table>
-											</div>
+											</p-area>
 										</p-collapsible>
 									</div>
 								</p-loader>
-							</p-block>
-
-							<p-block headline="Sdílet tuto stránku">
-								<p-area padding="2em 1em 1em 1em" background="var(--blue11)">
-									<p-share :compact="1" :pointer="table + ':' + tableID" :title="headline"></p-share>	
-								</p-area>
 							</p-block>
 
 							<p-block :hide="true" headline="Zadavatel a zpracovatel" v-if="$volby && $volby.datum > '2025-10-10'">
@@ -1144,14 +1141,19 @@
 									</template>
 								</p-area>
 							</p-block>
-							<p-block headline="Upravit nebo doplnit" :hide="true" v-if="false">
-
-								<div class="_split" v-if="$volby.status < 3" name="editace">
-									<div>
+							<p-block headline="Upravit nebo doplnit" :hide="true" v-if="$volby.status < 3" class="mw50 ma">
+								<div class="text-center">
+									<p-icon icon="edit" size="4em"></p-icon>
+									<h2 class="quando">Upravit nebo doplnit</h2>
+								</div>
+								
+								<p class="lead">Pomozte doplnit další údaje, stačí odkaz. Přidejte se k lidem, kteří pomáhají doplňovat informace na <em>Programy</em>. Pokud narazíte na článek, web nebo status na sociální síti, stačí ho poslat. <strong>Jste to vy?</strong> Podívejte se na Admin níže.</p>
+								<div name="editace">
+									<!-- <div class="mw50 ma"> -->
 										<!-- <p-block headline="Doplnění" :hide="true"> -->
-											<p-area icon2="edit" class="highlight shadow" borderColor="var(--green)">
-												<strong class="green">Pomozte doplnit další údaje</strong>
-												<p class="smaller">Přidejte se k lidem, kteří pomáhají doplňovat informace na <em>Programy</em>. Stačí odkaz.</p>
+											<p-area class="primary" borderColor="var(--green)">
+												<!-- <strong class="green">Pomozte doplnit další údaje</strong> -->
+												<!-- <p class="smaller"></p> -->
 												<p-list class="smaller _05">
 													<div>
 														<p-list-linear class="or">
@@ -1217,9 +1219,21 @@
 													</div>
 
 												</p-list>
-												<div class="p-line _05"></div>
-												<div class="mv1">
-													<p-box-group>
+											</p-area>
+											<div class="mt1">
+													<p-box-group class="jcc">
+														<p-popup>
+															<template #init>
+																<p-box>
+																	<p-box-button class="green">Poslat odkaz</p-box-button>
+																</p-box>
+															</template>
+															<template #content><editable-suggest placeholder="Sem vložte odkaz" type="generic" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template>
+														</p-popup>
+														<p-box href="mailto:doplnit@programydovoleb.cz">
+															<p-box-label class="dimm w400">doplnit@programydovoleb.cz</p-box-label>
+														</p-box>
+														<p-box-gap></p-box-gap>
 														<p-popup>
 															<template #init>
 																<p-box>
@@ -1230,32 +1244,25 @@
 																<report-form noLink="1"></report-form>
 															</template>
 														</p-popup>
-														<p-popup>
-															<template #init>
-																<p-box>
-																	<p-box-button class="green">Poslat odkaz</p-box-button>
-																</p-box>
-															</template>
-															<template #content><editable-suggest placeholder="Sem vložte odkaz" type="generic" :part="$volby.typ + ':' + $volby.id + ' - pointer ' + table + ':' + tableID"></editable-suggest></template>
-														</p-popup>
-														<p-box-gap></p-box-gap>
-														<p-box href="mailto:doplnit@programydovoleb.cz">
-															<p-box-label class="dimm w400">doplnit@programydovoleb.cz</p-box-label>
-														</p-box>
 													</p-box-group>
-												</div>
-											</p-area>
+											</div>
 										<!-- </p-block> -->
-									</div>
-									<div>
+									<!-- </div> -->
+								</div>
+							</p-block>
+							<p-block headline="Pro strany a kandidáty" :hide="true" v-if="$volby.status < 3" class="mw30 ma">
+
+										<div class="text-center">
+											<p-icon icon="admin" size="4em"></p-icon>
+											<h3 class="quando">Admin pro strany a kandidáty</h3>
+										</div>
 										<!-- <cta-support :hide="true"></cta-support> -->
-											<p-area borderColor="var(--blue)" icon2="admin" class="highlight shadow">
-												<div class="mb05"><strong class="blue">Pro strany<br>a kandidáty</strong></div>
+											<p-area class="primary" :borderColor="colorByItem(current, data)">
 												<!-- <p-collapsible label="Správa údajů na této stránce" logo="admin" status="Admin"> -->
 													<p class="smaller">Týká se tato stránka vás a máte zájem spravovat své informace přímo online? Požádejte o přístup do <strong>Adminu</strong>.</p>
 													<div class="p-list">
 														<div class="smaller">
-															<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link" class="btn">Klikněte zde</p-link>
+															<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + tableID + '?source=https://programydovoleb.cz' + $link" class="btn">Chci získat přístup</p-link>
 														</div>
 														<div class="strong smaller">
 															<router-link to="/pro-kandidaty">Více informací</router-link>
@@ -1288,8 +1295,6 @@
 												</p-collapsible>
 	
 											</p-area>
-									</div>
-								</div>
 							</p-block>
 						</div>
 					</div>

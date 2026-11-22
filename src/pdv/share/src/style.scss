@@ -19,6 +19,7 @@
 .compact {
   display: flex !important;
   flex-wrap: wrap;
+  justify-content: center;
 
   > * {
     padding-left: .15em;

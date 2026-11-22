@@ -13,6 +13,7 @@ import CtaSupport from '@/components/cta/support/do.vue';
 import SenatniVolbyResults from '@/views/history/volby/senatni-volby/do.vue';
 // import CtaSupport from '@/components/cta/support/do.vue';
 import MapLeaflet from '@/components/map-leaflet/do.vue'
+import PersonPreviewBlock from '@/components/person-preview-block/do.vue'
 
 export default {
 	name: 'layout-volby-detail-senatni-obvod',
@@ -34,7 +35,8 @@ export default {
 	},
   components: {
 	NewsItem, NewsBlock, MapLeaflet,
-	SenatniVolby, ReportForm, CtaGetAdmin, SenatniVolbyResults, CtaSupport
+	SenatniVolby, ReportForm, CtaGetAdmin, SenatniVolbyResults, CtaSupport,
+	PersonPreviewBlock
   },
 	computed: {
 		$store: function () {

@@ -292,8 +292,8 @@
 				</template>
 			</p-area>
 		</p-block-expandable>
-		<p-block headline="Nejmladší a nejstarší kandidáti" class="mt2" :level="3" :hide="true" v-if="agesLength.candidates > 1">
-			<div class="p-line mt-2 mb1" v-if="simple"></div>
+		<component :is="tag || 'p-block'" headline="Nejmladší a nejstarší kandidáti" :level="3" :hide="true" v-if="agesLength.candidates > 1">
+			<div class="p-line" v-if="simple"></div>
 			<div class="columns">
 				<div v-for="(value, key) in ages">
 					<!-- <p-area> -->
@@ -311,9 +311,9 @@
 					<!-- </p-area> -->
 				</div>
 			</div>
-		</p-block>
-		<p-block class="mt2" :level="3" headline="Kandidáti" :hide="true" v-else>
-			<div class="p-line mt-2 mb1" v-if="simple"></div>
+		</component>
+		<component :is="tag || 'p-block'" :level="3" headline="Kandidáti" :hide="true" v-else>
+			<div class="p-line" v-if="simple"></div>
 			<div v-for="age in ages.youngest">
 				<strong>{{ age }} let: </strong>
 				<p-list-linear class="inline">
@@ -322,15 +322,14 @@
 					</span>
 				</p-list-linear>
 			</div>
-		</p-block>
+		</component>
 		<template v-if="status === 3">
-			<p-block headline="Nejmladší a nejstarší úspěšní kandidáti" class="mt2" :level="3" :hide="true" v-if="agesLength.mandates > 0">
-				<div class="p-line mt-2 mb1" v-if="simple"></div>
-				<h3 class="green">Získali mandát</h3>
+			<component :is="tag || 'p-block'" headline="Nejmladší a nejstarší úspěšní kandidáti" :level="3" :hide="true" v-if="agesLength.mandates > 1">
+				<div class="p-line" v-if="simple"></div>
 				<div class="columns">
 					<div v-for="(value, key) in agesResults">
 						<!-- <p-area> -->
-							<strong>{{ key === 'oldest' ? 'Nejstarší' : 'Nejmladší' }} kandidáti</strong>
+							<strong>{{ key === 'oldest' ? 'Nejstarší' : 'Nejmladší' }} zvolení</strong>
 							<p-list class="_05 pt05 smaller">
 								<div v-for="age in agesResults[key]">
 									<strong>{{ age }} let: </strong>
@@ -344,11 +343,11 @@
 						<!-- </p-area> -->
 					</div>
 				</div>
-			</p-block>
-			<p-block class="mt2" :level="3" headline="Kandidáti" :hide="true" v-else>
-				<div class="p-line mt-2 mb1" v-if="simple"></div>
-				<h3>Mandát získal{{ mandates.length > 1 ? 'i' : '' }}:</h3>
-				<div v-for="age in agesResults.youngest">
+			</component>
+			<component :is="tag || 'p-block'" :level="3" headline="Kandidáti" :hide="true" v-else>
+				<div class="p-line" v-if="simple"></div>
+				<strong>Mandát získal{{ mandates.length > 1 ? 'i' : '' }}</strong>
+				<div v-for="age in agesResults.youngest" class="mt05 smaller">
 					<strong>{{ age }} let: </strong>
 					<p-list-linear class="inline">
 						<span v-for="cand in sortBy(data.filter(x => x.PLATNOST === 'A' && x.VEK == age && (x.MANDAT === 'A' || x.ZVOLEN_K2 === 1 || x.ZVOLEN_K1 === 1)), 'PRIJMENI', null, true)" class="keep">
@@ -356,7 +355,7 @@
 						</span>
 					</p-list-linear>
 				</div>
-			</p-block>
+			</component>
 		</template>
 	</component>
 	<div class="p-gap_3" v-if="!tag"></div>

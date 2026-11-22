@@ -2,7 +2,9 @@
 	<div class="_link smallest text-center mt-1 mb2">
 		<p-list-linear class="arrow">
 			<span>
-				{{ $volby.$about.name }}
+				<router-link :to="'/volby/' + $volby.$about.hash" class="is-span">
+					{{ $volby.$about.name }}
+				</router-link>
 			</span>
 			<span>
 				<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id" class="is-span">
@@ -44,10 +46,10 @@
 				{{ enums.regions[current.VOLKRAJ - 1] }}
 			</span>
 			<span v-if="current.PORCISLO && current.PORCISLO > 0">
-				číslo {{ current.PORCISLO }}
+				č. {{ current.PORCISLO }}
 			</span>
 			<span v-if="current.CKAND && current.CKAND > 0">
-				číslo {{ current.CKAND }}
+				volební číslo {{ current.CKAND }}
 			</span>
 			<span>
 				<router-link :to="$link" class="is-span keep">{{ truncate(current.NAZEV ? ($volby.$about.hash === 'komunalni-volby' ? current.NAZEV : current.ZKRATKA) : current.JMENO + ' ' + current.PRIJMENI, 32, true) }}</router-link>

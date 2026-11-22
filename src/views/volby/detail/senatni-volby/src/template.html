@@ -1,40 +1,33 @@
 <div class="election-item">
-
-	<p-area>
-		<strong>Přehled obvodů</strong>
-		<div class="p-gap _05"></div>
-		<div class="columns-4 smaller strong">
-			<template v-for="(obvod, index) in data.list[0].$dotcene">
-				<div class="">
-					<router-link :to="'/volby/senatni-volby/' + data.list[0].id + '/obvod/' + obvod.OBVOD">{{ obvod.OBVOD }} &middot; {{ obvod.NAZEV }}</router-link>
-						<!-- <region-item :data="region(obvod.OBVOD)" :obvod="obvod.OBVOD" :id="data.list[0].id"></region-item> -->
-				</div>
-			</template>
-		</div>
-	</p-area>
-	<!-- <template v-if="data.list[0].id === 163">
-		<div class="p-gap"></div>
-			<p-box-group>
-				<p-box to="/pruvodce/krajske-a-senatni-volby-2024">
-					<p-box-button icon="icon-party.svg">Průvodce volbami</p-box-button>
-				</p-box>
-				<p-box href="https://www.volebnikalkulacka.cz/volby/senatni-2024/vyber">
-					<p-box-button icon="link.svg">Kalkulačka</p-box-button>
-				</p-box>
-				<p-box to="/lide">
-					<p-box-button icon="detail.svg">Hledat kandidáta</p-box-button>
-				</p-box>
-			</p-box-group>			
-	</template> -->
-	<div class="p-gap _2"></div>
-	<p-block headline="Aktivita stran" :hide="true">
+	<p-block headline="Přehled obvodů" :hide="true">
+		<p-area class="highlight shadow" padding="2em" v-if="data.list[0].$dotcene.length > 3"> 
+			<p-columns class="_tight smaller strong">
+				<template v-for="(obvod, index) in data.list[0].$dotcene">
+					<div class="">
+						<router-link :to="'/volby/senatni-volby/' + data.list[0].id + '/obvod/' + obvod.OBVOD">{{ obvod.OBVOD }} &middot; {{ obvod.NAZEV }}</router-link>
+							<!-- <region-item :data="region(obvod.OBVOD)" :obvod="obvod.OBVOD" :id="data.list[0].id"></region-item> -->
+					</div>
+				</template>
+			</p-columns>
+		</p-area>
+		<p-area class="highlight shadow mw30 ma" padding="1em 2em" v-else>
+			<p-list>
+				<template v-for="(obvod, index) in data.list[0].$dotcene">
+					<div class="strong">
+						<router-link :to="'/volby/senatni-volby/' + data.list[0].id + '/obvod/' + obvod.OBVOD">{{ obvod.OBVOD }} &middot; {{ obvod.NAZEV }}</router-link>
+					</div>
+				</template>
+			</p-list>
+		</p-area>
+	</p-block>
+	<p-block headline="Aktivita stran">
 		<p-loader :rule="parties">
 			<div v-if="parties">
 				<!-- <p-area background="var(--blue11)"> -->
-					<strong>Aktivita stran</strong>
-					<p class="smaller">Někde samostatně, jinde v koalici, někde jen podporují jinou kandidátku a jinde naopak vůbec. Podívejte se na aktivitu stran ve volbách.</p>
+					<!-- <strong>Aktivita stran</strong> -->
+					<p class="lead">Někde samostatně, jinde v koalici, někde jen podporují jinou kandidátku a jinde naopak vůbec. Podívejte se na aktivitu stran ve volbách.</p>
 					<!-- <div class="p-gap _05"></div> -->
-					<p-box-group>
+					<p-box-group class="jcc mw30 ma">
 						<template v-for="party in sortBy(parties.list, 'ZKRATKA', null, true)">
 							<p-box :to="'/volby/senatni-volby/' + data.list[0].id + '/aktivita/' + party.VSTRANA">
 								<p-box-image :src="logoByItem(party, {cis: {strany: parties.list}})" class="_r"></p-box-image>
@@ -58,50 +51,27 @@
 			</div>
 		</p-loader>
 	</p-block>
-	<!-- <p-block headline="Podpořit" :hide="true">
-		<p-grid class="_2">
-			<div>
-				<cta-support></cta-support>
+	<p-block headline="Obvody přehledně">
+		<div class="text-center mb2">
+			<p-area class="inline smaller highlight shadow" v-if="data.list[0].status < 3">
+				<p-icon icon="program"></p-icon>  Zveřejněný program
+				<span class="dimm">     </span>
+				<p-icon icon="answers-mini"></p-icon>  Zaslané odpovědi
+				<span class="dimm">     </span>
+				<p-icon icon="priority"></p-icon>  Vyplněné priority
+				<span class="dimm">     </span>
+				<p-icon icon="link"></p-icon>  Odkaz na web
+			</p-area>
+		</div>
+		<p-columns>
+			<div v-for="(obvod, index) in data.list[0].$dotcene" class="mw30 ma">
+				<region-item :data="region(obvod.OBVOD)" :obvod="obvod.OBVOD" :id="data.list[0].id"></region-item>
 			</div>
-			<div>
-				<cta-get-admin :election="data.list[0]" v-if="data" :area="true" />
-			</div>
-		</p-grid>
-	</p-block> -->
-	<!-- <p class="smaller">
-		<strong><p-label color="var(--blue)"><p-link href="https://docs.google.com/forms/d/e/1FAIpQLSfeR-LNLlpmOOfSFabK7II9vrO40t2trWlzx2d_K4Q-rmpBdQ/viewform?usp=sf_link">Navrhněte otázku</p-link></p-label> pro kandidáty do senátních voleb.</strong>
-	</p> -->
-	<!-- <p class="smaller">
-		<strong><p-label color="var(--red)">Nominujte <em>Programy do voleb</em></p-label> na <p-link href="https://kristalova.lupa.cz/nominace/" class="red">Křišťálovou lupu 2024</p-link>.</strong>
-	</p>
-	<div class="p-gap"></div> -->
-	<h2 class="serif">Obvody přehledně</h2>
-	<div v-if="data.list[0].status == 1" class="mv1">
-		<p-area borderColor="var(--red)" class="strong smallest red inline">Předběžné informace</p-area>
-	</div>
-	<p-area class="inline smaller highlight shadow" v-if="data.list[0].status < 3">
-		<p-icon icon="program"></p-icon>  Zveřejněný program
-		<span class="dimm">     </span>
-		<p-icon icon="answers-mini"></p-icon>  Zaslané odpovědi
-		<span class="dimm">     </span>
-		<p-icon icon="priority"></p-icon>  Vyplněné priority
-		<span class="dimm">     </span>
-		<p-icon icon="link"></p-icon>  Odkaz na web
-	</p-area>
-	<div class="p-gap _2" v-if="data.list[0].status < 3">
-		<div class="p-gap _2"></div>
-	</div>
-	<div class="columns">
-		<template v-for="(obvod, index) in data.list[0].$dotcene">
-			<div class="_pb">
-					<region-item :data="region(obvod.OBVOD)" :obvod="obvod.OBVOD" :id="data.list[0].id"></region-item>
-			</div>
-		</template>
-	</div>
-	<div class="p-gap_4"></div>
+		</p-columns>
+	</p-block>
 	<!-- <div class="p-gap_4"></div> -->
 	<template v-if="data.list[0].$otazky && data.list[0].$otazky.length > 0">
-		<p-block headline="Otázky a odpovědi" :hide="true" class="mb3">
+		<p-block headline="Otázky a odpovědi" :hide="true" class="mw40 ma">
 			<p-area class="primary" borderColor="var(--yellow)" icon="answers-mini">
 				<!-- <h2 class="serif mv0">Otázky a odpovědi</h2> -->
 				<template v-for="(qitem, qindex) in qenum">
@@ -163,8 +133,10 @@
 			</p-area>
 		</p-block>
 	</template>
-	<candidate-stats v-if="current.status > 1" :data="data.list[0].$kandidati" :cis="data.cis" :status="data.list[0].status" :simple="true" color="var(--blue)"></candidate-stats>
-	<p-block-expandable headline="Aktivita stran">
+	<p-block headline="Statistiky" v-if="current.status > 1" class="mw60 ma">
+		<candidate-stats tag="div" :data="data.list[0].$kandidati" :cis="data.cis" :status="data.list[0].status" :simple="true" color="var(--blue)"></candidate-stats>
+	</p-block>
+	<p-block-expandable headline="Aktivita stran" class="mw60 ma mt4">
 		<p-area>
 			<table class="smaller">
 				<thead>
