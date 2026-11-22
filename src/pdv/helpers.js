@@ -372,7 +372,7 @@ export function untag (html) {
       return div.textContent || div.innerText || "";
 }
 
-export function isWoman (person) {
+export function isWoman (person, ending, endingMan) {
   var woman = false;
 
   if (person.PRIJMENI[person.PRIJMENI.length - 1] === 'á') woman = true;
@@ -380,6 +380,11 @@ export function isWoman (person) {
   if (person.JMENO[person.JMENO.length - 1] === 'e') woman = true;
   if (person.$data && person.$data.mfo && person.$data.mfo[0].value === 1) woman = false;
   if (person.$data && person.$data.mfo && person.$data.mfo[0].value === 2) woman = true;
+
+  if (ending) {
+    if (woman) return ending;
+    if (!woman) return endingMan || '';
+  }
 
   return woman;
 }

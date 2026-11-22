@@ -7,178 +7,8 @@
 						<div v-if="data.list[0]">
 							<pointer-header :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table"></pointer-header>
 							
-							<!-- <pointer-summary-ps :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" v-if="$volby.id === 166"></pointer-summary-ps> -->
-							<div class="p-gap _3 _floar-clear"></div>
-							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="current.PRIJMENI && current.volby > 0 && ($volby.status === 1 || current.CKAND > 0 || current.PORCISLO > 0)">
-								<p-area v-if="current.PLATNOST && current.PLATNOST === 'N'">
-									<p class="red strong">Kandidát se voleb neúčastnil.</p>
-									<p>Důvodem mohlo být odstoupení z voleb po podání kandidátní listiny nebo dodatečné vyškrtnutí kandidujícím subjektem.</p>
-								</p-area>
-								<p-area class="smaller highlight shadow" :borderColor="colorByItem(current, data, current.NSTRANA ? 'NSTRANA' : 'VSTRANA')" v-else>
-									<p-split class="-up960">
-										<div>
-											<p-list height=".5" class="-np _05">
-												<div>
-													<div class="smallest strong">Základní údaje</div>
-												</div>
-												<template v-if="current.JMENO">
-													<p-stats label="Celé jméno" class="_horizontal">
-														<div>
-															<template v-if="current.TITULPRED">{{ current.TITULPRED + ' ' }} </template>{{ current.JMENO }} {{ current.PRIJMENI }}<template v-if="current.TITULZA">{{ ', ' + current.TITULZA }}</template>
-														</div>
-													</p-stats>
-													<p-stats label="Povolání" class="_horizontal" v-if="current.POVOLANI">
-														<div>
-															<!-- <p-list-linear class="or"> -->
-																<!-- <li v-if="current.POVOLANI"> -->
-																	{{ current.POVOLANI }}
-																<!-- </li> -->
-															<!-- </p-list-linear>															 -->
-														</div>
-													</p-stats>
-													<p-stats label="Povolání" class="_horizontal" v-if="current.MANDAT && !current.POVOLANI">
-														&#9617;&#9617;&#9617;&#9617;&#9617;
-													</p-stats>
-													<p-stats label="Bydliště" class="_horizontal" v-if="current.BYDLISTEN">
-														{{ current.BYDLISTEN }}
-														<span v-if="current.BYDLISTEK" class="dimm">
-															&middot; <p-link :href="'https://programydovoleb.cz/obec/' + (current.BYDLISTEK > 100 ? current.BYDLISTEK : data.cis.obce.find(x => x.QUICKNUM === current.BYDLISTEK).NUM)" class="smallest dimm">historie voleb</p-link>
-														</span>
-													</p-stats>
-													<p-stats label="Bydliště" class="_horizontal" v-if="current.MANDAT && !current.BYDLISTEN">
-														&#9617;&#9617;&#9617;&#9617;&#9617;
-													</p-stats>
-													<p-stats label="Bio" class="_horizontal" v-if="current.MANDAT || current.VEK || (current.$data.mfo && current.$data.mfo.length > 0)">
-														<p-list-linear class="or">
-															<li v-if="current.VEK">{{ current.VEK }} let</li>
-															<li v-if="current.MANDAT && !current.VEK">&#9617;&#9617; let</li>
-															<li v-if="current.$data.mfo && current.$data.mfo[0]">{{ ['neuvedeno', 'muž', 'žena', 'jinak', 'nechci uvést'][current.$data.mfo[0].value] }}</li>
-															<li v-else>{{ isWoman(current) ? 'žena' : 'muž' }}
-																<p-popup>
-																	<template #init>
-																		<p-icon icon="hint"></p-icon>
-																	</template>
-																	<template #content>
-																		<div class="smaller">Informace o pohlaví ČSÚ nezveřejňuje, takže je odhadováno na základě podoby jména. Kandidáti mohou informaci ručně nastavit.</div>																		
-																	</template>
-																</p-popup>	
-															</li>
-														</p-list-linear>
-													</p-stats>
-												</template>
-											</p-list>
-										</div>
-										<div>
-											<p-list height=".5" class="-np _05">
-												<div>
-													<div class="smallest strong">Formality</div>
-												</div>
-												<template v-if="current.JMENO">
-													<p-stats label="Kandidátka" class="_horizontal" v-if="current.$strana && $strana">
-														<div>
-															<p-label :color="colorByItem($strana, data)">
-																<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/strana/' + $strana.id">
-																	{{ $strana.NAZEV }}
-																</router-link>
-															</p-label>
-															<template v-if="current.$strana && $strana.$zastupitelstvo && $strana.$zastupitelstvo[0].OBVODY > 0">
-																&middot; obvod {{ current.COBVODU || 1 }}
-															</template>
-														</div>
-													</p-stats>
-													<p-stats label="Volební strana" class="_horizontal" v-if="current.VSTRANA && current.NAZEV_VS">
-														<div>
-															<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA), data)">
-																<p-link :href="'https://programydovoleb.cz/rejstrik/' + current.VSTRANA">
-																	{{ current.NAZEV_VS }}
-																</p-link>
-															</p-label>
-														</div>
-													</p-stats>
-													<p-stats label="Kandiduje za" class="_horizontal" v-if="current.VSTRANA && !current.NAZEV_VS">
-														<div>
-															<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA), data)">
-																<p-link :href="'https://programydovoleb.cz/rejstrik/' + current.VSTRANA">
-																	{{ data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).NAZEV }}
-																</p-link>
-															</p-label>
-														</div>
-													</p-stats>
-													<p-stats label="Nominace" class="_horizontal" v-if="current.NSTRANA && volbyType != 'prezidentske-volby'">
-														<div>
-															<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA), data)">
-																<p-link :href="'https://programydovoleb.cz/rejstrik/' + current.NSTRANA">
-																	{{ data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).NAZEV }}
-																</p-link>
-															</p-label>
-														</div>
-													</p-stats>
-													<p-stats label="Členství" class="_horizontal" v-if="current.PSTRANA">
-														<div>
-															<p-label :color="colorByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data)">
-																<p-link :href="'https://programydovoleb.cz/rejstrik/' + current.PSTRANA">
-																	{{ data.cis.strany.find(x => x.VSTRANA === current.PSTRANA).NAZEV }}
-																</p-link>
-															</p-label>
-														</div>
-													</p-stats>
-													<p-stats label="Volební kraj" class="_horizontal" v-if="current.VOLKRAJ">
-														<router-link :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/strana/' + $strana.id + '/kandidati/' + current.VOLKRAJ">
-															{{ current.VOLKRAJ === -1 ? 'zatím nebyl uveden' : data.cis.kraje.find(x => x.KRAJ === current.VOLKRAJ).NAZEV }}
-														</router-link>
-													</p-stats>
-													<p-stats label="Pořadí" class="_horizontal" v-if="current.PORCISLO && current.PORCISLO > 0">
-														č. {{ current.PORCISLO }} na kandidátce
-													</p-stats>
-													<p-stats label="Volební číslo" class="_horizontal" v-if="current.CKAND && current.CKAND > 0">
-														č. {{ current.CKAND }}
-													</p-stats>
-												</template>
-											</p-list>
-										</div>
-									</p-split>
-									<div class="p-line"></div>
-									<div class="tiny dimm" v-if="$volby.status > 1">
-										Základní údaje poskytuje Český statistický úřad ve formě otevřených dat &middot;
-										<p-link href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu" class="dimm">licence</p-link>
-									</div>
-									<div v-else class="smallest">
-										<p-modal class="inline">
-											<template #init><button class="inline red strong">Uvedené údaje jsou  předběžné</button></template>
-											<template #content>
-												<div class="reset">
-													<p>Ještě nedošlo k registraci k volbám. Informace se mohou měnit. Strany a kandidáti jsou povinni podat registraci příslušnému úřadu v termínu 66 dní před začátkem voleb. O registraci je rozhodnuto během 3 týdnů. Jakmile příslušné údaje získá Český statistický úřad, jsou dostupné i zde.</p>
-													<p><em>Programy do voleb</em> do registrace uvádí předběžné informace, které vychází z médií, tiskových zpráv, sociálních sítí či ohlášení od stran nebo samotných kandidátů. Snahou je již před samotnou registrací přinést přehled o možných kandidátech a stranách. Některé strany v průběhu předvolebního jednání mohou uzavřít koalici, někteří kandidáti odstoupit nebo se nakonec na finální kandidátní listinu nedostanou.</p>
-												</div>
-											</template>
-										</p-modal>
-
-										a mohou se v průběhu času výrazně měnit nebo z kandidatury sejde. Berte je jako orientační.
-									</div>
-								</p-area>
-							</p-block>
-							<p-block headline="Základní údaje" :subheadline="$volby.status > 1 ? 'podle Českého statistického úřadu' : null" :hide="true" v-if="$volby.status === 3 && current.NAZEV && (typeof current.SLOZENI === 'string' || (typeof current.SLOZENI === 'undefined' && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition))">
-								<p-area class="smaller">
-									<!-- <p-list height=".5"> -->
-											<!-- <p-stats label="Koalice"> -->
-												<p-list height="0" class="invisible">
-													<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition">
-														<p-label :color="colorByItem(member, data)">
-															<router-link :to="'/rejstrik/' + member.VSTRANA">{{ member.NAZEV }}</router-link>
-														</p-label> 
-														<template v-if="$volby.status > 1">
-															&middot;
-															<p-lang :value="current.$kandidati.filter(x => x.NSTRANA === member.VSTRANA).length" :end="['žádný nominovaný', 'jeden nominovaný', '%% nominovaní', '%% nominovaných']"></p-lang>
-														</template>
-														<template v-if="$volby.status === 3">
-															&rarr;
-															<p-lang :value="current.$kandidati.filter(x => x.NSTRANA === member.VSTRANA && x.MANDAT === 'A').length" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>
-														</template>
-													</div>
-												</p-list>
-											<!-- </p-stats>										 -->
-									<!-- </p-list> -->
-								</p-area>
+							<p-block headline="Základní údaje" class="mt4">
+								<pointer-card :current="current" :data="data" :volby="$volby" :strana="$strana" class="mw70 ma"></pointer-card>
 							</p-block>
 
 							<template v-if="[149,166].indexOf($volby.id) > -1 && $strana && current.PLATNOST">
@@ -793,7 +623,7 @@
 								<template v-if="current.$data.support && current.$data.support.find(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
 									<!-- <p-area> -->
 										<p-grid class="smaller">
-											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value) && (!data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA === sup.value)))">
+											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value) && (data.cis.strany.find(x => x.VSTRANA === current.VSTRANA) && (!data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA === sup.value))))">
 												<party-quicklook :VSTRANA="sup.value" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 												<div v-if="sup.source" class="dimm tiny">
 													<p-link :href="sup.source" class="dimm">zdroj</p-link>
@@ -1158,7 +988,7 @@
 							<p-block headline="Více o straně či hnutí" v-if="current.VSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition && current.VSTRANA != 90">
 								<party-quicklook :VSTRANA="current.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 							</p-block>
-							<p-block headline="Zmíněné strany a hnutí" v-if="current.PRIJMENI && !current.VSTRANA" anchor="Detaily">
+							<p-block headline="Zmíněné strany a hnutí" v-if="current.PRIJMENI && !current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA)" anchor="Detaily">
 								<div class="columns _c">
 									<party-quicklook v-if="current.NSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition" :VSTRANA="current.NSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 									<template v-if="current.NSTRANA && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition">

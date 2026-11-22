@@ -1,5 +1,5 @@
 <div class="pointer-header">
-	<div class="_link smallest text-center mt-2 mb2">
+	<div class="_link smallest text-center mt-1 mb2">
 		<p-list-linear class="arrow">
 			<span>
 				{{ $volby.$about.name }}
@@ -13,9 +13,6 @@
 						{{ $volby.datum_label || ($volby.datum ? date($volby.datum) : $volby.cirka) }}
 					</template>
 				</router-link> 
-			</span>
-			<span v-if="current.VOLKRAJ > 0">
-				{{ enums.regions[current.VOLKRAJ - 1] }}
 			</span>
 			<!-- <span> -->
 				<span v-if="$volby.typ === 'KV' && current.$zastupitelstvo && current.$zastupitelstvo.length > 0">
@@ -43,6 +40,9 @@
 					{{ $strana.NAZEV }}
 				</router-link>
 			</span>
+			<span v-if="current.VOLKRAJ > 0">
+				{{ enums.regions[current.VOLKRAJ - 1] }}
+			</span>
 			<span v-if="current.PORCISLO && current.PORCISLO > 0">
 				číslo {{ current.PORCISLO }}
 			</span>
@@ -50,11 +50,11 @@
 				číslo {{ current.CKAND }}
 			</span>
 			<span>
-				<router-link :to="$link" class="is-span">{{ current.NAZEV ? ($volby.$about.hash === 'komunalni-volby' ? current.NAZEV : current.ZKRATKA) : current.JMENO + ' ' + current.PRIJMENI }}</router-link>
+				<router-link :to="$link" class="is-span keep">{{ truncate(current.NAZEV ? ($volby.$about.hash === 'komunalni-volby' ? current.NAZEV : current.ZKRATKA) : current.JMENO + ' ' + current.PRIJMENI, 32, true) }}</router-link>
 			</span>
 		</p-list-linear>
 	</div>
-	<div class="_pre w20 ma mb1" v-if="data.cis.volby[0].status === 1">
+	<div class="_pre w20 ma mb2" v-if="elections.status === 1">
 		<p-area class="smallest highlight red strong text-center" background="var(--red11)">
 			<p-icon icon="warning"></p-icon> 
 			předběžné informace
@@ -65,153 +65,138 @@
 				<component :is="subheadline ? 'router-link' : 'span'" :to="'/volby/' + $volby.$about.hash + '/' + current.volby + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.id">{{ headline }}</component>
 				<div class="small mt025" v-if="subheadline">{{ subheadline }}</div>
 			</p-headline>
+			<template v-if="elections.status === 3">
+				<p-box-group class="jcc">
+					<template v-if="current.MANDAT">
+						<p-box class="strong" :style="{color: current.MANDAT === 'A' ? 'var(--green)' : 'var(--red)'}">
+							<!-- <p-box-icon :type="current.MANDAT === 'A' ? 'icon-check' : 'icon-against'"></p-box-icon> -->
+							<p-box-badge :class="current.MANDAT === 'A' ? 'green' : 'red'" :icon="current.MANDAT === 'A' ? 'icon-check' : null">
+								<template v-if="current.MANDAT === 'A'">
+									Mandát
+									<template v-if="current.MANDAT && current.MANDAT === 'A' && current.PORADIMAND">
+										&middot;
+										{{ current.PORADIMAND }}
+									</template>
+								</template>
+								<template v-if="current.MANDAT === 'N' && current.PORADINAHR && current.PORADINAHR > 0">{{ current.PORADINAHR }}. náhradník</template>	
+								<template v-if="current.MANDAT === 'N' && (!current.PORADINAHR || current.PORADINAHR === 0)">Mandát nezískán</template>	
+							</p-box-badge>
+						</p-box>
+					</template>
+					<template v-if="typeof current.MAND_STR != 'undefined'">
+						<p-box :to="$link + '/kandidati'">
+							<p-box-badge :class="current.MAND_STR > 0 ? 'green' : 'red'" :icon="current.MAND_STR > 0 ? 'person' : 'icon-against'">
+								<p-lang :value="current.MAND_STR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
+							</p-box-badge>
+						</p-box>
+						<p-box>
+							<p-box-badge>
+								{{ number(current.PROCHLSTR) }} %
+							</p-box-badge>
+						</p-box>
+						<p-box>
+							<p-box-badge>
+								{{ number(current.HLASY_STR) }} hlasů
+							</p-box-badge>
+						</p-box>
+					</template>
+					<template v-if="typeof current.POCMANDCR !== 'undefined' && current.$vysledky && current.$vysledky.length > 0">
+						<p-box :to="$link + '/kandidati'">
+							<p-box-badge :class="current.POCMANDCR > 0 ? 'green' : 'red'" :icon="current.POCMANDCR > 0 ? 'person' : 'icon-against'">
+								<p-lang :value="current.POCMANDCR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
+							</p-box-badge>
+						</p-box>
+						<p-box>
+							<p-box-badge>
+								{{ number(current.$vysledky[0].PROCENT) }} %
+							</p-box-badge>
+						</p-box>
+						<p-box>
+							<p-box-badge>
+								{{ number(current.$vysledky[0].HLASU) }} hlasů
+							</p-box-badge>
+						</p-box>
+					</template>
+					<template v-if="current.KRZAST && current.$vysledky && current.$vysledky.length > 0">
+						<p-box>
+							<p-box-badge :class="current.$vysledky[0].MANDATU > 0 ? 'green' : 'red'" :icon="current.$vysledky[0].MANDATU > 0 ? 'person' : 'icon-against'">
+								<p-lang :value="current.$vysledky[0].MANDATU" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
+							</p-box-badge>
+						</p-box>
+						<p-box>
+							<p-box-badge>
+								{{ number(current.$vysledky[0].PROCENT) }} %
+							</p-box-badge>
+						</p-box>
+						<p-box>
+							<p-box-badge>
+								{{ number(current.$vysledky[0].HLASU) }} hlasů
+							</p-box-badge>
+						</p-box>
+					</template>
+					<template v-if="typeof current.ZVOLEN_K1 != 'undefined' && current.ZVOLEN_K1 != null">
+						<p-box class="strong" :style="{color: current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'var(--green)' : 'var(--red)'}">
+							<!-- <p-box-icon v-if="current.ZVOLEN_K1 !== 2" :type="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'icon-check' : 'icon-against'"></p-box-icon> -->
+							<p-box-badge :class="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'green' : 'red'" :icon="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'icon-check' : 'icon-against'">
+								<template v-if="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1">Zvolen{{ isWoman(current, 'a') }}</template>
+								<template v-if="current.ZVOLEN_K1 === 2 && (!current.ZVOLEN_K2 || current.ZVOLEN_K2 === 0)">2. kolo</template>	
+								<template v-if="current.ZVOLEN_K1 === 0">Nezvolen{{ isWoman(current, 'a') }}</template>	
+							</p-box-badge>
+						</p-box>
+						<p-box v-if="current.$vysledky.length > 1">
+							<p-box-badge>
+								2. kolo: {{ number(current.$vysledky[1].PROCENT) }} %
+							</p-box-badge>
+						</p-box>
+						<p-box>
+							<p-box-badge>
+								1. kolo: {{ number(current.$vysledky[0].PROCENT) }} %
+							</p-box-badge>
+						</p-box>
+					</template>
+					<template v-if="(current.PRESKOCENI && current.PRESKOCENI === 'A' && (current.PORADIMAND || current.PORCISLO) < current.PORCISLO) || (current.PORADIMAND || current.PORCISLO) < current.PORCISLO">
+						<p-box>
+							<p-box-badge class="green">
+								skokan
+							</p-box-badge>
+						</p-box>
+					</template>
+					<template v-if="current.POCHLASU">
+						<p-box>
+							<p-box-badge>
+								{{ number(current.POCHLASU) }} hlasů
+							</p-box-badge>
+						</p-box>
+					</template>
+				</p-box-group>
+				<div class="p-line mw40 ma"></div>
+			</template>
 
 			<p-box-group class="jcc">
-				<template v-if="current.$program.length > 0">
-					<p-box :to="'/volby/' + $volby.$about.hash + '/' + current.$program[0].volby + '/' + (current.JMENO ? 'kandidat' : 'strana') + '/' + current.$program[0].csu_id + '/volebni-program/' + current.$program[0].id + '#plne-zneni'">
-						<p-box-button class="primary">Program</p-box-button>
-					</p-box>
-				</template>
-				<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length === 1">
-					<p-box :href="current.$data.program[0].source">
-						<p-box-button class="primary">Program <p-icon :icon="current.$data.program[0].source.includes('.pdf') ? 'pdf' : 'link'"></p-icon></p-box-button>
-					</p-box>
-				</template>
-				<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length > 1">
-					<p-box :to="$link + '#hlavni-odkazy'">
-						<p-box-button class="primary"><p-lang :value="current.$data.program.length" :end="['', '', '%% programy', '%% programů']"></p-lang></p-box-button>
-					</p-box>
-				</template>
-				<template v-if="current.MANDAT">
-					<p-box class="strong" :style="{color: current.MANDAT === 'A' ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon :type="current.MANDAT === 'A' ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<template v-if="current.MANDAT === 'A'">Mandát získán</template>
-							<template v-if="current.MANDAT === 'N' && current.PORADINAHR && current.PORADINAHR > 0">Náhradník č. {{ current.PORADINAHR }}</template>	
-							<template v-if="current.MANDAT === 'N' && (!current.PORADINAHR || current.PORADINAHR === 0)">Mandát nezískán</template>	
-						</p-box-label>
-					</p-box>
-				</template>
-				<template v-if="current.MAND_STR">
-					<p-box class="strong" :style="{color: current.MAND_STR > 0 ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon :type="current.MAND_STR > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<p-lang :value="current.MAND_STR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
-						</p-box-label>
-					</p-box>
-				</template>
-				<template v-if="current.POCMANDCR">
-					<p-box class="strong" :style="{color: current.POCMANDCR > 0 ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon :type="current.POCMANDCR > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<p-lang :value="current.POCMANDCR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
-						</p-box-label>
-					</p-box>
-				</template>
-				<template v-if="current.KRZAST && current.$vysledky && current.$vysledky.length > 0">
-					<p-box class="strong" :style="{color: current.$vysledky[0].MANDATU > 0 ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon :type="current.$vysledky[0].MANDATU > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<p-lang :value="current.$vysledky[0].MANDATU" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
-						</p-box-label>
-					</p-box>
-				</template>
-				<template v-if="typeof current.ZVOLEN_K1 != 'undefined' && current.ZVOLEN_K1 != null">
-					<p-box class="strong" :style="{color: current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon v-if="current.ZVOLEN_K1 !== 2" :type="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<template v-if="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1">Mandát získán</template>
-							<template v-if="current.ZVOLEN_K1 === 2 && (!current.ZVOLEN_K2 || current.ZVOLEN_K2 === 0)">2. kolo</template>	
-							<template v-if="current.ZVOLEN_K1 === 0">Mandát nezískán</template>	
-						</p-box-label>
-					</p-box>
-				</template>
-			</p-box-group>
-
-			<div class="ma mw40 text-center" v-if="$route.path.split('/').length < 7 && ['PS', 'KV', 'SENAT'].indexOf($volby.typ) > -1">
-				<component :is="'pointer-summary-' + $volby.typ.toLowerCase()" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table"></component>
-			</div>
-	</div>
-	<div class="_image">
-			<template v-if="data && current.NAZEV">
-				<p-logo v-if="data && logoByItem(current, data, null, true)" :data="{logo: logoByItem(current, data)}" :size="'12rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
-				<div class="logos" v-if="data && $coalition">
-					<template v-for="(coal, index) in $coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
-						<p-logo :data="logoByItem(coal, data)" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
-					</template>
-					<template v-if="current.$data.snk && current.$data.snk.filter(x => x.label).length > 0">
-						<template v-for="snk in current.$data.snk.filter(x => x.label)">
-							<p-logo :data="snk.label" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + snk.value"></p-logo>
-						</template>
-					</template>
-					<template v-for="(coal, index) in $coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA === 80)">
-						<p-logo :data="logoByItem(coal, data, null, null, null, null, true)" :size="logoByItem(current, data) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
-					</template>
-					<template v-for="(coal, index) in $coalition.filter(x => x.VSTRANA != 80 && x.VSTRANA === 90)">
-						<p-logo :data="logoByItem(coal, data, null, null, null, null, true)" :size="logoByItem(current, data) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
-					</template>
-				</div>
-			</template>
-			<template v-if="data && current.JMENO">
-				<template v-if="con(current.$data, 'photo')">
-					<p-photo :data="con(current.$data, 'photo', null, null, true)" width="12em" :rounded="true" :border="true"></p-photo>
-				</template>
-				<template v-if="!con(current.$data, 'photo')">
-					<p-logo v-if="logoByItem(current, data, 'NSTRANA', true)" :data="{logo: logoByItem(current, data, 'NSTRANA')}" :size="'12rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
-					<div class="logos" v-if="!logoByItem(current, data, 'NSTRANA', true) && $coalition">
-						<template v-for="(coal, index) in $coalition">
-							<p-logo :data="logoByItem(coal, data)" :size="logoByItem(current, data, null, true) ? '4rem' : '7rem'" :alt="'Logo ' + coal.NAZEV"></p-logo>
-						</template>
-					</div>
-				</template>
-			</template>
-	</div>
-	<div class="_float" v-if="current.volby > 0 && ($volby.status === 1 || current.CKAND > 0 || current.PORCISLO > 0 || current.NAZEV)">
-		<div v-if="current.NAZEV && logoByItem(current, data, null, true)" class="hide-60rem _float-right">
-			<p-logo :data="{logo: logoByItem(current, data)}" :size="'8rem'" :alt="'Logo ' + current.NAZEV"></p-logo>
-		</div>
-		<div v-if="con(current.$data, 'photo')" class="hide-60rem _float-right">
-			<p-photo :data="con(current.$data, 'photo', null, null, true)" width="4rem" :rounded="true" :border="true"></p-photo>
-		</div>
-		<div>
-			<div class="p-gap"></div>
-			<p-box-group class="_empty">
-				<template v-if="current">
-					<template v-if="current.JMENO && elections.status > 1 && current.PLATNOST != 'A'">
+				<template v-if="$route.path.split('/').length > 6">
+					<template v-if="current.JMENO && con(current.$data, 'photo')">
 						<p-box>
-							<p-box-label class="red" background="var(--red11)">NEKANDIDUJE</p-box-label>
+							<p-box-image :src="con(current.$data, 'photo')"></p-box-image>
 						</p-box>
 					</template>
-					<template v-if="current.NAZEV && current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL < 500 && ((current.status === 1 && !current.PLATNOST) || (elections.status > 1 && current.PLATNOST === 'A'))">
+					<template v-if="current.NAZEV && con(current.$data, 'logo')">
 						<p-box>
-							<p-box-ticker background="var(--grey11)"><span class="smallest">#</span>{{ current.POR_STR_HL }}</p-box-ticker>
+							<p-box-image :src="con(current.$data, 'logo')"></p-box-image>
 						</p-box>
 					</template>
-					<template v-if="current.PRIJMENI && current.$data.logo">
+					<template v-else-if="current.NAZEV && data.cis.strany.find(x => x.VSTRANA === current.VSTRANA) && con(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$data, 'logo')">
 						<p-box>
-							<p-box-image :src="current.$data.logo[0].value" class="_bw"></p-box-image>
+							<p-box-image :src="logoByItem(current, data, 'NSTRANA', null, true)"></p-box-image>
 						</p-box>
 					</template>
-					<template v-if="party && party.VSTRANA != current.PSTRANA && party.VSTRANA != current.NSTRANA && con(party.$data, 'logo')">
-						<p-box :to="'/volby/' + $volby.$about.hash + '/' + $volby.id + '/strana/' + $strana.id">
-							<p-box-image :src="con(party.$data, 'logo')"></p-box-image>
-						</p-box>
-					</template>
-					<template v-for="party in involvedParties.filter(x => !logoByItem(x, data).includes('empty') && x.VSTRANA != 80)">
-						<p-box :to="'/rejstrik/' + party.VSTRANA">
-							<p-box-image :src="logoByItem(party, data)" class="_bw"></p-box-image>
-						</p-box>
-					</template>
-					<template v-if="current.$data.snk && current.$data.snk.filter(x => x.label).length > 0">
-						<template v-for="snk in current.$data.snk.filter(x => x.label)">
-							<p-box :href="snk.source">
-								<p-box-image :src="snk.label" :alt="'Logo nezávislého sdružení kandidátů ' + snk.value"></p-box-image>
-							</p-box>
-						</template>
-					</template>
-					<template v-for="party in involvedParties.filter(x => x.VSTRANA === 80)">
+					<template v-if="party">
 						<p-box>
-							<p-box-image :src="logoByItem(party, data, null, null, null, null, true)" class="_bw"></p-box-image>
+							<p-box-image :src="logoByItem(party, data)"></p-box-image>
+						</p-box>
+					</template>
+					<template v-if="current.NSTRANA && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA)">
+						<p-box>
+							<p-box-image :src="logoByItem(current, data, 'NSTRANA')"></p-box-image>
 						</p-box>
 					</template>
 				</template>
@@ -222,7 +207,7 @@
 				</template>
 				<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length === 1">
 					<p-box :href="current.$data.program[0].source">
-						<p-box-button class="primary">Program <p-icon :icon="current.$data.program[0].source.includes('.pdf') ? 'pdf' : 'link'"></p-icon></p-box-button>
+						<p-box-button class="primary" :icon="current.$data.program[0].source.includes('.pdf') ? 'pdf' : 'link'">Program</p-box-button>
 					</p-box>
 				</template>
 				<template v-if="current.$program.length === 0 && current.$data.program && current.$data.program.length > 1">
@@ -230,20 +215,6 @@
 						<p-box-button class="primary"><p-lang :value="current.$data.program.length" :end="['', '', '%% programy', '%% programů']"></p-lang></p-box-button>
 					</p-box>
 				</template>
-				<!-- <template v-if="$volby.status < 3 && ['csu_kz_rk', 'csu_kv_rk', 'csu_ps_rk', 'csu_ep_rk'].indexOf(table) === -1 && !(current.$data.program || current.$program.length > 0)">
-					<p-modal>
-						<template #init>
-							<p-box>
-								<p-box-button color="var(--green)">{{ current.$program.length > 0 || (current.$data.program && current.$data.program.length > 0) ? '+' : 'Přidat program'}}</p-box-button>
-							</p-box>
-						</template>
-						<template #content>
-							<strong>Přidat volební program</strong>
-							<p>Stačí jen poslat odkaz, kde program je. Může to být web, status na sociální síti nebo odkaz na PDF nebo jiný dokument.</p>
-							<report-form></report-form>
-						</template>
-					</p-modal>
-				</template> -->
 				<template v-if="current.$data.web && current.$data.web.length > 0">
 					<p-box :href="current.$data.web[0].value">
 						<p-box-button class="primary">Web</p-box-button>
@@ -251,163 +222,41 @@
 				</template>
 				<template v-if="current.$otazky && current.$otazky.filter(x => x.type === 1).length > 0">
 					<p-box :to="'/volby/' + $volby.$about.hash + '/' + current.$odpovedi[0].volby + '/' + (current.$odpovedi[0].csu_table.split('_')[2] === 'rk' ? 'kandidat' : 'strana') + '/' + current.$odpovedi[0].csu_id + '/otazky-a-odpovedi'">
-						<p-box-button icon="answers-mini.svg">{{ current.$odpovedi.filter(x => x.$otazka[0].type != 2).length }}</p-box-button>
+						<p-box-button icon="answers-mini"></p-box-button>
 					</p-box>
 				</template>
-				<template v-if="typeof current.MANDAT !== 'undefined' && (current.PLATNOST === 'A' || elections.status === 1)">
-					<p-box>
-						<p-box-label v-if="!current.PORCISLO">Umístění neuvedeno</p-box-label>
-						<p-box-label background="var(--grey11)" v-if="current.PORCISLO">
-							č. {{ current.PORCISLO }}
-							<span v-if="current.VOLKRAJ > 0">
-								&middot;
-								{{ enums.regionsShort[current.VOLKRAJ - 1] }}
-							</span>
-						</p-box-label>
+				<template v-if="current.$priority && current.$priority.length > 0">
+					<p-box :to="'/volby/' + $volby.$about.hash + '/' + current.$priority[0].volby + '/' + (current.$priority[0].csu_table.split('_')[2] === 'rk' ? 'kandidat' : 'strana') + '/' + current.$priority[0].csu_id + '/priority'">
+						<p-box-button icon="priority"></p-box-button>
 					</p-box>
 				</template>
-				<template v-if="current.VOLKRAJ">
-					<p-box>
-					</p-box>
-				</template>
-				<template v-if="typeof current.MANDAT === 'undefined'">
-					<template v-if="current.POR_STR_HL && current.POR_STR_HL > 0 && current.POR_STR_HL > 499">
+				<p-popup class="down" v-if="elections.status < 3">
+					<template #init>
 						<p-box>
-							<p-box-label>Zatím bez volebního čísla</p-box-label>
+							<p-box-button icon="plus-green" class="green">Přidat</p-box-button>
 						</p-box>
 					</template>
-					<template v-if="null === current.ESTRANA || current.ESTRANA < 0">
-						<p-box background="var(--grey11)">
-							<p-box-label v-if="!current.ESTRANA">Neúčastní se přímo</p-box-label>
-							<p-box-label v-if="current.ESTRANA < 0">Zatím bez volebního čísla</p-box-label>
-						</p-box>
+					<template #content>
+						<div class="smaller p05 pb1">
+							<strong>Chcete přidat nějakou informaci, odkaz nebo program?</strong> Stačí poslat odkaz:
+						</div>
+						<report-form link="1"></report-form>
 					</template>
-					<template v-if="typeof current.KSTRANA !== 'undefined'">
-						<p-box background="var(--grey11)">
-							<p-box-label v-if="!current.KSTRANA">Neúčastní se přímo</p-box-label>
-							<!-- <p-box-label v-if="current.KSTRANA < 0">Zatím bez volebního čísla</p-box-label> -->
-							<p-box-label v-if="current.KSTRANA > 0">{{ current.KSTRANA }}</p-box-label>
-						</p-box>
-					</template>
-					<template v-if="null === current.POR_STR_HL || current.POR_STR_HL < 0">
-						<p-box background="var(--grey11)">
-							<p-box-label v-if="!current.POR_STR_HL">Neúčastní se přímo</p-box-label>
-							<p-box-label v-if="current.POR_STR_HL < 0">Zatím bez volebního čísla</p-box-label>
-						</p-box>
-					</template>
-					<template v-if="current.CKAND && current.CKAND > 0">
-						<p-box>
-							<p-box-label>č. {{ current.CKAND }}</p-box-label>
-						</p-box>
-					</template>
-					<template v-for="cand in current.$kandidati && current.$kandidati.filter(x => x.PORCISLO === 1)">
-						<p-box :to="'/bod/' + table.split('_').splice(0,2).join('_') + '_rk/' + cand.id">
-							<p-box-image v-if="con(cand.$data, 'photo')" :src="con(cand.$data, 'photo')" class="_bw"></p-box-image>
-							<p-box-label>1. {{ cand.JMENO }} {{ cand.PRIJMENI }}</p-box-label>
-						</p-box>	
-					</template>
-				</template>
-				<template v-if="current.MANDAT">
-					<p-box class="strong" :style="{color: current.MANDAT === 'A' ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon :type="current.MANDAT === 'A' ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<template v-if="current.MANDAT === 'A'">Mandát získán</template>
-							<template v-if="current.MANDAT === 'N' && current.PORADINAHR && current.PORADINAHR > 0">Náhradník č. {{ current.PORADINAHR }}</template>	
-							<template v-if="current.MANDAT === 'N' && (!current.PORADINAHR || current.PORADINAHR === 0)">Mandát nezískán</template>	
-						</p-box-label>
-					</p-box>
-				</template>
-				<template v-if="current.MAND_STR">
-					<p-box class="strong" :style="{color: current.MAND_STR > 0 ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon :type="current.MAND_STR > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<p-lang :value="current.MAND_STR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
-						</p-box-label>
-					</p-box>
-				</template>
-				<template v-if="current.POCMANDCR">
-					<p-box class="strong" :style="{color: current.POCMANDCR > 0 ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon :type="current.POCMANDCR > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<p-lang :value="current.POCMANDCR" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
-						</p-box-label>
-					</p-box>
-				</template>
-				<template v-if="current.KRZAST && current.$vysledky && current.$vysledky.length > 0">
-					<p-box class="strong" :style="{color: current.$vysledky[0].MANDATU > 0 ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon :type="current.$vysledky[0].MANDATU > 0 ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<p-lang :value="current.$vysledky[0].MANDATU" :end="['žádný mandát', 'jeden mandát', '%% mandáty', '%% mandátů']"></p-lang>	
-						</p-box-label>
-					</p-box>
-				</template>
-				<template v-if="typeof current.ZVOLEN_K1 != 'undefined' && current.ZVOLEN_K1 != null">
-					<p-box class="strong" :style="{color: current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'var(--green)' : 'var(--red)'}">
-						<p-box-icon v-if="current.ZVOLEN_K1 !== 2" :type="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1 ? 'icon-check' : 'icon-against'"></p-box-icon>
-						<p-box-label>
-							<template v-if="current.ZVOLEN_K1 === 1 || current.ZVOLEN_K2 === 1">Mandát získán</template>
-							<template v-if="current.ZVOLEN_K1 === 2 && (!current.ZVOLEN_K2 || current.ZVOLEN_K2 === 0)">2. kolo</template>	
-							<template v-if="current.ZVOLEN_K1 === 0">Mandát nezískán</template>	
-						</p-box-label>
-					</p-box>
-				</template>
-				<template v-if="current.$data.social && current.$data.social.length > 0">
-						<p-box-gap></p-box-gap>
-						<template v-for="(item, index) in links">
-							<p-box :href="item.value" class="clean">
-								<p-box-icon :type="type(item.value)"></p-box-icon>
-							</p-box>
-						</template>
-				</template>
+				</p-popup>
 			</p-box-group>
-			<!-- <template v-if="$volby.editace === 1">
-				<div class="p-line _05"></div>
-				<div class="smallest dimm">
-					<div class="p-offset reverse">
-						<div>
-							<p-list-linear class="or">
-								<li>
-									<p-icon icon="admin"></p-icon>
-								</li>
-								<li>
-									<router-link :to="$link + '#upravit-nebo-doplnit'" class="green strong">chci něco doplnit</router-link>
-								</li>
-								<li>
-									<p-link :href="'https://admin.programydovoleb.cz/zadost/' + table + ':' + current.id + '?source=https://programydovoleb.cz' + $route.path">chci spravovat celý profil</p-link>
-								</li>
-								<li>
-									<router-link to="/pro-kandidaty">informace pro kandidáty</router-link>
-								</li>
-							</p-list-linear>
-						</div>
-						<div>
-							<p-popup class="down">
-								<template #init>
-									<button class="inline red">nahlásit chybu</button>
-								</template>
-								<template #content>
-									<report-form noLink="1"></report-form>
-								</template>
-							</p-popup>
-						</div>
-					</div>
-				</div>
-			</template> -->
-			<template v-if="$volby.status === 1">
-				<div class="p-line _05"></div>
-				<div class="smallest">
-					<p-icon icon="warning"></p-icon>
-					&middot;
-					Oficiální registrace ještě neproběhla
-				</div>
-			</template>
-			<template v-if="$volby.editace === 1 && (['SENAT','PREZ'].indexOf($volby.typ) > -1 || current.NAZEV) && (typeof current.$program !== 'undefined' && current.$program.length === 0) && (typeof current.$data.program === 'undefined' || current.$data.program.length === 0)">
-				<br>
-				<engagement-add-program :pointer="table + ':' + current.id" :elections="current.volby" :focus="current.OBVOD || current.KODZASTUP"></engagement-add-program>
-			</template>
+	</div>
+	<div class="_summary" v-if="$route.path.split('/').length < 7 && ['PS', 'KV', 'SENAT'].indexOf($volby.typ) > -1">
+		<div class="ma mw40 text-center">
+			<component :is="'pointer-summary-' + $volby.typ.toLowerCase()" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table"></component>
 		</div>
 	</div>
-	<div v-else>
-		<em>Tento profil byl zrušen.</em>
+	<div class="_social mt1 text-center" v-if="current.$data.social && current.$data.social.length > 0">
+		<p-list-linear class="or dimm">
+			<span v-for="(item, index) in links">
+				<p-link :href="item.value">
+					<p-icon :icon="type(item.value)"></p-icon>
+				</p-link>
+			</span>
+		</p-list-linear>
 	</div>
 </div>

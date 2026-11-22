@@ -27,6 +27,7 @@ import EventItem from '@/components/event-item/do.vue'
 import AnswerTopicPreview from '@/components/answer-topic-preview/do.vue';
 import PartyPolls from '@/components/party-polls/do.vue'
 import PointerHeader from '@/views/pointer/header/do.vue';
+import PointerCard from '@/views/pointer/card/do.vue';
 // import PointerSummary from '@/views/pointer/summary/do.vue';
 import PointerSummaryPs from '@/views/pointer/summary/ps/do.vue';
 import PointerSummaryKv from '@/views/pointer/summary/kv/do.vue';
@@ -92,7 +93,8 @@ export default {
 	HistoryKvRk, HistoryKvRos, HistoryCandidates,
 	EngagementSupport,
 	WidgetEmbed,
-	ProgramBackup
+	ProgramBackup,
+	PointerCard
   },
 	computed: {
 		$store: function () {

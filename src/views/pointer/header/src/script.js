@@ -1,7 +1,7 @@
 import {useData} from '@/stores/data';
 import { useCore, cdn, today } from '@/stores/core';
 import { useEnums } from '@/stores/enums';
-import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, unique, sortBy} from '@/pdv/helpers';
+import {url, date, number, truncate, con, type, domain, sortByPorCislo, slide, sortEvents, unique, sortBy, isWoman} from '@/pdv/helpers';
 import { colorByItem, logoByItem } from '@/pdv/helpers';
 import ReportForm from '@/components/report-form/do.vue';
 import EngagementAddProgram from '@/components/engagement/add-program/do.vue';
@@ -147,6 +147,7 @@ export default {
 		sortEvents,
 		unique,
 		sortBy,
+		isWoman,
 		checkDuplicates: function (list) {
 			var arr = [];
 

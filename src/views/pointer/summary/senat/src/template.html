@@ -1,6 +1,7 @@
 <div class="pointer-summary pt1">
-	<p><strong>Shrnutí: </strong>
-		<p-truncated-content :key="current">
+	<p>
+		<!-- <strong>Shrnutí: </strong> -->
+		<!-- <p-truncated-content :key="current"> -->
 			<template v-if="current.PLATNOST === 'A'">
 				{{ headline }} {{ elections.status < 3 ? 'je ' + rod('kandidátkou', 'kandidátem') : rod('byla kandidátkou', 'byl kandidátem') }} č. {{ current.CKAND }} v obvodě {{ current.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === current.OBVOD).name }} za volební stranu <em>{{ current.NAZEV_VS }}</em>.
 				
@@ -21,6 +22,6 @@
 			<template v-else>
 				Z možné či zvažované kandidatury zřejmě nakonec sešlo a subjekt či kandidát se voleb nezúčastnil. Také je možné, že pro volby byl vytvořen nový profil, zatímco tento pocházel z období před oficiální registrací. Podívejte se do podrobností <router-link :to="link.split('kandidat')[0] + 'obvod/' + current.OBVOD">o obvodu</router-link>	, zda tam není s novým profilem.
 			</template>
-		</p-truncated-content>
+		<!-- </p-truncated-content> -->
 	</p>
 </div>

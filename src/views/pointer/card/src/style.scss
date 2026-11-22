@@ -1,0 +1,113 @@
+._card {
+	@media (min-width: 40em) {
+		display: flex;
+
+		> div:not(:last-child) {
+			margin-right: 3em;
+		}
+	}
+}
+
+		h4 {
+			margin: 2em 0 0.5em 0;
+
+			@media (min-width: 40em) {
+				margin: .5em 0;
+			}
+		}
+
+._photo {
+	width: 20em;
+	margin: auto;
+
+	@media (min-width: 40em) {
+		width: 15em;
+		margin: 0;
+	}
+}
+
+._logos {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	padding-bottom: 1.5em;
+	margin-bottom: 1em;
+	border-bottom: var(--border);
+
+	@media (min-width: 40em) {
+		padding-bottom: 0;
+		margin-bottom: 0;
+		border-bottom: 0 none;
+	}
+
+	&:not(._logosHorizontal) {
+		@media (min-width: 40em) {
+			justify-content: space-between;
+			align-content: flex-start;
+			width: 8em;
+		}
+	}
+
+	& > .p-image:not(:last-child) {
+		margin-right: .5em;
+
+		@media (min-width: 40em) {
+			margin-right: 0;
+		}
+	}
+
+	&._logosHorizontal > .p-image:not(:last-child) {
+		margin-right: .5em;
+	}
+}
+
+._logos > .p-image {
+	width: 3.75em;
+	height: 3.75em;
+
+	@media (min-width: 40em) {
+		margin-bottom: .5em;
+	}
+}
+
+._logos > ._logosMain {
+	width: 3.75em;
+	height: 3.75em;
+	
+	@media (min-width: 40em) {
+		width: 8em;
+		height: 8em;
+	}
+}
+
+._logosPrimeHolder {
+	width: 100%;
+	
+	._logosPrime {
+		margin: auto;
+	}
+	
+	&:not(:last-child) {
+		margin-bottom: .5em;
+	}
+}
+
+._logos ._logosPrime {
+	width: 8em;
+	height: 8em;
+}
+
+._core {
+	flex: 1
+}
+
+._formal {
+	flex: 1
+}
+
+@media (min-width: 40em) {
+	._logos .p-line,
+	._photo .p-line {
+		display: none;
+	}
+}
