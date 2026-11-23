@@ -1,17 +1,17 @@
 <div class="layout-homepage">
-	<p-layout-divided>
-		<template #main>
+	<p-layout-simple>
+		<!-- <template #main> -->
 			<p-block :headline="headline" :level="1" :hide="true">
 				<p-loader :rule="data">
 					<div v-if="data">
 						<div v-if="data.list[0]">
 							<pointer-header :current="current" :party="$strana" :elections="$volby" :data="data" :headline="headline" :table="table" subheadline="Kandidátní listina"></pointer-header>
-							<div class="p-gap _3 _floar-clear"></div>
-							<p-block headline="Kandidáti" v-if="current.$kandidati" :hide="true">
+							<!-- <div class="p-gap _3 _floar-clear"></div> -->
+							<p-block headline="Kandidáti" v-if="current.$kandidati" :hide="true" class="mw60 ma mt3">
 									<div class="p-offset reverse balanced">
 										<div>
 											<p-headline :level="2">
-												Kandidáti
+												{{ current.$kandidati.find(x => x.MANDAT && x.MANDAT === 'A') ? 'Zvolení a náhradníci' : 'Kandidáti' }}
 												<template v-if="current.$kandidati.length > 0 && current.$kandidati[0].VOLKRAJ && !!focus">
 													&middot; {{ Number(focus) === -1 ? 'nezařazeni' : enums.regions[Number(focus) - 1]}}
 												</template>
@@ -37,7 +37,7 @@
 										</div>	
 									</div>			
 
-									<template v-if="(allCandidatesSameNominees && allCandidatesSameNominees.length === 1) || (allCandidatesSameMembers && allCandidatesSameMembers.length === 1)">
+									<div class="text-center mb1" v-if="(allCandidatesSameNominees && allCandidatesSameNominees.length === 1) || (allCandidatesSameMembers && allCandidatesSameMembers.length === 1)">
 										<p-area class="inline smallest">
 											<div v-if="allCandidatesSameNominees && allCandidatesSameNominees.length === 1 && allCandidatesSameNominees[0].VSTRANA != 80">
 												<p-label :color="colorByItem(allCandidatesSameNominees[0], data)">Všichni kandidáti jsou nominovaní <router-link :to="'/rejstrik/' + allCandidatesSameNominees[0].VSTRANA"><em>{{ allCandidatesSameNominees[0].ZKRATKA }}</em></router-link></p-label>
@@ -57,8 +57,7 @@
 											</div>
 											</template>
 										</p-area>
-										<div class="p-gap _15"></div>
-									</template>
+									</div>
 
 								<template v-for="(VOLKRAJ, index) in (current.$kandidati.length > 0 && current.$kandidati[0].VOLKRAJ && !focus ? [1,2,3,4,5,6,7,8,9,10,11,12,13,14,-1] : (current.$kandidati.length > 0 && current.$kandidati[0].VOLKRAJ && !!focus ? [Number(focus)] : [-1]))">
 									<template v-if="VOLKRAJ != 0 && current.$kandidati[0].VOLKRAJ ? current.$kandidati.filter(x => x.VOLKRAJ === VOLKRAJ).length > 0 : true">
@@ -68,9 +67,14 @@
 													<!-- <component :is="OBVOD > 0 ? 'p-collapsible' : 'div'" :label="OBVOD > 0 ? 'Obvod ' + OBVOD : null"> -->
 														<!-- {{ VOLKRAJ }} {{ OBVOD }} -->
 														<div>
-															<p-list class="_15">
-																<template v-for="(cand, index3) in sortByPorCislo(current.$kandidati.filter(x => VOLKRAJ != 0 && current.$kandidati[0].VOLKRAJ ? x.VOLKRAJ === VOLKRAJ : true).filter(x => x.COBVODU ? x.COBVODU === OBVOD : true))">
-																	<person-preview-block :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id" :omitNominee="allCandidatesSameNominees && allCandidatesSameNominees.length === 1" :omitMember="allCandidatesSameMembers && allCandidatesSameMembers.length === 1"></person-preview-block>
+															<p-list class="invisible">
+																<template v-for="(cand, index3) in sortBy(sortBy(sortBy(sortByPorCislo(sortBy(current.$kandidati.filter(x => VOLKRAJ > 0 ? x.VOLKRAJ === VOLKRAJ : true).filter(x => OBVOD > 0 ? x.COBVODU === OBVOD : true), 'PRIJMENI', null, true)), 'PORADIMAND', 99), 'PORADINAHR', 99), 'MANDAT', 'X', true)">
+																	<div>
+																		<p-area :class="{'highlight shadow': cand.MANDAT && cand.MANDAT === 'A'}">
+																			<person-preview-block :cand="cand" :data="data" :current="current" :link="'/volby/' + $volby.$about.hash + '/' + $volby.id" :omitNominee="allCandidatesSameNominees && allCandidatesSameNominees.length === 1" :omitMember="allCandidatesSameMembers && allCandidatesSameMembers.length === 1"></person-preview-block>
+																		</p-area>
+																	</div>
+																	
 																</template>
 															</p-list>
 														</div>
@@ -191,10 +195,14 @@
 									</p-collapsible> -->
 								</p-area>
 							</p-block>
-							<div class="p-gap _2"></div>
-							<candidate-stats v-if="$volby.status > 1 && current.$kandidati && current.$kandidati.length > 1" :data="current.$kandidati.filter(x => x.VOLKRAJ && focus ? x.VOLKRAJ === Number(focus) : true).filter(x => x.COBVODU && focus ? x.COBVODU === Number(focus) : true)" :focus="focus" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="$volby.status"></candidate-stats>
-							<party-preview v-if="current.NAZEV" :link="'/volby/' + volbyType + '/' + volbyID" :party="current" :election="null" :elections="data" :candidates="current.$kandidati"></party-preview>
-							<div class="p-gap _4"></div>
+
+							<p-block headline="Statistiky" class="mw60 ma" v-if="$volby.status > 1 && current.$kandidati && current.$kandidati.length > 1">
+								<candidate-stats tag="div" :data="current.$kandidati.filter(x => x.VOLKRAJ && focus ? x.VOLKRAJ === Number(focus) : true).filter(x => x.COBVODU && focus ? x.COBVODU === Number(focus) : true)" :focus="focus" :slozeni="String(data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).SLOZENI)" :cis="data.cis" :color="colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :status="$volby.status"></candidate-stats>
+							</p-block>
+
+							<p-block headline="Volební strana" v-if="current.NAZEV" class="mw40 ma">
+								<party-preview  :link="'/volby/' + volbyType + '/' + volbyID" :party="current" :election="null" :elections="data" :candidates="current.$kandidati"></party-preview>
+							</p-block>
 						</div>
 					</div>
 				</p-loader>
@@ -227,7 +235,7 @@
 				<div class="p-gap"></div> -->
 			</p-block>
 			
-		</template>
+		<!-- </template> -->
 		<template #anchors>
 			<template v-if="data && current.NAZEV">
 				<p-logo :data="{logo: cdn + 'el/pdv-26.svg'}" :size="'12rem'" v-if="!data"></p-logo>
@@ -298,5 +306,5 @@
 				</div>
 			</p-list>
 		</template>
-	</p-layout-divided>
+	</p-layout-simple>
 </div>

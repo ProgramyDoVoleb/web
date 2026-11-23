@@ -22,14 +22,38 @@ export default {
 		QRCodeVue3
 	},
 	computed: {
+		_pointer: function () {
+			var p = this.pointer;
+
+			if (!p && this.tick) {
+				var r = this.path.split(window.location.hostname)[1].split('/');
+
+				console.log(r);
+
+				if (r[1] === 'volby' && r.length > 5) {
+					if (r[2] === 'komunalni-volby' && r[4] === 'strana') p = 'csu_kv_ros:' + r[4];
+					if (r[2] === 'komunalni-volby' && r[4] === 'kandidat') p = 'csu_kv_rk:' + r[4];
+					if (r[2] === 'krajske-volby' && r[4] === 'strana') p = 'csu_kz_rkl:' + r[4];
+					if (r[2] === 'krajske-volby' && r[4] === 'kandidat') p = 'csu_kz_rk:' + r[4];
+					if (r[2] === 'evropske-volby' && r[4] === 'strana') p = 'csu_ep_rkl:' + r[4];
+					if (r[2] === 'evropske-volby' && r[4] === 'kandidat') p = 'csu_ep_rk:' + r[4];
+					if (r[2] === 'snemovni-volby' && r[4] === 'strana') p = 'csu_ps_rkl:' + r[4];
+					if (r[2] === 'snemovni-volby' && r[4] === 'kandidat') p = 'csu_ps_rk:' + r[4];
+					if (r[2] === 'senatni-volby' && r[4] === 'kandidat') p = 'csu_senat_rk:' + r[4];
+					if (r[2] === 'prezidenstke-volby' && r[4] === 'kandidat') p = 'csu_prez_rk:' + r[4];
+				}
+			}
+
+			return p;
+		},
 		path: function () {
 			return 'https://' + window.location.hostname + (this.link || this.$route.fullPath.split('#')[0]);
 		},
 		shorthand: function () {
 			var s = [];
 
-			if (this.pointer) {
-				var p = this.pointer.split(':');
+			if (this._pointer) {
+				var p = this._pointer.split(':');
 
 				if (p[0] === 'csu_kz_rk') s.push('rk' + p[1]);
 				if (p[0] === 'csu_kz_rkl') s.push('rs' + p[1]);
@@ -80,6 +104,9 @@ export default {
 			this.showQR = false;
 
 			setTimeout(() => this.showQR = true, 50);
+		},
+		$route: function () {
+			this.tick++;
 		}
 	}
 };

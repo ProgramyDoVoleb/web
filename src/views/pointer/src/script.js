@@ -65,7 +65,8 @@ export default {
 			eventsOff: false,
 			mediaLimit: 9,
 			mediaLimitOff: false,
-			types
+			types,
+			showHistoryKV: false
 		}
 	},
   components: {

@@ -93,7 +93,7 @@
 				<!-- </p-block-expandable> -->
 			<!-- </p-area> -->
 		<!-- </template> -->
-		<p-block-expandable headline="Nominace a členství" anchor="- nominace, členství" v-if="!simple && ([...new Set(data.map(item => item.PSTRANA))].length > 1 || [...new Set(data.map(item => item.NSTRANA))].length > 1)">
+		<p-collapsible label="Nominace a členství" anchor="- nominace, členství" v-if="!simple && ([...new Set(data.map(item => item.PSTRANA))].length > 1 || [...new Set(data.map(item => item.NSTRANA))].length > 1)">
 			<p-grid>
 				<div>
 					<h4>Nominující strany</h4>
@@ -214,8 +214,8 @@
 					</p-area>
 				</div>
 			</p-grid>
-		</p-block-expandable>
-		<p-block-expandable headline="Rozložení na kandidátce" anchor="- rozložení" v-if="!simple">
+		</p-collapsible>
+		<p-collapsible label="Rozložení na kandidátce" anchor="- rozložení" v-if="!simple">
 			<p-area>
 				<strong v-if="data[0].VOLKRAJ" class="smaller">Podle volebního kraje</strong>
 				<template v-for="(kraj, index) in (data[0].VOLKRAJ && !focus ? [1,2,3,4,5,6,7,8,9,10,11,12,13,14] : (focus ? [Number(focus)] : [-1]))">
@@ -242,7 +242,7 @@
 											<td><div class="dot" :style="{background: member.MANDAT === 'A' ? 'var(--green)' : 'transparent'}"></div></td>
 											<td :class="{'strong': member.MANDAT === 'A'}" class="_n">
 												{{ member.JMENO + ' ' + member.PRIJMENI }}
-												<span class="dimm smallest keep2"> {{ member.VEK }} let</span>
+												<span class="dimm tiny keep2"> {{ member.VEK }} let</span>
 											</td>
 											<td><div class="dot" :style="{background: colorByItem(cis.strany.find(x => x.VSTRANA === member.NSTRANA), {cis})}"></div></td>
 											<td><div class="dot" :style="{background: member.PSTRANA === 99 ? '' : colorByItem(cis.strany.find(x => x.VSTRANA === member.PSTRANA), {cis})}"></div></td>
@@ -291,9 +291,8 @@
 					</component>
 				</template>
 			</p-area>
-		</p-block-expandable>
-		<component :is="tag || 'p-block'" headline="Nejmladší a nejstarší kandidáti" :level="3" :hide="true" v-if="agesLength.candidates > 1">
-			<div class="p-line" v-if="simple"></div>
+		</p-collapsible>
+		<p-collapsible label="Nejmladší a nejstarší kandidáti" :level="3" :open="true" v-if="agesLength.candidates > 1">
 			<div class="columns">
 				<div v-for="(value, key) in ages">
 					<!-- <p-area> -->
@@ -311,9 +310,8 @@
 					<!-- </p-area> -->
 				</div>
 			</div>
-		</component>
-		<component :is="tag || 'p-block'" :level="3" headline="Kandidáti" :hide="true" v-else>
-			<div class="p-line" v-if="simple"></div>
+		</p-collapsible>
+		<p-collapsible label="Kandidáti" :open="true" v-else>
 			<div v-for="age in ages.youngest">
 				<strong>{{ age }} let: </strong>
 				<p-list-linear class="inline">
@@ -322,9 +320,9 @@
 					</span>
 				</p-list-linear>
 			</div>
-		</component>
-		<template v-if="status === 3">
-			<component :is="tag || 'p-block'" headline="Nejmladší a nejstarší úspěšní kandidáti" :level="3" :hide="true" v-if="agesLength.mandates > 1">
+		</p-collapsible>
+		<template v-if="status === 3 && data.find(x => (x.MANDAT === 'A' || x.ZVOLEN_K2 === 1 || x.ZVOLEN_K1 === 1))">
+			<p-collapsible label="Nejmladší a nejstarší úspěšní kandidáti" :level="3" :open="true" v-if="agesLength.mandates > 1">
 				<div class="p-line" v-if="simple"></div>
 				<div class="columns">
 					<div v-for="(value, key) in agesResults">
@@ -343,9 +341,8 @@
 						<!-- </p-area> -->
 					</div>
 				</div>
-			</component>
-			<component :is="tag || 'p-block'" :level="3" headline="Kandidáti" :hide="true" v-else>
-				<div class="p-line" v-if="simple"></div>
+			</p-collapsible>
+			<p-collapsible :level="3" label="Kandidáti" :open="true" v-else>
 				<strong>Mandát získal{{ mandates.length > 1 ? 'i' : '' }}</strong>
 				<div v-for="age in agesResults.youngest" class="mt05 smaller">
 					<strong>{{ age }} let: </strong>
@@ -355,8 +352,7 @@
 						</span>
 					</p-list-linear>
 				</div>
-			</component>
+			</p-collapsible>
 		</template>
 	</component>
-	<div class="p-gap_3" v-if="!tag"></div>
 </div>
