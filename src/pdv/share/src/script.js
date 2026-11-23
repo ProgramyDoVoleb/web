@@ -31,16 +31,16 @@ export default {
 				console.log(r);
 
 				if (r[1] === 'volby' && r.length > 5) {
-					if (r[2] === 'komunalni-volby' && r[4] === 'strana') p = 'csu_kv_ros:' + r[4];
-					if (r[2] === 'komunalni-volby' && r[4] === 'kandidat') p = 'csu_kv_rk:' + r[4];
-					if (r[2] === 'krajske-volby' && r[4] === 'strana') p = 'csu_kz_rkl:' + r[4];
-					if (r[2] === 'krajske-volby' && r[4] === 'kandidat') p = 'csu_kz_rk:' + r[4];
-					if (r[2] === 'evropske-volby' && r[4] === 'strana') p = 'csu_ep_rkl:' + r[4];
-					if (r[2] === 'evropske-volby' && r[4] === 'kandidat') p = 'csu_ep_rk:' + r[4];
-					if (r[2] === 'snemovni-volby' && r[4] === 'strana') p = 'csu_ps_rkl:' + r[4];
-					if (r[2] === 'snemovni-volby' && r[4] === 'kandidat') p = 'csu_ps_rk:' + r[4];
-					if (r[2] === 'senatni-volby' && r[4] === 'kandidat') p = 'csu_senat_rk:' + r[4];
-					if (r[2] === 'prezidenstke-volby' && r[4] === 'kandidat') p = 'csu_prez_rk:' + r[4];
+					if (r[2] === 'komunalni-volby' && r[4] === 'strana') p = 'csu_kv_ros:' + r[5];
+					if (r[2] === 'komunalni-volby' && r[4] === 'kandidat') p = 'csu_kv_rk:' + r[5];
+					if (r[2] === 'krajske-volby' && r[4] === 'strana') p = 'csu_kz_rkl:' + r[5];
+					if (r[2] === 'krajske-volby' && r[4] === 'kandidat') p = 'csu_kz_rk:' + r[5];
+					if (r[2] === 'evropske-volby' && r[4] === 'strana') p = 'csu_ep_rkl:' + r[5];
+					if (r[2] === 'evropske-volby' && r[4] === 'kandidat') p = 'csu_ep_rk:' + r[5];
+					if (r[2] === 'snemovni-volby' && r[4] === 'strana') p = 'csu_ps_rkl:' + r[5];
+					if (r[2] === 'snemovni-volby' && r[4] === 'kandidat') p = 'csu_ps_rk:' + r[5];
+					if (r[2] === 'senatni-volby' && r[4] === 'kandidat') p = 'csu_senat_rk:' + r[5];
+					if (r[2] === 'prezidenstke-volby' && r[4] === 'kandidat') p = 'csu_prez_rk:' + r[5];
 				}
 			}
 
@@ -67,9 +67,9 @@ export default {
 				if (p[0] === 'csu_kv_ros') s.push('os' + p[1]);
 			}
 
-			if (this.type === 2 && this.title) {
+			if (this.type === 2) {
 				// console.log(this.title);
-				s.push(url(this.title))
+				s.push(url(this.title || document.title.split(' -')[0]))
 			}
 
 			if (this.type === 3 && this.txt && this.txt.length > 0) {
