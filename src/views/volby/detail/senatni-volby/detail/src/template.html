@@ -1,4 +1,4 @@
-<div class="senatni-volby">
+<!-- <div class="senatni-volby"> -->
 	<template v-if="false && current.id === 173 && (new Date()).toISOString() > '2026-10-17T12:00:00.000Z'">
 		<div class="mv2">
 			<p-area class="highlight shadow">
@@ -8,7 +8,7 @@
 	</template>
 	<template v-if="current.status === 3">
 		<p-block headline="2. kolo" v-if="hasSecondRound" class="mw60 ma">
-			<p-area class="relative _r2">
+			<p-area class="relative _r2 highlight shadow">
 				<div class="p-gap_2"></div>
 				<election-duel :list="sortByVotes(current.$kandidati)" :kolo="2"></election-duel>
 				<div class="p-gap"></div>
@@ -49,7 +49,7 @@
 			</p-list>
 		</p-block>
 		<p-block headline="1. kolo" class="mw60 ma">
-			<p-area class="relative">
+			<p-area class="relative" :class="{'highlight shadow': !hasSecondRound}">
 				<election-graph :list="sortByVotes(current.$kandidati)" :kolo="1"></election-graph>
 				<div class="p-gap"></div>
 				<p-collapsible label="Podrobné výsledky">
@@ -69,7 +69,7 @@
 		</p-block>
 	</template>
 	<template v-if="current.editace === 1">
-		<p-block headline="Přidat program" :hide="true" class="mb-2 text-center">
+		<p-block headline="Přidat program" :hide="true" class="_mv-4 text-center">
 			<engagement-add-program :elections="current.id" :focus="obvod"></engagement-add-program>
 		</p-block>
 	</template>
@@ -92,8 +92,8 @@
 			<!-- <p>Zde najdete přehled registrovaných kandidátů.</p> -->
 			<!-- <election-profiles :list="sortByVotes(current.$kandidati)"></election-profiles> -->
 			<p-list class="_05 invisible">
-				<div v-for="(cand, index) in sortBy(current.$kandidati, 'PRIJMENI', null, true)">
-					<p-area class="highlight shadow">
+				<div v-for="(cand, index) in sortBy(sortBy(current.$kandidati, 'CKAND', 99), 'HLASY_K1', 0, null, true)">
+					<p-area :class="{'highlight shadow': current.status === 2 || cand.ZVOLEN_K1 === 1 || cand.ZVOLEN_K2 === 1 || cand.ZVOLEN_K1 === 2}">
 						<person-preview-block  :cand="cand" :data="data" :current="current" :link="'/volby/senatni-volby/' + current.id"></person-preview-block>
 					</p-area>
 				</div>
@@ -201,50 +201,39 @@
 			</p-area>
 	</p-block>
 	
-	<p-block-expandable headline="Aktivita stran" class="mw60 ma">
-		<p-area>
-			<table class="smaller">
-				<thead>
-					<tr>
-						<th>Strana / hnutí</th>
-						<th>Kandidát</th>
-						<th>Forma</th>
-					</tr>
-				</thead>
-				<tbody>
-					<template v-for="item in activity.filter(x => x.party.VSTRANA != 99)">
-						<tr>
-							<td>
-								<p-label :color="colorByItem(item.party, data)" class="strong">
-									<router-link :to="'/volby/senatni-volby/' + data.list[0].id + '/aktivita/' + item.party.VSTRANA">
-										{{ item.party.ZKRATKA }}
-									</router-link>
-								</p-label>
-							</td>
-							<td v-if="item.cand">
-								{{ item.cand.JMENO }} {{ item.cand.PRIJMENI }}
-							</td>
-							<td>
-								<!-- <p-list-linear class="or"> -->
-									<span v-if="data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA) && data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA).$coalition">K</span>
-									<span v-if="item.cand.VSTRANA === item.party.VSTRANA">V</span>
-									<span v-if="item.cand.NSTRANA === item.party.VSTRANA">N</span>
-									<span v-if="item.cand.PSTRANA === item.party.VSTRANA">Č</span>
-									<span v-if="data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA) && !data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA).$coalition && item.cand.VSTRANA !== item.party.VSTRANA && item.cand.NSTRANA !== item.party.VSTRANA && item.cand.PSTRANA !== item.party.VSTRANA">P</span>
-								<!-- </p-list-linear> -->
-							</td>
-						</tr>
-					</template>
-				</tbody>
-			</table>
-		</p-area>
-		<div class="p-gap"></div>
-		<p-list-linear class="smallest or">
-			<div>Č — člen</div>
-			<div>N — formální nominace</div>
-			<div>V — samostatná nominace</div>
-			<div>K — koaliční nominace</div>
-			<div>P — podpora</div>
-		</p-list-linear>
-	</p-block-expandable>
-</div>
+	<p-block headline="Aktivita stran" class="mw70 ma">
+		<p-columns class="invisible">
+			<div v-for="item in activity.filter(x => x.party.VSTRANA != 99)">
+				<p-area :borderColor="colorByItem(item.party, data)" padding=".5em 1em">
+					<div class="p-offset">
+						<div>
+							<p-image :src="logoByItem(item.party, data)" width="2em" :rounded="true" class="_ar"></p-image>
+						</div>
+						<div>
+							<div class="smaller strong">
+								<router-link :to="'/volby/senatni-volby/' + data.list[0].id + '/aktivita/' + item.party.VSTRANA" class="is-span" v-if="item.cand.NSTRANA != 80">
+									{{ item.party.ZKRATKA }}
+								</router-link>
+								<span v-else>nezávislý kandidát</span>
+								&rarr;
+								<router-link :to="'/volby/senatni-volby/' + data.list[0].id + '/kandidat/' + item.cand.id">
+									{{ item.cand.JMENO }} {{ item.cand.PRIJMENI }}
+								</router-link>
+							</div>
+							<div class="smallest" v-if="item.cand">
+								<p-list-linear class="or">
+									<span v-if="item.cand.PSTRANA === item.party.VSTRANA">{{ item.cand.JMENO + ' ' + item.cand.PRIJMENI }} je člen{{ isWoman(item.cand, 'ka') }} {{ item.party.ZKRATKA }}</span>
+									<span v-if="item.cand.NSTRANA === item.party.VSTRANA && item.cand.NSTRANA !== 80">{{ item.party.ZKRATKA }} {{ isWoman(item.cand) ? 'ji' : 'ho'}} nominuje</span>
+									<span v-if="item.cand.NSTRANA === item.party.VSTRANA && item.cand.NSTRANA === 80">{{ item.cand.JMENO + ' ' + item.cand.PRIJMENI }} je nezávislý kandidát, nemá oficiální podporu ani nominaci žádné strany</span>
+									<span v-if="data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA) && !data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA).$coalition && item.cand.VSTRANA !== item.party.VSTRANA && item.cand.NSTRANA !== item.party.VSTRANA && item.cand.PSTRANA !== item.party.VSTRANA">{{ item.party.ZKRATKA }} vyslovila {{ isWoman(item.cand) ? 'kandidátce' : 'kandidátovi'}} podporu</span>
+									<span v-if="data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA) && data.cis.strany.find(x => x.VSTRANA === item.cand.VSTRANA).$coalition">{{ item.party.ZKRATKA }} je součástí volební koalice <em>{{ item.cand.NAZEV_VS }}</em></span>
+									<span v-if="item.cand.VSTRANA === item.party.VSTRANA && item.cand.NSTRANA !== 80">{{ item.cand.JMENO + ' ' + item.cand.PRIJMENI }} je {{ isWoman(item.cand) ? 'výhradní kandidátkou' : 'výhradním kandidátem' }} <em>{{ item.party.ZKRATKA }}</em></span>
+								</p-list-linear>
+							</div>
+						</div>
+					</div>
+				</p-area>
+			</div>
+		</p-columns>
+	</p-block>
+<!-- </div> -->

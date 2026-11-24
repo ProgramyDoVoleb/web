@@ -161,12 +161,12 @@
 	}
 }
 
-._small {
+._small > .p-columns---container {
 	columns: 2;
 	column-gap: 2em;
 }
 
-._2 {
+._2 > .p-columns---container {
 	columns: 2 !important;
 	column-gap: 2em;
 	column-rule: var(--border);
@@ -188,11 +188,13 @@
 
 .p-columns---wide,
 ._wide,
-.wide {
+.wide, 
+._1_2 {
 	container-type: inline-size;
+	columns: 1;
 	
 	@container (min-width: 540px) {
-		.p-columns---container:has(> div:nth-child(2)) {
+		& > .p-columns---container:has(> div:nth-child(2)) {
 			columns: 2;
 			column-gap: 4em;
 		}

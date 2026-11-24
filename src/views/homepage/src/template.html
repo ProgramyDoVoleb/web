@@ -15,34 +15,17 @@
 
 					<p-loader :rule="el184">
 						<div v-if="el184">
-							<p-columns class="_2_4 ma mw50">
+							<p-list class="mw50 ma invisible">
 								<div v-for="cand in sortBy(el184.list[0].$kandidati, 'PRIJMENI', null, true)">
-									<p-area class="highlight shadow" :borderColor="colorByItem(cand, el184)">
-										<router-link :to="'/volby/senatni-volby/184/kandidat/' + cand.id" class="strong">{{cand.JMENO + ' ' + cand.PRIJMENI }}</router-link>
-										<div class="smallest">
-											volební strana
-											<strong>{{ cand.NAZEV_VS }}</strong>
-											<br>
-											nominace
-											<template v-if="cand.NSTRANA === cand.PSTRANA">a členství </template>
-											<template v-for="party in el184.cis.strany.filter(x => x.VSTRANA === cand.NSTRANA)">
-												<router-link :to="'/rejstrik/' + party.VSTRANA" class="strong">{{ party.ZKRATKA }}</router-link>
-											</template>
-											<template v-for="party in el184.cis.strany.filter(x => x.VSTRANA === cand.PSTRANA)">
-
-												<template v-if="party.VSTRANA === 99">, nestraník</template>
-												<template v-else-if="cand.NSTRANA != cand.PSTRANA">													
-													členství <router-link :to="'/rejstrik/' + party.VSTRANA" class="strong">{{ party.ZKRATKA }}</router-link>
-												</template>
-											</template>
-										</div>
+									<p-area class="highlight shadow">
+										<person-preview-linear :cand="cand" :current="el184.list[0]" :data="el184" :omitNo="true" link="/volby/senatni-volby/184" :bigLogo="true"></person-preview-linear>
 									</p-area>
 								</div>
-							</p-columns>
+							</p-list>
 						</div>
 					</p-loader>
 
-					<p class="mt2 ma w40 text-center">
+					<p class="mt2 ma mw40 text-center">
 						Volby musí vyhlásit prezident, učiní tak do 30 dní od okamžiku, kdy mu rozhodnutí soudu doručí. Volby by tak mohly být odhadem v únoru. Dle všeho nebude možné do voleb zařadit nového kandidáta.
 					</p>
 

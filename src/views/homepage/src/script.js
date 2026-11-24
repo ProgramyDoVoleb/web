@@ -13,6 +13,7 @@ import MailchimpSignup from '@/components/mailchimp/do.vue';
 import ReportForm from '@/components/report-form/do.vue';
 import PollsPreview from '@/components/polls-preview/do.vue';
 import SlovakiaBlock from '@/components/slovakia/do.vue';
+import PersonPreviewLinear from '@/components/person-preview-linear/do.vue';
 import PartyPreview from '@/components/party-preview/do.vue';
 import PartyPreviewTiny from '@/components/party-preview-tiny/do.vue';
 import HomepageEp from '@/views/homepage/evropske-volby/do.vue';
@@ -105,7 +106,7 @@ export default {
 	HomepageSummary,
 	HeroMap, NewsMap,
 	EngagementAddProgram, EngagementSupport, ResultsQuick, ResultsQuickSenat,
-	NewsDailyItem
+	NewsDailyItem, PersonPreviewLinear
   },
 	computed: {
 		$store: function () {
