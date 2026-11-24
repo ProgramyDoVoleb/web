@@ -16,12 +16,34 @@
 			}
 		}
 
+._content {
+
+	flex: 1;
+
+	@media (min-width: 40em) {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: space-between;
+
+		> div:not(:last-child) {
+			margin-right: 3em;
+		}
+	}
+}
+
+._legal {
+	width: 100%;
+	border-top: var(--border);
+	padding-top: 1em;
+	margin-top: .5em;
+}
+
 ._photo {
 	width: 20em;
 	margin: auto;
 
 	@media (min-width: 40em) {
-		width: 15em;
+		width: 12em;
 		margin: 0;
 	}
 }
@@ -49,7 +71,7 @@
 	}
 
 	& > .p-image:not(:last-child) {
-		margin-right: .5em;
+		margin-right: .2em;
 
 		@media (min-width: 40em) {
 			margin-right: 0;
@@ -57,16 +79,16 @@
 	}
 
 	&._logosHorizontal > .p-image:not(:last-child) {
-		margin-right: .5em;
+		margin-right: .2em;
 	}
 }
 
 ._logos > .p-image {
-	width: 3.75em;
-	height: 3.75em;
+	width: 1.9em;
+	height: 1.9em;
 
 	@media (min-width: 40em) {
-		margin-bottom: .5em;
+		margin-bottom: .2em;
 	}
 }
 

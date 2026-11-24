@@ -120,15 +120,15 @@
 														</div>
 													</p-stats>
 													<p-stats label="Koalice" v-if="data.cis.strany.find(x => x.VSTRANA === (current.VSTRANA || ($strana ? $strana.VSTRANA : -1))) && data.cis.strany.find(x => x.VSTRANA === (current.VSTRANA || ($strana ? $strana.VSTRANA : -1))).$coalition">
-														<p-list class="invisible">
-															<div v-for="member in sortBy(data.cis.strany.find(x => x.VSTRANA === (current.VSTRANA || $strana.VSTRANA)).$coalition, 'NAZEV', null, true)">
-																<p-label class="block" :color="colorByItem(member, data)">
+														<p-list-linear class="or">
+															<span v-for="member in sortBy(data.cis.strany.find(x => x.VSTRANA === (current.VSTRANA || $strana.VSTRANA)).$coalition, 'NAZEV', null, true)">
+																<p-label class="inline" :color="colorByItem(member, data)">
 																	<router-link :to="'/rejstrik/' + member.VSTRANA">
-																		{{ member.NAZEV }}
+																		{{ member.ZKRATKA }}
 																	</router-link>
 																</p-label>
-															</div>
-														</p-list>
+															</span>
+														</p-list-linear>
 													</p-stats>
 													<p-stats label="Nominace" v-if="current.NSTRANA && data.cis.volby[0].typ !== 'PREZ'">
 														<div>
@@ -255,14 +255,16 @@
 				</p-list>
 			</div>
 		</div>
-		<div class="p-line"></div>
-		<div class="tiny dimm" v-if="$volby.status > 1">
+	</p-area>
+	<div class="mt1 tiny text-center">
+		<div class="dimm" v-if="$volby.status > 1">
 			Základní údaje poskytuje Český statistický úřad ve formě otevřených dat &middot;
 			<p-link href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu" class="dimm">licence</p-link>
 		</div>
-		<div v-else class="smallest">
+		<div v-else>
+			<p-icon icon="warning"></p-icon> 
 			<p-modal class="inline">
-				<template #init><button class="inline red strong">Uvedené údaje jsou  předběžné</button></template>
+				<template #init><button class="inline red strong">Uvedené údaje jsou předběžné</button></template>
 				<template #content>
 					<div class="reset">
 						<p>Ještě nedošlo k registraci k volbám. Informace se mohou měnit. Strany a kandidáti jsou povinni podat registraci příslušnému úřadu v termínu 66 dní před začátkem voleb. O registraci je rozhodnuto během 3 týdnů. Jakmile příslušné údaje získá Český statistický úřad, jsou dostupné i zde.</p>
@@ -273,5 +275,5 @@
 
 			a mohou se v průběhu času výrazně měnit nebo z kandidatury sejde. Berte je jako orientační.
 		</div>
-	</p-area>
+	</div>
 </div>

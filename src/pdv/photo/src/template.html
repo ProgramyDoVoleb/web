@@ -1,16 +1,12 @@
 <div class="p-photo">
     <img loading="lazy" :src="_src" :alt="alt" class="_img _preview">
-    <p-modal class="_licence smallest" v-if="data">
+    <p-popup class="_licence smallest" v-if="data">
         <template #init> <span class="dimm _btn">&copy;</span> </template>
         <template #content>
-            <strong>{{ alt }}</strong>
-            <div class="p-gap"></div>
-            <p-grid>
-                <div>
-                    <img loading="lazy" :src="_src" :alt="alt" class="_img _full">
-                </div>
-                <div>
-                    <p-list>
+                    <p-list class="smallest _05">
+                        <div>
+                            <img loading="lazy" :src="_src" :alt="alt" class="_img _full">
+                        </div>
                         <div v-if="_licence && _licence[0] && _licence[0][0] === '['">
                             <p-stats label="Popis">{{ _licence[0] || 'fotografie' }}</p-stats>
                         </div>
@@ -38,10 +34,8 @@
                             </p-stats>
                         </div>
                     </p-list>
-                </div>
-            </p-grid>
         </template>
-    </p-modal>
+    </p-popup>
 </div>
 
 

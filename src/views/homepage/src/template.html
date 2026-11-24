@@ -319,7 +319,7 @@
 								</div>
 							</div>
 							<div class="p-line"></div>
-							<p-columns class="_small _2 smaller">
+							<p-columns class="_small _2_4 smaller">
 								<div v-for="(town, index) in sortBy([].concat(enums.towns.regional, enums.towns.other), 'name', null, true)">
 									<router-link :to="'/obec/' + town.num">
 										{{ town.name }}
