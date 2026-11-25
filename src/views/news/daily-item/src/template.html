@@ -237,7 +237,7 @@
 										<div class="smallest dimm strong text-center">Články a rozhovory</div>
 										<div class="mw60 ma">
 											<p-columns class="_noGap">
-												<div v-for="item in day.media">
+												<div v-for="item in day.media" class="mw20 ma">
 													<p-area class="smaller">
 														<div class="smallest dimm mb05" v-if="item.node.OBVOD">obvod {{ item.node.OBVOD }} &middot; {{ enums.obvody.find(x => x.id === item.node.OBVOD).name }}</div>
 														<div class="smallest dimm mb05" v-if="item.node.NAZEVZAST">{{ item.node.NAZEVZAST }}</div>
@@ -268,7 +268,7 @@
 									<template v-if="day.main.length > 0 && day.main.find(x => x.$relates.length === 0)">
 										<div class="smallest dimm strong text-center">Další zprávy</div>
 										<div>
-											<div class="mw40 ma">
+											<div class="mw30 ma">
 												<p-area>
 													<p-list class="_025">
 														<div v-for="item in day.main.filter(x => x.$relates.length === 0)">

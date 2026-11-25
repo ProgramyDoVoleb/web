@@ -64,7 +64,7 @@
 
 	&:not(._logosHorizontal) {
 		@media (min-width: 40em) {
-			justify-content: space-between;
+			justify-content: center;
 			align-content: flex-start;
 			width: 8em;
 		}
@@ -93,14 +93,15 @@
 }
 
 ._logos > ._logosMain {
-	width: 3.75em;
-	height: 3.75em;
-	
-	@media (min-width: 40em) {
+
+	width: 100%;
+
+	.p-image {
 		width: 8em;
 		height: 8em;
+		margin: auto;
 	}
-}
+} 
 
 ._logosPrimeHolder {
 	width: 100%;

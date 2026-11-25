@@ -31,20 +31,20 @@
 			</div>
 			<div class="_logos" v-else-if="current.JMENO && !$strana">
 				<template v-if="typeof current.OBVOD !== 'undefined'">
-					<p-image class="_logosMain" :src="con(current.$data, 'logo')" :rounded="true" width="100%" v-if="con(current.$data, 'logo')"></p-image>
-					<p-image :class="{_logosMain: !con(current.$data, 'logo')}" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA), data)" width="100%" :rounded="true"></p-image>
+					<div class="_logosMain"><p-image :src="con(current.$data, 'logo')" :rounded="true" width="100%" v-if="con(current.$data, 'logo')"></p-image></div>
+					<div :class="{_logosMain: !con(current.$data, 'logo')}"><p-image :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA), data)" width="100%" :rounded="true"></p-image></div>
 					<template v-for="member in (data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || [data.cis.strany.find(x => x.VSTRANA === current.VSTRANA)])">
 						<p-image :src="logoByItem(member, data)" width="100%" :rounded="true" v-if="member.VSTRANA != current.NSTRANA"></p-image>
 					</template>
 					<p-image :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data, null, null, true, true, true)" width="100%" :rounded="true" v-if="current.PSTRANA != current.NSTRANA"></p-image>
 				</template>
 				<template v-else>
-					<p-image class="_logosMain" :src="con(current.$data, 'logo')" :rounded="true" width="100%" v-if="con(current.$data, 'logo')"></p-image>
-					<p-image :class="{_logosMain: !con(current.$data, 'logo')}" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data)" width="100%" :rounded="true"></p-image>
+					<div class="_logosMain"><p-image :src="con(current.$data, 'logo')" :rounded="true" width="100%" v-if="con(current.$data, 'logo')"></p-image></div>
+					<div :class="{_logosMain: !con(current.$data, 'logo')}"><p-image :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data)" width="100%" :rounded="true"></p-image></div>
 				</template>
 			</div>
 			<div class="_logos" v-else-if="current.JMENO && $strana && logoByItem($strana, data, null, true)">				
-				<p-image class="_logosMain" :src="logoByItem($strana, data, null, null, true)" :rounded="true" width="100%" :border="true"></p-image>
+				<div class="_logosMain"><p-image :src="logoByItem($strana, data, null, null, true)" :rounded="true" width="100%" :border="true"></p-image></div>
 				<p-image v-if="current.NSTRANA != current.VSTRANA && current.NSTRANA != 80" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA), data)" width="100%" :rounded="true"></p-image>
 				<p-image v-if="current.NSTRANA != current.PSTRANA" :src="logoByItem(data.cis.strany.find(x => x.VSTRANA === current.PSTRANA), data, null, null, true, true, true)" width="100%" :rounded="true"></p-image>					
 			</div>

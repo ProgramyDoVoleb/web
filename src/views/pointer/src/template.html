@@ -641,17 +641,17 @@
 								</div>
 							</p-block>
 
-							<p-block v-if="current.$data.support" headline="Podpora">
+							<p-block v-if="current.$data.support" headline="Podpora" class="mw60 ma">
 								<template v-if="current.$data.support && current.$data.support.find(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value))">
 									<!-- <p-area> -->
-										<p-grid class="smaller">
-											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value) && (data.cis.strany.find(x => x.VSTRANA === current.VSTRANA) && (!data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA === sup.value))))">
+										<p-columns class="smaller">
+											<div v-for="(sup, index) in current.$data.support.filter(sup => typeof sup.value === 'number' && data.cis.strany.find(x => x.VSTRANA === sup.value) && (data.cis.strany.find(x => x.VSTRANA === current.VSTRANA) && (!data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition || !data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.find(x => x.VSTRANA === sup.value))))" class="mw20 ma">
 												<party-quicklook :VSTRANA="sup.value" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 												<div v-if="sup.source" class="dimm tiny">
 													<p-link :href="sup.source" class="dimm">zdroj</p-link>
 												</div>
 											</div>
-										</p-grid>
+										</p-columns>
 									<!-- </p-area> -->
 								</template>
 								<template class="" v-if="current.$data.support && current.$data.support.find(sup => typeof sup.value != 'number' || !data.cis.strany.find(x => x.VSTRANA === sup.value))">
@@ -794,7 +794,7 @@
 
 							<p-block headline="Galerie fotek" v-if="current.$data.gallery">
 								<p-columns class="mb1">
-									<div v-for="(item, index) in current.$data.gallery">
+									<div v-for="(item, index) in current.$data.gallery" class="mw20 ma">
 										<p-area>
 											<img loading="lazy"  class="_ar _of" :src="item.value">
 
@@ -807,7 +807,7 @@
 												<template #content>
 													<p-image width="100%" :src="item.value"></p-image>
 													<div class="p-line"></div>
-													<div class="smallest dimm">{{ item.label }} &middot; Přidáno {{ date(item.updated) }} &middot; <p-link :href="item.source">Zdroj</p-link></div>
+													<div class="smallest dimm">{{ item.label }} &middot; Přidáno {{ date(item.updated) }} &middot; <p-link :href="item.source" v-if="item.source">Zdroj</p-link></div>
 												</template>
 											</p-modal>
 											<div class="smallest dimm">{{ date(item.updated) }}</div>
@@ -865,7 +865,7 @@
 									<p-popup preClass="green strong"><template #init>Přidat poznámku</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="$volby.id" type="note" showSource="1" showLabel="1"></editable-basic></template></p-popup>
 								</div>
 							</p-block>
-							<p-block headline="Kandidátní listina" v-if="current.$strana && $strana">
+							<p-block headline="Kandidátní listina" v-if="current.$strana && $strana" class="mw30 ma">
 								<party-preview :link="'/volby/' + volbyType + '/' + volbyID" :party="$strana" :election="null" :elections="data"></party-preview>
 							</p-block>
 
@@ -878,15 +878,19 @@
 							</p-block>
 
 							<p-block headline="Zmíněné strany a hnutí" v-if="current.PRIJMENI && !current.VSTRANA && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA)" anchor="Detaily" class="mw50 ma">
-								<div class="columns _c">
-									<party-quicklook v-if="current.NSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition" :VSTRANA="current.NSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
+								<p-columns>
+									<div class="mw20 ma" v-if="current.NSTRANA && !data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition">
+										<party-quicklook :VSTRANA="current.NSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
+									</div>
 									<template v-if="current.NSTRANA && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition">
 										<template v-for="member in data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition">
-											<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
+											<div class="mw20 ma"><party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook></div>
 										</template>
 									</template>
-									<party-quicklook v-if="current.PSTRANA && current.NSTRANA != current.PSTRANA && current.PSTRANA != 99 && !(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition.find(x => x.VSTRANA === current.PSTRANA))" :VSTRANA="current.PSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
-								</div>								
+									<div class="mw20 ma" v-if="current.PSTRANA && current.NSTRANA != current.PSTRANA && current.PSTRANA != 99 && !(data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition && data.cis.strany.find(x => x.VSTRANA === current.NSTRANA).$coalition.find(x => x.VSTRANA === current.PSTRANA))">
+										<party-quicklook :VSTRANA="current.PSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
+									</div>
+								</p-columns>								
 							</p-block>
 							<p-block headline="Výsledky" v-if="$volby.status === 3">
 								<election-results :type="$volby.$about" :id="$volby.id" :election="$volby" :spec="specs" :label="label"></election-results>
@@ -916,7 +920,7 @@
 									</p-collapsible>
 								</template>
 							</p-block>
-							<p-block headline="Zapojení ve volbách" v-if="table === 'csu_kv_rk' && current" class="mw40 ma">
+							<p-block headline="Zapojení v komunálních volbách" v-if="table === 'csu_kv_rk' && current" class="mw40 ma">
 								<template v-if="prev && prev.list[0].$strana">
 									<p-area>
 										<person-preview-block :cand="prev.list[0]" :data="prev" :current="{$kandidati: []}" :party="prev.list[0].$strana[0]" :link="$route.path.split('/kandidat')[0].split('/').splice(0,3).join('/') + '/' + prev.list[0].volby"></person-preview-block>
@@ -925,11 +929,11 @@
 								</template>
 								<history-kv-rk :KODZASTUP="current.KODZASTUP" :JMENO="current.JMENO" :PRIJMENI="current.PRIJMENI" :id="current.id" :showUpcoming="$volby.status === 3"></history-kv-rk>
 							</p-block>
-							<p-block headline="Historický vývoj" v-if="$volby.status > 1">
+							<p-block headline="Historický vývoj" v-if="$volby.status > 1 && $volby.typ === 'KV'">
 								<template v-if="!showHistoryKV">
 									<p-box-group class="jcc">
 										<p-box :click="() => showHistoryKV = true">
-											<p-box-button icon="komunalni-volby">{{ current.NAZEVZAST }}</p-box-button>
+											<p-box-button icon="komunalni-volby">{{ current.NAZEVZAST || $strana.NAZEVZAST }}</p-box-button>
 										</p-box>
 									</p-box-group>
 								</template>
