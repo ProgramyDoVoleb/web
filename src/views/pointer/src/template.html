@@ -339,6 +339,52 @@
 											</template>
 										</div>
 									</div>
+									<div v-if="$volby.status === 3 && table === 'csu_kv_ros' && current.$kandidati.find(x => x.MANDAT && x.MANDAT === 'A')" class="text-center mb2">
+										<p-area class="inline smallest">
+											k přeskočení bylo potřeba 
+											<p-popup class="inline">
+												<template #init>
+													<strong>{{ number(Math.round(current.HLASY_STR / current.$kandidati.filter(x => x.PLATNOST === 'A').length * 1.1)) }} hlasů <p-icon icon="hint"></p-icon></strong>
+												</template>
+												<template #content>
+													<div class="">
+														<p>Hodnota pro přeskočení se u komunálních voleb počítá jako počet hlasů pro stranu děleno počtem platných kandidátů plus 10 procent.</p>
+														<div class="smallest">
+															<h4>Výpočet pro {{ current.NAZEV }} </h4>
+															<table>
+																<tr>
+																	<td>Hlasů pro stranu</td>
+																	<td class="text-right">{{ number(current.HLASY_STR) }}</td>
+																</tr>
+																<tr>
+																	<td>Platných kandidátů</td>
+																	<td class="text-right">{{ number(current.$kandidati.filter(x => x.PLATNOST === 'A').length) }}</td>
+																</tr>
+																<tr>
+																	<td>Průměr na kandidáta</td>
+																	<td class="text-right">{{ number(Math.round(current.HLASY_STR / current.$kandidati.filter(x => x.PLATNOST === 'A').length)) }}</td>
+																</tr>
+																<tr>
+																	<td>+ 10 %</td>
+																	<td class="text-right">+{{ number(Math.round(current.HLASY_STR / current.$kandidati.filter(x => x.PLATNOST === 'A').length * .1)) }}</td>
+																</tr>
+																<tr class="strong blue">
+																	<td>Hodnota pro přeskočení</td>
+																	<td class="text-right">{{ number(Math.round(current.HLASY_STR / current.$kandidati.filter(x => x.PLATNOST === 'A').length * 1.1)) }}</td>
+																</tr>
+															</table>
+															<h4>Přeskočili:</h4>
+															<p-list-linear>
+																<template v-for="cand in sortBy(current.$kandidati.filter(x => x.PRESKOCENI && x.PRESKOCENI === 'A'), 'PORCISLO')">
+																	<span :class="{strong: cand.MANDAT === 'A'}">{{cand.JMENO }} {{ cand.PRIJMENI }}</span>
+																</template>
+															</p-list-linear>
+														</div>
+													</div>
+												</template>
+											</p-popup>
+										</p-area>
+									</div>
 									<template v-if="current.$kandidati && current.$kandidati.length > 0">
 										<template v-if="current.$kandidati.find(x => x.VOLKRAJ)">
 
@@ -588,7 +634,7 @@
 										<div class="smallest">Název volební strany</div>
 									</p-area>
 								</div>
-								<div class="columns _c">
+								<p-grid>
 									<div v-for="(member, index) in data.cis.strany.find(x => x.VSTRANA === current.VSTRANA).$coalition.filter(x => x.VSTRANA != 90 && x.VSTRANA != 80)">
 										<party-quicklook :VSTRANA="member.VSTRANA" :datum="$volby.datum" :region="current.KRZAST" :volby="$volby.id" :volbyType="volbyType"></party-quicklook>
 									</div>
@@ -615,7 +661,7 @@
 											</div>
 										</p-area>
 									</div>
-								</div>
+								</p-grid>
 							</p-block>
 
 							<p-block headline="Spolupráce vícero SNK" v-if="Number(current.SLOZENI) === 80 && current.$data.snk && current.$data.snk.length > 1" class="mw50 ma">
@@ -698,7 +744,7 @@
 
 							<p-block headline="Zprávy a média" v-if="newsmedia.length > 0" class="mw60 ma">
 								<p-columns>
-									<div v-for="item in newsmedia.filter((x, i) => i < mediaLimit)" class="mw20 ma">
+									<div v-for="item in newsmedia.filter((x, i) => i < mediaLimit)" class="mw30 ma">
 										<p-area :borderColor="item.label === 'Zpráva' ? 'var(--blue11)' : colorByItem(current, data, current.VSTRANA ? 'VSTRANA' : 'NSTRANA')" :class="{'highlight shadow': item.label != 'Zpráva'}">
 											<p-link :href="item.source" class="smaller strong">{{ item.value }}</p-link>
 											<div class="p-gap_075"></div>

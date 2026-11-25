@@ -181,7 +181,7 @@
 						</template>
 						<template v-for="program in cand.$data.program">
 							<p-box :href="program.source">
-								<p-box-button class="primary">{{ width > 1024 ? program.value : 'Program' }}</p-box-button>
+								<p-box-button class="primary" :icon="program.source.includes('.pdf') ? 'pdf' : 'link'">{{ width > 1024 ? program.value : 'Program' }}</p-box-button>
 							</p-box>
 						</template>
 						<template v-if="cand.$program">
@@ -208,6 +208,24 @@
 						</template>
 				</p-box-group>
 			</template>
+
+			<div class="smallest text-left" v-if="cand.POCHLASU">
+				<div class="p-line _05"></div>
+				<p-list-linear class="or">
+					<span v-if="cand.PRESKOCENI && cand.PRESKOCENI === 'A'"><p-label color="var(--green)" class="strong">přeskočil{{ isWoman(cand, 'a')}}</p-label></span>
+					<span v-if="cand.POCHLASU">získal{{ isWoman(cand, 'a') }} {{ number(cand.POCHLASU) }} hlasů</span>
+					<span v-if="cand.PORADIMAND && cand.PORADIMAND < cand.PORCISLO">skok z {{ cand.PORCISLO }}. místa na {{ cand.PORADIMAND }}.</span>
+				</p-list-linear>				
+			</div>
+
+			<div class="smallest" v-if="cand.HLASY_K1">
+				<div class="p-line"></div>
+				<p-list-linear class="or">
+					<span>{{ number(cand.HLASY_K1) }} hlasů v prvním kole</span>
+					<span v-if="cand.HLASY_K2">{{ number(cand.HLASY_K2) }} hlasů v druhém kole</span>
+				</p-list-linear>
+			</div>
 		</div>
+
 	</div>
 </div>

@@ -26,6 +26,14 @@
     }
 }
 
+.p-line__025, .p-line._025 {
+    height: calc(.5em + 1px);
+
+    &:after {
+        top: .25em;
+    }
+}
+
 .p-line__05, .p-line._05 {
     height: calc(1em + 1px);
 
