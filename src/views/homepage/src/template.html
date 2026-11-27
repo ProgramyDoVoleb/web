@@ -212,35 +212,41 @@
 									</p-collapsible>
 								</p-block>
 							</div>
-							<p-collapsible logo="komunalni-volby" label="Mimořádné komunální volby" v-if="elections.list.filter(x => x.radne === 0 && x.status < 3 && x.typ === 'KV').length > 0" :status="elections.list.filter(x => x.radne === 0 && x.status < 3 && x.typ === 'KV').length">
-								<p-area padding="0 0 0 1.5em" borderColor="var(--red)" class="primary">
-									<p-loader :rule="elections">
-										<div class="election-timeline">
-											<p-list v-if="elections">
-												<template v-for="(election, index) in elections.list.filter(x => x.radne === 0 && x.status < 3 && x.typ === 'KV')">
-													<div>
-														<strong class="smaller"><span>
-															<router-link :to="'/volby/' + election_types.find(x => x.key === election.typ).hash + '/' + election.id" class="is-span"><span class="strong"><span v-if="election.cirka">{{ election.cirka }}</span> <!---->
-																<span v-else="election.datum">{{ date(election.datum) }}</span> <!----></span> &middot; Mimořádné komunální volby</router-link>
-														</span></strong>
-														<div class="p-gap_05"></div>
-															<div class="smaller">Týká se <p-lang :value="election.$dotcene.length" :end="['', 'obce', 'obcí', 'obcí']"></p-lang>:
-																<p-list-linear>
-																	<template v-for="(town, indexTown) in sortBy(election.$dotcene, 'NAZEV', '', true)">
-																		<li><router-link :to="'/obec/' + town.NUM">{{ town.NAZEV }}</router-link> <span class="dimm">({{ town.$okres[0].NAZEV }})</span></li>														
-																	</template>
-																</p-list-linear>
-															</div>
-													</div>
-												</template>
-											</p-list>
-										</div>
-									</p-loader>
-								</p-area>
-							</p-collapsible>
 						</div>
 					</p-loader>
 				</p-block>
+							<p-block headline="Mimořádné volby" v-if="elections && elections.list.filter(x => x.radne === 0 && x.status < 3).length > 0" class="mt4 mw40 ma">
+								<p-loader :rule="elections">
+									<div v-if="elections">
+										<p-list class="invisible _025">
+											<div v-for="(election, index) in sortBy(elections.list.filter(x => x.radne === 0 && x.status < 3), 'datum', '2099-12-31', true)">
+												<p-area :icon="election_types.find(x => x.key === election.typ).hash" class="smaller">
+													<router-link :to="'/volby/' + election_types.find(x => x.key === election.typ).hash + '/' + election.id" class="is-span">
+														<strong>{{ election.datum_label || (election.datum ? date(election.datum) : election.cirka) }}</strong>
+														&middot;
+														{{ election.popis || 'Mimořádné ' + election_types.find(x => x.key === election.typ).name }}
+													</router-link>
+													<p class="mt0">
+														Týká se:
+														<p-list-linear class="inline">
+															<template v-if="election.typ === 'KV'">
+																<template v-for="(town) in sortBy(election.$dotcene, 'NAZEV', '', true)">
+																	<span><router-link :to="'/volby/komunalni-volby/' + election.id + '/obec/' + town.NUM" class="strong">{{ town.NAZEV }}</router-link> <span class="dimm">({{ town.$okres[0].NAZEV }})</span></span>														
+																</template>
+															</template>
+															<template v-if="election.typ === 'SENAT'">
+																<template v-for="(obvod) in sortBy((typeof election.dotcene === 'number' ? [election.dotcene] : election.dotcene), 0)">
+																	<span><router-link :to="'/volby/senatni-volby/' + election.id + '/obvod/' + obvod" class="strong">{{ obvod }} &middot; {{ enums.obvody.find(x => x.id === obvod).name }}</router-link></span>														
+																</template>
+															</template>
+														</p-list-linear>
+													</p>
+												</p-area>
+											</div>
+										</p-list>
+									</div>
+								</p-loader>
+							</p-block>
 			</p-block>
 			
 			<p-block headline="Předvolební deník" anchor="Novinky" subheadline="novinky nejen z médií" :level="1" class="mw40 ma">

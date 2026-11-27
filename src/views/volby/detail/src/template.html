@@ -24,19 +24,12 @@
 							</template> -->
 						</p-block>
 						<component :is="hash" :data="data" :prev="previous" :id="current.id" :news="news"></component>
-						<p-block-expandable headline="Zdroje a novinky" class="mw60 ma">
-							<p-loader :rule="news">
-								<div v-if="news">
-									<news-block class="smaller" :omitSys="true" :limit="6" :expandable="true" :news="news" :data="current.$data" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>	
-								</div>
-							</p-loader>
-						</p-block-expandable>
-						<p-block-expandable headline="Media a tiskové zprávy" class="mw60 ma">
+						<p-block headline="Media a tiskové zprávy" class="mw60 ma mt4">
 							<p-loader :rule="news" reserve="450px">
 								<div v-if="news" class="smaller">
-									<div class="columns columns---no-gap">
+									<p-columns>
 										<template v-for="(item, index) in newsmedia">
-											<div>
+											<div class="mw20 ma">
 												<p-area :borderColor="item.label === 'news' ? 'var(--blue44)' : null">
 													<div>
 														<p-link class="strong" :href="item.source">{{ item.value }}</p-link>
@@ -53,41 +46,58 @@
 												</p-area>
 											</div>
 										</template>
-										<div>
-											<p-area class="highlight shadow" borderColor="var(--red)">
-												<router-link to="/novinky" class="strong red">Sedmidění</router-link>
-												<div class="smaller mt05">Předvolebního dění, články, rozhovory, průzkumy, noví kandidáti, poslední úpravy... přehledně za posledních 7 dní.</div>
-											</p-area>
-										</div>
-										<div>
-											<p-area icon="plus-green" background="var(--green11)">
-												<p-modal>
-													<template #init> <button class="inline green strong">Poslat tip na novinku</button> </template>
+									</p-columns>
+									<div :class="newsmedia.length > 0 ? 'mt3' : 'mt0'">
+										<p-box-group class="jcc">
+											<p-box to="/novinky">
+												<p-box-button icon="sedmideni">Přehled všech novinek</p-box-button>
+											</p-box>
+											<p-popup>
+													<template #init> <p-box><p-box-button icon="plus-green">Poslat tip na novinku</p-box-button></p-box> </template>
 													<template #content>
 														<div class="strong">Odkaz na článek</div>
 														<report-form part="Přidat novinku"></report-form>
 													</template>
-												</p-modal>
-												<div class="smallest dimm">Stačí poslat odkaz</div>
-											</p-area>
-										</div>
+												</p-popup>
+										</p-box-group>
 									</div>
 								</div>
 							</p-loader>
-						</p-block-expandable>
-						<p-block-expandable headline="Události" class="mw60 ma">
-							<p-list height="1.5">
-								<div v-for="(item, index) in sortEvents((current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today))">
-									<event-item :item="item" :party="current" :data="data" :noTag="true"></event-item>
+						</p-block>
+						<p-block headline="Události" class="mw60 ma" v-if="(current.$data.event || []).length > 0">
+							<p-columns>
+								<div v-for="(item, index) in sortEvents((current.$data.event || []).filter(x => JSON.parse(x.label)[0] >= today))" class="mw20 ma">
+									<p-area class="highlight">
+										<event-item :item="item" :party="current" :data="data" :noTag="true"></event-item>
+									</p-area>									
 								</div>
-							</p-list>
+								<div class="mw20 ma">
+									<p-area>
+										<p-modal>
+											<template #init>
+												<div class="smaller strong">Již proběhlo</div>
+												
+											</template>
+											<template #content>
+												<p-list class="_025">
+													<div v-for="(item, index) in sortEvents((current.$data.event || []).filter(x => JSON.parse(x.label)[0] < today))">
+														<p-area class="highlight">
+															<event-item :item="item" :party="current" :data="data" :noTag="true"></event-item>
+														</p-area>									
+													</div>
+												</p-list>
+											</template>
+										</p-modal>
+									</p-area>
+								</div>
+							</p-columns>
 							<div v-if="current.editace === 1" class="smallest _edit mt3">
 								<p-icon icon="edit"></p-icon>
 								&nbsp;
 								<p-popup preClass="green strong"><template #init>Přidat událost</template><template #content><editable-event :pointer="'csu_volby:' + id" :elections="id"></editable-event></template></p-popup>
 							</div>
-						</p-block-expandable>
-						<p-block-expandable headline="Poznámky" class="mw60 ma">
+						</p-block>
+						<p-block headline="Poznámky" class="mw60 ma" v-if="(current.$data.note || []).length > 0">
 							<p-list height="1">
 								<div v-for="(item, index) in (current.$data.note || [])">
 									<div>
@@ -104,35 +114,39 @@
 								&nbsp;
 								<p-popup preClass="green strong"><template #init>Přidat poznámku</template><template #content><editable-basic :pointer="'csu_volby:' + id" :elections="id" type="note" showSource="1" showLabel="1"></editable-basic></template></p-popup>
 							</div>
-						</p-block-expandable>
+						</p-block>
 
-							<p-block-expandable headline="Odkazy" class="mw60 ma">
+							<p-block headline="Odkazy" class="mw40 ma" v-if="linksAll.length > 0">
 								<p-list class="_025">
 									<template v-if="linksAll.filter(x => x.type === 'web' || x.type === 'wiki').length > 0">
 										<div v-for="(item, index) in linksAll.filter(x => x.type === 'web' || x.type === 'wiki')">
-											<p-box-group>
-												<p-box :block="true" :href="item.value" class="clean">
-													<p-box-icon :type="type(item.value)"></p-box-icon>
-													<p-box-label>
-														{{ item.label || domain(item.value, true) }}
-														<div class="tiny dimm" v-if="item.label">{{ domain(item.value, true) }}</div>
-													</p-box-label>
-												</p-box>
-											</p-box-group>
+											<p-area class="highlight shadow">
+												<p-box-group>
+													<p-box :block="true" :href="item.value" class="clean">
+														<p-box-icon :type="type(item.value)"></p-box-icon>
+														<p-box-label>
+															{{ item.label || domain(item.value, true) }}
+															<div class="tiny dimm" v-if="item.label">{{ domain(item.value, true) }}</div>
+														</p-box-label>
+													</p-box>
+												</p-box-group>
+											</p-area>
 										</div>
 									</template>
 									<template v-if="linksAll.filter(x => x.type === 'link').length > 0">
 										<div class="smallest strong mt2">Další odkazy</div>
 										<div v-for="(item, index) in linksAll.filter(x => x.type === 'link')">
-											<p-box-group>
-												<p-box :block="true" :href="item.value" class="clean">
-													<p-box-icon :type="type(item.value)"></p-box-icon>
-													<p-box-label>
-														{{ item.label || domain(item.value, true) }}
-														<div class="tiny dimm" v-if="item.label">{{ domain(item.value, true) }}</div>
-													</p-box-label>
-												</p-box>
-											</p-box-group>
+											<p-area>
+												<p-box-group>
+													<p-box :block="true" :href="item.value" class="clean">
+														<p-box-icon :type="type(item.value)"></p-box-icon>
+														<p-box-label>
+															{{ item.label || domain(item.value, true) }}
+															<div class="tiny dimm" v-if="item.label">{{ domain(item.value, true) }}</div>
+														</p-box-label>
+													</p-box>
+												</p-box-group>
+											</p-area>
 										</div>
 									</template>
 								</p-list>
@@ -145,8 +159,8 @@
 									&middot;
 									<p-popup preClass="green strong"><template #init>další odkaz</template><template #content><editable-basic :pointer="table + ':' + tableID" :elections="current.id" type="link"  :showLabel="1"></editable-basic></template></p-popup>
 								</div>
-							</p-block-expandable>
-							<p-block-expandable headline="Volební materiály" class="mw60 ma">
+							</p-block>
+							<p-block headline="Volební materiály" class="mw60 ma" v-if="(current.$data.graphics || []).length > 0">
 								<p-grid>
 									<div v-for="(item, index) in current.$data.graphics">
 										<p-area>
@@ -184,11 +198,11 @@
 									&middot;
 									<p-popup preClass="green strong"><template #init>zaslat odkaz</template><template #content><editable-suggest type="graphics" :part="current.typ + ':' + current.id"></editable-suggest></template></p-popup>
 								</div>
-							</p-block-expandable>
-							<p-block-expandable headline="Dokumenty" class="mw60 ma">
+							</p-block>
+							<p-block headline="Dokumenty" class="mw30 ma" v-if="(current.$data.document || []).length > 0">
 								<p-grid>
 									<div v-for="(item, index) in current.$data.document">
-										<p-area icon="link">
+										<p-area :icon="item.label ? (item.label.includes('.pdf') ? 'pdf' : 'doc') : 'link'">
 											<p-link :href="item.source" class="strong">{{ item.value }}</p-link>
 											<div class="smallest dimm">
 												Přidáno {{ date(item.updated) }}
@@ -204,7 +218,7 @@
 									&nbsp;
 									<p-popup preClass="green strong"><template #init>Přidat dokument</template><template #content><editable-suggest placeholder="Odkaz na dokument" type="document" :part="current.typ + ':' + current.id"></editable-suggest></template></p-popup>
 								</div>
-							</p-block-expandable>
+							</p-block>
 						<p-block v-if="current && current.predchozi && ['evropske-volby', 'snemovni-volby'].indexOf(hash) > -1" headline="Minulé volby">
 							<p-area>
 								<p-loader :rule="previousData">
@@ -213,6 +227,25 @@
 									</div>
 								</p-loader>	
 							</p-area>
+						</p-block>
+
+						<p-block headline="Zdroje a novinky" class="mw60 ma">
+							<p-box-group class="jcc">
+								<p-modal>
+									<template #init>
+										<p-box>
+											<p-box-button icon="event">Přehled všech úprav</p-box-button>
+										</p-box>
+									</template>
+									<template #content>
+										<p-loader :rule="news">
+											<div v-if="news">
+												<news-block class="smaller" :omitSys="true" :limit="6" :expandable="true" :news="news" :data="current.$data" :prefix="'/' + $route.fullPath.split('/').splice(1, 3).join('/')"></news-block>	
+											</div>
+										</p-loader>
+									</template>
+								</p-modal>
+							</p-box-group>
 						</p-block>
 					</div>
 				</p-loader>

@@ -31,7 +31,7 @@
 		<p-box bg="rgba(0, 0, 0, 0.03)">
 			<p-box-label><p-lang :value="current.$kandidati.filter(x => x.PLATNOST === 'A').length" :end="['žádný kandidát', 'jeden kandidát', '%% kandidáti', '%% kandidátů']"></p-lang></p-box-label>
 		</p-box>
-		<p-box bg="rgba(0, 0, 0, 0.03)">
+		<p-box bg="rgba(0, 0, 0, 0.03)" v-if="current.$dotceneMinule">
 			<!-- <p-box-icon type="warning" ></p-box-icon> -->
 			<p-box-label> <p-icon icon="warning" v-if="current.$dotceneMinule[0].MANDATY != current.$dotcene[0].MANDATY" title="Počet mandátů se oproti minulým volbám změnil."></p-icon> {{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů</p-box-label>
 		</p-box>
@@ -51,12 +51,12 @@
 	</p-box-group>
 	<p v-if="core && current">
 		<strong>Shrnutí: </strong><p-truncated-content :key="current">
-			{{ current.$dotcene[0].NAZEVZAST }} volí <template v-if="current.$dotceneMinule[0].MANDATY != current.$dotcene[0].MANDATY">nově</template>
-			{{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů. 
-			<template v-if="current.$dotceneMinule[0].MANDATY != current.$dotcene[0].MANDATY">
+			{{ current.$dotcene[0].NAZEVZAST }} volí <template v-if="current.$dotceneMinule && current.$dotceneMinule[0].MANDATY != current.$dotcene[0].MANDATY">nově</template>
+			{{ current.$dotcene[0].MANDATY || (current.$dotceneMinule ? current.$dotceneMinule[0].MANDATY : 'stejně jako minule') }} zastupitelů. 
+			<template v-if="current.$dotceneMinule && current.$dotceneMinule[0].MANDATY != current.$dotcene[0].MANDATY">
 				Je to <strong>změna oproti minulým volbám</strong>, kdy se volilo {{ current.$dotceneMinule[0].MANDATY }} zastupitelů.
 			</template>
-			<template v-if="leadership && leadership.mayor != -1">
+			<template v-if="leadership && leadership.cis && leadership.mayor && leadership.mayor != -1">
 				Posledním známým {{ [4,3].indexOf(core.cis.druh[0].id) > -1 ? 'primátorem' : 'starostou' }} byl{{ isWoman(leadership.mayor) ? 'a' : '' }}
 				<span class="keep">{{ leadership.mayor.JMENO + ' ' + leadership.mayor.PRIJMENI }}</span> za <em>{{ leadership.party.NAZEV }}</em>.
 				<template v-if="leadership.coalition && leadership.coalition.length > 1">
@@ -260,7 +260,7 @@
 	<p-block v-if="current.status < 3" headline="Jak volit?" :hide="true">
 		<p-area icon2="hint" class="highlight shadow">
 			<h2 class="pt025 mt0 mb05">Křížkování, aneb jak se volí?</h2>
-			<p>Oproti jiným volbám máme tolik hlasů, kolik se volí zastupitelů. {{ current.$dotcene[0].NAZEVZAST }} volí {{ current.$dotcene[0].MANDATY || current.$dotceneMinule[0].MANDATY }} zastupitelů. Zároveň jsou všechny strany a kandidáti vytištění na jeden jediný list papíru. Je pouze na nás, jak s hlasy naložíme:</p>
+			<p>Oproti jiným volbám máme tolik hlasů, kolik se volí zastupitelů. {{ current.$dotcene[0].NAZEVZAST }} volí {{ current.$dotcene[0].MANDATY || current.$dotceneMinule ? current.$dotceneMinule[0].MANDATY : 'stejně jako minule' }} zastupitelů. Zároveň jsou všechny strany a kandidáti vytištění na jeden jediný list papíru. Je pouze na nás, jak s hlasy naložíme:</p>
 
 						<p-collapsible icon="youtube" label="Jak volit a nepřijít o hlas?" status="2:25">						
 							<iframe class="_if" width="100%" height="auto" src="https://www.youtube.com/embed/dmXP5pjUEF0?si=UGvPkrhhIp2-VyOr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -576,8 +576,8 @@
 			<history-candidates :num="town"></history-candidates>
 		</p-collapsible>
 	</p-block>
-	<p-block headline="Stav před volbami">
-		<p-area v-if="leadership && (leadership.mayor != -1 || leadership.coalition != -1)" class="highlight shadow">
+	<p-block headline="Stav před volbami" v-if="leadership">
+		<p-area v-if="leadership && leadership.cis && (leadership.mayor != -1 || leadership.coalition != -1)" class="highlight shadow">
 			<p-grid class="_2_classic">
 				<div v-if="leadership.mayor != -1">
 					<div class="smallest mb1 strong">{{ [3,4].indexOf(leadership.cis.obec[0].DRUHZASTUP) === -1 ? 'Starosta' : 'Primátor' }}</div>
@@ -612,8 +612,10 @@
 					</p-list>
 				</div>
 			</p-grid>
-			<div class="p-line"></div>
-			<div class="smallest dimm">Poslední aktualizace {{ date(sortBy(leadership.list, 'updated', null, true, true)[0].updated, 3) }}</div>
+			<template v-if="leadership.list">
+				<div class="p-line"></div>
+				<div class="smallest dimm">Poslední aktualizace {{ date(sortBy(leadership.list, 'updated', null, true, true)[0].updated, 3) }}</div>
+			</template>
 		</p-area>
 		<div class="_edit smallest mt1">
 			<p-icon icon="edit"></p-icon>
@@ -630,7 +632,7 @@
 			<router-link :to="'/obec/' + town" class="dimm">více zde</router-link>
 		</div>
 	</p-block>
-	<p-block headline="Minulé volby">
+	<p-block headline="Minulé volby" v-if="current.predchozi">
 		<election-results :id="current.predchozi" :type="{key: 'KV', hash: 'komunalni-volby', name: 'Komunální volby'}" :election="{'datum_label': null}" :spec="town" :label="data.list[0].$dotcene[0].NAZEVZAST"></election-results>
 	</p-block>
 	<p-block headline="Zajímavosti">
